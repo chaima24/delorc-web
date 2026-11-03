@@ -1,0 +1,50 @@
+/*
+ * Delego stylesheet entry (Tailwind CSS 4).
+ * Token values (light/dark) live in delego.css; spec: docs/design/DESIGN_SYSTEM.md.
+ */
+@import 'tailwindcss';
+@import './delego.css';
+
+/* Class-based dark mode: useAppTheme toggles `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+
+  --color-dl-ink: rgb(var(--dl-ink));
+  --color-dl-ink-2: rgb(var(--dl-ink-2));
+  --color-dl-on-ink: rgb(var(--dl-on-ink));
+  --color-dl-on-ink-muted: rgb(var(--dl-on-ink-muted));
+  --color-dl-signal: rgb(var(--dl-signal));
+  --color-dl-signal-soft: rgb(var(--dl-signal-soft));
+  --color-dl-cobalt: rgb(var(--dl-cobalt));
+  --color-dl-teal: rgb(var(--dl-teal));
+  --color-dl-mist: rgb(var(--dl-mist));
+  --color-dl-paper: rgb(var(--dl-paper));
+  --color-dl-line: rgb(var(--dl-line));
+  --color-dl-line-soft: rgb(var(--dl-line-soft));
+  --color-dl-fg: rgb(var(--dl-fg));
+  --color-dl-body: rgb(var(--dl-body));
+  --color-dl-muted: rgb(var(--dl-muted));
+  --color-dl-pending: rgb(var(--dl-pending));
+  --color-dl-rejected: rgb(var(--dl-rejected));
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-dl-mist text-dl-fg font-sans;
+  }
+  button,
+  [role='button'],
+  a,
+  label[for],
+  select,
+  summary {
+    cursor: pointer;
+  }
+}

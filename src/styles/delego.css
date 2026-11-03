@@ -1,0 +1,121 @@
+/*
+ * Delego design tokens (Option A · Pine & Signal).
+ * Values are RGB channels so Tailwind can apply opacity: `bg-dl-cobalt/10`.
+ * Spec: docs/design/DESIGN_SYSTEM.md
+ */
+:root {
+  /* Brand */
+  --dl-ink: 15 31 28; /* #0F1F1C rail, dark surfaces */
+  --dl-ink-2: 27 48 44; /* #1B302C raised on ink */
+  --dl-on-ink: 242 244 241; /* text on ink */
+  --dl-on-ink-muted: 169 187 181;
+  --dl-signal: 200 240 60; /* #C8F03C fills only — text on it is always ink */
+  --dl-signal-soft: 244 251 224;
+  --dl-cobalt: 47 84 235; /* #2F54EB links, data */
+  --dl-teal: 15 157 138; /* #0F9D8A second data series */
+
+  /* Surfaces & text */
+  --dl-mist: 242 244 241; /* page background */
+  --dl-paper: 255 255 255; /* cards, panels */
+  --dl-line: 220 227 223;
+  --dl-line-soft: 237 241 239;
+  --dl-fg: 15 31 28; /* primary text */
+  --dl-body: 68 84 79; /* body text */
+  --dl-muted: 91 107 102; /* secondary text, passes 4.5:1 on paper */
+
+  /* Status */
+  --dl-pending: 180 83 9; /* #B45309 */
+  --dl-rejected: 192 54 44; /* #C0362C */
+}
+
+.dark {
+  --dl-ink: 15 31 28;
+  --dl-ink-2: 27 48 44;
+  --dl-signal-soft: 37 52 18;
+  --dl-cobalt: 123 147 255;
+  --dl-teal: 45 190 168;
+
+  --dl-mist: 11 21 19;
+  --dl-paper: 19 34 31;
+  --dl-line: 36 55 47;
+  --dl-line-soft: 28 44 39;
+  --dl-fg: 232 238 234;
+  --dl-body: 200 214 209;
+  --dl-muted: 157 176 170;
+
+  --dl-pending: 245 158 66;
+  --dl-rejected: 240 113 103;
+}
+
+/* Side sheet motion (Reka Dialog sets data-state). Logical direction for RTL. */
+@keyframes dl-sheet-in {
+  from {
+    transform: translateX(var(--dl-sheet-from, 100%));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes dl-sheet-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--dl-sheet-from, 100%));
+  }
+}
+@keyframes dl-sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes dl-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes dl-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+[dir='rtl'] {
+  --dl-sheet-from: -100%;
+}
+
+.dl-sheet[data-state='open'] {
+  animation: dl-sheet-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.dl-sheet[data-state='closed'] {
+  animation: dl-sheet-out 160ms ease-in;
+}
+.dl-sheet-bottom[data-state='open'] {
+  animation: dl-sheet-up 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.dl-overlay[data-state='open'] {
+  animation: dl-fade-in 180ms ease-out;
+}
+.dl-pop[data-state='open'] {
+  animation: dl-pop-in 140ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dl-sheet,
+  .dl-sheet-bottom,
+  .dl-overlay,
+  .dl-pop {
+    animation: none !important;
+  }
+}
