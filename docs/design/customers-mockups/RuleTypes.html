@@ -1,0 +1,112 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Rule types</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.kv { display: grid; grid-template-columns: 120px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.why { font-size: 12.5px; color: var(--body); background: var(--mist); border-radius: 12px; padding: 10px 12px; }
+.ico { width: 40px; height: 40px; border-radius: 12px; background: var(--line-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.ico.lg { width: 56px; height: 56px; border-radius: 16px; font-size: 24px; background: var(--signal); }
+.person { display: flex; gap: 10px; align-items: center; } .person small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; } .st .dot { width: 8px; height: 8px; }
+.st.on { color: #0F7A3D; } .st.off { color: var(--muted); }
+tr.picked td { background: var(--signal-soft); }
+/* the "how they fit" strip */
+.fit { background: var(--paper); border-radius: 20px; padding: 16px 18px; display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+.fit .group { display: flex; flex-direction: column; gap: 8px; } .fit .group > span { font-size: 12px; color: var(--muted); font-weight: 600; }
+.chain { display: flex; align-items: center; gap: 8px; }
+.node { height: 38px; padding: 0 12px; border-radius: 11px; border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; }
+.node em { font-style: normal; font-size: 12px; color: var(--muted); font-weight: 500; }
+.node.on { background: var(--ink); color: var(--mist); border-color: var(--ink); } .node.on em { color: var(--signal); }
+.node.off { border-style: dashed; color: var(--muted); }
+.arrow { color: var(--muted); }
+.sep { width: 1px; align-self: stretch; background: var(--line); }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.terr { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; } .terr span { color: var(--muted); }
+.lock { display: flex; gap: 10px; align-items: flex-start; font-size: 12.5px; color: var(--muted); padding: 12px 20px; border-top: 1px solid var(--line-soft); }
+.q-box { border: 2px dashed var(--amber); border-radius: 16px; padding: 12px 14px; font-size: 13px; background: #FFF7EE; }
+</style></head><body>
+<p class="caption"><strong>Professionals › Rule types — proposal.</strong> <em>Update: each type shows its link to professionals (how a professional reaches its items, and which kinds of professionals it applies to — e.g. Spécialité: doctors and dentists only). A type without a link (Segmentation) is not offered in territories. See docs/DECISIONS.md.</em> Rule types are the <strong>building blocks of a territory</strong>: a territory says “these wilayas / communes / specialities / segments”. The list of types is set up by Delorch support (central console), so <strong>this page only reads</strong> — no add, no edit, no delete. Today it shows database tables and model classes; the new page explains instead how the types fit together, how many choices each one gives, and which territories use it. Placed before Territories in the menu.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>Profes-<br>sionals</span></nav>`
+const wsNav = `<nav class='ws-nav'><a>Healthcare professionals</a><a>Organisations</a><a>Consents</a><a class='on'>Rule types</a><a>Territories</a></nav>`
+function frame(n, label, body, panel = '') {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${wsNav}${body}</div>${panel}</div></div></div>`
+}
+// icon, name, inside, choices, extras, territories, shown
+const types = [
+  ['🗺️', 'Region', 'Top level', '6 regions', [], 3, true],
+  ['📍', 'Wilaya', 'Inside a region', '58 wilayas', ['Sub-zones · 112', 'Zone type'], 21, true],
+  ['🏘️', 'Commune', 'Inside a wilaya', '1 541 communes', [], 9, true],
+  ['🩺', 'Speciality', 'On its own', '42 specialities', [], 6, true],
+  ['📊', 'Segmentation', 'Not linked to professionals', '4 segments', [], 0, false],
+]
+const fit = (sel = -1) => `<div class='fit'>
+  <div class='group'><span>Places — each one sits inside the one before</span><div class='chain'>
+    <span class='node ${sel === 0 ? 'on' : ''}'>🗺️ Region <em>6</em></span><span class='arrow'>›</span>
+    <span class='node ${sel === 1 ? 'on' : ''}'>📍 Wilaya <em>58</em></span><span class='arrow'>›</span>
+    <span class='node ${sel === 2 ? 'on' : ''}'>🏘️ Commune <em>1 541</em></span></div></div>
+  <span class='sep'></span>
+  <div class='group'><span>On their own</span><div class='chain'><span class='node ${sel === 3 ? 'on' : ''}'>🩺 Speciality <em>42</em></span><span class='node off'>📊 Segmentation <em>hidden</em></span></div></div>
+</div>`
+const list = (sel = -1, full = true) => `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Professionals</div><h1 class='title display' style='font-size:36px'>Rule types</h1>
+  <div class='label' style='margin-top:4px'>What a territory can be built from. Set up by Delorch support.</div></div></div>
+  ${fit(sel)}
+  <div class='card' style='padding:16px 18px'>
+  <table class='table'><thead><tr><th>Rule type</th><th>Choices</th>${full ? `<th>Extras</th>` : ''}<th class='num'>Territories</th><th>When building a territory</th><th></th></tr></thead><tbody>
+  ${types.map((r, i) => `<tr class='${i === sel ? 'picked' : ''}'><td><div class='person'><span class='ico'>${r[0]}</span><strong>${r[1]}<small>${r[2]}</small></strong></div></td><td>${r[3]}</td>${full ? `<td><div class='tags'>${r[4].length ? r[4].map(x => `<span class='chip'>${x}</span>`).join('') : '<span class=label>—</span>'}</div></td>` : ''}<td class='num'>${r[5] || '—'}</td><td><span class='st ${r[6] ? 'on' : 'off'}'><span class='dot'></span>${r[6] ? 'Shown' : 'Hidden'}</span></td><td style='color:var(--muted)'>›</td></tr>`).join('')}
+  </tbody></table></div>`
+
+const panel = `<aside class='panel'>
+  <div class='ph'><span class='ico lg'>📍</span><div style='flex:1'><h2 class='display'>Wilaya</h2><div style='margin-top:6px;display:flex;gap:6px'><span class='chip'>Inside a region</span><span class='st on' style='font-size:12.5px'><span class='dot'></span>Shown</span></div></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='tiles'><div class='tile'><span>Choices</span><strong>58</strong></div><div class='tile'><span>Territories using it</span><strong>21</strong></div></div>
+    <div class='why'>When building a territory you can pick <strong>wilayas</strong>. If you also picked regions, only the wilayas of those regions are offered. A whole wilaya brings in every professional working there.</div>
+    <section class='sec'><header><strong>Where it sits</strong></header><div style='padding:2px 12px 12px' class='chain'><span class='node'>Region</span><span class='arrow'>›</span><span class='node on'>Wilaya</span><span class='arrow'>›</span><span class='node'>Commune</span></div></section>
+    <section class='sec'><header><strong>Extras</strong></header><dl class='kv'>
+      <dt>Sub-zones</dt><dd>Yes — pick a part of a wilaya instead of all of it (112 sub-zones)</dd>
+      <dt>Zone type</dt><dd>Yes — each wilaya can be marked HR, SR or RE</dd></dl></section>
+    <section class='sec'><header><strong>Linked to professionals</strong></header><dl class='kv'>
+      <dt>How</dt><dd>Professional › commune › <strong>wilaya</strong></dd>
+      <dt>Applies to</dt><dd>Doctors, dentists, pharmacies, wholesalers, distributors</dd></dl></section>
+    <section class='sec'><header><strong>Linked to people</strong></header><dl class='kv'>
+      <dt>How</dt><dd>Person › home commune › <strong>wilaya</strong></dd>
+      <dt>Nothing set</dt><dd>Not suggested (e.g. no home commune). For Spécialité: Person › current teams › specialities, and a team with no speciality skips the check.</dd></dl></section>
+    <section class='sec'><header><strong>Choices come from</strong></header><div class='line'>Studio › Geography › Wilayas · <a>Open ›</a><br>Sub-zones: Studio › Geography › Zones · <a>Open ›</a></div></section>
+    <section class='sec'><header><strong>Territories using it</strong></header><div style='padding:0 12px 10px'>
+      <div class='terr'>Alger Centre <span>4 wilayas ›</span></div><div class='terr'>Est 1 <span>6 wilayas ›</span></div><div class='terr'>Oran Ouest <span>2 wilayas · 3 sub-zones ›</span></div><div class='terr' style='border:0'><a>See all 21 in Territories ›</a></div></div></section>
+  </div>
+  <div class='lock'>🔒<span>Rule types are set up by Delorch support for your lab. Ask them to add one or to hide one.</span></div>
+</aside>`
+
+const phone = `<div style='width:390px;background:var(--mist);border-radius:32px;padding:16px;display:flex;flex-direction:column;gap:12px;border:8px solid #1B302C'>
+  <div class='crumbs'>Professionals</div><h1 class='title display' style='font-size:28px;margin:0'>Rule types</h1>
+  <div class='fit' style='padding:12px;gap:10px'><div class='chain' style='flex-wrap:wrap'><span class='node'>Region</span><span class='arrow'>›</span><span class='node'>Wilaya</span><span class='arrow'>›</span><span class='node'>Commune</span></div><div class='chain'><span class='node'>Speciality</span><span class='node off'>Segmentation</span></div></div>
+  ${types.map(r => `<div class='card' style='padding:12px 14px;display:flex;align-items:center;gap:10px'><span class='ico'>${r[0]}</span><div style='flex:1'><strong>${r[1]}</strong><div class='label'>${r[3]} · ${r[5] ? r[5] + ' territories' : 'no territory'}</div></div><span class='st ${r[6] ? 'on' : 'off'}'><span class='dot'></span></span></div>`).join('')}
+</div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The page.</strong> The strip on top shows how the types fit: places nest (region › wilaya › commune), speciality and segmentation stand alone. The table says how many choices each gives, its extras, how many territories use it, and whether it is offered when building a territory. Only 5 rows, so no search, filters or pages. No “Add” button.`, list()),
+  frame(2, `<strong>Side panel</strong> (read only): in plain words what picking it does, where it sits, its extras, where its choices are managed (link to the Studio page), and the territories using it (link to the Territories list filtered on it). Codes, tables and model classes are not shown — they mean nothing to a lab admin.`, list(1, false), panel),
+  `<div class='step-label'><b>3</b><span><strong>On a phone.</strong> Same strip, rows become cards; tapping opens the panel full screen.</span></div><div style='margin:0 28px 40px;display:flex;gap:24px;align-items:flex-start'>${phone}
+   <div class='q-box' style='max-width:520px'><strong>Two questions for you</strong><br><br>1. Should a lab admin be able to <strong>hide / show</strong> a type themselves (e.g. hide Segmentation)? Today only the central console can. I'd say yes — a simple switch in the panel, needs a small API change in the lab API only (no central change).<br><br>2. What do the zone types <strong>HR, SR, RE</strong> mean? I'll show their full names instead of the codes.</div></div>`,
+].join('')
+</script>
+</body></html>

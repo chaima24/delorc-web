@@ -1,0 +1,187 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Teams</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css"><style>
+.studio-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.studio-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.studio-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.edit.dark { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.av { width: 30px; height: 30px; border-radius: 9px; background: var(--cobalt); color: #fff; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.av.t { background: #0F9D8A; } .av.g { background: var(--line-soft); color: var(--muted); }
+.stack { display: inline-flex; } .stack .av { width: 26px; height: 26px; border-radius: 8px; font-size: 10px; box-shadow: 0 0 0 2px var(--paper); } .stack .av + .av { margin-inline-start: -6px; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; } .st .dot { width: 8px; height: 8px; }
+.st.on { color: #0F7A3D; } .st.off { color: var(--muted); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 12px 12px; }
+.grp { padding: 4px 12px 2px; font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.mrow { display: flex; align-items: center; gap: 10px; padding: 7px 12px; font-size: 13px; } .mrow small { display: block; color: var(--muted); font-size: 12px; }
+.mrow .x { margin-inline-start: auto; color: var(--muted); font-size: 12px; }
+.mini-steps { display: flex; gap: 6px; padding: 12px 20px 0; } .mini-steps span { flex: 1; height: 4px; border-radius: 9px; background: var(--line); } .mini-steps span.on { background: var(--ink); }
+.pick { border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; display: flex; gap: 10px; align-items: center; font-size: 13px; }
+.cb { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid #9FB0AA; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+.cb.on { background: var(--ink); border-color: var(--ink); color: var(--signal); }
+.why { font-size: 12px; color: var(--muted); background: var(--mist); border-radius: 10px; padding: 8px 10px; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.uses { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; } .uses a { display: flex; justify-content: space-between; color: var(--ink); padding: 4px 0; } .uses a span { color: var(--muted); }
+</style></head><body>
+<p class="caption"><strong>Studio › Teams.</strong> A team groups people who promote the same <strong>brands</strong> to the same <strong>specialities</strong> (Cardio, Neuro, Pharma Est…).
+Teams are used by rules, expense settings, objectives, campaigns and surveys to say “who”. Same pattern as the other Studio pages: list, then a side panel to read a team and edit it section by section.
+Membership keeps its <strong>history</strong>: removing someone ends their stint on a date, it is never deleted (past reports keep the right team) — the same timeline as Users › Assignments.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>`
+function frame(n, label, { title = 'Teams', add = addBtn, body, panel = '' }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:820px'>${rail}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      <nav class='studio-nav'><a>Settings</a><a>Users</a><a class='on'>Teams</a><a>Brands</a><a>Products</a></nav>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>Studio</div><h1 class='title display' style='font-size:36px'>${title}</h1></div>
+        ${add}
+      </div>
+      ${body}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+const addBtn = `<span class='btn primary'>＋ Add team</span>`
+const st = s => s ? `<span class='st on'><span class='dot'></span>Active</span>` : `<span class='st off'><span class='dot'></span>Inactive</span>`
+const av = (i, c = '') => `<span class='av ${c}'>${i}</span>`
+const stack = (ids, n) => `<span style='display:inline-flex;align-items:center;gap:8px'><span class='stack'>${ids.map((x, k) => av(x, ['', 't', 'g'][k % 3])).join('')}</span><strong>${n}</strong></span>`
+const chipList = (xs, max = 2) => xs.slice(0, max).map(x => `<span class='chip'>${x}</span>`).join(' ') + (xs.length > max ? ` <span class='chip'>+${xs.length - max}</span>` : '')
+
+// ── List ─────────────────────────────────────────────────────
+const teams = [
+  ['Cardio', 'Cardiologists and GPs, hypertension range', ['KH', 'FZ', 'NB'], 14, ['Cardiology', 'General practice', 'Internal medicine'], ['Cardiozen', 'Tensio'], 1, '3 Nov 2026'],
+  ['Neuro', 'Neurologists and psychiatrists', ['LM', 'NB'], 9, ['Neurology', 'Psychiatry'], ['Neurocalm'], 1, '28 Oct 2026'],
+  ['Pharma Est', 'Pharmacies of the eastern wilayas', ['YA', 'RT', 'MB'], 11, ['Pharmacy'], ['Cardiozen', 'Tensio', 'Neurocalm', 'Dolex'], 1, '2 Sep 2026'],
+  ['Gastro', 'Gastro-enterology range', ['SB'], 6, ['Gastro-enterology', 'General practice'], ['Gastrel'], 1, '10 Jan 2025'],
+  ['Dermato 2024', 'Merged into Cardio in 2025', [], 0, ['Dermatology'], ['Dermacare'], 0, '10 Jan 2024'],
+]
+const listCard = (full, sel = -1) => `<div class='card' style='padding:16px 18px'>
+  <div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:280px'>⌕ Team name</div><span class='input'>Status <b>All</b> ▾</span><span class='input'>Speciality <b>All</b> ▾</span><span class='input'>Brand <b>All</b> ▾</span></div>
+  <table class='table'><thead><tr><th>Team</th><th>Members</th><th>Specialities</th>${full ? `<th>Brands</th>` : ''}<th>Status</th>${full ? `<th>Added ↓</th>` : ''}<th></th></tr></thead><tbody>
+  ${teams.map((t, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${t[0]}</strong>${full ? `<div class='hint'>${t[1]}</div>` : ''}</td><td>${t[3] ? stack(t[2], t[3]) : `<span class='hint'>Nobody</span>`}</td><td>${chipList(t[4], full ? 2 : 1)}</td>${full ? `<td>${chipList(t[5])}</td>` : ''}<td>${st(t[6])}</td>${full ? `<td class='label'>${t[7]}</td>` : ''}<td style='color:var(--muted)'>›</td></tr>`).join('')}
+  </tbody></table>
+  <div style='display:flex;justify-content:space-between;align-items:center;padding-top:12px' class='label'><span>1–5 of 5</span><span>Rows 25 ▾ ‹ 1 ›</span></div></div>`
+
+// ── Reading panel ────────────────────────────────────────────
+const member = (i, name, sub, c = '', extra = '') => `<div class='mrow'>${av(i, c)}<div><strong>${name}</strong><small>${sub}</small></div>${extra}</div>`
+const readPanel = `<aside class='panel'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Cardio</h2><div class='sub'>${st(1)}<span class='hint'>· added 3 Nov 2026 by Sarah M.</span></div></div><span class='icb'>⋯</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='tiles'><div class='tile'><span>Members</span><strong>14</strong></div><div class='tile'><span>Specialities</span><strong>3</strong></div><div class='tile'><span>Brands</span><strong>2</strong></div></div>
+    <section class='sec'><header><strong>About</strong><span class='edit'>✎ Edit</span></header><dl class='kv'><dt>Name</dt><dd>Cardio</dd><dt>Description</dt><dd>Cardiologists and GPs, hypertension range</dd></dl></section>
+    <section class='sec'><header><strong>Specialities visited</strong><span class='edit'>✎ Edit</span></header><div class='chips'>${['Cardiology', 'General practice', 'Internal medicine'].map(x => `<span class='chip'>${x}</span>`).join('')}</div></section>
+    <section class='sec'><header><strong>Brands promoted</strong><span class='edit'>✎ Edit</span></header><div class='chips'>${['Cardiozen', 'Tensio'].map(x => `<span class='chip'>${x}</span>`).join('')}</div></section>
+    <section class='sec'><header><strong>Members · 14</strong><span class='edit dark'>＋ Add people</span></header>
+      <div class='grp'>Regional supervisor · 1</div>${member('NB', 'Nadia Benali', 'since 2 Sep 2026')}
+      <div class='grp'>Medical rep (VM) · 13</div>${member('KH', 'Karim Haddad', 'since 2 Sep 2026')}${member('FZ', 'Fatima Zerrouki', 'since 10 Jan 2025', 't')}
+      <div class='line' style='padding-top:6px'><a>See all 14 members →</a> · <a>Past members (4)</a></div></section>
+  </div>
+</aside>`
+
+// ── Members panel (all + remove) ─────────────────────────────
+const membersPanel = `<aside class='panel'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Members of Cardio</h2><div class='sub'><span class='chip'>14 now</span><span class='chip'>4 past</span></div></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='seg'><span class='on'>Now · 14</span><span>Past · 4</span></div>
+    <div class='input muted'>⌕ Name</div>
+    <section class='sec'>
+      <div class='grp' style='padding-top:10px'>Regional supervisor · 1</div>${member('NB', 'Nadia Benali', 'since 2 Sep 2026', '', `<span class='edit'>End…</span>`)}
+      <div class='grp'>Medical rep (VM) · 13</div>
+      ${member('KH', 'Karim Haddad', 'since 2 Sep 2026', '', `<span class='edit'>End…</span>`)}
+      ${member('FZ', 'Fatima Zerrouki', 'since 10 Jan 2025', 't', `<span class='edit'>End…</span>`)}
+      ${member('AK', 'Amine Kaci', 'since 10 Jan 2025', 'g', `<span class='edit'>End…</span>`)}
+      ${member('SB', 'Sofia Brahimi', 'since 10 Jan 2025', '', `<span class='edit'>End…</span>`)}
+      <div class='line hint'>…</div>
+    </section>
+  </div>
+  <div class='pf'><span class='btn ghost'>‹ Back to Cardio</span><span class='btn dark' style='margin-inline-start:auto'>＋ Add people</span></div>
+</aside>`
+
+// ── Add people / end membership ──────────────────────────────
+const addPeople = `<aside class='panel' style='min-height:600px'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Add people to Cardio</h2><div class='sub'><span class='chip'>3 chosen</span></div></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='input muted'>⌕ Name · Role <b style='margin-inline-start:auto;color:var(--ink)'>Medical rep (VM) ▾</b></div>
+    ${[['LM', 'Lina Mansouri', 'Medical rep (VM) · Neuro', 1], ['YA', 'Yacine Amrani', 'Pharmacy rep (VP) · Pharma Est', 1], ['RT', 'Rachid Toumi', 'Regional supervisor · Pharma Est', 1], ['MB', 'Mehdi Bensaïd', 'Medical rep (VM) · no team', 0]].map(p => `<div class='pick'><span class='cb ${p[3] ? 'on' : ''}'>${p[3] ? '✓' : ''}</span>${av(p[0], 't')}<div><strong>${p[1]}</strong><div class='hint'>${p[2]}</div></div></div>`).join('')}
+    <div class='field'><span>From</span><div class='input'>3 Nov 2026</div><span class='hint'>They keep their other teams. To move someone, end the old team in their Assignments.</span></div>
+  </div>
+  <div class='pf'><span class='btn ghost'>Cancel</span><span class='btn primary' style='margin-inline-start:auto'>Add 3 people</span></div>
+</aside>`
+const endPanel = `<aside class='panel' style='min-height:0'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>End membership</h2><div class='sub'><span class='chip'>Karim Haddad</span><span class='chip'>Cardio</span></div></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='field'><span>Last day in the team</span><div class='input'>2 Nov 2026</div><span class='hint'>Karim stays in the team’s past members with 2 Sep → 2 Nov 2026.</span></div>
+  </div>
+  <div class='pf'><span class='btn ghost'>Cancel</span><span class='btn dark' style='margin-inline-start:auto'>End membership</span></div>
+</aside>`
+
+// ── Create (2 steps) ─────────────────────────────────────────
+const createPanel = (n, title, body, foot) => `<aside class='panel' style='min-height:640px;width:420px'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Add a team</h2><div class='sub'><span class='chip'>Step ${n} of 2 · ${title}</span></div></div><span class='icb'>✕</span></div>
+  <div class='mini-steps'>${[1, 2].map(i => `<span class='${i <= n ? 'on' : ''}'></span>`).join('')}</div>
+  <div class='pb'>${body}</div><div class='pf'>${foot}</div></aside>`
+const step1 = createPanel(1, 'Team', `
+  <div class='field'><span>Name</span><div class='input'>Diabeto</div></div>
+  <div class='field'><span>Description <span class='hint'>(optional)</span></span><div class='input muted'>What this team covers…</div></div>
+  <div class='field'><span>Specialities visited</span><div class='input'><span class='chip'>Endocrinology ✕</span><span class='chip'>General practice ✕</span><span style='margin-inline-start:auto'>▾</span></div><span class='hint'>At least one.</span></div>
+  <div class='field'><span>Brands promoted <span class='hint'>(optional)</span></span><div class='input'><span class='chip'>Glucofin ✕</span><span style='margin-inline-start:auto'>▾</span></div></div>`,
+  `<span class='btn ghost'>Cancel</span><span class='btn dark' style='margin-inline-start:auto'>Next</span>`)
+const step2 = createPanel(2, 'Members', `
+  <div class='input muted'>⌕ Name · Role <b style='margin-inline-start:auto;color:var(--ink)'>All ▾</b></div>
+  ${[['MB', 'Mehdi Bensaïd', 'Medical rep (VM) · no team', 1], ['AK', 'Amine Kaci', 'Medical rep (VM) · Cardio', 1], ['NB', 'Nadia Benali', 'Regional supervisor · Cardio, Neuro', 0]].map(p => `<div class='pick'><span class='cb ${p[3] ? 'on' : ''}'>${p[3] ? '✓' : ''}</span>${av(p[0], 't')}<div><strong>${p[1]}</strong><div class='hint'>${p[2]}</div></div></div>`).join('')}
+  <div class='field'><span>From</span><div class='input'>3 Nov 2026</div></div>
+  <div class='why'>Optional: you can add people later, or from each person’s Assignments.</div>`,
+  `<span class='btn ghost'>Back</span><span class='btn primary' style='margin-inline-start:auto'>Add Diabeto</span>`)
+
+// ── Delete / deactivate ──────────────────────────────────────
+const menuPanel = `<aside class='panel' style='min-height:0'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Cardio</h2><div class='sub'>${st(1)}</div></div><span class='icb' style='background:var(--mist)'>⋯</span><span class='icb'>✕</span></div>
+  <div class='pb'><div class='card' style='padding:6px;border:1px solid var(--line);box-shadow:0 12px 32px -16px rgba(15,31,28,.35);border-radius:14px;align-self:flex-end;width:220px'>
+    <div class='mrow'>Deactivate</div><div class='mrow' style='color:var(--brick)'>Delete</div></div>
+    <section class='sec'><header><strong>Used by</strong></header><div class='uses'><a>Objectives <span>2</span></a><a>Campaigns <span>1</span></a><a>Expense settings <span>1</span></a><a>Surveys <span>0</span></a></div></section>
+    <div class='why'><strong style='color:var(--ink)'>Can’t delete Cardio.</strong> It has members (now or in the past) and is used by objectives, a campaign and an expense setting. Deactivate it instead: it disappears from pickers, history stays.</div>
+  </div>
+</aside>`
+
+// ── Phone ────────────────────────────────────────────────────
+const phone = `<div style='display:flex;gap:28px;margin:0 28px 40px'>
+  <div class='phone'><div style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+    <div class='crumbs'>Studio</div><div style='display:flex;justify-content:space-between;align-items:center'><h1 class='title display' style='font-size:30px'>Teams</h1><span class='btn primary sm'>＋ Add</span></div>
+    <div class='input muted'>⌕ Team name</div><div style='display:flex;gap:6px'><span class='chip'>Status ▾</span><span class='chip'>Speciality ▾</span><span class='chip'>Brand ▾</span></div>
+    ${teams.map(t => `<div class='card' style='padding:12px 14px;border-radius:16px;display:flex;flex-direction:column;gap:6px'><div style='display:flex;justify-content:space-between;align-items:center'><strong style='font-size:15px'>${t[0]}</strong>${st(t[6])}</div><div class='hint'>${t[3]} members · ${t[4].length} specialities · ${t[5].length} brands</div></div>`).join('')}
+  </div></div>
+  <div class='phone'><div style='padding:0;display:flex;flex-direction:column;flex:1'>${readPanel.replace("class='panel'", "class='panel' style='width:auto;border-radius:0;min-height:0;flex:1'")}</div></div>
+</div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Teams: the page opens.</strong> Name + description, members (faces + count of people in the team today), specialities and brands as chips, status, Added (newest first). Filters: name, status, speciality, brand.`, { body: listCard(true) }),
+  frame(2, `<strong>Click a team → reading panel.</strong> Each section has its own Edit. Members grouped by role (only for reading; no rule behind it). Past members are kept.`, { body: listCard(false, 0), panel: readPanel }),
+  frame(3, `<strong>“See all members”</strong> in the same panel: Now / Past, search, and <em>End…</em> on each person (asks for the last day).`, { body: listCard(false, 0), panel: membersPanel }),
+  frame(4, `<strong>Add people / end a membership.</strong> Pick several people and a start date. Adding does not remove anyone from their other teams.`, { body: listCard(false, 0), panel: addPeople }),
+  frame(5, `<strong>End membership</strong>: only a date. Same rule as Users › Assignments.`, { body: listCard(false, 0), panel: endPanel }),
+  `<div class='step-label'><b>6</b><span><strong>Add a team: 2 steps in the side panel.</strong> 1 Team (name, description, specialities ≥ 1, brands) · 2 Members (optional) with a start date. New teams are active.</span></div>
+   <div style='display:flex;gap:16px;margin:0 28px 40px;width:1440px;align-items:flex-start'>${step1}${step2}</div>`,
+  frame(7, `<strong>⋯ menu: Deactivate / Delete.</strong> Delete only works for a team nobody ever belonged to and nothing uses (added by mistake). Today deleting a team would also wipe its objectives, frequencies and membership history in the database, so the API will refuse it with the reason.`, { body: listCard(false, 0), panel: menuPanel }),
+  `<div class='step-label'><b>8</b><span><strong>On a phone.</strong> Cards instead of the table; the panel opens full screen.</span></div>${phone}`,
+].join('')
+</script>
+</body></html>

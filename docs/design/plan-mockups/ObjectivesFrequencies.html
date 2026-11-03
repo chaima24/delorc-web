@@ -1,0 +1,177 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Objectives and Frequencies</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 460px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; font-size: 12.5px; color: var(--muted); }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 120px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.why { font-size: 12.5px; color: var(--body); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.warn { font-size: 12.5px; color: var(--amber); background: rgba(180,83,9,.08); border-radius: 12px; padding: 9px 12px; }
+.person { display: flex; gap: 10px; align-items: center; } .person small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.av { width: 30px; height: 30px; border-radius: 99px; background: var(--line-soft); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+tr.picked td { background: var(--signal-soft); }
+.q { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 11px; background: var(--paper); border: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--body); }
+.q b { font-variant-numeric: tabular-nums; color: var(--ink); } .q i { font-style: normal; color: var(--amber); }
+.month { display: inline-flex; align-items: center; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; } .month span { height: 34px; min-width: 34px; padding: 0 10px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; } .month span.on { background: var(--ink); color: var(--mist); }
+.pace { position: relative; height: 8px; border-radius: 99px; background: var(--line-soft); min-width: 120px; } .pace > i { position: absolute; inset-block: 0; inset-inline-start: 0; border-radius: 99px; background: var(--cobalt); } .pace > u { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); }
+.pacecell { display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; } .pacecell small { color: var(--muted); }
+.seg-chip { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 9px; border-radius: 8px; border: 1px solid var(--line); font-size: 12.5px; font-weight: 600; background: var(--paper); }
+.seg-chip i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+.fig { background: var(--paper); border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; } .fig span { font-size: 12.5px; color: var(--muted); } .fig strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; letter-spacing: -.02em; } .fig small { font-size: 12px; color: var(--muted); }
+.bar2 { display: flex; height: 8px; border-radius: 99px; overflow: hidden; background: var(--line-soft); } .bar2 i { display: block; }
+.card2 { background: var(--paper); border-radius: 20px; }
+.card2 header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; } .card2 header strong { flex: 1; font-size: 15px; }
+.steps { display: flex; gap: 8px; } .steps span { flex: 1; display: flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 600; color: var(--muted); padding-top: 10px; border-top: 3px solid var(--line); } .steps span.on { color: var(--ink); border-color: var(--ink); } .steps span.done { color: var(--ink); border-color: var(--signal); }
+.opt { border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; } .opt.on { border: 2px solid var(--ink); background: var(--signal-soft); } .opt b { display: block; font-size: 14px; } .opt small { color: var(--muted); }
+.radio { width: 18px; height: 18px; border-radius: 99px; border: 1.5px solid #9FB0AA; flex-shrink: 0; margin-top: 2px; } .opt.on .radio { border: 5px solid var(--ink); }
+.ck { width: 18px; height: 18px; border-radius: 5px; background: var(--ink); color: var(--signal); font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
+.matrix td, .matrix th { text-align: center; } .matrix td:first-child, .matrix th:first-child { text-align: start; }
+.num-in { width: 52px; height: 34px; border: 1px solid var(--line); border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.num-in.empty { color: var(--muted); border-style: dashed; }
+.rules { width: 1440px; margin: 0 28px 40px; background: var(--paper); border-radius: 18px; padding: 24px 28px; font-size: 14px; color: var(--body); }
+.rules h2 { margin: 0 0 12px; font-size: 22px; color: var(--ink); } .rules ol { margin: 0; padding-inline-start: 22px; display: flex; flex-direction: column; gap: 12px; } .rules li strong { color: var(--ink); } .rules .ex { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+.ask { display: inline-block; margin-inline-start: 6px; font-size: 11.5px; font-weight: 700; color: var(--cobalt); background: rgba(47,84,235,.1); border-radius: 99px; padding: 1px 8px; }
+.flow { width: 1440px; margin: 0 28px 40px; background: var(--paper); border-radius: 18px; padding: 24px 28px; display: flex; flex-direction: column; gap: 18px; }
+.flow h2 { margin: 0; font-size: 24px; }
+.lane { display: grid; grid-template-columns: 1fr 40px 1fr 40px 1fr; align-items: stretch; gap: 0; }
+.box { border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--body); }
+.box h3 { margin: 0; font-size: 15px; color: var(--ink); display: flex; gap: 8px; align-items: center; } .box h3 small { font-weight: 500; color: var(--muted); font-size: 12px; }
+.box.dark { background: var(--ink); color: var(--on-ink-muted); border-color: var(--ink); } .box.dark h3 { color: var(--mist); } .box.dark b { color: var(--signal); }
+.arrow { display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--muted); }
+.calc { font-family: ui-monospace, monospace; font-size: 12.5px; background: var(--mist); border-radius: 10px; padding: 8px 10px; color: var(--ink); line-height: 1.6; }
+.box.dark .calc { background: var(--ink-2); color: var(--mist); }
+.ver { display: grid; grid-template-columns: 14px 1fr; gap: 10px; font-size: 13px; padding: 6px 12px; } .ver i { width: 10px; height: 10px; border-radius: 99px; margin-top: 4px; background: var(--ink); } .ver.past i { background: var(--line); } .ver small { display: block; color: var(--muted); font-size: 12px; }
+.numgrid { display: grid; grid-template-columns: 1fr 90px; gap: 8px 12px; align-items: center; font-size: 13.5px; } .numgrid small { display: block; color: var(--muted); font-size: 12px; }
+.num-in.big { width: 90px; height: 40px; }
+</style></head><body>
+<p class="caption"><strong>Plan › Objectives and Frequencies — proposal.</strong> These two settings give a cycle its numbers. <strong>Objectives</strong> say how much a person must do <em>a day</em> (by role and team). <strong>Frequencies</strong> say how many times each professional must be visited <em>per cycle</em> (by role, team, speciality and segment). Both keep their history: a change applies “from a date”, so cycles already started keep their old numbers. Frame 1 shows how they meet in a cycle. Rules to approve are at the bottom.</p>
+
+<section class="flow"><h2 class="display">1 · How a cycle gets its numbers</h2>
+<p style="margin:0;font-size:14px;color:var(--body)">Example: <strong>Karim Bensaïd</strong>, role <strong>Medical rep</strong>, main team <strong>Cardio</strong>, territory Alger Est. His November cycle (1 → 30 Nov, 21 working days).</p>
+<div class="lane">
+  <div class="box"><h3>Objectives <small>Medical rep · Cardio</small></h3>
+    <span>A day: <b>10</b> doctor visits · <b>4</b> pharmacy visits · <b>1</b> order</span>
+    <div class="calc">10 × 21 days = 210 doctor visits<br>4 × 21 days = 84 pharmacy visits<br>1 × 21 days = 21 orders</div>
+    <span>→ the cycle's <strong>targets for the period</strong>: what he must do in total.</span></div>
+  <div class="arrow">→</div>
+  <div class="box dark"><h3>His November cycle</h3>
+    <span>Goal <b>294</b> visits (210 + 84) · <b>21</b> orders</span>
+    <span>Professionals <b>218</b> (from October + territory)</span>
+    <span>Visits needed by the list <b>301</b> (sum of each one's number)</span>
+    <div class="calc">301 needed ≥ 294 goal → ✓ the list is big enough</div></div>
+  <div class="arrow">←</div>
+  <div class="box"><h3>Frequencies <small>Medical rep · Cardio</small></h3>
+    <span>Each professional's number of visits in the cycle:</span>
+    <div class="calc">Dr Kaci · Cardiologie · A → 3<br>Dr Saïdi · Méd. générale · C → 1<br>Pharmacie Belkacem · B → 1 (every other kind)</div>
+    <span>→ adds up to the <strong>visits needed by the list</strong>.</span></div>
+</div>
+<div class="why" style="font-size:13px">The two meet in the cycle: <strong>Objectives</strong> = how much work he must do; <strong>Frequencies</strong> = how that work is spread over his professionals. If the list needs fewer visits than the goal (e.g. 180 needed for a 294 goal), the cycle page warns: “The list is too small for the goal — add professionals or raise segments.” If it needs far more, some professionals won't be seen.</div>
+</section>
+
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center'>Plan</span></nav>`
+const wsNav = (on) => `<nav class='ws-nav'>${['Cycles', 'Activities', 'Objectives', 'Frequencies', 'Planning rules'].map(x => `<a class='${x === on ? 'on' : ''}'>${x}</a>`).join('')}</nav>`
+function frame(n, label, body, panel = '', on = 'Objectives') {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${wsNav(on)}${body}</div>${panel}</div></div></div>`
+}
+// role, team, doctors, pharmacies, wholesalers, orders, coaching, since, people
+const objs = [
+  ['Medical rep', 'Cardio', 10, 4, '—', 1, '—', '1 Jan 2026', 6],
+  ['Medical rep', 'Pédiatrie', 8, 5, '—', 1, '—', '1 Jan 2026', 4],
+  ['Medical rep', 'All other teams', 10, 4, '—', 0, '—', '1 Jan 2026', 2],
+  ['Pharma rep', 'All teams', '—', 12, 2, 3, '—', '1 Mar 2026', 5],
+  ['KAM', 'All teams', 12, '—', '—', 0, '—', '1 Jan 2026', 2],
+  ['Supervisor', 'All teams', '—', '—', '—', 0, 12, '1 Jan 2026', 3],
+]
+const objHead = `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Plan</div><h1 class='title display' style='font-size:36px'>Objectives</h1><div class='label' style='margin-top:6px'>What each person must do <b>a day</b>, by role and team. A cycle multiplies it by its working days.</div></div><span class='btn primary'>＋ Add objective</span></div>`
+const objList = (sel = -1, full = true) => `${objHead}
+ <div style='display:flex;gap:10px'><span class='q'><i>●</i> People with no objective <b>3</b></span><span class='input'>Role <b>All</b> ▾</span><span class='input'>Show <b>Current</b> ▾</span></div>
+ <div class='card' style='padding:16px 18px'><table class='table'><thead><tr><th>Role · team</th><th class='num'>Doctor visits</th><th class='num'>Pharmacy visits</th>${full ? `<th class='num'>Wholesaler visits</th>` : ''}<th class='num'>Orders</th><th class='num'>Coaching visits</th>${full ? `<th>Since</th>` : ''}<th class='num'>People</th><th></th></tr></thead><tbody>
+ ${objs.map((o, i) => `<tr class='${i === sel ? 'picked' : ''}'><td><strong>${o[0]}</strong><small style='display:block;color:var(--muted);font-size:12px'>${o[1]}</small></td>${[o[2], o[3]].concat(full ? [o[4]] : []).concat([o[5], o[6]]).map(v => `<td class='num' style='${v === '—' ? 'color:var(--muted)' : ''}'>${v}</td>`).join('')}${full ? `<td>${o[7]}</td>` : ''}<td class='num'>${o[8]}</td><td style='color:var(--muted)'>›</td></tr>`).join('')}
+ </tbody></table><div class='label' style='padding-top:12px'>Numbers are <b>a day</b>. “—” = this role doesn't visit that kind (Studio › Roles › Visits).</div></div>`
+
+const objPanel = `<aside class='panel'>
+ <div class='ph'><div style='flex:1'><h2 class='display'>Medical rep · Cardio</h2><div class='sub'><span class='chip ok'>Current</span><span>since 1 Jan 2026 · 6 people</span></div></div><span class='icb'>✕</span></div>
+ <div class='pb'>
+  <section class='sec'><header><strong>A day</strong><span class='edit'>Change from a date…</span></header><dl class='kv'><dt>Doctor visits</dt><dd><b>10</b> <span class='label'>doctors and dentists</span></dd><dt>Pharmacy visits</dt><dd><b>4</b></dd><dt>Orders</dt><dd><b>1</b></dd></dl></section>
+  <section class='sec'><header><strong>For a month</strong><span class='label'>November 2026 · 21 working days</span></header><dl class='kv'><dt>Doctor visits</dt><dd>210</dd><dt>Pharmacy visits</dt><dd>84</dd><dt>Orders</dt><dd>21</dd></dl></section>
+  <section class='sec'><header><strong>People using it</strong><span class='label'>6</span></header><div class='line'>Karim Bensaïd, Nadia Hamidi, Rania Djebbar, Amel Saadi <a>+ 2 more</a></div><div class='line hint' style='padding-top:0'>Medical reps whose main team is Cardio.</div></section>
+  <section class='sec'><header><strong>History</strong></header>
+   <div class='ver'><i></i><span><b>From 1 Jan 2026</b> · 10 doctors · 4 pharmacies · 1 order<small>Set by Sara Mansouri</small></span></div>
+   <div class='ver past'><i></i><span>1 Sep → 31 Dec 2025 · 9 doctors · 4 pharmacies · 0 orders<small>Used by 12 cycles</small></span></div><div style='height:6px'></div></section>
+ </div>
+ <div class='pf'><span class='btn outline' style='color:var(--brick)'>🗑 Delete</span><span class='label' style='font-size:12px'>Refused once a cycle uses it — end it from a date instead.</span></div></aside>`
+
+const changePanel = `<aside class='panel'>
+ <div class='ph'><div style='flex:1'><h2 class='display'>Change from a date</h2><div class='sub'>Medical rep · Cardio</div></div><span class='icb'>✕</span></div>
+ <div class='pb'>
+  <div class='field'><span>New numbers from</span><span class='input'>1 Dec 2026 ▾</span><span class='hint'>The current numbers end on 30 Nov 2026.</span></div>
+  <div class='numgrid'><span>Doctor visits a day<small>was 10</small></span><span class='num-in big'>12</span><span>Pharmacy visits a day<small>was 4</small></span><span class='num-in big'>4</span><span>Orders a day<small>was 1</small></span><span class='num-in big'>1</span></div>
+  <div class='why'>Cycles that start on or after 1 Dec get the new numbers. Cycles already created for December (2) are updated too. October and November cycles keep 10.</div></div>
+ <div class='pf'><span class='btn outline'>Cancel</span><span class='btn primary' style='margin-inline-start:auto'>Save</span></div></aside>`
+
+const addPanel = `<aside class='panel'>
+ <div class='ph'><div style='flex:1'><h2 class='display'>Add objective</h2></div><span class='icb'>✕</span></div>
+ <div class='pb'>
+  <div class='field'><span>Role</span><span class='input'>Pharma rep ▾</span></div>
+  <div class='field'><span>Team</span><span class='input'>All teams ▾</span><span class='hint'>“All teams” is used for this role's people whose team has no objective of its own.</span></div>
+  <div class='field'><span>From</span><span class='input'>1 Nov 2026 ▾</span></div>
+  <div class='numgrid'><span>Pharmacy visits a day</span><span class='num-in big'>12</span><span>Wholesaler visits a day<small>wholesalers and distributors</small></span><span class='num-in big'>2</span><span>Orders a day</span><span class='num-in big'>3</span><span>Coaching visits a day<small>visits made with a rep, for people who coach</small></span><span class='num-in big empty'>0</span></div>
+  <div class='why'>Only the kinds this role visits are asked (Pharma rep visits pharmacies and wholesalers). 5 Pharma reps will use it.</div></div>
+ <div class='pf'><span class='btn outline'>Cancel</span><span class='btn primary' style='margin-inline-start:auto'>Add</span></div></aside>`
+
+const noObj = `<aside class='panel'>
+ <div class='ph'><div style='flex:1'><h2 class='display'>People with no objective</h2><div class='sub'>They can't get a cycle until their role + team has one.</div></div><span class='icb'>✕</span></div>
+ <div class='pb'>${[['OK', 'Omar Kaci', 'Directeur régional · Cardio'], ['FB', 'Farid Bouzid', 'Directeur régional · Pédiatrie'], ['HM', 'Hana Mokrani', 'Product manager · no team']].map(p => `<div class='person' style='padding:8px 0;border-bottom:1px solid var(--line-soft)'><span class='av'>${p[0]}</span><span style='flex:1'><strong>${p[1]}</strong><small>${p[2]}</small></span></div>`).join('')}
+  <div class='why'>Directeur régional has no objective, for any team. Add one for “Directeur régional · All teams” to cover both. Hana has no team: an “All teams” objective covers her too.</div>
+  <span class='btn dark' style='align-self:flex-start'>＋ Add for Directeur régional · All teams</span></div></aside>`
+
+const segs = [['A', '#2F54EB'], ['B', '#0F9D8A'], ['C', '#9FB0AA'], ['D', '#DCE3DF']]
+const freqPage = (edit) => `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Plan</div><h1 class='title display' style='font-size:36px'>Frequencies</h1><div class='label' style='margin-top:6px'>How many times each professional is visited <b>per cycle</b>, by segment.</div></div><span class='btn primary'>＋ New grid</span></div>
+ <div style='display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start'>
+  <div class='card2' style='padding:8px'>${[['Medical rep · Cardio', 'since 1 Jan 2026 · 3 specialities', 1], ['Medical rep · Pédiatrie', 'since 1 Jan 2026 · 2 specialities', 0], ['Medical rep · All other teams', 'since 1 Jan 2026', 0], ['Pharma rep · All teams', 'since 1 Mar 2026 · pharmacies', 0], ['KAM · All teams', '<span style="color:var(--amber)">No grid yet · 2 people</span>', 0]].map(g => `<div style='padding:10px 12px;border-radius:12px;${g[2] ? 'background:var(--signal-soft)' : ''}'><strong style='font-size:14px'>${g[0]}</strong><small style='display:block;color:var(--muted);font-size:12px'>${g[1]}</small></div>`).join('')}</div>
+  <div class='card' style='display:flex;flex-direction:column;gap:14px'><div style='display:flex;align-items:center;gap:10px'><strong style='flex:1;font-size:17px'>Medical rep · Cardio</strong>${edit ? `<span class='input' style='height:36px'>New numbers from <b>1 Dec 2026</b> ▾</span>` : `<span class='label'>since 1 Jan 2026 · <a>History (1 change)</a></span><span class='btn outline sm'>Change from a date…</span>`}</div>
+   <table class='table matrix'><thead><tr><th>Speciality</th>${segs.map(s => `<th><span class='seg-chip'><i style='background:${s[1]}'></i>${s[0]}</span></th>`).join('')}</tr></thead><tbody>
+   ${[['Cardiologie', 3, edit ? 4 : 3, 2, 1, 1], ['Médecine interne', 3, 3, 2, 1, ''], ['Médecine générale', 2, 2, 1, 1, ''], ['<em>Every other kind</em><small style="display:block;color:var(--muted);font-size:12px">pharmacies and the specialities not listed</small>', 2, 2, 1, 1, '']].map(r => `<tr><td>${r[0]}</td>${[r[2], r[3], r[4], r[5]].map((v, j) => `<td><span class='num-in ${v === '' ? 'empty' : ''}' style='${edit && j === 0 && r[1] !== r[2] ? 'border:2px solid var(--ink);background:var(--signal-soft)' : ''}'>${v === '' ? '0' : v}</span>${edit && j === 0 && r[1] !== r[2] ? `<small style='display:block;font-size:11px;color:var(--muted)'>was ${r[1]}</small>` : ''}</td>`).join('')}</tr>`).join('')}
+   <tr><td colspan='5'><a>＋ Add a speciality</a></td></tr></tbody></table>
+   ${edit ? `<div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn outline'>Cancel</span><span class='btn primary'>Save from 1 Dec 2026</span></div>` : `<div class='why'>A professional's number = the row of their speciality, else “Every other kind”. Pharmacies have no speciality, so they always use “Every other kind”. An empty cell = 0 visits.</div>`}</div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(2, `<strong>Objectives list.</strong> One row per role + team, numbers <strong>a day</strong>. “All teams” rows cover a role's people whose team has no row of its own. The warning lists people no row covers (they can't get a cycle).`, objList()),
+  frame(3, `<strong>Side panel.</strong> The numbers a day, what they give for a month, who uses it, and the history of changes.`, objList(0, false), objPanel),
+  frame(4, `<strong>Change from a date</strong> instead of editing in place: past cycles keep what they were built with.`, objList(0, false), changePanel),
+  frame(5, `<strong>Add objective.</strong> Only the kinds the role visits are asked.`, objList(-1, false), addPanel),
+  frame(6, `<strong>People with no objective</strong> (the warning on the list) — with a one-click fix.`, objList(-1, false), noObj),
+  frame(7, `<strong>Frequencies.</strong> One grid per role + team (or “All teams”): specialities × segments. Grids follow the same “All teams” and “from a date” rules as Objectives.`, freqPage(false), '', 'Frequencies'),
+  frame(8, `<strong>Frequencies — change from a date.</strong> The grid becomes editable; changed cells are highlighted with the old value.`, freqPage(true), '', 'Frequencies'),
+].join('')
+</script>
+<section class="rules"><h2 class="display">Rules to approve</h2><ol>
+<li><strong>Objective numbers are “a day”</strong>, and a cycle's targets = number × its working days (lab weekend and holidays out). Same as the old apps and today's API. <span class="ask">to approve</span><span class="ex">Example: 10 doctor visits a day, November = 21 working days → 210 doctor visits for the cycle.</span></li>
+<li><strong>The numbers</strong>: doctor visits (doctors + dentists), pharmacy visits, wholesaler visits (wholesalers + distributors), orders, coaching visits. Today's API has doctor, pharmacy (“business”), orders and coaching; <b>wholesaler visits is new</b> (Scipharma's Pharma reps had 2 a day). The old “public / private” numbers of Inphamedis are not kept. <span class="ask">to approve</span><span class="ex">Example: Pharma rep · All teams = 12 pharmacy + 2 wholesaler visits a day → goal 14 visits a day.</span></li>
+<li><strong>Coaching visits a day</strong> is for people who coach (supervisors): visits they make together with a rep. For them it is the daily goal, like in the old apps. <span class="ask">to approve</span><span class="ex">Example: Supervisor · All teams = 12 coaching visits a day → 252 for November.</span></li>
+<li><strong>Team can be “All teams”.</strong> For a person, Delorch takes the row of their role + main team, else the row of their role + “All teams”, else nothing (listed under “People with no objective”). Same for Frequencies grids. <span class="ask">to approve</span><span class="ex">Example: Karim (Medical rep, Cardio) → “Medical rep · Cardio”. Yacine (Medical rep, team Hôpitaux, no row) → “Medical rep · All other teams”. Omar (Directeur régional) → nothing.</span></li>
+<li><strong>Changes apply from a date</strong>; the old numbers end the day before and stay in the history. Cycles that start on or after that date take the new numbers (including ones already created); older cycles keep theirs. A row used by a cycle can't be deleted. One current row per role + team. <span class="ask">to approve</span><span class="ex">Example: change to 12 doctor visits from 1 Dec → December cycles = 12 × days; the November cycle stays at 10 × days.</span></li>
+<li><strong>Frequencies: speciality row, else “Every other kind”</strong> (a row with no speciality); empty cell = 0. Pharmacies always use “Every other kind”. <span class="ask">to approve</span><span class="ex">Example: Medical rep · Cardio, Dr Lounis (Pneumologie, no row), segment A → “Every other kind” A = 2 visits.</span></li>
+<li><strong>A doctor's speciality</strong> is the one on their current workplace; with two current workplaces, the one that started most recently. <span class="ask">to approve</span></li>
+<li><strong>The cycle checks the list against the goal</strong>: visits needed by the list (sum of each professional's number) vs the goal. Shown on the cycle page, warned when the list is too small. <span class="ask">to approve</span><span class="ex">Example: 218 professionals needing 301 visits, goal 294 → OK. 150 professionals needing 180 → “list too small for the goal”.</span></li>
+</ol></section>
+</body></html>

@@ -1,0 +1,213 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Expenses</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label > b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 470px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; font-size: 12.5px; color: var(--muted); }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.kv { display: grid; grid-template-columns: 120px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.why { font-size: 12.5px; color: var(--body); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.warn { font-size: 12.5px; color: var(--amber); background: rgba(180,83,9,.08); border-radius: 12px; padding: 9px 12px; }
+.bad { font-size: 12.5px; color: var(--brick); background: rgba(185,28,28,.07); border-radius: 12px; padding: 9px 12px; }
+.av { width: 30px; height: 30px; border-radius: 99px; background: var(--line-soft); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.person { display: flex; gap: 10px; align-items: center; } .person small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.month { display: inline-flex; align-items: center; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; } .month span { height: 34px; min-width: 34px; padding: 0 10px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; } .month span.on { background: var(--ink); color: var(--mist); }
+.fig { background: var(--paper); border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; } .fig span { font-size: 12.5px; color: var(--muted); } .fig strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; letter-spacing: -.02em; } .fig small { font-size: 12px; color: var(--muted); }
+.bar2 { display: flex; height: 8px; border-radius: 99px; overflow: hidden; background: var(--line-soft); min-width: 120px; } .bar2 i { display: block; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; border-radius: 99px; padding: 3px 9px; white-space: nowrap; }
+.st.ok { background: var(--signal-soft); color: var(--ink); } .st.wait { background: rgba(180,83,9,.1); color: var(--amber); } .st.no { background: rgba(185,28,28,.08); color: var(--brick); }
+.calc { display: grid; grid-template-columns: 1fr auto; gap: 7px 12px; padding: 4px 12px 12px; font-size: 13px; } .calc span:nth-child(even) { text-align: end; font-variant-numeric: tabular-nums; font-weight: 600; } .calc small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.calc .tot { border-top: 1px solid var(--line); padding-top: 8px; font-size: 15px; font-weight: 700; }
+.trip { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 8px 12px; font-size: 13px; border-top: 1px solid var(--line-soft); } .trip small { display: block; color: var(--muted); font-size: 12px; }
+.zone { font-size: 11.5px; font-weight: 700; border-radius: 99px; padding: 2px 8px; } .zone.in { background: rgba(47,84,235,.1); color: var(--cobalt); } .zone.out { background: rgba(15,157,138,.12); color: #0B7A6B; }
+.rcpt { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 9px; border: 1px solid var(--line); font-size: 12.5px; font-weight: 600; }
+.opt2 { border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; font-size: 13px; display: flex; align-items: center; gap: 8px; flex: 1; } .opt2.on { border: 2px solid var(--ink); background: var(--signal-soft); } .opt2 small { display: block; color: var(--muted); font-size: 11.5px; }
+.rowin { display: grid; grid-template-columns: 1fr 1fr 70px 80px 24px; gap: 6px; align-items: center; } .rowin .input { height: 36px; font-size: 12.5px; padding: 0 9px; }
+.rules { width: 1440px; margin: 0 28px 40px; background: var(--paper); border-radius: 18px; padding: 24px 28px; font-size: 14px; color: var(--body); }
+.rules h2 { margin: 0 0 12px; font-size: 22px; color: var(--ink); } .rules ol { margin: 0; padding-inline-start: 22px; display: flex; flex-direction: column; gap: 12px; } .rules li strong { color: var(--ink); } .rules .ex { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+.ask { display: inline-block; margin-inline-start: 6px; font-size: 11.5px; font-weight: 700; color: var(--cobalt); background: rgba(47,84,235,.1); border-radius: 99px; padding: 1px 8px; }
+.new { display: inline-block; margin-inline-start: 6px; font-size: 11.5px; font-weight: 700; color: var(--amber); background: rgba(180,83,9,.1); border-radius: 99px; padding: 1px 8px; }
+</style></head><body>
+<p class="caption"><strong>Team › Expenses — proposal.</strong> A rep sends <strong>one claim per working day</strong>: the trips of the day (from → to, km), where they slept, and other costs with receipts. Delorch computes the amount from the rep's <strong>expense setting</strong> (Studio › Expense settings): km × rate, capped per day, plus a meal or a night. A manager reviews <strong>by rep and by month</strong> and approves days one by one or all at once; the amount is <strong>kept when approved</strong>. Other expenses and Trips leave the menu: they are now inside each day. Rules to approve are at the bottom.<br><br>
+Example setting used on this page (Karim, VM · Cardio): <b>15 DA/km in zone</b>, <b>20 DA/km out of zone</b>, max <b>150 km</b> in / <b>400 km</b> out a day, meal <b>900 DA</b>, night <b>4,500 DA</b>, max <b>8 nights</b> a month, max <b>2 meals</b> on a night away.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center'>Team</span></nav>`
+const wsNav = `<nav class='ws-nav'>${['Coaching sessions', 'Expenses'].map(x => `<a class='${x === 'Expenses' ? 'on' : ''}'>${x}</a>`).join('')}</nav>`
+function frame(n, label, body, panel = '', who = 'NH') {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${who}</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${wsNav}${body}</div>${panel}</div></div></div>`
+}
+const ST = { ok: 'Approved', wait: 'Waiting', no: 'Refused' }
+const st = k => `<span class='st ${k}'>${ST[k]}</span>`
+const da = v => v.toLocaleString('en-US') + ' DA'
+
+// ---------- 1. Month board (manager) ----------
+const reps = [
+  ['KB', 'Karim Bensaïd', 'VM · Cardio', 11, '1,498', '2', 47070, [5, 5, 1]],
+  ['SM', 'Samir Meziane', 'VM · Cardio', 18, '3,920', '9 <span class="st wait" style="padding:1px 7px">1 over limit</span>', 96300, [0, 18, 0]],
+  ['LA', 'Lina Amrani', 'VP · Pharma', 9, '710', '0', 19850, [9, 0, 0]],
+  ['RD', 'Rania Djebbar', 'VM · Dermato', 0, '—', '—', 0, [0, 0, 0]],
+]
+const board = `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Team</div><h1 class='title display' style='font-size:36px'>Expenses</h1><div class='label' style='margin-top:6px'>Your reps' claims, month by month</div></div>
+  <div style='display:flex;gap:10px'><span class='btn outline'>⇩ Export</span><span class='btn primary'>＋ Add a day</span></div></div>
+ <div style='display:flex;gap:10px;align-items:center;flex-wrap:wrap'><div class='month'><span>‹</span><span class='on'>October 2026</span><span>›</span></div><span class='input'>Person <b>All</b> ▾</span><span class='input'>Team <b>All</b> ▾</span><span class='input'>Show <b>Waiting first</b> ▾</span></div>
+ <div style='display:flex;gap:12px'>
+  <div class='fig'><span>Waiting for you</span><strong>107,340 DA</strong><small>23 days · 2 reps</small></div>
+  <div class='fig'><span>Approved</span><strong>55,880 DA</strong><small>14 days</small></div>
+  <div class='fig'><span>Km paid</span><strong>6,128</strong><small>approved + waiting</small></div>
+  <div class='fig'><span>Nothing sent</span><strong>1</strong><small>rep with no claim this month</small></div></div>
+ <div class='card' style='padding:6px 16px 12px'><table class='table'><thead><tr><th>Rep</th><th class='num'>Days</th><th class='num'>Km paid</th><th class='num'>Nights</th><th class='num'>Total</th><th>Days by status</th><th></th></tr></thead><tbody>
+ ${reps.map(r => `<tr${r[3] ? '' : " style='opacity:.6'"}><td><span class='person'><span class='av'>${r[0]}</span><span><strong>${r[1]}</strong><small>${r[2]}</small></span></span></td><td class='num'>${r[3] || '—'}</td><td class='num'>${r[4]}</td><td class='num'>${r[5]}</td><td class='num'><strong>${r[6] ? da(r[6]) : '—'}</strong></td>
+  <td>${r[3] ? `<div style='display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted)'><div class='bar2'>${[[r[7][0], 'var(--signal)'], [r[7][1], 'var(--amber)'], [r[7][2], 'var(--brick)']].map(([v, c]) => `<i style='width:${v / r[3] * 100}%;background:${c}'></i>`).join('')}</div><span>${[r[7][0] && `${r[7][0]} approved`, r[7][1] && `<b style='color:var(--amber)'>${r[7][1]} waiting</b>`, r[7][2] && `${r[7][2]} refused`].filter(Boolean).join(' · ')}</span></div>` : `<span class='label'>Nothing sent yet</span>`}</td>
+  <td style='text-align:end'>${r[7][1] ? `<span class='btn dark sm'>Review ${r[7][1]}</span>` : r[3] ? `<span class='btn outline sm'>Open</span>` : ''}</td></tr>`).join('')}
+ </tbody></table><div class='label' style='padding-top:10px'>Only the reps you manage (and yourself) are listed · admin sees everyone</div></div>`
+
+// ---------- 2. Rep's month (full page) ----------
+// date, route, km typed, km paid, stay (home|away), other, total, status, meals typed
+const days = [
+  ['Thu 22 Oct', 'Alger centre', 55, 55, 'home', 0, 1725, 'wait', 1],
+  ['Wed 21 Oct', 'Alger → Boumerdès → Alger', 102, 102, 'home', 0, 2430, 'wait', 1],
+  ['Tue 20 Oct', 'Alger centre', 64, 64, 'home', 0, 1860, 'wait', 1],
+  ['Sun 18 Oct', 'Alger → Blida → Alger', 88, 88, 'home', 0, 2220, 'no', 1],
+  ['Wed 14 Oct', 'Alger → Tizi Ouzou → Alger', 210, 150, 'home', 300, 3450, 'wait', 1],
+  ['Tue 13 Oct', 'Alger centre', 45, 45, 'home', 0, 1575, 'wait', 1],
+  ['Mon 12 Oct', 'Oran → Alger', 430, 400, 'home', 0, 8900, 'ok', 1],
+  ['Sun 11 Oct', 'Oran', 60, 60, 'away', 0, 7500, 'ok', 3],
+  ['Thu 8 Oct', 'Alger → Oran', 430, 400, 'away', 0, 14300, 'ok', 2],
+  ['Mon 5 Oct', 'Alger → Médéa → Alger', 190, 150, 'home', 0, 3150, 'ok', 1],
+  ['Sun 4 Oct', 'Alger → Blida → Alger', 72, 72, 'home', 200, 2180, 'ok', 1],
+]
+const month = (sel = -1, mine = false) => `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Team › Expenses</div><h1 class='title display' style='font-size:36px'>${mine ? 'My expenses' : 'Karim Bensaïd'}</h1><div class='label' style='margin-top:6px'>${mine ? 'VM · Cardio' : 'VM · Cardio · manager Nadia Hamidi'} · setting “VM Cardio” from 1 Jan 2026</div></div>
+  <div style='display:flex;gap:10px'><span class='btn outline'>⇩ Export</span>${mine ? `<span class='btn primary'>＋ Add a day</span>` : `<span class='btn primary'>✓ Approve the 5 waiting days · 11,040 DA</span>`}</div></div>
+ <div style='display:flex;gap:10px;align-items:center'><div class='month'><span>‹</span><span class='on'>October 2026</span><span>›</span></div><span class='input'>Status <b>All</b> ▾</span></div>
+ <div style='display:flex;gap:12px'>
+  <div class='fig'><span>Total claimed</span><strong>47,070 DA</strong><small>11 days · refused days not counted</small></div>
+  <div class='fig'><span>Approved</span><strong>36,030 DA</strong><small>5 days</small></div>
+  <div class='fig'><span>Waiting</span><strong style='color:var(--amber)'>11,040 DA</strong><small>5 days</small></div>
+  <div class='fig'><span>Nights</span><strong>2 <span style='font-size:18px;color:var(--muted)'>/ 8</span></strong><small>limit of the month</small></div></div>
+ <div class='card' style='padding:6px 16px 12px'><table class='table'><thead><tr><th>Day</th><th>Trips</th><th class='num'>Km</th><th>Stay</th><th class='num'>Other</th><th class='num'>Amount</th><th>Status</th></tr></thead><tbody>
+ ${days.map((d, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${d[0]}</strong></td><td>${d[1]}</td><td class='num'>${d[3]}${d[2] !== d[3] ? `<small style='display:block;color:var(--amber);font-size:11.5px'>${d[2]} typed</small>` : ''}</td><td>${d[4] === 'away' ? '🌙 Away' : '🏠 Home'}<small style='display:block;color:var(--muted);font-size:11.5px'>${d[8]} meal${d[8] > 1 ? 's' : ''}${d[8] > 2 ? ` <b style='color:var(--amber)'>· 1 over limit</b>` : ''}</small></td><td class='num'>${d[5] ? da(d[5]) : '—'}</td><td class='num'><strong${d[7] === 'no' ? " style='text-decoration:line-through;color:var(--muted)'" : ''}>${da(d[6])}</strong></td><td>${st(d[7])}</td></tr>`).join('')}
+ </tbody></table><div class='label' style='padding-top:10px'>Working days only · Tue 6–Wed 7 Oct: CRM training (activity) · Mon 19 Oct: annual leave</div></div>`
+
+// ---------- 3. Day panel (manager) ----------
+const dayPanel = (refuse = false) => `<aside class='panel'>
+ <div class='ph'><div style='flex:1'><h2 class='display'>Wed 14 Oct 2026</h2><div class='sub'>${st('wait')}<span>Karim Bensaïd · sent 15 Oct</span></div></div><span class='icb'>✕</span></div>
+ <div class='pb'>
+  <section class='sec'><header><strong>Trips</strong><span class='label'>210 km</span></header>
+   <div class='trip'><span>Alger → Tizi Ouzou<small>Visite médicale</small></span><span class='zone in'>In zone</span><span class='num'>105 km</span></div>
+   <div class='trip'><span>Tizi Ouzou → Alger<small>Visite médicale</small></span><span class='zone in'>In zone</span><span class='num'>105 km</span></div></section>
+  <section class='sec'><header><strong>Stay</strong></header><div class='line'>🏠 Slept at home · 1 meal</div></section>
+  <section class='sec'><header><strong>Other costs</strong></header>
+   <div class='trip' style='grid-template-columns:1fr auto auto'><span>Toll<small>Autoroute Est-Ouest</small></span><span class='rcpt'>📎 receipt.jpg</span><span class='num'>300 DA</span></div></section>
+  <section class='sec'><header><strong>How it is computed</strong></header><div class='calc'>
+   <span>Km in zone<small>210 km typed, max 150 a day → 150 × 15 DA</small></span><span>2,250 DA</span>
+   <span>Meal<small>at home: 1 meal × 900 DA</small></span><span>900 DA</span>
+   <span>Other costs</span><span>300 DA</span>
+   <span class='tot'>Total</span><span class='tot'>3,450 DA</span></div>
+   <div class='line' style='color:var(--muted);font-size:12px'>Setting “VM Cardio”, in force on 14 Oct · <a>open</a></div></section>
+  <section class='sec'><header><strong>Rep's note</strong></header><div class='line'>Visits at CHU Tizi Ouzou, cardiology department.</div></section>
+  ${refuse ? `<div class='field'><span>Why do you refuse it?</span><span class='input' style='height:72px;align-items:flex-start;padding-top:10px'>Tizi Ouzou is not in your territory this month.</span><span class='hint'>Karim sees this reason. He can fix the day and send it again.</span></div>` : ''}
+ </div>
+ <div class='pf'>${refuse ? `<span class='btn outline'>Cancel</span><span class='btn dark' style='margin-inline-start:auto;background:var(--brick)'>Refuse the day</span>` : `<span class='btn outline' style='color:var(--brick)'>✕ Refuse</span><span class='btn primary' style='margin-inline-start:auto'>✓ Approve · 3,450 DA</span>`}</div></aside>`
+
+// ---------- 5. Add a day (rep) ----------
+const addPanel = `<aside class='panel'>
+ <div class='ph'><div style='flex:1'><h2 class='display'>Add a day</h2><div class='sub'>Your claim goes to Nadia Hamidi</div></div><span class='icb'>✕</span></div>
+ <div class='pb'>
+  <div class='field'><span>Day</span><span class='input'>Thu 29 Oct 2026 ▾</span><span class='hint'>A working day with no claim yet</span></div>
+  <div class='field'><span>Trips</span>
+   <div class='rowin' style='font-size:11.5px;color:var(--muted);font-weight:600'><span>From</span><span>To</span><span>Km</span><span>Zone</span><span></span></div>
+   <div class='rowin'><span class='input'>Alger centre ▾</span><span class='input'>Chlef ▾</span><span class='input'>205</span><span class='zone out' style='text-align:center'>Out</span><span>✕</span></div>
+   <div class='rowin'><span class='input'>Chlef ▾</span><span class='input'>Ténès ▾</span><span class='input'>52</span><span class='zone out' style='text-align:center'>Out</span><span>✕</span></div>
+   <span class='btn ghost sm' style='padding:0;color:var(--cobalt)'>＋ Add a trip</span>
+   <span class='hint'>Zone comes from your territory: Chlef is <b>Hors résidence</b> → out of zone. You can change it.</span></div>
+  <div class='field'><span>Where did you sleep?</span><div style='display:flex;gap:8px'><span class='opt2'>🏠 <span>At home<small>up to 1 meal</small></span></span><span class='opt2 on'>🌙 <span>Away<small>night + up to 2 meals</small></span></span></div></div>
+  <div class='field'><span>Meals</span><div style='display:flex;gap:8px;align-items:center'><span class='input' style='width:70px;justify-content:center'>2</span><span class='btn outline sm'>−</span><span class='btn outline sm'>＋</span></div><span class='hint'>How many meals you paid that day · 900 DA each, up to 2 on a night away</span></div>
+  <div class='field'><span>Other costs</span><div style='display:grid;grid-template-columns:1fr 90px auto 24px;gap:6px;align-items:center'><span class='input' style='height:36px;font-size:12.5px'>Parking ▾</span><span class='input' style='height:36px;font-size:12.5px'>150</span><span class='rcpt'>📎 Add receipt</span><span>✕</span></div><span class='btn ghost sm' style='padding:0;color:var(--cobalt)'>＋ Add a cost</span></div>
+  <div class='field'><span>Note</span><span class='input muted'>Optional</span></div>
+  <section class='sec'><header><strong>Your total</strong></header><div class='calc'>
+   <span>Km out of zone<small>257 × 20 DA</small></span><span>5,140 DA</span>
+   <span>Night<small>3rd night of October, limit 8</small></span><span>4,500 DA</span>
+   <span>Meals<small>2 × 900 DA</small></span><span>1,800 DA</span>
+   <span>Other costs</span><span>150 DA</span>
+   <span class='tot'>Total</span><span class='tot'>11,590 DA</span></div></section>
+ </div>
+ <div class='pf'><span class='btn outline'>Cancel</span><span class='btn primary' style='margin-inline-start:auto'>Send</span></div></aside>`
+
+// ---------- 5. Add a day: its own page (rep) ----------
+const sel = (label, value, hint = '', muted = false) => `<div class='field'><span>${label}</span><span class='input${muted ? ' muted' : ''}'>${value} ▾</span>${hint ? `<span class='hint'>${hint}</span>` : ''}</div>`
+const inp = (label, value, hint = '') => `<div class='field'><span>${label}</span><span class='input'>${value}</span>${hint ? `<span class='hint'>${hint}</span>` : ''}</div>`
+const place = (title, wilaya, commune) => `<div style='display:flex;flex-direction:column;gap:8px'><strong style='font-size:13px'>${title}</strong><div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'>${sel('Wilaya', wilaya || '&nbsp;')}${sel('Commune', commune, wilaya ? '' : 'Pick the wilaya first', !wilaya)}</div></div>`
+const tripCard = (n, from, to, km, zone, hint) => `<section class='card' style='padding:16px;border:1px solid var(--line);display:flex;flex-direction:column;gap:12px'>
+  <header style='display:flex;align-items:center'><strong style='flex:1;font-size:13px;color:var(--muted)'>Trip ${n}</strong><span>🗑</span></header>
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:16px'>${place('From', from[0], from[1])}${place('To', to[0], to[1])}</div>
+  <div style='display:grid;grid-template-columns:140px 1fr 1fr;gap:10px;align-items:start'>${inp('Km', km || '&nbsp;')}${sel('Reason', 'Visite médicale')}
+  <div class='field'><span>Zone</span><div style='display:flex;gap:8px'><span class='opt2 ${zone === 'in' ? 'on' : ''}' style='justify-content:center'>In zone</span><span class='opt2 ${zone === 'out' ? 'on' : ''}' style='justify-content:center'>Out of zone</span></div><span class='hint'>${hint}</span></div></div></section>`
+const stay = (away, meals) => `<div style='display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end'>
+   <span class='opt2 ${away ? '' : 'on'}'>🍽 <span>No night · meal(s) only<small>up to 1 meal paid</small></span></span>
+   <span class='opt2 ${away ? 'on' : ''}'>🌙 <span>Night away<small>the night + up to 2 meals</small></span></span>
+   <div class='field'><span>Meals</span><div style='display:flex;gap:8px;align-items:center'><span class='btn outline sm'>−</span><strong style='width:28px;text-align:center'>${meals}</strong><span class='btn outline sm'>＋</span></div></div></div>`
+const dayBlock = (n, date, trips, away, meals, costs, total, hint = '') => `<section class='card' style='padding:18px;display:flex;flex-direction:column;gap:14px'>
+  <header style='display:flex;align-items:center;gap:12px'><h3 style='margin:0;font-size:16px;flex:1'>Day ${n}</h3><strong style='font-size:14px'>${total}</strong><span>🗑</span></header>
+  <div style='max-width:320px'>${inp('Date', date, hint || 'A working day with no claim yet')}</div>
+  <div style='display:flex;flex-direction:column;gap:10px'><strong style='font-size:14px'>Trips</strong>${trips}<span class='btn ghost sm' style='padding:0;color:var(--cobalt)'>＋ Add a trip</span></div>
+  <div style='display:flex;flex-direction:column;gap:8px'><strong style='font-size:14px'>Night and meals of the day</strong>${stay(away, meals)}</div>
+  <div style='display:flex;flex-direction:column;gap:8px'><strong style='font-size:14px'>Other costs</strong>${costs}<span class='btn ghost sm' style='padding:0;color:var(--cobalt)'>＋ Add a cost</span></div>
+ </section>`
+const costRow = (type, amount) => `<div style='display:grid;grid-template-columns:1fr 160px 1fr auto auto;gap:10px;align-items:end'>${sel('Type', type)}${inp('Amount', amount)}${inp('Note', 'Optional')}<span class='rcpt' style='justify-content:center;height:44px;border-style:dashed;padding:0 16px'>📎 Receipt</span><span style='height:44px;display:flex;align-items:center'>🗑</span></div>`
+const addPage = `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Team › My expenses</div><h1 class='title display' style='font-size:36px'>Add expenses</h1><div class='label' style='margin-top:6px'>One block per day: its trips, its night and meals, its costs. Each day goes to Nadia Hamidi and is approved on its own.</div></div></div>
+ <div style='display:flex;flex-direction:column;gap:16px'>
+  ${dayBlock(1, 'Mon 12 Oct 2026', tripCard(1, ['Alger', 'Alger centre'], ['Oran', 'Oran'], '430', 'out', 'Oran is <b>Hors résidence</b> in your territory → out of zone.'), true, 2, costRow('Péage', '300'), '14,600 DA')}
+  ${dayBlock(2, 'Tue 13 Oct 2026', tripCard(1, ['Oran', 'Oran'], ['Oran', 'Arzew'], '40', 'out', '') + tripCard(2, ['Oran', 'Arzew'], ['Oran', 'Oran'], '40', 'out', ''), true, 2, '', '7,900 DA')}
+  ${dayBlock(3, 'Wed 14 Oct 2026', tripCard(1, ['Oran', 'Oran'], ['Alger', 'Alger centre'], '430', 'out', 'Alger is <b>Résidence</b>, but the trip is out of zone: you can change it.'), false, 1, '', '8,900 DA')}
+  <span class='btn outline' style='align-self:flex-start'>＋ Add a day</span>
+  <aside class='card' style='padding:18px;display:flex;flex-direction:column;gap:12px;border:2px solid var(--ink)'><h3 style='margin:0;font-size:16px'>Your total</h3>
+   <div class='calc' style='padding:0'><span>Mon 12 Oct<small>400 km out × 20 · night · 2 meals · toll</small></span><span>14,600 DA</span><span>Tue 13 Oct<small>80 km out × 20 · night · 2 meals</small></span><span>7,900 DA</span><span>Wed 14 Oct<small>400 km out × 20 · 1 meal</small></span><span>8,900 DA</span><span class='tot'>Total · 3 days</span><span class='tot'>31,400 DA</span></div>
+   <div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn ghost'>Cancel</span><span class='btn primary'>Send 3 days · 31,400 DA</span></div></aside>
+ </div>`
+
+const phone = `<div style='display:flex;gap:28px;margin:0 28px 40px'><div class='phone'><div style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+  <div class='crumbs'>Team</div><h1 class='title display' style='font-size:28px'>My expenses</h1>
+  <div class='month' style='width:max-content'><span>‹</span><span class='on'>Oct 2026</span><span>›</span></div>
+  <div class='card' style='padding:12px 14px;border-radius:16px;display:flex;justify-content:space-between'><span><span class='label' style='font-size:12px'>Approved</span><br><strong>36,030 DA</strong></span><span><span class='label' style='font-size:12px'>Waiting</span><br><strong style='color:var(--amber)'>11,040 DA</strong></span></div>
+  ${days.slice(0, 5).map(d => `<div class='card' style='padding:12px 14px;border-radius:16px;display:flex;justify-content:space-between;align-items:center;gap:8px'><span><strong style='font-size:14px'>${d[0]}</strong><div class='label' style='font-size:12px;margin-top:2px'>${d[1]} · ${d[3]} km</div></span><span style='text-align:end'><strong style='font-size:14px'>${da(d[6])}</strong><div style='margin-top:4px'>${st(d[7])}</div></span></div>`).join('')}
+  <div class='bad' style='margin-top:-4px'>Sun 18 Oct refused by Nadia: “Duplicate of 4 Oct.” Tap to fix and send again.</div>
+  <span class='btn primary' style='justify-content:center'>＋ Add a day</span></div></div>
+  <p class='caption' style='padding:0;max-width:420px'><strong>Phone.</strong> A rep sees their own month, adds a day in the evening, and fixes a refused day. Managers can review from the phone too (same rep page, the day opens full screen).</p></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Month board (manager).</strong> One row per rep for the month: days claimed, km paid, nights, total and days by status. Waiting reps come first with a “Review” button.`, board),
+  frame(2, `<strong>A rep's month.</strong> Full page, one line per day: trips, km paid (km above the cap shown in amber), meal or night, other costs, amount, status. One button approves every waiting day.`, month()),
+  frame(3, `<strong>A day (side panel).</strong> Trips with their zone, stay, other costs with receipts, and <b>how the amount is computed</b> line by line. Approve or refuse here.`, month(4), dayPanel()),
+  frame(4, `<strong>Refuse.</strong> A reason is required; the rep sees it and can fix the day, which sends it again.`, month(4), dayPanel(true)),
+  frame(5, `<strong>Add expenses — its own page, several days at once.</strong> Each day block has its date, its trips, <b>its night and meals</b> (no night · meals only, or night away · meals) and its costs; one night a day at most, by design. Opened from “Add a day” (and “Edit” on a day). Each trip goes <b>from a commune to a commune</b>: pick the wilaya, then a commune of that wilaya. Fields side by side (From and To on one row, then Km · Reason · Zone; a cost on one row); on a phone they stack. “Your total” comes at the bottom, after the note, and updates as you type.`, addPage, '', 'KB'),
+].join('') + phone
+</script>
+<section class="rules"><h2 class="display">Rules to approve</h2><ol>
+<li><strong>One claim = one working day of one rep.</strong> No claim on a weekend, a holiday or a day already claimed. <span class="new">decided</span><span class="ex">Example: Karim cannot add Fri 9 Oct (weekend) nor a second claim for 14 Oct; he edits the one he has.</span></li>
+<li><strong>Each trip is “in zone” or “out of zone”.</strong> Prefilled from the rep's territory: a commune in a <b>Hors résidence</b> wilaya → out; Résidence or Semi-résidence → in. The rep can change it. In-zone km are paid at the in rate up to max km in; out-of-zone km at the out rate up to max km out, each cap per day. <span class="new">decided</span><span class="ex">Example: 14 Oct, Alger → Tizi Ouzou → Alger (Semi-résidence), 210 km in → 150 paid × 15 = 2,250 DA. 12 Oct, Oran → Alger, 430 km out → 400 × 20 = 8,000 DA, although he sleeps at home that night (so: + meal).</span></li>
+<li><strong>Where the rep slept + how many meals.</strong> The rep picks <b>At home</b> or <b>Away</b> and types the number of <b>meals</b> they paid. At home: up to 1 meal paid. Away: the night + up to <b>“max meals on a night away”</b> (new box in the expense setting, 2 by default). Meals above the limit are shown but not paid. <b>Max nights</b> counts per calendar month, in date order, over waiting and approved days (refused days don't count); past it, the day pays its km and meals, no night. <span class="new">decided</span><span class="ex">Example: Sun 11 Oct in Oran, 3 meals typed → night 4,500 + 2 × 900 = 6,300 DA (+ km), the 3rd meal shows “over the limit”. Samir's 9th night of October: km + meals, no night.</span></li>
+<li><strong>Data</strong>: on <code>expenses</code>, column <code>type</code> gets clear values <b><code>home</code> / <code>away</code></b> (today <code>meal</code> / <code>out</code>; existing rows converted) and a new column <code>meals</code> (number typed, existing rows get 1). On <code>expense_settings</code>, new column <code>max_meals_per_night</code> (existing settings get 2). <span class="new">decided</span></li>
+<li><strong>Other costs</strong> = an expense type (Studio › Expense types) + an amount + an optional receipt, paid as typed (tolls, parking, fuel…). No cap. <span class="new">decided</span></li>
+<li><strong>Which setting applies</strong>: the one in force for that rep on that day (already the case: personal → role + team → role → team → everyone). Changing the day picks the setting again.</li>
+<li><strong>Statuses</strong>: Waiting → Approved or Refused (reason required). The rep can edit or delete a day only while it is waiting or refused; <b>editing a refused day sends it again</b> (back to waiting). An approved day is locked. <span class="new">decided</span></li>
+<li><strong>Who approves</strong>: new right <code>expenses.approve</code>, for the reps the person manages (all levels below) — never their own claims. Admin approves everyone. <span class="new">decided</span></li>
+<li><strong>Amount kept on approval</strong>: while waiting, the amount is computed live; on approval it is saved (new columns on <code>expenses</code>), so later price changes never touch approved days. <span class="new">decided</span></li>
+<li><strong>Who sees what</strong>: a rep sees their own claims; a manager sees the reps below them and themself; admin sees all. <span class="new">decided</span></li>
+<li><strong>Adding expenses is its own page, several days at once</strong>: one block per day with its date, its trips (from a commune to a commune, wilaya first), <b>its night and meals</b> (no night · meals only, or night away · meals) and its costs. On Send, each block becomes one day claim (as before: approved or refused on its own). Editing opens one day. <span class="ask">to approve</span></li>
+<li><strong>Not now</strong>: km computed from a map (the rep types km, like the old apps), linking a day to its visits (Visits module), a second approval level, payment tracking (“paid on…”).</li>
+</ol></section>
+</body></html>

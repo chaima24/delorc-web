@@ -1,0 +1,169 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Record panel flow</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css"><style>
+.studio-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.studio-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.studio-nav a.on { background: var(--signal); color: var(--ink); }
+.levels { display: flex; gap: 6px; flex-wrap: wrap; }
+.levels span { height: 34px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; background: var(--paper); color: var(--body); }
+.levels span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.ptr { position: absolute; font-size: 26px; }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph .ic { width: 42px; height: 42px; border-radius: 13px; background: var(--ink); color: var(--signal); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+.ph .ic.add { background: var(--signal); color: var(--ink); font-size: 20px; }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.rates { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } .rates.dim { opacity: .55; }
+.rate { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; }
+.rate b { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; }
+.rate b small { font-family: 'IBM Plex Sans Arabic'; font-size: 12px; color: var(--muted); }
+.rate span { font-size: 11.5px; color: var(--muted); }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 4px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; }
+.edit.hl { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+.sec.editing { border: 2px solid var(--ink); } .sec.editing header { padding-bottom: 10px; }
+.sec .body { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 10px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.f { display: flex; flex-direction: column; gap: 4px; } .f > span { font-size: 12.5px; font-weight: 600; }
+.in { height: 40px; border: 1px solid var(--line); border-radius: 11px; padding: 0 11px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
+.in em { font-style: normal; color: var(--muted); font-size: 12px; }
+.seg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: var(--line-soft); border-radius: 12px; padding: 4px; }
+.seg2 span { height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; } .seg2 span.on { background: var(--ink); color: var(--mist); }
+.steps { display: flex; gap: 6px; padding: 12px 20px 0; } .steps span { flex: 1; display: flex; flex-direction: column; gap: 6px; font-size: 11.5px; font-weight: 600; color: var(--muted); }
+.steps i { height: 4px; border-radius: 99px; background: var(--line-soft); } .steps .done i { background: var(--ink); } .steps .done { color: var(--ink); } .steps .now i { background: var(--signal); } .steps .now { color: var(--ink); }
+.preview { background: var(--signal-soft); border-radius: 14px; padding: 12px; font-size: 13px; display: flex; gap: 10px; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; }
+</style></head><body>
+<p class="caption"><strong>Expense settings: the whole page, click by click.</strong> 5 moments, top to bottom. The list is always on the left; the panel on the right changes with what you do.</p>
+<div class='step-label'><b>1</b><span><strong>The page opens.</strong> Only the list. Nothing is open. Click a row to see it, or “＋ Add expense setting” to create one.</span></div><div class='frame' style='min-height:820px'><nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px;position:relative'>
+      <nav class='studio-nav'><a class='on'>Settings</a><a>Users</a><a>Teams</a><a>Brands</a><a>Products</a></nav>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>Settings › Field setup</div><h1 class='title display' style='font-size:36px'>Expense settings</h1></div>
+        <span class='btn primary addbtn'>＋ Add expense setting</span>
+      </div>
+      <div class='levels'><span>Activity types</span><span>Event types</span><span>Channels</span><span>Materials</span><span>Expense types</span><span class='on'>Expense settings</span></div>
+      <div class='card' style='padding:16px 18px;position:relative'><table class='table'><thead><tr><th>Applies to</th><th>Period</th><th class='num'>Price per km (in / out)</th><th class='num'>Night</th><th class='num'>Meal</th><th>Added</th><th></th></tr></thead><tbody><tr><td><strong>VM · Cardio</strong><div class='hint'>Role & team</div></td><td>1 Jan 2026 → no end</td><td class='num'>15 / 20</td><td class='num'>3 000</td><td class='num'>600</td><td class='label'>12 Oct 2026</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>VM · All teams</strong><div class='hint'>Role</div></td><td>1 Jan 2026 → no end</td><td class='num'>12 / 18</td><td class='num'>2 500</td><td class='num'>500</td><td class='label'>12 Oct 2026</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>Amine Kaci</strong><div class='hint'>Personal</div></td><td>1 Mar 2026 → 31 Dec 2026</td><td class='num'>18 / 22</td><td class='num'>3 000</td><td class='num'>700</td><td class='label'>12 Oct 2026</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>KAM · All teams</strong><div class='hint'>Role</div></td><td>1 Jan 2026 → no end</td><td class='num'>20 / 25</td><td class='num'>4 000</td><td class='num'>800</td><td class='label'>12 Oct 2026</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>Everyone</strong><div class='hint'>Default</div></td><td>1 Jan 2025 → no end</td><td class='num'>10 / 15</td><td class='num'>2 000</td><td class='num'>400</td><td class='label'>12 Oct 2026</td><td style='color:var(--muted)'>›</td></tr></tbody></table><span class='ptr' style='top:150px;left:160px'>👆</span></div>
+    </div>
+    
+  </div>
+</div></div><div class='step-label'><b>2</b><span><strong>Click a row → it opens in reading mode.</strong> The panel slides in on the right; the list stays visible (fewer columns). You read the setting: the 4 prices in big numbers, then 3 short sections. Nothing is a form yet.</span></div><div class='frame' style='min-height:820px'><nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px;position:relative'>
+      <nav class='studio-nav'><a class='on'>Settings</a><a>Users</a><a>Teams</a><a>Brands</a><a>Products</a></nav>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>Settings › Field setup</div><h1 class='title display' style='font-size:36px'>Expense settings</h1></div>
+        <span class='btn primary addbtn'>＋ Add expense setting</span>
+      </div>
+      <div class='levels'><span>Activity types</span><span>Event types</span><span>Channels</span><span>Materials</span><span>Expense types</span><span class='on'>Expense settings</span></div>
+      <div class='card' style='padding:16px 18px;position:relative'><table class='table'><thead><tr><th>Applies to</th><th>Period</th><th class='num'>Price per km (in / out)</th><th></th></tr></thead><tbody><tr class='sel'><td><strong>VM · Cardio</strong><div class='hint'>Role & team</div></td><td>1 Jan 2026 → no end</td><td class='num'>15 / 20</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>VM · All teams</strong><div class='hint'>Role</div></td><td>1 Jan 2026 → no end</td><td class='num'>12 / 18</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>Amine Kaci</strong><div class='hint'>Personal</div></td><td>1 Mar 2026 → 31 Dec 2026</td><td class='num'>18 / 22</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>KAM · All teams</strong><div class='hint'>Role</div></td><td>1 Jan 2026 → no end</td><td class='num'>20 / 25</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>Everyone</strong><div class='hint'>Default</div></td><td>1 Jan 2025 → no end</td><td class='num'>10 / 15</td><td style='color:var(--muted)'>›</td></tr></tbody></table></div>
+    </div>
+    <aside class='panel'>
+  <div class='ph'><span class='ic'>DA</span><div style='flex:1'><h2 class='display'>VM · Cardio</h2><div class='sub'><span class='chip'>Role &amp; team</span><span class='chip ok'><span class='dot'></span>In force</span></div></div><span class='icb'>⋯</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='rates'>
+      <div class='rate'><b>15 <small>DA/km</small></b><span>Inside the territory · max 300 km/day</span></div>
+      <div class='rate'><b>20 <small>DA/km</small></b><span>Outside · max 500 km/day</span></div>
+      <div class='rate'><b>600 <small>DA</small></b><span>Per meal</span></div>
+      <div class='rate'><b>3 000 <small>DA</small></b><span>Per night · max 2 nights</span></div>
+    </div>
+    <section class='sec'><header><strong>Who and when</strong><span class='edit'>✎ Edit</span></header><div class='line'>VM of the Cardio team · from 1 Jan 2026, no end · 12 reps</div></section>
+    <section class='sec'><header><strong>Kilometres</strong><span class='edit hl'>✎ Edit</span></header><div class='line'>15 DA inside (max 300 km) · 20 DA outside (max 500 km)</div></section>
+    <section class='sec'><header><strong>Nights and meals</strong><span class='edit'>✎ Edit</span></header><div class='line'>3 000 DA per night (max 2) · 600 DA per meal</div></section>
+    <div class='hint' style='margin-top:auto'>Added by Sarah M. on 12 Oct 2026 · used by 48 expense notes</div>
+  </div>
+</aside>
+  </div>
+</div></div><div class='step-label'><b>3</b><span><strong>Click “Edit” on one section.</strong> Only that section becomes fields with its own Save. Saving updates the big numbers and closes the section. ✕ closes the panel; another row can be clicked at any time.</span></div><div class='frame' style='min-height:820px'><nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px;position:relative'>
+      <nav class='studio-nav'><a class='on'>Settings</a><a>Users</a><a>Teams</a><a>Brands</a><a>Products</a></nav>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>Settings › Field setup</div><h1 class='title display' style='font-size:36px'>Expense settings</h1></div>
+        <span class='btn primary addbtn'>＋ Add expense setting</span>
+      </div>
+      <div class='levels'><span>Activity types</span><span>Event types</span><span>Channels</span><span>Materials</span><span>Expense types</span><span class='on'>Expense settings</span></div>
+      <div class='card' style='padding:16px 18px;position:relative'><table class='table'><thead><tr><th>Applies to</th><th>Period</th><th class='num'>Price per km (in / out)</th><th></th></tr></thead><tbody><tr class='sel'><td><strong>VM · Cardio</strong><div class='hint'>Role & team</div></td><td>1 Jan 2026 → no end</td><td class='num'>15 / 20</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>VM · All teams</strong><div class='hint'>Role</div></td><td>1 Jan 2026 → no end</td><td class='num'>12 / 18</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>Amine Kaci</strong><div class='hint'>Personal</div></td><td>1 Mar 2026 → 31 Dec 2026</td><td class='num'>18 / 22</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>KAM · All teams</strong><div class='hint'>Role</div></td><td>1 Jan 2026 → no end</td><td class='num'>20 / 25</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>Everyone</strong><div class='hint'>Default</div></td><td>1 Jan 2025 → no end</td><td class='num'>10 / 15</td><td style='color:var(--muted)'>›</td></tr></tbody></table></div>
+    </div>
+    <aside class='panel'>
+  <div class='ph'><span class='ic'>DA</span><div style='flex:1'><h2 class='display'>VM · Cardio</h2><div class='sub'><span class='chip'>Role &amp; team</span><span class='chip ok'><span class='dot'></span>In force</span></div></div><span class='icb'>⋯</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='rates dim'>
+      <div class='rate'><b>15 <small>DA/km</small></b><span>Inside</span></div><div class='rate'><b>20 <small>DA/km</small></b><span>Outside</span></div>
+      <div class='rate'><b>600 <small>DA</small></b><span>Per meal</span></div><div class='rate'><b>3 000 <small>DA</small></b><span>Per night</span></div>
+    </div>
+    <section class='sec'><header><strong>Who and when</strong><span class='edit'>✎ Edit</span></header><div class='line'>VM of the Cardio team · from 1 Jan 2026 · 12 reps</div></section>
+    <section class='sec editing'><header><strong>Kilometres</strong></header>
+      <div class='body'><div class='grid2'>
+        <label class='f'><span>Inside the territory</span><div class='in'>15<em>DA / km</em></div></label>
+        <label class='f'><span>Outside</span><div class='in'>20<em>DA / km</em></div></label>
+        <label class='f'><span>Max per day, inside</span><div class='in'>300<em>km</em></div></label>
+        <label class='f'><span>Max per day, outside</span><div class='in'>500<em>km</em></div></label>
+      </div><div style='display:flex;gap:8px;justify-content:flex-end'><span class='btn outline sm'>Cancel</span><span class='btn dark sm'>Save kilometres</span></div></div>
+    </section>
+    <section class='sec'><header><strong>Nights and meals</strong><span class='edit'>✎ Edit</span></header><div class='line'>3 000 DA per night (max 2) · 600 DA per meal</div></section>
+  </div>
+</aside>
+  </div>
+</div></div><div class='step-label'><b>4</b><span><strong>Click “＋ Add expense setting” → step 1 of 3.</strong> An empty panel opens with 3 steps. Step 1: who and from when. It already tells you how many reps it will cover.</span></div><div class='frame' style='min-height:820px'><nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px;position:relative'>
+      <nav class='studio-nav'><a class='on'>Settings</a><a>Users</a><a>Teams</a><a>Brands</a><a>Products</a></nav>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>Settings › Field setup</div><h1 class='title display' style='font-size:36px'>Expense settings</h1></div>
+        <span class='btn primary addbtn'>＋ Add expense setting</span>
+      </div>
+      <div class='levels'><span>Activity types</span><span>Event types</span><span>Channels</span><span>Materials</span><span>Expense types</span><span class='on'>Expense settings</span></div>
+      <div class='card' style='padding:16px 18px;position:relative'><table class='table'><thead><tr><th>Applies to</th><th>Period</th><th class='num'>Price per km (in / out)</th><th></th></tr></thead><tbody><tr><td><strong>VM · Cardio</strong><div class='hint'>Role & team</div></td><td>1 Jan 2026 → no end</td><td class='num'>15 / 20</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>VM · All teams</strong><div class='hint'>Role</div></td><td>1 Jan 2026 → no end</td><td class='num'>12 / 18</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>Amine Kaci</strong><div class='hint'>Personal</div></td><td>1 Mar 2026 → 31 Dec 2026</td><td class='num'>18 / 22</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>KAM · All teams</strong><div class='hint'>Role</div></td><td>1 Jan 2026 → no end</td><td class='num'>20 / 25</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>Everyone</strong><div class='hint'>Default</div></td><td>1 Jan 2025 → no end</td><td class='num'>10 / 15</td><td style='color:var(--muted)'>›</td></tr></tbody></table></div>
+    </div>
+    <aside class='panel'>
+  <div class='ph'><span class='ic add'>＋</span><div style='flex:1'><h2 class='display'>New expense setting</h2><div class='hint' style='margin-top:4px'>Step 1 of 3 · Who and when</div></div><span class='icb'>✕</span></div>
+  <div class='steps'><span class='now'><i></i>Who and when</span><span class=''><i></i>Kilometres</span><span class=''><i></i>Nights and meals</span></div>
+  <div class='pb'><div class='seg2'><span class='on'>Role &amp; team</span><span>One user</span></div>
+        <div class='grid2'><label class='f'><span>Role</span><div class='in'>VM<em>▾</em></div></label><label class='f'><span>Team</span><div class='in'>Cardio<em>▾</em></div></label>
+        <label class='f'><span>Starts on</span><div class='in'>1 Jan 2026</div></label><label class='f'><span>Ends on</span><div class='in' style='color:var(--muted)'>No end</div></label></div>
+        <div class='preview'>✓ <div><strong>12 reps will get this setting</strong> (VM of the Cardio team).<br><span class='hint'>For them it replaces “VM · All teams”: the most specific one wins.</span></div></div></div>
+  <div class='pf'><span class='btn outline'>Cancel</span><span class='btn dark' style='flex:1;justify-content:center'>Next: kilometres →</span></div>
+</aside>
+  </div>
+</div></div><div class='step-label'><b>5</b><span><strong>Step 3 of 3, then “Add setting”.</strong> After kilometres (step 2), nights and meals, with a summary. “Add setting” saves it, the new row appears at the top of the list and opens in reading mode (moment 2).</span></div><div class='frame' style='min-height:820px'><nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px;position:relative'>
+      <nav class='studio-nav'><a class='on'>Settings</a><a>Users</a><a>Teams</a><a>Brands</a><a>Products</a></nav>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>Settings › Field setup</div><h1 class='title display' style='font-size:36px'>Expense settings</h1></div>
+        <span class='btn primary addbtn'>＋ Add expense setting</span>
+      </div>
+      <div class='levels'><span>Activity types</span><span>Event types</span><span>Channels</span><span>Materials</span><span>Expense types</span><span class='on'>Expense settings</span></div>
+      <div class='card' style='padding:16px 18px;position:relative'><table class='table'><thead><tr><th>Applies to</th><th>Period</th><th class='num'>Price per km (in / out)</th><th></th></tr></thead><tbody><tr><td><strong>VM · Cardio</strong><div class='hint'>Role & team</div></td><td>1 Jan 2026 → no end</td><td class='num'>15 / 20</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>VM · All teams</strong><div class='hint'>Role</div></td><td>1 Jan 2026 → no end</td><td class='num'>12 / 18</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>Amine Kaci</strong><div class='hint'>Personal</div></td><td>1 Mar 2026 → 31 Dec 2026</td><td class='num'>18 / 22</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>KAM · All teams</strong><div class='hint'>Role</div></td><td>1 Jan 2026 → no end</td><td class='num'>20 / 25</td><td style='color:var(--muted)'>›</td></tr><tr><td><strong>Everyone</strong><div class='hint'>Default</div></td><td>1 Jan 2025 → no end</td><td class='num'>10 / 15</td><td style='color:var(--muted)'>›</td></tr></tbody></table></div>
+    </div>
+    <aside class='panel'>
+  <div class='ph'><span class='ic add'>＋</span><div style='flex:1'><h2 class='display'>New expense setting</h2><div class='hint' style='margin-top:4px'>Step 3 of 3 · Nights and meals</div></div><span class='icb'>✕</span></div>
+  <div class='steps'><span class='done'><i></i>Who and when</span><span class='done'><i></i>Kilometres</span><span class='now'><i></i>Nights and meals</span></div>
+  <div class='pb'><div class='grid2'><label class='f'><span>Price per night</span><div class='in'>3 000<em>DA</em></div></label><label class='f'><span>Max nights per trip</span><div class='in'>2<em>nights</em></div></label>
+        <label class='f'><span>Price per meal</span><div class='in'>600<em>DA</em></div></label></div>
+        <div class='sec' style='padding:12px 14px'><div class='hint' style='font-weight:600;color:var(--ink)'>Summary</div><div class='line' style='padding:4px 0 0'>VM · Cardio · from 1 Jan 2026<br>15 / 20 DA per km · max 300 / 500 km<br>3 000 DA per night (max 2) · 600 DA per meal</div></div></div>
+  <div class='pf'><span class='btn outline'>← Back</span><span class='btn primary' style='flex:1;justify-content:center'>Add setting</span></div>
+</aside>
+  </div>
+</div></div>
+</body></html>

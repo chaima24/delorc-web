@@ -1,0 +1,219 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Professionals</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.edit.dark { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.av { width: 36px; height: 36px; border-radius: 11px; background: var(--line-soft); color: var(--ink); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.av.lg { width: 72px; height: 72px; border-radius: 18px; font-size: 24px; background: var(--signal); }
+.av.ph { width: 56px; height: 56px; border-radius: 16px; font-size: 18px; background: var(--signal); padding: 0; border: 0; }
+.person { display: flex; gap: 10px; align-items: center; } .person small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; } .st .dot { width: 8px; height: 8px; }
+.st.on { color: #0F7A3D; } .st.off { color: var(--muted); }
+.ver { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--cobalt); }
+.mini-steps { display: flex; gap: 6px; padding: 12px 20px 0; } .mini-steps span { flex: 1; height: 4px; border-radius: 9px; background: var(--line); } .mini-steps span.on { background: var(--ink); }
+.why { font-size: 12px; color: var(--muted); background: var(--mist); border-radius: 10px; padding: 8px 10px; }
+.warnbox { border-radius: 14px; background: rgba(180, 83, 9, .08); padding: 10px 12px; font-size: 13px; display: flex; flex-direction: column; gap: 8px; }
+.warnbox strong { color: var(--amber); }
+.dup { background: var(--paper); border-radius: 10px; padding: 8px 10px; display: flex; gap: 10px; align-items: center; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.stat { background: var(--mist); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.stat span { font-size: 12px; color: var(--muted); } .stat strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.stat small { font-size: 11.5px; color: var(--muted); }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 16px; align-items: start; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.card2 { background: var(--paper); border-radius: 20px; }
+.card2 header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; } .card2 header strong { flex: 1; font-size: 15px; }
+.ic { width: 32px; height: 32px; border-radius: 10px; background: var(--line-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 15px; }
+.rows { padding: 0 16px 12px; } .rows > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .rows > div:last-child { border-bottom: 0; } .rows span { color: var(--muted); }
+.wp { display: flex; gap: 12px; padding: 10px 16px; border-top: 1px solid var(--line-soft); font-size: 13.5px; align-items: flex-start; }
+.wp .bar { width: 4px; align-self: stretch; border-radius: 9px; background: var(--cobalt); flex-shrink: 0; } .wp.past .bar { background: var(--line); } .wp.past { color: var(--muted); }
+.wp small { display: block; color: var(--muted); font-size: 12px; }
+.map { margin: 0 16px 12px; height: 150px; border-radius: 16px; background: repeating-linear-gradient(45deg, #E6ECE9 0 12px, #EDF1EF 12px 24px); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; position: relative; }
+.map i { position: absolute; width: 16px; height: 16px; border-radius: 99px; background: var(--cobalt); box-shadow: 0 0 0 5px rgba(47, 84, 235, .2); }
+.vrow { display: grid; grid-template-columns: 110px 1fr 130px 90px; gap: 12px; padding: 10px 16px; border-top: 1px solid var(--line-soft); font-size: 13.5px; align-items: center; }
+.vrow small { color: var(--muted); font-size: 12px; }
+.typeseg { display: inline-flex; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; }
+.typeseg span { height: 34px; padding: 0 12px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--body); }
+.typeseg span.on { background: var(--ink); color: var(--mist); } .typeseg em { font-style: normal; font-size: 11.5px; opacity: .7; }
+</style></head><body>
+<p class="caption"><strong>Professionals › Healthcare professionals (HCPs) — proposal.</strong> Professionals → Healthcare professionals list with type tabs (doctors, pharmacies, dentists, wholesalers, distributors live in the same table today), side panel to read, 3-step add with a duplicate check, and a full page for the record (big record, like users and products). Workplaces (HCO + speciality + dates) keep their history instead of being replaced on every save.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>Profes-<br>sionals</span></nav>`
+const wsNav = `<nav class='ws-nav'><a class='on'>Healthcare professionals</a><a>Organisations</a><a>Consents</a><a>Territories</a></nav>`
+const addBtn = `<div style='display:flex;gap:10px'><span class='btn outline'>⇩ Export</span><span class='btn primary'>＋ Add professional</span></div>`
+function frame(n, label, { body, panel = '', title = 'Healthcare professionals', crumbs = 'Professionals', nav = true }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:780px'>${rail}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      ${nav ? wsNav : ''}
+      ${title ? `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>${crumbs}</div><h1 class='title display' style='font-size:36px'>${title}</h1></div>${addBtn}</div>` : `<div class='crumbs'>${crumbs}</div>`}
+      ${body}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+const st = (on) => `<span class='st ${on ? 'on' : 'off'}'><span class='dot'></span>${on ? 'Active' : 'Inactive'}</span>`
+const ver = `<span class='ver'>✓ Verified</span>`
+const hcps = [
+  ['KB', 'Dr Karim Benali', 'k.benali@mail.dz', 'Doctor', 'Cardiology', 'CHU Mustapha', 'Hydra · Alger', 1, 1, '24 Oct 2026'],
+  ['AC', 'Dr Amel Cherif', '0550 12 34 56', 'Doctor', 'Cardiology', 'Clinique El Azhar', 'Kouba · Alger', 1, 1, '22 Oct 2026'],
+  ['PC', 'Pharmacie Centrale', '021 45 67 89', 'Pharmacy', 'Officine', '—', 'Bab El Oued · Alger', 1, 0, '20 Oct 2026'],
+  ['RM', 'Dr Rachid Mansouri', 'r.mansouri@mail.dz', 'Doctor', 'Endocrinology', 'EPH Bologhine', 'Bir Mourad Raïs · Alger', 1, 0, '12 Oct 2026'],
+  ['LB', 'Dr Leila Bouzid', '0661 98 76 54', 'Dentist', 'Dentistry', 'Cabinet privé', 'Blida · Blida', 0, 1, '3 Sep 2026'],
+  ['GS', 'Grossiste Sahel', '023 11 22 33', 'Wholesaler', '—', '—', 'Rouiba · Alger', 1, 1, '10 Jan 2025'],
+]
+const filters = `<div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:260px'>⌕ Name, e-mail or phone</div><span class='input'>Speciality <b>All</b> ▾</span><span class='input'>Organisation <b>All</b> ▾</span><span class='input'>Wilaya <b>All</b> ▾</span><span class='input'>Status <b>All</b> ▾</span><span class='input'>Verified <b>All</b> ▾</span><span class='input'>Added <b>Any time</b> ▾</span></div>`
+const types = `<div class='typeseg'><span class='on'>All <em>1 284</em></span><span>Doctors <em>962</em></span><span>Pharmacies <em>241</em></span><span>Dentists <em>48</em></span><span>Wholesalers <em>21</em></span><span>Distributors <em>12</em></span></div>`
+const listCard = (full, sel = -1) => `${types}<div class='card' style='padding:16px 18px'>${filters}
+  <table class='table'><thead><tr><th>Professional</th><th>Type</th><th>Speciality · workplace</th>${full ? `<th>Commune</th><th>Status</th><th>Added ↓</th>` : ''}<th></th></tr></thead><tbody>
+  ${hcps.map((h, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><div class='person'><span class='av'>${h[0]}</span><strong>${h[1]}<small>${h[2]}</small></strong></div></td><td>${h[3]}</td><td>${h[4]}<br><span class='label'>${h[5]}</span></td>${full ? `<td>${h[6]}</td><td>${st(h[7])}${h[8] ? `<br>${ver}` : ''}</td><td class='label'>${h[9]}</td>` : ''}<td style='color:var(--muted)'>›</td></tr>`).join('')}
+  </tbody></table>
+  <div style='display:flex;justify-content:space-between;align-items:center;padding-top:12px' class='label'><span>1–6 of 1 284</span><span>Rows 25 ▾ ‹ 1 2 3 … 52 ›</span></div></div>`
+
+const readPanel = `<aside class='panel'>
+  <div class='ph'><span class='av ph'>KB</span><div style='flex:1'><h2 class='display'>Dr Karim Benali</h2><div class='sub'><span class='chip'>Doctor</span><span class='chip'>Cardiology</span>${st(1)}${ver}</div></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='tiles'><div class='tile'><span>Visits · 2026</span><strong class='num'>7</strong></div><div class='tile'><span>Last visit</span><strong>21 Oct</strong></div><div class='tile'><span>Consent</span><strong style='color:#0F7A3D'>Given</strong></div></div>
+    <section class='sec'><header><strong>Contact</strong></header><dl class='kv'><dt>Phone</dt><dd>0550 77 88 99</dd><dt>E-mail</dt><dd>k.benali@mail.dz</dd><dt>Prefers</dt><dd>Phone</dd></dl></section>
+    <section class='sec'><header><strong>Place</strong></header><dl class='kv'><dt>Address</dt><dd>12 rue Didouche, Hydra</dd><dt>Commune</dt><dd>Hydra · Alger</dd><dt>GPS</dt><dd><a>36.7431, 3.0412 ↗</a></dd></dl></section>
+    <section class='sec'><header><strong>Works at</strong></header>
+      <div class='wp' style='border:0;padding:4px 12px 10px'><span class='bar'></span><div>CHU Mustapha<small>Cardiology · since Mar 2019</small></div></div>
+      <div class='wp' style='padding:10px 12px'><span class='bar'></span><div>Clinique El Azhar<small>Cardiology · since Jan 2024</small></div></div></section>
+  </div>
+  <div class='pf'><span class='btn dark' style='flex:1;justify-content:center'>Open full page ↗</span></div>
+</aside>`
+
+const addPanel = (step) => {
+  const steps = [0, 1, 2].map(i => `<span class='${i <= step ? 'on' : ''}'></span>`).join('')
+  const titles = ['Who', 'Where', 'Works at']
+  let body = ''
+  if (step === 0) body = `
+    <div class='field'><span>Type</span><div class='seg' style='flex-wrap:wrap'><span class='on'>Doctor</span><span>Pharmacy</span><span>Dentist</span><span>Wholesaler</span><span>Distributor</span></div></div>
+    <div class='field'><span>First name</span><div class='input'>Karim</div></div>
+    <div class='field'><span>Last name</span><div class='input'>Benali</div></div>
+    <div class='field'><span>Gender</span><div class='seg'><span class='on'>Male</span><span>Female</span></div></div>
+    <div class='field'><span>Phone <span class='hint'>· optional</span></span><div class='input'>0550 77 88 99</div></div>
+    <div class='field'><span>E-mail <span class='hint'>· optional</span></span><div class='input muted'>name@example.com</div></div>
+    <div class='warnbox'><strong>⚠ This professional may already exist</strong><span>Same first and last name. Open it instead of creating a duplicate, or carry on if it's someone else.</span>
+      <div class='dup'><span class='av'>KB</span><div style='flex:1'><strong style='color:var(--ink)'>Dr Karim Benali</strong><br><span class='hint'>Cardiology · Hydra · CHU Mustapha</span></div><span class='edit'>Open</span></div></div>`
+  if (step === 1) body = `
+    <div class='field'><span>Wilaya</span><div class='input'>Alger ▾</div></div>
+    <div class='field'><span>Commune</span><div class='input'>Hydra ▾</div></div>
+    <div class='field'><span>Address <span class='hint'>· optional</span></span><div class='input'>12 rue Didouche, Hydra</div></div>
+    <div class='field'><span>GPS <span class='hint'>· optional</span></span><div style='display:flex;gap:8px'><div class='input' style='flex:1'>36.7431</div><div class='input' style='flex:1'>3.0412</div></div><span class='hint'>Latitude, longitude. Reps usually fill this on site from the phone.</span></div>
+    <div class='field'><span>Prefers to be contacted by</span><div class='seg'><span class='on'>Phone</span><span>E-mail</span><span>Other</span></div></div>`
+  if (step === 2) body = `
+    <div class='why'>Where this professional works, with which speciality. You can add several and add more later.</div>
+    <section class='sec' style='padding:12px;display:flex;flex-direction:column;gap:10px'>
+      <div class='field'><span>Organisation</span><div class='input'>CHU Mustapha ▾</div></div>
+      <div class='field'><span>Speciality</span><div class='input'>Cardiology ▾</div></div>
+      <div class='field'><span>Since</span><div class='input'>01/03/2019</div></div>
+    </section>
+    <span class='edit' style='align-self:flex-start'>＋ Another workplace</span>
+    <div class='field'><span>External IDs <span class='hint'>· optional</span></span><div style='display:flex;gap:8px'><div class='input muted' style='flex:1'>OneKey ID</div><div class='input muted' style='flex:1'>WKP ID</div></div></div>`
+  return `<aside class='panel'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Add professional</h2><div class='sub hint'>Step ${step + 1} of 3 · ${titles[step]}</div></div><span class='icb'>✕</span></div>
+  <div class='mini-steps'>${steps}</div>
+  <div class='pb'>${body}</div>
+  <div class='pf'>${step ? `<span class='btn outline'>‹ Back</span>` : `<span class='btn ghost'>Cancel</span>`}<span style='flex:1'></span><span class='btn ${step === 2 ? 'primary' : 'dark'}'>${step === 2 ? 'Add professional' : 'Next ›'}</span></div>
+</aside>`
+}
+
+const header = `<div class='card' style='display:flex;flex-direction:column;gap:18px'>
+  <div style='display:flex;gap:18px;align-items:center'>
+    <span class='av lg'>KB</span>
+    <div style='flex:1'><h1 class='display' style='margin:0;font-size:30px'>Dr Karim Benali</h1>
+      <div style='display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap'><span class='chip'>Doctor</span><span class='chip'>Cardiology</span>${st(1)}${ver}<span class='hint'>· M1042 · added 24 Oct 2026 by Amine K.</span></div></div>
+    <span class='btn outline'>✉ Consent link</span><span class='btn outline' style='color:var(--brick)'>🗑 Delete</span>
+  </div>
+  <div class='stats'>
+    <div class='stat'><span>Visits</span><strong>7</strong><small>in 2026 · 23 in total</small></div>
+    <div class='stat'><span>Last visit</span><strong>21 Oct</strong><small>by Amine K. · 4 days ago</small></div>
+    <div class='stat'><span>Current cycle</span><strong>1 / 2</strong><small>visits done · Cycle 4</small></div>
+    <div class='stat'><span>Consent</span><strong style='color:#0F7A3D'>Given</strong><small>signed 3 Oct 2026</small></div>
+  </div>
+</div>`
+const tabs = (on) => `<div class='tabs'>${['Overview', 'Visits <span class="count">23</span>', 'Cycles <span class="count">4</span>', 'Consents <span class="count">2</span>'].map((t, i) => `<span class='${i === on ? 'on' : ''}'>${t}</span>`).join('')}</div>`
+
+const overview = (editWp = false) => `<div class='cols'><div class='stack'>
+  <section class='card2'><header><span class='ic'>👤</span><strong>Identity</strong><span class='edit'>✎ Edit</span></header>
+    <div class='rows'><div><span>Type</span>Doctor</div><div><span>Name</span>Dr Karim Benali</div><div><span>Gender</span>Male</div><div><span>Status</span>${st(1)}</div><div><span>Verified</span>Yes — checked by the lab</div></div></section>
+  <section class='card2'><header><span class='ic'>☎</span><strong>Contact</strong><span class='edit'>✎ Edit</span></header>
+    <div class='rows'><div><span>Phone</span>0550 77 88 99</div><div><span>E-mail</span>k.benali@mail.dz</div><div><span>Fax</span>—</div><div><span>Prefers</span>Phone</div></div></section>
+  ${editWp ? `<section class='card2' style='box-shadow:inset 0 0 0 2px var(--ink)'><header><span class='ic' style='background:var(--ink);color:var(--signal)'>🏥</span><strong>Works at</strong></header>
+    <div style='padding:0 16px 16px;display:flex;flex-direction:column;gap:12px'>
+      <div class='wp' style='border:0;padding:0'><span class='bar'></span><div style='flex:1'>CHU Mustapha<small>Cardiology · since 1 Mar 2019</small></div><span class='edit'>End…</span></div>
+      <section class='sec' style='padding:12px;display:flex;flex-direction:column;gap:10px'><div class='hint'>End this workplace — Clinique El Azhar · Cardiology</div>
+        <div class='field'><span>Last day</span><div class='input'>31/10/2026</div><span class='hint'>It stays in the history below.</span></div>
+        <div style='display:flex;justify-content:flex-end;gap:8px'><span class='edit'>Cancel</span><span class='edit dark'>End</span></div></section>
+      <span class='edit' style='align-self:flex-start'>＋ Add workplace</span>
+    </div></section>`
+  : `<section class='card2'><header><span class='ic'>🏥</span><strong>Works at</strong><span class='edit'>✎ Edit</span></header>
+    <div class='wp' style='border:0'><span class='bar'></span><div style='flex:1'><a>CHU Mustapha</a><small>Cardiology · since 1 Mar 2019</small></div></div>
+    <div class='wp'><span class='bar'></span><div style='flex:1'><a>Clinique El Azhar</a><small>Cardiology · since 15 Jan 2024</small></div></div>
+    <div class='wp past'><span class='bar'></span><div style='flex:1'>EPH Bologhine<small>General medicine · Sep 2014 – Feb 2019</small></div></div>
+    <div style='height:8px'></div></section>`}
+</div><div class='stack'>
+  <section class='card2'><header><span class='ic'>📍</span><strong>Place</strong><span class='edit'>✎ Edit</span></header>
+    <div class='map'><i></i></div>
+    <div class='rows'><div><span>Address</span>12 rue Didouche, Hydra</div><div><span>Commune</span>Hydra · Alger</div><div><span>GPS</span><a>36.7431, 3.0412 · open map ↗</a></div><div><span>Located by</span>Amine K. · 24 Oct 2026</div></div></section>
+  <section class='card2'><header><span class='ic'>#</span><strong>External IDs</strong><span class='edit'>✎ Edit</span></header>
+    <div class='rows'><div><span>OneKey ID</span>WDZM00123456</div><div><span>WKP ID</span>WDZH00004521</div></div></section>
+</div></div>`
+
+const visitsTab = `<section class='card2'><header><span class='ic'>🗓</span><strong>Visits</strong><span class='input' style='height:36px'>Year <b>2026</b> ▾</span></header>
+  ${[['21 Oct 2026', 'Amine K.', 'Done', 'Cycle 4'], ['12 Sep 2026', 'Amine K.', 'Done', 'Cycle 3'], ['18 Aug 2026', 'Sara M.', 'Missed', 'Cycle 3'], ['4 Jul 2026', 'Amine K.', 'Done', 'Cycle 3']].map(v => `<div class='vrow'><strong>${v[0]}</strong><span>${v[1]} <small>· medical rep</small></span><span class='chip ${v[2] === 'Done' ? 'ok' : 'warn'}'>${v[2]}</span><span class='label'>${v[3]}</span></div>`).join('')}
+  <div style='padding:12px 16px' class='label'>Opens the visit in a side panel.</div></section>`
+
+const phone = `<div class='step-label'><b>7</b><span><strong>On a phone.</strong> List as cards (type tabs scroll sideways, filters in one sheet); the full page stacks: header, figures 2 × 2, tabs, sections in one column.</span></div>
+  <div style='display:flex;gap:28px;margin:0 28px 40px'>
+  <div class='phone'><div style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+    <h2 class='display' style='margin:0;font-size:24px'>Healthcare professionals</h2>
+    <div style='display:flex;gap:8px'><div class='input muted' style='flex:1'>⌕ Search</div><span class='iconbtn'>⚲</span><span class='iconbtn' style='background:var(--signal);border:0'>＋</span></div>
+    <div class='typeseg' style='overflow:hidden'><span class='on'>All</span><span>Doctors</span><span>Pharmacies</span><span>Dentists</span></div>
+    ${hcps.slice(0, 5).map(h => `<div class='card' style='padding:12px 14px;border-radius:18px'><div class='person'><span class='av'>${h[0]}</span><strong style='flex:1'>${h[1]}<small>${h[4]} · ${h[6]}</small></strong>${st(h[7])}</div></div>`).join('')}
+  </div></div>
+  <div class='phone'><div style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+    <span class='hint'>‹ Healthcare professionals</span>
+    <div style='display:flex;gap:12px;align-items:center'><span class='av ph'>KB</span><div><h2 class='display' style='margin:0;font-size:20px'>Dr Karim Benali</h2><div style='display:flex;gap:6px;margin-top:6px;flex-wrap:wrap'><span class='chip'>Cardiology</span>${ver}</div></div></div>
+    <div class='stats' style='grid-template-columns:1fr 1fr'><div class='stat'><span>Visits</span><strong style='font-size:18px'>7</strong></div><div class='stat'><span>Last visit</span><strong style='font-size:18px'>21 Oct</strong></div><div class='stat'><span>Cycle</span><strong style='font-size:18px'>1 / 2</strong></div><div class='stat'><span>Consent</span><strong style='font-size:18px;color:#0F7A3D'>Given</strong></div></div>
+    <div class='tabs' style='gap:14px'><span class='on'>Overview</span><span>Visits</span><span>Cycles</span><span>Consents</span></div>
+    <section class='card2' style='border:1px solid var(--line)'><header><span class='ic'>☎</span><strong>Contact</strong><span class='edit'>✎</span></header><div class='rows'><div style='grid-template-columns:90px 1fr'><span>Phone</span>0550 77 88 99</div><div style='grid-template-columns:90px 1fr'><span>E-mail</span>k.benali@mail.dz</div></div></section>
+    <section class='card2' style='border:1px solid var(--line)'><header><span class='ic'>🏥</span><strong>Works at</strong><span class='edit'>✎</span></header><div class='wp' style='border:0'><span class='bar'></span><div>CHU Mustapha<small>Cardiology · since 2019</small></div></div></section>
+  </div></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The list.</strong> Type tabs with counts, then search + filters (speciality, organisation, wilaya, status, verified, added day/range). Newest first, Export, Add. Click a row → side panel.`, { body: listCard(true) }),
+  frame(2, `<strong>Side panel</strong> to read quickly: 3 figures, contact, place, current workplaces. “Open full page” for everything else.`, { body: listCard(false, 0), panel: readPanel }),
+  frame(3, `<strong>Add — step 1 “Who”.</strong> Type first (fields follow the type). As soon as name + phone/e-mail are typed, we look for an existing professional and warn — the add is not blocked.`, { body: listCard(false), panel: addPanel(0) }),
+  frame(4, `<strong>Add — step 2 “Where”.</strong> Wilaya → commune, address, GPS (optional), contact preference.`, { body: listCard(false), panel: addPanel(1) }),
+  frame(5, `<strong>Add — step 3 “Works at”.</strong> Organisation + speciality + start date, several allowed, can be left empty. External IDs optional.`, { body: listCard(false), panel: addPanel(2) }),
+  frame(6, `<strong>Full page.</strong> Header with the 4 figures that matter for the field (visits, last visit, current cycle, consent), tabs Overview · Visits · Cycles · Consents. Overview: record on the left (each section edits in place, like products), place with map + IDs on the right. Workplaces keep their history (past ones greyed).`, { title: '', crumbs: 'Professionals › Healthcare professionals › Dr Karim Benali', body: `${header}${tabs(0)}${overview()}` }),
+  frame('6b', `<strong>Editing “Works at”.</strong> A workplace is never deleted when it ended: you set its last day and it moves to the history. “Add workplace” opens the same 3 fields as in the add flow.`, { title: '', crumbs: 'Professionals › Healthcare professionals › Dr Karim Benali', body: `${header}${tabs(0)}${overview(true)}` }),
+  frame('6c', `<strong>Visits tab</strong> (Cycles and Consents tabs are the same kind of list).`, { title: '', crumbs: 'Professionals › Healthcare professionals › Dr Karim Benali', body: `${header}${tabs(1)}${visitsTab}` }),
+  phone,
+].join('')
+</script>
+</body></html>

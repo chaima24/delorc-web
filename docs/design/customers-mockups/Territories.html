@@ -1,0 +1,218 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Territories</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 460px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; font-size: 12.5px; color: var(--muted); }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.why { font-size: 12.5px; color: var(--body); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.mini-steps { display: flex; gap: 6px; padding: 12px 20px 0; } .mini-steps span { flex: 1; height: 4px; border-radius: 9px; background: var(--line); } .mini-steps span.on { background: var(--ink); }
+.ico { width: 40px; height: 40px; border-radius: 12px; background: var(--line-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+.ico.lg { width: 56px; height: 56px; border-radius: 16px; font-size: 24px; background: var(--signal); }
+.person { display: flex; gap: 10px; align-items: center; } .person small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.av { width: 30px; height: 30px; border-radius: 99px; background: var(--line-soft); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nobody { color: var(--amber); font-weight: 600; font-size: 13px; }
+tr.picked td { background: var(--signal-soft); }
+.covers { display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .covers small { color: var(--muted); font-size: 12px; }
+.grp { padding: 0 12px 10px; } .grp > span { font-size: 11.5px; font-weight: 600; color: var(--muted); display: block; margin: 4px 0 6px; }
+.it { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; } .it:last-child { border: 0; }
+.it .n { flex: 1; } .it small { color: var(--muted); font-size: 12px; }
+.zt { font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: var(--mist); color: var(--body); }
+.zt.re { background: #E7F5EC; color: #0F7A3D; } .zt.sr { background: #EAF0FF; color: var(--cobalt); } .zt.hr { background: #FFF1E3; color: var(--amber); }
+.who { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-top: 1px solid var(--line-soft); font-size: 13px; } .who .n { flex: 1; } .who small { display: block; color: var(--muted); font-size: 12px; }
+.who.past { color: var(--muted); }
+.typechips { display: flex; gap: 6px; flex-wrap: wrap; }
+.tc { height: 34px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
+.tc.on { background: var(--ink); color: var(--mist); border-color: var(--ink); } .tc em { font-style: normal; font-size: 11.5px; opacity: .7; }
+.pick { border: 1px solid var(--line); border-radius: 14px; }
+.pick .row { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line-soft); font-size: 13px; } .pick .row:last-child { border: 0; }
+.pick .row .n { flex: 1; } .pick .row small { color: var(--muted); font-size: 12px; display: block; }
+.seg3 { display: inline-flex; gap: 2px; background: var(--mist); border-radius: 9px; padding: 2px; } .seg3 span { height: 24px; padding: 0 8px; border-radius: 7px; display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 600; color: var(--body); } .seg3 span.on { background: var(--paper); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.x { color: var(--muted); }
+.live { display: flex; align-items: center; gap: 10px; background: var(--ink); color: var(--mist); border-radius: 14px; padding: 10px 14px; font-size: 13px; } .live b { color: var(--signal); font-size: 18px; font-family: 'Bricolage Grotesque', sans-serif; }
+.viewsw { display: inline-flex; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; } .viewsw span { height: 34px; padding: 0 12px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--body); } .viewsw span.on { background: var(--ink); color: var(--mist); }
+.tree { background: var(--paper); border-radius: 24px; padding: 18px 20px; display: flex; flex-direction: column; gap: 4px; }
+.tn { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--paper); font-size: 13.5px; }
+.tn .n { flex: 1; } .tn small { color: var(--muted); font-size: 12px; display: block; }
+.lvl1 { margin-inline-start: 34px; } .lvl2 { margin-inline-start: 68px; }
+.q-box { border: 2px dashed var(--amber); border-radius: 16px; padding: 12px 14px; font-size: 13px; background: #FFF7EE; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.stat { background: var(--mist); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.stat span { font-size: 12px; color: var(--muted); } .stat strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.stat small { font-size: 11.5px; color: var(--muted); }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 16px; align-items: start; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.card2 { background: var(--paper); border-radius: 20px; }
+.card2 header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; } .card2 header strong { flex: 1; font-size: 15px; }
+.ic { width: 32px; height: 32px; border-radius: 10px; background: var(--line-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 15px; }
+.rows { padding: 0 16px 12px; } .rows > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .rows > div:last-child { border-bottom: 0; } .rows span { color: var(--muted); }
+.map { margin: 0 16px 12px; height: 150px; border-radius: 16px; background: repeating-linear-gradient(45deg, #E6ECE9 0 12px, #EDF1EF 12px 24px); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; position: relative; }
+.map i { position: absolute; width: 16px; height: 16px; border-radius: 99px; background: var(--cobalt); box-shadow: 0 0 0 5px rgba(47, 84, 235, .2); }
+.typeseg { display: inline-flex; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; }
+.typeseg span { height: 34px; padding: 0 12px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--body); }
+.typeseg span.on { background: var(--ink); color: var(--mist); } .typeseg em { font-style: normal; font-size: 11.5px; opacity: .7; }
+.q { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 11px; background: var(--paper); border: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--body); }
+.q b { font-variant-numeric: tabular-nums; color: var(--ink); } .q.on { background: var(--ink); color: var(--mist); border-color: var(--ink); } .q.on b { color: var(--signal); }
+.q i { font-style: normal; color: var(--amber); }
+.map-row { display: grid; grid-template-columns: 1fr 30px 1fr 1.3fr; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; }
+.map-row .sample { color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wsteps { display: flex; gap: 8px; } .wsteps span { flex: 1; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 14px; background: var(--paper); font-size: 13.5px; font-weight: 600; color: var(--muted); }
+.wsteps span i { font-style: normal; width: 26px; height: 26px; border-radius: 99px; border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; font-size: 12.5px; flex-shrink: 0; }
+.wsteps span.done { color: var(--body); } .wsteps span.done i { background: var(--mist); border-color: var(--mist); }
+.wsteps span.on { color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); } .wsteps span.on i { background: var(--ink); color: var(--signal); border-color: var(--ink); }
+.bar { display: flex; gap: 10px; align-items: center; background: var(--paper); border-radius: 20px; padding: 12px 16px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sumk { padding: 0 16px 12px; font-size: 13px; } .sumk div { display: grid; grid-template-columns: 96px 1fr; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line-soft); } .sumk div:last-child { border: 0; } .sumk span { color: var(--muted); }
+.limited { font-size: 12.5px; color: var(--muted); margin-top: -4px; }
+</style></head><body>
+<p class="caption"><strong>Professionals › Territories — proposal.</strong> <em>Rule (docs/DECISIONS.md): places in one chain = any of them, most precise wins; different groups must all match; each rule type applies only to some kinds of professionals (speciality: doctors and dentists). Only types linked to professionals are offered.</em> A territory is <strong>the part of the field one person works</strong>: the places it covers (regions, wilayas, communes, sub-zones) and optionally specialities, with for each wilaya Résidence / Semi-résidence / Hors résidence (used later by expenses). Territories can sit under a bigger one (e.g. “Centre” › “Alger Est”). People are assigned with a start and end date (one current territory per person, kept as history). List + tree, side panel for a quick look, <strong>full page</strong> for everything, 3-step add <strong>on its own page</strong> (it has too much for a panel). The technical “rule name” field disappears (it becomes the territory's name).</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>Profes-<br>sionals</span></nav>`
+const wsNav = `<nav class='ws-nav'><a>Healthcare professionals</a><a>Organisations</a><a>Consents</a><a>Rule types</a><a class='on'>Territories</a></nav>`
+function frame(n, label, body, panel = '') {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${wsNav}${body}</div>${panel}</div></div></div>`
+}
+// name, part of, covers, covers detail, person, since, hcps, subs
+const rows = [
+  ['Centre', 'Top level · 3 sub-territories', 'Alger, Blida, Tipaza, Boumerdès', '4 wilayas', null, '', 4210, 3],
+  ['Alger Est', 'In Centre', 'Alger', '1 wilaya · 9 communes', ['KB', 'Karim Bensaïd', 'since 3 Mar 2025'], '', 1180, 0],
+  ['Alger Ouest', 'In Centre', 'Alger', '1 wilaya · 3 sub-zones', ['NH', 'Nadia Hamidi', 'since 12 Jan 2026'], '', 960, 0],
+  ['Blida – Tipaza', 'In Centre', 'Blida, Tipaza', '2 wilayas', null, '', 870, 0],
+  ['Oran Cardio', 'Top level', 'Oran · Cardiology', '1 wilaya · 1 speciality', ['SM', 'Samir Meziane', 'since 1 Oct 2026'], '', 64, 0],
+]
+const head = `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Professionals</div><h1 class='title display' style='font-size:36px'>Territories</h1></div>
+  <div style='display:flex;gap:10px'><span class='btn outline'>⇩ Export</span><span class='btn primary'>＋ Add territory</span></div></div>`
+const sw = (tree) => `<div style='display:flex;gap:10px;align-items:center'><div class='viewsw'><span class='${tree ? '' : 'on'}'>☰ List</span><span class='${tree ? 'on' : ''}'>⌥ Tree</span></div><span class='q'>Nobody working it <b>2</b></span></div>`
+const list = (sel = -1, full = true) => `${head}${sw(false)}
+  <div class='card' style='padding:16px 18px'><div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:260px'>⌕ Territory name</div><span class='input'>Person <b>All</b> ▾</span><span class='input'>Wilaya <b>All</b> ▾</span><span class='input'>Built from <b>Any</b> ▾</span></div>
+  <table class='table'><thead><tr><th>Territory</th><th>Covers</th><th>Working it now</th><th class='num'>Professionals</th>${full ? `<th class='num'>Sub-territories</th>` : ''}<th></th></tr></thead><tbody>
+  ${rows.map((r, i) => `<tr class='${i === sel ? 'picked' : ''}'><td><strong>${r[0]}<small style='display:block;color:var(--muted);font-weight:400;font-size:12px'>${r[1]}</small></strong></td>
+   <td><div class='covers'>${r[2]}<small>${r[3]}</small></div></td>
+   <td>${r[4] ? `<div class='person'><span class='av'>${r[4][0]}</span><span>${r[4][1]}<small>${r[4][2]}</small></span></div>` : `<span class='nobody'>Nobody</span>`}</td>
+   <td class='num'>${r[6].toLocaleString('en')}</td>${full ? `<td class='num'>${r[7] || '—'}</td>` : ''}<td style='color:var(--muted)'>›</td></tr>`).join('')}
+  </tbody></table><div style='display:flex;justify-content:space-between;padding-top:12px' class='label'><span>1–5 of 14</span><span>Rows 25 ▾ ‹ 1 ›</span></div></div>`
+
+const panel = `<aside class='panel'>
+  <div class='ph'><span class='ico lg'>⌖</span><div style='flex:1'><h2 class='display'>Alger Est</h2><div class='sub'><span class='chip'>In Centre</span><span>Sector: Pharma</span></div></div><span class='edit'>⤢ Full page</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='tiles'><div class='tile'><span>Professionals</span><strong>1 180</strong></div><div class='tile'><span>Working it</span><strong>1</strong></div><div class='tile'><span>Sub-territories</span><strong>0</strong></div></div>
+    <section class='sec'><header><strong>Covers</strong><span class='edit'>✎ Edit</span></header>
+      <div class='grp'><span>Wilayas</span><div class='it'><span class='n'>Alger</span><span class='zt re'>Résidence</span></div></div>
+      <div class='grp'><span>Communes</span><div class='it'><span class='n'>Bab Ezzouar, Dar El Beïda, El Harrach, Hussein Dey, Kouba, Bordj El Kiffan <a>+ 3 more</a></span></div></div>
+      <div class='line'><a>See the 1 180 professionals ›</a> · <a>On the map ›</a></div></section>
+    <section class='sec'><header><strong>Who works it</strong><span class='edit'>＋ Assign</span></header>
+      <div class='who'><span class='av'>KB</span><span class='n'><strong>Karim Bensaïd</strong><small>Medical rep · since 3 Mar 2025</small></span><span class='edit'>End…</span></div>
+      <div class='who past'><span class='av'>LA</span><span class='n'>Lina Amrani<small>1 Feb 2024 → 2 Mar 2025</small></span></div></section>
+    <section class='sec'><header><strong>Details</strong><span class='edit'>✎ Edit</span></header><dl class='kv'><dt>Name</dt><dd>Alger Est</dd><dt>Part of</dt><dd><a>Centre</a></dd><dt>Sector</dt><dd>Pharma</dd><dt>Description</dt><dd>East of Algiers, hospitals of El Harrach included.</dd><dt>Created by</dt><dd>Sara Mansouri · 3 Mar 2025</dd></dl></section>
+  </div>
+  <div class='pf'><span class='btn outline' style='color:var(--brick)'>🗑 Delete</span><span class='label' style='font-size:12px'>Refused while someone works it or it has sub-territories.</span></div>
+</aside>`
+
+const stepNames = ['Details', 'What it covers', 'Who works it']
+const sumCovers = `<div><span>Covers</span><span style='color:var(--ink)'>Boumerdès · 3 communes of Alger</span></div>`
+const summary = (step, edit) => `<div class='stack'><div class='card2'><header><strong>${edit ? 'After saving' : 'Summary'}</strong></header><div class='sumk'>
+    ${edit ? `<div><span>Before</span><span style='color:var(--ink)'>Alger · 1 180 professionals</span></div>` : `<div><span>Name</span><span style='color:var(--ink)'>Alger Est</span></div><div><span>Part of</span><span style='color:var(--ink)'>Centre</span></div>`}
+    ${step >= 1 ? sumCovers : `<div><span>Covers</span>Not picked yet</div>`}
+    ${edit ? '' : `<div><span>Who works it</span>${step === 2 ? `<span style='color:var(--ink)'>Karim Bensaïd, Nadia Hamidi</span>` : 'Nobody yet'}</div>`}</div>
+    <div style='padding:0 16px 16px'><div class='live'>≈ <b>${step >= 1 ? '1 236' : '0'}</b><span>professionals covered<small style='display:block;opacity:.7;font-size:11.5px'>${step >= 1 ? '402 doctors · 34 dentists · 800 pharmacists' : 'updates as you pick'}</small></span></div></div></div>
+  ${step === 1 ? `<div class='why'>The most precise pick is kept: Kouba replaced Alger, so only Alger's picked communes count — a doctor elsewhere in Alger is not covered.</div>` : ''}</div>`
+const coversBody = `<div class='card2' style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+    <div class='why'>Pick places, from wide to precise: once a wilaya is picked, the communes offered are its own (same for a region and its wilayas). A speciality keeps only those doctors and dentists; pharmacies are checked on the places only.</div>
+    <div class='typechips'><span class='tc'>Région</span><span class='tc'>Wilaya <em>1</em></span><span class='tc on'>Commune <em>3</em></span><span class='tc'>Spécialité</span></div>
+    <div class='input muted'>⌕ Add: Commune</div><div class='limited'>Commune in: Alger, Boumerdès</div>
+    <div class='grid2'>
+      <div class='pick'><div class='row' style='font-size:11.5px;font-weight:600;color:var(--muted)'>Wilaya</div><div class='row'><span class='n'><strong>Boumerdès</strong><small>Whole wilaya</small></span><span class='x'>✕</span></div></div>
+      <div class='pick'><div class='row' style='font-size:11.5px;font-weight:600;color:var(--muted)'>Commune</div>${['Bab Ezzouar', 'El Harrach', 'Kouba'].map(c => `<div class='row'><span class='n'><strong>${c}</strong><small>Alger</small></span><span class='x'>✕</span></div>`).join('')}</div>
+    </div>
+    <div class='pick'><div class='row'><span class='n'><strong>Residence level</strong><small>For each wilaya, from the point of view of the person working it (used by expenses).</small></span></div>
+      <div class='row'><span class='n'><strong>Alger</strong></span><span class='seg3'><span class='on'>Résidence</span><span>Semi-résidence</span><span>Hors résidence</span></span></div>
+      <div class='row'><span class='n'><strong>Boumerdès</strong></span><span class='seg3'><span>Résidence</span><span class='on'>Semi-résidence</span><span>Hors résidence</span></span></div></div></div>`
+const detailsBody = `<div class='card2' style='padding:16px'><div class='grid2'>
+    <div class='field'><span>Name</span><div class='input'>Alger Est</div></div>
+    <div class='field'><span>Part of <span class='hint'>· optional</span></span><div class='input'>Centre ▾</div></div>
+    <div class='field'><span>Sector <span class='hint'>· optional</span></span><div class='input muted'>e.g. Pharma</div></div>
+    <div class='field' style='grid-row:span 2'><span>Description <span class='hint'>· optional</span></span><div class='input muted' style='height:72px;align-items:flex-start;padding-top:10px'>…</div></div></div></div>`
+const peopleBody = `<div class='card2' style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+    <div class='why'>Optional — add as many people as needed, or do it later. A person has one current territory: if they already have one, it ends the day before.</div>
+    <div style='position:relative'><div class='input' style='border:2px solid var(--cobalt)'>⌕ Add a person</div>
+      <div style='position:absolute;inset-inline:0;top:48px;background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 30px rgba(15,31,28,.12);z-index:2;overflow:hidden'>
+        <div style='display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line-soft);font-size:12.5px'><span style='flex:1;color:var(--muted)'><strong style='color:var(--ink)'>Suggested</strong> · live in Boumerdès or Alger's picked communes · team with no speciality or a picked one</span><span class='seg3'><span class='on'>Suggested 3</span><span>Show all 14</span></span></div>
+        ${[['KB', 'Karim Bensaïd', 'Medical rep · Kouba, Alger · Team Cardio'], ['YH', 'Yacine Hadj', 'Medical rep · Boudouaou, Boumerdès · Team Cardio'], ['LA', 'Lina Amrani', 'Pharma rep · El Harrach, Alger · Team Pharma']].map(r => `<div class='row' style='display:flex;gap:10px;align-items:center;padding:8px 12px;font-size:13px'><span class='av'>${r[0]}</span><span style='flex:1'><strong>${r[1]}</strong><small style='display:block;color:var(--muted);font-size:12px'>${r[2]}</small></span></div>`).join('')}
+        <div style='padding:9px 12px;border-top:1px solid var(--line-soft);font-size:12.5px;color:var(--muted)'>8 people have no home commune — <a>Show all</a></div></div>
+      <div style='height:262px'></div></div>
+    <div class='pick'>
+      <div class='row' style='flex-wrap:wrap'><span class='av'>KB</span><span class='n'><strong>Karim Bensaïd</strong><small>Medical rep · Kouba, Alger</small></span><span class='x'>✕</span>
+        <div style='flex-basis:100%;border-radius:10px;background:rgba(180,83,9,.08);padding:7px 10px'><strong style='color:var(--amber)'>Works “Alger Centre” now.</strong> It will end on 2 Nov 2026.</div></div>
+      <div class='row' style='flex-wrap:wrap'><span class='av'>NH</span><span class='n'><strong>Nadia Hamidi</strong><small>Pharma rep · Es Senia, Oran</small></span><span class='x'>✕</span>
+        <div style='flex-basis:100%;border-radius:10px;background:rgba(180,83,9,.08);padding:7px 10px'><strong style='color:var(--amber)'>Lives in Oran, outside this territory.</strong> Picked from “Show all”.</div></div></div>
+    <div class='field' style='max-width:260px'><span>They all start on</span><div class='input'>3 Nov 2026</div></div></div>`
+const addPage = (step, edit = false) => `<div><a class='crumbs'>‹ ${edit ? 'Alger Est' : 'Territories'}</a><h1 class='title display' style='font-size:34px;margin:6px 0 0'>${edit ? 'What Alger Est covers' : 'Add territory'}</h1></div>
+  ${edit ? '' : `<div class='wsteps'>${stepNames.map((x, i) => `<span class='${i === step ? 'on' : i < step ? 'done' : ''}'><i>${i < step ? '✓' : i + 1}</i>${x}</span>`).join('')}</div>`}
+  <div class='cols'>${[detailsBody, coversBody, peopleBody][step]}${summary(step, edit)}</div>
+  <div class='bar'>${edit ? `<span class='btn ghost'>Cancel</span><span style='flex:1'></span><span class='btn primary'>Save</span>`
+    : `${step ? `<span class='btn outline'>‹ Back</span>` : `<span class='btn ghost'>Cancel</span>`}<span style='flex:1'></span><span class='btn ${step === 2 ? 'primary' : 'dark'}'>${step === 2 ? 'Add territory' : 'Next ›'}</span>`}</div>`
+
+const tree = `${head}${sw(true)}<div class='tree'>
+  <div class='tn'><span class='n'><strong>Centre</strong><small>4 wilayas · 4 210 professionals</small></span><span class='nobody'>Nobody</span></div>
+  <div class='tn lvl1'><span class='n'><strong>Alger Est</strong><small>Alger · 9 communes · 1 180 professionals</small></span><span class='person'><span class='av'>KB</span>Karim Bensaïd</span></div>
+  <div class='tn lvl1'><span class='n'><strong>Alger Ouest</strong><small>Alger · 3 sub-zones · 960 professionals</small></span><span class='person'><span class='av'>NH</span>Nadia Hamidi</span></div>
+  <div class='tn lvl1'><span class='n'><strong>Blida – Tipaza</strong><small>2 wilayas · 870 professionals</small></span><span class='nobody'>Nobody</span></div>
+  <div class='tn'><span class='n'><strong>Oran Cardio</strong><small>Oran · Cardiology · 64 professionals</small></span><span class='person'><span class='av'>SM</span>Samir Meziane</span></div>
+</div>`
+
+const fig = (l, v, s) => `<div class='stat'><span>${l}</span><strong>${v}</strong><small>${s}</small></div>`
+const pageHead = (tab) => `<div><a class='crumbs'>‹ Territories</a><div style='display:flex;align-items:flex-end;gap:16px;margin-top:6px'><span class='ico lg' style='width:64px;height:64px'>⌖</span><div style='flex:1'><h1 class='title display' style='font-size:34px;margin:0'>Alger Est</h1><div class='sub' style='display:flex;gap:6px;margin-top:6px;font-size:13px;color:var(--muted)'><span class='chip'>In Centre</span><span>Sector: Pharma</span><span>· Karim Bensaïd since 3 Mar 2025</span></div></div>
+  <span class='btn outline'>＋ Assign</span><span class='btn outline'>⇩ Export professionals</span><span class='btn outline' style='color:var(--brick)'>🗑 Delete</span></div></div>
+  <div class='stats'>${fig('Professionals covered', '1 180', '312 doctors · 868 pharmacists')}${fig('Visits · 2026', '2 431', 'by the people working it')}${fig('Coverage · 2026', '64 %', '755 of 1 180 visited at least once')}${fig('Sub-territories', '0', 'part of Centre')}</div>
+  <div class='typeseg' style='align-self:flex-start'>${['Overview', 'Professionals <em>1 180</em>', 'People <em>2</em>', 'Sub-territories <em>0</em>'].map((x, i) => `<span class='${i === tab ? 'on' : ''}'>${x}</span>`).join('')}</div>`
+const overview = `${pageHead(0)}<div class='cols'><div class='stack'>
+  <div class='card2'><header><span class='ic'>⌖</span><strong>Covers</strong><span class='edit'>✎ Edit</span></header>
+    <div class='map'><i style='top:40%;left:55%'></i><i style='top:55%;left:62%'></i><i style='top:35%;left:70%'></i>Map of the covered places</div>
+    <div class='grp' style='padding:0 16px 8px'><span>Wilayas</span><div class='it'><span class='n'>Alger</span><small>1 180 professionals</small><span class='zt re'>Résidence</span></div></div>
+    <div class='grp' style='padding:0 16px 8px'><span>Communes of Alger</span><div class='it'><span class='n'>Bab Ezzouar</span><small>212</small></div><div class='it'><span class='n'>El Harrach</span><small>188</small></div><div class='it'><span class='n'>Kouba</span><small>164</small></div><div class='it'><a>+ 6 more</a></div></div>
+    <div class='grp' style='padding:0 16px 12px'><span>Spécialités</span><div class='it'><span class='n'>All — no speciality filter</span></div></div></div>
+  <div class='card2'><header><span class='ic'>✎</span><strong>Details</strong><span class='edit'>✎ Edit</span></header><div class='rows'><div><span>Name</span>Alger Est</div><div><span>Part of</span><a>Centre</a></div><div><span>Sector</span>Pharma</div><div><span>Description</span>East of Algiers, hospitals of El Harrach included.</div><div><span>Created by</span>Sara Mansouri · 3 Mar 2025</div></div></div>
+ </div><div class='stack'>
+  <div class='card2'><header><span class='ic'>👤</span><strong>Who works it</strong><span class='edit'>＋ Assign</span></header>
+    <div class='who'><span class='av'>KB</span><span class='n'><strong>Karim Bensaïd</strong><small>Medical rep · since 3 Mar 2025</small></span><span class='edit'>End…</span></div>
+    <div class='who past'><span class='av'>LA</span><span class='n'>Lina Amrani<small>1 Feb 2024 → 2 Mar 2025</small></span></div></div>
+  <div class='card2'><header><span class='ic'>⌥</span><strong>Where it sits</strong></header><div class='rows'><div><span>Part of</span><a>Centre ›</a></div><div><span>Next to it</span>Alger Ouest · Blida – Tipaza</div><div><span>Under it</span>Nothing</div></div></div>
+  <div class='card2'><header><span class='ic'>⚑</span><strong>Missing data</strong></header><div class='rows'><div><span>No GPS</span><a>86 professionals ›</a></div><div><span>No phone</span><a>41 professionals ›</a></div></div></div>
+ </div></div>`
+const profTab = `${pageHead(1)}<div class='card' style='padding:16px 18px'><div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:260px'>⌕ Name or OneKey ID</div><span class='input'>Type <b>All</b> ▾</span><span class='input'>Speciality <b>All</b> ▾</span><span class='input'>Commune <b>All</b> ▾</span><span class='input'>Visited in 2026 <b>Any</b> ▾</span><span style='margin-inline-start:auto' class='btn ghost'>Open in Professionals ›</span></div>
+  <table class='table'><thead><tr><th>Professional</th><th>Speciality</th><th>Commune</th><th>Last visit</th><th class='num'>Visits · 2026</th></tr></thead><tbody>
+  ${[['Dr Amine Kaci', 'Cardiologie', 'Kouba', '22 Oct 2026', 4], ['Dr Samia Ouali', 'Médecine générale', 'El Harrach', '3 Sep 2026', 2], ['Pharmacie Belkacem', '—', 'Bab Ezzouar', 'Never', 0], ['Dr Yacine Hadj', 'Pédiatrie', 'Hussein Dey', '14 Oct 2026', 3]].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class='${r[3] === 'Never' ? 'nobody' : ''}'>${r[3]}</td><td class='num'>${r[4] || '—'}</td></tr>`).join('')}
+  </tbody></table><div style='display:flex;justify-content:space-between;padding-top:12px' class='label'><span>1–4 of 1 180</span><span>Rows 25 ▾ ‹ 1 2 3 … ›</span></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The list.</strong> What each territory covers in words, who works it now (or “Nobody” in amber — with a quick filter), how many professionals it covers. Filters: person, wilaya, built from (rule type).`, list()),
+  frame(2, `<strong>Side panel</strong> (reading, edit by section): what it covers grouped by type with the residence label on each wilaya, links to its professionals (list and map), who works it now + history (Assign / End), details. Opens from Users and from Rule types too.`, list(1, false), panel),
+  frame(3, `<strong>Add — a page, step 1 Details</strong> (from “Add territory”; “Add under it” on a territory fills “Part of”). The steps on top can be clicked back; the summary on the side fills as you go. On a phone the summary goes under the form.`, addPage(0)),
+  frame(4, `<strong>Add — step 2 What it covers.</strong> Pick by type. A picked wilaya narrows the communes offered to its own (a region narrows the wilayas) — not required: with nothing picked, all are offered. Most precise wins (Kouba replaces Alger). Each wilaya touched gets Résidence / Semi-résidence / Hors résidence. The live count is in the summary.`, addPage(1)),
+  frame(5, `<strong>Add — step 3 Who works it</strong> (optional, as many people as needed, one start date). The list first <strong>suggests</strong> people whose home commune is in the territory's places and whose team has no speciality or a picked one (docs/DECISIONS.md); “Show all” lists everyone, and someone outside gets an amber note. Same list for “Assign” in the panel and full page. Someone who already has a current territory is flagged: it ends the day before. With nobody added, the button reads “Add without anyone”.`, addPage(2)),
+  frame('5b', `<strong>Edit what it covers</strong> (✎ Edit on Covers, from the side panel or the full page) opens the same editor as a page, with the count before and after. Details and people stay edited in place.`, addPage(1, true)),
+  frame(6, `<strong>Tree view.</strong> Territories under their parent, with who works each one.`, tree),
+  frame(7, `<strong>Full page</strong> (from “Full page” in the panel, or a territory link anywhere). 4 figures, tabs Overview · Professionals · People · Sub-territories. Overview: what it covers with a map and a count per place, details, who works it, where it sits, missing data on its professionals.`, overview),
+  frame(8, `<strong>Full page › Professionals tab.</strong> The professionals the territory covers, with last visit and visits this year; “Open in Professionals” opens the main list filtered on the territory. People tab = the full assignment history; Sub-territories tab = the territories under it.`, profTab),
+  `<div style='margin:0 28px 40px;max-width:760px' class='q-box' style='border-color:var(--line)'><strong>Rule (checked in the old apps)</strong><br><br>Places say <em>where</em>; a speciality keeps only <em>those</em> professionals (Scipharma: all 72 territories had a speciality; Inphamedis/Magpharm: ~160). Pharmacies ignore the speciality. Segmentation was never used in any lab's territories — segments live on cycles — so it is not offered here.</div>`,
+].join('')
+</script>
+</body></html>

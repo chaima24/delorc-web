@@ -1,0 +1,142 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Professionals map</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.edit.dark { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.av { width: 36px; height: 36px; border-radius: 11px; background: var(--line-soft); color: var(--ink); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.av.lg { width: 72px; height: 72px; border-radius: 18px; font-size: 24px; background: var(--signal); }
+.av.ph { width: 56px; height: 56px; border-radius: 16px; font-size: 18px; background: var(--signal); padding: 0; border: 0; }
+.person { display: flex; gap: 10px; align-items: center; } .person small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; } .st .dot { width: 8px; height: 8px; }
+.st.on { color: #0F7A3D; } .st.off { color: var(--muted); }
+.ver { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--cobalt); }
+.mini-steps { display: flex; gap: 6px; padding: 12px 20px 0; } .mini-steps span { flex: 1; height: 4px; border-radius: 9px; background: var(--line); } .mini-steps span.on { background: var(--ink); }
+.why { font-size: 12px; color: var(--muted); background: var(--mist); border-radius: 10px; padding: 8px 10px; }
+.warnbox { border-radius: 14px; background: rgba(180, 83, 9, .08); padding: 10px 12px; font-size: 13px; display: flex; flex-direction: column; gap: 8px; }
+.warnbox strong { color: var(--amber); }
+.dup { background: var(--paper); border-radius: 10px; padding: 8px 10px; display: flex; gap: 10px; align-items: center; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.stat { background: var(--mist); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.stat span { font-size: 12px; color: var(--muted); } .stat strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.stat small { font-size: 11.5px; color: var(--muted); }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 16px; align-items: start; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.card2 { background: var(--paper); border-radius: 20px; }
+.card2 header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; } .card2 header strong { flex: 1; font-size: 15px; }
+.ic { width: 32px; height: 32px; border-radius: 10px; background: var(--line-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 15px; }
+.rows { padding: 0 16px 12px; } .rows > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .rows > div:last-child { border-bottom: 0; } .rows span { color: var(--muted); }
+.wp { display: flex; gap: 12px; padding: 10px 16px; border-top: 1px solid var(--line-soft); font-size: 13.5px; align-items: flex-start; }
+.wp .bar { width: 4px; align-self: stretch; border-radius: 9px; background: var(--cobalt); flex-shrink: 0; } .wp.past .bar { background: var(--line); } .wp.past { color: var(--muted); }
+.wp small { display: block; color: var(--muted); font-size: 12px; }
+.map { margin: 0 16px 12px; height: 150px; border-radius: 16px; background: repeating-linear-gradient(45deg, #E6ECE9 0 12px, #EDF1EF 12px 24px); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; position: relative; }
+.map i { position: absolute; width: 16px; height: 16px; border-radius: 99px; background: var(--cobalt); box-shadow: 0 0 0 5px rgba(47, 84, 235, .2); }
+.vrow { display: grid; grid-template-columns: 110px 1fr 130px 90px; gap: 12px; padding: 10px 16px; border-top: 1px solid var(--line-soft); font-size: 13.5px; align-items: center; }
+.vrow small { color: var(--muted); font-size: 12px; }
+.typeseg { display: inline-flex; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; }
+.typeseg span { height: 34px; padding: 0 12px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--body); }
+.typeseg span.on { background: var(--ink); color: var(--mist); } .typeseg em { font-style: normal; font-size: 11.5px; opacity: .7; }
+
+.qstrip { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.q { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 11px; background: var(--paper); border: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--body); }
+.q b { font-variant-numeric: tabular-nums; color: var(--ink); } .q.on { background: var(--ink); color: var(--mist); border-color: var(--ink); } .q.on b { color: var(--signal); }
+.q i { font-style: normal; color: var(--amber); }
+.steps4 { display: flex; gap: 8px; } .steps4 div { flex: 1; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.steps4 div::before { content: ''; height: 4px; border-radius: 9px; background: var(--line); } .steps4 div.on { color: var(--ink); } .steps4 div.on::before { background: var(--ink); }
+.drop { border: 2px dashed #B7C4BF; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; background: var(--mist); }
+.drop .big { font-size: 40px; }
+.how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.how div { background: var(--mist); border-radius: 16px; padding: 14px; font-size: 13px; color: var(--body); } .how strong { display: block; color: var(--ink); margin-bottom: 4px; }
+.map-row { display: grid; grid-template-columns: 1fr 30px 1fr 1.3fr; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; }
+.map-row .sample { color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sel { height: 40px; border: 1px solid var(--line); border-radius: 11px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; background: var(--paper); }
+.sel.auto { border-color: #9FD3B4; background: #F2FBF5; } .sel.skip { color: var(--muted); } .sel.miss { border-color: var(--amber); background: #FFF7EE; }
+.sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.sum div { border-radius: 16px; padding: 12px 14px; background: var(--mist); display: flex; flex-direction: column; gap: 2px; } .sum span { font-size: 12px; color: var(--muted); } .sum strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.sum .new strong { color: #0F7A3D; } .sum .upd strong { color: var(--cobalt); } .sum .err strong { color: var(--brick); }
+.err-row { display: grid; grid-template-columns: 70px 1.2fr 1fr 2fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; align-items: center; }
+.err-row .why { background: none; padding: 0; color: var(--brick); font-size: 13px; }
+.radio { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 13px; } .radio.on { border: 2px solid var(--ink); }
+.radio i { width: 16px; height: 16px; border-radius: 99px; border: 1.5px solid #9FB0AA; flex-shrink: 0; margin-top: 2px; } .radio.on i { border: 5px solid var(--ink); }
+.done { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; padding: 30px 0 10px; }
+.done .ok { width: 64px; height: 64px; border-radius: 20px; background: var(--signal); display: flex; align-items: center; justify-content: center; font-size: 30px; }
+
+.mapbox { position: relative; height: 560px; border-radius: 24px; overflow: hidden; background: #E9EEE6; }
+.mapbox .roads { position: absolute; inset: 0; background:
+  linear-gradient(115deg, transparent 48%, #fff 48.4%, #fff 49.6%, transparent 50%),
+  linear-gradient(25deg, transparent 60%, #fff 60.3%, #fff 61.2%, transparent 61.5%),
+  linear-gradient(170deg, transparent 30%, #FBE7B5 30.3%, #FBE7B5 31.6%, transparent 32%),
+  radial-gradient(circle at 80% 15%, #CFE3F1 0 90px, transparent 91px),
+  repeating-linear-gradient(0deg, transparent 0 46px, rgba(255,255,255,.6) 46px 48px),
+  repeating-linear-gradient(90deg, transparent 0 58px, rgba(255,255,255,.6) 58px 60px); }
+.pin { position: absolute; width: 14px; height: 14px; border-radius: 99px; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+.pin.d { background: var(--cobalt); } .pin.p { background: #0F9D8A; } .pin.o { background: #5B6B66; }
+.pin.sel { width: 22px; height: 22px; box-shadow: 0 0 0 6px rgba(47,84,235,.25); }
+.cluster { position: absolute; border-radius: 99px; background: rgba(15,31,28,.85); color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 6px rgba(15,31,28,.18); }
+.legend { position: absolute; inset-inline-start: 14px; bottom: 14px; background: var(--paper); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; box-shadow: 0 6px 20px -10px rgba(0,0,0,.3); }
+.legend span { display: flex; align-items: center; gap: 8px; } .legend i { width: 10px; height: 10px; border-radius: 99px; display: inline-block; }
+.zoom { position: absolute; inset-inline-end: 14px; top: 14px; display: flex; flex-direction: column; background: var(--paper); border-radius: 12px; overflow: hidden; box-shadow: 0 6px 20px -10px rgba(0,0,0,.3); } .zoom span { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 18px; border-bottom: 1px solid var(--line-soft); }
+.nogps { position: absolute; inset-inline-end: 14px; bottom: 14px; background: var(--paper); border-radius: 12px; padding: 8px 12px; font-size: 12.5px; box-shadow: 0 6px 20px -10px rgba(0,0,0,.3); }
+</style></head><body>
+<p class="caption"><strong>Professionals — map — proposal.</strong> A <strong>List | Map</strong> switch on the professionals page (like Users › Hierarchy). The map shows every professional with GPS that matches the tab and filters, coloured by kind (doctors & dentists cobalt, pharmacies teal, wholesalers & distributors grey). Close pins group into numbered circles; zooming in splits them. Click a pin → the same side panel as the list. Map tiles: OpenStreetMap (free, no key).</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>Profes-<br>sionals</span></nav>`
+const wsNav = `<nav class='ws-nav'><a class='on'>Healthcare professionals</a><a>Organisations</a><a>Consents</a><a>Territories</a></nav>`
+function frame(n, label, body, panel = '') {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${wsNav}${body}</div>${panel}</div></div></div>`
+}
+const pageTop = (view) => `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Professionals</div><h1 class='title display' style='font-size:36px'>Healthcare professionals</h1></div>
+  <div style='display:flex;gap:10px;align-items:center'><div class='seg'><span class='${view === 'list' ? 'on' : ''}'>☰ List</span><span class='${view === 'map' ? 'on' : ''}'>⌖ Map</span></div><span class='btn outline'>⇪ Import</span><span class='btn outline'>⇩ Export</span><span class='btn primary'>＋ Add professional</span></div></div>
+  <div class='typeseg' style='align-self:flex-start'><span class='on'>All <em>1 284</em></span><span>Doctors <em>962</em></span><span>Pharmacies <em>241</em></span><span>Dentists <em>48</em></span><span>Wholesalers <em>21</em></span><span>Distributors <em>12</em></span></div>
+  <div style='display:flex;gap:10px;flex-wrap:wrap'><div class='input muted' style='width:240px'>⌕ Name, e-mail or phone</div><span class='input'>Speciality <b>Cardiology</b> ▾</span><span class='input'>Organisation <b>All</b> ▾</span><span class='input'>Wilaya <b>Alger</b> ▾</span><span class='input'>Status <b>Active</b> ▾</span></div>`
+const pins = (sel) => {
+  const pts = [[22,30,'d'],[26,34,'d'],[31,28,'p'],[35,40,'d'],[40,33,'o'],[44,45,'d'],[48,38,'p'],[52,52,'d'],[57,47,'d'],[61,58,'p'],[64,44,'d'],[68,62,'d'],[72,50,'p'],[38,60,'d'],[30,55,'p'],[55,30,'d'],[46,24,'d'],[75,36,'o']]
+  return pts.map((p, i) => `<span class='pin ${p[2]} ${sel && i === 7 ? 'sel' : ''}' style='left:${p[0]}%;top:${p[1]}%'></span>`).join('')
+}
+const map = (sel, clusters = true) => `<div class='mapbox'><div class='roads'></div>${pins(sel)}
+  ${clusters ? `<span class='cluster' style='left:14%;top:62%;width:46px;height:46px'>128</span><span class='cluster' style='left:80%;top:72%;width:40px;height:40px'>46</span><span class='cluster' style='left:12%;top:16%;width:34px;height:34px'>9</span>` : ''}
+  <div class='zoom'><span>＋</span><span>−</span><span style='font-size:14px'>⤢</span></div>
+  <div class='legend'><span><i style='background:var(--cobalt)'></i>Doctors & dentists</span><span><i style='background:#0F9D8A'></i>Pharmacies</span><span><i style='background:#5B6B66'></i>Wholesalers & distributors</span></div>
+  <div class='nogps'>214 shown · <b>48 without GPS</b> are not on the map · <a>see them</a></div></div>`
+const panel = `<aside class='panel' style='min-height:0'>
+  <div class='ph'><span class='av ph'>KB</span><div style='flex:1'><h2 class='display'>Dr Karim Benali</h2><div class='sub'><span class='chip'>Doctor</span><span class='chip'>Cardiology</span><span class='st on'><span class='dot'></span>Active</span></div></div><span class='icb'>✕</span></div>
+  <div class='pb'><div class='tiles'><div class='tile'><span>Visits · 2026</span><strong>7</strong></div><div class='tile'><span>Last visit</span><strong>21 Oct</strong></div><div class='tile'><span>Consent</span><strong style='color:#0F7A3D'>Given</strong></div></div>
+  <section class='sec'><header><strong>Place</strong></header><dl class='kv'><dt>Address</dt><dd>12 rue Didouche, Hydra</dd><dt>Commune</dt><dd>Hydra · Alger</dd></dl></section>
+  <section class='sec'><header><strong>Works at</strong></header><div class='line'>CHU Mustapha · Cardiology</div></section></div>
+  <div class='pf'><span class='btn dark' style='flex:1;justify-content:center'>Open full page ↗</span></div></aside>`
+const phone = `<div class='step-label'><b>4</b><span><strong>On a phone.</strong> The map takes the screen under the tabs; filters in a sheet; tapping a pin opens a small card at the bottom (name, speciality, address, “Open”). Useful for reps to see who is around.</span></div>
+  <div style='margin:0 28px 40px'><div class='phone'><div style='padding:14px;display:flex;flex-direction:column;gap:10px;flex:1'>
+  <div style='display:flex;gap:8px;align-items:center'><h2 class='display' style='margin:0;font-size:20px;flex:1'>Professionals</h2><div class='seg'><span>☰</span><span class='on'>⌖</span></div></div>
+  <div style='display:flex;gap:8px'><div class='input muted' style='flex:1'>⌕ Search</div><span class='iconbtn'>⚲</span></div>
+  <div class='mapbox' style='height:560px;border-radius:20px'><div class='roads'></div>${pins(true)}
+    <div class='card' style='position:absolute;left:10px;right:10px;bottom:10px;padding:12px 14px;border-radius:18px;display:flex;gap:10px;align-items:center'><span class='av'>KB</span><div style='flex:1'><strong>Dr Karim Benali</strong><div class='hint'>Cardiology · 12 rue Didouche, Hydra</div></div><span class='btn dark sm'>Open</span></div></div>
+  </div></div></div>`
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Map view.</strong> Same tabs and filters as the list (here Cardiology in Alger). Clusters with counts, legend, zoom, and how many matching professionals have no GPS (link to the list filtered on “No GPS”).`, pageTop('map') + map(false)),
+  frame(2, `<strong>A pin clicked</strong> → it grows, and the usual side panel opens (open full page from there).`, pageTop('map') + map(true, false), panel),
+  frame(3, `<strong>List view</strong> unchanged; the switch remembers the last choice (?view=map in the address, so it can be shared).`, pageTop('list') + `<div class='card' style='height:200px;display:flex;align-items:center;justify-content:center;color:var(--muted)'>… the list …</div>`),
+  phone,
+].join('')
+</script>
+</body></html>

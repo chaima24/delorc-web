@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Countries list</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+<link rel="stylesheet" href="mockup.css">
+<style>
+iconify-icon { display: inline-block; flex-shrink: 0; }
+.studio-nav { background: var(--ink); border-radius: 20px; padding: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.studio-nav a { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border-radius: 12px; font-size: 14px; font-weight: 600; color: var(--on-ink-muted); }
+.studio-nav a.on { background: var(--signal); color: var(--ink); }
+.levels { display: flex; flex-wrap: wrap; gap: 6px; }
+.levels span { height: 38px; display: inline-flex; align-items: center; gap: 8px; padding: 0 14px; border-radius: 12px; font-size: 14px; font-weight: 600; background: var(--paper); color: var(--body); white-space: nowrap; }
+.levels span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.levels small { font-weight: 600; color: var(--muted); }
+.flag { width: 34px; height: 34px; border-radius: 11px; background: var(--line-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+.table tr.hov td { background: var(--mist); }
+.cursor { position: absolute; color: var(--ink); filter: drop-shadow(0 2px 2px rgba(0,0,0,.25)); }
+.contains a { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line-soft); color: var(--ink); font-size: 14px; }
+.contains a:last-child { border-bottom: 0; }
+.contains .n { margin-inline-start: auto; color: var(--muted); font-variant-numeric: tabular-nums; }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; }
+.step-label span { font-size: 15px; color: var(--body); }
+.step-label strong { color: var(--ink); }
+.reuse { width: 1440px; margin: 0 28px 40px; background: var(--paper); border-radius: 18px; padding: 22px 24px; }
+.reuse table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.reuse th, .reuse td { text-align: start; padding: 10px 12px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+.reuse th { color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<p class="caption"><strong>Countries (Studio › Settings › Geography).</strong> Same style as the approved Studio page. Two moments: ① the page opens as a full-width list; ② clicking any row opens that record in a panel on the right, while the list stays visible. ✕ or Esc closes the panel. “+ Add” opens the same panel, empty.</p>
+
+<div class="step-label"><b>1</b><span><strong>The page opens:</strong> full-width list, no panel. The pointer is about to click “Algeria”.</span></div>
+<div class="frame" style="min-height:760px">
+  <nav class="rail" style="width:84px;align-items:center;padding:18px 0">
+    <svg width="44" height="44" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#1B302C"/><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#C8F03C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg>
+    <span style="margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center"><iconify-icon icon="tabler:adjustments" width="22"></iconify-icon>Studio</span>
+  </nav>
+  <div class="main">
+    <div class="topbar">
+      <span class="iconbtn"><iconify-icon icon="tabler:layout-sidebar-left-expand" width="20"></iconify-icon></span>
+      <strong style="font-size:14px">Inphamedis</strong>
+      <div class="search"><iconify-icon icon="tabler:search" width="18"></iconify-icon> Search or jump to a page… <span class="kbd">Ctrl K</span></div>
+      <span style="margin-inline-start:auto" class="iconbtn"><iconify-icon icon="tabler:help-circle" width="20"></iconify-icon></span><span class="avatar">SM</span>
+    </div>
+    <div class="page">
+      <nav class="studio-nav">
+        <a class="on"><iconify-icon icon="tabler:settings" width="18"></iconify-icon>Settings</a><a><iconify-icon icon="tabler:user" width="18"></iconify-icon>Users</a><a><iconify-icon icon="tabler:users" width="18"></iconify-icon>Teams</a><a><iconify-icon icon="tabler:diamond" width="18"></iconify-icon>Brands</a><a><iconify-icon icon="tabler:category" width="18"></iconify-icon>Product categories</a><a><iconify-icon icon="tabler:pill" width="18"></iconify-icon>Products</a>
+      </nav>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="crumbs"><a>Studio</a> › <a>Settings</a> › <span>Geography</span></div>
+          <h1 class="title display">Countries</h1>
+        </div>
+        <div style="display:flex;gap:8px">
+          <span class="btn outline"><iconify-icon icon="tabler:download" width="18"></iconify-icon>Export</span>
+          <span class="btn primary"><iconify-icon icon="tabler:plus" width="18"></iconify-icon>Add country</span>
+        </div>
+      </div>
+      <div class="levels" aria-label="Geography levels">
+        <span class="on"><iconify-icon icon="tabler:world" width="18"></iconify-icon>Countries <small>3</small></span>
+        <span><iconify-icon icon="tabler:map" width="18"></iconify-icon>Regions <small>11</small></span>
+        <span><iconify-icon icon="tabler:map-pin" width="18"></iconify-icon>Wilayas <small>69</small></span>
+        <span><iconify-icon icon="tabler:building-community" width="18"></iconify-icon>Communes <small>1 541</small></span>
+        <span><iconify-icon icon="tabler:hexagons" width="18"></iconify-icon>Sub-wilaya zones <small>12</small></span>
+      </div>
+      <div class="card" style="padding:16px 18px;display:flex;flex-direction:column;gap:12px;position:relative">
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="input muted" style="width:320px"><iconify-icon icon="tabler:search" width="18"></iconify-icon>Search by name or code</div>
+          <span class="label" style="margin-inline-start:auto">3 countries</span>
+        </div>
+        <table class="table">
+          <thead><tr><th>Country</th><th>Code</th><th class="num">Regions</th><th class="num">Wilayas</th><th class="num">Communes</th><th>Updated</th><th></th></tr></thead>
+          <tbody>
+            <tr class="hov"><td><span style="display:flex;align-items:center;gap:10px"><span class="flag">DZ</span><strong>Algeria</strong></span></td><td><span class="chip">DZ</span></td><td class="num">5</td><td class="num">58</td><td class="num">1 541</td><td class="label">12 Oct 2026</td><td><iconify-icon icon="tabler:chevron-right" width="18"></iconify-icon></td></tr>
+            <tr><td><span style="display:flex;align-items:center;gap:10px"><span class="flag">TN</span><strong>Tunisia</strong></span></td><td><span class="chip">TN</span></td><td class="num">4</td><td class="num">11</td><td class="num">0</td><td class="label">3 Sep 2026</td><td style="color:var(--muted)"><iconify-icon icon="tabler:chevron-right" width="18"></iconify-icon></td></tr>
+            <tr><td><span style="display:flex;align-items:center;gap:10px"><span class="flag">MA</span><strong>Morocco</strong></span></td><td><span class="chip">MA</span></td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="label">3 Sep 2026</td><td style="color:var(--muted)"><iconify-icon icon="tabler:chevron-right" width="18"></iconify-icon></td></tr>
+          </tbody>
+        </table>
+        <iconify-icon class="cursor" icon="tabler:pointer-filled" width="26" style="top:122px;inset-inline-start:160px"></iconify-icon>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="step-label"><b>2</b><span><strong>After clicking “Algeria”:</strong> the panel slides in from the right; the list stays visible and the clicked row stays highlighted. Click another row to switch, ✕ to close.</span></div>
+<div class="frame" style="min-height:760px">
+  <nav class="rail" style="width:84px;align-items:center;padding:18px 0">
+    <svg width="44" height="44" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#1B302C"/><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#C8F03C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg>
+    <span style="margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center"><iconify-icon icon="tabler:adjustments" width="22"></iconify-icon>Studio</span>
+  </nav>
+  <div class="main">
+    <div class="topbar">
+      <span class="iconbtn"><iconify-icon icon="tabler:layout-sidebar-left-expand" width="20"></iconify-icon></span>
+      <strong style="font-size:14px">Inphamedis</strong>
+      <div class="search"><iconify-icon icon="tabler:search" width="18"></iconify-icon> Search or jump to a page… <span class="kbd">Ctrl K</span></div>
+      <span style="margin-inline-start:auto" class="iconbtn"><iconify-icon icon="tabler:help-circle" width="20"></iconify-icon></span><span class="avatar">SM</span>
+    </div>
+    <div style="display:flex;flex:1;min-height:0">
+      <div class="page" style="flex:1;min-width:0">
+        <nav class="studio-nav">
+          <a class="on"><iconify-icon icon="tabler:settings" width="18"></iconify-icon>Settings</a><a>Users</a><a>Teams</a><a>Brands</a><a>Categories</a><a>Products</a>
+        </nav>
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="crumbs"><a>Studio</a> › <a>Settings</a> › <span>Geography</span></div>
+            <h1 class="title display">Countries</h1>
+          </div>
+          <span class="btn primary"><iconify-icon icon="tabler:plus" width="18"></iconify-icon>Add country</span>
+        </div>
+        <div class="levels">
+          <span class="on">Countries <small>3</small></span><span>Regions <small>11</small></span><span>Wilayas <small>69</small></span><span>Communes</span><span>Zones</span>
+        </div>
+        <div class="card" style="padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+          <div class="input muted" style="width:280px"><iconify-icon icon="tabler:search" width="18"></iconify-icon>Search by name or code</div>
+          <table class="table">
+            <thead><tr><th>Country</th><th>Code</th><th class="num">Wilayas</th><th></th></tr></thead>
+            <tbody>
+              <tr class="sel"><td><span style="display:flex;align-items:center;gap:10px"><span class="flag">DZ</span><strong>Algeria</strong></span></td><td><span class="chip">DZ</span></td><td class="num">58</td><td><iconify-icon icon="tabler:chevron-right" width="18"></iconify-icon></td></tr>
+              <tr><td><span style="display:flex;align-items:center;gap:10px"><span class="flag">TN</span><strong>Tunisia</strong></span></td><td><span class="chip">TN</span></td><td class="num">11</td><td style="color:var(--muted)"><iconify-icon icon="tabler:chevron-right" width="18"></iconify-icon></td></tr>
+              <tr><td><span style="display:flex;align-items:center;gap:10px"><span class="flag">MA</span><strong>Morocco</strong></span></td><td><span class="chip">MA</span></td><td class="num">0</td><td style="color:var(--muted)"><iconify-icon icon="tabler:chevron-right" width="18"></iconify-icon></td></tr>
+            </tbody>
+          </table>
+          <span class="hint">With the panel open, less important columns hide so the list still fits.</span>
+        </div>
+      </div>
+      <aside class="sheet" aria-label="Country record">
+        <header>
+          <span class="flag" style="width:44px;height:44px;font-size:13px">DZ</span>
+          <div style="flex:1">
+            <h2 class="display" style="margin:0;font-size:24px">Algeria</h2>
+            <span class="label">Country · updated 12 Oct 2026</span>
+          </div>
+          <span class="iconbtn" style="width:40px;height:40px"><iconify-icon icon="tabler:x" width="18"></iconify-icon></span>
+        </header>
+        <div class="body">
+          <label class="field"><span>Name</span><div class="input">Algeria</div></label>
+          <label class="field"><span>ISO code</span><div class="input" style="width:140px">DZ</div><span class="hint">Two letters, e.g. DZ</span></label>
+          <div class="field">
+            <span style="display:flex;justify-content:space-between">Regions in Algeria <a style="font-weight:600;font-size:13px">Open Regions →</a></span>
+            <div class="contains">
+              <a><iconify-icon icon="tabler:map" width="18"></iconify-icon>Centre <span class="n">12 wilayas</span></a>
+              <a><iconify-icon icon="tabler:map" width="18"></iconify-icon>East <span class="n">16 wilayas</span></a>
+              <a><iconify-icon icon="tabler:map" width="18"></iconify-icon>West <span class="n">14 wilayas</span></a>
+              <a><iconify-icon icon="tabler:map" width="18"></iconify-icon>South <span class="n">10 wilayas</span></a>
+              <a><iconify-icon icon="tabler:map" width="18"></iconify-icon>High Plateaux <span class="n">6 wilayas</span></a>
+            </div>
+          </div>
+        </div>
+        <footer>
+          <span class="btn dark" style="flex:1;justify-content:center">Save changes</span>
+          <span class="btn outline">Delete</span>
+        </footer>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<div class="reuse">
+  <h2 class="display" style="margin:0 0 6px;font-size:20px">Good to know</h2>
+  <ul style="margin:0 0 22px;padding-inline-start:20px;font-size:13px;line-height:1.7;color:var(--body)">
+    <li><strong>Countries are read-only for a lab</strong> (the central console assigns them): on this page “Add”, “Save” and “Delete” are hidden and the fields can't be edited. The other 4 levels use the full version shown here.</li>
+    <li><strong>The level strip</strong> (Countries · Regions · Wilayas · Communes · Zones) moves between the 5 geography pages without going back to Settings.</li>
+    <li><strong>“Regions in Algeria”</strong> lists the children; each one opens the Regions page already filtered on that country.</li>
+    <li><strong>Delete</strong> asks for confirmation and is blocked with a clear message when children still exist.</li>
+  </ul>
+  <h2 class="display" style="margin:0 0 12px;font-size:20px">How the other geography pages reuse this page</h2>
+  <table>
+    <thead><tr><th>Page</th><th>Extra columns</th><th>Filter</th><th>Fields in the panel</th><th>Listed in the panel</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Regions</strong></td><td>Country · wilayas · communes</td><td>Country</td><td>Name · country</td><td>Its wilayas</td></tr>
+      <tr><td><strong>Wilayas</strong></td><td>Region · communes · zones</td><td>Region</td><td>Name · region · latitude/longitude</td><td>Its communes and zones</td></tr>
+      <tr><td><strong>Communes</strong></td><td>Wilaya · zone</td><td>Wilaya · zone</td><td>Name · wilaya</td><td>Number of customers</td></tr>
+      <tr><td><strong>Sub-wilaya zones</strong></td><td>Wilaya · communes</td><td>Wilaya</td><td>Name · wilaya · communes (picked from that wilaya)</td><td>Its communes</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<p class="caption"><strong>Phone (390).</strong> Left: the list as cards. Right: tapping a card opens the record as a sheet from the bottom.</p>
+<div style="padding:0 28px 40px;display:flex;gap:28px;flex-wrap:wrap">
+  <div class="phone">
+    <div class="topbar" style="padding:12px 16px"><svg width="36" height="36" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#0F1F1C"/><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#C8F03C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg><div class="search" style="height:40px">Search…</div><span class="avatar" style="width:40px;height:40px">SM</span></div>
+    <div style="padding:16px;display:flex;flex-direction:column;gap:14px;flex:1">
+      <nav class="studio-nav" style="flex-wrap:nowrap;overflow:hidden;border-radius:16px;padding:6px"><a class="on" style="height:36px">Settings</a><a style="height:36px">Users</a><a style="height:36px">Teams</a><a style="height:36px">Brands</a></nav>
+      <div class="crumbs" style="font-size:13px">Settings › Geography</div>
+      <h1 class="title display" style="font-size:28px">Countries</h1>
+      <div class="levels" style="flex-wrap:nowrap;overflow:hidden"><span class="on">Countries</span><span>Regions</span><span>Wilayas</span></div>
+      <div class="input muted">Search by name or code</div>
+      <div style="background:var(--paper);border-radius:16px;padding:14px;display:flex;gap:12px;align-items:center"><span class="flag">DZ</span><span style="flex:1"><strong>Algeria</strong><div class="hint">5 regions · 58 wilayas</div></span><iconify-icon icon="tabler:chevron-right" width="18"></iconify-icon></div>
+      <div style="background:var(--paper);border-radius:16px;padding:14px;display:flex;gap:12px;align-items:center"><span class="flag">TN</span><span style="flex:1"><strong>Tunisia</strong><div class="hint">4 regions · 11 wilayas</div></span><iconify-icon icon="tabler:chevron-right" width="18"></iconify-icon></div>
+    </div>
+  </div>
+  <div class="phone" style="background:rgba(15,31,28,.45)">
+    <div style="margin-top:auto;background:var(--paper);border-radius:24px 24px 0 0;padding:10px 20px 24px;display:flex;flex-direction:column;gap:14px">
+      <span style="align-self:center;width:44px;height:5px;border-radius:99px;background:var(--line)"></span>
+      <div style="display:flex;gap:12px;align-items:center"><span class="flag" style="width:44px;height:44px">DZ</span><div style="flex:1"><h2 class="display" style="margin:0;font-size:22px">Algeria</h2><span class="hint">Country</span></div><span class="iconbtn" style="width:40px;height:40px"><iconify-icon icon="tabler:x" width="18"></iconify-icon></span></div>
+      <label class="field"><span>Name</span><div class="input">Algeria</div></label>
+      <label class="field"><span>ISO code</span><div class="input">DZ</div></label>
+      <div class="field"><span>Regions in Algeria</span><div class="contains"><a>Centre <span class="n">12</span></a><a>East <span class="n">16</span></a><a>West <span class="n">14</span></a></div></div>
+      <span class="btn dark" style="height:52px;justify-content:center">Save changes</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

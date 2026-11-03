@@ -1,0 +1,149 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Users hierarchy</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css"><style>
+.studio-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.studio-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.studio-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 420px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; } .pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; }
+.why { font-size: 12px; color: var(--muted); background: var(--mist); border-radius: 10px; padding: 8px 10px; }
+.av { width: 34px; height: 34px; border-radius: 10px; background: var(--cobalt); color: #fff; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.av.t { background: #0F9D8A; } .av.g { background: var(--line-soft); color: var(--muted); }
+/* tree */
+.tree { display: flex; flex-direction: column; gap: 6px; }
+.node { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--paper); font-size: 13px; }
+.node.sel { background: var(--signal-soft); box-shadow: inset 0 0 0 1.5px var(--ink); border-color: transparent; }
+.node.hit { box-shadow: inset 0 0 0 2px var(--cobalt); }
+.node.drop { box-shadow: 0 0 0 3px var(--signal), inset 0 0 0 1.5px var(--ink); }
+.node.ghost { opacity: .45; border-style: dashed; }
+.node .who { flex: 1; min-width: 0; } .node .who small { display: block; color: var(--muted); font-size: 12px; }
+.node .tog { width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); }
+.count { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.kids { margin-inline-start: 22px; padding-inline-start: 16px; border-inline-start: 2px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+.group { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; padding: 12px 4px 4px; }
+.chain { display: flex; flex-direction: column; gap: 0; }
+.chain .node { border-radius: 12px; }
+.chain .arrow { margin-inline-start: 26px; height: 16px; border-inline-start: 2px solid var(--line); }
+</style></head><body>
+<p class="caption"><strong>Studio › Users › Hierarchy.</strong> The client asked to see who reports to whom. The old page had a chart centred on one person, with drag and drop to change a manager.
+Proposal: a <strong>Hierarchy</strong> view next to the List on the Users page (whole lab as a tree that opens and closes), the <strong>chain above a person</strong> on their page, and <strong>changing a manager by dragging</strong>, which always asks for the date so the history stays right.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>`
+function frame(n, label, { body, panel = '', title = 'Users', crumbs = 'Studio', head = true }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:760px'>${rail}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      <nav class='studio-nav'><a>Settings</a><a class='on'>Users</a><a>Teams</a><a>Brands</a><a>Products</a></nav>
+      ${head ? `<div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>${crumbs}</div><h1 class='title display' style='font-size:36px'>${title}</h1></div>
+        <div style='display:flex;gap:10px'><span class='btn outline'>⇩ Export</span><span class='btn primary'>＋ Add user</span></div>
+      </div>` : ''}
+      ${body}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+const av = (i, c = '') => `<span class='av ${c}'>${i}</span>`
+const node = (i, name, sub, count, { cls = '', open = null, c = '', extra = '' } = {}) => `<div class='node ${cls}'>
+  <span class='tog'>${open === null ? '' : open ? '▾' : '▸'}</span>${av(i, c)}<span class='who'><strong>${name}</strong><small>${sub}</small></span>${extra}${count ? `<span class='count'>${count}</span>` : ''}</div>`
+const toolbar = (seg = 'Hierarchy') => `<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center'>
+  <div class='seg'><span class='${seg === 'List' ? 'on' : ''}'>☰ List</span><span class='${seg === 'Hierarchy' ? 'on' : ''}'>⌥ Hierarchy</span></div>
+  <div class='input muted' style='width:260px'>⌕ Find a person</div><span class='input'>Team <b>All</b> ▾</span><span class='input'>Role <b>All</b> ▾</span>
+  <span class='hint' style='margin-inline-start:auto'>Expand all · Collapse all</span></div>`
+
+const tree = (opts = {}) => `<div class='card' style='padding:16px 18px;display:flex;flex-direction:column;gap:12px'>${toolbar()}
+<div class='tree'>
+  ${node('AK', 'Amel Kaci', 'Sales director', '213 people', { open: true })}
+  <div class='kids'>
+    ${node('SO', 'Samir Ould', 'National supervisor · Cardio, Neuro', '96 people', { open: true })}
+    <div class='kids'>
+      ${node('NB', 'Nadia Benali', 'Regional supervisor · Cardio · Alger', '34 people', { open: true, cls: opts.sel === 'NB' ? 'sel' : opts.drop ? 'drop' : '' })}
+      <div class='kids'>
+        ${node('KH', 'Karim Haddad', 'Medical rep (VM) · Cardio · Alger Centre', '', { cls: opts.hit ? 'hit' : opts.drag ? 'ghost' : '' })}
+        ${node('LM', 'Lina Mansouri', 'Medical rep (VM) · Neuro · Blida', '', { c: 't', extra: `<span class='chip info'>Invited</span>` })}
+        ${node('FZ', 'Fatima Zerrouki', 'Medical rep (VM) · Cardio · Tipaza', '', { c: 'g', extra: `<span class='chip'>Inactive</span>` })}
+        <div class='hint' style='padding-inline-start:12px'>＋ 31 more</div>
+      </div>
+      ${node('RT', 'Rachid Toumi', 'Regional supervisor · Pharma Est', '28 people', { open: false, c: 't' })}
+    </div>
+    ${node('MB', 'Mourad Bey', 'National supervisor · Pharma', '61 people', { open: false })}
+  </div>
+  ${node('HZ', 'Hana Ziani', 'Product manager · Cardio', '', { c: 't', extra: `<span class='chip'>also reports to Amel Kaci</span>` })}
+  <div class='group'>No manager · 4</div>
+  ${node('YA', 'Yacine Amrani', 'Pharmacy rep (VP) · Pharma Est · Constantine', '', { c: 't', extra: `<span class='chip warn'>No manager</span>` })}
+</div></div>`
+
+const readPanel = `<aside class='panel'>
+  <div class='ph'>${av('NB')}<div style='flex:1'><h2 class='display'>Nadia Benali</h2><div class='sub'><span class='chip'>Regional supervisor</span><span class='chip ok'>Active</span></div></div><span class='icb'>⋯</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <section class='sec' style='border:1px solid var(--line);border-radius:16px;padding:10px 12px'><strong style='font-size:14px'>Reports to</strong>
+      <div style='font-size:13px;margin-top:6px'>Samir Ould → Amel Kaci</div></section>
+    <section style='border:1px solid var(--line);border-radius:16px;padding:10px 12px'><strong style='font-size:14px'>Manages</strong>
+      <div style='font-size:13px;margin-top:6px'>34 people directly · 34 in all</div>
+      <div style='display:flex;gap:6px;flex-wrap:wrap;margin-top:8px'><span class='chip'>Karim Haddad</span><span class='chip'>Lina Mansouri</span><span class='chip'>＋ 32</span></div></section>
+  </div>
+  <div class='pf'><span class='btn outline' style='flex:1;justify-content:center'>Change manager</span><span class='btn dark' style='flex:1;justify-content:center'>Open full page ↗</span></div>
+</aside>`
+
+const movePanel = `<aside class='panel'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Change manager</h2><div class='sub'><span class='chip'>Karim Haddad</span></div></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div style='display:flex;align-items:center;gap:10px;font-size:13px'><span class='chip'>Rachid Toumi</span>→<span class='chip ok'>Nadia Benali</span></div>
+    <div class='field'><span>From</span><div class='input'>3 Nov 2026</div><span class='hint'>Rachid Toumi stays the manager until 2 Nov 2026. History keeps both.</span></div>
+    <div class='why'>Moving someone under a person who reports to them is refused (it would make a loop).</div>
+  </div>
+  <div class='pf'><span class='btn ghost'>Cancel</span><span class='btn primary' style='margin-inline-start:auto'>Move Karim</span></div>
+</aside>`
+
+const userPage = `<div class='card' style='display:flex;gap:18px;align-items:center'><span class='av' style='width:72px;height:72px;border-radius:20px;font-size:22px'>KH</span>
+  <div style='flex:1'><h1 class='display' style='margin:0;font-size:32px'>Karim Haddad</h1><div style='display:flex;gap:8px;margin-top:8px'><span class='chip'>Medical rep (VM)</span><span class='chip'>Cardio</span><span class='chip ok'>Active</span></div></div></div>
+<div class='tabs'><span>Overview</span><span class='on'>Assignments</span><span>Cycles</span><span>Rules</span><span>Sign-in and access</span></div>
+<div style='display:grid;grid-template-columns:1fr 1fr;gap:16px'>
+  <section class='card' style='padding:16px 18px'><strong style='font-size:14px'>Reports to</strong>
+    <div class='chain' style='margin-top:10px'>
+      ${node('AK', 'Amel Kaci', 'Sales director', '')}<div class='arrow'></div>
+      ${node('SO', 'Samir Ould', 'National supervisor', '')}<div class='arrow'></div>
+      ${node('NB', 'Nadia Benali', 'Regional supervisor · since 2 Sep 2026', '')}<div class='arrow'></div>
+      ${node('KH', 'Karim Haddad', 'Medical rep (VM)', '', { cls: 'sel' })}
+    </div>
+    <div class='hint' style='margin-top:10px'><a>See in the hierarchy →</a></div></section>
+  <section class='card' style='padding:16px 18px'><strong style='font-size:14px'>Managers · history</strong>
+    <div style='font-size:13px;margin-top:10px;display:flex;flex-direction:column;gap:8px'><div><strong>Nadia Benali</strong> <span class='hint'>2 Sep 2026 → today</span></div><div><strong>Rachid Toumi</strong> <span class='hint'>10 Jan 2025 → 1 Sep 2026</span></div></div></section>
+</div>`
+
+const phone = `<div style='display:flex;gap:28px;margin:0 28px 40px'>
+  <div class='phone'><div style='padding:16px;display:flex;flex-direction:column;gap:10px'>
+    <div class='crumbs'>Studio</div><h1 class='title display' style='font-size:30px'>Users</h1>
+    <div class='seg' style='width:100%'><span style='flex:1;justify-content:center'>☰ List</span><span class='on' style='flex:1;justify-content:center'>⌥ Hierarchy</span></div>
+    <div class='input muted'>⌕ Find a person</div>
+    <div class='tree'>
+      ${node('AK', 'Amel Kaci', 'Sales director', '213', { open: true })}
+      <div class='kids' style='margin-inline-start:10px;padding-inline-start:10px'>
+        ${node('SO', 'Samir Ould', 'National supervisor', '96', { open: true })}
+        <div class='kids' style='margin-inline-start:10px;padding-inline-start:10px'>
+          ${node('NB', 'Nadia Benali', 'Regional supervisor', '34', { open: false })}
+          ${node('RT', 'Rachid Toumi', 'Regional supervisor', '28', { open: false, c: 't' })}
+        </div>
+      </div>
+    </div>
+    <span class='hint'>On a phone: tap to open a branch, long-press → “Change manager” (no dragging).</span>
+  </div></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Users › Hierarchy.</strong> A switch next to the list: the whole lab as a tree. People with no manager sit at the top (directors); each box shows role · team · territory and how many people are under them. Branches open and close. Invited and inactive people keep their chip. Someone with two managers appears under the main one, with “also reports to …”. People who should have a manager but don't are grouped under <em>No manager</em> so gaps are easy to fix.`, { body: tree() }),
+  frame(2, `<strong>Find a person</strong> opens the branches down to them and highlights the box. <strong>Click a box</strong> → the usual reading panel, with “Reports to” (the chain up) and “Manages” (direct and in all) and a “Change manager” button. The Team and Role filters keep only the branches that contain matching people.`, { body: tree({ sel: 'NB', hit: true }), panel: readPanel }),
+  frame(3, `<strong>Drag to change a manager</strong> (desktop): drop Karim on Nadia → a panel asks from which date. The old manager link ends the day before, the new one starts; history keeps both, so past reports stay right. Dropping someone under one of their own team members is refused.`, { body: tree({ drop: true, drag: true }), panel: movePanel }),
+  frame(4, `<strong>On the user page</strong> (Assignments tab): the chain up to the top, then the managers' history. “See in the hierarchy” opens the tree on this person.`, { body: userPage, head: false }),
+  `<div class='step-label'><b>5</b><span><strong>On a phone</strong>: the same tree, indented less; no dragging — “Change manager” from the panel.</span></div>${phone}`,
+].join('')
+</script>
+</body></html>

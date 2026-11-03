@@ -1,0 +1,147 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Activities</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 460px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; font-size: 12.5px; color: var(--muted); }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 120px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.why { font-size: 12.5px; color: var(--body); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.warn { font-size: 12.5px; color: var(--amber); background: rgba(180,83,9,.08); border-radius: 12px; padding: 9px 12px; }
+.person { display: flex; gap: 10px; align-items: center; } .person small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.av { width: 30px; height: 30px; border-radius: 99px; background: var(--line-soft); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+tr.picked td { background: var(--signal-soft); }
+.q { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 11px; background: var(--paper); border: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--body); }
+.q b { font-variant-numeric: tabular-nums; color: var(--ink); } .q i { font-style: normal; color: var(--amber); }
+.month { display: inline-flex; align-items: center; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; } .month span { height: 34px; min-width: 34px; padding: 0 10px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; } .month span.on { background: var(--ink); color: var(--mist); }
+.pace { position: relative; height: 8px; border-radius: 99px; background: var(--line-soft); min-width: 120px; } .pace > i { position: absolute; inset-block: 0; inset-inline-start: 0; border-radius: 99px; background: var(--cobalt); } .pace > u { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); }
+.pacecell { display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; } .pacecell small { color: var(--muted); }
+.seg-chip { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 9px; border-radius: 8px; border: 1px solid var(--line); font-size: 12.5px; font-weight: 600; background: var(--paper); }
+.seg-chip i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+.fig { background: var(--paper); border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; } .fig span { font-size: 12.5px; color: var(--muted); } .fig strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; letter-spacing: -.02em; } .fig small { font-size: 12px; color: var(--muted); }
+.bar2 { display: flex; height: 8px; border-radius: 99px; overflow: hidden; background: var(--line-soft); } .bar2 i { display: block; }
+.card2 { background: var(--paper); border-radius: 20px; }
+.card2 header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; } .card2 header strong { flex: 1; font-size: 15px; }
+.steps { display: flex; gap: 8px; } .steps span { flex: 1; display: flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 600; color: var(--muted); padding-top: 10px; border-top: 3px solid var(--line); } .steps span.on { color: var(--ink); border-color: var(--ink); } .steps span.done { color: var(--ink); border-color: var(--signal); }
+.opt { border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; } .opt.on { border: 2px solid var(--ink); background: var(--signal-soft); } .opt b { display: block; font-size: 14px; } .opt small { color: var(--muted); }
+.radio { width: 18px; height: 18px; border-radius: 99px; border: 1.5px solid #9FB0AA; flex-shrink: 0; margin-top: 2px; } .opt.on .radio { border: 5px solid var(--ink); }
+.ck { width: 18px; height: 18px; border-radius: 5px; background: var(--ink); color: var(--signal); font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
+.matrix td, .matrix th { text-align: center; } .matrix td:first-child, .matrix th:first-child { text-align: start; }
+.num-in { width: 52px; height: 34px; border: 1px solid var(--line); border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.num-in.empty { color: var(--muted); border-style: dashed; }
+.rules { width: 1440px; margin: 0 28px 40px; background: var(--paper); border-radius: 18px; padding: 24px 28px; font-size: 14px; color: var(--body); }
+.rules h2 { margin: 0 0 12px; font-size: 22px; color: var(--ink); } .rules ol { margin: 0; padding-inline-start: 22px; display: flex; flex-direction: column; gap: 12px; } .rules li strong { color: var(--ink); } .rules .ex { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+.ask { display: inline-block; margin-inline-start: 6px; font-size: 11.5px; font-weight: 700; color: var(--cobalt); background: rgba(47,84,235,.1); border-radius: 99px; padding: 1px 8px; }
+.days { display: flex; flex-wrap: wrap; gap: 4px; } .days span { width: 30px; height: 38px; border-radius: 9px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: var(--muted); border: 1px solid var(--line); gap: 1px; } .days span b { font-size: 13px; color: var(--ink); }
+.days .field { background: var(--signal-soft); border-color: transparent; } .days .act { background: rgba(47,84,235,.12); border-color: transparent; } .days .half { background: linear-gradient(90deg, rgba(47,84,235,.12) 50%, var(--signal-soft) 50%); border-color: transparent; }
+.days .none { border: 2px dashed var(--amber); } .days .none b { color: var(--amber); } .days .future { opacity: .45; } .days .today { border: 2px solid var(--ink); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); } .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; vertical-align: -2px; margin-inline-end: 5px; }
+.kd { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; border-radius: 99px; padding: 3px 9px; }
+.kd.off { background: rgba(47,84,235,.1); color: var(--cobalt); } .kd.non { background: rgba(180,83,9,.1); color: var(--amber); } .kd.field { background: var(--signal-soft); color: var(--ink); }
+.day-h { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: 14px 4px 6px; }
+.act { display: grid; grid-template-columns: 90px 1fr auto; gap: 14px; align-items: center; padding: 12px; border-radius: 14px; border: 1px solid var(--line-soft); margin-bottom: 6px; font-size: 13.5px; }
+.act.sel { background: var(--signal-soft); border-color: transparent; } .act small { display: block; color: var(--muted); font-size: 12px; }
+.cal { display: grid; grid-template-columns: 170px repeat(21, 1fr); gap: 3px; font-size: 11px; }
+.cal .h { text-align: center; color: var(--muted); padding-bottom: 4px; } .cal .h b { display: block; color: var(--ink); font-size: 12px; }
+.cal .p { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+.cal .c { height: 30px; border-radius: 7px; background: var(--mist); } .cal .c.off { background: rgba(47,84,235,.35); } .cal .c.non { background: rgba(180,83,9,.35); } .cal .c.half { background: linear-gradient(90deg, rgba(47,84,235,.35) 50%, var(--mist) 50%); }
+.opt2 { border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; font-size: 13px; display: flex; align-items: center; gap: 8px; } .opt2.on { border: 2px solid var(--ink); background: var(--signal-soft); }
+</style></head><body>
+<p class="caption"><strong>Plan › Activities — proposal.</strong> An activity is <strong>what a person does that is not a visit</strong>: training, meeting, congress, leave, sick day… Its <em>type</em> (Studio › Field setup › Activity types) says what kind of day it is — <span class="kd field">Field day</span> <span class="kd off">Off-field work day</span> <span class="kd non">Non-working day</span> — and what it can be linked to (professionals, a territory, reps). Off-field and non-working days <strong>lower the cycle's goal</strong> (fewer field days) and explain the days with no visit. Managers see a list and a team calendar; a side panel to read, edit or delete; “Add activity” in a side panel. Rules to approve are at the bottom.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center'>Plan</span></nav>`
+const wsNav = `<nav class='ws-nav'>${['Cycles', 'Activities', 'Objectives', 'Frequencies'].map(x => `<a class='${x === 'Activities' ? 'on' : ''}'>${x}</a>`).join('')}</nav>`
+function frame(n, label, body, panel = '') {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${wsNav}${body}</div>${panel}</div></div></div>`
+}
+const KD = { field: ['field', 'Field day'], off: ['off', 'Off-field work day'], non: ['non', 'Non-working day'] }
+const kd = k => `<span class='kd ${KD[k][0]}'>${KD[k][1]}</span>`
+const head = (cal) => `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Plan</div><h1 class='title display' style='font-size:36px'>Activities</h1><div class='label' style='margin-top:6px'>Everything that is not a visit: training, meetings, leave…</div></div>
+  <div style='display:flex;gap:10px'><span class='btn outline'>⇩ Export</span><span class='btn primary'>＋ Add activity</span></div></div>
+ <div style='display:flex;gap:10px;align-items:center;flex-wrap:wrap'><div class='viewsw' style='display:inline-flex;gap:4px;background:var(--paper);border-radius:14px;padding:4px'><span style='height:34px;padding:0 12px;border-radius:10px;display:inline-flex;align-items:center;font-size:13px;font-weight:600;${cal ? '' : 'background:var(--ink);color:var(--mist)'}'>☰ List</span><span style='height:34px;padding:0 12px;border-radius:10px;display:inline-flex;align-items:center;font-size:13px;font-weight:600;${cal ? 'background:var(--ink);color:var(--mist)' : ''}'>▦ Team calendar</span></div>
+  <div class='month'><span>‹</span><span class='on'>October 2026</span><span>›</span></div><span class='input'>Person <b>All</b> ▾</span><span class='input'>Type <b>All</b> ▾</span><span class='input'>Kind of day <b>All</b> ▾</span></div>`
+// date, title, type, kind, who, when, linked
+const items = [
+  ['Mon 26 Oct', [['Cycle meeting', 'Réunion de cycle', 'off', 'Nadia Hamidi + 4 reps', 'Morning', 'Reps: Karim, Samir, Lina, Rania']]],
+  ['Mon 19 Oct', [['Annual leave', 'Congé annuel', 'non', 'Karim Bensaïd', 'All day', '']]],
+  ['Tue 13 Oct', [['Round-table cardiology', 'Table ronde', 'field', 'Karim Bensaïd', '14:00 → 17:00', '6 professionals of his cycle']]],
+  ['Tue 6 Oct', [['CRM training', 'Formation', 'off', 'Karim Bensaïd', '2 days · 6–7 Oct', ''], ['Sick day', 'Maladie', 'non', 'Samir Meziane', 'All day', '']]],
+]
+const list = (sel = -1) => `${head(false)}
+ <div class='card' style='padding:8px 16px 16px'>${items.map(([day, rows], gi) => `<div class='day-h'>${day}</div>${rows.map((r, i) => `<div class='act ${gi === 3 && i === 0 && sel === 0 ? 'sel' : ''}'><span style='font-size:12.5px;color:var(--body)'>${r[4]}</span><span><strong>${r[0]}</strong><small>${r[1]} · ${r[3]}${r[5] ? ' · ' + r[5] : ''}</small></span><span>${kd(r[2])}</span></div>`).join('')}`).join('')}
+ <div class='label' style='padding-top:8px'>Newest first · 5 activities in October 2026</div></div>`
+
+const people = [['KB', 'Karim Bensaïd', { 6: 'off', 7: 'off', 19: 'non', 26: 'half' }], ['NH', 'Nadia Hamidi', { 26: 'half', 27: 'off' }], ['SM', 'Samir Meziane', { 6: 'non', 26: 'half' }], ['LA', 'Lina Amrani', { 11: 'non', 12: 'non', 13: 'non', 14: 'non', 15: 'non', 26: 'half' }], ['RD', 'Rania Djebbar', { 26: 'half' }]]
+const wdays = [1, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 25, 26, 27, 28, 29]
+const WD = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+const calendar = `${head(true)}
+ <div class='card' style='padding:18px'><div class='cal'><span></span>${wdays.map(d => `<span class='h'>${WD[new Date(2026, 9, d).getDay()]}<b>${d}</b></span>`).join('')}
+ ${people.map(p => `<span class='p'><span class='av'>${p[0]}</span>${p[1]}</span>${wdays.map(d => `<span class='c ${p[2][d] ?? ''}' title=''></span>`).join('')}`).join('')}</div>
+ <div class='legend' style='display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:14px'><span><i style='display:inline-block;width:12px;height:12px;border-radius:4px;background:rgba(47,84,235,.35);vertical-align:-2px;margin-inline-end:5px'></i>Off-field work day</span><span><i style='display:inline-block;width:12px;height:12px;border-radius:4px;background:rgba(180,83,9,.35);vertical-align:-2px;margin-inline-end:5px'></i>Non-working day</span><span><i style='display:inline-block;width:12px;height:12px;border-radius:4px;background:linear-gradient(90deg, rgba(47,84,235,.35) 50%, var(--mist) 50%);vertical-align:-2px;margin-inline-end:5px'></i>Half a day</span><span>Click a box to open the activity · empty box = free for visits</span></div>
+ <div class='why' style='margin-top:12px'>Who is away when, at a glance: Lina is on leave 11–15 Oct; everyone was in the cycle meeting the morning of 26 Oct. Only working days are shown (weekend Fri–Sat, holidays out).</div></div>`
+
+const panel = `<aside class='panel'>
+ <div class='ph'><div style='flex:1'><h2 class='display'>CRM training</h2><div class='sub'>${kd('off')}<span>Formation</span></div></div><span class='edit'>✎ Edit</span><span class='icb'>✕</span></div>
+ <div class='pb'>
+  <section class='sec'><header><strong>When</strong></header><dl class='kv'><dt>Dates</dt><dd>Tue 6 → Wed 7 Oct 2026</dd><dt>Duration</dt><dd>2 days <span class='label'>· 2 working days</span></dd></dl></section>
+  <section class='sec'><header><strong>Who</strong></header><div class='line' style='display:flex;align-items:center;gap:10px'><span class='av'>KB</span><span><strong>Karim Bensaïd</strong><small style='display:block;color:var(--muted);font-size:12px'>Medical rep · Cardio</small></span></div></section>
+  <section class='sec'><header><strong>In his cycle</strong></header><div class='line'>Counts as <b>2 off-field days</b> in his October cycle: 21 working days → 19 field days (with his other activities: 17.5).</div><div class='line'><a>Open the cycle ›</a></div></section>
+  <section class='sec'><header><strong>Note</strong></header><div class='line'>New mobile app, with Sara. Algiers office.</div></section>
+  <section class='sec'><header><strong>Details</strong></header><dl class='kv'><dt>Added by</dt><dd>Nadia Hamidi · 30 Sep 2026</dd></dl></section>
+ </div>
+ <div class='pf'><span class='btn outline' style='color:var(--brick)'>🗑 Delete</span></div></aside>`
+
+const addPanel = (step) => `<aside class='panel'>
+ <div class='ph'><div style='flex:1'><h2 class='display'>Add activity</h2><div class='sub'>${step === 0 ? 'A day of leave' : 'A meeting with reps'}</div></div><span class='icb'>✕</span></div>
+ <div class='pb'>
+  <div class='field'><span>For</span><span class='input'>${step === 0 ? 'Karim Bensaïd' : 'Nadia Hamidi (me)'} ▾</span><span class='hint'>Whose day it is. A rep adds activities for himself; a manager can pick someone.</span></div>
+  <div class='field'><span>Type</span><span class='input'>${step === 0 ? 'Congé annuel' : 'Réunion de cycle'} ▾</span><span class='hint'>${step === 0 ? kd('non') + ' · only the types allowed for his role' : kd('off') + ' · linked to: reps'}</span></div>
+  <div class='field'><span>Title</span><span class='input'>${step === 0 ? 'Annual leave' : 'Cycle meeting'}</span></div>
+  <div class='field'><span>When</span><div style='display:grid;grid-template-columns:1fr 1fr;gap:8px'><span class='input'>${step === 0 ? 'Mon 19 Oct 2026' : 'Mon 26 Oct 2026'} ▾</span><span class='input'>${step === 0 ? 'All day' : 'Morning'} ▾</span></div><span class='hint'>All day · Morning · Afternoon · Set hours · 2 to 5 days · Until a date</span></div>
+  ${step === 1 ? `<div class='field'><span>Reps</span><div style='display:flex;flex-wrap:wrap;gap:6px'>${['Karim Bensaïd', 'Samir Meziane', 'Lina Amrani', 'Rania Djebbar'].map(x => `<span class='chip'>${x} ✕</span>`).join('')}<span class='chip info'>＋ Add</span></div><span class='hint'>Their morning counts too: each of them gets ½ off-field day.</span></div>` : ''}
+  <div class='field'><span>Note</span><span class='input muted'>Optional</span></div>
+  <div class='why'>${step === 0 ? 'Karim’s October cycle: 21 working days → 20 field days. His goal drops from 294 to 280 visits.' : 'Covers Nadia and the 4 reps for the morning of 26 Oct.'}</div>
+ </div>
+ <div class='pf'><span class='btn outline'>Cancel</span><span class='btn primary' style='margin-inline-start:auto'>Add</span></div></aside>`
+
+const phone = `<div style='display:flex;gap:28px;margin:0 28px 40px'><div class='phone'><div style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+  <div class='crumbs'>Plan</div><h1 class='title display' style='font-size:28px'>Activities</h1>
+  <div class='month' style='width:max-content'><span>‹</span><span class='on'>Oct 2026</span><span>›</span></div>
+  ${items.slice(0, 3).map(([day, rows]) => `<div class='day-h' style='padding:6px 0 0'>${day}</div>${rows.map(r => `<div class='card' style='padding:12px 14px;border-radius:16px'><strong style='font-size:14px'>${r[0]}</strong><div class='label' style='font-size:12px;margin:2px 0 6px'>${r[4]} · ${r[3]}</div>${kd(r[2])}</div>`).join('')}`).join('')}
+  <span class='btn primary' style='justify-content:center;margin-top:auto'>＋ Add activity</span></div></div>
+  <p class='caption' style='padding:0;max-width:420px'><strong>Phone.</strong> The list by day; the team calendar is for wide screens. Reps will mostly add activities from the phone (and later the mobile app).</p></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>List.</strong> One month at a time, grouped by day, newest first. Each activity: when, title, type, whose it is, what it is linked to, and its kind of day.`, list()),
+  frame(2, `<strong>Team calendar.</strong> People × working days of the month: who is away when. The same marks as the cycle's day strip.`, calendar),
+  frame(3, `<strong>Side panel.</strong> When, who, what it does to the person's cycle, note. Edit and delete from here.`, list(0), panel),
+  frame(4, `<strong>Add activity — a leave.</strong> For whom, type (only the types allowed for that person's role), title (the type's name by default), date and duration. The panel says what it does to the cycle.`, list(), addPanel(0)),
+  frame(5, `<strong>Add activity — a meeting with reps.</strong> A type linked to reps asks which reps; the activity covers them too.`, list(), addPanel(1)),
+].join('') + phone
+</script>
+<section class="rules"><h2 class="display">Rules to approve</h2><ol>
+<li><strong>Each activity belongs to one person</strong> (“For”): whose day it is. Today the API only keeps who <em>created</em> it, so a manager adding a leave for Karim would make it the manager's leave. New: <b>one column <code>user_id</code></b> on activities (empty = the creator, so existing rows keep working). <span class="ask">to approve</span><span class="ex">Example: Nadia (manager) adds “Annual leave” for Karim → it is Karim's leave, “Added by Nadia”.</span></li>
+<li><strong>An activity linked to reps covers them too.</strong> <span class="ask">to approve</span><span class="ex">Example: “Cycle meeting”, morning of 26 Oct, for Nadia, linked to Karim, Samir, Lina, Rania → each of the 5 gets ½ off-field day on 26 Oct.</span></li>
+<li><strong>How it counts in a cycle</strong> (approved with Cycles): off-field and non-working days lower the field days; a field day (e.g. a round-table with doctors) does not. Morning or afternoon = ½ day; all day = 1; <b>“2 to 5 days” = that many working days</b> (weekend and holidays are skipped). A day counts once even with two activities. <span class="ask">to approve</span><span class="ex">Example: “Training, 3 days” from Thu 8 Oct (weekend Fri–Sat) covers Thu 8, Sun 11, Mon 12 — not Fri and Sat.</span></li>
+<li><strong>Which types a person can pick</strong> = the types allowed for their role (already set in Studio › Activity types).</li>
+<li><strong>Who sees and changes them</strong>: people with the Activities permission see all activities (like professionals — no hierarchy rule). Anyone with the right can edit or delete; the cycle's figures follow at once. <span class="ask">to approve</span></li>
+<li><strong>Not now</strong>: approval of activities by the manager (the old apps had a status but never used it), budgets and guests of marketing events (Campaigns module).</li>
+</ol></section>
+</body></html>

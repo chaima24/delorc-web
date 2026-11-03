@@ -1,0 +1,88 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Settings lists</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label > b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .ph .sub { margin-top: 6px; font-size: 12.5px; color: var(--muted); }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.why { font-size: 12.5px; color: var(--body); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.warn { font-size: 12.5px; color: var(--amber); background: rgba(180,83,9,.08); border-radius: 12px; padding: 9px 12px; }
+.tile { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; display: flex; gap: 12px; align-items: center; }
+.tile i { width: 40px; height: 40px; border-radius: 12px; background: var(--mist); display: inline-flex; align-items: center; justify-content: center; font-style: normal; }
+.tile b { display: block; font-size: 14px; } .tile small { color: var(--muted); font-size: 12px; } .tile .n { margin-inline-start: auto; font-weight: 700; font-size: 13px; }
+.tile.new { border: 2px solid var(--ink); background: var(--signal-soft); }
+.kinds { display: flex; flex-wrap: wrap; gap: 6px; } .kinds span { height: 34px; padding: 0 12px; border-radius: 11px; border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; background: var(--paper); }
+.kinds span.on { background: var(--ink); color: var(--mist); border-color: var(--ink); } .kinds span em { font-style: normal; opacity: .7; font-variant-numeric: tabular-nums; }
+.pill { border-radius: 99px; background: var(--line-soft); padding: 2px 10px; font-size: 12px; font-weight: 600; }
+.use { background: var(--mist); border-radius: 14px; padding: 10px 14px; } .use p { margin: 0; font-size: 12px; color: var(--muted); } .use strong { font-size: 14px; }
+.rules { width: 1440px; margin: 0 28px 40px; background: var(--paper); border-radius: 18px; padding: 24px 28px; font-size: 14px; color: var(--body); }
+.rules h2 { margin: 0 0 12px; font-size: 22px; color: var(--ink); } .rules ol { margin: 0; padding-inline-start: 22px; display: flex; flex-direction: column; gap: 12px; } .rules li strong { color: var(--ink); } .rules .ex { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+.ask { display: inline-block; margin-inline-start: 6px; font-size: 11.5px; font-weight: 700; color: var(--cobalt); background: rgba(47,84,235,.1); border-radius: 99px; padding: 1px 8px; }
+.new2 { display: inline-block; margin-inline-start: 6px; font-size: 11.5px; font-weight: 700; color: var(--amber); background: rgba(180,83,9,.1); border-radius: 99px; padding: 1px 8px; }
+</style></head><body>
+<p class="caption"><strong>Studio › Settings — Product categories and Competitor info types.</strong> Both become ordinary Settings lists (like Specialities or Expense types): a list with search, a side panel to read, edit or delete, “Add” in the same panel. Product categories leave the Studio tabs for a new Settings group <b>Products setup</b>. Rules to approve at the bottom.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>`
+const wsNav = `<nav class='ws-nav'>${['Settings', 'Users', 'Teams', 'Brands', 'Products'].map(x => `<a class='${x === 'Settings' ? 'on' : ''}'>${x}</a>`).join('')}</nav>`
+function frame(n, label, body, panel = '') {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>AD</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${wsNav}${body}</div>${panel}</div></div></div>`
+}
+const group = (title, sub, tiles) => `<div><h2 class='display' style='margin:6px 0 2px;font-size:20px'>${title}</h2><div class='label' style='margin-bottom:10px'>${sub}</div><div style='display:grid;grid-template-columns:repeat(3,1fr);gap:10px'>${tiles}</div></div>`
+const tile = (icon, name, desc, n, cls = '') => `<div class='tile ${cls}'><i>${icon}</i><span><b>${name}</b><small>${desc}</small></span><span class='n'>${n}</span></div>`
+const hub = `<div><div class='crumbs'>Studio</div><h1 class='title display' style='font-size:36px'>Settings</h1></div>
+ ${group('Professionals setup', 'How doctors and pharmacies are classified', tile('🩺', 'Specialities', 'Doctor, pharmacy, wholesaler', 21) + tile('◔', 'Segmentations', 'A, B, C, D…', 9) + tile('⚑', 'Priorities', 'Visit priority levels', 3))}
+ ${group('Products setup', 'How products are sorted', tile('▦', 'Product categories', 'Labels used by pack discounts', 1, 'new'))}
+ ${group('Coaching & competitors', 'How reps are coached, and what they report about competitors', tile('📓', 'Coaching programs', 'One program per role, with its categories', 4) + tile('⌖', 'Coaching categories', 'The sections of a program', 12) + tile('?', 'Coaching questions', 'What the coach scores in each section', 48) + tile('◎', 'Competitor info types', 'Kinds of competitor news reps report', 23))}`
+
+const cats = [['Stratégique', 3, 2, '12 Mar 2026'], ['Gamme dermato', 0, 0, '2 Oct 2026']]
+const catList = (sel = -1) => `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Studio › Settings › Products setup</div><h1 class='title display' style='font-size:36px'>Product categories</h1><div class='label' style='margin-top:6px'>Labels for groups of products. Pack discounts are set per category.</div></div><span class='btn primary'>＋ Add a category</span></div>
+ <div class='card' style='padding:16px'><div style='display:flex;gap:10px;margin-bottom:8px'><span class='input' style='width:300px'>🔍 Search a category</span></div>
+ <table class='table'><thead><tr><th>Category</th><th class='num'>Discount tiers</th><th class='num'>Packs</th><th>Added</th></tr></thead><tbody>
+ ${cats.map((c, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${c[0]}</strong></td><td class='num'>${c[1] || '—'}</td><td class='num'>${c[2] || '—'}</td><td class='label'>${c[3]}</td></tr>`).join('')}</tbody></table></div>`
+const catPanel = (blocked = false) => `<aside class='panel'><div class='ph'><div style='flex:1'><h2 class='display'>Stratégique</h2><div class='sub'>Added 12 Mar 2026</div></div><span class='icb'>✕</span></div>
+ <div class='pb'><div class='field'><span>Name</span><span class='input'>Stratégique</span></div>
+  <div class='use'><p>Used by</p><strong>3 discount tiers in 2 packs</strong><p style='margin-top:4px'><a>See them in Packs ›</a></p></div>
+  ${blocked ? `<div class='warn'>It can't be deleted: 3 discount tiers use it. Change or delete them in Packs first.</div>` : `<div class='why'>The name is shown in packs and orders, and sent to the mobile app.</div>`}</div>
+ <div class='pf'><span class='btn dark' style='flex:1;justify-content:center'>Save</span><span class='btn outline'>Delete</span></div></aside>`
+
+const kinds = [['All', 23], ['Source', 5], ['Therapeutic class', 8], ['Competitor action', 4], ['Argument', 3], ['Material needed', 3]]
+const types = [['Médecin', 'Source', 14], ['Pharmacien', 'Source', 9], ['Antihypertenseurs', 'Therapeutic class', 6], ['Baisse de prix', 'Competitor action', 4], ['Échantillons gratuits', 'Competitor action', 2], ['Efficacité clinique', 'Argument', 5], ['Brochure produit', 'Material needed', 3]]
+const typeList = (sel = -1) => `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Studio › Settings › Coaching & competitors</div><h1 class='title display' style='font-size:36px'>Competitor info types</h1><div class='label' style='margin-top:6px'>The choices reps pick from when they report competitor news.</div></div><span class='btn primary'>＋ Add a type</span></div>
+ <div class='kinds'>${kinds.map((k, i) => `<span class='${i === 0 ? 'on' : ''}'>${k[0]} <em>${k[1]}</em></span>`).join('')}</div>
+ <div class='card' style='padding:16px'><div style='display:flex;gap:10px;margin-bottom:8px'><span class='input' style='width:300px'>🔍 Search a type</span></div>
+ <table class='table'><thead><tr><th>Type</th><th>Kind</th><th class='num'>Used in reports</th><th>Added</th></tr></thead><tbody>
+ ${types.map((c, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${c[0]}</strong></td><td><span class='pill'>${c[1]}</span></td><td class='num'>${c[2]}</td><td class='label'>3 Jun 2026</td></tr>`).join('')}</tbody></table></div>`
+const typePanel = `<aside class='panel'><div class='ph'><div style='flex:1'><h2 class='display'>Baisse de prix</h2><div class='sub'>Competitor action · added 3 Jun 2026</div></div><span class='icb'>✕</span></div>
+ <div class='pb'><div class='field'><span>Name</span><span class='input'>Baisse de prix</span></div>
+  <div class='field'><span>Kind</span><span class='input'>Competitor action ▾</span><span class='hint'>Where it shows in the report: what the competitor does.</span></div>
+  <div class='use'><p>Used in</p><strong>4 competitor reports</strong></div>
+  <div class='why'>Kinds: <b>Source</b> (who gave the news) · <b>Therapeutic class</b> · <b>Competitor action</b> (price cut, samples, congress…) · <b>Argument</b> (what they say) · <b>Material needed</b> (what our rep needs to answer).</div></div>
+ <div class='pf'><span class='btn dark' style='flex:1;justify-content:center'>Save</span><span class='btn outline'>Delete</span></div></aside>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Settings hub.</strong> “Product categories” leaves the Studio tabs and becomes a tile in a new group <b>Products setup</b>. Competitor info types already sit in “Coaching & competitors”.`, hub),
+  frame(2, `<strong>Product categories.</strong> A plain list: name, how many discount tiers and packs use it, added. The panel says where it is used.`, catList(0), catPanel()),
+  frame(3, `<strong>Delete refused while used.</strong> Today, deleting a category would silently delete its pack discount tiers; now the API refuses and the panel explains why.`, catList(0), catPanel(true)),
+  frame(4, `<strong>Competitor info types.</strong> One list for the 5 kinds, with a strip to filter by kind (counts), how many reports use each type. Panel: name, kind, use.`, typeList(3), typePanel),
+].join('')
+</script>
+<section class="rules"><h2 class="display">Rules to approve</h2><ol>
+<li><strong>Product categories move to Studio › Settings › Products setup</strong>; the Studio tab goes. <span class="new2">decided</span></li>
+<li><strong>A category used by pack discount tiers can't be deleted</strong> (the API answers 409, the panel says why). Today the database would delete the tiers with it. <span class="new2">decided</span><span class="ex">Example: “Stratégique” has 3 tiers in 2 packs → Delete is refused until those tiers are changed or removed in Packs.</span></li>
+<li><strong>“Calculate total” is not shown.</strong> The old apps never read it (checked in all labs), it stays in the database untouched; we decide on it with Packs. <span class="new2">decided</span></li>
+<li><strong>Competitor info types: the 5 kinds get clear names</strong>: Source → “Source”, Therapeutic → “Therapeutic class”, Action type → “Competitor action”, Argument → “Argument”, Support → “Material needed” (from the old report fields: origine, classe thérapeutique, type d'action, arguments, besoin de supports). <span class="new2">decided</span></li>
+<li><strong>A type used in reports can't be deleted</strong> (409), like other Settings lists. Today deleting it would quietly empty that choice in the reports. <span class="new2">decided</span><span class="ex">Example: “Baisse de prix” is in 4 reports → Delete refused; rename it instead.</span></li>
+<li><strong>API changes</strong>: only counts on the two lists (discount tiers + packs per category, reports per type) and the two delete guards. No column change.</li>
+</ol></section>
+</body></html>

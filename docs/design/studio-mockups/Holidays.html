@@ -1,0 +1,131 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Public holidays</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css"><style>
+.studio-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.studio-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.studio-nav a.on { background: var(--signal); color: var(--ink); }
+.levels { display: flex; flex-wrap: wrap; gap: 6px; }
+.levels span { height: 36px; display: inline-flex; align-items: center; gap: 8px; padding: 0 12px; border-radius: 12px; font-size: 13px; font-weight: 600; background: var(--paper); color: var(--body); white-space: nowrap; }
+.levels span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.levels small { font-weight: 600; color: var(--muted); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; font-size: 12.5px; color: var(--muted); }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.why { font-size: 12.5px; color: var(--body); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.warn { font-size: 12.5px; color: var(--amber); background: rgba(180,83,9,.08); border-radius: 12px; padding: 9px 12px; }
+.q { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 11px; background: var(--paper); border: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--body); }
+.q b { font-variant-numeric: tabular-nums; color: var(--ink); }
+.year { display: inline-flex; align-items: center; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; } .year span { height: 34px; min-width: 34px; padding: 0 10px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; } .year span.on { background: var(--ink); color: var(--mist); }
+.datebox { width: 46px; height: 50px; border-radius: 12px; background: var(--mist); display: inline-flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; flex-shrink: 0; } .datebox b { font-size: 17px; } .datebox small { font-size: 10.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+.datebox.off { opacity: .5; }
+.who { display: flex; gap: 12px; align-items: center; } .who small { display: block; color: var(--muted); font-size: 12px; }
+.ck { width: 18px; height: 18px; border-radius: 5px; background: var(--ink); color: var(--signal); font-size: 12px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rep { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); }
+.rules { width: 1440px; margin: 0 28px 40px; background: var(--paper); border-radius: 18px; padding: 24px 28px; font-size: 14px; color: var(--body); }
+.rules h2 { margin: 0 0 12px; font-size: 22px; color: var(--ink); } .rules ol { margin: 0; padding-inline-start: 22px; display: flex; flex-direction: column; gap: 12px; } .rules li strong { color: var(--ink); } .rules .ex { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+.ask { display: inline-block; margin-inline-start: 6px; font-size: 11.5px; font-weight: 700; color: var(--cobalt); background: rgba(47,84,235,.1); border-radius: 99px; padding: 1px 8px; }
+.days3 { display: flex; gap: 6px; } .days3 span { flex: 1; border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; font-size: 12.5px; } .days3 span b { display: block; font-size: 14px; } .days3 span.we { background: var(--mist); color: var(--muted); }
+</style></head><body>
+<p class="caption"><strong>Studio › Settings › Field › Public holidays.</strong> The lab's days off for everyone (Aïd, 1 Nov…). Delorch takes them out of <em>working days</em>, like the weekend, so cycle goals, the days strip and activities ("3 days of training") are right. The old apps had the same list (table <code>feries</code>: a name and a date, one row per day, entered again each year because religious holidays move). The weekend itself is set with the lab's account and only shown here. Rules to approve are at the bottom.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>`
+function frame(n, label, body, panel = '') {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+<nav class='studio-nav'><a class='on'>Settings</a><a>Users</a><a>Teams</a><a>Brands</a><a>Product categories</a><a>Products</a></nav>
+<div class='levels'><span>Activity types <small>8</small></span><span>Event types <small>5</small></span><span>Channels <small>4</small></span><span>Materials <small>12</small></span><span>Expense types <small>6</small></span><span>Expense settings <small>9</small></span><span class='on'>Public holidays <small>13</small></span></div>
+${body}</div>${panel}</div></div></div>`
+}
+const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], MO = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+// name, ISO date, same date every year
+const y2026 = [
+  ['Jour de l\'An', '2026-01-01', 1], ['Yennayer', '2026-01-12', 1], ['Aïd el-Fitr', '2026-03-20', 0], ['Aïd el-Fitr', '2026-03-21', 0], ['Aïd el-Fitr', '2026-03-22', 0],
+  ['Fête du Travail', '2026-05-01', 1], ['Aïd al-Adha', '2026-05-27', 0], ['Aïd al-Adha', '2026-05-28', 0], ['1er Moharram', '2026-06-16', 0], ['Achoura', '2026-06-25', 0],
+  ['Fête de l\'Indépendance', '2026-07-05', 1], ['Mawlid Ennabaoui', '2026-08-26', 0], ['Fête de la Révolution', '2026-11-01', 1],
+]
+const d = s => new Date(s + 'T12:00:00')
+const isWe = s => [5, 6].includes(d(s).getDay())
+const box = s => `<span class='datebox ${isWe(s) ? 'off' : ''}'><small>${MO[d(s).getMonth()]}</small><b>${d(s).getDate()}</b></span>`
+const effect = s => isWe(s) ? `<span class='chip'>On the weekend · no change</span>` : `<span class='chip ok'>1 working day less</span>`
+const head = `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Studio › Settings › Field</div><h1 class='title display' style='font-size:36px'>Public holidays</h1></div>
+  <div style='display:flex;gap:10px'><span class='btn outline'>⧉ Copy from 2025</span><span class='btn primary'>＋ Add holiday</span></div></div>`
+const bar = (year, n, wk) => `<div style='display:flex;gap:10px;align-items:center;flex-wrap:wrap'><div class='year'><span>‹</span><span class='on'>${year}</span><span>›</span></div>
+  <span class='q'>Weekend <b>Friday – Saturday</b></span>${n ? `<span class='q'><b>${n}</b> days off · <b>${wk}</b> on a working day</span>` : ''}</div>`
+const list = (sel = -1, full = true) => `${head}${bar(2026, 13, 10)}
+ <div class='card' style='padding:16px 18px'><table class='table'><thead><tr><th>Date</th><th>Name</th>${full ? `<th>Every year</th>` : ''}<th>Effect</th><th></th></tr></thead><tbody>
+ ${y2026.map((h, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><div class='who'>${box(h[1])}<span><strong>${WD[d(h[1]).getDay()]} ${d(h[1]).getDate()} ${MO[d(h[1]).getMonth()]}</strong></span></div></td><td><strong>${h[0]}</strong></td>${full ? `<td>${h[2] ? `<span class='rep'>↻ Same date</span>` : `<span class='hint'>Date changes</span>`}</td>` : ''}<td>${effect(h[1])}</td><td style='color:var(--muted)'>›</td></tr>`).join('')}
+ </tbody></table><div class='label' style='padding-top:12px'>13 days in 2026 · Aïd el-Fitr (3 days) and Aïd al-Adha (2 days) are one row per day</div></div>`
+
+const readPanel = `<aside class='panel'>
+  <div class='ph'>${box('2026-11-01')}<div style='flex:1'><h2 class='display'>Fête de la Révolution</h2><div class='sub'>Sun 1 Nov 2026 · <span class='rep'>↻ Same date every year</span></div></div><span class='icb'>🗑</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <section class='sec'><header><strong>Holiday</strong><span class='edit'>✎ Edit</span></header><dl class='kv'><dt>Name</dt><dd>Fête de la Révolution</dd><dt>Date</dt><dd>Sunday 1 November 2026</dd><dt>Every year</dt><dd>Yes · offered again by “Copy from 2026”</dd></dl></section>
+    <section class='sec'><header><strong>What it changes</strong></header>
+      <div class='line'>November 2026 has <b>21 working days</b> instead of 22.</div>
+      <div class='line'><b>18 cycles</b> include this day: their goal and their days strip leave it out. A training “3 days” that starts on 1 Nov ends one day later.</div></section>
+    <section class='sec'><header><strong>Details</strong></header><dl class='kv'><dt>Added by</dt><dd>Sara Mansouri · 3 Jan 2026</dd></dl></section>
+  </div></aside>`
+
+const addPanel = `<aside class='panel'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Add a holiday</h2></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='field'><span>Name</span><div class='input'>Aïd el-Fitr</div></div>
+    <div class='field'><span>First day</span><div class='input'>📅 Wed 10 Mar 2027</div></div>
+    <div class='field'><span>Lasts</span><div class='seg'><span>1 day</span><span>2 days</span><span class='on'>3 days</span><span>Other…</span></div>
+      <div class='days3'><span><b>Wed 10 Mar</b>working day</span><span><b>Thu 11 Mar</b>working day</span><span class='we'><b>Fri 12 Mar</b>weekend</span></div>
+      <span class='hint'>One line per day is added, with the same name. Days that fall on the weekend change nothing but are kept, so the list shows the full holiday.</span></div>
+    <label class='field' style='flex-direction:row;align-items:center;gap:10px'><span class='check'></span><span style='font-weight:400;font-size:13px'>Same date every year <span class='hint'>(1 Jan, 1 May, 5 Jul, 1 Nov… not religious holidays)</span></span></label>
+  </div>
+  <div class='pf'><span class='btn ghost'>Cancel</span><span class='btn primary' style='margin-inline-start:auto'>Add 3 days</span></div></aside>`
+
+const empty = `${head.replace('Copy from 2025', 'Copy from 2026')}${bar(2027, 0, 0)}
+ <div class='card' style='padding:40px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center'><strong style='font-size:17px'>No holidays for 2027 yet</strong><span class='label'>Until they are added, every day except the weekend counts as a working day in 2027.</span><div style='display:flex;gap:10px;margin-top:6px'><span class='btn dark'>⧉ Copy from 2026</span><span class='btn outline'>＋ Add holiday</span></div></div>`
+
+const fixed = y2026.filter(h => h[2]), moving = [['Aïd el-Fitr', 3], ['Aïd al-Adha', 2], ['1er Moharram', 1], ['Achoura', 1], ['Mawlid Ennabaoui', 1]]
+const copyPanel = `<aside class='panel'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Copy from 2026</h2><div class='sub'>Into 2027</div></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <section class='sec'><header><strong>Same date every year · ${fixed.length}</strong><span class='label'>dates set</span></header>
+      ${fixed.map(h => { const s = h[1].replace('2026', '2027'); return `<div class='line' style='display:flex;gap:10px;align-items:center'><span class='ck'>✓</span><span style='flex:1'><strong>${h[0]}</strong></span><span class='label'>${WD[d(s).getDay()]} ${d(s).getDate()} ${MO[d(s).getMonth()]} 2027</span></div>` }).join('')}</section>
+    <section class='sec'><header><strong>Date changes · ${moving.length}</strong><span class='label'>enter the 2027 date</span></header>
+      ${moving.map((m, i) => `<div class='line' style='display:grid;grid-template-columns:18px 1fr 150px;gap:10px;align-items:center'>${i < 1 ? `<span class='ck'>✓</span>` : `<span class='check'></span>`}<span><strong>${m[0]}</strong><small style='display:block;color:var(--muted);font-size:12px'>${m[1]} day${m[1] > 1 ? 's' : ''} in 2026</small></span>${i < 1 ? `<span class='input' style='height:36px;font-size:13px'>📅 10 Mar · 3 days</span>` : `<span class='input muted' style='height:36px;font-size:13px;border-style:dashed'>Date…</span>`}</div>`).join('')}
+      <div class='line'><span class='hint'>Religious holidays move about 11 days earlier each year. Leave one unticked to add it later, when the date is announced.</span></div></section>
+  </div>
+  <div class='pf'><span class='btn ghost'>Cancel</span><span class='hint'>8 days will be added</span><span class='btn primary' style='margin-inline-start:auto'>Copy 8 days</span></div></aside>`
+
+const phone = `<div style='display:flex;gap:28px;margin:0 28px 40px'><div class='phone'><div style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+  <div class='crumbs'>Studio › Settings</div><div style='display:flex;justify-content:space-between;align-items:center'><h1 class='title display' style='font-size:28px'>Public holidays</h1><span class='btn primary sm'>＋ Add</span></div>
+  <div class='year' style='width:max-content'><span>‹</span><span class='on'>2026</span><span>›</span></div>
+  ${y2026.slice(0, 7).map(h => `<div class='card' style='padding:10px 12px;border-radius:16px;display:flex;gap:12px;align-items:center'>${box(h[1])}<span style='flex:1'><strong style='font-size:14px'>${h[0]}</strong><small style='display:block;color:var(--muted);font-size:12px'>${WD[d(h[1]).getDay()]} ${d(h[1]).getDate()} ${MO[d(h[1]).getMonth()]}${isWe(h[1]) ? ' · weekend' : ''}</small></span></div>`).join('')}
+</div></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The page opens on this year.</strong> ‹ › to change year. One line per day off, with its effect: a holiday on a Friday or Saturday changes nothing (already weekend). The weekend is shown, not edited here.`, list()),
+  frame(2, `<strong>Click a holiday → side panel.</strong> Edit name/date, delete, and what it changes (working days of the month, how many cycles include it).`, list(12, false), readPanel),
+  frame(3, `<strong>Add a holiday.</strong> A holiday of several days is added in one go (one line per day, same name). “Same date every year” lets the next year be filled in one click.`, list(-1, false), addPanel),
+  frame(4, `<strong>A new year is empty.</strong> “Copy from 2026”: the fixed-date ones come with their date; the religious ones are listed to tick and date by hand, or leave for later.`, empty),
+  frame(5, `<strong>Copy from 2026</strong> (side panel).`, empty, copyPanel),
+  `<div class='step-label'><b>6</b><span><strong>On a phone.</strong> Cards; the panels open full screen.</span></div>${phone}`,
+].join('') + `<div class='rules'><h2 class='display'>Rules to approve</h2><ol>
+ <li><strong>One line per day.</strong> A 3-day Aïd is 3 lines with the same name, added together. Only one holiday per date. <span class='ex'>Same as the old <code>feries</code> table (Scipharma: “Aïd el-Fitr – 1er jour”, “2e jour”, “3e jour”).</span></li>
+ <li><strong>A holiday is not a working day, everywhere</strong>, like the weekend: cycle goals (numbers a day × working days), the days strip, “expected by today”, and activities counted in days. A holiday on the weekend changes nothing. <span class='ex'>Example: November 2026, weekend Fri–Sat, 1 Nov holiday → 21 working days instead of 22. Karim's goal at 14 a day = 294, not 308. 1 Nov is not shown as “nothing recorded”. If he still visits on 1 Nov, it counts as an extra field day.</span></li>
+ <li><strong>Worked out live</strong>, like the rest of Cycles: adding or removing a holiday changes the figures of every cycle that includes that date at once, also running and ended ones. <span class='ask'>to approve</span> <span class='ex'>Example: the admin forgets Mawlid (26 Aug) and adds it in September → August cycles lose one working day and their goal goes down by 14. The old apps also read the list each time.</span></li>
+ <li><strong>“Same date every year”</strong> is a tick on the holiday. “Copy from last year” brings those with their date; the others (religious holidays) must be dated by hand. <span class='ex'>New compared to the old apps, where every holiday was typed again each year.</span></li>
+ <li><strong>Same holidays for the whole lab</strong> (no holidays per wilaya or per team). Who can manage them: the <code>holidays</code> permission (admin sees everything). <span class='ex'>Example: a lab working in Algeria and Tunisia would need per-country holidays. Not needed today, can come later.</span></li>
+ <li><strong>Later, with Visits / Planning:</strong> planning a visit on a holiday is refused, as in the old calendar (“Planification impossible : cette journée est un jour férié”).</li>
+</ol></div>`
+</script>
+</body></html>

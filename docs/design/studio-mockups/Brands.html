@@ -1,0 +1,135 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Brands</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css"><style>
+.studio-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.studio-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.studio-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.edit.dark { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.av { width: 30px; height: 30px; border-radius: 9px; background: var(--cobalt); color: #fff; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.av.t { background: #0F9D8A; } .av.g { background: var(--line-soft); color: var(--muted); }
+.stack { display: inline-flex; } .stack .av { width: 26px; height: 26px; border-radius: 8px; font-size: 10px; box-shadow: 0 0 0 2px var(--paper); } .stack .av + .av { margin-inline-start: -6px; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; } .st .dot { width: 8px; height: 8px; }
+.st.on { color: #0F7A3D; } .st.off { color: var(--muted); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 12px 12px; }
+.grp { padding: 4px 12px 2px; font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.mrow { display: flex; align-items: center; gap: 10px; padding: 7px 12px; font-size: 13px; } .mrow small { display: block; color: var(--muted); font-size: 12px; }
+.mrow .x { margin-inline-start: auto; color: var(--muted); font-size: 12px; }
+.mini-steps { display: flex; gap: 6px; padding: 12px 20px 0; } .mini-steps span { flex: 1; height: 4px; border-radius: 9px; background: var(--line); } .mini-steps span.on { background: var(--ink); }
+.pick { border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; display: flex; gap: 10px; align-items: center; font-size: 13px; }
+.cb { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid #9FB0AA; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+.cb.on { background: var(--ink); border-color: var(--ink); color: var(--signal); }
+.why { font-size: 12px; color: var(--muted); background: var(--mist); border-radius: 10px; padding: 8px 10px; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.uses { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; } .uses a { display: flex; justify-content: space-between; color: var(--ink); padding: 4px 0; } .uses a span { color: var(--muted); }
+</style></head><body>
+<p class="caption"><strong>Studio › Brands.</strong> A brand is what reps present (Cardiozen, Tensio…). Products belong to one brand; teams promote brands.
+Brands are used by visits (brands presented), promotional documents, materials handed out, campaigns, surveys, coaching and email templates.
+Today a brand is only a <strong>name</strong> (same in the old lab apps). Same pattern as Teams: list, then a side panel to read and edit.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>`
+const addBtn = `<span class='btn primary'>＋ Add brand</span>`
+function frame(n, label, { body, panel = '' }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:780px'>${rail}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      <nav class='studio-nav'><a>Settings</a><a>Users</a><a>Teams</a><a class='on'>Brands</a><a>Product categories</a><a>Products</a></nav>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>Studio</div><h1 class='title display' style='font-size:36px'>Brands</h1></div>${addBtn}
+      </div>
+      ${body}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+const chipList = (xs, max = 2) => xs.length ? xs.slice(0, max).map(x => `<span class='chip'>${x}</span>`).join(' ') + (xs.length > max ? ` <span class='chip'>+${xs.length - max}</span>` : '') : `<span class='hint'>No team</span>`
+
+const brands = [
+  ['Cardiozen', 6, ['Cardio', 'Pharma Est'], '3 Nov 2026'],
+  ['Tensio', 3, ['Cardio', 'Pharma Est'], '28 Oct 2026'],
+  ['Neurocalm', 4, ['Neuro', 'Pharma Est'], '2 Sep 2026'],
+  ['Gastrel', 2, ['Gastro'], '10 Jan 2025'],
+  ['Dolex', 5, ['Pharma Est'], '10 Jan 2025'],
+  ['Dermacare', 0, [], '10 Jan 2024'],
+]
+const listCard = (full, sel = -1) => `<div class='card' style='padding:16px 18px'>
+  <div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:280px'>⌕ Brand name</div><span class='input'>Team <b>All</b> ▾</span></div>
+  <table class='table'><thead><tr><th>Brand</th><th>Products</th><th>Promoted by</th>${full ? `<th>Added ↓</th>` : ''}<th></th></tr></thead><tbody>
+  ${brands.map((b, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${b[0]}</strong></td><td>${b[1] ? `<strong>${b[1]}</strong>` : `<span class='hint'>None</span>`}</td><td>${chipList(b[2], full ? 2 : 1)}</td>${full ? `<td class='label'>${b[3]}</td>` : ''}<td style='color:var(--muted)'>›</td></tr>`).join('')}
+  </tbody></table>
+  <div style='display:flex;justify-content:space-between;align-items:center;padding-top:12px' class='label'><span>1–6 of 6</span><span>Rows 25 ▾ ‹ 1 ›</span></div></div>`
+
+const readPanel = `<aside class='panel'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Cardiozen</h2><div class='sub'><span class='hint'>added 3 Nov 2026</span></div></div><span class='icb'>🗑</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='tiles' style='grid-template-columns:1fr 1fr'><div class='tile'><span>Products</span><strong>6</strong></div><div class='tile'><span>Teams</span><strong>2</strong></div></div>
+    <section class='sec'><header><strong>Name</strong><span class='edit'>✎ Edit</span></header><div class='line'>Cardiozen</div></section>
+    <section class='sec'><header><strong>Products · 6</strong><a style='font-size:13px'>See in Products →</a></header>
+      <div class='uses'>${['Cardiozen 5 mg · tablets', 'Cardiozen 10 mg · tablets', 'Cardiozen LP 20 mg', 'Cardiozen 2.5 mg'].map(p => `<a>${p}<span>›</span></a>`).join('')}<span class='hint'>+ 2 more</span></div></section>
+    <section class='sec'><header><strong>Promoted by</strong><span class='edit'>✎ Edit</span></header><div class='chips'><span class='chip'>Cardio</span><span class='chip'>Pharma Est</span></div></section>
+    <section class='sec'><header><strong>Used by</strong></header><div class='uses'><a>Visits (presented) <span>1 240</span></a><a>Promotional documents <span>3</span></a><a>Materials handed out <span>86</span></a><a>Campaigns <span>1</span></a></div></section>
+  </div>
+</aside>`
+
+const editTeams = `<aside class='panel'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Cardiozen</h2><div class='sub'><span class='hint'>added 3 Nov 2026</span></div></div><span class='icb'>🗑</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <section class='sec' style='border:2px solid var(--ink)'><header><strong>Promoted by</strong></header>
+      <div style='padding:0 12px 12px;display:flex;flex-direction:column;gap:8px'>
+      ${[['Cardio', 1], ['Neuro', 0], ['Pharma Est', 1], ['Gastro', 0]].map(t => `<div class='pick'><span class='cb ${t[1] ? 'on' : ''}'>${t[1] ? '✓' : ''}</span><strong>${t[0]}</strong></div>`).join('')}
+      <div class='why'>Same link as “Brands promoted” on each team: changing it here changes the team too.</div>
+      <div style='display:flex;justify-content:flex-end;gap:8px'><span class='edit'>Cancel</span><span class='edit dark'>Save</span></div></div></section>
+  </div>
+</aside>`
+
+const addPanel = `<aside class='panel' style='min-height:0'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Add a brand</h2></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='field'><span>Name</span><div class='input'>Glucofin</div></div>
+    <div class='field'><span>Promoted by <span class='hint'>(optional)</span></span>${[['Cardio', 0], ['Diabeto', 1], ['Pharma Est', 1]].map(t => `<div class='pick'><span class='cb ${t[1] ? 'on' : ''}'>${t[1] ? '✓' : ''}</span><strong>${t[0]}</strong></div>`).join('')}</div>
+    <div class='why'>Products are added in Studio › Products, where you pick the brand.</div>
+  </div>
+  <div class='pf'><span class='btn ghost'>Cancel</span><span class='btn primary' style='margin-inline-start:auto'>Add Glucofin</span></div>
+</aside>`
+
+const blocked = `<aside class='panel' style='min-height:0'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Cardiozen</h2></div><span class='icb' style='background:var(--mist)'>🗑</span><span class='icb'>✕</span></div>
+  <div class='pb'><div class='why'><strong style='color:var(--ink)'>Can’t delete Cardiozen.</strong> It has 6 products and visits, documents and campaigns use it. Deleting it today would also wipe its products and the brands presented in past visits.</div></div>
+</aside>`
+
+const phone = `<div style='display:flex;gap:28px;margin:0 28px 40px'>
+  <div class='phone'><div style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+    <div class='crumbs'>Studio</div><div style='display:flex;justify-content:space-between;align-items:center'><h1 class='title display' style='font-size:30px'>Brands</h1><span class='btn primary sm'>＋ Add</span></div>
+    <div class='input muted'>⌕ Brand name</div><div style='display:flex;gap:6px'><span class='chip'>Team ▾</span></div>
+    ${brands.map(b => `<div class='card' style='padding:12px 14px;border-radius:16px;display:flex;flex-direction:column;gap:4px'><strong style='font-size:15px'>${b[0]}</strong><div class='hint'>Products ${b[1]} · ${b[2].join(', ') || 'No team'}</div></div>`).join('')}
+  </div></div>
+</div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Brands: the page opens.</strong> Name, how many products, the teams that promote it, Added (newest first). Search by name, filter by team.`, { body: listCard(true) }),
+  frame(2, `<strong>Click a brand → reading panel.</strong> Name (Edit), its products (link to Products filtered on this brand), the teams that promote it, and what uses it.`, { body: listCard(false, 0), panel: readPanel }),
+  frame(3, `<strong>Edit “Promoted by”.</strong> Tick the teams. It is the same link as on the team page, so both stay in sync.`, { body: listCard(false, 0), panel: editTeams }),
+  frame(4, `<strong>Add a brand:</strong> one short form (name, optional teams).`, { body: listCard(false), panel: addPanel }),
+  frame(5, `<strong>Delete</strong> only for a brand with no products and nothing using it (added by mistake). Otherwise the API refuses and says why.`, { body: listCard(false, 0), panel: blocked }),
+  `<div class='step-label'><b>6</b><span><strong>On a phone.</strong> Cards; the panel opens full screen.</span></div>${phone}`,
+].join('')
+</script>
+</body></html>

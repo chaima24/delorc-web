@@ -1,0 +1,163 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Products</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css"><style>
+.studio-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.studio-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.studio-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.edit.dark { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.av { width: 30px; height: 30px; border-radius: 9px; background: var(--cobalt); color: #fff; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.av.t { background: #0F9D8A; } .av.g { background: var(--line-soft); color: var(--muted); }
+.stack { display: inline-flex; } .stack .av { width: 26px; height: 26px; border-radius: 8px; font-size: 10px; box-shadow: 0 0 0 2px var(--paper); } .stack .av + .av { margin-inline-start: -6px; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; } .st .dot { width: 8px; height: 8px; }
+.st.on { color: #0F7A3D; } .st.off { color: var(--muted); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 12px 12px; }
+.grp { padding: 4px 12px 2px; font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.mrow { display: flex; align-items: center; gap: 10px; padding: 7px 12px; font-size: 13px; } .mrow small { display: block; color: var(--muted); font-size: 12px; }
+.mrow .x { margin-inline-start: auto; color: var(--muted); font-size: 12px; }
+.mini-steps { display: flex; gap: 6px; padding: 12px 20px 0; } .mini-steps span { flex: 1; height: 4px; border-radius: 9px; background: var(--line); } .mini-steps span.on { background: var(--ink); }
+.pick { border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; display: flex; gap: 10px; align-items: center; font-size: 13px; }
+.cb { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid #9FB0AA; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+.cb.on { background: var(--ink); border-color: var(--ink); color: var(--signal); }
+.why { font-size: 12px; color: var(--muted); background: var(--mist); border-radius: 10px; padding: 8px 10px; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.uses { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; } .uses a { display: flex; justify-content: space-between; color: var(--ink); padding: 4px 0; } .uses a span { color: var(--muted); }
+.thumb { width: 40px; height: 40px; border-radius: 12px; background: var(--mist); display: inline-flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.thumb.lg { width: 72px; height: 72px; border-radius: 18px; font-size: 30px; }
+.flag { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; }
+.flag i { width: 16px; height: 16px; border-radius: 5px; background: var(--ink); color: var(--signal); font-style: normal; font-size: 10px; display: inline-flex; align-items: center; justify-content: center; }
+.flag.off i { background: var(--line-soft); color: var(--muted); }
+.num { font-variant-numeric: tabular-nums; }
+.big { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.ugs { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 12px 12px; }
+</style></head><body>
+<p class="caption"><strong>Studio › Products.</strong> A product belongs to one brand. What orders use today: the <strong>order price</strong> (unit price on order lines), the <strong>VAT</strong>,
+<strong>“Strategic”</strong> (counts in the strategic share that picks the pack discount), <strong>“Pack discount applies”</strong> (the pack % is applied to this product — old “Rémunérer”) and the <strong>free-unit options (UG)</strong> offered on an order line.
+The other prices (distributor, wholesaler, pharmacy, discounted) are kept for information. A product is a big record: list → reading panel → <strong>full page</strong>.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>`
+const addBtn = `<div style='display:flex;gap:10px'><span class='btn outline'>⇩ Export</span><span class='btn primary'>＋ Add product</span></div>`
+function frame(n, label, { body, panel = '', title = 'Products', crumbs = 'Studio', nav = true, add = addBtn }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:780px'>${rail}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      ${nav ? `<nav class='studio-nav'><a>Settings</a><a>Users</a><a>Teams</a><a>Brands</a><a>Product categories</a><a class='on'>Products</a></nav>` : ''}
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>${crumbs}</div>${title ? `<h1 class='title display' style='font-size:36px'>${title}</h1>` : ''}</div>${title ? add : ''}
+      </div>
+      ${body}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+const yes = (on, label) => `<span class='flag ${on ? '' : 'off'}'><i>${on ? '✓' : ''}</i>${label}</span>`
+const products = [
+  ['💊', 'Cardiozen 5 mg · 30 tablets', 'Cardiozen', 'Cardiology', '1 480,00', 1, 1, '3 Nov 2026'],
+  ['💊', 'Cardiozen 10 mg · 30 tablets', 'Cardiozen', 'Cardiology', '1 920,00', 1, 1, '3 Nov 2026'],
+  ['🧴', 'Dermacare cream 50 ml', 'Dermacare', 'Dermatology', '860,00', 0, 1, '28 Oct 2026'],
+  ['💊', 'Neurocalm 25 mg · 28 caps', 'Neurocalm', 'Neurology', '2 310,00', 1, 0, '2 Sep 2026'],
+  ['🧪', 'Gastrel syrup 150 ml', 'Gastrel', 'Gastro-enterology', '640,00', 0, 0, '10 Jan 2025'],
+]
+const listCard = (full, sel = -1) => `<div class='card' style='padding:16px 18px'>
+  <div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:280px'>⌕ Product name</div><span class='input'>Brand <b>All</b> ▾</span><span class='input'>Therapeutic area <b>All</b> ▾</span><span class='input'>Strategic <b>All</b> ▾</span></div>
+  <table class='table'><thead><tr><th>Product</th><th>Brand</th>${full ? `<th>Therapeutic area</th>` : ''}<th class='num'>Order price (DZD)</th>${full ? `<th>Strategic</th><th>Pack discount</th><th>Added ↓</th>` : ''}<th></th></tr></thead><tbody>
+  ${products.map((p, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><div class='person'><span class='thumb'>${p[0]}</span><strong>${p[1]}</strong></div></td><td>${p[2]}</td>${full ? `<td>${p[3]}</td>` : ''}<td class='num'>${p[4]}</td>${full ? `<td>${yes(p[5], p[5] ? 'Yes' : 'No')}</td><td>${yes(p[6], p[6] ? 'Applies' : 'No')}</td><td class='label'>${p[7]}</td>` : ''}<td style='color:var(--muted)'>›</td></tr>`).join('')}
+  </tbody></table>
+  <div style='display:flex;justify-content:space-between;align-items:center;padding-top:12px' class='label'><span>1–5 of 64</span><span>Rows 25 ▾ ‹ 1 2 3 ›</span></div></div>`
+
+const readPanel = `<aside class='panel'>
+  <div class='ph'><span class='thumb lg'>💊</span><div style='flex:1'><h2 class='display'>Cardiozen 5 mg · 30 tablets</h2><div class='sub'><span class='chip'>Cardiozen</span><span class='chip'>Cardiology</span></div></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='tiles'><div class='tile'><span>Order price</span><strong class='num'>1 480</strong></div><div class='tile'><span>VAT</span><strong>0 %</strong></div><div class='tile'><span>Per box</span><strong>30</strong></div></div>
+    <section class='sec'><header><strong>In orders</strong></header><div style='padding:0 12px 12px;display:flex;flex-direction:column;gap:6px'>${yes(1, 'Strategic product')}${yes(1, 'Pack discount applies')}</div>
+      <div class='grp'>Free units (UG) offered</div><div class='ugs'><span class='chip'>10</span><span class='chip'>15</span><span class='chip'>20</span></div></section>
+    <section class='sec'><header><strong>Other prices</strong></header><dl class='kv'><dt>Distributor</dt><dd class='num'>1 480,00</dd><dt>Wholesaler</dt><dd class='num'>1 480,00</dd><dt>Pharmacy</dt><dd class='num'>1 628,00</dd><dt>Discounted</dt><dd>—</dd></dl></section>
+    <section class='sec'><header><strong>Ordered</strong></header><div class='line'>In 214 orders · last on 21 Oct 2026</div></section>
+  </div>
+  <div class='pf'><span class='btn dark' style='flex:1;justify-content:center'>Open full page ↗</span></div>
+</aside>`
+
+const full = `<div class='card' style='display:flex;gap:18px;align-items:center'>
+  <span class='thumb lg'>💊</span>
+  <div style='flex:1'><h1 class='display' style='margin:0;font-size:30px'>Cardiozen 5 mg · 30 tablets</h1>
+    <div style='display:flex;gap:8px;margin-top:8px;align-items:center'><span class='chip'>Cardiozen</span><span class='chip'>Cardiology</span>${yes(1, 'Strategic')}</div></div>
+  <span class='btn outline'>Duplicate</span><span class='btn outline'>⋯</span>
+</div>
+<div class='big'>
+  <section class='sec' style='background:var(--paper)'><header><strong>Product</strong><span class='edit'>✎ Edit</span></header>
+    <dl class='kv'><dt>Name</dt><dd>Cardiozen 5 mg · 30 tablets</dd><dt>Brand</dt><dd>Cardiozen</dd><dt>Therapeutic area</dt><dd>Cardiology</dd><dt>Per box</dt><dd>30</dd><dt>Description</dt><dd>Losartan 50 mg, film-coated tablets.</dd><dt>Added</dt><dd>3 Nov 2026</dd></dl></section>
+  <div style='display:flex;flex-direction:column;gap:16px'>
+    <section class='sec' style='background:var(--paper)'><header><strong>Photo</strong><span class='edit'>⇪ Change</span></header><div class='line' style='display:flex;gap:12px;align-items:center'><span class='thumb lg'>💊</span><span class='hint'>JPG, PNG or WebP · 10 MB. Shown to reps in the app.</span></div></section>
+    <section class='sec' style='background:var(--paper)'><header><strong>Prices</strong><span class='edit'>✎ Edit</span></header>
+      <dl class='kv'><dt>Order price</dt><dd class='num'><strong>1 480,00 DZD</strong> <span class='hint'>· unit price on orders</span></dd><dt>VAT</dt><dd>0 %</dd><dt>Distributor</dt><dd class='num'>1 480,00</dd><dt>Wholesaler</dt><dd class='num'>1 480,00</dd><dt>Pharmacy</dt><dd class='num'>1 628,00</dd><dt>Discounted</dt><dd>—</dd></dl></section>
+  </div>
+  <section class='sec' style='background:var(--paper)'><header><strong>In orders</strong><span class='edit'>✎ Edit</span></header>
+    <div style='padding:0 12px 10px;display:flex;flex-direction:column;gap:8px'>${yes(1, 'Strategic product')}<span class='hint' style='margin-inline-start:22px'>Counts in the strategic share of an order (picks the pack discount).</span>${yes(1, 'Pack discount applies')}<span class='hint' style='margin-inline-start:22px'>The pack discount % is applied to this product’s lines.</span></div>
+    <div class='grp'>Free units (UG) offered</div><div class='ugs'><span class='chip'>10</span><span class='chip'>15</span><span class='chip'>20</span></div></section>
+  <section class='sec' style='background:var(--paper)'><header><strong>Ordered</strong></header><dl class='kv'><dt>Orders</dt><dd>214</dd><dt>Last order</dt><dd>21 Oct 2026</dd><dt>Packs</dt><dd>In 3 pack orders</dd></dl></section>
+</div>`
+
+const editOrders = `<section class='sec' style='background:var(--paper);border:2px solid var(--ink)'><header><strong>In orders</strong></header>
+  <div style='padding:0 12px 12px;display:flex;flex-direction:column;gap:10px'>
+    <div class='pick'><span class='cb on'>✓</span><div><strong>Strategic product</strong><div class='hint'>Counts in the strategic share of an order.</div></div></div>
+    <div class='pick'><span class='cb on'>✓</span><div><strong>Pack discount applies</strong><div class='hint'>The pack discount % is applied to this product’s lines.</div></div></div>
+    <div class='field'><span>Free units (UG) offered</span><div class='input'><span class='chip'>10 ✕</span><span class='chip'>15 ✕</span><span class='chip'>20 ✕</span><span class='muted' style='margin-inline-start:6px'>Add a value…</span></div><span class='hint'>A value used by past orders can’t be removed.</span></div>
+    <div style='display:flex;justify-content:flex-end;gap:8px'><span class='edit'>Cancel</span><span class='edit dark'>Save</span></div>
+  </div></section>`
+
+const createPanel = (n, title, body, foot) => `<aside class='panel' style='min-height:640px;width:420px'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Add a product</h2><div class='sub'><span class='chip'>Step ${n} of 2 · ${title}</span></div></div><span class='icb'>✕</span></div>
+  <div class='mini-steps'>${[1, 2].map(i => `<span class='${i <= n ? 'on' : ''}'></span>`).join('')}</div>
+  <div class='pb'>${body}</div><div class='pf'>${foot}</div></aside>`
+const step1 = createPanel(1, 'Product', `
+  <div style='display:flex;gap:12px;align-items:center'><span class='thumb lg' style='font-size:20px'>＋</span><span class='hint'>Photo (optional)</span></div>
+  <div class='field'><span>Name</span><div class='input'>Glucofin 850 mg · 60 tablets</div></div>
+  <div class='field'><span>Brand</span><div class='input'>Glucofin ▾</div></div>
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'><div class='field'><span>Therapeutic area</span><div class='input'>Diabetology</div></div><div class='field'><span>Per box</span><div class='input'>60</div></div></div>
+  <div class='field'><span>Description <span class='hint'>(optional)</span></span><div class='input muted'>Molecule, form…</div></div>`,
+  `<span class='btn ghost'>Cancel</span><span class='btn dark' style='margin-inline-start:auto'>Next</span>`)
+const step2 = createPanel(2, 'Prices and orders', `
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'><div class='field'><span>Order price</span><div class='input'>1 250,00</div></div><div class='field'><span>VAT %</span><div class='input'>0</div></div></div>
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'><div class='field'><span>Distributor</span><div class='input muted'>—</div></div><div class='field'><span>Wholesaler</span><div class='input muted'>—</div></div><div class='field'><span>Pharmacy</span><div class='input muted'>—</div></div><div class='field'><span>Discounted</span><div class='input muted'>—</div></div></div>
+  <div class='pick'><span class='cb on'>✓</span><strong>Strategic product</strong></div>
+  <div class='pick'><span class='cb'></span><strong>Pack discount applies</strong></div>
+  <div class='field'><span>Free units (UG) offered</span><div class='input muted'>Add a value…</div></div>`,
+  `<span class='btn ghost'>Back</span><span class='btn primary' style='margin-inline-start:auto'>Add product</span>`)
+
+const phone = `<div style='display:flex;gap:28px;margin:0 28px 40px'>
+  <div class='phone'><div style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+    <div class='crumbs'>Studio</div><div style='display:flex;justify-content:space-between;align-items:center'><h1 class='title display' style='font-size:30px'>Products</h1><span class='btn primary sm'>＋ Add</span></div>
+    <div class='input muted'>⌕ Product name</div><div style='display:flex;gap:6px'><span class='chip'>Brand ▾</span><span class='chip'>Area ▾</span><span class='chip'>Strategic ▾</span></div>
+    ${products.map(p => `<div class='card' style='padding:12px 14px;border-radius:16px;display:flex;gap:10px;align-items:center'><span class='thumb'>${p[0]}</span><div style='flex:1;min-width:0'><strong style='font-size:14px'>${p[1]}</strong><div class='hint'>${p[2]} · ${p[4]} DZD</div></div></div>`).join('')}
+  </div></div>
+</div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Products: the page opens.</strong> Photo, name, brand, therapeutic area, order price, strategic, pack discount, Added (newest first). Filters: name, brand, therapeutic area, strategic. “Export” = Excel of the filtered list. A brand’s “See in Products →” opens this page filtered on that brand.`, { body: listCard(true) }),
+  frame(2, `<strong>Click a product → reading panel.</strong> Prices, what orders use, free units, how often it was ordered. “Open full page” to edit.`, { body: listCard(false, 0), panel: readPanel }),
+  frame(3, `<strong>Full page.</strong> One page (no tabs), each section with its own Edit: Product, Photo, Prices, In orders. “Ordered” is read-only. ⋯ = Delete (only when no order or pack order ever used the product).`, { title: '', crumbs: 'Studio › Products › Cardiozen 5 mg', nav: false, body: full }),
+  frame(4, `<strong>Edit “In orders”.</strong> Two checkboxes with what they do, and the UG values as chips. A UG value already used by an order stays (today the API deletes and recreates them, which breaks on products with orders — fixed).`, { title: '', crumbs: 'Studio › Products › Cardiozen 5 mg', nav: false, body: `<div class='big'>${editOrders}<div></div></div>` }),
+  `<div class='step-label'><b>5</b><span><strong>Add a product: 2 steps in the side panel.</strong> 1 Product (photo, name, brand, area, per box, description) · 2 Prices and orders. Then the reading panel opens on the new product.</span></div>
+   <div style='display:flex;gap:16px;margin:0 28px 40px;width:1440px;align-items:flex-start'>${step1}${step2}</div>`,
+  `<div class='step-label'><b>6</b><span><strong>On a phone.</strong> Cards; the panel opens full screen, the full page stacks its sections.</span></div>${phone}`,
+].join('')
+</script>
+</body></html>

@@ -1,0 +1,155 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Professional requests</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.edit.dark { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.av { width: 36px; height: 36px; border-radius: 11px; background: var(--line-soft); color: var(--ink); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.av.lg { width: 72px; height: 72px; border-radius: 18px; font-size: 24px; background: var(--signal); }
+.av.ph { width: 56px; height: 56px; border-radius: 16px; font-size: 18px; background: var(--signal); padding: 0; border: 0; }
+.person { display: flex; gap: 10px; align-items: center; } .person small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; } .st .dot { width: 8px; height: 8px; }
+.st.on { color: #0F7A3D; } .st.off { color: var(--muted); }
+.ver { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--cobalt); }
+.mini-steps { display: flex; gap: 6px; padding: 12px 20px 0; } .mini-steps span { flex: 1; height: 4px; border-radius: 9px; background: var(--line); } .mini-steps span.on { background: var(--ink); }
+.why { font-size: 12px; color: var(--muted); background: var(--mist); border-radius: 10px; padding: 8px 10px; }
+.warnbox { border-radius: 14px; background: rgba(180, 83, 9, .08); padding: 10px 12px; font-size: 13px; display: flex; flex-direction: column; gap: 8px; }
+.warnbox strong { color: var(--amber); }
+.dup { background: var(--paper); border-radius: 10px; padding: 8px 10px; display: flex; gap: 10px; align-items: center; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.stat { background: var(--mist); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.stat span { font-size: 12px; color: var(--muted); } .stat strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.stat small { font-size: 11.5px; color: var(--muted); }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 16px; align-items: start; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.card2 { background: var(--paper); border-radius: 20px; }
+.card2 header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; } .card2 header strong { flex: 1; font-size: 15px; }
+.ic { width: 32px; height: 32px; border-radius: 10px; background: var(--line-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 15px; }
+.rows { padding: 0 16px 12px; } .rows > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .rows > div:last-child { border-bottom: 0; } .rows span { color: var(--muted); }
+.wp { display: flex; gap: 12px; padding: 10px 16px; border-top: 1px solid var(--line-soft); font-size: 13.5px; align-items: flex-start; }
+.wp .bar { width: 4px; align-self: stretch; border-radius: 9px; background: var(--cobalt); flex-shrink: 0; } .wp.past .bar { background: var(--line); } .wp.past { color: var(--muted); }
+.wp small { display: block; color: var(--muted); font-size: 12px; }
+.map { margin: 0 16px 12px; height: 150px; border-radius: 16px; background: repeating-linear-gradient(45deg, #E6ECE9 0 12px, #EDF1EF 12px 24px); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; position: relative; }
+.map i { position: absolute; width: 16px; height: 16px; border-radius: 99px; background: var(--cobalt); box-shadow: 0 0 0 5px rgba(47, 84, 235, .2); }
+.vrow { display: grid; grid-template-columns: 110px 1fr 130px 90px; gap: 12px; padding: 10px 16px; border-top: 1px solid var(--line-soft); font-size: 13.5px; align-items: center; }
+.vrow small { color: var(--muted); font-size: 12px; }
+.typeseg { display: inline-flex; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; }
+.typeseg span { height: 34px; padding: 0 12px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--body); }
+.typeseg span.on { background: var(--ink); color: var(--mist); } .typeseg em { font-style: normal; font-size: 11.5px; opacity: .7; }
+
+.qstrip { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.q { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 11px; background: var(--paper); border: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--body); }
+.q b { font-variant-numeric: tabular-nums; color: var(--ink); } .q.on { background: var(--ink); color: var(--mist); border-color: var(--ink); } .q.on b { color: var(--signal); }
+.q i { font-style: normal; color: var(--amber); }
+.steps4 { display: flex; gap: 8px; } .steps4 div { flex: 1; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.steps4 div::before { content: ''; height: 4px; border-radius: 9px; background: var(--line); } .steps4 div.on { color: var(--ink); } .steps4 div.on::before { background: var(--ink); }
+.drop { border: 2px dashed #B7C4BF; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; background: var(--mist); }
+.drop .big { font-size: 40px; }
+.how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.how div { background: var(--mist); border-radius: 16px; padding: 14px; font-size: 13px; color: var(--body); } .how strong { display: block; color: var(--ink); margin-bottom: 4px; }
+.map-row { display: grid; grid-template-columns: 1fr 30px 1fr 1.3fr; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; }
+.map-row .sample { color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sel { height: 40px; border: 1px solid var(--line); border-radius: 11px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; background: var(--paper); }
+.sel.auto { border-color: #9FD3B4; background: #F2FBF5; } .sel.skip { color: var(--muted); } .sel.miss { border-color: var(--amber); background: #FFF7EE; }
+.sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.sum div { border-radius: 16px; padding: 12px 14px; background: var(--mist); display: flex; flex-direction: column; gap: 2px; } .sum span { font-size: 12px; color: var(--muted); } .sum strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.sum .new strong { color: #0F7A3D; } .sum .upd strong { color: var(--cobalt); } .sum .err strong { color: var(--brick); }
+.err-row { display: grid; grid-template-columns: 70px 1.2fr 1fr 2fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; align-items: center; }
+.err-row .why { background: none; padding: 0; color: var(--brick); font-size: 13px; }
+.radio { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 13px; } .radio.on { border: 2px solid var(--ink); }
+.radio i { width: 16px; height: 16px; border-radius: 99px; border: 1.5px solid #9FB0AA; flex-shrink: 0; margin-top: 2px; } .radio.on i { border: 5px solid var(--ink); }
+.done { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; padding: 30px 0 10px; }
+.done .ok { width: 64px; height: 64px; border-radius: 20px; background: var(--signal); display: flex; align-items: center; justify-content: center; font-size: 30px; }
+
+.req { background: var(--paper); border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.req .top { display: flex; gap: 12px; align-items: flex-start; } .req .top .grow { flex: 1; }
+.req .by { font-size: 12.5px; color: var(--muted); }
+.req .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font-size: 13px; } .req .facts span { display: block; font-size: 11.5px; color: var(--muted); }
+.alike { border-radius: 14px; background: rgba(180,83,9,.08); padding: 10px 12px; font-size: 13px; display: flex; gap: 10px; align-items: center; }
+.alike strong { color: var(--amber); }
+.banner { border-radius: 18px; background: rgba(180,83,9,.09); padding: 12px 16px; display: flex; gap: 12px; align-items: center; font-size: 14px; }
+.state { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; border-radius: 99px; padding: 3px 10px; }
+.state.wait { background: rgba(180,83,9,.1); color: var(--amber); } .state.ok { background: var(--signal-soft); color: var(--ink); } .state.no { background: rgba(192,54,44,.1); color: var(--brick); }
+.modal { position: absolute; inset: 0; background: rgba(15,31,28,.35); display: flex; align-items: center; justify-content: center; border-radius: 18px; }
+</style></head><body>
+<p class="caption"><strong>Professionals — proposals and approval — proposal.</strong> Someone without the <code>hcp-requests.approve</code> permission (typically a rep) can still add a professional, but it is a <strong>proposal</strong>: status <em>Waiting</em>, not in the list nor in any picker (orders, cycles, campaigns…) until someone with the permission approves it. Refused proposals stay as history with the reason. No new table: the professional's status says it (waiting / refused), plus who decided, when and why.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>Profes-<br>sionals</span></nav>`
+const wsNav = `<nav class='ws-nav'><a class='on'>Healthcare professionals</a><a>Organisations</a><a>Consents</a><a>Territories</a></nav>`
+function frame(n, label, body, panel = '', wrap = '') {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0;position:relative'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${wsNav}${body}</div>${panel}</div></div>${wrap}</div>`
+}
+const listHead = (who) => `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Professionals</div><h1 class='title display' style='font-size:36px'>Healthcare professionals</h1></div>
+  <div style='display:flex;gap:10px'>${who === 'rep' ? `<span class='btn outline'>My proposals <span class='state wait'>2 waiting</span></span>` : `<span class='btn outline'>Requests <span class='state wait'>5</span></span><span class='btn outline'>⇪ Import</span>`}<span class='btn outline'>⇩ Export</span><span class='btn primary'>＋ Add professional</span></div></div>
+  <div class='card' style='height:120px;display:flex;align-items:center;justify-content:center;color:var(--muted)'>… the list (validated professionals only) …</div>`
+
+const addLast = `<aside class='panel' style='min-height:0'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Add professional</h2><div class='sub hint'>Step 3 of 3 · Works at</div></div><span class='icb'>✕</span></div>
+  <div class='mini-steps'><span class='on'></span><span class='on'></span><span class='on'></span></div>
+  <div class='pb'><section class='sec' style='padding:12px;display:flex;flex-direction:column;gap:10px'><div class='field'><span>Organisation</span><div class='input'>CHU Mustapha ▾</div></div><div class='field'><span>Speciality</span><div class='input'>Cardiology ▾</div></div><div class='field'><span>Since</span><div class='input'>01/03/2019</div></div></section>
+  <div class='field'><span>OneKey ID</span><div class='input'>WDZM00123456</div></div><div class='field'><span>WKP ID</span><div class='input'>WDZH00004521</div></div>
+  <div class='banner' style='font-size:13px'>ⓘ<span>This is a <strong>proposal</strong>: a manager checks it before it appears in the list. You'll see the answer in “My proposals”.</span></div></div>
+  <div class='pf'><span class='btn outline'>‹ Back</span><span style='flex:1'></span><span class='btn primary'>Send for approval</span></div></aside>`
+
+const reqs = [
+  ['KH', 'Dr Kamel Haddad', 'Doctor · Cardiology · CHU Mustapha', 'Hydra · Alger', '0550 12 12 12', 'Amine K.', 'today 09:14', true],
+  ['PA', 'Pharmacie El Amel', 'Pharmacy', 'Kouba · Alger', '021 23 45 67', 'Sara M.', 'yesterday', false],
+  ['NF', 'Dr Nadia Ferhat', 'Doctor · Endocrinology · EPH Bologhine', 'Bologhine · Alger', '—', 'Amine K.', '22 Oct', false],
+]
+const card = (r, open) => `<div class='req'><div class='top'><span class='av'>${r[0]}</span><div class='grow'><strong>${r[1]}</strong><div class='by'>${r[2]}</div></div><span class='by'>Proposed by <strong style='color:var(--ink)'>${r[5]}</strong> · ${r[6]}</span></div>
+  <div class='facts'><div><span>Place</span>${r[3]}</div><div><span>Phone</span>${r[4]}</div><div><span>OneKey ID</span>WDZM00${r[0].charCodeAt(0)}7781</div><div><span>GPS</span>${r[7] ? '36.74, 3.04 ↗' : '—'}</div></div>
+  ${r[7] ? `<div class='alike'>⚠ <span style='flex:1'><strong>Looks like Dr Kamel Hadad</strong> (M0871 · Cardiology · Hydra · same phone). If it's the same person, merge the proposal into it instead.</span><span class='btn outline sm'>Merge into M0871</span></div>` : ''}
+  <div style='display:flex;gap:8px;justify-content:flex-end'><span class='btn ghost sm'>Open ↗</span><span class='btn outline sm' style='color:var(--brick)'>Refuse…</span><span class='btn primary sm'>Approve</span></div></div>`
+const reqPage = (tab) => `<div class='crumbs'>Professionals › Healthcare professionals › Requests</div>
+  <div style='display:flex;justify-content:space-between;align-items:flex-end'><h1 class='title display' style='font-size:34px'>Requests</h1><span class='hint'>Proposals from people who can't add professionals directly</span></div>
+  <div style='display:flex;gap:10px'><div class='seg'><span class='${tab === 0 ? 'on' : ''}'>Waiting 5</span><span class='${tab === 1 ? 'on' : ''}'>Refused 12</span><span>Approved 148</span></div><span class='input'>Proposed by <b>All</b> ▾</span><span class='input'>Type <b>All</b> ▾</span></div>
+  ${reqs.map(r => card(r)).join('')}`
+
+const refuseModal = `<div class='modal'><div class='card' style='width:480px;display:flex;flex-direction:column;gap:12px'><strong style='font-size:18px'>Refuse Pharmacie El Amel?</strong>
+  <div class='field'><span>Reason (Sara M. will see it)</span><div class='input' style='height:84px;align-items:flex-start;padding-top:10px'>Already in Delorch as “Pharmacie Amel Kouba” (P2210).</div></div>
+  <div style='display:flex;justify-content:flex-end;gap:8px'><span class='btn outline sm'>Cancel</span><span class='btn dark sm' style='background:var(--brick);border-color:var(--brick)'>Refuse</span></div></div></div>`
+
+const mine = `<div class='crumbs'>Professionals › My proposals</div><h1 class='title display' style='font-size:34px'>My proposals</h1>
+  <div class='card' style='padding:6px 18px'><table class='table'><thead><tr><th>Professional</th><th>Sent</th><th>Answer</th><th></th></tr></thead><tbody>
+  <tr><td><div class='person'><span class='av'>KH</span><strong>Dr Kamel Haddad<small>Cardiology · Hydra</small></strong></div></td><td class='label'>today 09:14</td><td><span class='state wait'>● Waiting</span></td><td></td></tr>
+  <tr><td><div class='person'><span class='av'>NF</span><strong>Dr Nadia Ferhat<small>Endocrinology · Bologhine</small></strong></div></td><td class='label'>22 Oct</td><td><span class='state wait'>● Waiting</span></td><td></td></tr>
+  <tr><td><div class='person'><span class='av'>YB</span><strong>Dr Yacine Brahimi<small>Gastro-enterology · Chéraga</small></strong></div></td><td class='label'>18 Oct</td><td><span class='state ok'>✓ Approved</span> <span class='hint'>by Sara M. · 19 Oct</span></td><td><a>Open ↗</a></td></tr>
+  <tr><td><div class='person'><span class='av'>PA</span><strong>Pharmacie El Amel<small>Kouba</small></strong></div></td><td class='label'>15 Oct</td><td><span class='state no'>✕ Refused</span> <span class='hint'>“Already in Delorch as Pharmacie Amel Kouba (P2210).”</span></td><td></td></tr>
+  </tbody></table></div>`
+
+const pendingPage = `<div class='crumbs'>Professionals › Requests › Dr Kamel Haddad</div>
+  <div class='banner'><span class='state wait'>● Waiting for approval</span><span style='flex:1'>Proposed by <strong>Amine K.</strong> today at 09:14. Not in the list nor in plans until approved. You can correct it before approving.</span><span class='btn outline sm' style='color:var(--brick)'>Refuse…</span><span class='btn primary sm'>Approve</span></div>
+  <div class='card' style='display:flex;gap:18px;align-items:center'><span class='av lg'>KH</span><div style='flex:1'><h1 class='display' style='margin:0;font-size:30px'>Dr Kamel Haddad</h1><div style='display:flex;gap:8px;margin-top:8px'><span class='chip'>Doctor</span><span class='chip'>Cardiology</span></div></div></div>
+  <div class='card' style='height:120px;display:flex;align-items:center;justify-content:center;color:var(--muted)'>… the usual record (sections editable) …</div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>A rep adds a professional.</strong> Same 3 steps; the last button says “Send for approval” with a short note. (People with the permission keep “Add professional”.)`, listHead('rep'), addLast),
+  frame(2, `<strong>The rep's list</strong> shows a “My proposals” button with what is waiting; <strong>an approver's list</strong> shows “Requests” with the count instead (frame 3).`, listHead('rep')),
+  frame(3, `<strong>Requests page (approvers).</strong> Waiting / Refused / Approved. Each card: what was proposed, by whom, when; a warning when it looks like an existing professional, with “Merge into …” (uses the merge page); Approve, or Refuse with a reason.`, reqPage(0)),
+  frame(4, `<strong>Refuse</strong> asks for a reason, shown to the person who proposed.`, reqPage(0), '', refuseModal),
+  frame(5, `<strong>My proposals</strong> (the rep): waiting, approved (by whom, when), refused (with the reason).`, mine),
+  frame(6, `<strong>Opening a waiting proposal</strong>: the usual page with a banner and Approve / Refuse; the approver can fix fields first.`, pendingPage),
+].join('')
+</script>
+</body></html>

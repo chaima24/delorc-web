@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dashboard — mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2F54EB}a:hover{color:#1D39C4}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1900px; box-sizing: border-box; background: #F2F4F1; color: #0F1F1C; font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif; display: flex; flex-direction: column">
+
+  <header style="background: #0F1F1C; color: #F2F4F1; padding: 14px 16px; display: flex; align-items: center; gap: 10px">
+    <svg width="36" height="36" viewBox="0 0 48 48" role="img" aria-label="Delorch">
+      <rect width="48" height="48" rx="14" fill="#1B302C"></rect>
+      <path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#C8F03C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"></path>
+      <circle cx="15" cy="35" r="3.2" fill="#C8F03C"></circle>
+    </svg>
+    <span style="font-size: 14px; font-weight: 600; flex-grow: 1">Inphamedis</span>
+    <button aria-label="Search" style="width: 44px; height: 44px; border-radius: 12px; border: 0; background: #1B302C; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2F4F1" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></button>
+    <span style="width: 44px; height: 44px; border-radius: 12px; background: #2F54EB; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px">SM</span>
+  </header>
+
+  <div style="padding: 16px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1">
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <span style="font-size: 13px; color: #5B6B66">Tue 21 Oct · Cycle 4, day 12 of 22</span>
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.03em">Dashboard</h1>
+    </div>
+
+    <div role="radiogroup" aria-label="Period" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; background: #FFFFFF; border: 1px solid #DCE3DF; border-radius: 14px; padding: 4px">
+      <button role="radio" aria-checked="true" style="height: 40px; border: 0; border-radius: 10px; background: #0F1F1C; color: #F2F4F1; font-size: 13px; font-weight: 600">Today</button>
+      <button role="radio" aria-checked="false" style="height: 40px; border: 0; border-radius: 10px; background: transparent; font-size: 13px; font-weight: 600">Week</button>
+      <button role="radio" aria-checked="false" style="height: 40px; border: 0; border-radius: 10px; background: transparent; font-size: 13px; font-weight: 600">Cycle</button>
+    </div>
+    <div style="display: flex; gap: 8px; overflow-x: auto">
+      <button style="flex-shrink: 0; height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #C9D3CF; background: #FFFFFF; font-size: 13px; font-weight: 600">Filters · 2</button>
+      <button style="flex-shrink: 0; height: 40px; padding: 0 14px; border-radius: 999px; border: 0; background: #0F1F1C; color: #F2F4F1; font-size: 13px">Centre ✕</button>
+      <button style="flex-shrink: 0; height: 40px; padding: 0 14px; border-radius: 999px; border: 0; background: #0F1F1C; color: #F2F4F1; font-size: 13px">All teams ✕</button>
+      <button style="flex-shrink: 0; height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #C9D3CF; background: #FFFFFF; font-size: 13px">Doctors</button>
+    </div>
+
+    <section aria-label="Key figures" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <div style="grid-column: span 2; background: #0F1F1C; color: #F2F4F1; border-radius: 20px; padding: 16px; display: flex; justify-content: space-between; align-items: flex-end">
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 13px; color: #C9D6D1">Visits done today</span>
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 48px; line-height: 1">142</span>
+          <span style="font-size: 12px; color: #A9BBB5">Doctors 108 · Pharmacies 34</span>
+        </div>
+        <span style="font-size: 13px; color: #C8F03C">▲ 8% vs yesterday</span>
+      </div>
+      <sc-for list="{{kpis}}" as="k" hint-placeholder-count="5">
+        <div style="background: #FFFFFF; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 12px; color: #5B6B66">{{k.label}}</span>
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 30px; line-height: 1">{{k.value}}</span>
+          <span style="font-size: 12px; color: #44544F">{{k.sub}}</span>
+        </div>
+      </sc-for>
+    </section>
+
+    <section aria-label="Visits per rep per day" style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800">Visits per rep / day</h2>
+        <span style="font-size: 12px; color: #5B6B66">objective 8</span>
+      </div>
+      <div style="position: relative; height: 160px; display: flex; align-items: flex-end; gap: 10px; border-bottom: 1px solid #C9D3CF">
+        <div aria-hidden="true" style="position: absolute; inset-inline: 0; bottom: 128px; border-top: 2px dashed #0F1F1C"></div>
+        <sc-for list="{{days}}" as="d" hint-placeholder-count="5">
+          <div style="flex: 1 1 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; height: 100%">
+            <span style="font-size: 11px; font-weight: 600; color: #44544F">{{d.label}}</span>
+            <div style="{{d.bar}}"></div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; gap: 10px">
+        <sc-for list="{{days}}" as="d" hint-placeholder-count="5">
+          <span style="flex: 1 1 0; text-align: center; font-size: 11px; color: #5B6B66">{{d.day}}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section aria-label="Coverage by wilaya" style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800">Coverage by wilaya</h2>
+      <sc-for list="{{wilayas}}" as="w" hint-placeholder-count="5">
+        <div style="display: grid; grid-template-columns: 84px minmax(0, 1fr) 36px; align-items: center; gap: 8px; font-size: 13px">
+          <span>{{w.name}}</span>
+          <div style="position: relative; height: 8px; border-radius: 99px; background: #EDF1EF"><div style="{{w.bar}}"></div><span aria-hidden="true" style="position: absolute; top: -3px; inset-inline-start: 90%; width: 2px; height: 14px; background: #0F1F1C"></span></div>
+          <strong style="text-align: end; font-weight: 600">{{w.value}}</strong>
+        </div>
+      </sc-for>
+    </section>
+
+    <section aria-label="Performance by rep" style="display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800">Reps</h2>
+        <a href="#" style="font-size: 13px">See all 9</a>
+      </div>
+      <sc-for list="{{reps}}" as="r" hint-placeholder-count="4">
+        <a href="#" style="background: #FFFFFF; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: #0F1F1C">
+          <span style="display: flex; align-items: center; gap: 10px">
+            <span style="width: 36px; height: 36px; border-radius: 10px; background: #E6ECE9; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">{{r.ini}}</span>
+            <span style="flex-grow: 1; display: flex; flex-direction: column"><strong style="font-size: 15px; font-weight: 600">{{r.name}}</strong><span style="font-size: 12px; color: #5B6B66">{{r.meta}}</span></span>
+            <span style="{{r.syncStyle}}">{{r.sync}}</span>
+          </span>
+          <span style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #44544F">
+            <span style="width: 70px">R/O {{r.ro}}</span>
+            <span style="flex-grow: 1; height: 8px; border-radius: 99px; background: #EDF1EF"><span style="{{r.bar}}"></span></span>
+            <span>Cov. {{r.cov}}</span>
+          </span>
+        </a>
+      </sc-for>
+    </section>
+
+    <section aria-label="Mobile sync today" style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800">Mobile sync today</h2>
+      <div style="display: flex; height: 10px; gap: 2px; border-radius: 99px; overflow: hidden">
+        <span style="flex: 7 1 0; background: #0F1F1C"></span><span style="flex: 1 1 0; background: #B45309"></span><span style="flex: 1 1 0; background: #C0362C"></span>
+      </div>
+      <span style="font-size: 13px; color: #44544F">✓ 7 synced · ! 1 once · ✕ 1 not synced</span>
+    </section>
+  </div>
+
+  <nav aria-label="Workspaces" style="background: #0F1F1C; padding: 8px 10px 14px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+      <a href="#" style="{{t.style}}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{t.d}}"></path></svg>{{t.label}}
+      </a>
+    </sc-for>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1900}}'>
+class Component extends DCLogic {
+renderVals() {
+const kpis = [
+{ label: 'Call rate', value: '6.8', sub: 'per rep/day · obj. 8' },
+{ label: 'Realised / objective', value: '85%', sub: '142 of 167 calls' },
+{ label: 'Cycle coverage', value: '71%', sub: 'goal 90%' },
+{ label: 'Orders today', value: '23', sub: '1.84 M DZD · ▲ 12%' },
+{ label: 'e-ADV used', value: '64%', sub: 'of visits' },
+{ label: 'Units ordered', value: '412', sub: 'today' }
+];
+const days = [['W 15', 6.2], ['T 16', 7.1], ['S 19', 6.5], ['M 20', 7.4], ['T 21', 6.8]].map((d, i, a) => ({
+day: d[0], label: String(d[1]),
+bar: 'width: 100%; max-width: 48px; height: ' + Math.round(d[1] / 10 * 160) + 'px; border-radius: 4px 4px 0 0; background: ' + (i === a.length - 1 ? '#2F54EB' : '#6A83EE') + ';'
+}));
+const wilayas = [['Alger', 82], ['Blida', 74], ['Tipaza', 69], ['Boumerdès', 66], ['Tizi Ouzou', 61]].map(w => ({
+name: w[0], value: w[1] + '%', bar: 'height: 8px; border-radius: 99px; background: #2F54EB; width: ' + w[1] + '%;'
+}));
+const sync = { ok: ['✓ Synced', 'color: #0F1F1C;'], once: ['! Once', 'color: #B45309;'], no: ['✕ Not synced', 'color: #C0362C;'] };
+const reps = [
+['AK', 'Amine K.', 'VM · 58 of 64 calls', 91, 78, 'ok'],
+['SH', 'Sofia H.', 'VM · 55 of 58 calls', 95, 84, 'ok'],
+['YR', 'Yanis R.', 'VM · 41 of 62 calls', 66, 58, 'once'],
+['KT', 'Karim T.', 'VP · 38 of 61 calls', 62, 51, 'no']
+].map(r => ({
+ini: r[0], name: r[1], meta: r[2], ro: r[3] + '%', cov: r[4] + '%',
+bar: 'display: block; height: 8px; border-radius: 99px; background: #2F54EB; width: ' + r[3] + '%;',
+sync: sync[r[5]][0], syncStyle: 'font-size: 12px; font-weight: 600; ' + sync[r[5]][1]
+}));
+const ICONS = {
+Today: 'M4 11 12 4l8 7v9H4z M10 20v-5h4v5',
+Plan: 'M4 6h16v14H4z M4 10h16 M9 3v4 M15 3v4',
+Field: 'M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z',
+Customers: 'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5',
+More: 'M5 12h.01 M12 12h.01 M19 12h.01'
+};
+const tabs = Object.keys(ICONS).map(k => ({
+label: k, d: ICONS[k],
+style: 'height: 54px; border-radius: 14px; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 11px; font-weight: 600; ' + (k === 'Today' ? 'background: #C8F03C; color: #0F1F1C;' : 'color: #A9BBB5;')
+}));
+return { kpis, days, wilayas, reps, tabs };
+}
+}
+</script>
+</body>
+</html>

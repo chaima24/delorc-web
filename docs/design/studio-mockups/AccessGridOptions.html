@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Grid styles</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css"><style>
+body { padding: 8px 0 40px; }
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 0 28px; max-width: 1440px; }
+.opt { background: var(--paper); border-radius: 22px; padding: 18px 20px; }
+.opt h2 { margin: 0 0 4px; font-size: 22px; } .opt p { margin: 0 0 12px; font-size: 13px; color: var(--muted); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; background: var(--mist); border-radius: 14px; padding: 9px 12px; font-size: 12.5px; margin-bottom: 10px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { font-size: 11.5px; color: var(--muted); font-weight: 600; padding: 7px 6px; text-align: center; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: start; }
+td { padding: 8px 6px; border-bottom: 1px solid var(--line-soft); text-align: center; white-space: nowrap; }
+tr.area td { background: var(--mist); font-weight: 700; }
+/* A: words */
+.w { font-size: 12.5px; color: var(--body); } .none { color: #B9C4C0; }
+/* B: blue letters */
+.l { display: inline-block; width: 13px; font-size: 12px; font-weight: 700; } .l.on { color: var(--cobalt); } .l.off { color: #D5DCD9; }
+/* C: level squares like Roles */
+.lvl { display: inline-flex; gap: 3px; } .lvl i { width: 10px; height: 10px; border-radius: 3px; background: var(--line); } .lvl i.on { background: var(--cobalt); }
+/* D: one tick per action, under the role */
+.ticks { display: inline-flex; gap: 6px; } .ticks i { width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid #CFD8D4; display: inline-flex; align-items: center; justify-content: center; font-style: normal; font-size: 11px; }
+.ticks i.on { border-color: var(--cobalt); color: var(--cobalt); }
+.sub { display: flex; justify-content: center; gap: 6px; font-size: 10px; color: var(--muted); font-weight: 600; } .sub b { width: 16px; text-align: center; font-weight: 600; }
+</style></head><body>
+<p class="caption"><strong>“Who can do what”: 4 ways to show access.</strong> Same data in each. Tell me the letter you prefer (or what to change).</p>
+<div class="opts" id="opts"></div>
+<script>
+const ROLES = ['Admin', 'VM', 'Reg. sup.', 'Prod. mgr']
+const ROWS = [
+  ['area', 'Visits and field'],
+  ['Visits', 'VAED', 'VAE', 'VAED', 'V'],
+  ['Activities', 'VAED', 'VA', 'VAE', ''],
+  ['Dashboard', 'V', 'V', 'V', 'V'],
+  ['area', 'Expenses'],
+  ['Expense notes', 'VAED', 'VAE', 'VE', ''],
+  ['Expense settings', 'VAED', '', '', ''],
+]
+const WORD = { V: 'view', A: 'add', E: 'edit', D: 'delete' }
+const styles = {
+  A: { title: 'A · Words', note: 'Plain text, no colour. “Everything” when all four.', cell: s => !s ? `<span class='none'>—</span>` : s === 'VAED' ? `<span class='w'><b>Everything</b></span>` : `<span class='w'>${[...s].map(c => WORD[c]).join(', ').replace(/^./, c => c.toUpperCase())}</span>`, legend: '' },
+  B: { title: 'B · Blue letters', note: 'Letters only, no boxes. Blue when allowed, very light when not.', cell: s => !s ? `<span class='none'>—</span>` : `${['V', 'A', 'E', 'D'].map(c => `<span class='l ${s.includes(c) ? 'on' : 'off'}'>${c}</span>`).join('')}`, legend: `<span><span class='l on'>V</span> View</span><span><span class='l on'>A</span> Add</span><span><span class='l on'>E</span> Edit</span><span><span class='l on'>D</span> Delete</span>` },
+  C: { title: 'C · Level squares', note: 'Same 4 squares as the Roles list: more blue = more rights. Hover for details.', cell: s => !s ? `<span class='none'>—</span>` : `<span class='lvl'>${['V', 'A', 'E', 'D'].map(c => `<i class='${s.includes(c) ? 'on' : ''}'></i>`).join('')}</span>`, legend: `<span>Squares, left to right: view · add · edit · delete</span>` },
+  D: { title: 'D · Ticks', note: 'A small box per action, ticked in blue. Action names under each role.', cell: s => `<span class='ticks'>${['V', 'A', 'E', 'D'].map(c => `<i class='${s.includes(c) ? 'on' : ''}'>${s.includes(c) ? '✓' : ''}</i>`).join('')}</span>`, legend: '', sub: true },
+}
+document.getElementById('opts').innerHTML = Object.values(styles).map(st => `<div class='opt'><h2 class='display'>${st.title}</h2><p>${st.note}</p>
+  ${st.legend ? `<div class='legend'>${st.legend}</div>` : ''}
+  <table><thead><tr><th>Resource</th>${ROLES.map(r => `<th>${r}${st.sub ? `<div class='sub'><b>V</b><b>A</b><b>E</b><b>D</b></div>` : ''}</th>`).join('')}</tr></thead><tbody>
+  ${ROWS.map(r => r[0] === 'area' ? `<tr class='area'><td colspan='5'>${r[1]}</td></tr>` : `<tr><td>${r[0]}</td>${r.slice(1).map(st.cell).map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}
+  </tbody></table></div>`).join('')
+</script>
+</body></html>

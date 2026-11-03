@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+<link rel="stylesheet" href="mockup.css">
+<style>
+.setup { background: var(--paper); color: var(--ink); border-radius: 24px; padding: 22px 24px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
+.setup .steps { display: flex; flex-wrap: wrap; gap: 8px; flex: 1 1 560px; }
+.step { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 10px; font-size: 13px; font-weight: 600; background: var(--mist); color: var(--muted); }
+.step.done { background: var(--signal-soft); color: var(--ink); }
+.step.done b { color: #4D7A0A; }
+.step.next { background: var(--ink); color: var(--mist); }
+.step small { font-weight: 500; opacity: .7; }
+/* Studio tabs, in the same style as the setup card */
+.studio-nav { background: var(--ink); border-radius: 20px; padding: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.studio-nav a { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border-radius: 12px; font-size: 14px; font-weight: 600; color: var(--on-ink-muted); background: transparent; }
+.studio-nav a:hover { background: var(--ink-2); color: var(--mist); }
+.studio-nav a.on { background: var(--signal); color: var(--ink); }
+.studio-nav iconify-icon { display: inline-block; }
+.group { display: flex; flex-direction: column; gap: 12px; }
+.group h2 { margin: 0; font-size: 20px; }
+.group p { margin: 0; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.tile { background: var(--paper); border: 1px solid transparent; border-radius: 20px; padding: 16px; display: flex; gap: 14px; align-items: center; color: var(--ink); }
+.tile:hover { border-color: var(--line); }
+.tile .ic { width: 44px; height: 44px; border-radius: 14px; background: var(--line-soft); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.tile .t { font-weight: 700; font-size: 15px; }
+.tile .d { font-size: 12px; color: var(--muted); }
+.tile .n { margin-inline-start: auto; font-size: 13px; font-weight: 600; color: var(--body); font-variant-numeric: tabular-nums; }
+.tile.empty .n { color: var(--amber); }
+</style>
+</head>
+<body>
+<p class="caption"><strong>Studio · Settings tab — desktop (1440).</strong> The dark bar is the Studio navigation as coded today; the active tab is lime. Users, Teams, Brands, Product categories and Products have their own tabs, so this page only lists the remaining settings (5 groups). The Lab setup card is now light so the tab bar is the only dark block; its steps open the matching tab or setting. Tiles show counts ("none yet" in amber), are filtered by permission, and the search filters them live.</p>
+
+<div class="frame">
+  <nav class="rail">
+    <div class="brand"><svg width="44" height="44" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#1B302C"/><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#C8F03C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg><span class="display">delorch</span></div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <a>⌂ &nbsp;Today</a><a>▦ &nbsp;Plan</a><a>⌖ &nbsp;Field</a><a>☺ &nbsp;Customers</a><a>◁ &nbsp;Engage</a><a>↗ &nbsp;Grow</a>
+    </div>
+    <div class="bottom"><a class="on">⚙ &nbsp;Studio</a><a>⇤ &nbsp;Collapse menu</a></div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <span class="iconbtn">⇤</span>
+      <strong style="font-size:14px">Inphamedis</strong>
+      <div class="search">⌕ Search or jump to a page… <span class="kbd">Ctrl K</span></div>
+      <span style="margin-inline-start:auto" class="iconbtn">?</span><span class="avatar">SM</span>
+    </div>
+
+    <div class="page">
+      <nav class="studio-nav" aria-label="Studio">
+        <a class="on"><iconify-icon icon="tabler:settings" width="18"></iconify-icon>Settings</a>
+        <a><iconify-icon icon="tabler:user" width="18"></iconify-icon>Users</a>
+        <a><iconify-icon icon="tabler:users" width="18"></iconify-icon>Teams</a>
+        <a><iconify-icon icon="tabler:diamond" width="18"></iconify-icon>Brands</a>
+        <a><iconify-icon icon="tabler:category" width="18"></iconify-icon>Product categories</a>
+        <a><iconify-icon icon="tabler:pill" width="18"></iconify-icon>Products</a>
+      </nav>
+
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span class="label" style="font-size:14px">Studio</span>
+          <h1 class="title display">Settings</h1>
+        </div>
+        <div class="input muted" style="width:320px">⌕ Find a setting… <span class="kbd">/</span></div>
+      </div>
+
+      <section class="setup" aria-label="Lab setup">
+        <div style="display:flex;flex-direction:column;gap:6px;min-width:220px">
+          <span class="label">Lab setup</span>
+          <span class="display" style="font-size:36px;line-height:1">4 <span style="font-size:18px;color:var(--muted)">of 7 done</span></span>
+          <div class="progress" style="width:200px"><i style="width:57%;background:var(--signal)"></i></div>
+        </div>
+        <div class="steps">
+          <span class="step done"><b>✓</b> Geography</span>
+          <span class="step done"><b>✓</b> Roles</span>
+          <span class="step done"><b>✓</b> Teams <small>tab</small></span>
+          <span class="step done"><b>✓</b> Users <small>tab</small></span>
+          <span class="step next">→ Products: add your catalog</span>
+          <span class="step">Customer setup</span>
+          <span class="step">Rules</span>
+        </div>
+      </section>
+
+      <section class="group">
+        <div><h2 class="display">Geography</h2><p class="label">Where your reps work: from country down to sub-wilaya zones</p></div>
+        <div class="tiles">
+          <a class="tile"><span class="ic">◍</span><span><div class="t">Countries</div><div class="d">Assigned by Delorch</div></span><span class="n">1</span></a>
+          <a class="tile"><span class="ic">▱</span><span><div class="t">Regions</div><div class="d">Groups of wilayas</div></span><span class="n">5</span></a>
+          <a class="tile"><span class="ic">⌖</span><span><div class="t">Wilayas</div><div class="d">With map position</div></span><span class="n">58</span></a>
+          <a class="tile"><span class="ic">⌂</span><span><div class="t">Communes</div><div class="d">Where customers are located</div></span><span class="n">1 541</span></a>
+          <a class="tile"><span class="ic">⬡</span><span><div class="t">Sub-wilaya zones</div><div class="d">Groups of communes inside a wilaya</div></span><span class="n">12</span></a>
+        </div>
+      </section>
+
+      <section class="group">
+        <div><h2 class="display">Customers setup</h2><p class="label">How doctors and pharmacies are classified</p></div>
+        <div class="tiles">
+          <a class="tile"><span class="ic">✚</span><span><div class="t">Specialities</div><div class="d">Doctor, pharmacy, wholesaler</div></span><span class="n">32</span></a>
+          <a class="tile"><span class="ic">◔</span><span><div class="t">Segmentations</div><div class="d">A, B, C, D…</div></span><span class="n">4</span></a>
+          <a class="tile"><span class="ic">⚑</span><span><div class="t">Priorities</div><div class="d">Visit priority levels</div></span><span class="n">3</span></a>
+        </div>
+      </section>
+
+      <section class="group">
+        <div><h2 class="display">Field setup</h2><p class="label">Lists your reps pick from in the field</p></div>
+        <div class="tiles">
+          <a class="tile"><span class="ic">⚑</span><span><div class="t">Activity types</div><div class="d">Off-field days, meetings</div></span><span class="n">8</span></a>
+          <a class="tile"><span class="ic">▦</span><span><div class="t">Event types</div><div class="d">Congresses, staff meetings</div></span><span class="n">5</span></a>
+          <a class="tile"><span class="ic">◉</span><span><div class="t">Channels</div><div class="d">Face to face, phone, video</div></span><span class="n">4</span></a>
+          <a class="tile"><span class="ic">⚒</span><span><div class="t">Materials</div><div class="d">Promotional items and samples</div></span><span class="n">17</span></a>
+          <a class="tile"><span class="ic">¤</span><span><div class="t">Expense types</div><div class="d">Fuel, meals, hotel</div></span><span class="n">6</span></a>
+          <a class="tile"><span class="ic">≡</span><span><div class="t">Expense settings</div><div class="d">Ceilings and allowances</div></span><span class="n">1</span></a>
+        </div>
+      </section>
+
+      <section class="group">
+        <div><h2 class="display">Rules and platform</h2><p class="label">How work is planned and approved</p></div>
+        <div class="tiles">
+          <a class="tile"><span class="ic">◷</span><span><div class="t">Planning rules</div><div class="d">When reps can plan their days</div></span><span class="n">2</span></a>
+          <a class="tile"><span class="ic">✓</span><span><div class="t">Validation rules</div><div class="d">Who approves what</div></span><span class="n">3</span></a>
+          <a class="tile"><span class="ic">文</span><span><div class="t">Languages</div><div class="d">English, French, Arabic</div></span><span class="n">3</span></a>
+        </div>
+      </section>
+
+      <section class="group">
+        <div><h2 class="display">Access &amp; security</h2><p class="label">What each role can do, and who changed what</p></div>
+        <div class="tiles">
+          <a class="tile"><span class="ic">⛨</span><span><div class="t">Roles and permissions</div><div class="d">What each role can see and do</div></span><span class="n">14</span></a>
+          <a class="tile"><span class="ic">↺</span><span><div class="t">Activity log</div><div class="d">Who changed what, and when</div></span><span class="n"></span></a>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<p class="caption"><strong>Studio · Settings tab — phone (390).</strong> Tabs scroll sideways; the setup card becomes a progress bar with the next step as a button; tiles stack in one column.</p>
+<div style="padding:0 28px 40px">
+  <div class="phone">
+    <div class="topbar" style="padding:12px 16px"><svg width="36" height="36" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#0F1F1C"/><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#C8F03C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg><div class="search" style="height:40px">⌕ Search…</div><span class="avatar" style="width:40px;height:40px">SM</span></div>
+    <div style="padding:16px;display:flex;flex-direction:column;gap:16px">
+      <nav class="studio-nav" style="flex-wrap:nowrap;overflow:hidden;border-radius:16px;padding:6px"><a class="on" style="height:36px">Settings</a><a style="height:36px">Users</a><a style="height:36px">Teams</a><a style="height:36px">Brands</a></nav>
+      <h1 class="title display" style="font-size:28px">Settings</h1>
+      <div class="setup" style="padding:16px;gap:12px">
+        <div style="display:flex;justify-content:space-between;width:100%;font-size:13px"><span class="label">Lab setup</span><strong>4 of 7</strong></div>
+        <div class="progress" style="width:100%"><i style="width:57%;background:var(--signal)"></i></div>
+        <span class="btn dark" style="width:100%;justify-content:center;height:48px">Next: add your products →</span>
+      </div>
+      <div class="input muted">⌕ Find a setting…</div>
+      <div class="group"><h2 class="display" style="font-size:18px">Geography</h2>
+        <a class="tile"><span class="ic">◍</span><span><div class="t">Countries</div><div class="d">Assigned by Delorch</div></span><span class="n">1</span></a>
+        <a class="tile"><span class="ic">▱</span><span><div class="t">Regions</div><div class="d">Groups of wilayas</div></span><span class="n">5</span></a>
+        <a class="tile"><span class="ic">⌖</span><span><div class="t">Wilayas</div><div class="d">With map position</div></span><span class="n">58</span></a>
+      </div>
+    </div>
+    <nav style="margin-top:auto;display:flex;justify-content:space-around;background:var(--ink);padding:10px 8px 18px;font-size:11px;font-weight:600;color:var(--on-ink-muted)"><span>Today</span><span>Plan</span><span>Field</span><span>Customers</span><span style="background:var(--signal);color:var(--ink);border-radius:10px;padding:4px 10px">Studio</span></nav>
+  </div>
+</div>
+</body>
+</html>

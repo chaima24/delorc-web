@@ -1,0 +1,189 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Access and security</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css"><style>
+.studio-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.studio-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.studio-nav a.on { background: var(--signal); color: var(--ink); }
+.levels { display: flex; gap: 6px; flex-wrap: wrap; }
+.levels span { height: 34px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; background: var(--paper); color: var(--body); }
+.levels span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.levels small { color: var(--muted); font-weight: 600; }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph .ic { width: 42px; height: 42px; border-radius: 13px; background: var(--ink); color: var(--signal); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 4px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.edit.dark { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; }
+.tile b { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800; } .tile span { font-size: 11.5px; color: var(--muted); }
+/* access level: none / view / edit / full */
+.lvl { display: inline-flex; gap: 3px; vertical-align: middle; } .lvl i { width: 9px; height: 9px; border-radius: 3px; background: var(--line); }
+.lvl.v i:nth-child(-n+1), .lvl.e i:nth-child(-n+3), .lvl.f i { background: var(--cobalt); }
+.area { display: flex; align-items: center; gap: 10px; padding: 7px 12px; font-size: 13px; border-top: 1px solid var(--line-soft); }
+.area span:first-child { flex: 1; } .area em { font-style: normal; color: var(--muted); font-size: 12px; width: 92px; text-align: end; }
+/* grid pages */
+.grid { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13.5px; }
+.grid th { font-size: 12px; font-weight: 600; color: var(--muted); padding: 10px; text-align: center; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.grid th:first-child, .grid td:first-child { text-align: start; }
+.grid td { padding: 9px 10px; border-bottom: 1px solid var(--line-soft); text-align: center; }
+.grid tr.areah td { background: var(--mist); font-weight: 700; font-size: 13px; padding: 9px 12px; }
+.grid tr.areah td .hint { font-weight: 500; }
+.cb { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid #9FB0AA; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; vertical-align: middle; }
+.cb.on { background: var(--ink); border-color: var(--ink); color: var(--signal); }
+.cb.chg { box-shadow: 0 0 0 3px var(--signal); }
+.savebar { position: sticky; bottom: 0; display: flex; align-items: center; gap: 12px; background: var(--ink); color: var(--mist); border-radius: 18px; padding: 10px 12px 10px 18px; font-size: 14px; }
+.cell { font-size: 11.5px; font-weight: 700; letter-spacing: .04em; color: var(--body); }
+/* activity log */
+.day { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; padding: 14px 4px 6px; }
+.ev { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 14px; }
+.ev.sel { background: var(--signal-soft); }
+.ev .av { width: 34px; height: 34px; border-radius: 10px; background: var(--cobalt); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ev .av.sys { background: var(--line-soft); color: var(--muted); }
+.ev p { margin: 0; font-size: 14px; } .ev .ch { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.ev time { margin-inline-start: auto; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.diff { width: 100%; border-collapse: collapse; font-size: 13px; } .diff th { font-size: 12px; color: var(--muted); text-align: start; padding: 6px 8px; font-weight: 600; }
+.diff td { padding: 8px; border-top: 1px solid var(--line-soft); } .diff .old { color: var(--brick); text-decoration: line-through; } .diff .new { color: var(--ink); font-weight: 600; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; } .toggle i { width: 34px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; } .toggle i::after { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); top: 3px; right: 3px; }
+</style></head><body>
+<p class="caption"><strong>Studio › Access and security.</strong> Same template as Countries: list on the left, record panel on the right.
+<br><strong>Roles</strong>: the panel sums a role's access up by area; editing access opens a full page (80 resources × 4 actions do not fit a panel).
+<strong>Permissions</strong> becomes <strong>“Who can do what”</strong>: one read-only grid, areas down the side, roles across the top, instead of 313 technical names.
+<strong>Activity log</strong>: plain sentences by day; the panel shows before → after. Every technical name gets a readable label (e.g. <code>campaign-dispatches.store</code> → Campaigns › Dispatches › Add).</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>`
+const LEVELS = [['Roles', 14], ['Who can do what', ''], ['Activity log', '']]
+function frame(n, label, { title, crumbs = 'Settings › Access and security', level, add, list, panel = '', levels = true }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:820px'>${rail}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      <nav class='studio-nav'><a class='on'>Settings</a><a>Users</a><a>Teams</a><a>Brands</a><a>Products</a></nav>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>${crumbs}</div><h1 class='title display' style='font-size:36px'>${title}</h1></div>
+        ${add ? `<span class='btn primary'>${add}</span>` : ''}
+      </div>
+      ${levels ? `<div class='levels'>${LEVELS.map(([l, c]) => `<span class='${l === (level ?? title) ? 'on' : ''}'>${l}${c ? ` <small>${c}</small>` : ''}</span>`).join('')}</div>` : ''}
+      ${list}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+const chev = `<td style='color:var(--muted)'>›</td>`
+const lvl = k => `<span class='lvl ${k}'><i></i><i></i><i></i><i></i></span>`
+
+// ── Roles ────────────────────────────────────────────────────
+const roles = [
+  ['Admin', true, 1, 'Everything', 'f'],
+  ['Medical rep (VM)', true, 169, '9 areas · 31 actions', 'e'],
+  ['Pharmacy rep (VP)', true, 41, '7 areas · 22 actions', 'e'],
+  ['Regional supervisor', true, 49, '12 areas · 58 actions', 'e'],
+  ['Product manager', true, 6, '5 areas · 18 actions', 'v'],
+  ['Trainee rep', false, 4, '3 areas · 6 actions', 'v'],
+]
+const roleTable = (full, sel = -1) => `<div class='card' style='padding:16px 18px'>
+  <div style='display:flex;gap:10px;margin-bottom:12px'><div class='input muted' style='width:280px'>⌕ Search a role</div><span class='input'>Kind <b>All</b> ▾</span></div>
+  <table class='table'><thead><tr><th>Role</th><th class='num'>People</th><th>Access</th>${full ? `<th>Added</th>` : ''}<th></th></tr></thead><tbody>${roles.map((r, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${r[0]}</strong> ${r[1] ? `<span class='chip' style='margin-inline-start:6px'>Built-in</span>` : `<span class='chip info' style='margin-inline-start:6px'>Lab role</span>`}</td><td class='num'>${r[2]}</td><td>${lvl(r[4])} <span style='margin-inline-start:8px'>${r[3]}</span></td>${full ? `<td class='label'>12 Oct 2026</td>` : ''}${chev}</tr>`).join('')}</tbody></table></div>`
+
+const areas = [['Visits and reports', 'e', 'View · add · edit'], ['Professionals', 'v', 'View'], ['Planning', 'f', 'Everything'], ['Expenses', 'e', 'View · add · edit'], ['Campaigns', 'v', 'View'], ['Orders', '', 'No access'], ['Studio', '', 'No access']]
+const rolePanel = `<aside class='panel'>
+  <div class='ph'><span class='ic'>VM</span><div style='flex:1'><h2 class='display'>Medical rep (VM)</h2><div class='sub'><span class='chip'>Built-in</span></div></div><span class='icb'>⋯</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='tiles'><div class='tile'><b>169</b><span>people have this role</span></div><div class='tile'><b>31</b><span>actions allowed, in 9 areas</span></div></div>
+    <section class='sec'><header><strong>Access</strong><span class='edit dark'>Edit access ↗</span></header>
+      ${areas.map(a => `<div class='area'><span>${a[0]}</span>${lvl(a[1])}<em>${a[2]}</em></div>`).join('')}
+      <div class='line' style='padding-top:8px'><a>See all 9 areas</a></div></section>
+    <section class='sec'><header><strong>People</strong></header><div class='line'>169 people · <a>see them</a></div></section>
+    <section class='sec'><header><strong>Name</strong><span class='edit' style='opacity:.45'>✎ Edit</span></header><div class='line hint'>Built-in roles keep their name. They cannot be deleted.</div></section>
+  </div>
+</aside>`
+
+// ── Role access: full page ───────────────────────────────────
+const cb = (on, chg) => `<span class='cb ${on ? 'on' : ''} ${chg ? 'chg' : ''}'>${on ? '✓' : ''}</span>`
+const accessRows = [
+  ['area', 'Visits and reports', '3 of 4 resources'],
+  ['Visits', 1, 1, 1, 0], ['Visit reports', 1, 1, 1, 0], ['E-tickets', 1, 1, 0, 0], ['Samples given', 1, 0, 0, 0],
+  ['area', 'Professionals', 'view only'],
+  ['Doctors and pharmacies', 1, 0, 0, 0], ['Specialities', 1, 0, 0, 0],
+  ['area', 'Expenses', ''],
+  ['Expense notes', 1, 1, 1, 0, 'chg'], ['Travel', 1, 1, 0, 0],
+]
+const accessPage = `<div class='card' style='padding:16px 18px;display:flex;flex-direction:column;gap:12px'>
+  <div style='display:flex;gap:10px;align-items:center'><div class='input muted' style='width:280px'>⌕ Search a resource</div><span class='input'>Area <b>All</b> ▾</span><span class='input'>Copy access from <b>…</b> ▾</span><span class='hint' style='margin-inline-start:auto'>169 people have this role</span></div>
+  <table class='grid'><thead><tr><th style='width:46%'>Resource</th><th>View</th><th>Add</th><th>Edit</th><th>Delete</th></tr></thead><tbody>
+  ${accessRows.map(r => r[0] === 'area' ? `<tr class='areah'><td colspan='5'>${r[1]} <span class='hint'>${r[2]}</span><span style='float:right' class='hint'>Tick all · Clear</span></td></tr>`
+    : `<tr><td>${r[0]}</td><td>${cb(r[1])}</td><td>${cb(r[2])}</td><td>${cb(r[3], r[5])}</td><td>${cb(r[4])}</td></tr>`).join('')}
+  </tbody></table>
+  <div class='savebar'><span>1 change · <span style='color:var(--on-ink-muted)'>Expense notes: can now edit</span></span><span class='btn ghost sm' style='margin-inline-start:auto;color:var(--mist)'>Undo</span><span class='btn primary sm'>Save access</span></div>
+</div>`
+
+// ── Who can do what ──────────────────────────────────────────
+const roleCols = ['Admin', 'VM', 'VP', 'Reg. sup.', 'Prod. mgr', 'Trainee']
+const cell = s => s ? `<span class='cell'>${s}</span>` : `<span style='color:var(--line)'>—</span>`
+const matrix = [
+  ['area', 'Visits and reports'],
+  ['Visits', 'VAED', 'VAE', 'VAE', 'VAED', 'V', 'V'],
+  ['Visit reports', 'VAED', 'VAE', 'VAE', 'VE', 'V', ''],
+  ['area', 'Professionals'],
+  ['Doctors and pharmacies', 'VAED', 'V', 'V', 'VAE', 'V', 'V'],
+  ['area', 'Expenses'],
+  ['Expense notes', 'VAED', 'VAE', 'VAE', 'VE', '', ''],
+  ['Expense settings', 'VAED', '', '', '', '', ''],
+  ['area', 'Studio'],
+  ['Roles', 'VAED', '', '', '', '', ''],
+  ['Activity log', 'V', '', '', '', '', ''],
+]
+const matrixPage = `<div class='card' style='padding:16px 18px;display:flex;flex-direction:column;gap:12px'>
+  <div style='display:flex;gap:10px;align-items:center'><div class='input muted' style='width:280px'>⌕ Search a resource</div><span class='input'>Area <b>All</b> ▾</span><span class='hint' style='margin-inline-start:auto'>V view · A add · E edit · D delete. Click a role to edit its access.</span></div>
+  <table class='grid'><thead><tr><th style='width:30%'>Resource</th>${roleCols.map(r => `<th><a style='color:var(--ink)'>${r}</a></th>`).join('')}</tr></thead><tbody>
+  ${matrix.map(r => r[0] === 'area' ? `<tr class='areah'><td colspan='${roleCols.length + 1}'>${r[1]}</td></tr>` : `<tr><td>${r[0]}</td>${r.slice(1).map(cell).join('')}</tr>`).join('')}
+  </tbody></table></div>`
+
+// ── Activity log ─────────────────────────────────────────────
+const evs = [
+  ['Today'],
+  ['SM', '<strong>Sarah M.</strong> changed the expense setting <a>VM · Cardio</a>', ['Price per km inside: 15 → 18', 'Max km: 300 → 350'], '14:12', 1],
+  ['AK', '<strong>Amine K.</strong> added the planning rule <a>Hospital KAMs</a>', ['5 people moved here'], '11:40'],
+  ['SM', '<strong>Sarah M.</strong> gave <a>Regional supervisor</a> access to edit <em>Expense notes</em>', [], '09:03'],
+  ['Yesterday'],
+  ['NB', '<strong>Nadia B.</strong> deleted the speciality <a>Allergology</a>', [], '17:55'],
+  ['NB', '<strong>Nadia B.</strong> changed the user <a>Karim Haddad</a>', ['Team: Cardio → Neuro'], '16:20'],
+]
+const logList = `<div class='card' style='padding:16px 18px;display:flex;flex-direction:column;gap:4px'>
+  <div style='display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px'><div class='input muted' style='width:240px'>⌕ Search</div><span class='input'>Person <b>All</b> ▾</span><span class='input'>Record <b>All</b> ▾</span><span class='input'>Action <b>All</b> ▾</span><span class='input'>Last 7 days ▾</span><span class='toggle' style='margin-inline-start:auto'><i></i>Hide automatic changes</span></div>
+  ${evs.map(e => e.length === 1 ? `<div class='day'>${e[0]}</div>` : `<div class='ev ${e[4] ? 'sel' : ''}'><span class='av'>${e[0]}</span><div><p>${e[1]}</p>${e[2].length ? `<div class='ch'>${e[2].map(c => `<span class='chip'>${c}</span>`).join('')}</div>` : ''}</div><time>${e[3]}</time></div>`).join('')}
+</div>`
+const logPanel = `<aside class='panel'>
+  <div class='ph'><span class='ic' style='background:var(--cobalt);color:#fff'>SM</span><div style='flex:1'><h2 class='display'>Expense setting changed</h2><div class='sub'><span class='chip'>Today 14:12</span><span class='chip'>Sarah M.</span></div></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <section class='sec'><header><strong>Record</strong><span class='edit'>Open ↗</span></header><div class='line'>Expense setting <strong>VM · Cardio</strong></div></section>
+    <section class='sec'><header><strong>What changed</strong></header>
+      <table class='diff'><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody>
+        <tr><td>Price per km inside</td><td class='old'>15 DA</td><td class='new'>18 DA</td></tr>
+        <tr><td>Max km inside per day</td><td class='old'>300</td><td class='new'>350</td></tr>
+      </tbody></table></section>
+    <section class='sec'><header><strong>Same save</strong></header><div class='line'>Nothing else was changed with it.</div></section>
+    <div class='hint' style='margin-top:auto'>Nobody can edit or delete the log.</div>
+  </div>
+</aside>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Roles: the page opens.</strong> Built-in roles (from Delorch) and the lab's own roles. The access column sums each role up in one line, with a 4-step level.`, { title: 'Roles', add: '＋ Add role', list: roleTable(true) }),
+  frame(2, `<strong>Click a role → reading mode.</strong> Two numbers, then access by area (one line each). Built-in roles cannot be renamed or deleted. “Edit access ↗” opens the full page.`, { title: 'Roles', add: '＋ Add role', list: roleTable(false, 1), panel: rolePanel }),
+  frame(3, `<strong>Edit access: full page.</strong> One row per resource, grouped by area, with View / Add / Edit / Delete. Ticking Add/Edit/Delete ticks View too. Changes collect in the bar at the bottom until “Save access”. “Copy access from…” starts from another role.`, { title: 'Medical rep (VM) · Access', crumbs: 'Settings › Access and security › Roles', levels: false, list: accessPage }),
+  frame(4, `<strong>Who can do what</strong> (replaces “Permissions”). Read-only: every resource against every role. Clicking a role name opens its access page.`, { title: 'Who can do what', list: matrixPage }),
+  frame(5, `<strong>Activity log.</strong> Sentences by day, with the changed fields as chips. Filters: person, record type, action, dates. Seeders and imports are hidden unless you switch the toggle off. Click a line → before / after.`, { title: 'Activity log', list: logList, panel: logPanel }),
+].join('')
+</script>
+</body></html>

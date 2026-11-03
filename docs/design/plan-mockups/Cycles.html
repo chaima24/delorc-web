@@ -1,0 +1,205 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cycles</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 460px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; font-size: 12.5px; color: var(--muted); }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 120px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.why { font-size: 12.5px; color: var(--body); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.warn { font-size: 12.5px; color: var(--amber); background: rgba(180,83,9,.08); border-radius: 12px; padding: 9px 12px; }
+.person { display: flex; gap: 10px; align-items: center; } .person small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.av { width: 30px; height: 30px; border-radius: 99px; background: var(--line-soft); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+tr.picked td { background: var(--signal-soft); }
+.q { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 11px; background: var(--paper); border: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--body); }
+.q b { font-variant-numeric: tabular-nums; color: var(--ink); } .q i { font-style: normal; color: var(--amber); }
+.month { display: inline-flex; align-items: center; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; } .month span { height: 34px; min-width: 34px; padding: 0 10px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; } .month span.on { background: var(--ink); color: var(--mist); }
+.pace { position: relative; height: 8px; border-radius: 99px; background: var(--line-soft); min-width: 120px; } .pace > i { position: absolute; inset-block: 0; inset-inline-start: 0; border-radius: 99px; background: var(--cobalt); } .pace > u { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); }
+.pacecell { display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; } .pacecell small { color: var(--muted); }
+.seg-chip { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 9px; border-radius: 8px; border: 1px solid var(--line); font-size: 12.5px; font-weight: 600; background: var(--paper); }
+.seg-chip i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+.fig { background: var(--paper); border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; } .fig span { font-size: 12.5px; color: var(--muted); } .fig strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; letter-spacing: -.02em; } .fig small { font-size: 12px; color: var(--muted); }
+.bar2 { display: flex; height: 8px; border-radius: 99px; overflow: hidden; background: var(--line-soft); } .bar2 i { display: block; }
+.card2 { background: var(--paper); border-radius: 20px; }
+.card2 header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; } .card2 header strong { flex: 1; font-size: 15px; }
+.steps { display: flex; gap: 8px; } .steps span { flex: 1; display: flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 600; color: var(--muted); padding-top: 10px; border-top: 3px solid var(--line); } .steps span.on { color: var(--ink); border-color: var(--ink); } .steps span.done { color: var(--ink); border-color: var(--signal); }
+.opt { border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; } .opt.on { border: 2px solid var(--ink); background: var(--signal-soft); } .opt b { display: block; font-size: 14px; } .opt small { color: var(--muted); }
+.radio { width: 18px; height: 18px; border-radius: 99px; border: 1.5px solid #9FB0AA; flex-shrink: 0; margin-top: 2px; } .opt.on .radio { border: 5px solid var(--ink); }
+.ck { width: 18px; height: 18px; border-radius: 5px; background: var(--ink); color: var(--signal); font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
+.matrix td, .matrix th { text-align: center; } .matrix td:first-child, .matrix th:first-child { text-align: start; }
+.num-in { width: 52px; height: 34px; border: 1px solid var(--line); border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.num-in.empty { color: var(--muted); border-style: dashed; }
+.rules { width: 1440px; margin: 0 28px 40px; background: var(--paper); border-radius: 18px; padding: 24px 28px; font-size: 14px; color: var(--body); }
+.rules h2 { margin: 0 0 12px; font-size: 22px; color: var(--ink); } .rules ol { margin: 0; padding-inline-start: 22px; display: flex; flex-direction: column; gap: 12px; } .rules li strong { color: var(--ink); } .rules .ex { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+.ask { display: inline-block; margin-inline-start: 6px; font-size: 11.5px; font-weight: 700; color: var(--cobalt); background: rgba(47,84,235,.1); border-radius: 99px; padding: 1px 8px; }
+.days { display: flex; flex-wrap: wrap; gap: 4px; } .days span { width: 30px; height: 38px; border-radius: 9px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: var(--muted); border: 1px solid var(--line); gap: 1px; } .days span b { font-size: 13px; color: var(--ink); }
+.days .field { background: var(--signal-soft); border-color: transparent; } .days .act { background: rgba(47,84,235,.12); border-color: transparent; } .days .half { background: linear-gradient(90deg, rgba(47,84,235,.12) 50%, var(--signal-soft) 50%); border-color: transparent; }
+.days .none { border: 2px dashed var(--amber); } .days .none b { color: var(--amber); } .days .future { opacity: .45; } .days .today { border: 2px solid var(--ink); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); } .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; vertical-align: -2px; margin-inline-end: 5px; }
+</style></head><body>
+<p class="caption"><strong>Plan › Cycles — proposal.</strong> A cycle is <strong>one person's working period</strong> (a month by default): the professionals they must see, each with a segment and a number of visits (from Frequencies), and their targets for the period (from Objectives). Managers create cycles for many people at once, follow progress in the list, and open a cycle in a side panel or as a full page. The old pages “Cycles”, “Cycle targets” and the cycle detail page are merged into this one module. Rules to approve are listed at the bottom (<span class="ask" style="margin:0">to approve</span>).</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center'>Plan</span></nav>`
+const wsNav = (on = 'Cycles') => `<nav class='ws-nav'>${['Cycles', 'Activities', 'Frequencies', 'Objectives', 'Planning rules'].map(x => `<a class='${x === on ? 'on' : ''}'>${x}</a>`).join('')}</nav>`
+function frame(n, label, body, panel = '', on) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${wsNav(on)}${body}</div>${panel}</div></div></div>`
+}
+const pace = (done, goal, exp) => `<div class='pacecell'><span><b>${done}</b> / ${goal} visits</span><div class='pace'><i style='width:${Math.min(100, done / goal * 100)}%'></i><u style='inset-inline-start:${exp}%'></u></div><small>${done / goal * 100 >= exp ? 'On pace' : `<span style='color:var(--amber)'>Behind · expected ${Math.round(goal * exp / 100)}</span>`}</small></div>`
+// person, role·team, territory, pros, visited, done, goal, state
+const rows = [
+  ['KB', 'Karim Bensaïd', 'Medical rep · Cardio', 'Alger Est', 212, 131, 226, 245, 'Running'],
+  ['NH', 'Nadia Hamidi', 'Medical rep · Cardio', 'Alger Ouest', 186, 140, 236, 372, 'Running'],
+  ['SM', 'Samir Meziane', 'Pharma rep · Pharma', 'Oran Cardio', 94, 38, 61, 188, 'Running'],
+  ['LA', 'Lina Amrani', 'Medical rep · Pédiatrie', 'Blida – Tipaza', 175, 0, 0, 350, 'Upcoming'],
+  ['YB', 'Yacine Boudiaf', 'KAM · Hôpitaux', '—', 42, 30, 51, 84, 'Running'],
+]
+const stateChip = s => s === 'Running' ? `<span class='chip ok'><span class='dot'></span>Running</span>` : s === 'Upcoming' ? `<span class='chip info'>Starts 1 Nov</span>` : `<span class='chip'>Ended</span>`
+const head = `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Plan</div><h1 class='title display' style='font-size:36px'>Cycles</h1></div>
+  <div style='display:flex;gap:10px'><span class='btn outline'>⇩ Export</span><span class='btn outline'>⧉ Prepare next month</span><span class='btn primary'>＋ Create cycles</span></div></div>`
+const list = (sel = -1, full = true) => `${head}
+  <div style='display:flex;gap:10px;align-items:center;flex-wrap:wrap'><div class='month'><span>‹</span><span class='on'>October 2026</span><span>›</span></div><span class='q'>Day <b>20</b> of 21 working days</span><span class='q'><i>●</i> Ending without a next cycle <b>3</b></span><span class='q'><i>●</i> No cycle this month <b>2</b></span></div>
+  <div class='card' style='padding:16px 18px'><div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:240px'>⌕ Person</div><span class='input'>Role <b>All</b> ▾</span><span class='input'>Team <b>All</b> ▾</span><span class='input'>Pace <b>All</b> ▾</span></div>
+  <table class='table'><thead><tr><th>Person</th>${full ? `<th>Territory</th>` : ''}<th class='num'>Professionals</th><th>Coverage</th><th>Visits</th>${full ? `<th>State</th>` : ''}<th></th></tr></thead><tbody>
+  ${rows.map((r, i) => `<tr class='${i === sel ? 'picked' : ''}'><td><div class='person'><span class='av'>${r[0]}</span><span><strong>${r[1]}</strong><small>${r[2]}</small></span></div></td>
+   ${full ? `<td>${r[3]}</td>` : ''}<td class='num'>${r[4]}</td>
+   <td><div class='pacecell'><span><b>${Math.round(r[5] / r[4] * 100)}%</b> <small>· ${r[5]} seen</small></span><div class='pace' style='min-width:90px'><i style='width:${r[5] / r[4] * 100}%'></i></div></div></td>
+   <td>${r[8] === 'Upcoming' ? `<span class='label'>Goal ${r[7]}</span>` : pace(r[6], r[7], 94)}</td>${full ? `<td>${stateChip(r[8])}</td>` : ''}<td style='color:var(--muted)'>›</td></tr>`).join('')}
+  </tbody></table><div style='display:flex;justify-content:space-between;padding-top:12px' class='label'><span>1–5 of 18 cycles in October 2026</span><span>Rows 25 ▾ ‹ 1 ›</span></div></div>`
+
+// October 2026, weekend Fri–Sat, today = Thu 29 Oct. Training 6–7, leave 19, meeting morning 26.
+const DAY = { 6: 'act', 7: 'act', 19: 'act', 26: 'half', 13: 'none', 22: 'none' }
+const WD = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+const strip = (small = false) => `<div class='days'>${[...Array(31)].map((_, i) => i + 1).filter(d => ![5, 6].includes(new Date(2026, 9, d).getDay())).map(d => {
+  const cls = d === 29 ? 'today future' : d > 29 ? 'future' : DAY[d] ?? 'field'
+  return `<span class='${cls}' ${small ? "style='width:26px;height:32px'" : ''}>${small ? '' : WD[new Date(2026, 9, d).getDay()]}<b>${d}</b></span>`
+}).join('')}</div>`
+const legend = `<div class='legend'><span><i style='background:var(--signal-soft)'></i>Field (a visit done)</span><span><i style='background:rgba(47,84,235,.12)'></i>Activity</span><span><i style='background:linear-gradient(90deg, rgba(47,84,235,.12) 50%, var(--signal-soft) 50%)'></i>Half a day</span><span><i style='border:2px dashed var(--amber)'></i>Nothing recorded</span><span><i style='border:2px solid var(--ink)'></i>Today</span></div>`
+
+const panel = `<aside class='panel'>
+  <div class='ph'><span class='av' style='width:56px;height:56px;font-size:18px;background:var(--signal)'>KB</span><div style='flex:1'><h2 class='display'>Karim Bensaïd</h2><div class='sub'><span class='chip ok'><span class='dot'></span>Running</span><span>1 → 31 Oct 2026 · Alger Est</span></div></div><span class='edit'>⤢ Full page</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='tiles'><div class='tile'><span>Professionals</span><strong>212</strong></div><div class='tile'><span>Coverage</span><strong>62%</strong></div><div class='tile'><span>Visits</span><strong>226</strong></div></div>
+    <section class='sec'><header><strong>Pace</strong><span class='label'>day 20 of 21</span></header><div class='line'>${pace(226, 245, 94)}</div>
+      <div class='line' style='display:flex;justify-content:space-between'><span>Planned still to do</span><b>37</b></div></section>
+    <section class='sec'><header><strong>By segment</strong></header>
+      ${[['A', '#2F54EB', 40, 3, 34], ['B', '#0F9D8A', 72, 2, 51], ['C', '#9FB0AA', 100, 1, 46]].map(s => `<div class='line' style='display:grid;grid-template-columns:70px 1fr 90px;gap:10px;align-items:center'><span class='seg-chip'><i style='background:${s[1]}'></i>${s[0]} · ${s[3]}×</span><div class='pace'><i style='width:${s[4] / s[2] * 100}%'></i></div><span class='label' style='text-align:end'>${s[4]} / ${s[2]} seen</span></div>`).join('')}</section>
+    <section class='sec'><header><strong>Days</strong><span class='label'>2 with nothing recorded</span></header><div class='line'>${strip(true)}</div><div class='line' style='font-size:12.5px'>Nothing recorded on <a>13 Oct</a> and <a>22 Oct</a>.</div></section>
+    <section class='sec'><header><strong>Goal for the period</strong></header><dl class='kv'><dt>Field days</dt><dd><b>17.5</b> <span class='label'>· 21 working days − 2 training − 1 leave − ½ meeting</span></dd><dt>Doctor visits</dt><dd>175 <span class='label'>· 10 a day</span></dd><dt>Pharmacy visits</dt><dd>70 <span class='label'>· 4 a day</span></dd><dt>Orders</dt><dd>18 <span class='label'>· 1 a day</span></dd><dt>From</dt><dd><a>Objective VM · All teams</a></dd></dl>
+      <div class='line' style='font-size:12.5px'>✓ The list gives <b>301</b> visits for a goal of <b>245</b>.</div></section>
+    <section class='sec'><header><strong>Details</strong><span class='edit'>✎ Edit dates</span></header><dl class='kv'><dt>Period</dt><dd>1 Oct → 31 Oct 2026</dd><dt>Working days</dt><dd>21 <span class='label'>· weekend Fri–Sat, holidays out</span></dd><dt>Next cycle</dt><dd><span style='color:var(--amber)'>None yet</span> · <a>Prepare it</a></dd><dt>Created by</dt><dd>Sara Mansouri · 28 Sep 2026</dd></dl></section>
+  </div>
+  <div class='pf'><span class='btn outline' style='color:var(--brick)'>🗑 Delete</span><span class='label' style='font-size:12px'>Refused once a visit is recorded in it.</span></div>
+</aside>`
+
+const stepper = n => `<div class='steps'>${['Period', 'People', 'Professionals'].map((s, i) => `<span class='${i < n ? 'done' : i === n ? 'on' : ''}'>${i < n ? '✓' : i + 1} ${s}</span>`).join('')}</div>`
+const people = [
+  ['KB', 'Karim Bensaïd', 'Medical rep · Cardio', 'Alger Est', '', true],
+  ['NH', 'Nadia Hamidi', 'Medical rep · Cardio', 'Alger Ouest', '', true],
+  ['SM', 'Samir Meziane', 'Pharma rep · Pharma', 'Oran Cardio', '', true],
+  ['RD', 'Rania Djebbar', 'Medical rep · Cardio', '—', 'No territory: the list will be empty', true],
+  ['LA', 'Lina Amrani', 'Medical rep · Pédiatrie', 'Blida – Tipaza', 'Already has a cycle from 1 Nov', false],
+  ['OK', 'Omar Kaci', 'Supervisor · Cardio', '—', 'No objective for Supervisor · Cardio', false],
+]
+const createPage = step => `<div><div class='crumbs'><a>Cycles</a> › Create cycles</div><h1 class='title display' style='font-size:32px'>Create cycles</h1></div>
+ <div style='display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start'><div class='card' style='display:flex;flex-direction:column;gap:16px'>${stepper(step)}
+ ${step === 0 ? `<div class='field'><span>Period</span><div class='seg'><span class='on'>A month</span><span>Other dates</span></div></div>
+   <div class='field'><span>Month</span><div class='month' style='border:1px solid var(--line);width:max-content'><span>‹</span><span class='on'>November 2026</span><span>›</span></div><span class='hint'>1 → 30 Nov 2026 · 21 working days (weekend Fri–Sat, 1 Nov public holiday)</span></div>
+   <div class='why'>Targets are worked out per person: their objective's rate a day × working days. With “Other dates”, any start and end can be picked (e.g. a 2-month cycle).</div>`
+ : step === 1 ? `<div style='display:flex;gap:10px'><span class='input'>Role <b>Medical rep, Pharma rep</b> ▾</span><span class='input'>Team <b>All</b> ▾</span><div class='input muted' style='flex:1'>⌕ Name</div></div>
+   <table class='table'><thead><tr><th><span class='ck'>✓</span></th><th>Person</th><th>Territory</th><th></th></tr></thead><tbody>
+   ${people.map(p => `<tr><td>${p[5] ? `<span class='ck'>✓</span>` : `<span class='check' style='opacity:.4'></span>`}</td><td><div class='person'><span class='av'>${p[0]}</span><span><strong style='${p[5] ? '' : 'color:var(--muted)'}'>${p[1]}</strong><small>${p[2]}</small></span></div></td><td>${p[3]}</td><td>${p[4] ? `<span style='font-size:12.5px;color:${p[5] ? 'var(--amber)' : 'var(--muted)'}'>${p[4]}</span>` : ''}</td></tr>`).join('')}
+   </tbody></table><span class='hint'>Greyed people can't get a cycle for this period; the reason is shown. 4 of 6 picked.</span>`
+ : `<div class='field'><span>Fill each cycle with</span>
+    <div class='opt on'><span class='radio'></span><span><b>Their previous cycle + new names from their territory</b><small>Keeps the professionals and segments of their last cycle, and adds the professionals now in their territory that weren't in it (no segment yet). Professionals no longer in the territory are kept, flagged.</small></span></div>
+    <div class='opt'><span class='radio'></span><span><b>Only their territory</b><small>Everyone in their current territory. Segments are taken from the person's last cycle when the professional was in it.</small></span></div>
+    <div class='opt'><span class='radio'></span><span><b>Nothing</b><small>Empty cycles; add professionals later.</small></span></div></div>
+   <div class='field'><span>Kinds of professionals</span><div class='why'>Taken from each person's role (Studio › Roles › “Visits”): Medical rep → doctors, dentists, pharmacies · Pharma rep → pharmacies, wholesalers.</div></div>
+   <table class='table'><thead><tr><th>Person</th><th class='num'>From last cycle</th><th class='num'>New in territory</th><th class='num'>No segment</th><th class='num'>Total</th></tr></thead><tbody>
+   <tr><td>Karim Bensaïd</td><td class='num'>212</td><td class='num'>6</td><td class='num' style='color:var(--amber)'>6</td><td class='num'><b>218</b></td></tr>
+   <tr><td>Nadia Hamidi</td><td class='num'>186</td><td class='num'>0</td><td class='num'>0</td><td class='num'><b>186</b></td></tr>
+   <tr><td>Samir Meziane</td><td class='num'>94</td><td class='num'>3</td><td class='num' style='color:var(--amber)'>3</td><td class='num'><b>97</b></td></tr>
+   <tr><td>Rania Djebbar</td><td class='num'>—</td><td class='num'>—</td><td class='num'>—</td><td class='num'><b>0</b></td></tr></tbody></table>`}
+ <div style='display:flex;justify-content:space-between'><span class='btn outline'>${step ? '‹ Back' : 'Cancel'}</span><span class='btn ${step === 2 ? 'primary' : 'dark'}'>${step === 2 ? 'Create 4 cycles' : 'Next ›'}</span></div></div>
+ <div class='card2' style='padding-bottom:12px'><header><strong>Summary</strong></header><dl class='kv' style='padding:2px 16px 12px'><dt>Period</dt><dd>1 → 30 Nov 2026</dd><dt>People</dt><dd>${step >= 1 ? '4 picked · 2 can\'t' : 'Not picked yet'}</dd><dt>Professionals</dt><dd>${step === 2 ? '501 in all · 9 without segment' : '—'}</dd></dl>
+ ${step === 2 ? `<div style='padding:0 16px'><div class='warn'>Professionals without a segment count 0 visits until one is set. Set them on each cycle page (filter “No segment”).</div></div>` : ''}</div></div>`
+
+const pros = [
+  ['Dr Kaci Amine', 'Doctor · Cardiologie', 'Kouba', 'A', '#2F54EB', 3, 3, 0, 'Reached'],
+  ['Dr Ouali Sonia', 'Doctor · Cardiologie', 'El Harrach', 'A', '#2F54EB', 3, 1, 1, 'Started'],
+  ['Pharmacie Belkacem', 'Pharmacy', 'Bab Ezzouar', 'B', '#0F9D8A', 2, 0, 1, 'Not seen'],
+  ['Dr Saïdi Hakim', 'Doctor · Médecine générale', 'Kouba', 'C', '#9FB0AA', 1, 2, 0, 'Over'],
+  ['Dr Merabet Ines', 'Doctor · Cardiologie', 'Hussein Dey', '', '', 0, 0, 0, 'No segment'],
+]
+const pState = s => ({ Reached: `<span class='chip ok'>Reached</span>`, Started: `<span class='chip info'>Started</span>`, 'Not seen': `<span class='chip warn'>Not seen</span>`, Over: `<span class='chip'>+1 over</span>`, 'No segment': `<span class='chip warn'>No segment</span>` })[s]
+const fullPage = `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'><a>Cycles</a> › October 2026</div><h1 class='title display' style='font-size:32px'>Karim Bensaïd</h1><div class='label' style='margin-top:6px;display:flex;gap:8px;align-items:center'><span class='chip ok'><span class='dot'></span>Running</span> 1 → 31 Oct 2026 · Medical rep · Cardio · <a>Alger Est</a></div></div>
+  <div style='display:flex;gap:10px'><span class='btn outline'>✎ Edit dates</span><span class='btn outline'>⧉ Prepare next cycle</span><span class='btn outline' style='color:var(--brick)'>🗑 Delete</span></div></div>
+ <div style='display:grid;grid-template-columns:repeat(4,1fr);gap:12px'>
+  <div class='fig'><span>Coverage</span><strong>62%</strong><small>131 of 212 professionals seen at least once</small></div>
+  <div class='fig'><span>Frequency reached</span><strong>48%</strong><small>Visits that count toward each one's number (no extra) · 186 of 388</small></div>
+  <div class='fig'><span>Visits</span><strong>226 <small style='font-size:14px'>/ 245</small></strong><div class='pace'><i style='width:92%'></i><u style='inset-inline-start:94%'></u></div><small style='color:var(--amber)'>Behind · expected 230 by today</small><small>Goal = 14 a day × 17.5 field days</small></div>
+  <div class='fig'><span>Extra visits</span><strong>14</strong><small>Visits above a professional's number</small></div></div>
+ <div class='card' style='padding:16px 18px;display:flex;flex-direction:column;gap:12px'><div style='display:flex;align-items:center;gap:10px'><strong style='flex:1;font-size:15px'>Days</strong><span class='label'>14 field · 3 activity · 1 half · <span style='color:var(--amber);font-weight:600'>2 nothing recorded</span> · 1 to come</span></div>${strip()}${legend}
+  <div class='why'>21 working days − 3.5 activity days (training 6–7 Oct, leave 19 Oct, meeting the morning of 26 Oct) = <b>17.5 field days</b>, so the goal is 14 × 17.5 = 245 visits. Nothing was recorded on 13 and 22 Oct (no visit, no activity). Worked out each time the page opens: a visit synced late from the phone fixes its day by itself.</div></div>
+ <div class='tabs'><span class='on'>Professionals <span class='count'>212</span></span><span>Visits <span class='count'>226</span></span><span>Activities <span class='count'>3</span></span><span>Materials <span class='count'>3</span></span><span>History</span></div>
+ <div class='card' style='padding:16px 18px'><div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center'><div class='input muted' style='width:220px'>⌕ Name</div><span class='input'>Kind <b>All</b> ▾</span><span class='input'>Segment <b>All</b> ▾</span><span class='input'>State <b>All</b> ▾</span><span class='q'><i>●</i> No segment <b>6</b></span><span style='margin-inline-start:auto;display:flex;gap:8px'><span class='btn outline sm'>↻ Check territory</span><span class='btn primary sm'>＋ Add professionals</span></span></div>
+ <table class='table'><thead><tr><th><span class='check'></span></th><th>Professional</th><th>Commune</th><th>Segment</th><th class='num'>Visits to do</th><th class='num'>Done</th><th class='num'>Planned</th><th>State</th></tr></thead><tbody>
+ ${pros.map(p => `<tr><td><span class='check'></span></td><td><strong>${p[0]}</strong><small style='display:block;color:var(--muted);font-size:12px'>${p[1]}</small></td><td>${p[2]}</td><td>${p[3] ? `<span class='seg-chip'><i style='background:${p[4]}'></i>${p[3]} ▾</span>` : `<span class='seg-chip' style='color:var(--amber);border-style:dashed'>Set ▾</span>`}</td><td class='num'>${p[5] || '—'}</td><td class='num'>${p[6]}</td><td class='num'>${p[7]}</td><td>${pState(p[8])}</td></tr>`).join('')}
+ </tbody></table><div style='display:flex;justify-content:space-between;padding-top:12px' class='label'><span>Pick rows to change their segment or remove them · 1–5 of 212</span><span>Rows 25 ▾ ‹ 1 2 3 … 9 ›</span></div></div>`
+
+const addPanel = `<aside class='panel'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Add professionals</h2><div class='sub'>To Karim Bensaïd · October 2026</div></div><span class='icb'>✕</span></div>
+  <div class='pb'><div class='seg' style='width:max-content'><span class='on'>In his territory 6</span><span>Search everyone</span></div>
+   <div class='why'>Professionals in Alger Est that he visits (doctors, dentists, pharmacies) and who aren't in the cycle yet.</div>
+   <div style='display:flex;gap:8px'><span class='input' style='flex:1'>Kind <b>All</b> ▾</span><span class='input' style='flex:1'>Speciality <b>All</b> ▾</span></div>
+   ${[['Dr Merabet Ines', 'Cardiologie · Hussein Dey', 1], ['Dr Ait Ali Rym', 'Cardiologie · Kouba', 1], ['Pharmacie El Nour', 'Pharmacy · Bab Ezzouar', 0], ['Dr Haddad Nabil', 'Médecine générale · El Harrach', 0]].map(r => `<div style='display:flex;gap:10px;align-items:center;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line-soft)'>${r[2] ? `<span class='ck'>✓</span>` : `<span class='check'></span>`}<span style='flex:1'><strong>${r[0]}</strong><small style='display:block;color:var(--muted)'>${r[1]}</small></span></div>`).join('')}
+   <div class='field'><span>Segment for the 2 picked</span><span class='input'><span class='seg-chip'><i style='background:#2F54EB'></i>A</span> 3 visits each (Cardiologie) ▾</span><span class='hint'>The number of visits comes from Frequencies for his role, team and each one's speciality.</span></div></div>
+  <div class='pf'><span class='btn outline'>Cancel</span><span class='btn primary' style='margin-inline-start:auto'>Add 2</span></div></aside>`
+
+const freqPage = `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Plan</div><h1 class='title display' style='font-size:36px'>Frequencies</h1><div class='label' style='margin-top:6px'>How many visits each professional gets per cycle, by segment.</div></div><span class='btn primary'>＋ New grid</span></div>
+ <div style='display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start'>
+  <div class='card2' style='padding:8px'>${[['Medical rep · Cardio', 'since 1 Jan 2026 · 3 specialities', 1], ['Medical rep · Pédiatrie', 'since 1 Jan 2026 · 2 specialities', 0], ['Pharma rep · Pharma', 'since 1 Jan 2026 · pharmacies', 0], ['KAM · Hôpitaux', '<span style="color:var(--amber)">No grid yet</span>', 0]].map(g => `<div style='padding:10px 12px;border-radius:12px;${g[2] ? 'background:var(--signal-soft)' : ''}'><strong style='font-size:14px'>${g[0]}</strong><small style='display:block;color:var(--muted);font-size:12px'>${g[1]}</small></div>`).join('')}</div>
+  <div class='card' style='display:flex;flex-direction:column;gap:14px'><div style='display:flex;align-items:center;gap:10px'><strong style='flex:1;font-size:17px'>Medical rep · Cardio</strong><span class='label'>Valid from 1 Jan 2026 · no end</span><span class='btn outline sm'>Change from a date…</span></div>
+   <table class='table matrix'><thead><tr><th>Speciality</th>${[['A', '#2F54EB'], ['B', '#0F9D8A'], ['C', '#9FB0AA'], ['D', '#DCE3DF']].map(s => `<th><span class='seg-chip'><i style='background:${s[1]}'></i>${s[0]}</span></th>`).join('')}</tr></thead><tbody>
+   ${[['Cardiologie', 3, 2, 1, 1], ['Médecine interne', 3, 2, 1, ''], ['Médecine générale', 2, 1, 1, ''], ['<em>Every other kind</em><small style="display:block;color:var(--muted);font-size:12px">pharmacies, dentists, other specialities</small>', 2, 1, 1, '']].map(r => `<tr><td>${r[0]}</td>${r.slice(1).map(v => `<td><span class='num-in ${v === '' ? 'empty' : ''}'>${v === '' ? '0' : v}</span></td>`).join('')}</tr>`).join('')}
+   <tr><td colspan='5'><a>＋ Add a speciality</a></td></tr></tbody></table>
+   <div class='why'>A professional's number = the row of their speciality, else “Every other kind”. Pharmacies have no speciality, so they always use “Every other kind”. Changing the grid “from a date” keeps the old numbers for cycles that started before.</div></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Cycles list.</strong> One month at a time (‹ ›), so the list is never a mix of periods. For each person: coverage (professionals seen at least once) and visits against the goal, with a line showing where they should be today. Two warnings at the top: cycles ending in 7 days with no next one, and people (who have a territory) with no cycle this month.`, list()),
+  frame(2, `<strong>Side panel</strong> — a quick look: pace, the days strip (field · activity · nothing recorded), progress by segment, and the goal with its field days (working days − activity days) and where it comes from. “Full page” for the professionals list.`, list(0, false), panel),
+  frame(3, `<strong>Create cycles — step 1 Period.</strong> A month by default (the old labs all worked by month); “Other dates” for anything else. Its own page, like adding a territory.`, createPage(0)),
+  frame(4, `<strong>Step 2 People.</strong> Filter by role/team and tick. Someone who already has a cycle in this period, or whose role + team has no objective, can't be picked (reason shown). No territory = allowed, but warned.`, createPage(1)),
+  frame(5, `<strong>Step 3 Professionals.</strong> How each new cycle is filled, with a preview per person. The same screen is used by “Prepare next month” (people and period already filled in: everyone whose cycle ends this month).`, createPage(2)),
+  frame(6, `<strong>Cycle full page.</strong> Four figures, the <strong>Days</strong> strip (one mark per working day, live — click a day to see its visits and activities), then tabs (Activities = the person's activities in the period). Professionals: segment changed right in the row (or for many picked rows), visits to do (from Frequencies), done, planned, and a state. “Check territory” lists who joined or left the territory since the cycle was made.`, fullPage),
+  frame(7, `<strong>Add professionals</strong> (side panel on the full page). From the territory first; “Search everyone” for someone outside it (amber note, still allowed).`, fullPage, addPanel),
+  frame(8, `<strong>Frequencies</strong> (redone with this module). One grid per role + team: specialities × segments. Replaces the long list of rows.`, freqPage, '', 'Frequencies'),
+].join('')
+</script>
+<section class="rules"><h2 class="display">Rules to approve</h2><ol>
+<li><strong>Cycle state comes from the dates only</strong>: Upcoming · Running · Ended. No “submitted / approved” step (the old apps had the words but nothing used them). <span class="ask">to approve</span><span class="ex">Example: cycle 1 → 31 Oct, today 30 Oct → Running; from 1 Nov → Ended.</span></li>
+<li><strong>One cycle at a time per person</strong> (already enforced by the database). Dates can be changed while no visit falls outside the new dates.<span class="ex">Example: Karim has a visit on 28 Oct → his October cycle can't end on 25 Oct.</span></li>
+<li><strong>Each role says which kinds of professionals it visits</strong> (new “Visits” setting in Studio › Roles), used to fill cycles. Replaces the old hard-coded VM/VP. <span class="ask">to approve</span><span class="ex">Example: Medical rep → doctors, dentists, pharmacies; Pharma rep → pharmacies, wholesalers. A Pharma rep in “Alger Cardio” gets Pharmacie Belkacem, not Dr Kaci.</span></li>
+<li><strong>A new cycle is filled from the previous cycle + the territory</strong> (step 3, can be changed each time). Segments are copied from the previous cycle; newcomers have no segment. <span class="ask">to approve</span><span class="ex">Example: Dr Kaci was A in October → A in November. Dr Merabet just joined Alger Est → in November with no segment, 0 visits to do, flagged.</span></li>
+<li><strong>Visits to do = Frequencies grid</strong> for the cycle owner's role + main team, the professional's speciality and segment; the speciality row falls back to “Every other kind” (pharmacies always use it). Today's table needs a speciality on every row, so “Every other kind” = an empty speciality. <span class="ask">to approve</span><span class="ex">Example: Medical rep · Cardio, Pharmacie Belkacem, segment B → “Every other kind” B = 1 visit.</span></li>
+<li><strong>Figures</strong>: Coverage = professionals seen at least once ÷ professionals in the cycle. Frequency reached = Σ min(done, to do) ÷ Σ to do. Extra visits = Σ max(done − to do, 0). Expected by today = goal × working days passed ÷ working days. Only completed visits count; planned ones are shown apart.<span class="ex">Example: Dr Saïdi, C = 1 visit, seen 2 times → 1 counts toward “frequency reached”, 1 is extra.</span></li>
+<li><strong>Removing a professional who already has visits in the cycle</strong> is refused (the visits would lose their link); professionals no longer in the territory stay, flagged by “Check territory”.</li>
+<li><strong>Later, not in this module</strong>: reps proposing changes to their list with manager approval (with the rep mobile app, like HCP change requests), Objectives page redesign (next module), alerts by e-mail.</li>
+</ol></section>
+</body></html>

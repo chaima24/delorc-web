@@ -1,0 +1,133 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Product page</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css"><style>
+.studio-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.studio-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.studio-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.edit.dark { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.av { width: 30px; height: 30px; border-radius: 9px; background: var(--cobalt); color: #fff; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.av.t { background: #0F9D8A; } .av.g { background: var(--line-soft); color: var(--muted); }
+.stack { display: inline-flex; } .stack .av { width: 26px; height: 26px; border-radius: 8px; font-size: 10px; box-shadow: 0 0 0 2px var(--paper); } .stack .av + .av { margin-inline-start: -6px; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; } .st .dot { width: 8px; height: 8px; }
+.st.on { color: #0F7A3D; } .st.off { color: var(--muted); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 12px 12px; }
+.grp { padding: 4px 12px 2px; font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.mrow { display: flex; align-items: center; gap: 10px; padding: 7px 12px; font-size: 13px; } .mrow small { display: block; color: var(--muted); font-size: 12px; }
+.mrow .x { margin-inline-start: auto; color: var(--muted); font-size: 12px; }
+.mini-steps { display: flex; gap: 6px; padding: 12px 20px 0; } .mini-steps span { flex: 1; height: 4px; border-radius: 9px; background: var(--line); } .mini-steps span.on { background: var(--ink); }
+.pick { border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; display: flex; gap: 10px; align-items: center; font-size: 13px; }
+.cb { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid #9FB0AA; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+.cb.on { background: var(--ink); border-color: var(--ink); color: var(--signal); }
+.why { font-size: 12px; color: var(--muted); background: var(--mist); border-radius: 10px; padding: 8px 10px; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.uses { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; } .uses a { display: flex; justify-content: space-between; color: var(--ink); padding: 4px 0; } .uses a span { color: var(--muted); }
+.thumb { width: 40px; height: 40px; border-radius: 12px; background: var(--mist); display: inline-flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.thumb.lg { width: 72px; height: 72px; border-radius: 18px; font-size: 30px; }
+.flag { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; }
+.flag i { width: 16px; height: 16px; border-radius: 5px; background: var(--ink); color: var(--signal); font-style: normal; font-size: 10px; display: inline-flex; align-items: center; justify-content: center; }
+.flag.off i { background: var(--line-soft); color: var(--muted); }
+.num { font-variant-numeric: tabular-nums; }
+.big { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.ugs { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 12px 12px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.stat { background: var(--mist); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.stat span { font-size: 12px; color: var(--muted); } .stat strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.stat small { font-size: 11.5px; color: var(--muted); }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.card2 { background: var(--paper); border-radius: 20px; }
+.card2 header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; } .card2 header strong { flex: 1; font-size: 15px; }
+.ic { width: 32px; height: 32px; border-radius: 10px; background: var(--line-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 15px; }
+.rows { padding: 0 16px 12px; } .rows > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .rows > div:last-child { border-bottom: 0; } .rows span { color: var(--muted); }
+.prices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 16px 16px; }
+.price { border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; } .price span { display: block; font-size: 12px; color: var(--muted); } .price strong { font-size: 16px; font-variant-numeric: tabular-nums; }
+.price.main { grid-column: span 2; background: var(--signal-soft); border-color: transparent; } .price.main strong { font-size: 22px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; }
+.photo { margin: 0 16px 16px; aspect-ratio: 4 / 3; border-radius: 16px; background: var(--mist); display: flex; align-items: center; justify-content: center; font-size: 72px; }
+.rows > .toggle { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .toggle:last-child { border-bottom: 0; }
+.sw { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; margin-top: 1px; } .sw::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.sw.off { background: var(--line); } .sw.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+</style></head><body>
+<p class="caption"><strong>Product full page — proposal.</strong> Today the page is a 2×2 grid: sections of different heights leave holes, the header only shows the name, and the numbers that matter (price, VAT, orders) are lost in lists.
+Proposal: a header with the <strong>4 key figures</strong>, then <strong>two columns</strong>: the record on the left (Product · Prices · In orders), the photo on the right. Each section keeps its own Edit; editing stays in place, fields full width.</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>`
+const frame = (n, label, body) => `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+<div style='padding:20px 28px 28px;display:flex;flex-direction:column;gap:16px'><div class='crumbs'>Studio › Products › Cardiozen 5 mg · 30 tablets</div>${body}</div></div></div>`
+const sw = (on) => `<span class='sw ${on ? '' : 'off'}'></span>`
+
+const header = `<div class='card' style='display:flex;flex-direction:column;gap:18px'>
+  <div style='display:flex;gap:18px;align-items:center'>
+    <span class='thumb lg'>💊</span>
+    <div style='flex:1'><h1 class='display' style='margin:0;font-size:30px'>Cardiozen 5 mg · 30 tablets</h1>
+      <div style='display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap'><span class='chip'>Cardiozen</span><span class='chip'>Cardiology</span><span class='chip ok'>✓ Strategic</span><span class='chip ok'>✓ Pack discount</span><span class='hint'>· added 3 Nov 2026</span></div></div>
+    <span class='btn outline'>⧉ Duplicate</span><span class='btn outline' style='color:var(--brick)'>🗑 Delete</span>
+  </div>
+  <div class='stats'>
+    <div class='stat'><span>Order price</span><strong>1 480,00</strong><small>DZD · per unit</small></div>
+    <div class='stat'><span>VAT</span><strong>0 %</strong><small>on the net line</small></div>
+    <div class='stat'><span>Orders</span><strong>214</strong><small>last on 21 Oct 2026</small></div>
+    <div class='stat'><span>Pack orders</span><strong>3</strong><small>in total</small></div>
+  </div>
+</div>`
+
+const left = (editPrices = false) => `<div class='stack'>
+  <section class='card2'><header><span class='ic'>💊</span><strong>Product</strong><span class='edit'>✎ Edit</span></header>
+    <div class='rows'><div><span>Name</span>Cardiozen 5 mg · 30 tablets</div><div><span>Brand</span><a>Cardiozen</a></div><div><span>Therapeutic area</span>Cardiology</div><div><span>Per box</span>30</div><div><span>Description</span>Losartan 50 mg, film-coated tablets.</div></div></section>
+  ${editPrices ? `<section class='card2' style='box-shadow:inset 0 0 0 2px var(--ink)'><header><span class='ic' style='background:var(--ink);color:var(--signal)'>¤</span><strong>Prices</strong></header>
+    <div style='padding:0 16px 16px;display:flex;flex-direction:column;gap:12px'>
+      <div class='field'><span>Order price</span><div class='input'>1 480,00</div><span class='hint'>Unit price on order lines.</span></div>
+      <div class='field'><span>VAT %</span><div class='input'>0</div></div>
+      <div class='field'><span>Distributor price</span><div class='input'>1 480,00</div></div>
+      <div class='field'><span>Wholesaler price</span><div class='input'>1 480,00</div></div>
+      <div class='field'><span>Pharmacy price</span><div class='input'>1 628,00</div></div>
+      <div class='field'><span>Discounted price</span><div class='input muted'>—</div></div>
+      <div style='display:flex;justify-content:flex-end;gap:8px'><span class='edit'>Cancel</span><span class='edit dark'>Save</span></div>
+    </div></section>`
+  : `<section class='card2'><header><span class='ic'>¤</span><strong>Prices</strong><span class='edit'>✎ Edit</span></header>
+    <div class='prices'><div class='price main'><span>Order price · used on orders</span><strong>1 480,00 DZD</strong></div>
+      <div class='price'><span>Distributor</span><strong>1 480,00</strong></div><div class='price'><span>Wholesaler</span><strong>1 480,00</strong></div>
+      <div class='price'><span>Pharmacy</span><strong>1 628,00</strong></div><div class='price'><span>Discounted</span><strong style='color:var(--muted)'>—</strong></div></div></section>`}
+  <section class='card2'><header><span class='ic'>🛒</span><strong>In orders</strong><span class='edit'>✎ Edit</span></header>
+    <div class='rows' style='padding-bottom:4px'>
+      <div class='toggle'>${sw(1)}<span style='color:var(--ink)'><strong>Strategic product</strong><br><span class='hint'>Counts in the strategic share of an order (picks the pack discount).</span></span></div>
+      <div class='toggle'>${sw(1)}<span style='color:var(--ink)'><strong>Pack discount applies</strong><br><span class='hint'>The pack discount % is applied to this product’s lines.</span></span></div>
+    </div>
+    <div class='grp' style='padding:4px 16px'>Free units (UG) offered</div><div class='ugs' style='padding:0 16px 16px'><span class='chip'>10</span><span class='chip'>15</span><span class='chip'>20</span></div></section>
+</div>`
+
+const right = `<div class='stack'>
+  <section class='card2'><header><span class='ic'>🖼</span><strong>Photo</strong><span class='edit'>⇪ Change</span></header><div class='photo'>💊</div><div class='hint' style='padding:0 16px 14px'>JPG, PNG or WebP · 10 MB. Shown to reps in the app.</div></section>
+</div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The page.</strong> Header: photo, name, chips (brand, area, the two order flags), Duplicate and Delete in sight, then the 4 key figures. Below: the record on the left, the photo on the right — no holes whatever the section heights.`, `${header}<div class='cols'>${left()}${right}</div>`),
+  frame(2, `<strong>Editing a section</strong> (here Prices): the section turns into full-width fields with Cancel / Save; the rest of the page stays readable.`, `${header}<div class='cols'>${left(true)}${right}</div>`),
+  `<div class='step-label'><b>3</b><span><strong>On a phone.</strong> Header, figures 2 × 2, then every section in one column (photo after the record).</span></div>
+  <div style='display:flex;gap:28px;margin:0 28px 40px'><div class='phone'><div style='padding:16px;display:flex;flex-direction:column;gap:12px'>
+    <span class='hint'>‹ Products</span>
+    <div style='display:flex;gap:12px;align-items:center'><span class='thumb lg'>💊</span><div><h2 class='display' style='margin:0;font-size:20px'>Cardiozen 5 mg · 30 tablets</h2><div style='display:flex;gap:6px;margin-top:6px;flex-wrap:wrap'><span class='chip'>Cardiozen</span><span class='chip ok'>✓ Strategic</span></div></div></div>
+    <div class='stats' style='grid-template-columns:1fr 1fr'><div class='stat'><span>Order price</span><strong style='font-size:18px'>1 480,00</strong></div><div class='stat'><span>VAT</span><strong style='font-size:18px'>0 %</strong></div><div class='stat'><span>Orders</span><strong style='font-size:18px'>214</strong></div><div class='stat'><span>Pack orders</span><strong style='font-size:18px'>3</strong></div></div>
+    <section class='card2'><header><span class='ic'>💊</span><strong>Product</strong><span class='edit'>✎</span></header><div class='rows'><div><span>Brand</span>Cardiozen</div><div><span>Area</span>Cardiology</div><div><span>Per box</span>30</div></div></section>
+    <div style='display:flex;gap:8px'><span class='btn outline' style='flex:1;justify-content:center'>⧉ Duplicate</span><span class='btn outline' style='flex:1;justify-content:center;color:var(--brick)'>🗑 Delete</span></div>
+  </div></div></div>`,
+].join('')
+</script>
+</body></html>

@@ -1,0 +1,168 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Professionals import</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.edit.dark { background: var(--ink); color: var(--mist); border-color: var(--ink); }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.av { width: 36px; height: 36px; border-radius: 11px; background: var(--line-soft); color: var(--ink); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.av.lg { width: 72px; height: 72px; border-radius: 18px; font-size: 24px; background: var(--signal); }
+.av.ph { width: 56px; height: 56px; border-radius: 16px; font-size: 18px; background: var(--signal); padding: 0; border: 0; }
+.person { display: flex; gap: 10px; align-items: center; } .person small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; } .st .dot { width: 8px; height: 8px; }
+.st.on { color: #0F7A3D; } .st.off { color: var(--muted); }
+.ver { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--cobalt); }
+.mini-steps { display: flex; gap: 6px; padding: 12px 20px 0; } .mini-steps span { flex: 1; height: 4px; border-radius: 9px; background: var(--line); } .mini-steps span.on { background: var(--ink); }
+.why { font-size: 12px; color: var(--muted); background: var(--mist); border-radius: 10px; padding: 8px 10px; }
+.warnbox { border-radius: 14px; background: rgba(180, 83, 9, .08); padding: 10px 12px; font-size: 13px; display: flex; flex-direction: column; gap: 8px; }
+.warnbox strong { color: var(--amber); }
+.dup { background: var(--paper); border-radius: 10px; padding: 8px 10px; display: flex; gap: 10px; align-items: center; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.stat { background: var(--mist); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.stat span { font-size: 12px; color: var(--muted); } .stat strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.stat small { font-size: 11.5px; color: var(--muted); }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 16px; align-items: start; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.card2 { background: var(--paper); border-radius: 20px; }
+.card2 header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; } .card2 header strong { flex: 1; font-size: 15px; }
+.ic { width: 32px; height: 32px; border-radius: 10px; background: var(--line-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 15px; }
+.rows { padding: 0 16px 12px; } .rows > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .rows > div:last-child { border-bottom: 0; } .rows span { color: var(--muted); }
+.wp { display: flex; gap: 12px; padding: 10px 16px; border-top: 1px solid var(--line-soft); font-size: 13.5px; align-items: flex-start; }
+.wp .bar { width: 4px; align-self: stretch; border-radius: 9px; background: var(--cobalt); flex-shrink: 0; } .wp.past .bar { background: var(--line); } .wp.past { color: var(--muted); }
+.wp small { display: block; color: var(--muted); font-size: 12px; }
+.map { margin: 0 16px 12px; height: 150px; border-radius: 16px; background: repeating-linear-gradient(45deg, #E6ECE9 0 12px, #EDF1EF 12px 24px); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; position: relative; }
+.map i { position: absolute; width: 16px; height: 16px; border-radius: 99px; background: var(--cobalt); box-shadow: 0 0 0 5px rgba(47, 84, 235, .2); }
+.vrow { display: grid; grid-template-columns: 110px 1fr 130px 90px; gap: 12px; padding: 10px 16px; border-top: 1px solid var(--line-soft); font-size: 13.5px; align-items: center; }
+.vrow small { color: var(--muted); font-size: 12px; }
+.typeseg { display: inline-flex; gap: 4px; background: var(--paper); border-radius: 14px; padding: 4px; }
+.typeseg span { height: 34px; padding: 0 12px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--body); }
+.typeseg span.on { background: var(--ink); color: var(--mist); } .typeseg em { font-style: normal; font-size: 11.5px; opacity: .7; }
+
+.qstrip { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.q { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 11px; background: var(--paper); border: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--body); }
+.q b { font-variant-numeric: tabular-nums; color: var(--ink); } .q.on { background: var(--ink); color: var(--mist); border-color: var(--ink); } .q.on b { color: var(--signal); }
+.q i { font-style: normal; color: var(--amber); }
+.steps4 { display: flex; gap: 8px; } .steps4 div { flex: 1; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.steps4 div::before { content: ''; height: 4px; border-radius: 9px; background: var(--line); } .steps4 div.on { color: var(--ink); } .steps4 div.on::before { background: var(--ink); }
+.drop { border: 2px dashed #B7C4BF; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; background: var(--mist); }
+.drop .big { font-size: 40px; }
+.how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.how div { background: var(--mist); border-radius: 16px; padding: 14px; font-size: 13px; color: var(--body); } .how strong { display: block; color: var(--ink); margin-bottom: 4px; }
+.map-row { display: grid; grid-template-columns: 1fr 30px 1fr 1.3fr; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; }
+.map-row .sample { color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sel { height: 40px; border: 1px solid var(--line); border-radius: 11px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; background: var(--paper); }
+.sel.auto { border-color: #9FD3B4; background: #F2FBF5; } .sel.skip { color: var(--muted); } .sel.miss { border-color: var(--amber); background: #FFF7EE; }
+.sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.sum div { border-radius: 16px; padding: 12px 14px; background: var(--mist); display: flex; flex-direction: column; gap: 2px; } .sum span { font-size: 12px; color: var(--muted); } .sum strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.sum .new strong { color: #0F7A3D; } .sum .upd strong { color: var(--cobalt); } .sum .err strong { color: var(--brick); }
+.err-row { display: grid; grid-template-columns: 70px 1.2fr 1fr 2fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; align-items: center; }
+.err-row .why { background: none; padding: 0; color: var(--brick); font-size: 13px; }
+.radio { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 13px; } .radio.on { border: 2px solid var(--ink); }
+.radio i { width: 16px; height: 16px; border-radius: 99px; border: 1.5px solid #9FB0AA; flex-shrink: 0; margin-top: 2px; } .radio.on i { border: 5px solid var(--ink); }
+.done { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; padding: 30px 0 10px; }
+.done .ok { width: 64px; height: 64px; border-radius: 20px; background: var(--signal); display: flex; align-items: center; justify-content: center; font-size: 30px; }
+</style></head><body>
+<p class="caption"><strong>Professionals — Excel import + data quality — proposal.</strong> (1) On the list, counters of what's missing, each one a filter. (2) "Import" opens a full page in 4 steps: file → columns → check → done. The file is read in the browser; the API checks every row before anything is saved, then creates new professionals and <strong>updates existing ones matched by OneKey ID</strong> (empty cells never erase what is already there).</p>
+<div id="frames"></div>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>Profes-<br>sionals</span></nav>`
+const wsNav = `<nav class='ws-nav'><a class='on'>Healthcare professionals</a><a>Organisations</a><a>Consents</a><a>Territories</a></nav>`
+function frame(n, label, body) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:0'>${rail}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+<div style='padding:20px 28px 28px;display:flex;flex-direction:column;gap:16px'>${wsNav}${body}</div></div></div>`
+}
+const st = (on) => `<span class='st ${on ? 'on' : 'off'}'><span class='dot'></span>${on ? 'Active' : 'Inactive'}</span>`
+const rows = [['KB','Dr Karim Benali','k.benali@mail.dz','Doctor','Cardiology','CHU Mustapha','Hydra · Alger'],['RM','Dr Rachid Mansouri','—','Doctor','Endocrinology','EPH Bologhine','Bir Mourad Raïs · Alger'],['LB','Dr Leila Bouzid','0661 98 76 54','Dentist','—','—','Blida · Blida']]
+
+const list = (filterOn) => `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Professionals</div><h1 class='title display' style='font-size:36px'>Healthcare professionals</h1></div>
+  <div style='display:flex;gap:10px'><span class='btn outline'>⇪ Import</span><span class='btn outline'>⇩ Export</span><span class='btn primary'>＋ Add professional</span></div></div>
+  <div class='typeseg' style='align-self:flex-start'><span class='on'>All <em>1 284</em></span><span>Doctors <em>962</em></span><span>Pharmacies <em>241</em></span><span>Dentists <em>48</em></span><span>Wholesalers <em>21</em></span><span>Distributors <em>12</em></span></div>
+  <div class='qstrip'><span class='label' style='margin-inline-end:4px'>Missing:</span>
+    <span class='q ${filterOn === 'gps' ? 'on' : ''}'><i>●</i>No GPS <b>540</b></span><span class='q'><i>●</i>No phone <b>312</b></span><span class='q'><i>●</i>No e-mail <b>871</b></span><span class='q'><i>●</i>No workplace <b>88</b></span><span class='q'><i>●</i>Not verified <b>1 020</b></span>
+    ${filterOn ? `<span class='label' style='margin-inline-start:6px'>Showing 540 without GPS · <a>clear</a></span>` : ''}</div>
+  <div class='card' style='padding:16px 18px'><div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:260px'>⌕ Name, e-mail or phone</div><span class='input'>Speciality <b>All</b> ▾</span><span class='input'>Organisation <b>All</b> ▾</span><span class='input'>Wilaya <b>All</b> ▾</span><span class='input'>Status <b>All</b> ▾</span><span class='input'>Added <b>Any date</b> ▾</span></div>
+  <table class='table'><thead><tr><th>Professional</th><th>Type</th><th>Speciality · workplace</th><th>Commune</th><th>Status</th></tr></thead><tbody>
+  ${rows.map(h => `<tr><td><div class='person'><span class='av'>${h[0]}</span><strong>${h[1]}<small>${h[2]}</small></strong></div></td><td>${h[3]}</td><td>${h[4]}<br><span class='label'>${h[5]}</span></td><td>${h[6]}</td><td>${st(1)}</td></tr>`).join('')}
+  </tbody></table></div>`
+
+const head = (step) => `<div class='crumbs'>Professionals › Healthcare professionals › Import</div>
+  <div style='display:flex;justify-content:space-between;align-items:flex-end'><h1 class='title display' style='font-size:34px'>Import professionals</h1><span class='btn ghost'>✕ Cancel</span></div>
+  <div class='steps4'>${['File', 'Columns', 'Check', 'Done'].map((s, i) => `<div class='${i <= step ? 'on' : ''}'>${i + 1}. ${s}</div>`).join('')}</div>`
+
+const step1 = `${head(0)}<div class='card' style='display:flex;flex-direction:column;gap:18px'>
+  <div class='drop'><span class='big'>📄</span><strong style='font-size:16px'>Drop your Excel file here, or <a>choose a file</a></strong><span class='hint'>.xlsx, .xls or .csv · first row = column names · up to 20 000 rows</span></div>
+  <div class='how'><div><strong>1 · Start from our template</strong>One column per field, with an example row. <a>Download the template ⇩</a></div>
+    <div><strong>2 · Existing professionals are updated</strong>A row whose OneKey ID already exists updates that professional. Empty cells keep what is there.</div>
+    <div><strong>3 · Nothing is saved before the check</strong>You see every problem first and choose what to import.</div></div></div>`
+
+const map = [
+  ['Nom complet', 'Dr Karim Benali · Pharmacie Centrale', 'Name', 'auto'],
+  ['Type', 'Médecin · Pharmacie', 'Type', 'auto'],
+  ['Spécialité', 'Cardiologie · —', 'Speciality', 'auto'],
+  ['Structure', 'CHU Mustapha · —', 'Organisation', 'auto'],
+  ['Wilaya', 'Alger · Blida', 'Wilaya', 'auto'],
+  ['Commune', 'Hydra · Bab El Oued', 'Commune', 'auto'],
+  ['Tel', '0550 77 88 99', 'Phone', 'auto'],
+  ['GPS', '36.7431,3.0412', 'GPS (lat,lng in one cell)', 'auto'],
+  ['Code Onekey', 'WDZM00123456', 'OneKey ID', 'auto'],
+  ['Wkp', '—', 'Choose a field…', 'miss'],
+  ['Délégué', 'Amine K.', 'Don’t import', 'skip'],
+]
+const step2 = `${head(1)}<div class='card' style='display:flex;flex-direction:column;gap:6px'>
+  <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:6px'><div><strong>professionnels_scipharma.xlsx</strong> <span class='hint'>· sheet “Médecins” ▾ · 1 527 rows</span></div><span class='chip ok'>✓ 9 of 11 columns matched</span></div>
+  <div class='map-row' style='font-size:12px;color:var(--muted);font-weight:600'><span>Column in your file</span><span></span><span>Delorch field</span><span>First values</span></div>
+  ${map.map(m => `<div class='map-row'><strong>${m[0]}</strong><span style='color:var(--muted)'>→</span><span class='sel ${m[3]}'>${m[2]} <span>▾</span></span><span class='sample'>${m[1]}</span></div>`).join('')}
+  <div class='why' style='margin-top:10px'>Required: Name, Type, Commune (or Wilaya + Commune), OneKey ID, WKP ID. <strong style='color:var(--amber)'>WKP ID is not matched yet.</strong> Types and specialities are read in French, English or Arabic (“Médecin”, “Doctor”, “طبيب”).</div>
+  <div style='display:flex;justify-content:space-between;margin-top:10px'><span class='btn outline'>‹ Back</span><span class='btn dark'>Check the rows ›</span></div></div>`
+
+const errs = [
+  ['12', 'Dr Samir Haddad', 'Commune', 'Commune “Hydraa” not found in Alger'],
+  ['48', 'Pharmacie El Amel', 'WKP ID', 'Empty'],
+  ['233', 'Dr Nadia Ferhat', 'Phone', 'Already used by Dr Amel Cherif'],
+  ['410', 'Dr Yacine Brahimi', 'Organisation', '“Clinique Ibn Sina” does not exist — add it in Organisations first'],
+  ['1 102', 'Dr Karim Benali', 'OneKey ID', 'Twice in the file (rows 3 and 1 102)'],
+]
+const step3 = `${head(2)}<div class='card' style='display:flex;flex-direction:column;gap:16px'>
+  <div class='sum'><div class='new'><span>New</span><strong>1 204</strong><small class='hint'>will be added</small></div><div class='upd'><span>Updates</span><strong>300</strong><small class='hint'>OneKey ID already in Delorch</small></div><div><span>Unchanged</span><strong>0</strong><small class='hint'>same values</small></div><div class='err'><span>With problems</span><strong>23</strong><small class='hint'>not imported</small></div></div>
+  <div><div style='display:flex;justify-content:space-between;align-items:center'><strong>23 rows with problems</strong><a>⇩ Download them as Excel to fix</a></div>
+    <div class='err-row' style='font-size:12px;color:var(--muted);font-weight:600'><span>Row</span><span>Professional</span><span>Field</span><span>Problem</span></div>
+    ${errs.map(e => `<div class='err-row'><span class='num'>${e[0]}</span><strong>${e[1]}</strong><span>${e[2]}</span><span class='why'>${e[3]}</span></div>`).join('')}
+    <div class='hint' style='padding-top:8px'>… 18 more</div></div>
+  <div style='display:flex;flex-direction:column;gap:8px'><div class='radio on'><i></i><span><strong>Import the 1 504 good rows</strong><br><span class='hint'>The 23 others are left out; fix them in the downloaded file and import it again.</span></span></div>
+    <div class='radio'><i></i><span><strong>Fix the file first</strong><br><span class='hint'>Nothing is imported now.</span></span></div></div>
+  <div class='why'>New professionals are added as <strong>Active</strong> and <strong>Not verified</strong>, with “added by” = you. Workplaces from the file start on the import day unless a “Since” column is matched.</div>
+  <div style='display:flex;justify-content:space-between'><span class='btn outline'>‹ Columns</span><span class='btn primary'>Import 1 504 professionals</span></div></div>`
+
+const step4 = `${head(3)}<div class='card'><div class='done'><span class='ok'>✓</span><h2 class='display' style='margin:0;font-size:26px'>1 504 professionals imported</h2>
+  <span class='hint'>1 204 added · 300 updated · 23 left out · by Sara M. on 25 Oct 2026, 20:41</span>
+  <div style='width:100%;max-width:520px;margin-top:6px'><div class='progress'><i style='width:100%'></i></div><span class='hint'>Done in 38 s (rows are sent in batches of 200 — you can follow the progress)</span></div>
+  <div style='display:flex;gap:10px;margin-top:10px'><span class='btn outline'>⇩ The 23 rows left out</span><span class='btn outline'>See what's missing (No GPS 812)</span><span class='btn dark'>Go to the list</span></div></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Data quality on the list.</strong> “Missing” counters (with the current type tab and filters). Click one to filter the list; click again to clear. Import sits next to Export.`, list()),
+  frame('1b', `<strong>A counter clicked:</strong> the list shows only those professionals — e.g. to send reps a list to locate.`, list('gps')),
+  frame(2, `<strong>Import — 1. File.</strong> Full page (it's a desktop task; on a phone the page says to use a computer). Template download, and the 3 rules in plain words.`, step1),
+  frame(3, `<strong>Import — 2. Columns.</strong> Columns are matched automatically by their name (FR/EN/AR, including the old lab apps’ exports); each can be changed or skipped. Shows the first values so you see it's right.`, step2),
+  frame(4, `<strong>Import — 3. Check.</strong> The API checks every row (communes, types, specialities, organisations, duplicates in the file and in Delorch) without saving. Summary, then the problems with row numbers, downloadable.`, step3),
+  frame(5, `<strong>Import — 4. Done.</strong> Progress while saving, then the result.`, step4),
+].join('')
+</script>
+</body></html>

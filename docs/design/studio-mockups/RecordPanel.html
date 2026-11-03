@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Record panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+<link rel="stylesheet" href="mockup.css">
+<style>
+iconify-icon { display: inline-block; flex-shrink: 0; }
+.row3 { display: flex; gap: 28px; padding: 0 28px 40px; align-items: flex-start; flex-wrap: wrap; }
+.col { display: flex; flex-direction: column; gap: 12px; width: 480px; }
+.col h3 { margin: 0; font-size: 16px; }
+.col p.lead { margin: 0; font-size: 13px; color: var(--body); line-height: 1.5; }
+.panel { width: 480px; background: var(--paper); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; min-height: 860px; border: 1px solid var(--line); }
+.ph { padding: 20px 22px 16px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph .ic { width: 44px; height: 44px; border-radius: 14px; background: var(--ink); color: var(--signal); display: flex; align-items: center; justify-content: center; }
+.ph h2 { margin: 0; font-size: 22px; }
+.ph .sub { display: flex; gap: 6px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
+.icb { width: 38px; height: 38px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; color: var(--ink); background: var(--paper); }
+.pb { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.rates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rate { background: var(--mist); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.rate b { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+.rate b small { font-family: 'IBM Plex Sans Arabic'; font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+.rate span { font-size: 12px; color: var(--muted); }
+.sec { border: 1px solid var(--line); border-radius: 18px; }
+.sec header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; }
+.sec header .si { width: 30px; height: 30px; border-radius: 9px; background: var(--line-soft); display: flex; align-items: center; justify-content: center; color: var(--body); }
+.sec header strong { font-size: 14px; flex: 1; }
+.edit { height: 32px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); }
+.kv { padding: 0 14px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+.kv div { display: flex; flex-direction: column; gap: 1px; }
+.kv dt { font-size: 11.5px; color: var(--muted); }
+.kv dd { margin: 0; font-size: 14px; font-weight: 600; }
+.sec.editing { border: 2px solid var(--ink); }
+.sec.editing .body { padding: 0 14px 14px; display: flex; flex-direction: column; gap: 12px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.f { display: flex; flex-direction: column; gap: 5px; }
+.f > span { font-size: 12.5px; font-weight: 600; }
+.in { height: 42px; border: 1px solid var(--line); border-radius: 12px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; background: var(--paper); }
+.in em { font-style: normal; color: var(--muted); font-size: 12px; }
+.seg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: var(--line-soft); border-radius: 12px; padding: 4px; }
+.seg2 span { height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--body); }
+.seg2 span.on { background: var(--ink); color: var(--mist); }
+.meta { font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+.pf { padding: 14px 22px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; }
+.steps { display: flex; gap: 6px; padding: 14px 22px 0; }
+.steps span { flex: 1; display: flex; flex-direction: column; gap: 6px; font-size: 11.5px; font-weight: 600; color: var(--muted); }
+.steps i { height: 4px; border-radius: 99px; background: var(--line-soft); }
+.steps .done i { background: var(--ink); } .steps .done { color: var(--ink); }
+.steps .now i { background: var(--signal); } .steps .now { color: var(--ink); }
+.preview { background: var(--signal-soft); border-radius: 14px; padding: 12px 14px; font-size: 13px; display: flex; gap: 10px; align-items: flex-start; }
+.menu { position: absolute; inset-inline-end: 22px; top: 62px; width: 210px; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 6px; box-shadow: 0 16px 40px -20px rgba(15,31,28,.4); z-index: 3; }
+.menu a { display: flex; gap: 10px; align-items: center; height: 38px; padding: 0 10px; border-radius: 9px; font-size: 13.5px; color: var(--ink); }
+.menu a.danger { color: var(--brick); }
+</style>
+</head>
+<body>
+<p class="caption"><strong>Record panel, redesigned for long records (example: an expense setting).</strong> Today the panel is one long form: every field is editable at once, and a quick look means scrolling through 13 inputs. Proposal: <strong>① open in reading mode</strong> (the key numbers first, grouped in sections), <strong>② edit one section at a time</strong>, <strong>③ add with short steps</strong>. Simple records (a channel, a region) keep today's short form.</p>
+
+<div class="row3">
+  <!-- 1. Details -->
+  <div class="col">
+    <h3>① Open a setting: reading mode</h3>
+    <p class="lead">The answer to “what does this rep get?” is visible at once: the 4 prices in big numbers. Details are grouped in short sections. Nothing is editable until you choose a section. Delete moves to the ⋯ menu so it is never next to Save.</p>
+    <div class="panel" style="position:relative">
+      <div class="ph">
+        <span class="ic"><iconify-icon icon="tabler:receipt-2" width="22"></iconify-icon></span>
+        <div style="flex:1">
+          <h2 class="display">VM · Cardio</h2>
+          <div class="sub"><span class="chip">Role &amp; team</span><span class="chip ok"><span class="dot"></span>In force</span><span class="meta">since 1 Jan 2026</span></div>
+        </div>
+        <span class="icb"><iconify-icon icon="tabler:dots" width="18"></iconify-icon></span>
+        <span class="icb"><iconify-icon icon="tabler:x" width="18"></iconify-icon></span>
+      </div>
+      <div class="menu">
+        <a><iconify-icon icon="tabler:copy" width="17"></iconify-icon>Duplicate for another team</a>
+        <a><iconify-icon icon="tabler:calendar-off" width="17"></iconify-icon>End it today</a>
+        <a class="danger"><iconify-icon icon="tabler:trash" width="17"></iconify-icon>Delete</a>
+      </div>
+      <div class="pb">
+        <div class="rates">
+          <div class="rate"><b>15 <small>DA/km</small></b><span>Inside the territory · max 300 km/day</span></div>
+          <div class="rate"><b>20 <small>DA/km</small></b><span>Outside · max 500 km/day</span></div>
+          <div class="rate"><b>600 <small>DA</small></b><span>Per meal</span></div>
+          <div class="rate"><b>3 000 <small>DA</small></b><span>Per night · max 2 nights</span></div>
+        </div>
+
+        <section class="sec">
+          <header><span class="si"><iconify-icon icon="tabler:users" width="17"></iconify-icon></span><strong>Who and when</strong><span class="edit"><iconify-icon icon="tabler:pencil" width="14"></iconify-icon>Edit</span></header>
+          <dl class="kv" style="margin:0">
+            <div><dt>Role</dt><dd>VM</dd></div>
+            <div><dt>Team</dt><dd>Cardio</dd></div>
+            <div><dt>Starts</dt><dd>1 Jan 2026</dd></div>
+            <div><dt>Ends</dt><dd>No end</dd></div>
+          </dl>
+          <div class="meta" style="padding:0 14px 12px"><iconify-icon icon="tabler:info-circle" width="15"></iconify-icon>12 reps get this setting today · <a>see them</a></div>
+        </section>
+
+        <section class="sec">
+          <header><span class="si"><iconify-icon icon="tabler:road" width="17"></iconify-icon></span><strong>Kilometres</strong><span class="edit"><iconify-icon icon="tabler:pencil" width="14"></iconify-icon>Edit</span></header>
+        </section>
+        <section class="sec">
+          <header><span class="si"><iconify-icon icon="tabler:bed" width="17"></iconify-icon></span><strong>Nights and meals</strong><span class="edit"><iconify-icon icon="tabler:pencil" width="14"></iconify-icon>Edit</span></header>
+        </section>
+
+        <div class="meta" style="margin-top:auto"><iconify-icon icon="tabler:history" width="15"></iconify-icon>Added by Sarah M. on 12 Oct 2026 · used by 48 expense notes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Edit one section -->
+  <div class="col">
+    <h3>② Edit one section</h3>
+    <p class="lead">“Edit” turns only that section into fields, with its own Cancel / Save. The rest stays readable. Short, and you can't lose changes made elsewhere.</p>
+    <div class="panel">
+      <div class="ph">
+        <span class="ic"><iconify-icon icon="tabler:receipt-2" width="22"></iconify-icon></span>
+        <div style="flex:1">
+          <h2 class="display">VM · Cardio</h2>
+          <div class="sub"><span class="chip">Role &amp; team</span><span class="chip ok"><span class="dot"></span>In force</span></div>
+        </div>
+        <span class="icb"><iconify-icon icon="tabler:dots" width="18"></iconify-icon></span>
+        <span class="icb"><iconify-icon icon="tabler:x" width="18"></iconify-icon></span>
+      </div>
+      <div class="pb">
+        <section class="sec">
+          <header><span class="si"><iconify-icon icon="tabler:users" width="17"></iconify-icon></span><strong>Who and when</strong><span class="meta">VM · Cardio · since 1 Jan 2026</span></header>
+        </section>
+
+        <section class="sec editing">
+          <header><span class="si" style="background:var(--ink);color:var(--signal)"><iconify-icon icon="tabler:road" width="17"></iconify-icon></span><strong>Kilometres</strong></header>
+          <div class="body">
+            <div class="grid2">
+              <label class="f"><span>Inside the territory</span><div class="in">15<em>DA / km</em></div></label>
+              <label class="f"><span>Outside</span><div class="in">20<em>DA / km</em></div></label>
+              <label class="f"><span>Max per day, inside</span><div class="in">300<em>km</em></div></label>
+              <label class="f"><span>Max per day, outside</span><div class="in">500<em>km</em></div></label>
+            </div>
+            <p class="meta" style="margin:0">Inside: the trip ends in a commune of the rep's territory.</p>
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <span class="btn outline sm">Cancel</span><span class="btn dark sm">Save kilometres</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="sec">
+          <header><span class="si"><iconify-icon icon="tabler:bed" width="17"></iconify-icon></span><strong>Nights and meals</strong><span class="meta">3 000 / night · 600 / meal</span></header>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Add in steps -->
+  <div class="col">
+    <h3>③ Add a setting: 3 short steps</h3>
+    <p class="lead">Adding asks one thing at a time, units shown in the fields. The last step shows who will get the setting before you save, so a wrong target is caught early.</p>
+    <div class="panel">
+      <div class="ph">
+        <span class="ic" style="background:var(--signal);color:var(--ink)"><iconify-icon icon="tabler:plus" width="22"></iconify-icon></span>
+        <div style="flex:1"><h2 class="display">New expense setting</h2><div class="meta" style="margin-top:4px">Step 3 of 3 · Nights and meals</div></div>
+        <span class="icb"><iconify-icon icon="tabler:x" width="18"></iconify-icon></span>
+      </div>
+      <div class="steps">
+        <span class="done"><i></i>Who and when</span>
+        <span class="done"><i></i>Kilometres</span>
+        <span class="now"><i></i>Nights and meals</span>
+      </div>
+      <div class="pb">
+        <div class="grid2">
+          <label class="f"><span>Price per night</span><div class="in">3 000<em>DA</em></div></label>
+          <label class="f"><span>Max nights per trip</span><div class="in">2<em>nights</em></div></label>
+          <label class="f"><span>Price per meal</span><div class="in">600<em>DA</em></div></label>
+        </div>
+
+        <div class="preview">
+          <iconify-icon icon="tabler:circle-check" width="20" style="color:#4D7A0A"></iconify-icon>
+          <div><strong>12 reps will get this setting</strong> (VM of the Cardio team) from 1 Jan 2026.<br><span class="meta">It replaces the “all VM” setting for them: the most specific one wins.</span></div>
+        </div>
+
+        <div class="sec" style="padding:12px 14px;display:flex;flex-direction:column;gap:6px">
+          <span class="meta" style="font-weight:600;color:var(--ink)">Summary</span>
+          <span style="font-size:13px">VM · Cardio · from 1 Jan 2026</span>
+          <span style="font-size:13px">15 / 20 DA per km · max 300 / 500 km</span>
+          <span style="font-size:13px">3 000 DA per night (max 2) · 600 DA per meal</span>
+        </div>
+      </div>
+      <div class="pf">
+        <span class="btn outline">Back</span>
+        <span class="btn primary" style="flex:1;justify-content:center">Add setting</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="caption"><strong>On phones</strong> the same panel opens as a bottom sheet: reading mode first, sections stack, “Edit” opens the section in place. <strong>Where it applies:</strong> long records (expense settings, and later users, products, rules). Short records (channels, regions, specialities…) keep the simple form, since 1–3 fields need no sections.</p>
+</body>
+</html>
