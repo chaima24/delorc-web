@@ -47,7 +47,7 @@ Overview (v1) · Field activity · Coverage · Orders · Sync · Coaching · SFE
 - **Coaching:** coach days vs target, coaching by status, by supervisor, by rep.
 - **SFE scores:** time in field, call rate %, call performance, productive calls (over/under/missed), share of voice, contribution by specialty.
 
-## API (to build in delorch-api)
+## API (to build in delorc-api)
 
 `GET /api/v1/dashboard/overview?period=today|week|cycle|custom&from=&to=&team=&region=&wilaya=&user=&customer_type=all|doctors|pharmacies`. It needs the permission `dashboard.show` (managers) or the role admin.
 

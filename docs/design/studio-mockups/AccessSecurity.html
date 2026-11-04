@@ -179,7 +179,7 @@ const logPanel = `<aside class='panel'>
 </aside>`
 
 document.getElementById('frames').innerHTML = [
-  frame(1, `<strong>Roles: the page opens.</strong> Built-in roles (from Delorch) and the lab's own roles. The access column sums each role up in one line, with a 4-step level.`, { title: 'Roles', add: '＋ Add role', list: roleTable(true) }),
+  frame(1, `<strong>Roles: the page opens.</strong> Built-in roles (from Delorc) and the lab's own roles. The access column sums each role up in one line, with a 4-step level.`, { title: 'Roles', add: '＋ Add role', list: roleTable(true) }),
   frame(2, `<strong>Click a role → reading mode.</strong> Two numbers, then access by area (one line each). Built-in roles cannot be renamed or deleted. “Edit access ↗” opens the full page.`, { title: 'Roles', add: '＋ Add role', list: roleTable(false, 1), panel: rolePanel }),
   frame(3, `<strong>Edit access: full page.</strong> One row per resource, grouped by area, with View / Add / Edit / Delete. Ticking Add/Edit/Delete ticks View too. Changes collect in the bar at the bottom until “Save access”. “Copy access from…” starts from another role.`, { title: 'Medical rep (VM) · Access', crumbs: 'Settings › Access and security › Roles', levels: false, list: accessPage }),
   frame(4, `<strong>Who can do what</strong> (replaces “Permissions”). Read-only: every resource against every role. Clicking a role name opens its access page.`, { title: 'Who can do what', list: matrixPage }),

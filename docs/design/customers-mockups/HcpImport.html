@@ -128,7 +128,7 @@ const map = [
 ]
 const step2 = `${head(1)}<div class='card' style='display:flex;flex-direction:column;gap:6px'>
   <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:6px'><div><strong>professionnels_scipharma.xlsx</strong> <span class='hint'>· sheet “Médecins” ▾ · 1 527 rows</span></div><span class='chip ok'>✓ 9 of 11 columns matched</span></div>
-  <div class='map-row' style='font-size:12px;color:var(--muted);font-weight:600'><span>Column in your file</span><span></span><span>Delorch field</span><span>First values</span></div>
+  <div class='map-row' style='font-size:12px;color:var(--muted);font-weight:600'><span>Column in your file</span><span></span><span>Delorc field</span><span>First values</span></div>
   ${map.map(m => `<div class='map-row'><strong>${m[0]}</strong><span style='color:var(--muted)'>→</span><span class='sel ${m[3]}'>${m[2]} <span>▾</span></span><span class='sample'>${m[1]}</span></div>`).join('')}
   <div class='why' style='margin-top:10px'>Required: Name, Type, Commune (or Wilaya + Commune), OneKey ID, WKP ID. <strong style='color:var(--amber)'>WKP ID is not matched yet.</strong> Types and specialities are read in French, English or Arabic (“Médecin”, “Doctor”, “طبيب”).</div>
   <div style='display:flex;justify-content:space-between;margin-top:10px'><span class='btn outline'>‹ Back</span><span class='btn dark'>Check the rows ›</span></div></div>`
@@ -141,7 +141,7 @@ const errs = [
   ['1 102', 'Dr Karim Benali', 'OneKey ID', 'Twice in the file (rows 3 and 1 102)'],
 ]
 const step3 = `${head(2)}<div class='card' style='display:flex;flex-direction:column;gap:16px'>
-  <div class='sum'><div class='new'><span>New</span><strong>1 204</strong><small class='hint'>will be added</small></div><div class='upd'><span>Updates</span><strong>300</strong><small class='hint'>OneKey ID already in Delorch</small></div><div><span>Unchanged</span><strong>0</strong><small class='hint'>same values</small></div><div class='err'><span>With problems</span><strong>23</strong><small class='hint'>not imported</small></div></div>
+  <div class='sum'><div class='new'><span>New</span><strong>1 204</strong><small class='hint'>will be added</small></div><div class='upd'><span>Updates</span><strong>300</strong><small class='hint'>OneKey ID already in Delorc</small></div><div><span>Unchanged</span><strong>0</strong><small class='hint'>same values</small></div><div class='err'><span>With problems</span><strong>23</strong><small class='hint'>not imported</small></div></div>
   <div><div style='display:flex;justify-content:space-between;align-items:center'><strong>23 rows with problems</strong><a>⇩ Download them as Excel to fix</a></div>
     <div class='err-row' style='font-size:12px;color:var(--muted);font-weight:600'><span>Row</span><span>Professional</span><span>Field</span><span>Problem</span></div>
     ${errs.map(e => `<div class='err-row'><span class='num'>${e[0]}</span><strong>${e[1]}</strong><span>${e[2]}</span><span class='why'>${e[3]}</span></div>`).join('')}
@@ -161,7 +161,7 @@ document.getElementById('frames').innerHTML = [
   frame('1b', `<strong>A counter clicked:</strong> the list shows only those professionals — e.g. to send reps a list to locate.`, list('gps')),
   frame(2, `<strong>Import — 1. File.</strong> Full page (it's a desktop task; on a phone the page says to use a computer). Template download, and the 3 rules in plain words.`, step1),
   frame(3, `<strong>Import — 2. Columns.</strong> Columns are matched automatically by their name (FR/EN/AR, including the old lab apps’ exports); each can be changed or skipped. Shows the first values so you see it's right.`, step2),
-  frame(4, `<strong>Import — 3. Check.</strong> The API checks every row (communes, types, specialities, organisations, duplicates in the file and in Delorch) without saving. Summary, then the problems with row numbers, downloadable.`, step3),
+  frame(4, `<strong>Import — 3. Check.</strong> The API checks every row (communes, types, specialities, organisations, duplicates in the file and in Delorc) without saving. Summary, then the problems with row numbers, downloadable.`, step3),
   frame(5, `<strong>Import — 4. Done.</strong> Progress while saving, then the result.`, step4),
 ].join('')
 </script>

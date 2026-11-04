@@ -1,6 +1,6 @@
-# Delorch — web app
+# Delorc — web app
 
-Field CRM for pharmaceutical manufacturers (multi-tenant). This is the web front end; the API lives in `delorch-api`.
+Field CRM for pharmaceutical manufacturers (multi-tenant). This is the web front end; the API lives in `delorc-api`.
 
 Stack: Vue 3 (`<script setup lang="ts">`), Vite, Tailwind CSS 4, Reka UI, Pinia, Vue Router, vue-i18n, Vitest.
 

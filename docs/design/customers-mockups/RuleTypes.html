@@ -40,7 +40,7 @@ tr.picked td { background: var(--signal-soft); }
 .lock { display: flex; gap: 10px; align-items: flex-start; font-size: 12.5px; color: var(--muted); padding: 12px 20px; border-top: 1px solid var(--line-soft); }
 .q-box { border: 2px dashed var(--amber); border-radius: 16px; padding: 12px 14px; font-size: 13px; background: #FFF7EE; }
 </style></head><body>
-<p class="caption"><strong>Professionals › Rule types — proposal.</strong> <em>Update: each type shows its link to professionals (how a professional reaches its items, and which kinds of professionals it applies to — e.g. Spécialité: doctors and dentists only). A type without a link (Segmentation) is not offered in territories. See docs/DECISIONS.md.</em> Rule types are the <strong>building blocks of a territory</strong>: a territory says “these wilayas / communes / specialities / segments”. The list of types is set up by Delorch support (central console), so <strong>this page only reads</strong> — no add, no edit, no delete. Today it shows database tables and model classes; the new page explains instead how the types fit together, how many choices each one gives, and which territories use it. Placed before Territories in the menu.</p>
+<p class="caption"><strong>Professionals › Rule types — proposal.</strong> <em>Update: each type shows its link to professionals (how a professional reaches its items, and which kinds of professionals it applies to — e.g. Spécialité: doctors and dentists only). A type without a link (Segmentation) is not offered in territories. See docs/DECISIONS.md.</em> Rule types are the <strong>building blocks of a territory</strong>: a territory says “these wilayas / communes / specialities / segments”. The list of types is set up by Delorc support (central console), so <strong>this page only reads</strong> — no add, no edit, no delete. Today it shows database tables and model classes; the new page explains instead how the types fit together, how many choices each one gives, and which territories use it. Placed before Territories in the menu.</p>
 <div id="frames"></div>
 <script>
 const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>Profes-<br>sionals</span></nav>`
@@ -67,7 +67,7 @@ const fit = (sel = -1) => `<div class='fit'>
   <div class='group'><span>On their own</span><div class='chain'><span class='node ${sel === 3 ? 'on' : ''}'>🩺 Speciality <em>42</em></span><span class='node off'>📊 Segmentation <em>hidden</em></span></div></div>
 </div>`
 const list = (sel = -1, full = true) => `<div style='display:flex;justify-content:space-between;align-items:flex-end'><div><div class='crumbs'>Professionals</div><h1 class='title display' style='font-size:36px'>Rule types</h1>
-  <div class='label' style='margin-top:4px'>What a territory can be built from. Set up by Delorch support.</div></div></div>
+  <div class='label' style='margin-top:4px'>What a territory can be built from. Set up by Delorc support.</div></div></div>
   ${fit(sel)}
   <div class='card' style='padding:16px 18px'>
   <table class='table'><thead><tr><th>Rule type</th><th>Choices</th>${full ? `<th>Extras</th>` : ''}<th class='num'>Territories</th><th>When building a territory</th><th></th></tr></thead><tbody>
@@ -93,7 +93,7 @@ const panel = `<aside class='panel'>
     <section class='sec'><header><strong>Territories using it</strong></header><div style='padding:0 12px 10px'>
       <div class='terr'>Alger Centre <span>4 wilayas ›</span></div><div class='terr'>Est 1 <span>6 wilayas ›</span></div><div class='terr'>Oran Ouest <span>2 wilayas · 3 sub-zones ›</span></div><div class='terr' style='border:0'><a>See all 21 in Territories ›</a></div></div></section>
   </div>
-  <div class='lock'>🔒<span>Rule types are set up by Delorch support for your lab. Ask them to add one or to hide one.</span></div>
+  <div class='lock'>🔒<span>Rule types are set up by Delorc support for your lab. Ask them to add one or to hide one.</span></div>
 </aside>`
 
 const phone = `<div style='width:390px;background:var(--mist);border-radius:32px;padding:16px;display:flex;flex-direction:column;gap:12px;border:8px solid #1B302C'>

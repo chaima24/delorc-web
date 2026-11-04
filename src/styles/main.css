@@ -1,9 +1,9 @@
 /*
- * Delorch stylesheet entry (Tailwind CSS 4).
- * Token values (light/dark) live in delorch.css; spec: docs/design/DESIGN_SYSTEM.md.
+ * Delorc stylesheet entry (Tailwind CSS 4).
+ * Token values (light/dark) live in delorc.css; spec: docs/design/DESIGN_SYSTEM.md.
  */
 @import 'tailwindcss';
-@import './delorch.css';
+@import './delorc.css';
 
 /* Class-based dark mode: useAppTheme toggles `.dark` on <html>. */
 @custom-variant dark (&:where(.dark, .dark *));

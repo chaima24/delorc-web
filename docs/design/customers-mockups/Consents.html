@@ -91,7 +91,7 @@ tr.picked td { background: var(--signal-soft); }
 .pub .body { padding: 20px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
 .pub .text { background: var(--mist); border-radius: 16px; padding: 14px; font-size: 14px; line-height: 1.5; color: var(--body); }
 </style></head><body>
-<p class="caption"><strong>Professionals › Consents — proposal.</strong> A consent records that a professional agrees (or not) to be contacted by the lab (e-mail, SMS). Someone <strong>asks for consent</strong> → Delorch makes a <strong>private link + QR code</strong> → the professional opens it on their phone, reads the text, accepts or refuses → the answer is saved with date, e-mail/phone and device. <strong>Security fix:</strong> today the link is <code>/consents/1042/57</code> (ids anyone can change, shows the professional's data); it becomes <code>/consent/k3P9…x2Q</code>, a random secret per consent, and opens a real page instead of raw data.</p>
+<p class="caption"><strong>Professionals › Consents — proposal.</strong> A consent records that a professional agrees (or not) to be contacted by the lab (e-mail, SMS). Someone <strong>asks for consent</strong> → Delorc makes a <strong>private link + QR code</strong> → the professional opens it on their phone, reads the text, accepts or refuses → the answer is saved with date, e-mail/phone and device. <strong>Security fix:</strong> today the link is <code>/consents/1042/57</code> (ids anyone can change, shows the professional's data); it becomes <code>/consent/k3P9…x2Q</code>, a random secret per consent, and opens a real page instead of raw data.</p>
 <div id="frames"></div>
 <script>
 const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>Profes-<br>sionals</span></nav>`
@@ -118,7 +118,7 @@ const waitPanel = `<aside class='panel'>
   <div class='pb'>
     <div class='why'>Asked on 24 Oct 2026 by Sara M. Show the QR code to the professional, or send them the link (e-mail, SMS, WhatsApp).</div>
     <div style='display:flex;justify-content:center'>${qr()}</div>
-    <div class='link'><span style='flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap'>https://inphamedis.delorch.app/consent/k3P9vT0mA7qL2xW8eR5nZ1bY6cU4sH2Q</span><span class='edit'>Copy</span></div>
+    <div class='link'><span style='flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap'>https://inphamedis.delorc.app/consent/k3P9vT0mA7qL2xW8eR5nZ1bY6cU4sH2Q</span><span class='edit'>Copy</span></div>
     <div style='display:flex;gap:8px'><span class='btn outline sm'>⇩ Download QR</span><span class='btn outline sm'>✉ Send by e-mail</span></div>
   </div>
   <div class='pf'><span class='btn outline'>Deactivate the link</span><span style='flex:1'></span><span class='btn ghost' style='color:var(--brick)'>Delete</span></div></aside>`
@@ -148,11 +148,11 @@ const pub = (done) => `<div class='pub'><div class='top'><svg width='30' height=
     <div class='field'><span>E-mail</span><div class='input'>a.cherif@mail.dz</div></div>
     <div class='field'><span>Phone</span><div class='input'>0550 12 34 56</div></div>
     <span class='btn primary' style='justify-content:center;height:52px'>I agree</span><span class='btn outline' style='justify-content:center'>I don't agree</span>
-    <span class='hint' style='text-align:center'>Delorch · this link is personal</span>`}</div></div>`
+    <span class='hint' style='text-align:center'>Delorc · this link is personal</span>`}</div></div>`
 
 document.getElementById('frames').innerHTML = [
   frame(1, `<strong>The list.</strong> Answer tabs with counts (given, refused, waiting, inactive); search a professional; who asked and when; when they answered.`, list(true)),
-  frame(2, `<strong>Ask for consent.</strong> Pick the professional; Delorch says if a link is already waiting (the new one replaces it); shows the text they will read.`, list(false), ask),
+  frame(2, `<strong>Ask for consent.</strong> Pick the professional; Delorc says if a link is already waiting (the new one replaces it); shows the text they will read.`, list(false), ask),
   frame(3, `<strong>A waiting consent</strong>: the QR code to show on the rep's phone or tablet, the private link to copy or send, download the QR. Deactivate stops the link at once.`, list(false, 1), waitPanel),
   frame(4, `<strong>A given consent</strong>: what they answered, when, the e-mail/phone they confirmed and from which device — kept as proof (no delete, only deactivate).`, list(false, 0), givenPanel),
   `<div class='step-label'><b>5</b><span><strong>The page the professional sees</strong> (public, no login, opened from the QR or the link): lab name, their name, the text, e-mail and phone to confirm, I agree / I don't agree, then a thank-you. Nothing else about them is shown. A used, deactivated or replaced link says so.</span></div>

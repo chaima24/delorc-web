@@ -1,4 +1,4 @@
-# Delorch — Design System (Option A · Pine & Signal)
+# Delorc — Design System (Option A · Pine & Signal)
 
 Chosen on 2026-10-21. This is the reference for redesigning the tenant app.
 The original canvas was deleted on 2026-10-21. This folder is now the source of truth.
@@ -8,7 +8,7 @@ Local mockup sources: [`option-a-mockups/`](option-a-mockups/) (`.dc.html` files
 
 ## 1. Product
 
-Delorch is a multi-tenant platform sold to pharmaceutical manufacturers (Inphamedis, Magpharm, Scipharma, Dermatech, Higeen, Innoskin…). Each lab is a tenant.
+Delorc is a multi-tenant platform sold to pharmaceutical manufacturers (Inphamedis, Magpharm, Scipharma, Dermatech, Higeen, Innoskin…). Each lab is a tenant.
 
 - **Users inside a lab:**
   - **Field reps (VM / VP):** plan their cycle, visit HCPs and HCOs, show e-ADV slides, hand out samples, take orders.
@@ -18,10 +18,10 @@ Delorch is a multi-tenant platform sold to pharmaceutical manufacturers (Inphame
 
 ## 2. Brand
 
-- **Name:** `delorch` (lowercase wordmark). Arabic: `ديلورش`.
+- **Name:** `delorc` (lowercase wordmark). Arabic: `ديلورش`.
 - **Origin of the name:** from *délégué médical*; Latin for "I send out".
 - **Logo:** a "D" drawn as a round. The rep leaves from the dot, makes the tournée and comes back.
-  - Files: [`logo/delorch-mark.svg`](logo/delorch-mark.svg) and [`logo/delorch-app-icon.svg`](logo/delorch-app-icon.svg).
+  - Files: [`logo/delorc-mark.svg`](logo/delorc-mark.svg) and [`logo/delorc-app-icon.svg`](logo/delorc-app-icon.svg).
   - Path: `M15 28 V13 H23 A11 11 0 0 1 23 35 H21`, with a dot at `(15,35) r3.2`, on a 48×48 tile with `rx 14`.
   - The stroke and dot are always Signal lime. The tile is Pine ink, or `#1B302C` when it sits on Pine.
 - **Tagline:** "The field suite for pharmaceutical labs."
@@ -137,13 +137,13 @@ Button (primary signal / dark ink / outline / ghost) · IconButton · Input / Se
 ## 11. Where it lives in the code
 
 - **Styles:** `src/styles/main.css` is the single Tailwind 4 entry file (theme tokens in `@theme`, dark variant, base rules).
-  - Token values for light and dark are in `src/styles/delorch.css`. Use classes like `bg-dl-paper`, `text-dl-muted`, `bg-dl-signal`.
-- **Component kit:** `src/components/delorch/`, exported from `index.ts`.
+  - Token values for light and dark are in `src/styles/delorc.css`. Use classes like `bg-dl-paper`, `text-dl-muted`, `bg-dl-signal`.
+- **Component kit:** `src/components/delorc/`, exported from `index.ts`.
   - Avatar, Badge, Button, Card, ConfirmHost, DataList, EmptyState, Icon, IconButton, Input, Logo, PageHeader, Pagination, Progress, RecordPanel, Segmented, Select, Sheet, Skeleton, StatCard, Tabs.
   - **Lists:** `DlDataList` (table on desktop, cards on phones, click a row to open it) + `DlPagination` + `DlRecordPanel` (panel beside the list on desktop, bottom sheet on phones). Example: the geography pages in Studio.
   - Interactive pieces are built on **Reka UI**.
-- **Shell:** `src/layouts/delorch/`.
-  - `DelorchLayout` contains AppRail (desktop), AppBottomNav (phone), AppTopBar, AppSubnav, AppUserMenu and AppCommandPalette (⌘K / Ctrl+K).
+- **Shell:** `src/layouts/delorc/`.
+  - `DelorcLayout` contains AppRail (desktop), AppBottomNav (phone), AppTopBar, AppSubnav, AppUserMenu and AppCommandPalette (⌘K / Ctrl+K).
 - **Theme:** `useAppTheme()` holds light/dark/system, saved per browser and applied to Tailwind.
 - **Navigation map:** `src/navigation/workspaces.ts`. `useWorkspaces()` filters it by permission.
 - **Confirm dialogs:** `useConfirm()` (`confirm`, `confirmChoice`, `alert`), rendered by `DlConfirmHost`.

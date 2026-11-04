@@ -59,7 +59,7 @@
 <p class="caption"><strong>Studio › Rules and platform.</strong> Three pages on the same template as Field setup: list on the left, side panel on the right.
 <br><strong>Planning rule</strong> = when a rep may plan a cycle: planning opens N days before the cycle starts and closes M days before it starts.
 <strong>Validation rule</strong> = how long after a visit's planned time the rep can still validate it (validating early is always allowed).
-Each person follows at most one rule of each kind; people without one have no limit. <strong>Languages</strong> are switched on by Delorch, so the lab only sees them here.</p>
+Each person follows at most one rule of each kind; people without one have no limit. <strong>Languages</strong> are switched on by Delorc, so the lab only sees them here.</p>
 <div id="frames"></div>
 <script>
 const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>`
@@ -154,7 +154,7 @@ const langs = [
   ['en', 'English', 'English', 'Left to right', 2, true],
 ]
 const langList = `<div class='langs'>${langs.map(l => `<div class='lang ${l[5] ? '' : 'off'}'><div style='display:flex;justify-content:space-between;align-items:flex-start'><span class='code'>${l[0]}</span>${l[5] ? active : paused}</div><div><h3 class='display'>${l[1]}</h3><div class='native'>${l[2]}</div></div><div class='meta'><span>${l[3]}</span><span><b>${l[4]}</b> people use it</span></div></div>`).join('')}</div>
-<div class='cover'><span>ⓘ</span><span>Languages are switched on by Delorch. Each person picks theirs in their profile; the login page offers the active ones.</span></div>`
+<div class='cover'><span>ⓘ</span><span>Languages are switched on by Delorc. Each person picks theirs in their profile; the login page offers the active ones.</span></div>`
 
 document.getElementById('frames').innerHTML = [
   frame(1, `<strong>Planning rules: the page opens.</strong> A coverage line on top says who has no rule. Table: name, who, the window in words, people count, status.`, { title: 'Planning rules', add: 'Add planning rule', list: planCover + planTable(true) }),
