@@ -14,7 +14,7 @@ export default defineConfig({
     },
   },
   server: {
-    // Tenant = subdomain (test.localhost:5173); central console = localhost:5173.
+    // Central console = localhost:5173; a lab = {lab}.localhost:5173.
     host: true,
     port: 5173,
   },

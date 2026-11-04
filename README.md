@@ -6,7 +6,7 @@ Stack: Vue 3 (`<script setup lang="ts">`), Vite, Tailwind CSS 4, Reka UI, Pinia,
 
 ```bash
 npm install
-npm run dev        # tenant: http://test.localhost:5173 (subdomain = tenant), central: http://localhost:5173
+npm run dev        # central: http://localhost:5173, lab: http://{lab}.localhost:5173
 npm run build
 npm run test:unit
 npm run type-check
