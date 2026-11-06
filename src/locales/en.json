@@ -114,6 +114,7 @@
         "deactivated": "Deactivated",
         "deleted": "Deleted",
         "failed": "Failed sign-in",
+        "imported": "Imported",
         "reactivated": "Reactivated",
         "role_changed": "Role changed",
         "second_factor_reset": "Second factor reset",
@@ -129,16 +130,20 @@
       "empty": "No matching activity",
       "emptyHint": "Try other filters or a wider date range.",
       "field": {
+        "direction": "Direction",
         "email": "Email",
+        "fallback": "Falls back to",
         "is_active": "Status",
         "label": "Field",
         "locale": "Language",
         "name": "Name",
+        "native_name": "Native name",
         "phone": "Phone",
         "role": "Role",
         "second_factor": "Second factor"
       },
       "hideAutomatic": "Hide automatic changes",
+      "imported": "{keys} keys, {texts} texts added",
       "ip": "IP address",
       "lastDays": "Last {count} days",
       "newestFirst": "Newest first",
@@ -159,9 +164,11 @@
       "reasonLabel": "Reason",
       "record": "Record",
       "recordType": {
+        "language": "Language",
         "person": "Person",
         "role": "Role",
-        "sign_in": "Sign-in"
+        "sign_in": "Sign-in",
+        "translations": "Texts"
       },
       "right": "{resource}, {action}",
       "rightAdded": "{right}: added",
@@ -170,6 +177,13 @@
       "search": "Search",
       "secretsNeverLogged": "Secrets and recovery codes never enter the log, only the method that changed.",
       "sentence": {
+        "language": {
+          "created": "{author} added the language {record}",
+          "deactivated": "{author} deactivated the language {record}",
+          "deleted": "{author} deleted the language {record}",
+          "reactivated": "{author} activated the language {record}",
+          "updated": "{author} edited the language {record}"
+        },
         "person": {
           "access_link_sent": "{author} sent an access link to {record}",
           "created": "{author} added {record}",
@@ -187,6 +201,9 @@
         },
         "sign_in": {
           "failed": "Failed sign-in for {record}"
+        },
+        "translations": {
+          "imported": "{author} imported a texts file"
         }
       },
       "sort": "Order",
@@ -197,6 +214,13 @@
       "stepLabel": "Step",
       "system": "System",
       "title": {
+        "language": {
+          "created": "Language added",
+          "deactivated": "Language deactivated",
+          "deleted": "Language deleted",
+          "reactivated": "Language activated",
+          "updated": "Language edited"
+        },
         "person": {
           "access_link_sent": "Access link sent",
           "created": "Person added",
@@ -214,6 +238,9 @@
         },
         "sign_in": {
           "failed": "Failed sign-in"
+        },
+        "translations": {
+          "imported": "Texts imported"
         }
       },
       "today": "Today",
@@ -222,9 +249,50 @@
       "yes": "Yes",
       "yesterday": "Yesterday"
     },
+    "languages": {
+      "activate": "Activate",
+      "activeHint": "Hidden from language choices when deactivated. Its texts are kept.",
+      "add": "Add a language",
+      "addHint": "No code and no deploy. Add it, translate it, then activate it.",
+      "addSubmit": "Add the language",
+      "canDelete": "No text is written yet, so it can still be deleted.",
+      "cannotDelete": "{count} texts are written, so this language can only be deactivated.",
+      "code": "Code",
+      "codeHint": "Fixed after creation.",
+      "deactivate": "Deactivate",
+      "deleteConfirm": "Yes, delete",
+      "details": "Details",
+      "direction": {
+        "ltr": "Left to right",
+        "rtl": "Right to left"
+      },
+      "directionLabel": "Direction",
+      "done": "Done",
+      "empty": "No language found",
+      "fallback": "Falls back to",
+      "frenchHint": "French is the last fallback: it cannot be deactivated or deleted.",
+      "inactiveHint": "Nobody can choose it yet.",
+      "language": "Language",
+      "locale": "Dates and numbers",
+      "localeHint": "Controls formats like 06/11/2026 and 1 200,50.",
+      "name": "Name",
+      "nativeName": "Native name",
+      "search": "Search a language",
+      "startsMissing": "All {count} texts start as missing. The language stays inactive until you activate it.",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "statusLabel": "Status",
+      "textsDone": "texts done",
+      "textsMissing": "texts missing",
+      "title": "Languages",
+      "translateMissing": "Translate the {count} missing texts"
+    },
     "menu": {
       "activity": "Activity",
-      "label": "Console menu"
+      "label": "Console menu",
+      "translations": "Translations"
     },
     "roles": {
       "access": "Access",
@@ -252,6 +320,51 @@
       "tickAll": "Tick all",
       "title": "Roles",
       "undo": "Undo"
+    },
+    "translations": {
+      "backupHint": "The database is the source. Files are only a backup.",
+      "changedBy": "Changed by {name} · {date}",
+      "changes": "{count} change(s)",
+      "chooseFile": "Click to choose a JSON file",
+      "download": "Download",
+      "empty": "No text found",
+      "export": "Export",
+      "exportHint": "All languages and texts in one JSON file.",
+      "fallsBackTo": "Falls back to {language}",
+      "import": "Import",
+      "importExport": "Import / export",
+      "importFile": "Import the file",
+      "importHint": "Only adds what is missing. A text already in the database is never changed, so importing twice is safe.",
+      "key": "Key",
+      "language": "Language",
+      "lastImport": "Import result",
+      "missingShows": "Missing: shows “{text}”",
+      "notSaved": "Not saved yet",
+      "note": "Note for translators",
+      "progress": "{percent}% · {missing} missing",
+      "reference": "French (reference)",
+      "result": {
+        "keys_added": "Keys added",
+        "languages_added": "Languages added",
+        "texts_added": "Texts added",
+        "texts_unchanged": "Texts left unchanged"
+      },
+      "save": "Save texts",
+      "search": "Search a key or text",
+      "show": "Show",
+      "state": {
+        "check": "To check",
+        "done": "Done",
+        "missing": "Missing only"
+      },
+      "texts": "Texts",
+      "toCheck": "French has a slot this text lacks. Check it.",
+      "usedIn": {
+        "api": "API",
+        "mail": "Emails",
+        "web": "Web"
+      },
+      "usedInLabel": "Used in"
     },
     "users": {
       "add": "Add a person",

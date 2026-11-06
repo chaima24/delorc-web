@@ -11,6 +11,8 @@ const centralRoutes = [
       { path: 'roles', name: 'central-roles', component: () => import('@/views/central/roles/RolesView.vue'), meta: { permission: 'roles.show' } },
       { path: 'roles/:id/access', name: 'central-role-access', component: () => import('@/views/central/roles/RoleAccessView.vue'), meta: { permission: 'roles.update' } },
       { path: 'activity', name: 'central-activity', component: () => import('@/views/central/activity/ActivityLogView.vue'), meta: { permission: 'activity-log.show' } },
+      { path: 'translations', name: 'central-translations', component: () => import('@/views/central/translations/TextsView.vue'), meta: { permission: 'translations.show' } },
+      { path: 'languages', name: 'central-languages', component: () => import('@/views/central/translations/LanguagesView.vue'), meta: { permission: 'languages.show' } },
     ],
   },
 ]

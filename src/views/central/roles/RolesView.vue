@@ -13,6 +13,7 @@ import DlInput from '@/components/DlInput.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import DlRecordSection from '@/components/DlRecordSection.vue'
 import DlSortHeader from '@/components/DlSortHeader.vue'
+import { sortRows } from '@/composables/sortRows'
 import { useAccessLabels } from '@/composables/useAccessLabels'
 import { useAuthStore } from '@/stores/auth'
 import { areaLevel } from './access'
@@ -43,25 +44,14 @@ const panelOpen = computed({
   },
 })
 
-/** Roles all arrive at once, so the page sorts them itself, like `sortBy()` on a collection. */
-const sortValues: Record<string, (role: Role) => string | number> = {
-  name: (role) => roleLabel(role.name),
-  users_count: (role) => role.users_count,
-  access: (role) => (role.is_super ? Infinity : role.permissions.length),
-  created_at: (role) => role.created_at,
-}
 const sortedRoles = computed(() => {
-  const descending = sort.value.startsWith('-')
-  const value = sortValues[sort.value.replace('-', '')]!
-
   const text = search.value.trim().toLowerCase()
-  const found = roles.value.filter((role) => roleLabel(role.name).toLowerCase().includes(text))
 
-  return found.sort((a, b) => {
-    const [first, second] = [value(a), value(b)]
-    const order = typeof first === 'string' ? first.localeCompare(String(second)) : first - Number(second)
-
-    return descending ? -order : order
+  return sortRows(roles.value.filter((role) => roleLabel(role.name).toLowerCase().includes(text)), sort.value, {
+    name: (role) => roleLabel(role.name),
+    users_count: (role) => role.users_count,
+    access: (role) => (role.is_super ? Infinity : role.permissions.length),
+    created_at: (role) => role.created_at,
   })
 })
 

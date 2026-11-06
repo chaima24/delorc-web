@@ -114,6 +114,7 @@
         "deactivated": "Désactivation",
         "deleted": "Suppression",
         "failed": "Connexion échouée",
+        "imported": "Import",
         "reactivated": "Réactivation",
         "role_changed": "Rôle modifié",
         "second_factor_reset": "Second facteur réinitialisé",
@@ -129,16 +130,20 @@
       "empty": "Aucune activité trouvée",
       "emptyHint": "Essayez d'autres filtres ou une période plus large.",
       "field": {
+        "direction": "Sens",
         "email": "E-mail",
+        "fallback": "Langue de secours",
         "is_active": "Statut",
         "label": "Champ",
         "locale": "Langue",
         "name": "Nom",
+        "native_name": "Nom d'origine",
         "phone": "Téléphone",
         "role": "Rôle",
         "second_factor": "Second facteur"
       },
       "hideAutomatic": "Masquer les changements automatiques",
+      "imported": "{keys} clés, {texts} textes ajoutés",
       "ip": "Adresse IP",
       "lastDays": "{count} derniers jours",
       "newestFirst": "Plus récent d'abord",
@@ -159,9 +164,11 @@
       "reasonLabel": "Motif",
       "record": "Élément",
       "recordType": {
+        "language": "Langue",
         "person": "Personne",
         "role": "Rôle",
-        "sign_in": "Connexion"
+        "sign_in": "Connexion",
+        "translations": "Textes"
       },
       "right": "{resource}, {action}",
       "rightAdded": "{right} : ajouté",
@@ -170,6 +177,13 @@
       "search": "Rechercher",
       "secretsNeverLogged": "Les secrets et les codes de secours n'entrent jamais dans le journal, seule la méthode modifiée y figure.",
       "sentence": {
+        "language": {
+          "created": "{author} a ajouté la langue {record}",
+          "deactivated": "{author} a désactivé la langue {record}",
+          "deleted": "{author} a supprimé la langue {record}",
+          "reactivated": "{author} a activé la langue {record}",
+          "updated": "{author} a modifié la langue {record}"
+        },
         "person": {
           "access_link_sent": "{author} a envoyé un lien d'accès à {record}",
           "created": "{author} a ajouté {record}",
@@ -187,6 +201,9 @@
         },
         "sign_in": {
           "failed": "Connexion échouée pour {record}"
+        },
+        "translations": {
+          "imported": "{author} a importé un fichier de textes"
         }
       },
       "sort": "Ordre",
@@ -197,6 +214,13 @@
       "stepLabel": "Étape",
       "system": "Système",
       "title": {
+        "language": {
+          "created": "Langue ajoutée",
+          "deactivated": "Langue désactivée",
+          "deleted": "Langue supprimée",
+          "reactivated": "Langue activée",
+          "updated": "Langue modifiée"
+        },
         "person": {
           "access_link_sent": "Lien d'accès envoyé",
           "created": "Personne ajoutée",
@@ -214,6 +238,9 @@
         },
         "sign_in": {
           "failed": "Connexion échouée"
+        },
+        "translations": {
+          "imported": "Textes importés"
         }
       },
       "today": "Aujourd'hui",
@@ -222,9 +249,50 @@
       "yes": "Oui",
       "yesterday": "Hier"
     },
+    "languages": {
+      "activate": "Activer",
+      "activeHint": "Désactivée, elle disparaît des choix de langue. Ses textes sont conservés.",
+      "add": "Ajouter une langue",
+      "addHint": "Sans code ni déploiement. Ajoutez-la, traduisez-la, puis activez-la.",
+      "addSubmit": "Ajouter la langue",
+      "canDelete": "Aucun texte n'est écrit : elle peut encore être supprimée.",
+      "cannotDelete": "{count} textes sont écrits : cette langue peut seulement être désactivée.",
+      "code": "Code",
+      "codeHint": "Fixe après la création.",
+      "deactivate": "Désactiver",
+      "deleteConfirm": "Oui, supprimer",
+      "details": "Détails",
+      "direction": {
+        "ltr": "De gauche à droite",
+        "rtl": "De droite à gauche"
+      },
+      "directionLabel": "Sens",
+      "done": "Fait",
+      "empty": "Aucune langue trouvée",
+      "fallback": "Langue de secours",
+      "frenchHint": "Le français est la dernière langue de secours : il ne peut être ni désactivé ni supprimé.",
+      "inactiveHint": "Personne ne peut encore la choisir.",
+      "language": "Langue",
+      "locale": "Dates et nombres",
+      "localeHint": "Définit les formats comme 06/11/2026 et 1 200,50.",
+      "name": "Nom",
+      "nativeName": "Nom d'origine",
+      "search": "Rechercher une langue",
+      "startsMissing": "Les {count} textes sont d'abord manquants. La langue reste inactive jusqu'à son activation.",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "statusLabel": "Statut",
+      "textsDone": "textes faits",
+      "textsMissing": "textes manquants",
+      "title": "Langues",
+      "translateMissing": "Traduire les {count} textes manquants"
+    },
     "menu": {
       "activity": "Activité",
-      "label": "Menu de la console"
+      "label": "Menu de la console",
+      "translations": "Traductions"
     },
     "roles": {
       "access": "Accès",
@@ -252,6 +320,51 @@
       "tickAll": "Tout cocher",
       "title": "Rôles",
       "undo": "Annuler"
+    },
+    "translations": {
+      "backupHint": "La base de données est la source. Les fichiers ne sont qu'une sauvegarde.",
+      "changedBy": "Modifié par {name} · {date}",
+      "changes": "{count} modification(s)",
+      "chooseFile": "Cliquez pour choisir un fichier JSON",
+      "download": "Télécharger",
+      "empty": "Aucun texte trouvé",
+      "export": "Export",
+      "exportHint": "Toutes les langues et tous les textes dans un seul fichier JSON.",
+      "fallsBackTo": "Se rabat sur {language}",
+      "import": "Import",
+      "importExport": "Import / export",
+      "importFile": "Importer le fichier",
+      "importHint": "Ajoute uniquement ce qui manque. Un texte déjà en base n'est jamais modifié : importer deux fois est sans risque.",
+      "key": "Clé",
+      "language": "Langue",
+      "lastImport": "Résultat de l'import",
+      "missingShows": "Manquant : affiche « {text} »",
+      "notSaved": "Pas encore enregistré",
+      "note": "Note pour les traducteurs",
+      "progress": "{percent} % · {missing} manquants",
+      "reference": "Français (référence)",
+      "result": {
+        "keys_added": "Clés ajoutées",
+        "languages_added": "Langues ajoutées",
+        "texts_added": "Textes ajoutés",
+        "texts_unchanged": "Textes inchangés"
+      },
+      "save": "Enregistrer les textes",
+      "search": "Rechercher une clé ou un texte",
+      "show": "Afficher",
+      "state": {
+        "check": "À vérifier",
+        "done": "Faits",
+        "missing": "Manquants seulement"
+      },
+      "texts": "Textes",
+      "toCheck": "Le français a une variable absente de ce texte. À vérifier.",
+      "usedIn": {
+        "api": "API",
+        "mail": "E-mails",
+        "web": "Web"
+      },
+      "usedInLabel": "Utilisé dans"
     },
     "users": {
       "add": "Ajouter une personne",

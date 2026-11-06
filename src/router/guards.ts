@@ -17,6 +17,8 @@ const CENTRAL_PAGES = [
   ['users.show', 'central-users'],
   ['roles.show', 'central-roles'],
   ['activity-log.show', 'central-activity'],
+  ['translations.show', 'central-translations'],
+  ['languages.show', 'central-languages'],
 ] as const
 
 /** Runs before each page opens, like the `auth` middleware in the API. */

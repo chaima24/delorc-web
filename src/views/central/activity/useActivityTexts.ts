@@ -29,7 +29,9 @@ export function useActivityTexts() {
     if (field === 'is_active') return t(`central.users.status.${value ? 'active' : 'inactive'}`)
     if (field === 'role') return roleLabel(String(value))
     if (field === 'second_factor') return known(`central.users.factor.${value}`, String(value))
-    if (field === 'locale') return known(`common.locale.${value}`, String(value))
+    if (field === 'locale' && line.record_type === 'person') return known(`common.locale.${value}`, String(value))
+    if (field === 'fallback') return known(`common.locale.${value}`, String(value))
+    if (field === 'direction') return known(`central.languages.direction.${value}`, String(value))
 
     return String(value)
   }
@@ -46,8 +48,12 @@ export function useActivityTexts() {
     })
   }
 
-  const chips = (line: ActivityLine): string[] =>
-    line.attempt ? [t(`central.activity.reason.${line.attempt.reason}`)] : line.changes.map((change) => chip(line, change))
+  function chips(line: ActivityLine): string[] {
+    if (line.attempt) return [t(`central.activity.reason.${line.attempt.reason}`)]
+    if (line.import) return [t('central.activity.imported', { keys: line.import.keys_added ?? 0, texts: line.import.texts_added ?? 0 })]
+
+    return line.changes.map((change) => chip(line, change))
+  }
 
   /** A role made on the screen has no translation: its own name shows. */
   function recordName(line: ActivityLine): string {
@@ -62,6 +68,7 @@ export function useActivityTexts() {
     if (!line.record?.exists) return null
     if (line.record_type === 'person' && auth.can('users.show')) return { name: 'central-users', query: { open: line.record.id } }
     if (line.record_type === 'role' && auth.can('roles.show')) return { name: 'central-roles', query: { open: line.record.id } }
+    if (line.record_type === 'language' && auth.can('languages.show')) return { name: 'central-languages', query: { open: line.record.id } }
 
     return null
   }

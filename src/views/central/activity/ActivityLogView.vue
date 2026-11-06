@@ -45,7 +45,7 @@ const all = computed(() => ({ value: 'all', label: t('common.list.all') }))
 const personOptions = computed(() => [all.value, ...people.value.map(({ id, name }) => ({ value: id, label: name }))])
 const recordOptions = computed(() => [
   all.value,
-  ...['person', 'role', 'sign_in'].map((value) => ({ value, label: t(`central.activity.recordType.${value}`) })),
+  ...['person', 'role', 'language', 'translations', 'sign_in'].map((value) => ({ value, label: t(`central.activity.recordType.${value}`) })),
 ])
 const actionOptions = computed(() => [
   all.value,

@@ -20,6 +20,7 @@ function line(values: Partial<ActivityLine>): ActivityLine {
     author: owner,
     changes: [],
     attempt: null,
+    import: null,
     created_at: '2026-11-06T10:42:07+00:00',
     ...values,
   }
@@ -36,6 +37,7 @@ async function mountLog(lines: ActivityLine[], permissions = ['users.show', 'rol
       { path: '/activity', name: 'central-activity', component: ActivityLogView },
       { path: '/users', name: 'central-users', component: page },
       { path: '/roles', name: 'central-roles', component: page },
+      { path: '/languages', name: 'central-languages', component: page },
     ],
   })
   await router.push('/activity')
@@ -127,6 +129,31 @@ describe('the activity log page', () => {
 
     expect((await mountLog(lines)).findAll('a').map((link) => link.attributes('href'))).toEqual(['/users?open=12'])
     expect((await mountLog(lines, ['activity-log.show'])).findAll('a')).toHaveLength(0)
+  })
+
+  it('writes a file import with its counts', async () => {
+    const wrapper = await mountLog([line({
+      record_type: 'translations',
+      action: 'imported',
+      record: null,
+      import: { languages_added: 0, keys_added: 6, texts_added: 18, texts_unchanged: 147 },
+    })])
+
+    expect(wrapper.text()).toContain('Mehdi Cherif imported a texts file')
+    expect(wrapper.text()).toContain('6 keys, 18 texts added')
+  })
+
+  it('links a language to its page', async () => {
+    const wrapper = await mountLog([line({
+      record_type: 'language',
+      action: 'updated',
+      record: { id: '3', name: 'Arabic', exists: true },
+      changes: [{ field: 'fallback', before: 'fr', after: 'en' }],
+    })], ['languages.show'])
+
+    expect(wrapper.text()).toContain('Mehdi Cherif edited the language Arabic')
+    expect(wrapper.text()).toContain('Falls back to: French → English')
+    expect(wrapper.find('a').attributes('href')).toBe('/languages?open=3')
   })
 
   it('says so when nothing matches', async () => {

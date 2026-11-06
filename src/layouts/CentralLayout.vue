@@ -18,6 +18,13 @@ const menu = computed(() =>
     { to: 'central-users', pages: ['central-users'], label: 'central.users.title', icon: 'tabler-users', allowed: auth.can('users.show') },
     { to: 'central-roles', pages: ['central-roles', 'central-role-access'], label: 'central.roles.title', icon: 'tabler-shield-lock', allowed: auth.can('roles.show') },
     { to: 'central-activity', pages: ['central-activity'], label: 'central.menu.activity', icon: 'tabler-history', allowed: auth.can('activity-log.show') },
+    {
+      to: auth.can('translations.show') ? 'central-translations' : 'central-languages',
+      pages: ['central-translations', 'central-languages'],
+      label: 'central.menu.translations',
+      icon: 'tabler-language',
+      allowed: auth.can('translations.show') || auth.can('languages.show'),
+    },
   ].filter((item) => item.allowed),
 )
 

@@ -1,6 +1,6 @@
 import { client } from '@/api/client'
 
-export type RecordType = 'person' | 'role' | 'sign_in'
+export type RecordType = 'person' | 'role' | 'sign_in' | 'language' | 'translations'
 
 export interface ActivityChange {
   field: string
@@ -24,6 +24,8 @@ export interface ActivityLine {
   }
   changes: ActivityChange[]
   attempt: { email: string; step: string; reason: string; ip: string | null } | null
+  /** The counts of a file import. */
+  import: Record<string, number> | null
   created_at: string
 }
 

@@ -76,6 +76,13 @@ const authorName = computed(() => {
         {{ t('central.activity.ip') }}: {{ line.attempt.ip ?? '—' }}
       </section>
 
+      <section v-if="line.import" class="rounded-2xl border border-dl-line px-3.5 py-3 text-[13px]">
+        <h3 class="mb-1.5 text-sm font-semibold">{{ t('central.translations.lastImport') }}</h3>
+        <p v-for="(count, name) in line.import" :key="name" class="flex justify-between py-1">
+          <span>{{ t(`central.translations.result.${name}`) }}</span><strong class="tabular-nums">{{ count }}</strong>
+        </p>
+      </section>
+
       <p v-if="line.attempt" class="text-xs text-dl-muted">{{ t('central.activity.typedNeverSaved') }}</p>
       <p v-if="line.action === 'second_factor_reset'" class="text-xs text-dl-muted">{{ t('central.activity.secretsNeverLogged') }}</p>
       <p class="text-xs text-dl-muted">{{ t('central.activity.readOnly') }}</p>

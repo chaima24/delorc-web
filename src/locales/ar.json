@@ -114,6 +114,7 @@
         "deactivated": "تعطيل",
         "deleted": "حذف",
         "failed": "فشل تسجيل الدخول",
+        "imported": "استيراد",
         "reactivated": "إعادة تفعيل",
         "role_changed": "تغيير الدور",
         "second_factor_reset": "إعادة تعيين العامل الثاني",
@@ -129,16 +130,20 @@
       "empty": "لا يوجد نشاط مطابق",
       "emptyHint": "جرّب عوامل تصفية أخرى أو فترة أوسع.",
       "field": {
+        "direction": "الاتجاه",
         "email": "البريد الإلكتروني",
+        "fallback": "اللغة الاحتياطية",
         "is_active": "الحالة",
         "label": "الحقل",
         "locale": "اللغة",
         "name": "الاسم",
+        "native_name": "الاسم الأصلي",
         "phone": "الهاتف",
         "role": "الدور",
         "second_factor": "العامل الثاني"
       },
       "hideAutomatic": "إخفاء التغييرات التلقائية",
+      "imported": "أُضيف {keys} مفتاح و{texts} نص",
       "ip": "عنوان IP",
       "lastDays": "آخر {count} يوم",
       "newestFirst": "الأحدث أولًا",
@@ -159,9 +164,11 @@
       "reasonLabel": "السبب",
       "record": "العنصر",
       "recordType": {
+        "language": "لغة",
         "person": "شخص",
         "role": "دور",
-        "sign_in": "تسجيل الدخول"
+        "sign_in": "تسجيل الدخول",
+        "translations": "نصوص"
       },
       "right": "{resource}، {action}",
       "rightAdded": "{right}: أُضيف",
@@ -170,6 +177,13 @@
       "search": "بحث",
       "secretsNeverLogged": "لا تدخل الأسرار ورموز الاسترداد إلى السجل أبدًا، بل الطريقة التي تغيّرت فقط.",
       "sentence": {
+        "language": {
+          "created": "أضاف {author} اللغة {record}",
+          "deactivated": "عطّل {author} اللغة {record}",
+          "deleted": "حذف {author} اللغة {record}",
+          "reactivated": "فعّل {author} اللغة {record}",
+          "updated": "عدّل {author} اللغة {record}"
+        },
         "person": {
           "access_link_sent": "أرسل {author} رابط وصول إلى {record}",
           "created": "أضاف {author} {record}",
@@ -187,6 +201,9 @@
         },
         "sign_in": {
           "failed": "فشل تسجيل الدخول لـ {record}"
+        },
+        "translations": {
+          "imported": "استورد {author} ملف نصوص"
         }
       },
       "sort": "الترتيب",
@@ -197,6 +214,13 @@
       "stepLabel": "الخطوة",
       "system": "النظام",
       "title": {
+        "language": {
+          "created": "تمت إضافة لغة",
+          "deactivated": "تم تعطيل لغة",
+          "deleted": "تم حذف لغة",
+          "reactivated": "تم تفعيل لغة",
+          "updated": "تم تعديل لغة"
+        },
         "person": {
           "access_link_sent": "تم إرسال رابط الوصول",
           "created": "تمت إضافة شخص",
@@ -214,6 +238,9 @@
         },
         "sign_in": {
           "failed": "فشل تسجيل الدخول"
+        },
+        "translations": {
+          "imported": "تم استيراد النصوص"
         }
       },
       "today": "اليوم",
@@ -222,9 +249,50 @@
       "yes": "نعم",
       "yesterday": "أمس"
     },
+    "languages": {
+      "activate": "تفعيل",
+      "activeHint": "عند تعطيلها تختفي من خيارات اللغة. تُحفظ نصوصها.",
+      "add": "إضافة لغة",
+      "addHint": "دون برمجة أو نشر. أضفها وترجمها ثم فعّلها.",
+      "addSubmit": "إضافة اللغة",
+      "canDelete": "لم يُكتب أي نص بعد، لذا يمكن حذفها.",
+      "cannotDelete": "كُتب {count} نصًا، لذا يمكن تعطيل هذه اللغة فقط.",
+      "code": "الرمز",
+      "codeHint": "لا يتغيّر بعد الإنشاء.",
+      "deactivate": "تعطيل",
+      "deleteConfirm": "نعم، احذف",
+      "details": "التفاصيل",
+      "direction": {
+        "ltr": "من اليسار إلى اليمين",
+        "rtl": "من اليمين إلى اليسار"
+      },
+      "directionLabel": "الاتجاه",
+      "done": "المكتمل",
+      "empty": "لم يُعثر على أي لغة",
+      "fallback": "اللغة الاحتياطية",
+      "frenchHint": "الفرنسية هي اللغة الاحتياطية الأخيرة: لا يمكن تعطيلها أو حذفها.",
+      "inactiveHint": "لا يمكن لأحد اختيارها بعد.",
+      "language": "اللغة",
+      "locale": "التواريخ والأرقام",
+      "localeHint": "يحدد صيغًا مثل 06/11/2026 و 1 200,50.",
+      "name": "الاسم",
+      "nativeName": "الاسم الأصلي",
+      "search": "البحث عن لغة",
+      "startsMissing": "تبدأ النصوص الـ {count} كلها ناقصة. تبقى اللغة معطّلة حتى تفعيلها.",
+      "status": {
+        "active": "نشطة",
+        "inactive": "معطّلة"
+      },
+      "statusLabel": "الحالة",
+      "textsDone": "نصوص مكتملة",
+      "textsMissing": "نصوص ناقصة",
+      "title": "اللغات",
+      "translateMissing": "ترجمة النصوص الناقصة ({count})"
+    },
     "menu": {
       "activity": "النشاط",
-      "label": "قائمة وحدة التحكم"
+      "label": "قائمة وحدة التحكم",
+      "translations": "الترجمات"
     },
     "roles": {
       "access": "الصلاحيات",
@@ -252,6 +320,51 @@
       "tickAll": "تحديد الكل",
       "title": "الأدوار",
       "undo": "تراجع"
+    },
+    "translations": {
+      "backupHint": "قاعدة البيانات هي المصدر. الملفات مجرد نسخة احتياطية.",
+      "changedBy": "عدّله {name} · {date}",
+      "changes": "{count} تغيير",
+      "chooseFile": "انقر لاختيار ملف JSON",
+      "download": "تنزيل",
+      "empty": "لم يُعثر على أي نص",
+      "export": "تصدير",
+      "exportHint": "كل اللغات والنصوص في ملف JSON واحد.",
+      "fallsBackTo": "يعود إلى {language}",
+      "import": "استيراد",
+      "importExport": "استيراد / تصدير",
+      "importFile": "استيراد الملف",
+      "importHint": "يضيف الناقص فقط. لا يتغيّر أي نص موجود في قاعدة البيانات، لذا فالاستيراد مرتين آمن.",
+      "key": "المفتاح",
+      "language": "اللغة",
+      "lastImport": "نتيجة الاستيراد",
+      "missingShows": "ناقص: يعرض «{text}»",
+      "notSaved": "لم يُحفظ بعد",
+      "note": "ملاحظة للمترجمين",
+      "progress": "{percent}% · {missing} ناقص",
+      "reference": "الفرنسية (مرجع)",
+      "result": {
+        "keys_added": "مفاتيح مضافة",
+        "languages_added": "لغات مضافة",
+        "texts_added": "نصوص مضافة",
+        "texts_unchanged": "نصوص دون تغيير"
+      },
+      "save": "حفظ النصوص",
+      "search": "البحث عن مفتاح أو نص",
+      "show": "عرض",
+      "state": {
+        "check": "للتحقق",
+        "done": "مكتملة",
+        "missing": "الناقصة فقط"
+      },
+      "texts": "النصوص",
+      "toCheck": "في الفرنسية متغيّر غير موجود في هذا النص. يرجى التحقق.",
+      "usedIn": {
+        "api": "API",
+        "mail": "البريد الإلكتروني",
+        "web": "الويب"
+      },
+      "usedInLabel": "مستخدم في"
     },
     "users": {
       "add": "إضافة شخص",

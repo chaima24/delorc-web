@@ -12,6 +12,7 @@ export const ACTIONS = [
   'second_factor_reset',
   'deleted',
   'failed',
+  'imported',
 ]
 
 /** A date as `YYYY-MM-DD`, in the viewer's time. */
