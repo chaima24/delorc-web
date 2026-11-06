@@ -35,7 +35,7 @@ The address decides what opens: `localhost:5173` is the central console, `{lab}.
 - Colours come from the `dl-*` tokens, never written by hand.
 - Every API call goes through `src/api/client.ts`, which adds the token and the language and refreshes the session. A page never calls axios directly.
 - A page needs a session unless its route has `meta: { public: true }`.
-- Texts come from translations, never written in a page. The placeholder login page is the only exception until i18n is set up.
+- Texts come from translations, never written in a page. Until the translations module exists, pages use keys and `docs/translation-keys.md` keeps their French text.
 - Copying from the previous front follows the rules in `../CLAUDE.md`.
 - Wording: "professionnels de santé", not "clients".
 - No real lab name in code or tests: use `demo`.

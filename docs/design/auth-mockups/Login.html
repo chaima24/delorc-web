@@ -15,6 +15,7 @@
 .head h1 { margin:0; font-size:32px; line-height:1.1; letter-spacing:-.03em; } .head p { margin:0; font-size:15px; color:var(--body); }
 .field small { font-size:13px; color:var(--muted); } .field small.error { color:var(--brick); font-weight:500; }
 .form .input { height:48px; justify-content:space-between; } .form .input i { font-style:normal; color:var(--muted); } .form .input.err { border-color:var(--brick); } .form .input.mono { letter-spacing:.2em; font-weight:600; font-size:18px; }
+.alert { margin:0; padding:12px 16px; border-radius:16px; background:rgba(192,54,44,.1); color:var(--brick); font-size:14px; font-weight:500; }
 .eye { font-size:15px; opacity:.55; } .right { align-self:flex-end; font-size:14px; font-weight:600; }
 .btn.big { height:52px; width:100%; justify-content:center; font-size:15px; }
 .links { display:flex; justify-content:space-between; gap:8px; font-size:14px; font-weight:600; } .links .quiet { color:var(--muted); }
@@ -30,13 +31,13 @@
   <div class="pitch"><h2 class="display">La plateforme terrain des laboratoires pharmaceutiques.</h2>
   <p>Planifiez le cycle, visitez les professionnels de santé, prenez les commandes et suivez votre équipe, au même endroit, en arabe, français et anglais.</p></div>
 </aside><main class="side"><div class="form"><div class="head"><span class="space">Delorc Central</span><h1 class="display">Bon retour</h1><p>Connectez-vous à votre espace</p></div><label class="field"><span>E-mail</span><div class="input">karim@delorc.dz</div></label><label class="field"><span>Mot de passe</span><div class="input">••••••••••<span class="eye">👁</span></div></label><a class="right">Mot de passe oublié ?</a><button class="btn primary big">Connexion →</button></div></main></div>
-<div class="step"><b>2</b><strong>Erreur</strong> : un seul message pour un e-mail ou un mot de passe faux, sans dire lequel.</div>
+<div class="step"><b>2</b><strong>Erreur</strong> : un seul message général au-dessus du formulaire, pour un e-mail ou un mot de passe faux. Il ne dit pas lequel : aucun champ n'est marqué.</div>
 <div class="auth"><aside class="brand">
   <div class="mark"><svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#1B302C"/><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#C8F03C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg><span class="display">delorc</span></div>
   <svg class="big" viewBox="0 0 48 48" aria-hidden="true"><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#1B302C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg>
   <div class="pitch"><h2 class="display">La plateforme terrain des laboratoires pharmaceutiques.</h2>
   <p>Planifiez le cycle, visitez les professionnels de santé, prenez les commandes et suivez votre équipe, au même endroit, en arabe, français et anglais.</p></div>
-</aside><main class="side"><div class="form"><div class="head"><span class="space">Delorc Central</span><h1 class="display">Bon retour</h1><p>Connectez-vous à votre espace</p></div><label class="field"><span>E-mail</span><div class="input err">karim@delorc.dz</div><small class="error">E-mail ou mot de passe incorrect.</small></label><label class="field"><span>Mot de passe</span><div class="input">••••••••••<span class="eye">👁</span></div></label><a class="right">Mot de passe oublié ?</a><button class="btn primary big">Connexion →</button></div></main></div>
+</aside><main class="side"><div class="form"><div class="head"><span class="space">Delorc Central</span><h1 class="display">Bon retour</h1><p>Connectez-vous à votre espace</p></div><p class="alert" role="alert">E-mail ou mot de passe incorrect.</p><label class="field"><span>E-mail</span><div class="input">karim@delorc.dz</div></label><label class="field"><span>Mot de passe</span><div class="input">••••••••••<span class="eye">👁</span></div></label><a class="right">Mot de passe oublié ?</a><button class="btn primary big">Connexion →</button></div></main></div>
 <div class="step"><b>3</b><strong>Deuxième étape, application</strong> : si la personne utilise une application d'authentification. Le même champ accepte un code de secours.</div>
 <div class="auth"><aside class="brand">
   <div class="mark"><svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#1B302C"/><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#C8F03C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg><span class="display">delorc</span></div>

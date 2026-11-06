@@ -36,7 +36,7 @@ export const authApi = {
   verifyTwoFactor: (challenge: string, code: string) =>
     client.post<Session>('/auth/two-factor/verify', { challenge, code }).then((response) => response.data),
 
-  resendCode: (challenge: string) => client.post('/auth/two-factor/send', { challenge }),
+  resendCode: (challenge: string) => client.post<{ message: string }>('/auth/two-factor/send', { challenge }),
 
   forgotPassword: (email: string) => client.post('/auth/password/forgot', { email }),
 
