@@ -9,6 +9,10 @@ export interface User {
   locale: string
   is_active: boolean
   last_login_at: string | null
+  role: string | null
+  /** Owner or admin: may do everything, and `permissions` stays empty. */
+  is_super: boolean
+  permissions: string[]
   two_factor: { method: 'none' | 'app' | 'email' | 'sms'; confirmed: boolean; recovery_codes_left: number }
 }
 

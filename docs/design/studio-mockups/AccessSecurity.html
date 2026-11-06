@@ -54,19 +54,23 @@
 .diff { width: 100%; border-collapse: collapse; font-size: 13px; } .diff th { font-size: 12px; color: var(--muted); text-align: start; padding: 6px 8px; font-weight: 600; }
 .diff td { padding: 8px; border-top: 1px solid var(--line-soft); } .diff .old { color: var(--brick); text-decoration: line-through; } .diff .new { color: var(--ink); font-weight: 600; }
 .toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; } .toggle i { width: 34px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; } .toggle i::after { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); top: 3px; right: 3px; }
+.opt { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); font-size: 13px; }
+.opt.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: var(--signal-soft); }
+.opt b { display: block; font-size: 13.5px; } .opt small { color: var(--muted); font-size: 12px; }
+.radio { width: 18px; height: 18px; border-radius: 99px; border: 1.5px solid #9FB0AA; flex-shrink: 0; margin-top: 1px; } .opt.on .radio { border: 5px solid var(--ink); }
 </style></head><body>
 <p class="caption"><strong>Studio › Access and security.</strong> Same template as Countries: list on the left, record panel on the right.
-<br><strong>Roles</strong>: the panel sums a role's access up by area; editing access opens a full page (80 resources × 4 actions do not fit a panel).
-<strong>Permissions</strong> becomes <strong>“Who can do what”</strong>: one read-only grid, areas down the side, roles across the top, instead of 313 technical names.
+<br><strong>Roles</strong>: the panel sums a role's access up by area; editing access opens a full page (the full list does not fit a panel).
+<strong>Permissions</strong> becomes <strong>“Who can do what”</strong>: one read-only grid, areas down the side, roles across the top, instead of 117 technical names.
 <strong>Activity log</strong>: plain sentences by day; the panel shows before → after. Every technical name gets a readable label (e.g. <code>campaign-dispatches.store</code> → Campaigns › Dispatches › Add).</p>
 <div id="frames"></div>
 <script>
 const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Studio</span></nav>`
-const LEVELS = [['Roles', 14], ['Who can do what', ''], ['Activity log', '']]
+const LEVELS = [['Roles', 11], ['Who can do what', ''], ['Activity log', '']]
 function frame(n, label, { title, crumbs = 'Settings › Access and security', level, add, list, panel = '', levels = true }) {
   return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:820px'>${rail}
 <div class='main'>
-  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Inphamedis</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo</strong><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SM</span></div>
   <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
     <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
       <nav class='studio-nav'><a class='on'>Settings</a><a>Users</a><a>Teams</a><a>Brands</a><a>Products</a></nav>
@@ -85,27 +89,50 @@ const lvl = k => `<span class='lvl ${k}'><i></i><i></i><i></i><i></i></span>`
 
 // ── Roles ────────────────────────────────────────────────────
 const roles = [
-  ['Admin', true, 1, 'Everything', 'f'],
-  ['Medical rep (VM)', true, 169, '9 areas · 31 actions', 'e'],
-  ['Pharmacy rep (VP)', true, 41, '7 areas · 22 actions', 'e'],
-  ['Regional supervisor', true, 49, '12 areas · 58 actions', 'e'],
-  ['Product manager', true, 6, '5 areas · 18 actions', 'v'],
-  ['Trainee rep', false, 4, '3 areas · 6 actions', 'v'],
+  ['Admin', 'Everyone', 0, '', 2, 'Everything', 'f', 1],
+  ['Medical rep (VM)', 'Own data', 1, 'Doctors, dentists, pharmacies', 153, '30 actions', 'e'],
+  ['Pharmacy rep (VP)', 'Own data', 1, 'Pharmacies, wholesalers, distributors', 77, '30 actions', 'e'],
+  ['Key account manager', 'Own data', 1, 'Doctors', 6, '30 actions', 'e'],
+  ['Regional supervisor', 'Their team', 0, '', 14, '36 actions', 'e'],
+  ['National supervisor', 'Their team', 0, '', 3, '36 actions', 'e'],
+  ['Sales director', 'Their team', 0, '', 1, '36 actions', 'e'],
+  ['Product manager', 'Their team', 0, '', 5, '14 actions', 'v'],
+  ['Marketing director', 'Their team', 0, '', 1, '14 actions', 'v'],
+  ['Coordinator', 'Everyone', 0, '', 2, '45 actions', 'e'],
+  ['Management control', 'Everyone', 0, '', 1, '31 actions', 'v'],
 ]
 const roleTable = (full, sel = -1) => `<div class='card' style='padding:16px 18px'>
-  <div style='display:flex;gap:10px;margin-bottom:12px'><div class='input muted' style='width:280px'>⌕ Search a role</div><span class='input'>Kind <b>All</b> ▾</span></div>
-  <table class='table'><thead><tr><th>Role</th><th class='num'>People</th><th>Access</th>${full ? `<th>Added</th>` : ''}<th></th></tr></thead><tbody>${roles.map((r, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${r[0]}</strong> ${r[1] ? `<span class='chip' style='margin-inline-start:6px'>Built-in</span>` : `<span class='chip info' style='margin-inline-start:6px'>Lab role</span>`}</td><td class='num'>${r[2]}</td><td>${lvl(r[4])} <span style='margin-inline-start:8px'>${r[3]}</span></td>${full ? `<td class='label'>12 Oct 2026</td>` : ''}${chev}</tr>`).join('')}</tbody></table></div>`
+  <div style='display:flex;gap:10px;margin-bottom:12px'><div class='input muted' style='width:280px'>⌕ Search a role</div><span class='input'>On the road <b>All</b> ▾</span></div>
+  <table class='table'><thead><tr><th>Role</th><th class='num'>People</th><th>Sees</th>${full ? `<th>Visits</th>` : ''}<th>Access</th><th></th></tr></thead><tbody>${roles.map((r, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${r[0]}</strong>${r[7] ? ` <span class='chip info' style='margin-inline-start:6px'>Protected</span>` : ''}${r[2] ? ` <span class='chip ok' style='margin-inline-start:6px'>On the road</span>` : ''}</td><td class='num'>${r[4]}</td><td>${r[1]}</td>${full ? `<td class='label'>${r[3] || '—'}</td>` : ''}<td>${lvl(r[6])}${full ? ` <span style='margin-inline-start:8px'>${r[5]}</span>` : ''}</td>${chev}</tr>`).join('')}</tbody></table></div>`
 
-const areas = [['Visits and reports', 'e', 'View · add · edit'], ['Professionals', 'v', 'View'], ['Planning', 'f', 'Everything'], ['Expenses', 'e', 'View · add · edit'], ['Campaigns', 'v', 'View'], ['Orders', '', 'No access'], ['Studio', '', 'No access']]
+const areas = [['People', '', 'No access'], ['Professionals', 'v', 'View, ask for a new one'], ['Territory', 'v', 'View'], ['Planning', 'v', 'View'], ['Visits', 'e', 'View, add, edit'], ['Products', 'v', 'View'], ['Expenses', 'e', 'View, add, edit'], ['Settings', '', 'No access']]
 const rolePanel = `<aside class='panel'>
-  <div class='ph'><span class='ic'>VM</span><div style='flex:1'><h2 class='display'>Medical rep (VM)</h2><div class='sub'><span class='chip'>Built-in</span></div></div><span class='icb'>⋯</span><span class='icb'>✕</span></div>
+  <div class='ph'><span class='ic'>VM</span><div style='flex:1'><h2 class='display'>Medical rep (VM)</h2><div class='sub'><span class='chip ok'>On the road</span></div></div><span class='icb'>⋯</span><span class='icb'>✕</span></div>
   <div class='pb'>
-    <div class='tiles'><div class='tile'><b>169</b><span>people have this role</span></div><div class='tile'><b>31</b><span>actions allowed, in 9 areas</span></div></div>
+    <div class='tiles'><div class='tile'><b>153</b><span>people have this role</span></div><div class='tile'><b>30</b><span>actions allowed, in 6 areas</span></div></div>
+    <section class='sec'><header><strong>How this role works</strong><span class='edit'>✎ Edit</span></header>
+      <div class='area'><span>Sees</span><em style='width:210px'>Own data</em></div>
+      <div class='area'><span>On the road</span><em style='width:210px'>Yes: territory, cycles, mobile</em></div>
+      <div class='area'><span>Visits</span><em style='width:210px'>Doctors, dentists, pharmacies</em></div></section>
     <section class='sec'><header><strong>Access</strong><span class='edit dark'>Edit access ↗</span></header>
-      ${areas.map(a => `<div class='area'><span>${a[0]}</span>${lvl(a[1])}<em>${a[2]}</em></div>`).join('')}
-      <div class='line' style='padding-top:8px'><a>See all 9 areas</a></div></section>
-    <section class='sec'><header><strong>People</strong></header><div class='line'>169 people · <a>see them</a></div></section>
-    <section class='sec'><header><strong>Name</strong><span class='edit' style='opacity:.45'>✎ Edit</span></header><div class='line hint'>Built-in roles keep their name. They cannot be deleted.</div></section>
+      ${areas.map(a => `<div class='area'><span>${a[0]}</span>${lvl(a[1])}<em style='width:150px'>${a[2]}</em></div>`).join('')}</section>
+  </div>
+</aside>`
+
+const opt = (on, t, d) => `<div class='opt ${on ? 'on' : ''}'><span class='radio'></span><span><b>${t}</b><small>${d}</small></span></div>`
+const kind = (on, t) => `<span class='chip ${on ? 'ok' : ''}' style='height:32px;padding:0 12px'>${on ? '✓ ' : ''}${t}</span>`
+const roleForm = `<aside class='panel'>
+  <div class='ph'><span class='ic'>＋</span><div style='flex:1'><h2 class='display'>Add a role</h2></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <label class='field'><span>Name</span><div class='input'>Hospital rep</div></label>
+    <div class='field'><span>Who do they see?</span>
+      ${opt(1, 'Own data', 'Only their own records.')}
+      ${opt(0, 'Their team', 'Also everyone below them in the hierarchy.')}
+      ${opt(0, 'Everyone', 'The whole lab.')}
+    </div>
+    <div class='field'><span>On the road?</span><span class='toggle'><i></i>Yes. They need a territory and appear in cycles.</span></div>
+    <div class='field'><span>Who do they visit?</span><div style='display:flex;gap:6px;flex-wrap:wrap'>${kind(1, 'Doctors')}${kind(0, 'Dentists')}${kind(1, 'Pharmacies')}${kind(0, 'Wholesalers')}${kind(0, 'Distributors')}</div><span class='hint'>Shown only for roles on the road.</span></div>
+    <div style='display:flex;gap:8px;margin-top:auto'><span class='btn primary'>Add and edit access</span><span class='btn ghost'>Cancel</span></div>
   </div>
 </aside>`
 
@@ -179,8 +206,9 @@ const logPanel = `<aside class='panel'>
 </aside>`
 
 document.getElementById('frames').innerHTML = [
-  frame(1, `<strong>Roles: the page opens.</strong> Built-in roles (from Delorc) and the lab's own roles. The access column sums each role up in one line, with a 4-step level.`, { title: 'Roles', add: '＋ Add role', list: roleTable(true) }),
-  frame(2, `<strong>Click a role → reading mode.</strong> Two numbers, then access by area (one line each). Built-in roles cannot be renamed or deleted. “Edit access ↗” opens the full page.`, { title: 'Roles', add: '＋ Add role', list: roleTable(false, 1), panel: rolePanel }),
+  frame(1, `<strong>Roles: the page opens.</strong> The 11 roles every new lab starts with. “Sees” and “Visits” say how each role works; the access column sums it up with a 4-step level. Only Admin is protected.`, { title: 'Roles', add: '＋ Add role', list: roleTable(true) }),
+  frame(2, `<strong>Click a role → reading mode.</strong> Two numbers, how the role works, then access by area. “Edit access ↗” opens the full page.`, { title: 'Roles', add: '＋ Add role', list: roleTable(false, 1), panel: rolePanel }),
+  frame('2b', `<strong>Add a role.</strong> The three role fields in plain words. “Who do they visit?” shows only when “On the road” is on. Editing a role uses the same form.`, { title: 'Roles', add: '＋ Add role', list: roleTable(false), panel: roleForm }),
   frame(3, `<strong>Edit access: full page.</strong> One row per resource, grouped by area, with View / Add / Edit / Delete. Ticking Add/Edit/Delete ticks View too. Changes collect in the bar at the bottom until “Save access”. “Copy access from…” starts from another role.`, { title: 'Medical rep (VM) · Access', crumbs: 'Settings › Access and security › Roles', levels: false, list: accessPage }),
   frame(4, `<strong>Who can do what</strong> (replaces “Permissions”). Read-only: every resource against every role. Clicking a role name opens its access page.`, { title: 'Who can do what', list: matrixPage }),
   frame(5, `<strong>Activity log.</strong> Sentences by day, with the changed fields as chips. Filters: person, record type, action, dates. Seeders and imports are hidden unless you switch the toggle off. Click a line → before / after.`, { title: 'Activity log', list: logList, panel: logPanel }),

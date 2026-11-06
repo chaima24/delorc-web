@@ -1,11 +1,14 @@
 import type { Router } from 'vue-router'
 import { onSessionLost } from '@/api/client'
+import { space } from '@/space'
 import { useAuthStore } from '@/stores/auth'
 
 declare module 'vue-router' {
   interface RouteMeta {
     /** Opens without signing in. Every other page needs a session. */
     public?: boolean
+    /** The permission this page needs, like `permission:` on an API route. */
+    permission?: string
   }
 }
 
@@ -17,6 +20,14 @@ export function installGuards(router: Router): void {
 
     if (!to.meta.public && !auth.isSignedIn) {
       return { name: 'login', query: { redirect: to.fullPath } }
+    }
+
+    if (to.meta.permission && !auth.can(to.meta.permission)) {
+      return { name: 'home' }
+    }
+
+    if (to.name === 'home' && space.isCentral && auth.can('users.show')) {
+      return { name: 'central-users' }
     }
   })
 
