@@ -1,4 +1,7 @@
 import { createI18n } from 'vue-i18n'
+import ar from '@/locales/ar.json'
+import en from '@/locales/en.json'
+import fr from '@/locales/fr.json'
 
 export const LOCALES = ['fr', 'en', 'ar'] as const
 export type Locale = (typeof LOCALES)[number]
@@ -15,14 +18,14 @@ function savedLocale(): Locale {
   return isLocale(saved) ? saved : 'fr'
 }
 
-/** Texts will come from the API (translation bundles); until that module exists, the lists are empty. */
+/** The central console reads its texts from these JSON files. Lab texts will come from the database, with the Labs module. */
 export const i18n = createI18n({
   legacy: false,
   locale: savedLocale(),
   fallbackLocale: 'fr',
   missingWarn: false,
   fallbackWarn: false,
-  messages: { fr: {}, en: {}, ar: {} },
+  messages: { fr, en, ar },
 })
 
 export function currentLocale(): Locale {

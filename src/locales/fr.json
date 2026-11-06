@@ -1,0 +1,205 @@
+{
+  "access": {
+    "action": {
+      "change-role": "Changer le rôle",
+      "create": "Ajouter",
+      "delete": "Supprimer",
+      "export": "Exporter",
+      "import": "Importer",
+      "reset-second-factor": "Réinitialiser le second facteur",
+      "show": "Voir",
+      "support": "Accès support",
+      "suspend": "Suspendre",
+      "test": "Envoi de test",
+      "update": "Modifier",
+      "update-plan": "Changer le plan"
+    },
+    "actionsCount": "{count} actions",
+    "all": "Tout",
+    "area": {
+      "access": "Accès",
+      "content": "Contenu",
+      "labs": "Laboratoires",
+      "system": "Système"
+    },
+    "everything": "Tout",
+    "resource": {
+      "activity-log": "Journal d'activité",
+      "channels": "Canaux",
+      "geography": "Géographie",
+      "labs": "Laboratoires",
+      "languages": "Langues",
+      "notifications": "Notifications",
+      "plans": "Plans",
+      "roles": "Rôles",
+      "rule-types": "Types de règles",
+      "settings": "Paramètres",
+      "translations": "Traductions",
+      "usage": "Utilisation",
+      "users": "Personnes"
+    },
+    "role": {
+      "billing": "Facturation",
+      "owner": "Propriétaire",
+      "support": "Support",
+      "translator": "Traducteur"
+    }
+  },
+  "auth": {
+    "brand": {
+      "body": "Planifiez le cycle, visitez les professionnels de santé, prenez les commandes et suivez votre équipe, au même endroit, en arabe, français et anglais.",
+      "tagline": "La plateforme terrain des laboratoires pharmaceutiques."
+    },
+    "forgot": {
+      "back": "Retour à la connexion",
+      "sentText": "Si un compte existe pour cette adresse, un lien vient de lui être envoyé. Il est valable 48 heures.",
+      "sentTitle": "Vérifiez vos e-mails",
+      "submit": "Envoyer le lien",
+      "text": "Saisissez votre e-mail, nous vous envoyons un lien pour choisir un nouveau mot de passe.",
+      "title": "Mot de passe oublié"
+    },
+    "login": {
+      "email": "E-mail",
+      "forgot": "Mot de passe oublié ?",
+      "password": "Mot de passe",
+      "submit": "Connexion",
+      "text": "Connectez-vous à votre espace",
+      "title": "Bon retour"
+    },
+    "logout": "Se déconnecter",
+    "password": {
+      "hide": "Masquer le mot de passe",
+      "show": "Afficher le mot de passe"
+    },
+    "setPassword": {
+      "confirm": "Saisissez-le à nouveau",
+      "noLink": "Ce lien est invalide ou a expiré. Demandez-en un nouveau.",
+      "password": "Nouveau mot de passe",
+      "rule": "Au moins 8 caractères, avec des lettres et des chiffres.",
+      "submit": "Enregistrer mon mot de passe",
+      "text": "Vous l'utiliserez pour vous connecter à Delorc.",
+      "title": "Choisissez votre mot de passe"
+    },
+    "space": {
+      "central": "Delorc Central"
+    },
+    "twoFactor": {
+      "app": {
+        "hint": "Téléphone perdu ? Saisissez un de vos codes de secours.",
+        "text": "Saisissez le code affiché dans votre application d'authentification.",
+        "title": "Code de vérification"
+      },
+      "code": "Code",
+      "email": {
+        "hint": "Il est valable 10 minutes.",
+        "text": "Nous vous avons envoyé un code à 6 chiffres.",
+        "title": "Vérifiez vos e-mails"
+      },
+      "otherAccount": "Utiliser un autre compte",
+      "resend": "Envoyer un nouveau code",
+      "sms": {
+        "hint": "Il est valable 10 minutes.",
+        "text": "Nous vous avons envoyé un code à 6 chiffres.",
+        "title": "Vérifiez vos SMS"
+      },
+      "submit": "Se connecter"
+    }
+  },
+  "central": {
+    "menu": {
+      "label": "Menu de la console",
+      "usersRoles": "Utilisateurs et rôles"
+    },
+    "roles": {
+      "access": "Accès",
+      "actionsAllowed": "actions autorisées",
+      "add": "Ajouter un rôle",
+      "addSubmit": "Ajouter et choisir les accès",
+      "changes": "{count} modification(s)",
+      "clear": "Effacer",
+      "copyFrom": "Copier les accès de",
+      "deleteConfirm": "Oui, supprimer",
+      "editAccess": "Modifier les accès",
+      "inUse": "{count} personnes ont ce rôle. Changez d'abord leur rôle.",
+      "name": "Nom",
+      "onlyYourRights": "Vous ne pouvez donner que les droits que vous avez.",
+      "otherActions": "Autres actions",
+      "people": "Personnes",
+      "peopleHave": "personnes ont ce rôle",
+      "protected": "Protégé",
+      "protectedHint": "Ce rôle passe tous les contrôles. Il ne peut être ni modifié ni supprimé.",
+      "resource": "Ressource",
+      "role": "Rôle",
+      "save": "Enregistrer les accès",
+      "tickAll": "Tout cocher",
+      "title": "Rôles",
+      "undo": "Annuler"
+    },
+    "users": {
+      "add": "Ajouter une personne",
+      "addSubmit": "Ajouter et envoyer le lien",
+      "deactivate": "Désactiver",
+      "deactivateConfirm": "Oui, désactiver",
+      "deactivateHint": "La personne perd l'accès à sa prochaine requête. Son nom reste dans le journal d'activité.",
+      "details": "Coordonnées",
+      "email": "E-mail",
+      "empty": "Aucune personne trouvée",
+      "factor": {
+        "app": "Application",
+        "email": "E-mail",
+        "none": "Aucun",
+        "sms": "SMS"
+      },
+      "factorReset": "Le second facteur a été réinitialisé.",
+      "language": "Langue",
+      "lastLogin": "Dernière connexion",
+      "linkHint": "Pas de mot de passe ici. La personne reçoit un lien d'accès, valable 48 heures.",
+      "linkSent": "Le lien d'accès a été envoyé.",
+      "name": "Nom complet",
+      "never": "Jamais",
+      "ownerLocked": "Seul un propriétaire peut modifier un propriétaire.",
+      "person": "Personne",
+      "phone": "Téléphone",
+      "reactivate": "Réactiver",
+      "resetFactor": "Réinitialiser le second facteur",
+      "role": "Rôle",
+      "search": "Rechercher un nom ou un e-mail",
+      "secondFactor": "Second facteur",
+      "sendLink": "Envoyer un lien d'accès",
+      "signingIn": "Connexion",
+      "status": {
+        "active": "Actif",
+        "inactive": "Désactivé",
+        "linkSent": "Lien envoyé"
+      },
+      "statusLabel": "Statut",
+      "title": "Personnes"
+    }
+  },
+  "common": {
+    "actions": {
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "delete": "Supprimer",
+      "edit": "Modifier",
+      "save": "Enregistrer"
+    },
+    "list": {
+      "all": "Tous",
+      "next": "Suivant",
+      "page": "Page {page}",
+      "pagination": "Pagination",
+      "previous": "Précédent",
+      "rowsPerPage": "Lignes par page",
+      "showing": "{from} à {to} sur {total}"
+    },
+    "locale": {
+      "ar": "Arabe",
+      "en": "Anglais",
+      "fr": "Français"
+    }
+  },
+  "errors": {
+    "network": "Impossible de joindre le serveur. Vérifiez votre connexion."
+  }
+}

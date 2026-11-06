@@ -1,0 +1,205 @@
+{
+  "access": {
+    "action": {
+      "change-role": "Change role",
+      "create": "Add",
+      "delete": "Delete",
+      "export": "Export",
+      "import": "Import",
+      "reset-second-factor": "Reset second factor",
+      "show": "View",
+      "support": "Support access",
+      "suspend": "Suspend",
+      "test": "Test send",
+      "update": "Edit",
+      "update-plan": "Change plan"
+    },
+    "actionsCount": "{count} actions",
+    "all": "All",
+    "area": {
+      "access": "Access",
+      "content": "Content",
+      "labs": "Labs",
+      "system": "System"
+    },
+    "everything": "Everything",
+    "resource": {
+      "activity-log": "Activity log",
+      "channels": "Channels",
+      "geography": "Geography",
+      "labs": "Labs",
+      "languages": "Languages",
+      "notifications": "Notifications",
+      "plans": "Plans",
+      "roles": "Roles",
+      "rule-types": "Rule types",
+      "settings": "Settings",
+      "translations": "Translations",
+      "usage": "Usage",
+      "users": "People"
+    },
+    "role": {
+      "billing": "Billing",
+      "owner": "Owner",
+      "support": "Support",
+      "translator": "Translator"
+    }
+  },
+  "auth": {
+    "brand": {
+      "body": "Plan the cycle, visit healthcare professionals, take orders and follow your team, all in one place, in Arabic, French and English.",
+      "tagline": "The field platform for pharmaceutical laboratories."
+    },
+    "forgot": {
+      "back": "Back to sign in",
+      "sentText": "If an account exists for this address, a link has just been sent to it. It is valid for 48 hours.",
+      "sentTitle": "Check your email",
+      "submit": "Send the link",
+      "text": "Enter your email and we will send you a link to choose a new password.",
+      "title": "Forgot your password"
+    },
+    "login": {
+      "email": "Email",
+      "forgot": "Forgot your password?",
+      "password": "Password",
+      "submit": "Sign in",
+      "text": "Sign in to your space",
+      "title": "Welcome back"
+    },
+    "logout": "Sign out",
+    "password": {
+      "hide": "Hide password",
+      "show": "Show password"
+    },
+    "setPassword": {
+      "confirm": "Enter it again",
+      "noLink": "This link is invalid or has expired. Ask for a new one.",
+      "password": "New password",
+      "rule": "At least 8 characters, with letters and numbers.",
+      "submit": "Save my password",
+      "text": "You will use it to sign in to Delorc.",
+      "title": "Choose your password"
+    },
+    "space": {
+      "central": "Delorc Central"
+    },
+    "twoFactor": {
+      "app": {
+        "hint": "Lost your phone? Enter one of your recovery codes.",
+        "text": "Enter the code shown in your authenticator app.",
+        "title": "Verification code"
+      },
+      "code": "Code",
+      "email": {
+        "hint": "It is valid for 10 minutes.",
+        "text": "We sent you a 6-digit code.",
+        "title": "Check your email"
+      },
+      "otherAccount": "Use another account",
+      "resend": "Send a new code",
+      "sms": {
+        "hint": "It is valid for 10 minutes.",
+        "text": "We sent you a 6-digit code.",
+        "title": "Check your SMS"
+      },
+      "submit": "Sign in"
+    }
+  },
+  "central": {
+    "menu": {
+      "label": "Console menu",
+      "usersRoles": "Users & roles"
+    },
+    "roles": {
+      "access": "Access",
+      "actionsAllowed": "actions allowed",
+      "add": "Add a role",
+      "addSubmit": "Add and choose the access",
+      "changes": "{count} change(s)",
+      "clear": "Clear",
+      "copyFrom": "Copy access from",
+      "deleteConfirm": "Yes, delete",
+      "editAccess": "Edit access",
+      "inUse": "{count} people have this role. Change their role first.",
+      "name": "Name",
+      "onlyYourRights": "You can only give rights you have yourself.",
+      "otherActions": "Other actions",
+      "people": "People",
+      "peopleHave": "people have this role",
+      "protected": "Protected",
+      "protectedHint": "This role passes every check. It cannot be changed or deleted.",
+      "resource": "Resource",
+      "role": "Role",
+      "save": "Save access",
+      "tickAll": "Tick all",
+      "title": "Roles",
+      "undo": "Undo"
+    },
+    "users": {
+      "add": "Add a person",
+      "addSubmit": "Add and send the link",
+      "deactivate": "Deactivate",
+      "deactivateConfirm": "Yes, deactivate",
+      "deactivateHint": "The person loses access at their next request. Their name stays in the activity log.",
+      "details": "Contact details",
+      "email": "Email",
+      "empty": "No person found",
+      "factor": {
+        "app": "App",
+        "email": "Email",
+        "none": "None",
+        "sms": "SMS"
+      },
+      "factorReset": "The second factor has been reset.",
+      "language": "Language",
+      "lastLogin": "Last sign-in",
+      "linkHint": "No password here. The person receives an access link, valid for 48 hours.",
+      "linkSent": "The access link has been sent.",
+      "name": "Full name",
+      "never": "Never",
+      "ownerLocked": "Only an owner can change an owner.",
+      "person": "Person",
+      "phone": "Phone",
+      "reactivate": "Reactivate",
+      "resetFactor": "Reset the second factor",
+      "role": "Role",
+      "search": "Search a name or email",
+      "secondFactor": "Second factor",
+      "sendLink": "Send an access link",
+      "signingIn": "Signing in",
+      "status": {
+        "active": "Active",
+        "inactive": "Deactivated",
+        "linkSent": "Link sent"
+      },
+      "statusLabel": "Status",
+      "title": "People"
+    }
+  },
+  "common": {
+    "actions": {
+      "cancel": "Cancel",
+      "close": "Close",
+      "delete": "Delete",
+      "edit": "Edit",
+      "save": "Save"
+    },
+    "list": {
+      "all": "All",
+      "next": "Next",
+      "page": "Page {page}",
+      "pagination": "Pagination",
+      "previous": "Previous",
+      "rowsPerPage": "Rows per page",
+      "showing": "{from} to {to} of {total}"
+    },
+    "locale": {
+      "ar": "Arabic",
+      "en": "English",
+      "fr": "French"
+    }
+  },
+  "errors": {
+    "network": "Cannot reach the server. Check your connection."
+  }
+}

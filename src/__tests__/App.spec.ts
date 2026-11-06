@@ -53,7 +53,7 @@ describe('LoginView', () => {
     await wrapper.find('form').trigger('submit')
     await flushPromises()
 
-    expect(wrapper.text()).toContain('auth.twoFactor.resend')
+    expect(wrapper.text()).toContain('Envoyer un nouveau code')
   })
 
   it('offers no new code for the authenticator app', async () => {
@@ -63,8 +63,8 @@ describe('LoginView', () => {
     await wrapper.find('form').trigger('submit')
     await flushPromises()
 
-    expect(wrapper.text()).toContain('auth.twoFactor.app.title')
-    expect(wrapper.text()).not.toContain('auth.twoFactor.resend')
+    expect(wrapper.text()).toContain('Code de vérification')
+    expect(wrapper.text()).not.toContain('Envoyer un nouveau code')
   })
 
   it('shows a wrong code under the code field', async () => {
@@ -91,7 +91,7 @@ describe('LoginView', () => {
     await wrapper.find('form').trigger('submit')
     await flushPromises()
 
-    expect(wrapper.text()).toContain('auth.login.title')
+    expect(wrapper.text()).toContain('Bon retour')
     expect(wrapper.find('[role="alert"]').text()).toBe('Le délai est dépassé.')
   })
 })
