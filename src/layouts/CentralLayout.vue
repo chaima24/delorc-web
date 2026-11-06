@@ -14,11 +14,12 @@ const auth = useAuthStore()
 
 // Each module adds its line here when it is built.
 const menu = computed(() =>
-  [{ name: 'central-users', label: 'central.menu.usersRoles', icon: 'tabler-users', allowed: auth.can('users.show') || auth.can('roles.show') }]
-    .filter((item) => item.allowed),
+  [
+    { to: 'central-users', pages: ['central-users'], label: 'central.users.title', icon: 'tabler-users', allowed: auth.can('users.show') },
+    { to: 'central-roles', pages: ['central-roles', 'central-role-access'], label: 'central.roles.title', icon: 'tabler-shield-lock', allowed: auth.can('roles.show') },
+    { to: 'central-activity', pages: ['central-activity'], label: 'central.menu.activity', icon: 'tabler-history', allowed: auth.can('activity-log.show') },
+  ].filter((item) => item.allowed),
 )
-
-const inUsersRoles = computed(() => String(route.name).startsWith('central-'))
 
 async function signOut(): Promise<void> {
   await auth.logout()
@@ -31,11 +32,11 @@ async function signOut(): Promise<void> {
     <nav :aria-label="t('central.menu.label')" class="sticky top-0 hidden h-screen w-[232px] shrink-0 flex-col gap-5 bg-dl-ink px-4 py-[18px] md:flex">
       <DlLogo :size="40" wordmark on-dark />
       <ul class="flex flex-col gap-1.5">
-        <li v-for="item in menu" :key="item.name">
+        <li v-for="item in menu" :key="item.to">
           <RouterLink
-            :to="{ name: auth.can('users.show') ? 'central-users' : 'central-roles' }"
+            :to="{ name: item.to }"
             class="flex h-11 items-center gap-3 rounded-[14px] px-3 text-sm font-semibold no-underline"
-            :class="inUsersRoles ? 'bg-dl-signal text-dl-ink' : 'text-dl-on-ink-muted hover:bg-dl-ink-2'"
+            :class="item.pages.includes(String(route.name)) ? 'bg-dl-signal text-dl-ink' : 'text-dl-on-ink-muted hover:bg-dl-ink-2'"
           >
             <DlIcon :icon="item.icon" :size="20" />
             {{ t(item.label) }}

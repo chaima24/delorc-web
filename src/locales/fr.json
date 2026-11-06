@@ -106,9 +106,125 @@
     }
   },
   "central": {
+    "activity": {
+      "action": {
+        "access_changed": "Accès modifiés",
+        "access_link_sent": "Lien d'accès envoyé",
+        "created": "Ajout",
+        "deactivated": "Désactivation",
+        "deleted": "Suppression",
+        "failed": "Connexion échouée",
+        "reactivated": "Réactivation",
+        "role_changed": "Rôle modifié",
+        "second_factor_reset": "Second facteur réinitialisé",
+        "updated": "Modification"
+      },
+      "actionLabel": "Action",
+      "after": "Après",
+      "allTime": "Toute la période",
+      "attempt": "Tentative",
+      "before": "Avant",
+      "change": "{field} : {before} → {after}",
+      "emailTyped": "E-mail saisi",
+      "empty": "Aucune activité trouvée",
+      "emptyHint": "Essayez d'autres filtres ou une période plus large.",
+      "field": {
+        "email": "E-mail",
+        "is_active": "Statut",
+        "label": "Champ",
+        "locale": "Langue",
+        "name": "Nom",
+        "phone": "Téléphone",
+        "role": "Rôle",
+        "second_factor": "Second facteur"
+      },
+      "hideAutomatic": "Masquer les changements automatiques",
+      "ip": "Adresse IP",
+      "lastDays": "{count} derniers jours",
+      "newestFirst": "Plus récent d'abord",
+      "no": "Non",
+      "nobody": "Personne de connecté",
+      "oldestFirst": "Plus ancien d'abord",
+      "open": "Ouvrir",
+      "pageTitle": "Journal d'activité",
+      "period": "Période",
+      "person": "Personne",
+      "readOnly": "Personne ne peut modifier ni supprimer le journal.",
+      "reason": {
+        "inactive_account": "Compte désactivé",
+        "unknown_email": "E-mail inconnu",
+        "wrong_code": "Code incorrect",
+        "wrong_password": "Mot de passe incorrect"
+      },
+      "reasonLabel": "Motif",
+      "record": "Élément",
+      "recordType": {
+        "person": "Personne",
+        "role": "Rôle",
+        "sign_in": "Connexion"
+      },
+      "right": "{resource}, {action}",
+      "rightAdded": "{right} : ajouté",
+      "rightRemoved": "{right} : retiré",
+      "roleAtTheTime": "{role} à ce moment-là",
+      "search": "Rechercher",
+      "secretsNeverLogged": "Les secrets et les codes de secours n'entrent jamais dans le journal, seule la méthode modifiée y figure.",
+      "sentence": {
+        "person": {
+          "access_link_sent": "{author} a envoyé un lien d'accès à {record}",
+          "created": "{author} a ajouté {record}",
+          "deactivated": "{author} a désactivé {record}",
+          "reactivated": "{author} a réactivé {record}",
+          "role_changed": "{author} a changé le rôle de {record}",
+          "second_factor_reset": "{author} a réinitialisé le second facteur de {record}",
+          "updated": "{author} a modifié {record}"
+        },
+        "role": {
+          "access_changed": "{author} a changé les accès de {record}",
+          "created": "{author} a ajouté le rôle {record}",
+          "deleted": "{author} a supprimé le rôle {record}",
+          "updated": "{author} a renommé le rôle {record}"
+        },
+        "sign_in": {
+          "failed": "Connexion échouée pour {record}"
+        }
+      },
+      "sort": "Ordre",
+      "step": {
+        "code": "code",
+        "password": "mot de passe"
+      },
+      "stepLabel": "Étape",
+      "system": "Système",
+      "title": {
+        "person": {
+          "access_link_sent": "Lien d'accès envoyé",
+          "created": "Personne ajoutée",
+          "deactivated": "Personne désactivée",
+          "reactivated": "Personne réactivée",
+          "role_changed": "Rôle modifié",
+          "second_factor_reset": "Second facteur réinitialisé",
+          "updated": "Personne modifiée"
+        },
+        "role": {
+          "access_changed": "Accès du rôle modifiés",
+          "created": "Rôle ajouté",
+          "deleted": "Rôle supprimé",
+          "updated": "Rôle renommé"
+        },
+        "sign_in": {
+          "failed": "Connexion échouée"
+        }
+      },
+      "today": "Aujourd'hui",
+      "typedNeverSaved": "Ce qui a été saisi comme mot de passe ou code n'est jamais enregistré.",
+      "whatChanged": "Ce qui a changé",
+      "yes": "Oui",
+      "yesterday": "Hier"
+    },
     "menu": {
-      "label": "Menu de la console",
-      "usersRoles": "Utilisateurs et rôles"
+      "activity": "Activité",
+      "label": "Menu de la console"
     },
     "roles": {
       "access": "Accès",
@@ -120,6 +236,7 @@
       "copyFrom": "Copier les accès de",
       "deleteConfirm": "Oui, supprimer",
       "editAccess": "Modifier les accès",
+      "empty": "Aucun rôle trouvé",
       "inUse": "{count} personnes ont ce rôle. Changez d'abord leur rôle.",
       "name": "Nom",
       "onlyYourRights": "Vous ne pouvez donner que les droits que vous avez.",
@@ -131,6 +248,7 @@
       "resource": "Ressource",
       "role": "Rôle",
       "save": "Enregistrer les accès",
+      "search": "Rechercher un rôle",
       "tickAll": "Tout cocher",
       "title": "Rôles",
       "undo": "Annuler"
@@ -186,6 +304,7 @@
     },
     "list": {
       "all": "Tous",
+      "createdAt": "Ajouté le",
       "next": "Suivant",
       "page": "Page {page}",
       "pagination": "Pagination",

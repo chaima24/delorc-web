@@ -13,12 +13,15 @@ export interface CentralUser {
   last_login_at: string | null
   role: string | null
   two_factor_method: 'none' | 'app' | 'email' | 'sms'
+  created_at: string
 }
 
 export interface UserFilters {
   search?: string
   role?: string
   is_active?: boolean
+  /** `name`, or `-name` to reverse. */
+  sort?: string
 }
 
 export interface UserList {
@@ -38,8 +41,11 @@ export const usersApi = {
     if (filters.role) params['filter[role]'] = filters.role
     if (filters.is_active !== undefined) params['filter[is_active]'] = filters.is_active ? 1 : 0
 
+    if (filters.sort) params.sort = filters.sort
+
     return client.get<UserList>('/users', { params }).then((response) => response.data)
   },
+  get: (id: number | string) => client.get(`/users/${id}`).then(one),
   create: (user: NewUser) => client.post('/users', user).then(one),
   update: (id: number, changes: UserChanges) => client.put(`/users/${id}`, changes).then(one),
   changeRole: (id: number, role: string) => client.put(`/users/${id}/role`, { role }).then(one),

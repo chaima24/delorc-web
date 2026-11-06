@@ -106,9 +106,125 @@
     }
   },
   "central": {
+    "activity": {
+      "action": {
+        "access_changed": "Access changed",
+        "access_link_sent": "Access link sent",
+        "created": "Added",
+        "deactivated": "Deactivated",
+        "deleted": "Deleted",
+        "failed": "Failed sign-in",
+        "reactivated": "Reactivated",
+        "role_changed": "Role changed",
+        "second_factor_reset": "Second factor reset",
+        "updated": "Edited"
+      },
+      "actionLabel": "Action",
+      "after": "After",
+      "allTime": "All time",
+      "attempt": "Attempt",
+      "before": "Before",
+      "change": "{field}: {before} → {after}",
+      "emailTyped": "Email typed",
+      "empty": "No matching activity",
+      "emptyHint": "Try other filters or a wider date range.",
+      "field": {
+        "email": "Email",
+        "is_active": "Status",
+        "label": "Field",
+        "locale": "Language",
+        "name": "Name",
+        "phone": "Phone",
+        "role": "Role",
+        "second_factor": "Second factor"
+      },
+      "hideAutomatic": "Hide automatic changes",
+      "ip": "IP address",
+      "lastDays": "Last {count} days",
+      "newestFirst": "Newest first",
+      "no": "No",
+      "nobody": "Nobody signed in",
+      "oldestFirst": "Oldest first",
+      "open": "Open",
+      "pageTitle": "Activity log",
+      "period": "Period",
+      "person": "Person",
+      "readOnly": "Nobody can edit or delete the log.",
+      "reason": {
+        "inactive_account": "Deactivated account",
+        "unknown_email": "Unknown email",
+        "wrong_code": "Wrong code",
+        "wrong_password": "Wrong password"
+      },
+      "reasonLabel": "Reason",
+      "record": "Record",
+      "recordType": {
+        "person": "Person",
+        "role": "Role",
+        "sign_in": "Sign-in"
+      },
+      "right": "{resource}, {action}",
+      "rightAdded": "{right}: added",
+      "rightRemoved": "{right}: removed",
+      "roleAtTheTime": "{role} at the time",
+      "search": "Search",
+      "secretsNeverLogged": "Secrets and recovery codes never enter the log, only the method that changed.",
+      "sentence": {
+        "person": {
+          "access_link_sent": "{author} sent an access link to {record}",
+          "created": "{author} added {record}",
+          "deactivated": "{author} deactivated {record}",
+          "reactivated": "{author} reactivated {record}",
+          "role_changed": "{author} changed the role of {record}",
+          "second_factor_reset": "{author} reset the second factor of {record}",
+          "updated": "{author} edited {record}"
+        },
+        "role": {
+          "access_changed": "{author} changed the access of {record}",
+          "created": "{author} added the role {record}",
+          "deleted": "{author} deleted the role {record}",
+          "updated": "{author} renamed the role {record}"
+        },
+        "sign_in": {
+          "failed": "Failed sign-in for {record}"
+        }
+      },
+      "sort": "Order",
+      "step": {
+        "code": "code",
+        "password": "password"
+      },
+      "stepLabel": "Step",
+      "system": "System",
+      "title": {
+        "person": {
+          "access_link_sent": "Access link sent",
+          "created": "Person added",
+          "deactivated": "Person deactivated",
+          "reactivated": "Person reactivated",
+          "role_changed": "Role changed",
+          "second_factor_reset": "Second factor reset",
+          "updated": "Person edited"
+        },
+        "role": {
+          "access_changed": "Role access changed",
+          "created": "Role added",
+          "deleted": "Role deleted",
+          "updated": "Role renamed"
+        },
+        "sign_in": {
+          "failed": "Failed sign-in"
+        }
+      },
+      "today": "Today",
+      "typedNeverSaved": "What was typed as a password or code is never saved.",
+      "whatChanged": "What changed",
+      "yes": "Yes",
+      "yesterday": "Yesterday"
+    },
     "menu": {
-      "label": "Console menu",
-      "usersRoles": "Users & roles"
+      "activity": "Activity",
+      "label": "Console menu"
     },
     "roles": {
       "access": "Access",
@@ -120,6 +236,7 @@
       "copyFrom": "Copy access from",
       "deleteConfirm": "Yes, delete",
       "editAccess": "Edit access",
+      "empty": "No role found",
       "inUse": "{count} people have this role. Change their role first.",
       "name": "Name",
       "onlyYourRights": "You can only give rights you have yourself.",
@@ -131,6 +248,7 @@
       "resource": "Resource",
       "role": "Role",
       "save": "Save access",
+      "search": "Search a role",
       "tickAll": "Tick all",
       "title": "Roles",
       "undo": "Undo"
@@ -186,6 +304,7 @@
     },
     "list": {
       "all": "All",
+      "createdAt": "Added on",
       "next": "Next",
       "page": "Page {page}",
       "pagination": "Pagination",

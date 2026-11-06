@@ -106,9 +106,125 @@
     }
   },
   "central": {
+    "activity": {
+      "action": {
+        "access_changed": "تغيير الصلاحيات",
+        "access_link_sent": "إرسال رابط الوصول",
+        "created": "إضافة",
+        "deactivated": "تعطيل",
+        "deleted": "حذف",
+        "failed": "فشل تسجيل الدخول",
+        "reactivated": "إعادة تفعيل",
+        "role_changed": "تغيير الدور",
+        "second_factor_reset": "إعادة تعيين العامل الثاني",
+        "updated": "تعديل"
+      },
+      "actionLabel": "الإجراء",
+      "after": "بعد",
+      "allTime": "كل الفترات",
+      "attempt": "المحاولة",
+      "before": "قبل",
+      "change": "{field}: {before} ← {after}",
+      "emailTyped": "البريد المُدخل",
+      "empty": "لا يوجد نشاط مطابق",
+      "emptyHint": "جرّب عوامل تصفية أخرى أو فترة أوسع.",
+      "field": {
+        "email": "البريد الإلكتروني",
+        "is_active": "الحالة",
+        "label": "الحقل",
+        "locale": "اللغة",
+        "name": "الاسم",
+        "phone": "الهاتف",
+        "role": "الدور",
+        "second_factor": "العامل الثاني"
+      },
+      "hideAutomatic": "إخفاء التغييرات التلقائية",
+      "ip": "عنوان IP",
+      "lastDays": "آخر {count} يوم",
+      "newestFirst": "الأحدث أولًا",
+      "no": "لا",
+      "nobody": "لم يسجّل أحد الدخول",
+      "oldestFirst": "الأقدم أولًا",
+      "open": "فتح",
+      "pageTitle": "سجل النشاط",
+      "period": "الفترة",
+      "person": "الشخص",
+      "readOnly": "لا يمكن لأحد تعديل السجل أو حذفه.",
+      "reason": {
+        "inactive_account": "حساب معطّل",
+        "unknown_email": "بريد غير معروف",
+        "wrong_code": "رمز خاطئ",
+        "wrong_password": "كلمة مرور خاطئة"
+      },
+      "reasonLabel": "السبب",
+      "record": "العنصر",
+      "recordType": {
+        "person": "شخص",
+        "role": "دور",
+        "sign_in": "تسجيل الدخول"
+      },
+      "right": "{resource}، {action}",
+      "rightAdded": "{right}: أُضيف",
+      "rightRemoved": "{right}: أُزيل",
+      "roleAtTheTime": "{role} في ذلك الوقت",
+      "search": "بحث",
+      "secretsNeverLogged": "لا تدخل الأسرار ورموز الاسترداد إلى السجل أبدًا، بل الطريقة التي تغيّرت فقط.",
+      "sentence": {
+        "person": {
+          "access_link_sent": "أرسل {author} رابط وصول إلى {record}",
+          "created": "أضاف {author} {record}",
+          "deactivated": "عطّل {author} {record}",
+          "reactivated": "أعاد {author} تفعيل {record}",
+          "role_changed": "غيّر {author} دور {record}",
+          "second_factor_reset": "أعاد {author} تعيين العامل الثاني لـ {record}",
+          "updated": "عدّل {author} {record}"
+        },
+        "role": {
+          "access_changed": "غيّر {author} صلاحيات {record}",
+          "created": "أضاف {author} الدور {record}",
+          "deleted": "حذف {author} الدور {record}",
+          "updated": "أعاد {author} تسمية الدور {record}"
+        },
+        "sign_in": {
+          "failed": "فشل تسجيل الدخول لـ {record}"
+        }
+      },
+      "sort": "الترتيب",
+      "step": {
+        "code": "الرمز",
+        "password": "كلمة المرور"
+      },
+      "stepLabel": "الخطوة",
+      "system": "النظام",
+      "title": {
+        "person": {
+          "access_link_sent": "تم إرسال رابط الوصول",
+          "created": "تمت إضافة شخص",
+          "deactivated": "تم تعطيل شخص",
+          "reactivated": "تمت إعادة تفعيل شخص",
+          "role_changed": "تم تغيير الدور",
+          "second_factor_reset": "تمت إعادة تعيين العامل الثاني",
+          "updated": "تم تعديل شخص"
+        },
+        "role": {
+          "access_changed": "تم تغيير صلاحيات الدور",
+          "created": "تمت إضافة دور",
+          "deleted": "تم حذف دور",
+          "updated": "تمت إعادة تسمية الدور"
+        },
+        "sign_in": {
+          "failed": "فشل تسجيل الدخول"
+        }
+      },
+      "today": "اليوم",
+      "typedNeverSaved": "لا يُحفظ أبدًا ما أُدخل ككلمة مرور أو رمز.",
+      "whatChanged": "ما الذي تغيّر",
+      "yes": "نعم",
+      "yesterday": "أمس"
+    },
     "menu": {
-      "label": "قائمة وحدة التحكم",
-      "usersRoles": "المستخدمون والأدوار"
+      "activity": "النشاط",
+      "label": "قائمة وحدة التحكم"
     },
     "roles": {
       "access": "الصلاحيات",
@@ -120,6 +236,7 @@
       "copyFrom": "نسخ الصلاحيات من",
       "deleteConfirm": "نعم، حذف",
       "editAccess": "تعديل الصلاحيات",
+      "empty": "لم يُعثر على أي دور",
       "inUse": "لدى {count} أشخاص هذا الدور. غيّر دورهم أولًا.",
       "name": "الاسم",
       "onlyYourRights": "لا يمكنك منح إلا الصلاحيات التي تملكها.",
@@ -131,6 +248,7 @@
       "resource": "المورد",
       "role": "الدور",
       "save": "حفظ الصلاحيات",
+      "search": "البحث عن دور",
       "tickAll": "تحديد الكل",
       "title": "الأدوار",
       "undo": "تراجع"
@@ -186,6 +304,7 @@
     },
     "list": {
       "all": "الكل",
+      "createdAt": "تاريخ الإضافة",
       "next": "التالي",
       "page": "الصفحة {page}",
       "pagination": "التنقل بين الصفحات",

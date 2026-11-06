@@ -20,7 +20,7 @@ export interface DlSelectOption {
 
 withDefaults(defineProps<{
   label: string
-  /** Keep the label for screen readers only (`field` appearance). */
+  /** Keep the label for screen readers only. */
   hideLabel?: boolean
   options: DlSelectOption[]
   placeholder?: string
@@ -48,7 +48,7 @@ const model = defineModel<string | number | null>()
         :aria-label="label"
         class="flex h-11 items-center gap-2 rounded-xl border border-dl-line bg-dl-paper px-3.5 text-sm text-dl-fg transition hover:bg-dl-line-soft focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-dl-cobalt data-disabled:opacity-60"
       >
-        <span v-if="appearance === 'filter'" class="text-[13px] text-dl-muted">{{ label }}</span>
+        <span v-if="appearance === 'filter' && !hideLabel" class="text-[13px] text-dl-muted">{{ label }}</span>
         <SelectValue :placeholder="placeholder" class="font-semibold data-placeholder:font-normal data-placeholder:text-dl-muted" />
         <SelectIcon class="ms-auto text-dl-muted">
           <DlIcon icon="tabler-chevron-down" :size="16" />

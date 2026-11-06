@@ -12,6 +12,13 @@ declare module 'vue-router' {
   }
 }
 
+/** Where the console opens: the first page this person may see. */
+const CENTRAL_PAGES = [
+  ['users.show', 'central-users'],
+  ['roles.show', 'central-roles'],
+  ['activity-log.show', 'central-activity'],
+] as const
+
 /** Runs before each page opens, like the `auth` middleware in the API. */
 export function installGuards(router: Router): void {
   router.beforeEach(async (to) => {
@@ -26,8 +33,9 @@ export function installGuards(router: Router): void {
       return { name: 'home' }
     }
 
-    if (to.name === 'home' && space.isCentral && auth.can('users.show')) {
-      return { name: 'central-users' }
+    if (to.name === 'home' && space.isCentral) {
+      const first = CENTRAL_PAGES.find(([permission]) => auth.can(permission))
+      if (first) return { name: first[1] }
     }
   })
 

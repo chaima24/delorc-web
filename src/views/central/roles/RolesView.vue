@@ -1,27 +1,31 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import { rolesApi, type PermissionCatalog, type Role } from '@/api/central/roles'
 import AccessLevelDots from '@/components/AccessLevelDots.vue'
 import DlAlert from '@/components/DlAlert.vue'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
+import DlEmptyState from '@/components/DlEmptyState.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import DlRecordSection from '@/components/DlRecordSection.vue'
+import DlSortHeader from '@/components/DlSortHeader.vue'
 import { useAccessLabels } from '@/composables/useAccessLabels'
 import { useAuthStore } from '@/stores/auth'
-import UsersRolesTabs from '../UsersRolesTabs.vue'
 import { areaLevel } from './access'
 
-const { t } = useI18n()
+const { t, d } = useI18n()
+const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
 const { roleLabel, areaLabel } = useAccessLabels()
 
 const roles = ref<Role[]>([])
+const sort = ref('created_at')
+const search = ref('')
 const catalog = ref<PermissionCatalog>({})
 const selected = ref<Role | null>(null)
 const adding = ref(false)
@@ -37,6 +41,28 @@ const panelOpen = computed({
   set: (open) => {
     if (!open) selected.value = null
   },
+})
+
+/** Roles all arrive at once, so the page sorts them itself, like `sortBy()` on a collection. */
+const sortValues: Record<string, (role: Role) => string | number> = {
+  name: (role) => roleLabel(role.name),
+  users_count: (role) => role.users_count,
+  access: (role) => (role.is_super ? Infinity : role.permissions.length),
+  created_at: (role) => role.created_at,
+}
+const sortedRoles = computed(() => {
+  const descending = sort.value.startsWith('-')
+  const value = sortValues[sort.value.replace('-', '')]!
+
+  const text = search.value.trim().toLowerCase()
+  const found = roles.value.filter((role) => roleLabel(role.name).toLowerCase().includes(text))
+
+  return found.sort((a, b) => {
+    const [first, second] = [value(a), value(b)]
+    const order = typeof first === 'string' ? first.localeCompare(String(second)) : first - Number(second)
+
+    return descending ? -order : order
+  })
 })
 
 const overall = (role: Role) => {
@@ -56,7 +82,12 @@ async function load(): Promise<void> {
   }
 }
 
-onMounted(load)
+onMounted(async () => {
+  await load()
+  // The activity log links here with ?open={id}.
+  const wanted = roles.value.find((role) => String(role.id) === route.query.open)
+  if (wanted) open(wanted)
+})
 
 function open(role: Role): void {
   adding.value = false
@@ -124,21 +155,23 @@ async function remove(): Promise<void> {
         <h1 class="font-display text-4xl font-extrabold tracking-[-0.03em]">{{ t('central.roles.title') }}</h1>
         <DlButton v-if="auth.can('roles.create')" variant="primary" icon="tabler-plus" @click="startAdding">{{ t('central.roles.add') }}</DlButton>
       </div>
-      <UsersRolesTabs />
       <DlAlert v-if="error">{{ error }}</DlAlert>
 
       <div class="overflow-x-auto rounded-3xl bg-dl-paper p-4">
-        <table class="w-full border-collapse text-sm">
+        <DlInput v-model="search" :label="t('central.roles.search')" :placeholder="t('central.roles.search')" hide-label icon="tabler-search" class="mb-3 w-full sm:w-72" />
+        <DlEmptyState v-if="roles.length && !sortedRoles.length" :title="t('central.roles.empty')" icon="tabler-shield-lock" />
+        <table v-else class="w-full border-collapse text-sm">
           <thead>
             <tr class="border-b border-dl-line text-xs text-dl-muted">
-              <th class="p-3 text-start font-semibold">{{ t('central.roles.role') }}</th>
-              <th class="p-3 text-end font-semibold">{{ t('central.roles.people') }}</th>
-              <th class="p-3 text-start font-semibold">{{ t('central.roles.access') }}</th>
+              <DlSortHeader v-model="sort" column="name" :label="t('central.roles.role')" />
+              <DlSortHeader v-model="sort" column="users_count" :label="t('central.roles.people')" class="text-end" />
+              <DlSortHeader v-model="sort" column="access" :label="t('central.roles.access')" />
+              <DlSortHeader v-model="sort" column="created_at" :label="t('common.list.createdAt')" :class="panelOpen || adding ? 'hidden' : 'hidden lg:table-cell'" />
             </tr>
           </thead>
           <tbody>
             <tr
-              v-for="role in roles"
+              v-for="role in sortedRoles"
               :key="role.id"
               class="cursor-pointer border-b border-dl-line-soft hover:bg-dl-line-soft"
               :class="selected?.id === role.id && 'bg-dl-signal-soft'"
@@ -151,6 +184,7 @@ async function remove(): Promise<void> {
               <td class="p-3">
                 <span class="flex items-center gap-2"><AccessLevelDots :level="overall(role)" />{{ role.is_super ? t('access.everything') : t('access.actionsCount', { count: role.permissions.length }) }}</span>
               </td>
+              <td class="p-3 text-[13px] text-dl-muted" :class="panelOpen || adding ? 'hidden' : 'hidden lg:table-cell'">{{ d(new Date(role.created_at)) }}</td>
             </tr>
           </tbody>
         </table>
