@@ -20,11 +20,20 @@ export function useActivityTexts() {
     return t('central.activity.right', { resource: resourceLabel(resource), action: actionLabel(action).toLowerCase() })
   }
 
-  const fieldLabel = (line: ActivityLine, field: string) =>
-    isRights(line) ? rightLabel(field) : known(`central.activity.field.${field}`, field)
+  // A plan's values are logged by feature key ("users.max"): their names are the feature texts.
+  const isPlanValues = (line: ActivityLine) => line.action === 'values_changed'
+
+  function fieldLabel(line: ActivityLine, field: string): string {
+    if (isRights(line)) return rightLabel(field)
+    if (isPlanValues(line)) return known(`features.${field}.name`, field)
+
+    return known(`central.activity.field.${field}`, field)
+  }
 
   function valueLabel(line: ActivityLine, field: string, value: unknown): string {
     if (isRights(line)) return t(value ? 'central.activity.yes' : 'central.activity.no')
+    if (isPlanValues(line) && value === null) return t('central.plans.unlimited')
+    if (isPlanValues(line) && typeof value === 'boolean') return t(value ? 'central.plans.included' : 'central.plans.notIncluded')
     if (value === null || value === undefined || value === '') return '—'
     if (field === 'is_active') return t(`central.users.status.${value ? 'active' : 'inactive'}`)
     if (field === 'role') return roleLabel(String(value))
@@ -74,6 +83,7 @@ export function useActivityTexts() {
     if (line.record_type === 'person' && auth.can('users.show')) return { name: 'central-users', query: { open: line.record.id } }
     if (line.record_type === 'role' && auth.can('roles.show')) return { name: 'central-roles', query: { open: line.record.id } }
     if (line.record_type === 'country' && auth.can('geography.show')) return { name: 'central-countries', query: { open: line.record.id } }
+    if (line.record_type === 'plan' && auth.can('plans.show')) return { name: 'central-plans', query: { open: line.record.id } }
     if (line.record_type === 'language' && auth.can('languages.show')) return { name: 'central-languages', query: { open: line.record.id } }
 
     return null

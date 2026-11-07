@@ -1,6 +1,6 @@
 import { client } from '@/api/client'
 
-export type RecordType = 'person' | 'role' | 'sign_in' | 'language' | 'translations' | 'country' | 'region' | 'wilaya' | 'commune'
+export type RecordType = 'person' | 'role' | 'sign_in' | 'language' | 'translations' | 'country' | 'region' | 'wilaya' | 'commune' | 'plan'
 
 export interface ActivityChange {
   field: string

@@ -8,6 +8,7 @@ export const ACTIONS = [
   'reactivated',
   'role_changed',
   'access_changed',
+  'values_changed',
   'access_link_sent',
   'second_factor_reset',
   'deleted',

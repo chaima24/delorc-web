@@ -118,7 +118,8 @@
         "reactivated": "Réactivation",
         "role_changed": "Rôle modifié",
         "second_factor_reset": "Second facteur réinitialisé",
-        "updated": "Modification"
+        "updated": "Modification",
+        "values_changed": "Valeurs modifiées"
       },
       "actionLabel": "Action",
       "after": "Après",
@@ -131,6 +132,8 @@
       "emptyHint": "Essayez d'autres filtres ou une période plus large.",
       "field": {
         "arabic_name": "Nom arabe",
+        "currency": "Devise",
+        "description": "Description",
         "direction": "Sens",
         "email": "E-mail",
         "fallback": "Langue de secours",
@@ -139,6 +142,7 @@
         "latitude": "Latitude",
         "locale": "Langue",
         "longitude": "Longitude",
+        "monthly_price": "Prix par mois",
         "name": "Nom",
         "native_name": "Nom d'origine",
         "phone": "Téléphone",
@@ -176,6 +180,7 @@
         "country": "Pays",
         "language": "Langue",
         "person": "Personne",
+        "plan": "Offre",
         "region": "Région",
         "role": "Rôle",
         "sign_in": "Connexion",
@@ -217,6 +222,14 @@
           "role_changed": "{author} a changé le rôle de {record}",
           "second_factor_reset": "{author} a réinitialisé le second facteur de {record}",
           "updated": "{author} a modifié {record}"
+        },
+        "plan": {
+          "created": "{author} a ajouté l'offre {record}",
+          "deactivated": "{author} a désactivé l'offre {record}",
+          "deleted": "{author} a supprimé l'offre {record}",
+          "reactivated": "{author} a activé l'offre {record}",
+          "updated": "{author} a modifié l'offre {record}",
+          "values_changed": "{author} a modifié les valeurs de l'offre {record}"
         },
         "region": {
           "created": "{author} a ajouté la région {record}",
@@ -422,7 +435,68 @@
       "activity": "Activité",
       "geography": "Géographie",
       "label": "Menu de la console",
+      "plans": "Offres",
       "translations": "Traductions"
+    },
+    "plans": {
+      "activate": "Activer",
+      "activeHint": "Une offre inactive ne peut pas être choisie pour un nouveau laboratoire. Les laboratoires qui l'ont la gardent.",
+      "add": "Nouvelle offre",
+      "addSubmit": "Créer l'offre",
+      "addedOn": "Ajoutée le {date}",
+      "canDelete": "Aucun laboratoire n'utilise cette offre : elle peut être supprimée. C'est définitif.",
+      "changes": "Aucune modification | 1 modification | {count} modifications",
+      "changesHint": "Une valeur enregistrée s'applique aussitôt à tous les laboratoires de son offre. Rien n'est enregistré tant qu'une case est fausse.",
+      "currency": "Devise",
+      "deactivate": "Désactiver",
+      "default": "Par défaut : {value}",
+      "deleteBlocked": "Des laboratoires utilisent cette offre : elle peut seulement être désactivée.",
+      "description": "Description",
+      "details": "Détails",
+      "detailsTitle": "Détails",
+      "editValues": "Modifier les valeurs",
+      "empty": "Aucune offre",
+      "emptyHint": "Un laboratoire a besoin d'une offre à sa création. Créez la première ; les {count} fonctionnalités sont prêtes.",
+      "feature": "Fonctionnalité",
+      "featureDefaults": "Valeurs par défaut",
+      "group": {
+        "included": "Inclus",
+        "limits": "Limites"
+      },
+      "inactiveHint": "Inactive : pas proposée à la création d'un laboratoire.",
+      "included": "Inclus",
+      "labsCount": "Aucun laboratoire | 1 laboratoire | {count} laboratoires",
+      "labsHint": "Aucun laboratoire pour l'instant. Une valeur modifiée s'applique à tous les laboratoires de l'offre. | 1 laboratoire. Une valeur modifiée s'applique aussitôt à lui. | {count} laboratoires. Une valeur modifiée s'applique aussitôt à tous.",
+      "labsTitle": "Laboratoires sur cette offre",
+      "limitHint": "Laissez une limite vide pour illimité. 0 veut dire aucun.",
+      "name": "Nom",
+      "nameHint": "Visible seulement dans la console centrale. Doit être différent des autres offres.",
+      "none": "Aucun",
+      "noneActive": "Aucune offre active",
+      "noneActiveHint": "Affichez les offres inactives pour les voir.",
+      "notIncluded": "Non inclus",
+      "off": "désactivé",
+      "on": "activé",
+      "perMonth": "/ mois",
+      "price": "Prix par mois",
+      "priceHint": "Pour information seulement. Les factures sont faites en dehors de Delorc.",
+      "showInactive": "Afficher les offres inactives",
+      "sort": {
+        "label": "Ordre",
+        "labs": "Laboratoires",
+        "name": "Nom",
+        "newest": "Plus récentes d'abord",
+        "price": "Prix"
+      },
+      "startFrom": "Partir de",
+      "startFromHint": "Ses valeurs sont copiées, puis vous les modifiez dans le tableau.",
+      "startsActive": "L'offre démarre active : elle peut être choisie tout de suite pour un nouveau laboratoire.",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "title": "Offres et fonctionnalités",
+      "unlimited": "Illimité"
     },
     "roles": {
       "access": "Accès",
@@ -567,5 +641,43 @@
   },
   "errors": {
     "network": "Impossible de joindre le serveur. Vérifiez votre connexion."
+  },
+  "features": {
+    "channel": {
+      "sms": {
+        "description": "Les codes de connexion et les notifications peuvent être envoyés par SMS.",
+        "name": "Canal SMS"
+      }
+    },
+    "email": {
+      "monthly_quota": {
+        "description": "E-mails que le laboratoire peut envoyer chaque mois. Compté à partir du 1er.",
+        "name": "E-mails par mois"
+      }
+    },
+    "sms": {
+      "monthly_quota": {
+        "description": "SMS que le laboratoire peut envoyer chaque mois. Compté à partir du 1er.",
+        "name": "SMS par mois"
+      }
+    },
+    "storage": {
+      "gb": {
+        "description": "Fichiers que le laboratoire peut garder : photos, documents, imports.",
+        "name": "Stockage (Go)"
+      }
+    },
+    "support": {
+      "access": {
+        "description": "Le support Delorc peut ouvrir le laboratoire comme l'un de ses utilisateurs, pour une durée limitée, avec un motif.",
+        "name": "Accès support"
+      }
+    },
+    "users": {
+      "max": {
+        "description": "Utilisateurs actifs que le laboratoire peut avoir en même temps.",
+        "name": "Utilisateurs"
+      }
+    }
   }
 }

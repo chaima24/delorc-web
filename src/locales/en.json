@@ -118,7 +118,8 @@
         "reactivated": "Reactivated",
         "role_changed": "Role changed",
         "second_factor_reset": "Second factor reset",
-        "updated": "Edited"
+        "updated": "Edited",
+        "values_changed": "Values changed"
       },
       "actionLabel": "Action",
       "after": "After",
@@ -131,6 +132,8 @@
       "emptyHint": "Try other filters or a wider date range.",
       "field": {
         "arabic_name": "Arabic name",
+        "currency": "Currency",
+        "description": "Description",
         "direction": "Direction",
         "email": "Email",
         "fallback": "Falls back to",
@@ -139,6 +142,7 @@
         "latitude": "Latitude",
         "locale": "Language",
         "longitude": "Longitude",
+        "monthly_price": "Price per month",
         "name": "Name",
         "native_name": "Native name",
         "phone": "Phone",
@@ -176,6 +180,7 @@
         "country": "Country",
         "language": "Language",
         "person": "Person",
+        "plan": "Plan",
         "region": "Region",
         "role": "Role",
         "sign_in": "Sign-in",
@@ -217,6 +222,14 @@
           "role_changed": "{author} changed the role of {record}",
           "second_factor_reset": "{author} reset the second factor of {record}",
           "updated": "{author} edited {record}"
+        },
+        "plan": {
+          "created": "{author} added the plan {record}",
+          "deactivated": "{author} deactivated the plan {record}",
+          "deleted": "{author} deleted the plan {record}",
+          "reactivated": "{author} activated the plan {record}",
+          "updated": "{author} edited the plan {record}",
+          "values_changed": "{author} changed the values of the plan {record}"
         },
         "region": {
           "created": "{author} added the region {record}",
@@ -422,7 +435,68 @@
       "activity": "Activity",
       "geography": "Geography",
       "label": "Console menu",
+      "plans": "Plans",
       "translations": "Translations"
+    },
+    "plans": {
+      "activate": "Activate",
+      "activeHint": "An inactive plan cannot be chosen for a new lab. Labs already on it keep it.",
+      "add": "New plan",
+      "addSubmit": "Create the plan",
+      "addedOn": "Added {date}",
+      "canDelete": "No lab uses this plan, so it can be deleted. This cannot be undone.",
+      "changes": "No change | 1 change | {count} changes",
+      "changesHint": "A saved value applies at once to every lab on its plan. Nothing is saved while a cell is wrong.",
+      "currency": "Currency",
+      "deactivate": "Deactivate",
+      "default": "Default: {value}",
+      "deleteBlocked": "Labs use this plan, so it can only be deactivated.",
+      "description": "Description",
+      "details": "Details",
+      "detailsTitle": "Details",
+      "editValues": "Edit values",
+      "empty": "No plan yet",
+      "emptyHint": "A lab needs a plan when it is created. Create the first one; the {count} features are ready.",
+      "feature": "Feature",
+      "featureDefaults": "Feature defaults",
+      "group": {
+        "included": "Included",
+        "limits": "Limits"
+      },
+      "inactiveHint": "Inactive: not offered when a lab is created.",
+      "included": "Included",
+      "labsCount": "No lab | 1 lab | {count} labs",
+      "labsHint": "No lab yet. A change to a value applies to every lab on the plan. | 1 lab. A change to a value applies to it at once. | {count} labs. A change to a value applies to all of them at once.",
+      "labsTitle": "Labs on this plan",
+      "limitHint": "Leave a limit empty for unlimited. 0 means none.",
+      "name": "Name",
+      "nameHint": "Shown only in the central console. Must be different from the other plans.",
+      "none": "None",
+      "noneActive": "No active plan",
+      "noneActiveHint": "Show inactive plans to see them.",
+      "notIncluded": "Not included",
+      "off": "off",
+      "on": "on",
+      "perMonth": "/ month",
+      "price": "Price per month",
+      "priceHint": "For information only. Invoices are made outside Delorc.",
+      "showInactive": "Show inactive plans",
+      "sort": {
+        "label": "Order",
+        "labs": "Labs",
+        "name": "Name",
+        "newest": "Newest first",
+        "price": "Price"
+      },
+      "startFrom": "Start from",
+      "startFromHint": "Its values are copied, then you edit them in the table.",
+      "startsActive": "The plan starts active, so it can be chosen for a new lab at once.",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "title": "Plans and features",
+      "unlimited": "Unlimited"
     },
     "roles": {
       "access": "Access",
@@ -567,5 +641,43 @@
   },
   "errors": {
     "network": "Cannot reach the server. Check your connection."
+  },
+  "features": {
+    "channel": {
+      "sms": {
+        "description": "Sign-in codes and notifications can be sent by SMS.",
+        "name": "SMS channel"
+      }
+    },
+    "email": {
+      "monthly_quota": {
+        "description": "Emails the lab can send each month. Counted from the 1st.",
+        "name": "Emails per month"
+      }
+    },
+    "sms": {
+      "monthly_quota": {
+        "description": "SMS the lab can send each month. Counted from the 1st.",
+        "name": "SMS per month"
+      }
+    },
+    "storage": {
+      "gb": {
+        "description": "Files the lab can keep: photos, documents, imports.",
+        "name": "Storage (GB)"
+      }
+    },
+    "support": {
+      "access": {
+        "description": "Delorc support can open the lab as one of its users, for a limited time, with a reason.",
+        "name": "Support access"
+      }
+    },
+    "users": {
+      "max": {
+        "description": "Active users the lab can have at the same time.",
+        "name": "Users"
+      }
+    }
   }
 }
