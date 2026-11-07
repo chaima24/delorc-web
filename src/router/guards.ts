@@ -19,6 +19,7 @@ const CENTRAL_PAGES = [
   ['activity-log.show', 'central-activity'],
   ['translations.show', 'central-translations'],
   ['languages.show', 'central-languages'],
+  ['geography.show', 'central-countries'],
 ] as const
 
 /** Runs before each page opens, like the `auth` middleware in the API. */

@@ -5,6 +5,7 @@ import { activityLogApi, type ActivityLine, type ActivityPerson, type RecordType
 import { errorMessage } from '@/api/errors'
 import DlAlert from '@/components/DlAlert.vue'
 import DlBadge from '@/components/DlBadge.vue'
+import DlCombobox from '@/components/DlCombobox.vue'
 import DlEmptyState from '@/components/DlEmptyState.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlPagination from '@/components/DlPagination.vue'
@@ -45,7 +46,7 @@ const all = computed(() => ({ value: 'all', label: t('common.list.all') }))
 const personOptions = computed(() => [all.value, ...people.value.map(({ id, name }) => ({ value: id, label: name }))])
 const recordOptions = computed(() => [
   all.value,
-  ...['person', 'role', 'language', 'translations', 'sign_in'].map((value) => ({ value, label: t(`central.activity.recordType.${value}`) })),
+  ...['person', 'role', 'language', 'translations', 'country', 'region', 'wilaya', 'commune', 'sign_in'].map((value) => ({ value, label: t(`central.activity.recordType.${value}`) })),
 ])
 const actionOptions = computed(() => [
   all.value,
@@ -113,7 +114,7 @@ onMounted(async () => {
       <div class="rounded-3xl bg-dl-paper p-4">
         <div class="mb-1.5 flex flex-wrap items-center gap-2.5">
           <DlInput v-model="search" :label="t('central.activity.search')" :placeholder="t('central.activity.search')" hide-label icon="tabler-search" class="w-full sm:w-60" />
-          <DlSelect v-model="person" :label="t('central.activity.person')" :options="personOptions" appearance="filter" />
+          <DlCombobox v-model="person" :label="t('central.activity.person')" :options="personOptions" appearance="filter" />
           <DlSelect v-model="record" :label="t('central.activity.record')" :options="recordOptions" appearance="filter" />
           <DlSelect v-model="action" :label="t('central.activity.actionLabel')" :options="actionOptions" appearance="filter" />
           <DlSelect v-model="period" :label="t('central.activity.period')" :options="periodOptions" appearance="filter" hide-label />

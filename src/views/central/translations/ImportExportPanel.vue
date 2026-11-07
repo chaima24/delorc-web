@@ -6,6 +6,7 @@ import { translationsApi, type ImportResult } from '@/api/central/translations'
 import DlAlert from '@/components/DlAlert.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
+import { downloadFile } from '@/composables/downloadFile'
 import { useAuthStore } from '@/stores/auth'
 
 const open = defineModel<boolean>('open', { required: true })
@@ -24,12 +25,7 @@ async function download(): Promise<void> {
   downloading.value = true
   error.value = null
   try {
-    const url = URL.createObjectURL(await translationsApi.export())
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `delorc-translations-${new Date().toISOString().slice(0, 10)}.json`
-    link.click()
-    URL.revokeObjectURL(url)
+    downloadFile(await translationsApi.export(), `delorc-translations-${new Date().toISOString().slice(0, 10)}.json`)
   } catch (failure) {
     error.value = errorMessage(failure) ?? t('errors.network')
   } finally {

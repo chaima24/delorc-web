@@ -18,6 +18,8 @@ const { roleLabel } = useAccessLabels()
 const { dayLabel, fieldLabel, recordLink, recordName, timeLabel, valueLabel } = useActivityTexts()
 
 const link = computed(() => recordLink(props.line))
+// Counts only: a country import also says which country and whether it was new.
+const importCounts = computed(() => Object.entries(props.line.import ?? {}).filter(([, count]) => typeof count === 'number'))
 const when = computed(() => `${dayLabel(dayOf(new Date(props.line.created_at)))} ${timeLabel(props.line)}`)
 const authorName = computed(() => {
   if (props.line.author.type === 'person') return props.line.author.name
@@ -78,8 +80,8 @@ const authorName = computed(() => {
 
       <section v-if="line.import" class="rounded-2xl border border-dl-line px-3.5 py-3 text-[13px]">
         <h3 class="mb-1.5 text-sm font-semibold">{{ t('central.translations.lastImport') }}</h3>
-        <p v-for="(count, name) in line.import" :key="name" class="flex justify-between py-1">
-          <span>{{ t(`central.translations.result.${name}`) }}</span><strong class="tabular-nums">{{ count }}</strong>
+        <p v-for="[name, count] in importCounts" :key="name" class="flex justify-between py-1">
+          <span>{{ t(`central.${line.record_type === 'country' ? 'geography' : 'translations'}.result.${name}`) }}</span><strong class="tabular-nums">{{ count }}</strong>
         </p>
       </section>
 

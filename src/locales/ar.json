@@ -130,20 +130,28 @@
       "empty": "لا يوجد نشاط مطابق",
       "emptyHint": "جرّب عوامل تصفية أخرى أو فترة أوسع.",
       "field": {
+        "arabic_name": "الاسم بالعربية",
         "direction": "الاتجاه",
         "email": "البريد الإلكتروني",
         "fallback": "اللغة الاحتياطية",
         "is_active": "الحالة",
         "label": "الحقل",
+        "latitude": "خط العرض",
         "locale": "اللغة",
+        "longitude": "خط الطول",
         "name": "الاسم",
         "native_name": "الاسم الأصلي",
         "phone": "الهاتف",
+        "phone_code": "رمز الهاتف",
+        "post_code": "الرمز البريدي",
+        "region": "المنطقة",
         "role": "الدور",
-        "second_factor": "العامل الثاني"
+        "second_factor": "العامل الثاني",
+        "wilaya": "الولاية"
       },
       "hideAutomatic": "إخفاء التغييرات التلقائية",
       "imported": "أُضيف {keys} مفتاح و{texts} نص",
+      "importedPlaces": "أُضيف {regions} منطقة و{wilayas} ولاية و{communes} بلدية",
       "ip": "عنوان IP",
       "lastDays": "آخر {count} يوم",
       "newestFirst": "الأحدث أولًا",
@@ -164,11 +172,15 @@
       "reasonLabel": "السبب",
       "record": "العنصر",
       "recordType": {
+        "commune": "بلدية",
+        "country": "بلد",
         "language": "لغة",
         "person": "شخص",
+        "region": "منطقة",
         "role": "دور",
         "sign_in": "تسجيل الدخول",
-        "translations": "نصوص"
+        "translations": "نصوص",
+        "wilaya": "ولاية"
       },
       "right": "{resource}، {action}",
       "rightAdded": "{right}: أُضيف",
@@ -177,6 +189,19 @@
       "search": "بحث",
       "secretsNeverLogged": "لا تدخل الأسرار ورموز الاسترداد إلى السجل أبدًا، بل الطريقة التي تغيّرت فقط.",
       "sentence": {
+        "commune": {
+          "created": "أضاف {author} البلدية {record}",
+          "deleted": "حذف {author} البلدية {record}",
+          "updated": "عدّل {author} البلدية {record}"
+        },
+        "country": {
+          "created": "أضاف {author} البلد {record}",
+          "deactivated": "عطّل {author} البلد {record}",
+          "deleted": "حذف {author} البلد {record}",
+          "imported": "استورد {author} أماكن إلى {record}",
+          "reactivated": "فعّل {author} البلد {record}",
+          "updated": "عدّل {author} البلد {record}"
+        },
         "language": {
           "created": "أضاف {author} اللغة {record}",
           "deactivated": "عطّل {author} اللغة {record}",
@@ -193,6 +218,11 @@
           "second_factor_reset": "أعاد {author} تعيين العامل الثاني لـ {record}",
           "updated": "عدّل {author} {record}"
         },
+        "region": {
+          "created": "أضاف {author} المنطقة {record}",
+          "deleted": "حذف {author} المنطقة {record}",
+          "updated": "عدّل {author} المنطقة {record}"
+        },
         "role": {
           "access_changed": "غيّر {author} صلاحيات {record}",
           "created": "أضاف {author} الدور {record}",
@@ -204,6 +234,11 @@
         },
         "translations": {
           "imported": "استورد {author} ملف نصوص"
+        },
+        "wilaya": {
+          "created": "أضاف {author} الولاية {record}",
+          "deleted": "حذف {author} الولاية {record}",
+          "updated": "عدّل {author} الولاية {record}"
         }
       },
       "sort": "الترتيب",
@@ -214,6 +249,19 @@
       "stepLabel": "الخطوة",
       "system": "النظام",
       "title": {
+        "commune": {
+          "created": "تمت إضافة بلدية",
+          "deleted": "تم حذف بلدية",
+          "updated": "تم تعديل بلدية"
+        },
+        "country": {
+          "created": "تمت إضافة بلد",
+          "deactivated": "تم تعطيل بلد",
+          "deleted": "تم حذف بلد",
+          "imported": "تم استيراد أماكن",
+          "reactivated": "تم تفعيل بلد",
+          "updated": "تم تعديل بلد"
+        },
         "language": {
           "created": "تمت إضافة لغة",
           "deactivated": "تم تعطيل لغة",
@@ -230,6 +278,11 @@
           "second_factor_reset": "تمت إعادة تعيين العامل الثاني",
           "updated": "تم تعديل شخص"
         },
+        "region": {
+          "created": "تمت إضافة منطقة",
+          "deleted": "تم حذف منطقة",
+          "updated": "تم تعديل منطقة"
+        },
         "role": {
           "access_changed": "تم تغيير صلاحيات الدور",
           "created": "تمت إضافة دور",
@@ -241,6 +294,11 @@
         },
         "translations": {
           "imported": "تم استيراد النصوص"
+        },
+        "wilaya": {
+          "created": "تمت إضافة ولاية",
+          "deleted": "تم حذف ولاية",
+          "updated": "تم تعديل ولاية"
         }
       },
       "today": "اليوم",
@@ -248,6 +306,77 @@
       "whatChanged": "ما الذي تغيّر",
       "yes": "نعم",
       "yesterday": "أمس"
+    },
+    "geography": {
+      "activate": "تفعيل",
+      "activeHint": "لا يمكن اختيار بلد معطّل لمخبر جديد. تُحفظ أماكنه.",
+      "addCommune": "إضافة بلدية",
+      "addCountry": "إضافة بلد",
+      "addCountrySubmit": "إضافة البلد",
+      "addRegion": "إضافة منطقة",
+      "addWilaya": "إضافة ولاية",
+      "arabicName": "الاسم بالعربية",
+      "browse": "تصفح أماكنه",
+      "canDelete": "لا شيء تابع له، لذا يمكن حذفه.",
+      "code": "الرمز",
+      "codeHint": "حرفان. لا يتغيّر بعد الإنشاء.",
+      "commune": "البلدية",
+      "communeDelete": "حذفها يزيلها من المكتبة. تحتفظ بها المخابر المنشأة مسبقًا.",
+      "communes": "البلديات",
+      "communesCount": "بلديات",
+      "copyHint": "ينسخ المخبر الجديد هذه الأماكن. تحتفظ المخابر المنشأة مسبقًا بقائمتها الخاصة.",
+      "countries": "البلدان",
+      "country": "البلد",
+      "countryAdded": "أُضيف البلد {code}، معطّلًا.",
+      "countryBlocked": "لهذا البلد أماكن، لذا يمكن تعطيله فقط.",
+      "deactivate": "تعطيل",
+      "deleteConfirm": "نعم، احذف",
+      "details": "التفاصيل",
+      "download": "تنزيل",
+      "export": "تصدير",
+      "exportHint": "كل مناطقه وولاياته وبلدياته في ملف JSON واحد، بنفس صيغة الاستيراد.",
+      "file": "الملف",
+      "fileHint": "ملف JSON واحد فيه البلد ومناطقه وولاياته أو مقاطعاته وبلدياته. يُنشأ البلد إن لم يكن موجودًا. لرؤية الصيغة، صدّر الجزائر وانسخها.",
+      "importCountry": "استيراد بلد",
+      "inactiveHint": "لا يمكن لأحد اختياره لمخبر جديد بعد.",
+      "latitude": "خط العرض",
+      "longitude": "خط الطول",
+      "name": "الاسم",
+      "nativeName": "الاسم الأصلي",
+      "noCommune": "لم يُعثر على أي بلدية",
+      "noCountry": "لم يُعثر على أي بلد",
+      "noPlace": "لم يُعثر على شيء",
+      "noResultHint": "جرّب بحثًا أو عامل تصفية آخر.",
+      "onlyAdds": "يضيف الناقص فقط",
+      "onlyAddsHint": "لا يتغيّر أي مكان موجود في المكتبة، لذا فالاستيراد مرتين آمن.",
+      "phoneCode": "رمز الهاتف",
+      "position": "الموقع",
+      "postCode": "الرمز البريدي",
+      "region": "المنطقة",
+      "regionBlocked": "لهذه المنطقة ولايات، لذا لا يمكن حذفها.",
+      "regions": "المناطق",
+      "result": {
+        "communes_added": "بلديات مضافة",
+        "regions_added": "مناطق مضافة",
+        "unchanged": "دون تغيير",
+        "wilayas_added": "ولايات مضافة"
+      },
+      "searchCommune": "البحث عن بلدية أو رمز بريدي",
+      "searchCountry": "البحث عن بلد",
+      "searchRegion": "البحث عن منطقة",
+      "searchWilaya": "البحث عن ولاية",
+      "seeCommunes": "عرض بلدياتها",
+      "seeWilayas": "عرض ولاياتها",
+      "startsEmpty": "يبدأ البلد معطّلًا وفارغًا. أضف أماكنه يدويًا أو استوردها.",
+      "status": {
+        "active": "نشط",
+        "inactive": "معطّل"
+      },
+      "statusLabel": "الحالة",
+      "wilaya": "الولاية",
+      "wilayaBlocked": "لهذه الولاية بلديات، لذا لا يمكن حذفها.",
+      "wilayas": "الولايات",
+      "wilayasCount": "ولايات"
     },
     "languages": {
       "activate": "تفعيل",
@@ -291,6 +420,7 @@
     },
     "menu": {
       "activity": "النشاط",
+      "geography": "الجغرافيا",
       "label": "قائمة وحدة التحكم",
       "translations": "الترجمات"
     },
@@ -429,6 +559,10 @@
       "ar": "العربية",
       "en": "الإنجليزية",
       "fr": "الفرنسية"
+    },
+    "search": {
+      "noMatch": "لا توجد نتيجة",
+      "typeToSearch": "اكتب للبحث"
     }
   },
   "errors": {

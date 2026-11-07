@@ -25,6 +25,7 @@ const menu = computed(() =>
       icon: 'tabler-language',
       allowed: auth.can('translations.show') || auth.can('languages.show'),
     },
+    { to: 'central-countries', pages: ['central-countries', 'central-country'], label: 'central.menu.geography', icon: 'tabler-map', allowed: auth.can('geography.show') },
   ].filter((item) => item.allowed),
 )
 

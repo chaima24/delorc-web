@@ -130,20 +130,28 @@
       "empty": "Aucune activité trouvée",
       "emptyHint": "Essayez d'autres filtres ou une période plus large.",
       "field": {
+        "arabic_name": "Nom arabe",
         "direction": "Sens",
         "email": "E-mail",
         "fallback": "Langue de secours",
         "is_active": "Statut",
         "label": "Champ",
+        "latitude": "Latitude",
         "locale": "Langue",
+        "longitude": "Longitude",
         "name": "Nom",
         "native_name": "Nom d'origine",
         "phone": "Téléphone",
+        "phone_code": "Indicatif",
+        "post_code": "Code postal",
+        "region": "Région",
         "role": "Rôle",
-        "second_factor": "Second facteur"
+        "second_factor": "Second facteur",
+        "wilaya": "Wilaya"
       },
       "hideAutomatic": "Masquer les changements automatiques",
       "imported": "{keys} clés, {texts} textes ajoutés",
+      "importedPlaces": "{regions} régions, {wilayas} wilayas, {communes} communes ajoutées",
       "ip": "Adresse IP",
       "lastDays": "{count} derniers jours",
       "newestFirst": "Plus récent d'abord",
@@ -164,11 +172,15 @@
       "reasonLabel": "Motif",
       "record": "Élément",
       "recordType": {
+        "commune": "Commune",
+        "country": "Pays",
         "language": "Langue",
         "person": "Personne",
+        "region": "Région",
         "role": "Rôle",
         "sign_in": "Connexion",
-        "translations": "Textes"
+        "translations": "Textes",
+        "wilaya": "Wilaya"
       },
       "right": "{resource}, {action}",
       "rightAdded": "{right} : ajouté",
@@ -177,6 +189,19 @@
       "search": "Rechercher",
       "secretsNeverLogged": "Les secrets et les codes de secours n'entrent jamais dans le journal, seule la méthode modifiée y figure.",
       "sentence": {
+        "commune": {
+          "created": "{author} a ajouté la commune {record}",
+          "deleted": "{author} a supprimé la commune {record}",
+          "updated": "{author} a modifié la commune {record}"
+        },
+        "country": {
+          "created": "{author} a ajouté le pays {record}",
+          "deactivated": "{author} a désactivé le pays {record}",
+          "deleted": "{author} a supprimé le pays {record}",
+          "imported": "{author} a importé des lieux dans {record}",
+          "reactivated": "{author} a activé le pays {record}",
+          "updated": "{author} a modifié le pays {record}"
+        },
         "language": {
           "created": "{author} a ajouté la langue {record}",
           "deactivated": "{author} a désactivé la langue {record}",
@@ -193,6 +218,11 @@
           "second_factor_reset": "{author} a réinitialisé le second facteur de {record}",
           "updated": "{author} a modifié {record}"
         },
+        "region": {
+          "created": "{author} a ajouté la région {record}",
+          "deleted": "{author} a supprimé la région {record}",
+          "updated": "{author} a modifié la région {record}"
+        },
         "role": {
           "access_changed": "{author} a changé les accès de {record}",
           "created": "{author} a ajouté le rôle {record}",
@@ -204,6 +234,11 @@
         },
         "translations": {
           "imported": "{author} a importé un fichier de textes"
+        },
+        "wilaya": {
+          "created": "{author} a ajouté la wilaya {record}",
+          "deleted": "{author} a supprimé la wilaya {record}",
+          "updated": "{author} a modifié la wilaya {record}"
         }
       },
       "sort": "Ordre",
@@ -214,6 +249,19 @@
       "stepLabel": "Étape",
       "system": "Système",
       "title": {
+        "commune": {
+          "created": "Commune ajoutée",
+          "deleted": "Commune supprimée",
+          "updated": "Commune modifiée"
+        },
+        "country": {
+          "created": "Pays ajouté",
+          "deactivated": "Pays désactivé",
+          "deleted": "Pays supprimé",
+          "imported": "Lieux importés",
+          "reactivated": "Pays activé",
+          "updated": "Pays modifié"
+        },
         "language": {
           "created": "Langue ajoutée",
           "deactivated": "Langue désactivée",
@@ -230,6 +278,11 @@
           "second_factor_reset": "Second facteur réinitialisé",
           "updated": "Personne modifiée"
         },
+        "region": {
+          "created": "Région ajoutée",
+          "deleted": "Région supprimée",
+          "updated": "Région modifiée"
+        },
         "role": {
           "access_changed": "Accès du rôle modifiés",
           "created": "Rôle ajouté",
@@ -241,6 +294,11 @@
         },
         "translations": {
           "imported": "Textes importés"
+        },
+        "wilaya": {
+          "created": "Wilaya ajoutée",
+          "deleted": "Wilaya supprimée",
+          "updated": "Wilaya modifiée"
         }
       },
       "today": "Aujourd'hui",
@@ -248,6 +306,77 @@
       "whatChanged": "Ce qui a changé",
       "yes": "Oui",
       "yesterday": "Hier"
+    },
+    "geography": {
+      "activate": "Activer",
+      "activeHint": "Un pays inactif ne peut pas être choisi pour un nouveau laboratoire. Ses lieux sont conservés.",
+      "addCommune": "Ajouter une commune",
+      "addCountry": "Ajouter un pays",
+      "addCountrySubmit": "Ajouter le pays",
+      "addRegion": "Ajouter une région",
+      "addWilaya": "Ajouter une wilaya",
+      "arabicName": "Nom arabe",
+      "browse": "Parcourir ses lieux",
+      "canDelete": "Rien n'en dépend : il peut être supprimé.",
+      "code": "Code",
+      "codeHint": "Deux lettres. Fixe après la création.",
+      "commune": "Commune",
+      "communeDelete": "La supprimer la retire de la bibliothèque. Les laboratoires déjà créés la gardent.",
+      "communes": "Communes",
+      "communesCount": "communes",
+      "copyHint": "Un nouveau laboratoire copie ces lieux. Les laboratoires déjà créés gardent leur propre liste.",
+      "countries": "Pays",
+      "country": "Pays",
+      "countryAdded": "Pays {code} ajouté, inactif.",
+      "countryBlocked": "Ce pays a des lieux : il peut seulement être désactivé.",
+      "deactivate": "Désactiver",
+      "deleteConfirm": "Oui, supprimer",
+      "details": "Détails",
+      "download": "Télécharger",
+      "export": "Export",
+      "exportHint": "Toutes ses régions, wilayas et communes dans un seul fichier JSON, au même format que l'import.",
+      "file": "Fichier",
+      "fileHint": "Un fichier JSON avec le pays, ses régions, wilayas ou provinces, et communes. Le pays est créé s'il n'existe pas. Pour voir le format, exportez l'Algérie et copiez-la.",
+      "importCountry": "Importer un pays",
+      "inactiveHint": "Personne ne peut encore le choisir pour un nouveau laboratoire.",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "name": "Nom",
+      "nativeName": "Nom d'origine",
+      "noCommune": "Aucune commune trouvée",
+      "noCountry": "Aucun pays trouvé",
+      "noPlace": "Rien trouvé",
+      "noResultHint": "Essayez une autre recherche ou un autre filtre.",
+      "onlyAdds": "Ajoute uniquement ce qui manque",
+      "onlyAddsHint": "Un lieu déjà dans la bibliothèque n'est jamais modifié : importer deux fois est sans risque.",
+      "phoneCode": "Indicatif",
+      "position": "Position",
+      "postCode": "Code postal",
+      "region": "Région",
+      "regionBlocked": "Cette région a des wilayas : elle ne peut pas être supprimée.",
+      "regions": "Régions",
+      "result": {
+        "communes_added": "Communes ajoutées",
+        "regions_added": "Régions ajoutées",
+        "unchanged": "Inchangés",
+        "wilayas_added": "Wilayas ajoutées"
+      },
+      "searchCommune": "Rechercher une commune ou un code postal",
+      "searchCountry": "Rechercher un pays",
+      "searchRegion": "Rechercher une région",
+      "searchWilaya": "Rechercher une wilaya",
+      "seeCommunes": "Voir ses communes",
+      "seeWilayas": "Voir ses wilayas",
+      "startsEmpty": "Le pays commence inactif et vide. Ajoutez ses lieux à la main, ou importez-les.",
+      "status": {
+        "active": "Actif",
+        "inactive": "Inactif"
+      },
+      "statusLabel": "Statut",
+      "wilaya": "Wilaya",
+      "wilayaBlocked": "Cette wilaya a des communes : elle ne peut pas être supprimée.",
+      "wilayas": "Wilayas",
+      "wilayasCount": "wilayas"
     },
     "languages": {
       "activate": "Activer",
@@ -291,6 +420,7 @@
     },
     "menu": {
       "activity": "Activité",
+      "geography": "Géographie",
       "label": "Menu de la console",
       "translations": "Traductions"
     },
@@ -429,6 +559,10 @@
       "ar": "Arabe",
       "en": "Anglais",
       "fr": "Français"
+    },
+    "search": {
+      "noMatch": "Aucun résultat",
+      "typeToSearch": "Tapez pour chercher"
     }
   },
   "errors": {

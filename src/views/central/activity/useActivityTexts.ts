@@ -50,6 +50,11 @@ export function useActivityTexts() {
 
   function chips(line: ActivityLine): string[] {
     if (line.attempt) return [t(`central.activity.reason.${line.attempt.reason}`)]
+    if (line.import && line.record_type === 'country') {
+      const { regions_added: regions = 0, wilayas_added: wilayas = 0, communes_added: communes = 0 } = line.import
+
+      return [t('central.activity.importedPlaces', { regions, wilayas, communes })]
+    }
     if (line.import) return [t('central.activity.imported', { keys: line.import.keys_added ?? 0, texts: line.import.texts_added ?? 0 })]
 
     return line.changes.map((change) => chip(line, change))
@@ -68,6 +73,7 @@ export function useActivityTexts() {
     if (!line.record?.exists) return null
     if (line.record_type === 'person' && auth.can('users.show')) return { name: 'central-users', query: { open: line.record.id } }
     if (line.record_type === 'role' && auth.can('roles.show')) return { name: 'central-roles', query: { open: line.record.id } }
+    if (line.record_type === 'country' && auth.can('geography.show')) return { name: 'central-countries', query: { open: line.record.id } }
     if (line.record_type === 'language' && auth.can('languages.show')) return { name: 'central-languages', query: { open: line.record.id } }
 
     return null
