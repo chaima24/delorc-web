@@ -538,7 +538,7 @@
       "language": "Langue par défaut",
       "languageEditHint": "Parmi les langues copiées dans le laboratoire.",
       "languages": "Langues",
-      "languagesHint": "Les langues inactives à la création n'ont pas été copiées. Elles arrivent plus tard dans le laboratoire.",
+      "languagesHint": "Seules les langues choisies à la création ont été copiées. Une autre langue s'ajoute depuis l'onglet Textes.",
       "lastPeriod": "Dernière période : {plan}, terminée le {date}.",
       "latitude": "Latitude",
       "linkSent": "Un nouveau lien d'accès a été envoyé.",
@@ -641,12 +641,15 @@
       "whatHappens": "Ce qui se passe à la création",
       "will": {
         "database": "La base {database} est créée et préparée.",
-        "languages": "Aucune langue active à copier. | La langue active et ses textes sont copiés. | Les {count} langues actives et leurs textes sont copiés.",
+        "languages": "{languages} et ses textes sont copiés. Langue par défaut : {language}. | {languages} et leurs textes sont copiés. Langue par défaut : {language}.",
         "link": "{name} devient administrateur du laboratoire et reçoit un lien d'accès, valable 48 heures.",
         "places": "Les lieux de {country} sont copiés.",
         "trial": "Un essai d'un mois sur {plan} commence aujourd'hui.",
         "weekend": "Le week-end commence en vendredi + samedi. L'administrateur du laboratoire le change dans Studio."
-      }
+      },
+      "frenchAlways": "Toujours copié : un texte manquant dans les langues du laboratoire s'affiche en français.",
+      "chooseLanguagesHint": "Langues actives seulement. Une autre langue peut être ajoutée plus tard, depuis l'onglet Textes du laboratoire.",
+      "defaultLanguageHint": "Parmi les langues cochées. Un texte manquant s'affiche d'abord dans cette langue, puis en français."
     },
     "languages": {
       "activate": "Activer",

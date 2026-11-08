@@ -538,7 +538,7 @@
       "language": "Default language",
       "languageEditHint": "Among the languages copied into the lab.",
       "languages": "Languages",
-      "languagesHint": "Languages that were inactive at creation were not copied. They reach the lab later.",
+      "languagesHint": "Only the languages chosen at creation were copied. Another one is added from the Texts tab.",
       "lastPeriod": "Last period: {plan}, ended on {date}.",
       "latitude": "Latitude",
       "linkSent": "A new access link was sent.",
@@ -641,12 +641,15 @@
       "whatHappens": "What happens when you create it",
       "will": {
         "database": "The database {database} is created and prepared.",
-        "languages": "No active language to copy. | The active language and its texts are copied. | The {count} active languages and their texts are copied.",
+        "languages": "{languages} and its texts are copied. Default: {language}. | {languages} and their texts are copied. Default: {language}.",
         "link": "{name} becomes lab admin and gets an access link, valid 48 hours.",
         "places": "The places of {country} are copied.",
         "trial": "A 1-month trial on {plan} starts today.",
         "weekend": "The weekend starts as Friday + Saturday. The lab admin changes it in Studio."
-      }
+      },
+      "frenchAlways": "Always copied: a text missing in the lab's languages shows French.",
+      "chooseLanguagesHint": "Active languages only. Another language can be added later, from the lab's Texts tab.",
+      "defaultLanguageHint": "Among the checked languages. A missing text shows this language first, then French."
     },
     "languages": {
       "activate": "Activate",

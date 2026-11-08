@@ -59,6 +59,8 @@ export interface NewLab {
   name: string
   country_id: number | null
   plan_id: number | null
+  /** The checked languages. French is always one of them. */
+  language_ids: number[]
   language_id: number | null
   email: string
   phone: string
@@ -93,7 +95,8 @@ const one = (response: { data: { data: Lab } }) => response.data.data
 function asForm(lab: NewLab): FormData {
   const form = new FormData()
   for (const [field, value] of Object.entries(lab)) {
-    if (value !== null && value !== '') form.append(field, value instanceof File ? value : String(value))
+    if (Array.isArray(value)) value.forEach((item) => form.append(`${field}[]`, String(item)))
+    else if (value !== null && value !== '') form.append(field, value instanceof File ? value : String(value))
   }
 
   return form

@@ -39,6 +39,8 @@
 .fsec .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
 .tick { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; font-weight: 600; } .tick .check.on { background: var(--ink); border-color: var(--ink); position: relative; }
 .tick .check.on::after { content: '✓'; color: var(--signal); font-size: 12px; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.tick .check.locked { opacity: .55; }
+.langs { display: flex; flex-direction: column; gap: 10px; }
 .tick small { display: block; font-weight: 400; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
 .steps { display: flex; flex-direction: column; gap: 10px; padding: 4px 14px 14px; font-size: 13.5px; }
 .steps div { display: flex; gap: 10px; } .steps i { font-style: normal; width: 22px; height: 22px; border-radius: 99px; background: var(--line-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
@@ -127,7 +129,16 @@ function newLabForm({ errors = false, result = '' } = {}) {
       ${field('Name', 'Demo Pharma')}
       <div class='row'>${field('Slug', errors ? 'alpha' : 'demo', 'Suggested from the name. Lowercase letters and digits, 3 to 30. It cannot be changed after creation.', slugBad)}
         <div class='field'><span>Address of the lab</span><div class='input muted'>${errors ? 'alpha' : 'demo'}.localhost</div><span class='hint'>Its database is delorc_${errors ? 'alpha' : 'demo'}.</span></div></div>
-      <div class='row3'>${field('Country', 'Algeria ▾', 'Active countries only. Its places are copied.')}${field('Plan', 'Starter · 20,000 DZD ▾', 'Active plans only.')}${field('Default language', 'Français ▾', 'Active languages only.')}</div>
+      <div class='row'>${field('Country', 'Algeria ▾', 'Active countries only. Its places are copied.')}${field('Plan', 'Starter · 20,000 DZD ▾', 'Active plans only.')}</div>
+    </div>
+    <div class='card fsec'><h3>Languages</h3>
+      <div class='langs'>
+        <label class='tick'><span class='check on locked'></span><span>Français<small>Always copied: a text missing in the lab's languages shows French.</small></span></label>
+        <label class='tick'><span class='check on'></span><span>العربية · Arabic</span></label>
+        <label class='tick'><span class='check'></span><span>English</span></label>
+      </div>
+      <div class='hint'>Active languages only. The form opens with French alone. Another language can be added later, from the lab's Texts tab.</div>
+      ${field('Default language', 'العربية ▾', 'Among the checked languages. A missing text shows this language first, then French.')}
     </div>
     <div class='card fsec'><h3>Contact</h3>
       <div class='row'>${field('Email of the lab', errors ? 'contact@' : 'contact@demo.dz', 'Not used by another lab.', emailBad)}${field('Phone of the lab', '+213 21 12 34 56', 'Not used by another lab.')}</div>
@@ -151,7 +162,7 @@ const summary = (errors) => `<div class='card' style='padding:4px 0'>
   ${sec('What happens when you create it', '', `<div class='steps'>
     <div><i>1</i><span>The database <b>delorc_demo</b> is created and prepared.</span></div>
     <div><i>2</i><span>The places of <b>Algeria</b> are copied: 4 regions, 69 wilayas, 1,541 communes.</span></div>
-    <div><i>3</i><span>The <b>3 active languages</b> and their texts are copied. Default: Français.</span></div>
+    <div><i>3</i><span><b>Français and العربية</b> and their texts are copied. Default: العربية.</span></div>
     <div><i>4</i><span>The weekend starts as <b>Friday + Saturday</b>. The lab admin changes it in Studio.</span></div>
     <div><i>5</i><span>A <b>1-month trial</b> on Starter starts today: 7 Nov → 6 Dec 2026.</span></div>
     <div><i>6</i><span>Amina Belkacem becomes lab admin and gets an access link, valid 48 hours.</span></div>
@@ -164,7 +175,7 @@ const summary = (errors) => `<div class='card' style='padding:4px 0'>
 const okResult = `<div class='card' style='padding:4px 0'>${sec('Demo Pharma is ready', chip('Active', 'ok'), `<div class='steps'>
     <div class='done'><i>✓</i><span>Database delorc_demo created.</span></div>
     <div class='done'><i>✓</i><span>4 regions, 69 wilayas and 1,541 communes copied.</span></div>
-    <div class='done'><i>✓</i><span>3 languages and 1,236 texts copied.</span></div>
+    <div class='done'><i>✓</i><span>2 languages and 824 texts copied.</span></div>
     <div class='done'><i>✓</i><span>Weekend set to Friday + Saturday.</span></div>
     <div class='done'><i>✓</i><span>Trial on Starter, 7 Nov → 6 Dec 2026.</span></div>
     <div class='done'><i>✓</i><span>Access link sent to amina.belkacem@demo.dz.</span></div>
@@ -216,7 +227,7 @@ const overview = ({ canEdit = true, linkState = 'sent', editing = '' } = {}) => 
     ${editing === 'contact' ? contactEdit : sec('Contact', e(), rows([['Email of the lab', 'contact@demo.dz'], ['Phone of the lab', '+213 21 12 34 56'], ['Contact email', 'amina.belkacem@demo.dz']]))}
     ${sec('First admin', canEdit ? editBtn('Send a new access link') : '', `${rows([['Name', 'Amina Belkacem · Lab admin']])}<div class='line hint' style='padding-top:8px'>${link}</div>`)}
     ${sec('Country and places', canEdit ? editBtn('Change the country', true) : '', `${rows([['Country', 'Algeria'], ['Copied on 7 Nov 2026', '4 regions · 69 wilayas · 1,541 communes']])}<div class='line hint' style='padding-top:8px'>The lab edits its own list in Studio. Library changes do not reach it. The country can change only while no territory or address uses the places.</div>`)}
-    ${editing === 'lang' ? langEdit : sec('Languages', e(), `${rows([['Default language', 'Français'], ['Copied on 7 Nov 2026', 'Français · English · العربية']])}<div class='line hint' style='padding-top:8px'>Inactive languages were not copied. They reach the lab later.</div>`)}
+    ${editing === 'lang' ? langEdit : sec('Languages', e(), `${rows([['Default language', 'العربية'], ['Copied on 7 Nov 2026', 'Français · العربية']])}<div class='line hint' style='padding-top:8px'>Only the languages chosen at creation were copied. Another one is added from the Texts tab.</div>`)}
   </div></div>
   ${canEdit ? `<div class='hint'>Send a new access link when the 48-hour link ran out before the first admin signed in. It is logged as a security action.</div>` : ''}`
 }
@@ -301,7 +312,7 @@ const LH = (opts) => ({ head: labHead(opts), add: opts && opts.add !== undefined
 document.getElementById('frames').innerHTML = [
   frame(1, `<strong>The list opens.</strong> Newest first, every column sortable. The period column says where the lab is: Trial, Paid, Grace (ended, 7 days to renew) or Ended (suspended automatically).`, { add: btnsList, body: labsList() }),
   frame(2, `<strong>Filters.</strong> "Ending within 30 days" shows the labs to renew soon. Here combined with the Pro plan.`, { add: btnsList, body: labsList([L[5]], { plan: 'Pro', ending: true }, 1) }),
-  frame(3, `<strong>New lab.</strong> One page. The slug is suggested from the name. Only active countries, plans and languages can be chosen. The right side says exactly what will happen.`, { crumbs: 'Labs › New', title: 'New lab', body: newLabForm() }),
+  frame(3, `<strong>New lab.</strong> One page. The slug is suggested from the name. Only active countries, plans and languages can be chosen. The languages are checked one by one: French is always copied, the default is one of the checked. The right side says exactly what will happen.`, { crumbs: 'Labs › New', title: 'New lab', body: newLabForm() }),
   frame(4, `<strong>Mistakes in the form.</strong> Each wrong field says why. Nothing is created.`, { crumbs: 'Labs › New', title: 'New lab', body: newLabForm({ errors: true }) }),
   frame(5, `<strong>The lab is created.</strong> It takes a few seconds; the page waits, then lists what was done.`, { crumbs: 'Labs › New', title: 'New lab', body: newLabForm({ result: okResult + sendFail }) }),
   frame(6, `<strong>A step failed.</strong> Everything is undone, the database is dropped, the form keeps its answers.`, { crumbs: 'Labs › New', title: 'New lab', body: newLabForm({ result: failResult }) }),

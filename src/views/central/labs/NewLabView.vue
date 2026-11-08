@@ -21,7 +21,7 @@ const countries = ref<Country[]>([])
 const plans = ref<Plan[]>([])
 const languages = ref<Language[]>([])
 const form = ref<NewLab>({
-  id: '', name: '', country_id: null, plan_id: null, language_id: null,
+  id: '', name: '', country_id: null, plan_id: null, language_ids: [], language_id: null,
   email: '', phone: '', contact_email: '', admin_name: '', admin_email: '', admin_phone: '',
   website: '', address: '', latitude: '', longitude: '', notes: '', logo: null,
 })
@@ -39,15 +39,28 @@ watch(() => form.value.name, (name) => {
 
 const countryOptions = computed(() => countries.value.filter((c) => c.is_active).map((c) => ({ value: c.id, label: c.name })))
 const planOptions = computed(() => plans.value.filter((p) => p.is_active).map((p) => ({ value: p.id, label: `${p.name} · ${money(p.monthly_price, p.currency)}` })))
-const languageOptions = computed(() => languages.value.filter((l) => l.is_active).map((l) => ({ value: l.id, label: l.native_name })))
-const activeLanguages = computed(() => languages.value.filter((l) => l.is_active).length)
+const activeLanguages = computed(() => languages.value.filter((l) => l.is_active))
+const french = computed(() => languages.value.find(({ code }) => code === 'fr'))
+const chosenLanguages = computed(() => activeLanguages.value.filter(({ id }) => form.value.language_ids.includes(id)))
+// The default language is one of the checked ones.
+const languageOptions = computed(() => chosenLanguages.value.map((l) => ({ value: l.id, label: l.native_name })))
+const languagesError = computed(() => Object.entries(errors.value).find(([field]) => field.startsWith('language_ids'))?.[1])
+
+/** French stays checked. Unchecking the default language makes French the default again. */
+function toggleLanguage(id: number): void {
+  if (id === french.value?.id) return
+  const ids = form.value.language_ids
+  form.value.language_ids = ids.includes(id) ? ids.filter((other) => other !== id) : [...ids, id]
+  if (!form.value.language_ids.includes(form.value.language_id ?? 0)) form.value.language_id = french.value?.id ?? null
+}
 const country = computed(() => countries.value.find(({ id }) => id === form.value.country_id))
 const plan = computed(() => plans.value.find(({ id }) => id === form.value.plan_id))
 
 onMounted(async () => {
   try {
     [countries.value, plans.value, languages.value] = await Promise.all([countriesApi.list(), plansApi.list(), languagesApi.list()])
-    form.value.language_id = languages.value.find(({ code }) => code === 'fr')?.id ?? null
+    form.value.language_id = french.value?.id ?? null
+    form.value.language_ids = french.value ? [french.value.id] : []
     if (countryOptions.value.length === 1) form.value.country_id = countryOptions.value[0]!.value
   } catch (failure) {
     error.value = errorMessage(failure) ?? t('errors.network')
@@ -91,11 +104,31 @@ async function create(): Promise<void> {
               <DlInput v-model="form.id" :label="t('central.labs.slug')" :hint="t('central.labs.slugHint')" :error="errors.id" @input="slugTyped = true" />
               <DlInput :model-value="`${form.id || '…'}.localhost`" :label="t('central.labs.address')" :hint="t('central.labs.databaseHint', { database: `delorc_${form.id || '…'}` })" disabled />
             </div>
-            <div class="grid gap-3 sm:grid-cols-3">
+            <div class="grid gap-3 sm:grid-cols-2">
               <div><DlSelect v-model="form.country_id" :label="t('central.labs.country')" :options="countryOptions" /><p class="mt-1 text-xs" :class="errors.country_id ? 'text-dl-rejected' : 'text-dl-muted'">{{ errors.country_id ?? t('central.labs.countryHint') }}</p></div>
               <div><DlSelect v-model="form.plan_id" :label="t('central.labs.plan')" :options="planOptions" /><p class="mt-1 text-xs" :class="errors.plan_id ? 'text-dl-rejected' : 'text-dl-muted'">{{ errors.plan_id ?? t('central.labs.activeOnly') }}</p></div>
-              <div><DlSelect v-model="form.language_id" :label="t('central.labs.language')" :options="languageOptions" /><p class="mt-1 text-xs" :class="errors.language_id ? 'text-dl-rejected' : 'text-dl-muted'">{{ errors.language_id ?? t('central.labs.activeOnly') }}</p></div>
             </div>
+          </section>
+
+          <section class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-[18px]">
+            <h2 class="text-[15px] font-bold">{{ t('central.labs.languages') }}</h2>
+            <div class="flex flex-col gap-2.5">
+              <label v-for="language in activeLanguages" :key="language.id" class="flex items-start gap-2.5 text-sm font-semibold">
+                <input
+                  type="checkbox"
+                  class="mt-0.5 h-5 w-5 accent-dl-ink"
+                  :checked="form.language_ids.includes(language.id)"
+                  :disabled="language.id === french?.id"
+                  @change="toggleLanguage(language.id)"
+                >
+                <span :class="{ 'text-dl-muted': language.id === french?.id }">
+                  <span :dir="language.direction">{{ language.native_name }}</span>
+                  <small v-if="language.id === french?.id" class="block text-xs font-normal text-dl-muted">{{ t('central.labs.frenchAlways') }}</small>
+                </span>
+              </label>
+            </div>
+            <p class="text-xs" :class="languagesError ? 'text-dl-rejected' : 'text-dl-muted'">{{ languagesError ?? t('central.labs.chooseLanguagesHint') }}</p>
+            <div><DlSelect v-model="form.language_id" :label="t('central.labs.language')" :options="languageOptions" /><p class="mt-1 text-xs" :class="errors.language_id ? 'text-dl-rejected' : 'text-dl-muted'">{{ errors.language_id ?? t('central.labs.defaultLanguageHint') }}</p></div>
           </section>
 
           <section class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-[18px]">
@@ -161,7 +194,7 @@ async function create(): Promise<void> {
           <ol class="flex list-decimal flex-col gap-2 ps-5 text-[13.5px] text-dl-body">
             <li>{{ t('central.labs.will.database', { database: `delorc_${form.id || '…'}` }) }}</li>
             <li>{{ t('central.labs.will.places', { country: country?.name ?? '…' }) }}</li>
-            <li>{{ t('central.labs.will.languages', { count: activeLanguages }) }}</li>
+            <li>{{ t('central.labs.will.languages', { count: chosenLanguages.length, languages: chosenLanguages.map((l) => l.native_name).join(' · ') || '…', language: languageOptions.find(({ value }) => value === form.language_id)?.label ?? '…' }) }}</li>
             <li>{{ t('central.labs.will.weekend') }}</li>
             <li>{{ t('central.labs.will.trial', { plan: plan?.name ?? '…' }) }}</li>
             <li>{{ t('central.labs.will.link', { name: form.admin_name || '…' }) }}</li>
