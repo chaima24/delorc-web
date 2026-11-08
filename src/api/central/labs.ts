@@ -119,3 +119,44 @@ export const labsApi = {
   updatePeriod: (periodId: number, changes: { monthly_price: number; note: string | null }) => client.put(`/subscriptions/${periodId}`, changes).then(one),
   removePeriod: (periodId: number) => client.delete(`/subscriptions/${periodId}`),
 }
+
+/** A limit is a number (null = unlimited); a switch is true or false. */
+export type FeatureValue = number | boolean | null
+
+export interface FeatureChange {
+  id: number
+  feature: string
+  value: FeatureValue
+  starts_on: string
+  /** Null: no end. */
+  ends_on: string | null
+  note: string | null
+  state: 'planned' | 'now' | 'past'
+  created_by: { id: number; name: string } | null
+  created_at: string
+}
+
+/** The Features tab: every catalog feature, then every change for this lab. */
+export interface LabFeatures {
+  plan: { id: number; name: string } | null
+  features: {
+    key: string
+    type: 'limit' | 'switch'
+    plan_value: FeatureValue
+    change: Pick<FeatureChange, 'id' | 'value' | 'starts_on' | 'ends_on'> | null
+    /** What the lab gets today. */
+    value: FeatureValue
+  }[]
+  changes: FeatureChange[]
+}
+
+export type FeatureChangeFields = Pick<FeatureChange, 'value' | 'starts_on' | 'ends_on' | 'note'>
+
+const tab = (response: { data: { data: LabFeatures } }) => response.data.data
+
+export const labFeaturesApi = {
+  get: (labId: string) => client.get(`/labs/${labId}/features`).then(tab),
+  add: (labId: string, change: FeatureChangeFields & { feature: string }) => client.post(`/labs/${labId}/features`, change).then(tab),
+  update: (changeId: number, change: FeatureChangeFields) => client.put(`/lab-features/${changeId}`, change).then(tab),
+  remove: (changeId: number) => client.delete(`/lab-features/${changeId}`),
+}

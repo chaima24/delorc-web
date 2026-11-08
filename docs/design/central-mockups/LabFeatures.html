@@ -1,0 +1,114 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lab features</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 420px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 640px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); } .ph h2 { margin: 0; font-size: 21px; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; margin-inline-start: auto; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.lg { width: 56px; height: 56px; border-radius: 16px; background: var(--ink-2); color: var(--signal); font-size: 18px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+.tabs2 { display: flex; gap: 6px; } .tabs2 span { height: 34px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; background: var(--paper); font-size: 13px; font-weight: 600; color: var(--body); }
+.tabs2 span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.ft { width: 100%; border-collapse: collapse; font-size: 14px; } .ft th { text-align: start; font-size: 12px; color: var(--muted); font-weight: 600; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.ft td { padding: 12px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; } .ft .group td { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 14px; border-bottom: 0; }
+.ft .fname { font-weight: 600; color: var(--ink); } .ft .num { font-variant-numeric: tabular-nums; font-weight: 600; }
+.ft .gets { font-weight: 700; color: var(--ink); } .ft td.chg { background: var(--signal-soft); }
+.muted { color: var(--muted); } .hint2 { font-size: 12px; color: var(--muted); }
+.warn { background: rgba(180,83,9,.08); color: var(--amber); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.err { color: var(--brick); font-size: 12px; } .input.badin { box-shadow: inset 0 0 0 1.5px var(--brick); }
+.sw { width: 38px; height: 22px; border-radius: 99px; background: var(--line); position: relative; display: inline-block; vertical-align: middle; }
+.sw::after { content: ''; position: absolute; top: 3px; inset-inline-start: 3px; width: 16px; height: 16px; border-radius: 99px; background: #fff; }
+.sw.on { background: var(--ink); } .sw.on::after { inset-inline-start: 19px; background: var(--signal); }
+.open { background: var(--paper); border: 1px dashed var(--amber); border-radius: 14px; padding: 10px 14px; font-size: 13px; color: var(--amber); }
+.btnrow { display: flex; gap: 8px; margin-top: auto; padding-top: 8px; }
+.sec { border: 1px solid var(--line); border-radius: 16px; } .sec header { display: flex; padding: 10px 12px 4px; } .sec header strong { flex: 1; font-size: 14px; } .sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; }
+</style></head><body>
+<p class="caption"><strong>Central › Labs › a lab › Features (part 6b).</strong> What the lab gets: each feature's value from its plan, a change for this lab between two dates (an add-on, a gift month), and the value it gets today. Changes are kept as history. Feature names are the real texts; values, dates and people are invented. Nothing is blocked yet: the first module that uses a feature adds its check. <span style="color:var(--amber)">Dashed amber boxes are points to confirm.</span></p>
+<div id="frames"></div>
+<script>
+const logo = `<svg width='34' height='34' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const MENU = ['Labs', 'People', 'Roles', 'Activity', 'Translations', 'Geography', 'Plans', 'Settings']
+const rail = `<nav class='rail'><div class='brand'>${logo}<span class='display'>Delorc</span></div><div style='display:flex;flex-direction:column;gap:6px'>${MENU.map(m => `<a class='${m === 'Labs' ? 'on' : ''}'>${m}</a>`).join('')}</div></nav>`
+const head = `<div style='display:flex;gap:14px;align-items:center'><span class='lg'>DP</span><div><div class='crumbs'>Labs</div><h1 class='title display' style='font-size:32px;margin:0'>Demo Pharma</h1>
+  <div style='display:flex;gap:6px;margin-top:6px'><span class='chip ok'>Active</span><span class='chip ok'>Paid</span><span class='hint2'>demo.localhost · Starter</span></div></div></div>`
+const tabs = `<div class='tabs2'><span>Overview</span><span>Subscription</span><span class='on'>Features</span><span>Activity</span></div>`
+const frame = (n, label, body, panel = '') => `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:720px'>${rail}
+<div class='main'><div class='topbar'><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SR</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${head}${tabs}${body}</div>${panel}</div></div></div>`
+const sw = on => `<span class='sw ${on ? 'on' : ''}'></span>`
+const field = (label, value, hint = '', bad = '') => `<div class='field'><span>${label}</span><div class='input ${bad ? 'badin' : ''}'>${value}</div>${bad ? `<span class='err'>${bad}</span>` : hint ? `<span class='hint'>${hint}</span>` : ''}</div>`
+const panel = (title, body) => `<aside class='panel'><div class='ph'><h2 class='display'>${title}</h2><span class='icb'>✕</span></div><div class='pb'>${body}</div></aside>`
+const saveRow = t => `<div class='btnrow'><span class='btn primary sm'>${t}</span><span class='btn outline sm'>Cancel</span></div>`
+
+// Current values: plan, change today, what the lab gets
+const ROWS = (giftOn = true) => [
+  ['group', 'Limits'],
+  ['Users', '10', giftOn ? '15 · 1 Dec → 31 Dec 2026' : '—', giftOn ? '15' : '10'],
+  ['SMS per month', 'None', '—', 'None'],
+  ['Emails per month', '1,000', '—', '1,000'],
+  ['Storage', '5 GB', '—', '5 GB'],
+  ['group', 'Included'],
+  ['SMS channel', '—', '—', '—'],
+  ['Support access', '—', `${sw(true)} Included · from 7 Nov 2026`, '✓ Included'],
+]
+const table = (giftOn = true, canChange = true) => `<div class='card' style='padding:16px 18px'>
+  <div style='display:flex;align-items:center;gap:10px;margin-bottom:8px'><strong style='flex:1;font-size:15px'>What Demo Pharma gets today</strong>${canChange ? `<span class='btn primary sm'>＋ Add a change</span>` : ''}</div>
+  <table class='ft'><thead><tr><th>Feature</th><th>Starter plan</th><th>Change for this lab, today</th><th>The lab gets</th></tr></thead><tbody>
+  ${ROWS(giftOn).map(r => r[0] === 'group' ? `<tr class='group'><td colspan='4'>${r[1]}</td></tr>`
+    : `<tr><td class='fname'>${r[0]}</td><td class='num muted'>${r[1]}</td><td class='${r[2] !== '—' ? 'chg' : ''}'>${r[2]}</td><td class='gets'>${r[3]}</td></tr>`).join('')}
+  </tbody></table>
+  <div class='hint2' style='padding-top:10px'>A change wins over the plan between its dates. Without a change, the plan's value applies; a feature the plan has no value for uses its default.</div></div>`
+
+const HIST = [
+  ['Users', '20', '1 Mar 2027', 'no end', 'Add-on: 5 more users', 'Planned', 'info'],
+  ['Users', '15', '1 Dec 2026', '31 Dec 2026', 'Gift month', 'Now', 'ok'],
+  ['Support access', 'Included', '7 Nov 2026', 'no end', 'Onboarding help', 'Now', 'ok'],
+  ['Emails per month', '5,000', '1 Oct 2026', '31 Oct 2026', 'Campaign month', 'Past', ''],
+]
+const history = (canChange = true, sel = -1) => `<div class='card' style='padding:16px 18px'>
+  <strong style='font-size:15px'>Changes for this lab</strong>
+  <table class='ft' style='margin-top:8px'><thead><tr><th>Feature ↕</th><th>Value ↕</th><th>From ↓</th><th>To ↕</th><th>Note ↕</th><th>When ↕</th><th>Added by ↕</th></tr></thead><tbody>
+  ${HIST.map((h, i) => `<tr style='${i === sel ? 'background:var(--signal-soft)' : ''}'><td class='fname'>${h[0]}</td><td class='num'>${h[1]}</td><td>${h[2]}</td><td>${h[3]}</td><td>${h[4]}</td><td><span class='chip ${h[6]}'>${h[5]}</span></td><td class='muted'>Sofia Rahmani</td></tr>`).join('')}
+  </tbody></table>${canChange ? `<div class='hint2' style='padding-top:10px'>Click a change that is planned or running to edit or remove it. Past changes stay as history.</div>` : ''}</div>`
+
+const addPanel = (bad = false) => panel('Add a change', `
+  ${field('Feature', 'Users ▾')}
+  ${field('Value for this lab', '15', 'Starter gives 10. Leave empty for unlimited, 0 for none.')}
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'>${field('From', bad ? '15 Dec 2026' : '1 Dec 2026', '', bad ? 'Another change of Users covers 1 Dec → 31 Dec 2026.' : '')}${field('To · optional', '31 Dec 2026', 'Empty: no end.')}</div>
+  ${field('Note', 'Gift month')}
+  ${saveRow('Add the change')}`)
+const switchPanel = panel('Add a change', `
+  ${field('Feature', 'SMS channel ▾')}
+  <div class='field'><span>For this lab</span><div style='display:flex;gap:10px;align-items:center;font-size:14px'>${sw(true)} Included</div><span class='hint'>Starter does not include it.</span></div>
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'>${field('From', '20 Nov 2026')}${field('To · optional', '')}</div>
+  ${field('Note', 'Trial of SMS codes')}
+  ${saveRow('Add the change')}`)
+const editPanel = panel('Users · Add-on', `
+  ${field('Value for this lab', '20')}
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'>${field('From', '1 Mar 2027')}${field('To · optional', '')}</div>
+  ${field('Note', 'Add-on: 5 more users')}
+  ${saveRow('Save')}
+  <section class='sec'><header><strong>Remove</strong><span class='edit'>Remove</span></header><div class='line hint'>This change has not started yet.</div></section>`)
+const rules = `<div class='open'>To confirm: a change that is planned or running can be edited (value, dates, note) or removed; a past one is history, read only. Suggestion: removing a running change ends it today instead of erasing it, so the history stays true.</div>`
+const signin = `<div class='card' style='padding:16px 18px'><strong style='font-size:15px'>In the lab: the sign-in answer (no screen yet)</strong>
+  <pre style='font-size:12.5px;background:var(--mist);border-radius:12px;padding:12px;margin:10px 0 0'>GET demo.localhost/api/v1/auth/me
+{ "user": { … },
+  "features": { "users.max": 15, "sms.monthly_quota": 0, "email.monthly_quota": 1000,
+                "storage.gb": 5, "channel.sms": false, "support.access": true },
+  "grace_ends_on": null }          ← a date only for lab admins, while the lab is in grace</pre>
+  <div class='hint2' style='padding-top:8px'>The lab web app hides what the lab does not have. Blocking (404 when off, 422 past a limit) comes with the first module that uses a feature.</div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The Features tab.</strong> One row per feature of the catalog: the plan's value, today's change for this lab, and what the lab gets. Below, every change over time.`, table() + history() + rules),
+  frame(2, `<strong>Add a change: a limit.</strong> A gift month of 15 users. Empty means unlimited, 0 means none, as on the Plans page.`, table() + history(), addPanel()),
+  frame(3, `<strong>Add a change: a switch.</strong> SMS for this lab from 20 Nov, with no end.`, table() + history(), switchPanel),
+  frame(4, `<strong>Two changes cannot cover the same day.</strong> The field says which change is in the way; nothing is saved.`, table() + history(), addPanel(true)),
+  frame(5, `<strong>Edit or remove a planned change.</strong>`, table() + history(true, 0), editPanel),
+  frame(6, `<strong>Support's view.</strong> Read only: no Add, no clicks. Owner and billing change it (labs.update-plan).`, table(true, false) + history(false)),
+  frame(7, `<strong>What the lab receives.</strong> Its sign-in answer lists what it gets today.`, table() + signin),
+].join('')
+</script>
+</body></html>

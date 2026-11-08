@@ -42,6 +42,7 @@ export function useActivityTexts() {
     if (field === 'fallback') return known(`common.locale.${value}`, String(value))
     if (field === 'direction') return known(`central.languages.direction.${value}`, String(value))
     if (field === 'kind') return known(`central.labs.period.${value}`, String(value))
+    if (field === 'feature') return known(`features.${value}.name`, String(value))
 
     return String(value)
   }

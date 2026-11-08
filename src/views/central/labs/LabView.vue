@@ -12,6 +12,7 @@ import DlSheet from '@/components/DlSheet.vue'
 import { useAuthStore } from '@/stores/auth'
 import { usePanelAction } from '../geography/usePanelAction'
 import LabActivity from './LabActivity.vue'
+import LabFeatures from './LabFeatures.vue'
 import LabLogo from './LabLogo.vue'
 import LabOverview from './LabOverview.vue'
 import LabSubscription from './LabSubscription.vue'
@@ -25,7 +26,7 @@ const { error: actionError, busy, run } = usePanelAction()
 
 const lab = ref<Lab | null>(null)
 const error = ref<string | null>(null)
-const tab = ref<'overview' | 'subscription' | 'activity'>('overview')
+const tab = ref<'overview' | 'subscription' | 'features' | 'activity'>('overview')
 const confirming = ref<'suspend' | 'resume' | null>(null)
 const reason = ref('')
 
@@ -92,13 +93,14 @@ const confirm = () => run(
       </p>
 
       <nav class="flex flex-wrap gap-1.5" :aria-label="lab.name">
-        <button v-for="name in (['overview', 'subscription', 'activity'] as const)" :key="name" type="button" :class="[tabClass, tab === name && activeTab]" @click="tab = name">
+        <button v-for="name in (['overview', 'subscription', 'features', 'activity'] as const)" :key="name" type="button" :class="[tabClass, tab === name && activeTab]" @click="tab = name">
           {{ t(`central.labs.tab.${name}`) }}
         </button>
       </nav>
 
       <LabOverview v-if="tab === 'overview'" :lab="lab" @changed="lab = $event" />
       <LabSubscription v-else-if="tab === 'subscription'" :lab="lab" @changed="lab = $event" />
+      <LabFeatures v-else-if="tab === 'features'" :lab="lab" />
       <LabActivity v-else :lab="lab" />
     </template>
 
