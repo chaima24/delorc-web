@@ -119,6 +119,8 @@
         "feature_change_removed": "Changement de fonctionnalité retiré",
         "feature_change_updated": "Changement de fonctionnalité modifié",
         "imported": "Import",
+        "labs_synced": "Laboratoires mis à jour",
+        "language_added": "Langue ajoutée",
         "logo_changed": "Logo changé",
         "period_added": "Période ajoutée",
         "period_cut": "Période raccourcie",
@@ -130,6 +132,8 @@
         "second_factor_reset": "Second facteur réinitialisé",
         "settings_changed": "Réglages modifiés",
         "suspended": "Suspendu",
+        "text_put_back": "Texte rétabli",
+        "texts_changed": "Textes modifiés",
         "updated": "Modification",
         "values_changed": "Valeurs modifiées"
       },
@@ -160,6 +164,7 @@
           "grace_days": "Jours de grâce",
           "trial_months": "Durée de l'essai (mois)"
         },
+        "language": "Langue",
         "language_id": "Langue par défaut",
         "latitude": "Latitude",
         "locale": "Langue",
@@ -186,6 +191,7 @@
       "imported": "{keys} clés, {texts} textes ajoutés",
       "importedPlaces": "{regions} régions, {wilayas} wilayas, {communes} communes ajoutées",
       "ip": "Adresse IP",
+      "labsSynced": "{labs} laboratoires mis à jour, {written} textes écrits, {kept} gardés (changés pour un laboratoire)",
       "lastDays": "{count} derniers jours",
       "newestFirst": "Plus récent d'abord",
       "no": "Non",
@@ -245,6 +251,7 @@
           "feature_change_ended": "{author} a terminé un changement de fonctionnalité de {record}",
           "feature_change_removed": "{author} a retiré un changement de fonctionnalité de {record}",
           "feature_change_updated": "{author} a modifié un changement de fonctionnalité de {record}",
+          "language_added": "{author} a ajouté une langue à {record}",
           "logo_changed": "{author} a changé le logo de {record}",
           "period_added": "{author} a ajouté une période à {record}",
           "period_cut": "{author} a raccourci une période de {record}",
@@ -252,6 +259,8 @@
           "period_updated": "{author} a modifié une période de {record}",
           "resumed": "{author} a repris le laboratoire {record}",
           "suspended": "{author} a suspendu le laboratoire {record}",
+          "text_put_back": "{author} a rétabli un texte de {record} sur le texte maître",
+          "texts_changed": "{author} a modifié des textes de {record}",
           "updated": "{author} a modifié le laboratoire {record}"
         },
         "language": {
@@ -296,7 +305,8 @@
           "failed": "Connexion échouée pour {record}"
         },
         "translations": {
-          "imported": "{author} a importé un fichier de textes"
+          "imported": "{author} a importé un fichier de textes",
+          "labs_synced": "{author} a mis à jour les textes des laboratoires"
         },
         "wilaya": {
           "created": "{author} a ajouté la wilaya {record}",
@@ -601,7 +611,27 @@
         "activity": "Activité",
         "features": "Fonctionnalités",
         "overview": "Vue d'ensemble",
-        "subscription": "Abonnement"
+        "subscription": "Abonnement",
+        "texts": "Textes"
+      },
+      "texts": {
+        "add": "Ajouter",
+        "addLanguage": "Ajouter une langue",
+        "allLanguages": "Toutes les langues",
+        "changed": "Changé pour ce laboratoire",
+        "changedCount": "Aucun texte changé pour ce laboratoire | 1 texte changé pour ce laboratoire | {count} textes changés pour ce laboratoire",
+        "chooseHint": "Choisissez une langue pour modifier ses textes. Un texte changé pour ce laboratoire garde ses mots quand le texte maître change.",
+        "default": "par défaut",
+        "inLab": "{language} dans {lab}",
+        "languageDone": "{name} · {percent} % écrits",
+        "languages": "Langues de ce laboratoire :",
+        "master": "Texte maître",
+        "masterFrench": "Texte maître (français)",
+        "onlyChanged": "Changés pour ce laboratoire",
+        "putBack": "Rétablir",
+        "putBackAsk": "Reprendre « {text} » et recevoir les corrections suivantes du texte maître ?",
+        "putBackEmpty": "Le texte maître est vide ici : le laboratoire affichera sa langue de repli. Rétablir ?",
+        "saveHint": "Les textes enregistrés deviennent « Changés pour ce laboratoire » : les corrections du texte maître ne les remplacent pas."
       },
       "theLab": "Le laboratoire",
       "title": "Laboratoires",
@@ -794,9 +824,12 @@
       "reference": "Français (référence)",
       "result": {
         "keys_added": "Clés ajoutées",
+        "labs_updated": "Laboratoires mis à jour",
         "languages_added": "Langues ajoutées",
         "texts_added": "Textes ajoutés",
-        "texts_unchanged": "Textes inchangés"
+        "texts_kept": "Textes gardés (changés pour un laboratoire)",
+        "texts_unchanged": "Textes inchangés",
+        "texts_written": "Textes écrits"
       },
       "save": "Enregistrer les textes",
       "search": "Rechercher une clé ou un texte",

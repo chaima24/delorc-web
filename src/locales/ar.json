@@ -119,6 +119,8 @@
         "feature_change_removed": "إزالة تغيير ميزة",
         "feature_change_updated": "تعديل تغيير ميزة",
         "imported": "استيراد",
+        "labs_synced": "تحديث المختبرات",
+        "language_added": "إضافة لغة",
         "logo_changed": "تغيير الشعار",
         "period_added": "إضافة فترة",
         "period_cut": "إنهاء فترة مبكرًا",
@@ -130,6 +132,8 @@
         "second_factor_reset": "إعادة تعيين العامل الثاني",
         "settings_changed": "تغيير الإعدادات",
         "suspended": "تعليق",
+        "text_put_back": "إرجاع نص",
+        "texts_changed": "تغيير نصوص",
         "updated": "تعديل",
         "values_changed": "تعديل القيم"
       },
@@ -160,6 +164,7 @@
           "grace_days": "أيام المهلة",
           "trial_months": "مدة الفترة التجريبية (أشهر)"
         },
+        "language": "اللغة",
         "language_id": "اللغة الافتراضية",
         "latitude": "خط العرض",
         "locale": "اللغة",
@@ -186,6 +191,7 @@
       "imported": "أُضيف {keys} مفتاح و{texts} نص",
       "importedPlaces": "أُضيف {regions} منطقة و{wilayas} ولاية و{communes} بلدية",
       "ip": "عنوان IP",
+      "labsSynced": "حُدّث {labs} مختبرات، كُتب {written} نصوص، أُبقي {kept} (مُغيَّرة لمختبر)",
       "lastDays": "آخر {count} يوم",
       "newestFirst": "الأحدث أولًا",
       "no": "لا",
@@ -245,6 +251,7 @@
           "feature_change_ended": "أنهى {author} تغيير ميزة في {record}",
           "feature_change_removed": "أزال {author} تغيير ميزة من {record}",
           "feature_change_updated": "عدّل {author} تغيير ميزة في {record}",
+          "language_added": "أضاف {author} لغة إلى {record}",
           "logo_changed": "غيّر {author} شعار {record}",
           "period_added": "أضاف {author} فترة إلى {record}",
           "period_cut": "أنهى {author} فترة في {record} مبكرًا",
@@ -252,6 +259,8 @@
           "period_updated": "عدّل {author} فترة في {record}",
           "resumed": "استأنف {author} المختبر {record}",
           "suspended": "علّق {author} المختبر {record}",
+          "text_put_back": "أرجع {author} نصًا في {record} إلى النص الرئيسي",
+          "texts_changed": "غيّر {author} نصوصًا في {record}",
           "updated": "عدّل {author} المختبر {record}"
         },
         "language": {
@@ -296,7 +305,8 @@
           "failed": "فشل تسجيل الدخول لـ {record}"
         },
         "translations": {
-          "imported": "استورد {author} ملف نصوص"
+          "imported": "استورد {author} ملف نصوص",
+          "labs_synced": "حدّث {author} نصوص المختبرات"
         },
         "wilaya": {
           "created": "أضاف {author} الولاية {record}",
@@ -601,7 +611,27 @@
         "activity": "النشاط",
         "features": "الميزات",
         "overview": "نظرة عامة",
-        "subscription": "الاشتراك"
+        "subscription": "الاشتراك",
+        "texts": "النصوص"
+      },
+      "texts": {
+        "add": "إضافة",
+        "addLanguage": "إضافة لغة",
+        "allLanguages": "كل اللغات",
+        "changed": "مُغيَّر لهذا المختبر",
+        "changedCount": "لا يوجد نص مُغيَّر لهذا المختبر | نص واحد مُغيَّر لهذا المختبر | {count} نصوص مُغيَّرة لهذا المختبر",
+        "chooseHint": "اختر لغة لتعديل نصوصها. النص المُغيَّر لهذا المختبر يحتفظ بكلماته عندما يتغيّر النص الرئيسي.",
+        "default": "افتراضية",
+        "inLab": "{language} في {lab}",
+        "languageDone": "{name} · {percent}% مكتوبة",
+        "languages": "لغات هذا المختبر:",
+        "master": "النص الرئيسي",
+        "masterFrench": "النص الرئيسي (الفرنسية)",
+        "onlyChanged": "المُغيَّرة لهذا المختبر",
+        "putBack": "إرجاع",
+        "putBackAsk": "استعادة «{text}» وتلقّي تصحيحات النص الرئيسي اللاحقة؟",
+        "putBackEmpty": "لا يوجد نص رئيسي هنا: سيعرض المختبر لغته الاحتياطية. إرجاع؟",
+        "saveHint": "تصبح النصوص المحفوظة «مُغيَّرة لهذا المختبر»: لا تستبدلها تصحيحات النص الرئيسي."
       },
       "theLab": "المختبر",
       "title": "المختبرات",
@@ -794,9 +824,12 @@
       "reference": "الفرنسية (مرجع)",
       "result": {
         "keys_added": "مفاتيح مضافة",
+        "labs_updated": "المختبرات المحدّثة",
         "languages_added": "لغات مضافة",
         "texts_added": "نصوص مضافة",
-        "texts_unchanged": "نصوص دون تغيير"
+        "texts_kept": "النصوص المُبقاة (مُغيَّرة لمختبر)",
+        "texts_unchanged": "نصوص دون تغيير",
+        "texts_written": "النصوص المكتوبة"
       },
       "save": "حفظ النصوص",
       "search": "البحث عن مفتاح أو نص",

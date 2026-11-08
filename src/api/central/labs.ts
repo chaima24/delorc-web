@@ -46,7 +46,7 @@ export interface Lab extends LabRow {
   language: { id: number; code: string; name: string } | null
   /** What was copied into the lab at creation. `languages` holds language ids. */
   copied: { regions: number; wilayas: number; communes: number; languages: number[] } | null
-  copied_languages: { id: number; code: string; native_name: string }[]
+  copied_languages: { id: number; code: string; native_name: string; direction: 'ltr' | 'rtl' }[]
   first_admin: { name: string; email: string; last_login_at: string | null } | null
   /** Null while active. `by` is null for an automatic suspension. */
   suspension: { at: string | null; by: { id: number; name: string } | null; reason: string | null } | null
@@ -159,4 +159,39 @@ export const labFeaturesApi = {
   add: (labId: string, change: FeatureChangeFields & { feature: string }) => client.post(`/labs/${labId}/features`, change).then(tab),
   update: (changeId: number, change: FeatureChangeFields) => client.put(`/lab-features/${changeId}`, change).then(tab),
   remove: (changeId: number) => client.delete(`/lab-features/${changeId}`),
+}
+
+/** A row of a lab's Texts tab: `texts` with no language chosen, the others with a language. */
+export interface LabTextRow {
+  key: string
+  texts?: Record<string, string | null>
+  changed?: string[]
+  /** The master text: French without a language, else the chosen language's. */
+  master: string | null
+  value?: string | null
+  changed_for_lab?: boolean
+  state?: 'done' | 'missing' | 'check'
+}
+
+export interface LabTextFilters {
+  language?: string
+  search?: string
+  changed?: boolean
+  sort?: string
+}
+
+export const labTextsApi = {
+  list: (labId: string, filters: LabTextFilters, page: number, perPage: number) => {
+    const params: Record<string, string | number> = { page, per_page: perPage }
+    if (filters.language) params.language = filters.language
+    if (filters.search) params['filter[search]'] = filters.search
+    if (filters.changed) params['filter[changed]'] = 1
+    if (filters.sort) params.sort = filters.sort
+
+    return client.get<{ data: LabTextRow[]; meta: { total: number }; summary: { total: number; changed: number } }>(`/labs/${labId}/texts`, { params })
+      .then((response) => response.data)
+  },
+  save: (labId: string, texts: { language: string; key: string; value: string | null }[]) => client.put(`/labs/${labId}/texts`, { texts }),
+  putBack: (labId: string, language: string, key: string) => client.post(`/labs/${labId}/texts/put-back`, { language, key }),
+  addLanguage: (labId: string, languageId: number) => client.post(`/labs/${labId}/languages`, { language_id: languageId }).then(one),
 }

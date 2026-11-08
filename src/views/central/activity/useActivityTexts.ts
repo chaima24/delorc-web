@@ -66,6 +66,11 @@ export function useActivityTexts() {
 
       return [t('central.activity.importedPlaces', { regions, wilayas, communes })]
     }
+    if (line.import && line.action === 'labs_synced') {
+      const { labs_updated: labs = 0, texts_written: written = 0, texts_kept: kept = 0 } = line.import
+
+      return [t('central.activity.labsSynced', { labs, written, kept })]
+    }
     if (line.import) return [t('central.activity.imported', { keys: line.import.keys_added ?? 0, texts: line.import.texts_added ?? 0 })]
 
     return line.changes.map((change) => chip(line, change))

@@ -119,6 +119,8 @@
         "feature_change_removed": "Feature change removed",
         "feature_change_updated": "Feature change edited",
         "imported": "Imported",
+        "labs_synced": "Labs updated",
+        "language_added": "Language added",
         "logo_changed": "Logo changed",
         "period_added": "Period added",
         "period_cut": "Period ended early",
@@ -130,6 +132,8 @@
         "second_factor_reset": "Second factor reset",
         "settings_changed": "Settings changed",
         "suspended": "Suspended",
+        "text_put_back": "Text put back",
+        "texts_changed": "Texts changed",
         "updated": "Edited",
         "values_changed": "Values changed"
       },
@@ -160,6 +164,7 @@
           "grace_days": "Grace days",
           "trial_months": "Trial length (months)"
         },
+        "language": "Language",
         "language_id": "Default language",
         "latitude": "Latitude",
         "locale": "Language",
@@ -186,6 +191,7 @@
       "imported": "{keys} keys, {texts} texts added",
       "importedPlaces": "{regions} regions, {wilayas} wilayas, {communes} communes added",
       "ip": "IP address",
+      "labsSynced": "{labs} labs updated, {written} texts written, {kept} kept (changed for a lab)",
       "lastDays": "Last {count} days",
       "newestFirst": "Newest first",
       "no": "No",
@@ -245,6 +251,7 @@
           "feature_change_ended": "{author} ended a feature change of {record}",
           "feature_change_removed": "{author} removed a feature change of {record}",
           "feature_change_updated": "{author} edited a feature change of {record}",
+          "language_added": "{author} added a language to {record}",
           "logo_changed": "{author} changed the logo of {record}",
           "period_added": "{author} added a period to {record}",
           "period_cut": "{author} ended a period of {record} early",
@@ -252,6 +259,8 @@
           "period_updated": "{author} edited a period of {record}",
           "resumed": "{author} resumed the lab {record}",
           "suspended": "{author} suspended the lab {record}",
+          "text_put_back": "{author} put a text of {record} back to the master",
+          "texts_changed": "{author} changed texts of {record}",
           "updated": "{author} edited the lab {record}"
         },
         "language": {
@@ -296,7 +305,8 @@
           "failed": "Failed sign-in for {record}"
         },
         "translations": {
-          "imported": "{author} imported a texts file"
+          "imported": "{author} imported a texts file",
+          "labs_synced": "{author} updated the texts of the labs"
         },
         "wilaya": {
           "created": "{author} added the wilaya {record}",
@@ -601,7 +611,27 @@
         "activity": "Activity",
         "features": "Features",
         "overview": "Overview",
-        "subscription": "Subscription"
+        "subscription": "Subscription",
+        "texts": "Texts"
+      },
+      "texts": {
+        "add": "Add",
+        "addLanguage": "Add a language",
+        "allLanguages": "All languages",
+        "changed": "Changed for this lab",
+        "changedCount": "No text changed for this lab | 1 text changed for this lab | {count} texts changed for this lab",
+        "chooseHint": "Choose a language to edit its texts. A text changed for this lab keeps its words when the master text changes.",
+        "default": "default",
+        "inLab": "{language} in {lab}",
+        "languageDone": "{name} · {percent}% written",
+        "languages": "Languages of this lab:",
+        "master": "Master text",
+        "masterFrench": "Master text (French)",
+        "onlyChanged": "Changed for this lab",
+        "putBack": "Put back",
+        "putBackAsk": "Take “{text}” again, and receive later master fixes?",
+        "putBackEmpty": "The master has no text here: the lab will show its fallback language. Put back?",
+        "saveHint": "Saved texts become “Changed for this lab”: master fixes will not replace them."
       },
       "theLab": "The lab",
       "title": "Labs",
@@ -794,9 +824,12 @@
       "reference": "French (reference)",
       "result": {
         "keys_added": "Keys added",
+        "labs_updated": "Labs updated",
         "languages_added": "Languages added",
         "texts_added": "Texts added",
-        "texts_unchanged": "Texts left unchanged"
+        "texts_kept": "Texts kept (changed for a lab)",
+        "texts_unchanged": "Texts left unchanged",
+        "texts_written": "Texts written"
       },
       "save": "Save texts",
       "search": "Search a key or text",

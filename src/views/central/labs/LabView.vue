@@ -16,6 +16,7 @@ import LabFeatures from './LabFeatures.vue'
 import LabLogo from './LabLogo.vue'
 import LabOverview from './LabOverview.vue'
 import LabSubscription from './LabSubscription.vue'
+import LabTexts from './LabTexts.vue'
 import { useLabTexts } from './useLabTexts'
 
 const { t, d } = useI18n()
@@ -26,7 +27,7 @@ const { error: actionError, busy, run } = usePanelAction()
 
 const lab = ref<Lab | null>(null)
 const error = ref<string | null>(null)
-const tab = ref<'overview' | 'subscription' | 'features' | 'activity'>('overview')
+const tab = ref<'overview' | 'subscription' | 'features' | 'texts' | 'activity'>('overview')
 const confirming = ref<'suspend' | 'resume' | null>(null)
 const reason = ref('')
 
@@ -93,7 +94,7 @@ const confirm = () => run(
       </p>
 
       <nav class="flex flex-wrap gap-1.5" :aria-label="lab.name">
-        <button v-for="name in (['overview', 'subscription', 'features', 'activity'] as const)" :key="name" type="button" :class="[tabClass, tab === name && activeTab]" @click="tab = name">
+        <button v-for="name in (['overview', 'subscription', 'features', 'texts', 'activity'] as const)" :key="name" type="button" :class="[tabClass, tab === name && activeTab]" @click="tab = name">
           {{ t(`central.labs.tab.${name}`) }}
         </button>
       </nav>
@@ -101,6 +102,7 @@ const confirm = () => run(
       <LabOverview v-if="tab === 'overview'" :lab="lab" @changed="lab = $event" />
       <LabSubscription v-else-if="tab === 'subscription'" :lab="lab" @changed="lab = $event" />
       <LabFeatures v-else-if="tab === 'features'" :lab="lab" />
+      <LabTexts v-else-if="tab === 'texts'" :lab="lab" @changed="lab = $event" />
       <LabActivity v-else :lab="lab" />
     </template>
 
