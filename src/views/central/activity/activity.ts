@@ -17,6 +17,7 @@ export const ACTIONS = [
   'period_updated',
   'period_cut',
   'period_removed',
+  'settings_changed',
   'second_factor_reset',
   'deleted',
   'failed',

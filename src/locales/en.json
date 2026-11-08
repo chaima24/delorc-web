@@ -124,6 +124,7 @@
         "resumed": "Resumed",
         "role_changed": "Role changed",
         "second_factor_reset": "Second factor reset",
+        "settings_changed": "Settings changed",
         "suspended": "Suspended",
         "updated": "Edited",
         "values_changed": "Values changed"
@@ -150,6 +151,10 @@
         "is_active": "Status",
         "kind": "Kind",
         "label": "Field",
+        "labs": {
+          "grace_days": "Grace days",
+          "trial_months": "Trial length (months)"
+        },
         "language_id": "Default language",
         "latitude": "Latitude",
         "locale": "Language",
@@ -202,6 +207,7 @@
         "plan": "Plan",
         "region": "Region",
         "role": "Role",
+        "settings": "Settings",
         "sign_in": "Sign-in",
         "translations": "Texts",
         "wilaya": "Wilaya"
@@ -272,6 +278,9 @@
           "created": "{author} added the role {record}",
           "deleted": "{author} deleted the role {record}",
           "updated": "{author} renamed the role {record}"
+        },
+        "settings": {
+          "settings_changed": "{author} changed the settings"
         },
         "sign_in": {
           "failed": "Failed sign-in for {record}"
@@ -610,6 +619,7 @@
       "label": "Console menu",
       "labs": "Labs",
       "plans": "Plans",
+      "settings": "Settings",
       "translations": "Translations"
     },
     "plans": {
@@ -698,6 +708,22 @@
       "tickAll": "Tick all",
       "title": "Roles",
       "undo": "Undo"
+    },
+    "settings": {
+      "channels": "Shared email and SMS accounts",
+      "channelsHint": "Delorc's own accounts, used by labs on the shared mode. Added by the Channels module.",
+      "days": "{count} days | {count} day | {count} days",
+      "graceDays": "Grace days",
+      "graceDaysApplies": "Applies at once to every lab, because grace is worked out from the dates.",
+      "graceDaysHint": "Days a lab keeps working after its last period ends. The day after, it is suspended automatically.",
+      "labs": "Labs",
+      "later": "With Channels",
+      "months": "{count} month | {count} month | {count} months",
+      "title": "Settings",
+      "trialMonths": "Trial length",
+      "trialMonthsApplies": "Applies to labs created from now on. Trials already running keep their dates.",
+      "trialMonthsField": "Trial length (months)",
+      "trialMonthsHint": "Every new lab starts with a trial this long on the plan chosen at creation."
     },
     "translations": {
       "backupHint": "The database is the source. Files are only a backup.",

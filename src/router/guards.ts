@@ -22,6 +22,7 @@ const CENTRAL_PAGES = [
   ['languages.show', 'central-languages'],
   ['geography.show', 'central-countries'],
   ['plans.show', 'central-plans'],
+  ['settings.show', 'central-settings'],
 ] as const
 
 /** Runs before each page opens, like the `auth` middleware in the API. */

@@ -124,6 +124,7 @@
         "resumed": "Repris",
         "role_changed": "Rôle modifié",
         "second_factor_reset": "Second facteur réinitialisé",
+        "settings_changed": "Réglages modifiés",
         "suspended": "Suspendu",
         "updated": "Modification",
         "values_changed": "Valeurs modifiées"
@@ -150,6 +151,10 @@
         "is_active": "Statut",
         "kind": "Type",
         "label": "Champ",
+        "labs": {
+          "grace_days": "Jours de grâce",
+          "trial_months": "Durée de l'essai (mois)"
+        },
         "language_id": "Langue par défaut",
         "latitude": "Latitude",
         "locale": "Langue",
@@ -202,6 +207,7 @@
         "plan": "Offre",
         "region": "Région",
         "role": "Rôle",
+        "settings": "Réglages",
         "sign_in": "Connexion",
         "translations": "Textes",
         "wilaya": "Wilaya"
@@ -272,6 +278,9 @@
           "created": "{author} a ajouté le rôle {record}",
           "deleted": "{author} a supprimé le rôle {record}",
           "updated": "{author} a renommé le rôle {record}"
+        },
+        "settings": {
+          "settings_changed": "{author} a modifié les réglages"
         },
         "sign_in": {
           "failed": "Connexion échouée pour {record}"
@@ -610,6 +619,7 @@
       "label": "Menu de la console",
       "labs": "Laboratoires",
       "plans": "Offres",
+      "settings": "Réglages",
       "translations": "Traductions"
     },
     "plans": {
@@ -698,6 +708,22 @@
       "tickAll": "Tout cocher",
       "title": "Rôles",
       "undo": "Annuler"
+    },
+    "settings": {
+      "channels": "Comptes email et SMS partagés",
+      "channelsHint": "Les comptes de Delorc, utilisés par les laboratoires en mode partagé. Ajoutés par le module Canaux.",
+      "days": "{count} jour | {count} jour | {count} jours",
+      "graceDays": "Jours de grâce",
+      "graceDaysApplies": "S'applique tout de suite à tous les laboratoires, car le délai de grâce est calculé à partir des dates.",
+      "graceDaysHint": "Jours pendant lesquels un laboratoire continue après la fin de sa dernière période. Le lendemain, il est suspendu automatiquement.",
+      "labs": "Laboratoires",
+      "later": "Avec Canaux",
+      "months": "{count} mois | {count} mois | {count} mois",
+      "title": "Réglages",
+      "trialMonths": "Durée de l'essai",
+      "trialMonthsApplies": "S'applique aux laboratoires créés à partir de maintenant. Les essais en cours gardent leurs dates.",
+      "trialMonthsField": "Durée de l'essai (mois)",
+      "trialMonthsHint": "Chaque nouveau laboratoire commence par un essai de cette durée sur le plan choisi à la création."
     },
     "translations": {
       "backupHint": "La base de données est la source. Les fichiers ne sont qu'une sauvegarde.",

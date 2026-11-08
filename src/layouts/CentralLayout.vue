@@ -28,6 +28,7 @@ const menu = computed(() =>
     },
     { to: 'central-countries', pages: ['central-countries', 'central-country'], label: 'central.menu.geography', icon: 'tabler-map', allowed: auth.can('geography.show') },
     { to: 'central-plans', pages: ['central-plans'], label: 'central.menu.plans', icon: 'tabler-stack-2', allowed: auth.can('plans.show') },
+    { to: 'central-settings', pages: ['central-settings'], label: 'central.menu.settings', icon: 'tabler-settings', allowed: auth.can('settings.show') },
   ].filter((item) => item.allowed),
 )
 
