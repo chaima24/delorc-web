@@ -8,22 +8,19 @@ import DlButton from '@/components/DlButton.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import DlSelect from '@/components/DlSelect.vue'
-import { useLanguageName } from './useLanguageName'
 
-const props = defineProps<{ languages: Language[]; texts: number }>()
+defineProps<{ texts: number }>()
 const open = defineModel<boolean>('open', { required: true })
 const emit = defineEmits<{ added: [language: Language] }>()
 
 const { t } = useI18n()
-const languageName = useLanguageName()
 
-const form = ref({ code: '', name: '', native_name: '', direction: 'ltr' as Language['direction'], locale: '', fallback: 'fr' })
+const form = ref({ code: '', name: '', native_name: '', direction: 'ltr' as Language['direction'], locale: '' })
 const errors = ref<Record<string, string>>({})
 const error = ref<string | null>(null)
 const busy = ref(false)
 
 const directionOptions = computed(() => ['ltr', 'rtl'].map((value) => ({ value, label: t(`central.languages.direction.${value}`) })))
-const fallbackOptions = computed(() => props.languages.map(({ code, name }) => ({ value: code, label: languageName(code, name) })))
 
 async function add(): Promise<void> {
   busy.value = true
@@ -51,7 +48,6 @@ async function add(): Promise<void> {
       </div>
       <DlSelect v-model="form.direction" :label="t('central.languages.directionLabel')" :options="directionOptions" />
       <DlInput v-model="form.locale" :label="t('central.languages.locale')" :hint="t('central.languages.localeHint')" :error="errors.locale" />
-      <DlSelect v-model="form.fallback" :label="t('central.languages.fallback')" :options="fallbackOptions" />
       <p class="rounded-xl bg-dl-pending/10 px-3 py-2 text-[13px] text-dl-pending">{{ t('central.languages.startsMissing', { count: texts }) }}</p>
       <div class="flex gap-2">
         <DlButton type="submit" variant="primary" size="sm" :loading="busy">{{ t('central.languages.addSubmit') }}</DlButton>

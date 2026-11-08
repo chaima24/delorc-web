@@ -10,7 +10,7 @@ import LanguagesView from '@/views/central/translations/LanguagesView.vue'
 import TextsView from '@/views/central/translations/TextsView.vue'
 
 const language = (id: number, code: string, name: string, values: Partial<Language> = {}): Language => ({
-  id, code, name, native_name: name, direction: 'ltr', locale: `${code}-DZ`, fallback: code === 'fr' ? null : 'fr',
+  id, code, name, native_name: name, direction: 'ltr', locale: `${code}-DZ`,
   is_active: true, texts_done: 1, texts_missing: 1, percent_done: 50, created_at: `2026-11-0${id}T10:00:00+00:00`, ...values,
 })
 const languages = [language(1, 'fr', 'French'), language(2, 'en', 'English'), language(3, 'ar', 'Arabic', { direction: 'rtl', is_active: false })]

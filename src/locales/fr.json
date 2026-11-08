@@ -668,7 +668,6 @@
       "directionLabel": "Sens",
       "done": "Fait",
       "empty": "Aucune langue trouvée",
-      "fallback": "Langue de secours",
       "frenchHint": "Le français est la dernière langue de secours : il ne peut être ni désactivé ni supprimé.",
       "inactiveHint": "Personne ne peut encore la choisir.",
       "language": "Langue",

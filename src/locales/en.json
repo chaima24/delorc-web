@@ -668,7 +668,6 @@
       "directionLabel": "Direction",
       "done": "Done",
       "empty": "No language found",
-      "fallback": "Falls back to",
       "frenchHint": "French is the last fallback: it cannot be deactivated or deleted.",
       "inactiveHint": "Nobody can choose it yet.",
       "language": "Language",

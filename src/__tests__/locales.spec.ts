@@ -23,7 +23,8 @@ describe('central texts', () => {
     const other = flatten(texts)
 
     expect(Object.keys(other).sort()).toEqual(Object.keys(french).sort())
-    Object.keys(french).forEach((key) => expect(slots(other[key] ?? ''), key).toEqual(slots(french[key] ?? '')))
+    // The key is part of the compared value, so a failure names it.
+    Object.keys(french).forEach((key) => expect({ key, slots: slots(other[key] ?? '') }).toEqual({ key, slots: slots(french[key] ?? '') }))
   })
 
   it('finds a key with a dash', () => {

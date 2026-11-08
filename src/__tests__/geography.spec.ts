@@ -40,7 +40,8 @@ async function plugins(path: string, permissions: string[]) {
 
 beforeEach(() => {
   // The side panel asks the screen size.
-  window.matchMedia = vi.fn().mockReturnValue({ matches: true, addEventListener: () => {}, removeEventListener: () => {} })
+  window.matchMedia = vi.fn<typeof window.matchMedia>()
+    .mockReturnValue({ matches: true, addEventListener: () => {}, removeEventListener: () => {} } as unknown as MediaQueryList)
   setActivePinia(createPinia())
   i18n.global.locale.value = 'en'
   vi.restoreAllMocks()

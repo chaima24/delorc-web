@@ -7,7 +7,6 @@ export interface Language {
   native_name: string
   direction: 'ltr' | 'rtl'
   locale: string
-  fallback: string | null
   is_active: boolean
   texts_done: number
   texts_missing: number
@@ -15,7 +14,7 @@ export interface Language {
   created_at: string
 }
 
-export type NewLanguage = Pick<Language, 'code' | 'name' | 'native_name' | 'direction' | 'locale' | 'fallback'>
+export type NewLanguage = Pick<Language, 'code' | 'name' | 'native_name' | 'direction' | 'locale'>
 export type LanguageChanges = Partial<Omit<NewLanguage, 'code'> & Pick<Language, 'is_active'>>
 
 const one = (response: { data: { data: Language } }) => response.data.data

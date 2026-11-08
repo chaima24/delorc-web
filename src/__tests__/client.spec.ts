@@ -62,22 +62,22 @@ describe('client', () => {
   })
 
   it('ends the session when the refresh token is refused', async () => {
-    const lost = vi.fn()
+    const lost = vi.fn<() => void>()
     onSessionLost(lost)
     fakeApi(() => ({ status: 401 }))
 
-    await expect(client.get('/a')).rejects.toThrow()
+    await expect(client.get('/a')).rejects.toThrow('failed')
 
     expect(lost).toHaveBeenCalledOnce()
     expect(tokens.access).toBeNull()
   })
 
   it('keeps the session when there is no network', async () => {
-    const lost = vi.fn()
+    const lost = vi.fn<() => void>()
     onSessionLost(lost)
     fakeApi((config) => (config.url === '/auth/refresh' ? 'network-error' : { status: 401 }))
 
-    await expect(client.get('/a')).rejects.toThrow()
+    await expect(client.get('/a')).rejects.toThrow('Network Error')
 
     expect(lost).not.toHaveBeenCalled()
     expect(tokens.refresh).toBe('refresh-1')
@@ -86,7 +86,7 @@ describe('client', () => {
   it('does not refresh on a wrong password', async () => {
     const calls = fakeApi(() => ({ status: 422 }))
 
-    await expect(client.post('/auth/login', {})).rejects.toThrow()
+    await expect(client.post('/auth/login', {})).rejects.toThrow('failed')
 
     expect(refreshCalls(calls)).toHaveLength(0)
   })

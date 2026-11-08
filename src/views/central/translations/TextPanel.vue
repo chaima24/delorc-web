@@ -56,9 +56,8 @@ function hint(text: TextDetail['texts'][number]): string | undefined {
   if (changed(text)) return t('central.translations.notSaved')
   if (text.updated_by) return t('central.translations.changedBy', { name: text.updated_by.name, date: d(new Date(text.updated_at!)) })
   if (text.value !== null) return undefined
-  const fallback = language(text.language)?.fallback ?? 'fr'
 
-  return t('central.translations.fallsBackTo', { language: label(fallback) })
+  return t('central.translations.fallsBackTo', { language: label('fr') })
 }
 
 async function save(): Promise<void> {

@@ -139,8 +139,8 @@ const L = [
 ]
 const langTable = (sel = -1, wide = true, rows = L) => `<div class='card' style='padding:16px 18px'>
   <div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:230px'>⌕ Search a language</div><span class='input'>Status <b>All</b> ▾</span></div>
-  <table class='table'><thead><tr><th>Language ↕</th>${wide ? `<th>Direction ↕</th><th>Dates and numbers ↕</th>` : ''}<th>Falls back to ↕</th><th>Done ↕</th><th>Status ↕</th>${wide ? `<th>Added on ↓</th>` : ''}<th></th></tr></thead><tbody>
-  ${rows.map((l, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${l[1]}</strong><div class='hint'>${l[2]} · ${l[0]}</div></td>${wide ? `<td class='label'>${l[3]}</td><td class='label'>${l[4]}</td>` : ''}<td class='label'>${l[5]}</td><td class='label' style='white-space:nowrap'>${wide ? `<span class='bar'><i style='width:${l[6]}%'></i></span>` : ''}${l[6]}%</td><td><span class='chip ${l[8]}'>${l[8] === 'ok' ? 'Active' : 'Inactive'}</span></td>${wide ? `<td class='label'>${l[9]}</td>` : ''}<td style='color:var(--muted)'>›</td></tr>`).join('')}</tbody></table></div>`
+  <table class='table'><thead><tr><th>Language ↕</th>${wide ? `<th>Direction ↕</th><th>Dates and numbers ↕</th>` : ''}<th>Done ↕</th><th>Status ↕</th>${wide ? `<th>Added on ↓</th>` : ''}<th></th></tr></thead><tbody>
+  ${rows.map((l, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${l[1]}</strong><div class='hint'>${l[2]} · ${l[0]}</div></td>${wide ? `<td class='label'>${l[3]}</td><td class='label'>${l[4]}</td>` : ''}<td class='label' style='white-space:nowrap'>${wide ? `<span class='bar'><i style='width:${l[6]}%'></i></span>` : ''}${l[6]}%</td><td><span class='chip ${l[8]}'>${l[8] === 'ok' ? 'Active' : 'Inactive'}</span></td>${wide ? `<td class='label'>${l[9]}</td>` : ''}<td style='color:var(--muted)'>›</td></tr>`).join('')}</tbody></table></div>`
 
 const langPanel = `<aside class='panel'>
   <div class='ph'><div class='ic'>AR</div><div><h2>Arabic</h2><div class='sub'><span class='chip ok'>Active</span><span class='chip'>Right to left</span></div></div>${closeBtn}</div>
@@ -151,7 +151,6 @@ const langPanel = `<aside class='panel'>
       <div class='tl'><span>Name</span><em>Arabic · العربية</em></div>
       <div class='tl'><span>Code</span><em>ar</em></div>
       <div class='tl'><span>Dates and numbers</span><em>ar-DZ</em></div>
-      <div class='tl'><span>Falls back to</span><em>French</em></div>
     </section>
     <section class='sec'><header><strong>Active</strong><span class='edit'>Deactivate</span></header><div class='line hint'>Hidden from language choices. Its texts are kept.</div></section>
     <section class='sec'><header><strong>Delete</strong><span class='edit' style='opacity:.45'>Delete</span></header><div class='line hint'>37 texts are written, so this language can only be deactivated.</div></section>
@@ -166,7 +165,6 @@ const addPanel = `<aside class='panel'>
     <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'>${field('Name', 'Spanish')}${field('Native name', 'Español')}</div>
     <div class='field'><span>Direction</span><div class='seg' style='align-self:flex-start'><span class='on'>Left to right</span><span>Right to left</span></div></div>
     ${field('Dates and numbers', 'es-ES', 'Controls formats like 06/11/2026 and 1 200,50.')}
-    ${field('Falls back to', 'English ▾', 'Shown until a text is translated.')}
     <div class='warn'>All 55 texts start as missing. The language stays inactive until you activate it.</div>
     <div class='btnrow'><span class='btn primary sm'>Add the language</span><span class='btn outline sm'>Cancel</span></div>
   </div>
@@ -181,7 +179,6 @@ const newPanel = `<aside class='panel'>
       <div class='tl'><span>Name</span><em>Spanish · Español</em></div>
       <div class='tl'><span>Code</span><em>es</em></div>
       <div class='tl'><span>Dates and numbers</span><em>es-ES</em></div>
-      <div class='tl'><span>Falls back to</span><em>English</em></div>
     </section>
     <section class='sec'><header><strong>Inactive</strong><span class='edit'>Activate</span></header><div class='line hint'>Nobody can choose it yet.</div></section>
     <section class='sec'><header><strong>Delete</strong><span class='edit'>Delete</span></header><div class='line hint'>No text is written yet, so it can still be deleted.</div></section>
@@ -196,7 +193,7 @@ document.getElementById('frames').innerHTML = [
   frame(4, `<strong>Arabic.</strong> The cell switches to right to left and the French column does not. If a text loses a slot like {total}, the save is refused, as with a 422 validation error, and the translator fixes the text first.`, { title: 'Texts', add: ioBtn, list: arPage({ edits: { 'common.list.showing': 'من {from} إلى {to}' }, bad: { 'common.list.showing': 'Must contain {total}' }, bar: saveBar('1 change', '1 text to fix', true) }) }),
   frame(5, `<strong>Click a key.</strong> All languages side by side, the note for translators, and who changed each text and when. French is edited like any other language.`, { title: 'Texts', add: ioBtn, list: enPage({ sel: 5, narrow: true }), panel: textPanel }),
   frame(6, `<strong>Import / export.</strong> Each button appears only if your role has <code>translations.import</code> or <code>translations.export</code>.`, { title: 'Texts', add: ioBtn, list: enPage({ narrow: true }), panel: ioPanel }),
-  frame(7, `<strong>Languages.</strong> Percentage done for each language, with search, a status filter and sortable columns. French has no fallback, because it is the last resort.`, { title: 'Languages', level: 'Languages', add: addLang, list: langTable() }),
+  frame(7, `<strong>Languages.</strong> Percentage done for each language, with search, a status filter and sortable columns. A missing text shows French here, and the lab's default language, then French, in a lab.`, { title: 'Languages', level: 'Languages', add: addLang, list: langTable() }),
   frame(8, `<strong>Click a language.</strong> The button jumps to its missing texts. A language with written texts cannot be deleted, only deactivated, so nobody loses a translator's work in one click.`, { title: 'Languages', level: 'Languages', add: addLang, list: langTable(2, false), panel: langPanel }),
   frame(9, `<strong>Add a language.</strong> Six fields, as in the spec.`, { title: 'Languages', level: 'Languages', list: langTable(-1, false), panel: addPanel }),
   frame(10, `<strong>The new language.</strong> Inactive and empty, so it can still be deleted if it was a mistake. Translators fill it in, then someone activates it.`, { title: 'Languages', level: 'Languages', add: addLang, list: langTable(3, false, withSpanish), panel: newPanel, languages: 4 }),

@@ -21,7 +21,7 @@ const { t, n } = useI18n()
 const auth = useAuthStore()
 const languageName = useLanguageName()
 
-const details = ref({ name: '', native_name: '', direction: 'ltr' as Language['direction'], locale: '', fallback: 'fr' })
+const details = ref({ name: '', native_name: '', direction: 'ltr' as Language['direction'], locale: '' })
 const editing = ref(false)
 const confirmingDelete = ref(false)
 const errors = ref<Record<string, string>>({})
@@ -37,13 +37,10 @@ const nameOf = (code: string | null) => {
   return languageName(code, props.languages.find((item) => item.code === code)?.name)
 }
 const directionOptions = computed(() => ['ltr', 'rtl'].map((value) => ({ value, label: t(`central.languages.direction.${value}`) })))
-const fallbackOptions = computed(() => props.languages
-  .filter(({ code }) => code !== props.language.code)
-  .map(({ code }) => ({ value: code, label: nameOf(code) })))
 
 function reset(): void {
-  const { name, native_name, direction, locale, fallback } = props.language
-  details.value = { name, native_name, direction, locale, fallback: fallback ?? 'fr' }
+  const { name, native_name, direction, locale } = props.language
+  details.value = { name, native_name, direction, locale }
   editing.value = false
   confirmingDelete.value = false
   errors.value = {}
@@ -68,8 +65,7 @@ async function run(action: () => Promise<unknown>, done: () => void): Promise<vo
 }
 
 function saveDetails(): Promise<void> {
-  const { fallback, ...fields } = details.value
-  const changes: LanguageChanges = isFrench.value ? fields : { ...fields, fallback }
+  const changes: LanguageChanges = { ...details.value }
 
   return run(() => languagesApi.update(props.language.code, changes), () => emit('changed'))
 }
@@ -107,17 +103,12 @@ const remove = () => run(() => languagesApi.remove(props.language.code), () => e
       <DlRecordSection v-model:editing="editing" :title="t('central.languages.details')" :can-edit="canUpdate" :saving="busy" @save="saveDetails" @cancel="reset">
         {{ language.name }} · <span :dir="language.direction">{{ language.native_name }}</span><br>
         {{ t('central.languages.code') }}: {{ language.code }}<br>
-        {{ t('central.languages.locale') }}: {{ language.locale }}<br>
-        {{ t('central.languages.fallback') }}: {{ nameOf(language.fallback) }}
+        {{ t('central.languages.locale') }}: {{ language.locale }}
         <template #edit>
           <DlInput v-model="details.name" :label="t('central.languages.name')" :error="errors.name" />
           <DlInput v-model="details.native_name" :label="t('central.languages.nativeName')" :error="errors.native_name" />
           <DlSelect v-model="details.direction" :label="t('central.languages.directionLabel')" :options="directionOptions" />
           <DlInput v-model="details.locale" :label="t('central.languages.locale')" :error="errors.locale" />
-          <template v-if="!isFrench">
-            <DlSelect v-model="details.fallback" :label="t('central.languages.fallback')" :options="fallbackOptions" />
-            <p v-if="errors.fallback" class="text-xs font-semibold text-dl-rejected">{{ errors.fallback }}</p>
-          </template>
         </template>
       </DlRecordSection>
 

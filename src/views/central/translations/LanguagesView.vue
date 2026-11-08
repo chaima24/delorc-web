@@ -65,7 +65,6 @@ const shown = computed(() => {
     name: (language) => nameOf(language.code),
     direction: (language) => language.direction,
     locale: (language) => language.locale,
-    fallback: (language) => nameOf(language.fallback),
     percent_done: (language) => language.percent_done,
     is_active: (language) => Number(language.is_active),
     created_at: (language) => language.created_at,
@@ -132,7 +131,6 @@ function onDeleted(): void {
               <DlSortHeader v-model="sort" column="name" :label="t('central.languages.language')" />
               <DlSortHeader v-model="sort" column="direction" :label="t('central.languages.directionLabel')" :class="wide" />
               <DlSortHeader v-model="sort" column="locale" :label="t('central.languages.locale')" :class="wide" />
-              <DlSortHeader v-model="sort" column="fallback" :label="t('central.languages.fallback')" />
               <DlSortHeader v-model="sort" column="percent_done" :label="t('central.languages.done')" />
               <DlSortHeader v-model="sort" column="is_active" :label="t('central.languages.statusLabel')" />
               <DlSortHeader v-model="sort" column="created_at" :label="t('common.list.createdAt')" :class="wide" />
@@ -154,7 +152,6 @@ function onDeleted(): void {
               </td>
               <td class="p-3 text-[13px] text-dl-muted" :class="wide">{{ t(`central.languages.direction.${language.direction}`) }}</td>
               <td class="p-3 text-[13px] text-dl-muted" :class="wide">{{ language.locale }}</td>
-              <td class="p-3 text-[13px] text-dl-muted">{{ nameOf(language.fallback) }}</td>
               <td class="p-3 text-[13px] tabular-nums text-dl-muted">{{ n(language.percent_done) }}%</td>
               <td class="p-3"><DlBadge :tone="language.is_active ? 'success' : 'neutral'" dot>{{ t(`central.languages.status.${language.is_active ? 'active' : 'inactive'}`) }}</DlBadge></td>
               <td class="p-3 text-[13px] text-dl-muted" :class="wide">{{ d(new Date(language.created_at)) }}</td>
@@ -165,6 +162,6 @@ function onDeleted(): void {
     </div>
 
     <LanguagePanel v-if="selected" v-model:open="panelOpen" :language="selected" :languages="languages" @changed="load" @deleted="onDeleted" />
-    <AddLanguagePanel v-if="adding" v-model:open="adding" :languages="languages" :texts="totalTexts" @added="onAdded" />
+    <AddLanguagePanel v-if="adding" v-model:open="adding" :texts="totalTexts" @added="onAdded" />
   </div>
 </template>
