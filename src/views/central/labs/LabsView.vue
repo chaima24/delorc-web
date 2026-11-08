@@ -20,7 +20,7 @@ import { dayFromToday, useLabTexts } from './useLabTexts'
 const { t, d } = useI18n()
 const router = useRouter()
 const auth = useAuthStore()
-const { day, periodLabel, periodTone, statusLabel } = useLabTexts()
+const { day, periodLabel, periodTone, statusLabel, statusTone } = useLabTexts()
 
 const labs = ref<LabRow[]>([])
 const loaded = ref(false)
@@ -33,7 +33,7 @@ const endingSoon = ref(false)
 const sort = ref('-created_at')
 
 const all = computed(() => ({ value: 'all', label: t('common.list.all') }))
-const statusOptions = computed(() => [all.value, ...['active', 'suspended'].map((value) => ({ value, label: statusLabel(value as 'active' | 'suspended') }))])
+const statusOptions = computed(() => [all.value, ...(['active', 'suspended', 'deleted'] as const).map((value) => ({ value, label: statusLabel(value) }))])
 const periodOptions = computed(() => [all.value, ...['trial', 'paid', 'grace', 'ended'].map((value) => ({ value, label: periodLabel(value as 'trial') }))])
 const planOptions = computed(() => {
   const plans = new Map(labs.value.filter((lab) => lab.plan).map((lab) => [lab.plan!.id, lab.plan!.name]))
@@ -46,7 +46,8 @@ const shown = computed(() => {
   const text = search.value.trim().toLowerCase()
   const limit = dayFromToday(30)
   const found = labs.value.filter((lab) => [lab.name, lab.id].some((value) => value.toLowerCase().includes(text))
-    && (status.value === 'all' || lab.status === status.value)
+    // Deleted labs are hidden unless the Status filter asks for them.
+    && (status.value === 'all' ? lab.status !== 'deleted' : lab.status === status.value)
     && (plan.value === 'all' || lab.plan?.id === plan.value)
     && (period.value === 'all' || lab.period_status === period.value)
     && (!endingSoon.value || (lab.period_ends_on !== null && lab.period_ends_on >= dayFromToday(0) && lab.period_ends_on <= limit)))
@@ -114,6 +115,7 @@ const open = (lab: LabRow) => router.push({ name: 'central-lab', params: { id: l
               v-for="lab in shown"
               :key="lab.id"
               class="cursor-pointer border-b border-dl-line-soft hover:bg-dl-line-soft"
+              :class="lab.status === 'deleted' && 'text-dl-muted opacity-70'"
               tabindex="0"
               @click="open(lab)"
               @keydown.enter="open(lab)"
@@ -124,7 +126,7 @@ const open = (lab: LabRow) => router.push({ name: 'central-lab', params: { id: l
               <td class="p-3">{{ lab.plan?.name ?? '—' }}</td>
               <td class="p-3"><DlBadge :tone="periodTone(lab.period_status)" dot>{{ periodLabel(lab.period_status) }}</DlBadge></td>
               <td class="hidden p-3 tabular-nums md:table-cell">{{ day(lab.period_ends_on) }}</td>
-              <td class="p-3"><DlBadge :tone="lab.status === 'active' ? 'success' : 'warning'" dot>{{ statusLabel(lab.status) }}</DlBadge></td>
+              <td class="p-3"><DlBadge :tone="statusTone(lab.status)" dot>{{ statusLabel(lab.status) }}</DlBadge></td>
               <td class="hidden p-3 text-[13px] text-dl-muted lg:table-cell">{{ d(new Date(lab.created_at)) }}</td>
             </tr>
           </tbody>

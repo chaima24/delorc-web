@@ -1,5 +1,5 @@
 import { useI18n } from 'vue-i18n'
-import type { PeriodStatus } from '@/api/central/labs'
+import type { LabRow, PeriodStatus } from '@/api/central/labs'
 
 type Tone = 'info' | 'success' | 'warning' | 'neutral'
 
@@ -13,12 +13,21 @@ export function useLabTexts() {
   const day = (value: string | null) => (value ? d(new Date(`${value}T12:00:00`), { dateStyle: 'medium' }) : '—')
   const periodLabel = (status: PeriodStatus) => t(`central.labs.period.${status ?? 'none'}`)
   const periodTone = (status: PeriodStatus): Tone => (status ? PERIOD_TONES[status] : 'neutral')
-  const statusLabel = (status: 'active' | 'suspended') => t(`central.labs.status.${status}`)
+  const statusLabel = (status: LabRow['status']) => t(`central.labs.status.${status}`)
+  const statusTone = (status: LabRow['status']) => ({ active: 'success', suspended: 'warning', deleted: 'danger' } as const)[status]
+  /** 19293798 → "18.4 MB". */
+  const fileSize = (bytes: number | null) => {
+    if (bytes === null) return '—'
+    const units = ['B', 'KB', 'MB', 'GB']
+    const power = Math.min(units.length - 1, Math.floor(Math.log(Math.max(bytes, 1)) / Math.log(1024)))
+
+    return `${n(bytes / 1024 ** power, { maximumFractionDigits: power ? 1 : 0 })} ${units[power]}`
+  }
   const money = (amount: string, currency: string) => `${n(Number(amount))} ${currency}`
   /** "Demo Pharma" → "DP": shown when the lab has no logo. */
   const initials = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((word) => word[0]!.toUpperCase()).join('')
 
-  return { day, periodLabel, periodTone, statusLabel, money, initials }
+  return { day, periodLabel, periodTone, statusLabel, statusTone, fileSize, money, initials }
 }
 
 /** `YYYY-MM-DD` of today plus `days`, in the viewer's time. */

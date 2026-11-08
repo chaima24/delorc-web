@@ -13,7 +13,8 @@ export interface LabRow {
   period_status: PeriodStatus
   /** `YYYY-MM-DD`: end of the current period, or of the last one. */
   period_ends_on: string | null
-  status: 'active' | 'suspended'
+  /** A deleted lab stays in the list: its database and files are gone, its exports stay until they expire. */
+  status: 'active' | 'suspended' | 'deleted'
   created_at: string
 }
 
@@ -51,6 +52,8 @@ export interface Lab extends LabRow {
   /** Null while active. `by` is null for an automatic suspension. */
   suspension: { at: string | null; by: { id: number; name: string } | null; reason: string | null } | null
   grace_ends_on: string | null
+  deleted_at: string | null
+  deleted_by: { id: number; name: string } | null
   subscriptions: Subscription[]
 }
 
@@ -121,6 +124,40 @@ export const labsApi = {
   addPeriod: (id: string, period: NewPeriod) => client.post(`/labs/${id}/subscriptions`, period).then(one),
   updatePeriod: (periodId: number, changes: { monthly_price: number; note: string | null }) => client.put(`/subscriptions/${periodId}`, changes).then(one),
   removePeriod: (periodId: number) => client.delete(`/subscriptions/${periodId}`),
+  /** The slug typed again confirms it. Answers with the lab page, now `deleted`. */
+  remove: (id: string, slug: string) => client.delete(`/labs/${id}`, { data: { slug } }).then(one),
+}
+
+/** Expired: a ready export whose days are over (worked out by the API). */
+export type ExportState = 'preparing' | 'ready' | 'failed' | 'expired'
+
+export interface LabExport {
+  id: number
+  state: ExportState
+  size_bytes: number | null
+  /** A short reason when failed. */
+  error: string | null
+  requested_by: { id: number; name: string } | null
+  /** "Asked on". */
+  created_at: string
+  ready_at: string | null
+  expires_at: string | null
+}
+
+/** Why delete is not allowed yet, or null when it is. */
+export type DeleteBlocker = 'not_suspended' | 'no_export' | 'export_preparing' | 'export_expired' | 'deleted' | null
+
+/** The Data tab: the exports, newest first, and whether the lab can be deleted. */
+export interface LabData {
+  exports: LabExport[]
+  delete: { allowed: boolean; reason: DeleteBlocker }
+}
+
+export const labExportsApi = {
+  get: (labId: string) => client.get<{ data: LabData }>(`/labs/${labId}/exports`).then((response) => response.data.data),
+  ask: (labId: string) => client.post<{ data: LabExport }>(`/labs/${labId}/exports`).then((response) => response.data.data),
+  /** A 5-minute link to the ZIP: the browser cannot send the token with a plain download, so the API gives a link. */
+  downloadUrl: (exportId: number) => client.get<{ url: string }>(`/lab-exports/${exportId}/download`).then((response) => response.data.url),
 }
 
 /** A limit is a number (null = unlimited); a switch is true or false. */

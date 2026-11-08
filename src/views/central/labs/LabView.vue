@@ -12,6 +12,7 @@ import DlSheet from '@/components/DlSheet.vue'
 import { useAuthStore } from '@/stores/auth'
 import { usePanelAction } from '../geography/usePanelAction'
 import LabActivity from './LabActivity.vue'
+import LabData from './LabData.vue'
 import LabFeatures from './LabFeatures.vue'
 import LabLogo from './LabLogo.vue'
 import LabOverview from './LabOverview.vue'
@@ -22,12 +23,19 @@ import { useLabTexts } from './useLabTexts'
 const { t, d } = useI18n()
 const route = useRoute()
 const auth = useAuthStore()
-const { day, periodLabel, periodTone, statusLabel } = useLabTexts()
+const { day, periodLabel, periodTone, statusLabel, statusTone } = useLabTexts()
 const { error: actionError, busy, run } = usePanelAction()
 
 const lab = ref<Lab | null>(null)
 const error = ref<string | null>(null)
-const tab = ref<'overview' | 'subscription' | 'features' | 'texts' | 'activity'>('overview')
+type Tab = 'overview' | 'subscription' | 'features' | 'texts' | 'data' | 'activity'
+const tab = ref<Tab>('overview')
+/** A deleted lab keeps only its exports and its history. Data needs labs.export (not billing). */
+const tabs = computed<Tab[]>(() => {
+  const data: Tab[] = auth.can('labs.export') ? ['data'] : []
+
+  return lab.value?.status === 'deleted' ? [...data, 'activity'] : ['overview', 'subscription', 'features', 'texts', ...data, 'activity']
+})
 const confirming = ref<'suspend' | 'resume' | null>(null)
 const reason = ref('')
 
@@ -38,10 +46,19 @@ const sheetOpen = computed({ get: () => confirming.value !== null, set: (open) =
 onMounted(async () => {
   try {
     lab.value = await labsApi.get(String(route.params.id))
+    // The export email links to ?tab=data.
+    const asked = route.query.tab as Tab | undefined
+    tab.value = asked && tabs.value.includes(asked) ? asked : tabs.value[0]!
   } catch (failure) {
     error.value = errorMessage(failure) ?? t('errors.network')
   }
 })
+
+/** After a delete only Data and Activity stay: the page stays on Data. */
+function deleted(changed: Lab): void {
+  lab.value = changed
+  tab.value = 'data'
+}
 
 function ask(which: 'suspend' | 'resume'): void {
   reason.value = ''
@@ -68,12 +85,12 @@ const confirm = () => run(
         <div class="min-w-0 flex-1">
           <h1 class="font-display text-[32px] font-extrabold leading-tight tracking-[-0.03em]">{{ lab.name }}</h1>
           <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
-            <DlBadge :tone="lab.status === 'active' ? 'success' : 'warning'" dot size="sm">{{ statusLabel(lab.status) }}</DlBadge>
-            <DlBadge :tone="periodTone(lab.period_status)" dot size="sm">{{ periodLabel(lab.period_status) }}</DlBadge>
+            <DlBadge :tone="statusTone(lab.status)" dot size="sm">{{ statusLabel(lab.status) }}</DlBadge>
+            <DlBadge v-if="lab.status !== 'deleted'" :tone="periodTone(lab.period_status)" dot size="sm">{{ periodLabel(lab.period_status) }}</DlBadge>
             <span class="text-xs text-dl-muted">{{ lab.id }}.localhost · {{ lab.plan?.name ?? '—' }}</span>
           </div>
         </div>
-        <template v-if="auth.can('labs.suspend')">
+        <template v-if="auth.can('labs.suspend') && lab.status !== 'deleted'">
           <DlButton v-if="lab.status === 'active'" variant="outline" @click="ask('suspend')">{{ t('central.labs.suspend') }}</DlButton>
           <DlButton v-else-if="lab.suspension?.by" variant="primary" @click="ask('resume')">{{ t('central.labs.resume') }}</DlButton>
         </template>
@@ -83,7 +100,10 @@ const confirm = () => run(
       <p v-if="lab.period_status === 'grace' && lab.status === 'active'" class="rounded-2xl bg-dl-pending/10 px-4 py-3 text-sm text-dl-pending">
         <strong>{{ t('central.labs.graceTitle', { date: day(lab.grace_ends_on) }) }}</strong><br>{{ t('central.labs.graceHint') }}
       </p>
-      <p v-if="lab.suspension" class="rounded-2xl bg-dl-rejected/10 px-4 py-3 text-sm text-dl-rejected">
+      <p v-if="lab.status === 'deleted'" class="rounded-2xl bg-dl-rejected/10 px-4 py-3 text-sm text-dl-rejected">
+        <strong>{{ t('central.labs.deletedBy', { name: lab.deleted_by?.name ?? '—', date: lab.deleted_at ? d(new Date(lab.deleted_at), { dateStyle: 'medium', timeStyle: 'short' }) : '—' }) }}</strong><br>{{ t('central.labs.deletedHint') }}
+      </p>
+      <p v-else-if="lab.suspension" class="rounded-2xl bg-dl-rejected/10 px-4 py-3 text-sm text-dl-rejected">
         <template v-if="lab.suspension.by">
           <strong>{{ t('central.labs.suspendedBy', { name: lab.suspension.by.name, date: lab.suspension.at ? d(new Date(lab.suspension.at)) : '—' }) }}</strong><br>
           <template v-if="lab.suspension.reason">{{ t('central.labs.reasonShown', { reason: lab.suspension.reason }) }} </template>{{ t('central.labs.suspendedHint') }}
@@ -94,7 +114,7 @@ const confirm = () => run(
       </p>
 
       <nav class="flex flex-wrap gap-1.5" :aria-label="lab.name">
-        <button v-for="name in (['overview', 'subscription', 'features', 'texts', 'activity'] as const)" :key="name" type="button" :class="[tabClass, tab === name && activeTab]" @click="tab = name">
+        <button v-for="name in tabs" :key="name" type="button" :class="[tabClass, tab === name && activeTab]" @click="tab = name">
           {{ t(`central.labs.tab.${name}`) }}
         </button>
       </nav>
@@ -103,6 +123,7 @@ const confirm = () => run(
       <LabSubscription v-else-if="tab === 'subscription'" :lab="lab" @changed="lab = $event" />
       <LabFeatures v-else-if="tab === 'features'" :lab="lab" />
       <LabTexts v-else-if="tab === 'texts'" :lab="lab" @changed="lab = $event" />
+      <LabData v-else-if="tab === 'data'" :lab="lab" @changed="deleted" />
       <LabActivity v-else :lab="lab" />
     </template>
 

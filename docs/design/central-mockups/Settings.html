@@ -20,7 +20,7 @@
 .ev p { margin: 0; font-size: 14px; } .ev time { margin-inline-start: auto; font-size: 12px; color: var(--muted); }
 .err { color: var(--brick); font-size: 12px; } .input.badin { box-shadow: inset 0 0 0 1.5px var(--brick); }
 </style></head><body>
-<p class="caption"><strong>Central › Settings.</strong> Values the Delorc team changes without a deploy. For now: the trial length and the grace days of labs. Later modules add their own cards here (shared email and SMS accounts come with Channels). Interface texts are the real texts; people and dates are invented. <span style="color:var(--amber)">Dashed amber boxes are points to confirm.</span></p>
+<p class="caption"><strong>Central › Settings.</strong> Values the Delorc team changes without a deploy. For now: the trial length, the grace days and the export days of labs. Later modules add their own cards here (shared email and SMS accounts come with Channels). Interface texts are the real texts; people and dates are invented. <span style="color:var(--amber)">Dashed amber boxes are points to confirm.</span></p>
 <div id="frames"></div>
 <script>
 const logo = `<svg width='34' height='34' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
@@ -33,17 +33,19 @@ const field = (label, value, hint = '', bad = '') => `<div class='field'><span>$
 
 const labsRead = (canEdit = true) => `<section class='sec'><header><strong>Labs</strong>${canEdit ? `<span class='edit'>✎ Edit</span>` : ''}</header>
   <div class='tl'><span>Trial length<small>Every new lab starts with a trial this long on the plan chosen at creation.</small></span><em>1 month</em></div>
-  <div class='tl'><span>Grace days<small>Days a lab keeps working after its last period ends. The day after, it is suspended automatically.</small></span><em>7 days</em></div></section>`
+  <div class='tl'><span>Grace days<small>Days a lab keeps working after its last period ends. The day after, it is suspended automatically.</small></span><em>7 days</em></div>
+  <div class='tl'><span>Export days<small>Days a lab's data export can be downloaded. Then its archive is removed.</small></span><em>7 days</em></div></section>`
 const labsEdit = (bad = false) => `<section class='sec editing'><header><strong>Labs</strong></header><div class='eform'>
   <div class='two'>${field('Trial length (months)', '1', 'Applies to labs created from now on. Trials already running keep their dates.')}
   ${field('Grace days', bad ? '-3' : '10', 'Applies at once to every lab, because grace is worked out from the dates.', bad ? 'A whole number, 0 or more.' : '')}</div>
+  <div class='two'>${field('Export days', '7', 'Applies to exports ready from now on. Archives already made keep their date.')}<div></div></div>
   <div class='acts'><span class='btn outline sm'>Cancel</span><span class='btn dark sm'>Save</span></div></div></section>`
 const later = `<section class='sec later'><header><strong>Shared email and SMS accounts</strong><span class='chip info'>With Channels</span></header><div class='line'>Delorc's own accounts, used by labs on the shared mode. Added by the Channels module.</div></section>`
-const rules = `<div class='open'>To confirm: allowed values. Suggestion: trial 1 to 12 months, grace 0 to 60 days. 0 grace days means a lab is suspended the day after its last period ends.</div>`
+const rules = `<div class='open'>To confirm: allowed values. Suggestion: trial 1 to 12 months, grace 0 to 60 days, export days 1 to 30 (added with module 7). 0 grace days means a lab is suspended the day after its last period ends.</div>`
 const log = `<div class='card' style='padding:12px 14px;max-width:640px'><div class='ev'><span class='av'>SR</span><div><p><b>Sofia Rahmani</b> changed the settings</p><div style='display:flex;gap:6px;margin-top:6px'><span class='chip'>Grace days: 7 → 10</span></div></div><time>Today, 11:05</time></div></div>`
 
 document.getElementById('frames').innerHTML = [
-  frame(1, `<strong>The page opens.</strong> One card per area. Values come from the database; before anyone saves, they show the defaults (1 month, 7 days).`, labsRead() + later + rules),
+  frame(1, `<strong>The page opens.</strong> One card per area. Values come from the database; before anyone saves, they show the defaults (1 month, 7 days, 7 days).`, labsRead() + later + rules),
   frame(2, `<strong>Edit in place.</strong> The card turns into fields, with Cancel and Save inside it. Each field says when its change applies.`, labsEdit() + later),
   frame(3, `<strong>A wrong value.</strong> The field says why; nothing is saved.`, labsEdit(true) + later),
   frame(4, `<strong>In the activity log.</strong> One line per save, with before and after.`, labsRead() + log),

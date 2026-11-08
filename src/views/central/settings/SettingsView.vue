@@ -18,11 +18,12 @@ const { errors, error, busy, run, clear } = usePanelAction()
 const settings = ref<Settings | null>(null)
 const loadError = ref<string | null>(null)
 const editing = ref(false)
-const form = ref({ trial_months: '', grace_days: '' })
+const form = ref({ trial_months: '', grace_days: '', export_days: '' })
 
 function reset(): void {
   if (!settings.value) return
-  form.value = { trial_months: String(settings.value.labs.trial_months), grace_days: String(settings.value.labs.grace_days) }
+  const { trial_months, grace_days, export_days } = settings.value.labs
+  form.value = { trial_months: String(trial_months), grace_days: String(grace_days), export_days: String(export_days) }
   editing.value = false
   clear()
 }
@@ -37,7 +38,7 @@ onMounted(async () => {
 })
 
 const save = () => run(
-  () => settingsApi.save({ labs: { trial_months: Number(form.value.trial_months), grace_days: Number(form.value.grace_days) } }),
+  () => settingsApi.save({ labs: { trial_months: Number(form.value.trial_months), grace_days: Number(form.value.grace_days), export_days: Number(form.value.export_days) } }),
   (saved) => {
     settings.value = saved
     reset()
@@ -63,11 +64,16 @@ const row = 'flex items-start gap-2.5 border-t border-dl-line-soft py-2.5 first:
             <dt class="flex-1"><strong class="block">{{ t('central.settings.graceDays') }}</strong><span class="text-[12.5px] text-dl-muted">{{ t('central.settings.graceDaysHint') }}</span></dt>
             <dd class="font-semibold text-dl-fg">{{ t('central.settings.days', { count: settings.labs.grace_days }) }}</dd>
           </div>
+          <div :class="row">
+            <dt class="flex-1"><strong class="block">{{ t('central.settings.exportDays') }}</strong><span class="text-[12.5px] text-dl-muted">{{ t('central.settings.exportDaysHint') }}</span></dt>
+            <dd class="font-semibold text-dl-fg">{{ t('central.settings.days', { count: settings.labs.export_days }) }}</dd>
+          </div>
         </dl>
         <template #edit>
           <div class="grid gap-3 sm:grid-cols-2">
             <DlInput v-model="form.trial_months" type="number" min="1" max="12" :label="t('central.settings.trialMonthsField')" :hint="t('central.settings.trialMonthsApplies')" :error="errors['labs.trial_months']" />
             <DlInput v-model="form.grace_days" type="number" min="0" max="60" :label="t('central.settings.graceDays')" :hint="t('central.settings.graceDaysApplies')" :error="errors['labs.grace_days']" />
+            <DlInput v-model="form.export_days" type="number" min="1" max="30" :label="t('central.settings.exportDays')" :hint="t('central.settings.exportDaysApplies')" :error="errors['labs.export_days']" />
           </div>
         </template>
       </DlRecordSection>
