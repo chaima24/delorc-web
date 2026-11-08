@@ -8,6 +8,7 @@ import DlBadge from '@/components/DlBadge.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlRecordSection from '@/components/DlRecordSection.vue'
 import { useAuthStore } from '@/stores/auth'
+import SharedMailCard from '../channels/SharedMailCard.vue'
 import { usePanelAction } from '../geography/usePanelAction'
 
 /** Values the Delorc team changes without a deploy. Each later module adds its own card here. */
@@ -52,7 +53,7 @@ const row = 'flex items-start gap-2.5 border-t border-dl-line-soft py-2.5 first:
     <h1 class="font-display text-4xl font-extrabold tracking-[-0.03em]">{{ t('central.settings.title') }}</h1>
     <DlAlert v-if="loadError">{{ loadError }}</DlAlert>
 
-    <div v-if="settings" class="flex max-w-[640px] flex-col gap-4">
+    <div v-if="settings" class="flex flex-col gap-4">
       <DlAlert v-if="error">{{ error }}</DlAlert>
       <DlRecordSection v-model:editing="editing" :title="t('central.settings.labs')" :can-edit="auth.can('settings.update')" :saving="busy" class="bg-dl-paper" @save="save" @cancel="reset">
         <dl class="text-sm">
@@ -78,10 +79,12 @@ const row = 'flex items-start gap-2.5 border-t border-dl-line-soft py-2.5 first:
         </template>
       </DlRecordSection>
 
-      <!-- Comes with the Channels module. -->
-      <DlRecordSection :title="t('central.settings.channels')" :can-edit="false" class="bg-dl-paper opacity-60">
-        <DlBadge tone="info" size="sm">{{ t('central.settings.later') }}</DlBadge>
-        <p class="mt-1.5">{{ t('central.settings.channelsHint') }}</p>
+      <SharedMailCard v-if="auth.can('channels.show')" />
+
+      <!-- SMS: lab side only, once a provider is chosen. -->
+      <DlRecordSection :title="t('central.channels.sms')" :can-edit="false" class="bg-dl-paper opacity-60">
+        <DlBadge tone="info" size="sm">{{ t('central.channels.smsLater') }}</DlBadge>
+        <p class="mt-1.5">{{ t('central.channels.smsCentral') }}</p>
       </DlRecordSection>
     </div>
   </div>
