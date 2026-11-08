@@ -14,7 +14,8 @@ function flatten(texts: Texts, prefix = ''): Record<string, string> {
   }, {})
 }
 
-const slots = (text: string) => (text.match(/\{\w+\}/g) ?? []).sort()
+/** The placeholders a text uses. Each name counts once: Arabic has more plural forms than French. */
+const slots = (text: string) => [...new Set(text.match(/\{\w+\}/g) ?? [])].sort()
 
 describe('central texts', () => {
   const french = flatten(fr)
