@@ -41,6 +41,7 @@ export function useActivityTexts() {
     if (field === 'locale' && line.record_type === 'person') return known(`common.locale.${value}`, String(value))
     if (field === 'fallback') return known(`common.locale.${value}`, String(value))
     if (field === 'direction') return known(`central.languages.direction.${value}`, String(value))
+    if (field === 'kind') return known(`central.labs.period.${value}`, String(value))
 
     return String(value)
   }
@@ -85,6 +86,7 @@ export function useActivityTexts() {
     if (line.record_type === 'country' && auth.can('geography.show')) return { name: 'central-countries', query: { open: line.record.id } }
     if (line.record_type === 'plan' && auth.can('plans.show')) return { name: 'central-plans', query: { open: line.record.id } }
     if (line.record_type === 'language' && auth.can('languages.show')) return { name: 'central-languages', query: { open: line.record.id } }
+    if (line.record_type === 'lab' && auth.can('labs.show')) return { name: 'central-lab', params: { id: line.record.id } }
 
     return null
   }

@@ -1,6 +1,6 @@
 import { client } from '@/api/client'
 
-export type RecordType = 'person' | 'role' | 'sign_in' | 'language' | 'translations' | 'country' | 'region' | 'wilaya' | 'commune' | 'plan'
+export type RecordType = 'person' | 'role' | 'sign_in' | 'language' | 'translations' | 'country' | 'region' | 'wilaya' | 'commune' | 'plan' | 'lab'
 
 export interface ActivityChange {
   field: string
@@ -36,6 +36,8 @@ export interface ActivityFilters {
   action?: string
   from?: string
   hideAutomatic?: boolean
+  /** A lab's slug: every line of that lab. */
+  lab?: string
   /** `-id` newest first, `id` oldest first. */
   sort?: string
 }
@@ -54,6 +56,7 @@ export const activityLogApi = {
     if (filters.action) params['filter[action]'] = filters.action
     if (filters.from) params['filter[from]'] = filters.from
     if (filters.hideAutomatic) params['filter[automatic]'] = 'false'
+    if (filters.lab) params['filter[lab]'] = filters.lab
     if (filters.sort) params.sort = filters.sort
 
     return client.get<{ data: ActivityLine[]; meta: { total: number } }>('/activity-log', { params }).then((response) => response.data)

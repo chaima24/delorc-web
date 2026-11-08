@@ -7,6 +7,9 @@ const centralRoutes = [
     path: '/',
     component: () => import('@/layouts/CentralLayout.vue'),
     children: [
+      { path: 'labs', name: 'central-labs', component: () => import('@/views/central/labs/LabsView.vue'), meta: { permission: 'labs.show' } },
+      { path: 'labs/new', name: 'central-lab-new', component: () => import('@/views/central/labs/NewLabView.vue'), meta: { permission: 'labs.create' } },
+      { path: 'labs/:id', name: 'central-lab', component: () => import('@/views/central/labs/LabView.vue'), meta: { permission: 'labs.show' } },
       { path: 'users', name: 'central-users', component: () => import('@/views/central/users/UsersView.vue'), meta: { permission: 'users.show' } },
       { path: 'roles', name: 'central-roles', component: () => import('@/views/central/roles/RolesView.vue'), meta: { permission: 'roles.show' } },
       { path: 'roles/:id/access', name: 'central-role-access', component: () => import('@/views/central/roles/RoleAccessView.vue'), meta: { permission: 'roles.update' } },

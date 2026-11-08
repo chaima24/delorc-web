@@ -14,12 +14,14 @@ declare module 'vue-router' {
 
 /** Where the console opens: the first page this person may see. */
 const CENTRAL_PAGES = [
+  ['labs.show', 'central-labs'],
   ['users.show', 'central-users'],
   ['roles.show', 'central-roles'],
   ['activity-log.show', 'central-activity'],
   ['translations.show', 'central-translations'],
   ['languages.show', 'central-languages'],
   ['geography.show', 'central-countries'],
+  ['plans.show', 'central-plans'],
 ] as const
 
 /** Runs before each page opens, like the `auth` middleware in the API. */

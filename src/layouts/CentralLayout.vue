@@ -15,6 +15,7 @@ const auth = useAuthStore()
 // Each module adds its line here when it is built.
 const menu = computed(() =>
   [
+    { to: 'central-labs', pages: ['central-labs', 'central-lab-new', 'central-lab'], label: 'central.menu.labs', icon: 'tabler-building-factory-2', allowed: auth.can('labs.show') },
     { to: 'central-users', pages: ['central-users'], label: 'central.users.title', icon: 'tabler-users', allowed: auth.can('users.show') },
     { to: 'central-roles', pages: ['central-roles', 'central-role-access'], label: 'central.roles.title', icon: 'tabler-shield-lock', allowed: auth.can('roles.show') },
     { to: 'central-activity', pages: ['central-activity'], label: 'central.menu.activity', icon: 'tabler-history', allowed: auth.can('activity-log.show') },
