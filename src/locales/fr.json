@@ -757,7 +757,8 @@
         "features": "Fonctionnalités",
         "overview": "Vue d'ensemble",
         "subscription": "Abonnement",
-        "texts": "Textes"
+        "texts": "Textes",
+        "usage": "Utilisation"
       },
       "texts": {
         "add": "Ajouter",
@@ -839,7 +840,8 @@
       "labs": "Laboratoires",
       "plans": "Offres",
       "settings": "Réglages",
-      "translations": "Traductions"
+      "translations": "Traductions",
+      "usage": "Utilisation"
     },
     "plans": {
       "activate": "Activer",
@@ -991,6 +993,40 @@
         "web": "Web"
       },
       "usedInLabel": "Utilisé dans"
+    },
+    "usage": {
+      "accounts": "Comptes",
+      "accountsHint": "Comptes utilisateurs actifs",
+      "emails": "Emails",
+      "emailsHint": "Emails de sécurité inclus",
+      "emailsMonth": "Emails ce mois-ci",
+      "endingSoon": "{count} finissent dans les 30 jours",
+      "historyHint": "Chaque mois passé garde les limites qu'il avait : un changement d'abonnement ne réécrit pas l'historique. Comptes et stockage : la dernière mesure de nuit du mois.",
+      "inTrialCount": "{count} en essai",
+      "labsActive": "Laboratoires actifs",
+      "labsSuspended": "Suspendus",
+      "labsTrial": "En essai",
+      "lastMonths": "12 derniers mois",
+      "measuredAt": "Comptes et stockage mesurés le {date}.",
+      "month": "Mois",
+      "nearLimit": "Proche ou au-delà d'une limite",
+      "noLimit": "· sans limite",
+      "noPaid": "Aucune période payée ce mois-ci",
+      "none": "· aucun dans l'abonnement",
+      "notMeasured": "Les comptes et le stockage sont mesurés chaque nuit à 02:00.",
+      "nothingDeleted": "rien de supprimé",
+      "of": "sur {limit}",
+      "over": "Dépassé",
+      "revenue": "Revenu mensuel",
+      "revenueHint": "{currency} · périodes payées, {month}",
+      "rule": "Les limites viennent de l'abonnement de chaque laboratoire et de ses changements de fonctionnalités pour ce mois. Orange dès 80 %, rouge à 100 %. Les laboratoires supprimés ne sont pas listés.",
+      "signedIn": "Connectés",
+      "signedInHint": "Personnes différentes",
+      "signedInMonth": "Connectés ce mois-ci",
+      "storage": "Stockage",
+      "storageHint": "Ses fichiers, sans les exports",
+      "title": "Utilisation",
+      "today": "aujourd'hui"
     },
     "users": {
       "add": "Ajouter une personne",

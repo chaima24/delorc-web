@@ -19,6 +19,7 @@ import LabLogo from './LabLogo.vue'
 import LabOverview from './LabOverview.vue'
 import LabSubscription from './LabSubscription.vue'
 import LabTexts from './LabTexts.vue'
+import LabUsage from './LabUsage.vue'
 import { useLabTexts } from './useLabTexts'
 
 const { t, d } = useI18n()
@@ -29,15 +30,16 @@ const { error: actionError, busy, run } = usePanelAction()
 
 const lab = ref<Lab | null>(null)
 const error = ref<string | null>(null)
-type Tab = 'overview' | 'subscription' | 'features' | 'texts' | 'channels' | 'data' | 'activity'
+type Tab = 'overview' | 'subscription' | 'features' | 'texts' | 'channels' | 'usage' | 'data' | 'activity'
 const tab = ref<Tab>('overview')
 /** A deleted lab keeps only its exports and its history. Data needs labs.export (not billing). */
 const tabs = computed<Tab[]>(() => {
   const data: Tab[] = auth.can('labs.export') ? ['data'] : []
 
   const channels: Tab[] = auth.can('channels.show') ? ['channels'] : []
+  const usage: Tab[] = auth.can('usage.show') ? ['usage'] : []
 
-  return lab.value?.status === 'deleted' ? [...data, 'activity'] : ['overview', 'subscription', 'features', 'texts', ...channels, ...data, 'activity']
+  return lab.value?.status === 'deleted' ? [...data, 'activity'] : ['overview', 'subscription', 'features', 'texts', ...channels, ...usage, ...data, 'activity']
 })
 const confirming = ref<'suspend' | 'resume' | null>(null)
 const reason = ref('')
@@ -127,6 +129,7 @@ const confirm = () => run(
       <LabFeatures v-else-if="tab === 'features'" :lab="lab" />
       <LabTexts v-else-if="tab === 'texts'" :lab="lab" @changed="lab = $event" />
       <LabChannels v-else-if="tab === 'channels'" :lab="lab" />
+      <LabUsage v-else-if="tab === 'usage'" :lab="lab" />
       <LabData v-else-if="tab === 'data'" :lab="lab" @changed="deleted" />
       <LabActivity v-else :lab="lab" />
     </template>

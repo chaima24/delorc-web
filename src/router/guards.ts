@@ -15,6 +15,7 @@ declare module 'vue-router' {
 /** Where the console opens: the first page this person may see. */
 const CENTRAL_PAGES = [
   ['labs.show', 'central-labs'],
+  ['usage.show', 'central-usage'],
   ['users.show', 'central-users'],
   ['roles.show', 'central-roles'],
   ['activity-log.show', 'central-activity'],

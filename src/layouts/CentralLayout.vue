@@ -16,6 +16,7 @@ const auth = useAuthStore()
 const menu = computed(() =>
   [
     { to: 'central-labs', pages: ['central-labs', 'central-lab-new', 'central-lab'], label: 'central.menu.labs', icon: 'tabler-building-factory-2', allowed: auth.can('labs.show') },
+    { to: 'central-usage', pages: ['central-usage'], label: 'central.menu.usage', icon: 'tabler-chart-bar', allowed: auth.can('usage.show') },
     { to: 'central-users', pages: ['central-users'], label: 'central.users.title', icon: 'tabler-users', allowed: auth.can('users.show') },
     { to: 'central-roles', pages: ['central-roles', 'central-role-access'], label: 'central.roles.title', icon: 'tabler-shield-lock', allowed: auth.can('roles.show') },
     { to: 'central-activity', pages: ['central-activity'], label: 'central.menu.activity', icon: 'tabler-history', allowed: auth.can('activity-log.show') },

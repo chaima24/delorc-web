@@ -757,7 +757,8 @@
         "features": "Features",
         "overview": "Overview",
         "subscription": "Subscription",
-        "texts": "Texts"
+        "texts": "Texts",
+        "usage": "Usage"
       },
       "texts": {
         "add": "Add",
@@ -839,7 +840,8 @@
       "labs": "Labs",
       "plans": "Plans",
       "settings": "Settings",
-      "translations": "Translations"
+      "translations": "Translations",
+      "usage": "Usage"
     },
     "plans": {
       "activate": "Activate",
@@ -991,6 +993,40 @@
         "web": "Web"
       },
       "usedInLabel": "Used in"
+    },
+    "usage": {
+      "accounts": "Accounts",
+      "accountsHint": "Active user accounts",
+      "emails": "Emails",
+      "emailsHint": "Security emails included",
+      "emailsMonth": "Emails this month",
+      "endingSoon": "{count} end within 30 days",
+      "historyHint": "Each past month keeps the limits it had, so a plan change later does not rewrite history. Accounts and storage are the last night's measure of that month.",
+      "inTrialCount": "{count} in trial",
+      "labsActive": "Active labs",
+      "labsSuspended": "Suspended",
+      "labsTrial": "In trial",
+      "lastMonths": "Last 12 months",
+      "measuredAt": "Accounts and storage measured on {date}.",
+      "month": "Month",
+      "nearLimit": "Near or over a limit",
+      "noLimit": "· no limit",
+      "noPaid": "No paid period this month",
+      "none": "· none in plan",
+      "notMeasured": "Accounts and storage are measured every night at 02:00.",
+      "nothingDeleted": "nothing deleted",
+      "of": "of {limit}",
+      "over": "Over",
+      "revenue": "Monthly revenue",
+      "revenueHint": "{currency} · paid periods, {month}",
+      "rule": "Limits come from each lab's plan and its feature changes for that month. Amber from 80%, red at 100%. Deleted labs are not listed.",
+      "signedIn": "Signed in",
+      "signedInHint": "Different people",
+      "signedInMonth": "Signed in this month",
+      "storage": "Storage",
+      "storageHint": "Its files, without exports",
+      "title": "Usage",
+      "today": "today"
     },
     "users": {
       "add": "Add a person",
