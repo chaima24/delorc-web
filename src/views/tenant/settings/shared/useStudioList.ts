@@ -1,6 +1,7 @@
 import { computed, reactive, ref, shallowRef, watch, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
+import type { Page } from '@/api/tenant/geography'
 import { studioApi, type StudioCounts } from '@/api/tenant/studio'
 import { useConfirm } from '@/composables/useConfirm'
 import { useToast } from '@/composables/useToast'
@@ -39,33 +40,59 @@ interface ListOptions<T, F> {
   sortValues: Record<string, (row: T) => string | number>
 }
 
+/** What a server-paged list asks the API for (as the previous Studio lists). */
+export interface ListQuery<F> {
+  page: number
+  perPage: number
+  search: string
+  sort: string
+  filters: F
+}
+
 /**
- * One page of records with search, filters, sort and paging, worked out in the browser:
- * like loading a small table once and filtering it in memory.
+ * One page of records with search, filters, sort and paging. Two ways, same result for the page:
+ * - `load(query)` returns one page from the API: long lists (1,541 communes), the server pages them;
+ * - `{ load, matches, sortValues }`: short lists (a few roles), loaded once and filtered in the browser.
  */
-export function useStudioList<T, F extends Record<string, string | number | null>>(options: ListOptions<T, F>, initialFilters: F) {
+export function useStudioList<T, F extends Record<string, string | number | null>>(
+  source: ((query: ListQuery<F>) => Promise<Page<T>>) | ListOptions<T, F>,
+  initialFilters: F,
+) {
   const page = ref(1)
   const perPage = ref(readPageSize())
   const search = ref('')
   const sort = ref<string | null>(STUDIO_DEFAULT_SORT)
   const filters = reactive({ ...initialFilters }) as F
   const rows = shallowRef<T[]>([])
+  const serverTotal = ref(0)
   const loading = ref(false)
+  const server = typeof source === 'function' ? source : null
+  const local = typeof source === 'function' ? null : source
 
+  let request = 0
   async function reload(): Promise<void> {
+    const current = ++request
     loading.value = true
     try {
-      rows.value = await options.load()
+      if (server) {
+        const result = await server({ page: page.value, perPage: perPage.value, search: search.value.trim(), sort: sort.value || STUDIO_DEFAULT_SORT, filters: { ...filters } as F })
+        if (current !== request) return
+        rows.value = result.items
+        serverTotal.value = result.total
+      } else {
+        rows.value = await local!.load()
+      }
     } finally {
-      loading.value = false
+      if (current === request) loading.value = false
     }
   }
 
   const matching = computed(() => {
+    if (!local) return rows.value
     const text = search.value.trim().toLocaleLowerCase()
-    const found = rows.value.filter((row) => options.matches(row, text, filters as F))
+    const found = rows.value.filter((row) => local.matches(row, text, filters as F))
     const key = (sort.value || STUDIO_DEFAULT_SORT).replace('-', '')
-    const value = options.sortValues[key]
+    const value = local.sortValues[key]
     if (!value) return found
     const descending = (sort.value || STUDIO_DEFAULT_SORT).startsWith('-')
 
@@ -77,17 +104,30 @@ export function useStudioList<T, F extends Record<string, string | number | null
     })
   })
 
-  const total = computed(() => matching.value.length)
-  const items = computed(() => matching.value.slice((page.value - 1) * perPage.value, page.value * perPage.value))
+  const total = computed(() => (server ? serverTotal.value : matching.value.length))
+  const items = computed(() => (server ? rows.value : matching.value.slice((page.value - 1) * perPage.value, page.value * perPage.value)))
 
-  watch([search, () => ({ ...filters }), sort], () => { page.value = 1 })
+  // The server needs a new request for each change; a local list just recomputes.
+  let timer: ReturnType<typeof setTimeout> | undefined
+  watch(search, () => {
+    page.value = 1
+    if (!server) return
+    clearTimeout(timer)
+    timer = setTimeout(reload, 250)
+  })
+  watch([() => ({ ...filters }), sort], () => {
+    page.value = 1
+    if (server) void reload()
+  })
+  watch(page, () => { if (server) void reload() })
   watch(perPage, (value) => {
     try {
       localStorage.setItem(PAGE_SIZE_KEY, String(value))
     } catch {
       // Storage blocked: the choice lasts for this visit.
     }
-    page.value = 1
+    if (page.value === 1 && server) void reload()
+    else page.value = 1
   })
 
   return { page, perPage, search, sort, filters, items, total, loading, reload }

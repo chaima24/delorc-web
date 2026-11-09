@@ -14,7 +14,7 @@ async function mountHub(permissions: string[]) {
   const page = { template: '<div />' }
   const router = createRouter({
     history: createMemoryHistory(),
-    routes: ['tenant-settings', 'tenant-roles', 'tenant-permissions'].map((name) => ({ path: `/${name}`, name, component: page })),
+    routes: ['tenant-settings', 'tenant-roles', 'tenant-permissions', 'tenant-countries', 'tenant-regions', 'tenant-wilayas', 'tenant-communes', 'tenant-sub-wilaya-zones'].map((name) => ({ path: `/${name}`, name, component: page })),
   })
   const wrapper = mount(SettingsHubView, { global: { plugins: [router, i18n] } })
   await flushPromises()
@@ -31,13 +31,19 @@ describe('Studio home', () => {
   it('shows the cards the person may open, with their count', async () => {
     const wrapper = await mountHub(['roles.show'])
 
-    expect(wrapper.findAll('a[href="/tenant-roles"]')).toHaveLength(1)
-    expect(wrapper.text()).toContain('11')
+    const card = wrapper.findAll('a[href="/tenant-roles"]').find(link => link.text().includes('settings.links.roles.title'))
+    expect(card?.text()).toContain('11')
+  })
+
+  it('shows the setup steps that are not done yet', async () => {
+    const wrapper = await mountHub(['roles.show'])
+
+    expect(wrapper.find('a[href="/tenant-wilayas"]').exists()).toBe(true) // geography: no wilaya counted
   })
 
   it('shows no card without the right', async () => {
     const wrapper = await mountHub([])
 
-    expect(wrapper.find('a[href="/tenant-roles"]').exists()).toBe(false)
+    expect(wrapper.text()).not.toContain('settings.links.roles.title')
   })
 })

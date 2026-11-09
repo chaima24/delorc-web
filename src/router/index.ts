@@ -34,7 +34,12 @@ const labRoutes = [
     children: [
       { path: '', name: 'home', component: () => import('@/views/tenant/HomeView.vue') },
       { path: 'profile', name: 'tenant-profile', component: () => import('@/views/tenant/ProfileView.vue') },
-      // Studio › Paramètres, then its sections (Accès)
+      // Studio › Paramètres, then its sections (Géographie, Accès)
+      { path: 'countries', name: 'tenant-countries', component: () => import('@/views/tenant/countries/CountryListView.vue'), meta: { permission: 'countries.show' } },
+      { path: 'regions', name: 'tenant-regions', component: () => import('@/views/tenant/regions/RegionListView.vue'), meta: { permission: 'regions.show' } },
+      { path: 'wilayas', name: 'tenant-wilayas', component: () => import('@/views/tenant/wilayas/WilayaListView.vue'), meta: { permission: 'wilayas.show' } },
+      { path: 'communes', name: 'tenant-communes', component: () => import('@/views/tenant/communes/CommuneListView.vue'), meta: { permission: 'communes.show' } },
+      { path: 'sub-wilaya-zones', name: 'tenant-sub-wilaya-zones', component: () => import('@/views/tenant/sub-wilaya-zones/SubWilayaZoneListView.vue'), meta: { permission: 'sub-wilaya-zones.show' } },
       { path: 'settings', name: 'tenant-settings', component: () => import('@/views/tenant/settings/SettingsHubView.vue') },
       { path: 'roles', name: 'tenant-roles', component: () => import('@/views/tenant/roles/RoleListView.vue'), meta: { permission: 'roles.show' } },
       { path: 'roles/:id/access', name: 'tenant-role-access', component: () => import('@/views/tenant/roles/RoleAccessView.vue'), props: true, meta: { permission: 'roles.show' } },

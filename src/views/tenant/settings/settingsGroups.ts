@@ -27,6 +27,18 @@ export interface SettingsGroup {
  */
 export const settingsGroups: SettingsGroup[] = [
   {
+    title: 'settings.groups.geography.title',
+    subtitle: 'settings.groups.geography.subtitle',
+    icon: 'tabler-map-2',
+    links: [
+      { title: 'settings.links.countries.title', description: 'settings.links.countries.description', to: { name: 'tenant-countries' }, icon: 'tabler-world', resource: 'countries', count: 'countries' },
+      { title: 'settings.links.regions.title', description: 'settings.links.regions.description', to: { name: 'tenant-regions' }, icon: 'tabler-map', resource: 'regions', count: 'regions' },
+      { title: 'settings.links.wilayas.title', description: 'settings.links.wilayas.description', to: { name: 'tenant-wilayas' }, icon: 'tabler-map-pin', resource: 'wilayas', count: 'wilayas' },
+      { title: 'settings.links.communes.title', description: 'settings.links.communes.description', to: { name: 'tenant-communes' }, icon: 'tabler-building-community', resource: 'communes', count: 'communes' },
+      { title: 'settings.links.subWilayaZones.title', description: 'settings.links.subWilayaZones.description', to: { name: 'tenant-sub-wilaya-zones' }, icon: 'tabler-hexagons', resource: 'sub-wilaya-zones', count: 'sub_wilaya_zones' },
+    ],
+  },
+  {
     title: 'settings.groups.access.title',
     subtitle: 'settings.groups.access.subtitle',
     icon: 'tabler-shield-lock',

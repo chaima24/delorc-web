@@ -11,5 +11,6 @@ export interface StudioSetupStep {
 /** What a lab needs before reps can work, in dependency order. */
 export const studioSetupSteps: StudioSetupStep[] = [
   // Each module adds its step, in this order: geography, roles, teams, users, products, customers, rules.
+  { key: 'geography', to: { name: 'tenant-wilayas' }, done: c => (c.wilayas ?? 0) > 0 && (c.communes ?? 0) > 0 },
   { key: 'roles', to: { name: 'tenant-roles' }, done: c => (c.roles ?? 0) > 0 },
 ]

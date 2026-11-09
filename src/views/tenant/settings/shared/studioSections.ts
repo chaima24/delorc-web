@@ -16,6 +16,17 @@ export interface StudioSection {
   levels: StudioLevel[]
 }
 
+export const geographySection: StudioSection = {
+  label: 'settings.groups.geography.title',
+  levels: [
+    { route: 'tenant-countries', resource: 'countries', icon: 'tabler-world', label: 'geo.title.countries', count: 'countries' },
+    { route: 'tenant-regions', resource: 'regions', icon: 'tabler-map', label: 'geo.title.regions', count: 'regions' },
+    { route: 'tenant-wilayas', resource: 'wilayas', icon: 'tabler-map-pin', label: 'geo.title.wilayas', count: 'wilayas' },
+    { route: 'tenant-communes', resource: 'communes', icon: 'tabler-building-community', label: 'geo.title.communes', count: 'communes' },
+    { route: 'tenant-sub-wilaya-zones', resource: 'sub-wilaya-zones', icon: 'tabler-hexagons', label: 'geo.title.zones', count: 'sub_wilaya_zones' },
+  ],
+}
+
 export const accessSection: StudioSection = {
   label: 'settings.groups.access.title',
   levels: [
