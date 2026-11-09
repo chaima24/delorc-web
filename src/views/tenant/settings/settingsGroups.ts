@@ -76,10 +76,10 @@ export const settingsGroups: SettingsGroup[] = [
     icon: 'tabler-shield-lock',
     links: [
       { title: 'settings.links.roles.title', description: 'settings.links.roles.description', to: { name: 'tenant-roles' }, icon: 'tabler-shield-lock', resource: 'roles', count: 'roles' },
-      // Activity log comes with the lab log, module 10.
+      { title: 'settings.links.logs.title', description: 'settings.links.logs.description', to: { name: 'tenant-logs' }, icon: 'tabler-history', resource: 'activity-log' },
     ],
   },
 ]
 
 /** Every page of the Studio home, for the rail: they all belong to "Paramètres". */
-export const settingsPages = ['tenant-role-access', 'tenant-permissions', ...settingsGroups.flatMap((group) => group.links.map((link) => String((link.to as { name: string }).name)))]
+export const settingsPages = ['tenant-role-access', 'tenant-permissions', 'tenant-logs', ...settingsGroups.flatMap((group) => group.links.map((link) => String((link.to as { name: string }).name)))]

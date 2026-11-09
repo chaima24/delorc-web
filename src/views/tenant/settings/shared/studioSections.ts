@@ -61,6 +61,6 @@ export const accessSection: StudioSection = {
   levels: [
     { route: 'tenant-roles', resource: 'roles', icon: 'tabler-user-shield', label: 'access.title.roles', count: 'roles' },
     { route: 'tenant-permissions', resource: 'roles', icon: 'tabler-table', label: 'access.title.matrix' },
-    // Journal (tenant-logs) comes with the lab log, module 10.
+    { route: 'tenant-logs', resource: 'activity-log', icon: 'tabler-history', label: 'access.title.logs' },
   ],
 }
