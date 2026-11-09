@@ -34,6 +34,7 @@ export const workspaces: Workspace[] = [
       { title: 'nav.organization.users', to: { name: 'tenant-users' }, icon: 'tabler-user-cog', resource: 'users', matches: ['tenant-user-detail'] },
       { title: 'nav.organization.teams', to: { name: 'tenant-teams' }, icon: 'tabler-users-group', resource: 'teams' },
       { title: 'nav.catalog.brands', to: { name: 'tenant-brands' }, icon: 'tabler-tags', resource: 'brands' },
+      { title: 'nav.catalog.products', to: { name: 'tenant-products' }, icon: 'tabler-pill', resource: 'products', matches: ['tenant-product-detail'] },
     ],
   },
 ]

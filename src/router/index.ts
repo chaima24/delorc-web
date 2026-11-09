@@ -57,6 +57,8 @@ const labRoutes = [
       { path: 'users/:id', name: 'tenant-user-detail', component: () => import('@/views/tenant/users/UserDetailView.vue'), props: true, meta: { permission: 'users.show' } },
       { path: 'teams', name: 'tenant-teams', component: () => import('@/views/tenant/teams/TeamListView.vue'), meta: { permission: 'teams.show' } },
       { path: 'brands', name: 'tenant-brands', component: () => import('@/views/tenant/brands/BrandListView.vue'), meta: { permission: 'brands.show' } },
+      { path: 'products', name: 'tenant-products', component: () => import('@/views/tenant/products/ProductListView.vue'), meta: { permission: 'products.show' } },
+      { path: 'products/:id', name: 'tenant-product-detail', component: () => import('@/views/tenant/products/ProductDetailView.vue'), props: true, meta: { permission: 'products.show' } },
       { path: 'logs', name: 'tenant-logs', component: () => import('@/views/tenant/logs/ActivityLogListView.vue'), meta: { permission: 'activity-log.show' } },
       { path: 'permissions', name: 'tenant-permissions', component: () => import('@/views/tenant/permissions/PermissionListView.vue'), meta: { permission: 'roles.show' } },
     ],

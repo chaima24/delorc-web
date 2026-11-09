@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { RouterLink } from 'vue-router'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import { deleteBrand, updateBrand, type Brand, type BrandPayload } from '@/api/tenant/brands'
 import DlBadge from '@/components/DlBadge.vue'
@@ -14,7 +15,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useUserText } from '@/views/tenant/users/userDisplay'
 import BrandTeamsField from './BrandTeamsField.vue'
 
-// A brand in the side panel: name, the teams that promote it, what uses it. Its products join with their module.
+// A brand in the side panel: name, its products, the teams that promote it, what uses it.
 // Mockup: docs/design/studio-mockups/Brands.html
 const props = defineProps<{ brand: Brand }>()
 const emit = defineEmits<{ changed: [brand: Brand]; deleted: [] }>()
@@ -87,7 +88,10 @@ async function remove() {
 const menuItems = computed<DlMenuItem[]>(() =>
   auth.can('brands.delete') ? [{ label: t('common.actions.delete'), icon: 'tabler-trash', danger: true, onSelect: remove }] : [])
 
+const productsCount = computed(() => props.brand.products_count ?? 0)
+const moreProducts = computed(() => productsCount.value - (props.brand.products?.length ?? 0))
 const tiles = computed(() => [
+  { label: t('brands.columns.products'), value: productsCount.value },
   { label: t('brands.read.teams'), value: props.brand.teams?.length ?? 0 },
 ])
 const uses = computed(() => Object.entries(props.brand.uses ?? {}).filter(([, count]) => count > 0))
@@ -123,6 +127,24 @@ const uses = computed(() => Object.entries(props.brand.uses ?? {}).filter(([, co
           <DlInput v-model="form.name" :label="t('brands.fields.name')" hide-label :error="errors.name" />
         </template>
       </DlRecordSection>
+
+      <section class="rounded-2xl border border-dl-line px-3.5 py-3" :aria-label="t('brands.columns.products')">
+        <header class="mb-1.5 flex items-center gap-2.5">
+          <h3 class="flex-1 text-sm font-semibold">{{ t('brands.read.products', { count: n(productsCount) }) }}</h3>
+          <RouterLink
+            v-if="productsCount && auth.can('products.show')"
+            :to="{ name: 'tenant-products', query: { brand: brand.id } }"
+            class="text-[13px] font-semibold text-dl-cobalt no-underline hover:underline"
+          >
+            {{ t('brands.read.seeProducts') }}
+          </RouterLink>
+        </header>
+        <p v-if="!productsCount" class="text-[13px] text-dl-body">{{ t('brands.read.noProducts') }}</p>
+        <ul v-else class="flex flex-col gap-1 text-[13px]">
+          <li v-for="product in brand.products" :key="product.id">{{ product.name }}</li>
+          <li v-if="moreProducts > 0" class="text-xs text-dl-muted">{{ t('brands.read.moreProducts', { count: n(moreProducts) }) }}</li>
+        </ul>
+      </section>
 
       <DlRecordSection
         v-model:editing="editing.teams"

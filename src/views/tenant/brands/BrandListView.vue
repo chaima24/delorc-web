@@ -18,7 +18,7 @@ import { today } from '@/views/tenant/users/userDisplay'
 import BrandCreatePanel from './BrandCreatePanel.vue'
 import BrandPanel from './BrandPanel.vue'
 
-// Studio › Brands: list, a side panel to read and edit a brand, "Add a brand". The products column joins with Products.
+// Studio › Brands: list, a side panel to read and edit a brand, "Add a brand".
 // Mockup: docs/design/studio-mockups/Brands.html
 const { t, n } = useI18n()
 const auth = useAuthStore()
@@ -85,6 +85,7 @@ const MAX_CHIPS = 2
 const added = useAddedColumn()
 const columns = [
   { key: 'name', label: t('brands.columns.brand'), sortKey: 'name' },
+  { key: 'products', label: t('brands.columns.products'), sortKey: 'products_count' },
   { key: 'teams', label: t('brands.columns.teams') },
   { ...added.column, secondary: true },
 ]
@@ -107,6 +108,7 @@ async function exportList() {
     const rows = await allRows()
     await exportToXlsx(rows.map(brand => ({
       [t('brands.fields.name')]: brand.name,
+      [t('brands.columns.products')]: brand.products_count ?? 0,
       [t('brands.columns.teams')]: (brand.teams ?? []).map(team => team.name).join(', '),
       [t('studio.list.added')]: brand.created_at?.slice(0, 10) ?? '',
     })), `${t('brands.title')} ${today()}`, t('brands.title'))
@@ -163,6 +165,10 @@ async function exportList() {
           @open="show"
         >
           <template #cell-name="{ row }"><strong class="font-semibold">{{ row.name }}</strong></template>
+          <template #cell-products="{ row }">
+            <strong v-if="row.products_count" class="tabular-nums">{{ n(row.products_count) }}</strong>
+            <span v-else class="text-dl-muted">{{ t('brands.list.none') }}</span>
+          </template>
           <template #cell-teams="{ row }">
             <span v-if="row.teams?.length" class="flex flex-wrap gap-1">
               <DlBadge v-for="team in row.teams.slice(0, open ? 1 : MAX_CHIPS)" :key="team.id" size="sm">{{ team.name }}</DlBadge>
@@ -174,7 +180,9 @@ async function exportList() {
           <template #card="{ row }">
             <span class="flex flex-col gap-1">
               <strong class="truncate font-semibold">{{ row.name }}</strong>
-              <span class="text-xs text-dl-muted">{{ row.teams?.map(team => team.name).join(', ') || t('brands.list.noTeam') }}</span>
+              <span class="text-xs text-dl-muted">
+                {{ t('brands.list.summary', { products: n(row.products_count ?? 0), teams: row.teams?.map(team => team.name).join(', ') || t('brands.list.noTeam') }) }}
+              </span>
             </span>
           </template>
         </DlDataList>

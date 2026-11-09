@@ -52,6 +52,7 @@ async function save() {
     <form id="brand-create" class="flex flex-col gap-4" @submit.prevent="save">
       <DlInput v-model="form.name" :label="t('brands.fields.name')" :error="errors.name" />
       <BrandTeamsField v-model="form.teams" :error="errors.teams" />
+      <p class="rounded-xl bg-dl-mist px-3 py-2 text-xs text-dl-muted">{{ t('brands.add.productsHint') }}</p>
     </form>
 
     <template #footer>
