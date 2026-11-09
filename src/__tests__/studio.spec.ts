@@ -14,7 +14,7 @@ async function mountHub(permissions: string[]) {
   const page = { template: '<div />' }
   const router = createRouter({
     history: createMemoryHistory(),
-    routes: ['tenant-settings', 'tenant-roles', 'tenant-permissions', 'tenant-countries', 'tenant-regions', 'tenant-wilayas', 'tenant-communes', 'tenant-sub-wilaya-zones', 'tenant-specialities', 'tenant-segmentations', 'tenant-priorities', 'tenant-activity-types', 'tenant-event-types', 'tenant-canals', 'tenant-materiels', 'tenant-holidays', 'tenant-languages', 'tenant-logs'].map((name) => ({ path: `/${name}`, name, component: page })),
+    routes: ['tenant-settings', 'tenant-roles', 'tenant-permissions', 'tenant-countries', 'tenant-regions', 'tenant-wilayas', 'tenant-communes', 'tenant-sub-wilaya-zones', 'tenant-specialities', 'tenant-segmentations', 'tenant-priorities', 'tenant-activity-types', 'tenant-event-types', 'tenant-canals', 'tenant-materiels', 'tenant-holidays', 'tenant-languages', 'tenant-logs', 'tenant-expense-types'].map((name) => ({ path: `/${name}`, name, component: page })),
   })
   const wrapper = mount(SettingsHubView, { global: { plugins: [router, i18n] } })
   await flushPromises()

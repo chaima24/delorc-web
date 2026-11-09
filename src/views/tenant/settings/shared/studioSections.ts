@@ -43,7 +43,8 @@ export const fieldSection: StudioSection = {
     { route: 'tenant-event-types', resource: 'event-types', icon: 'tabler-calendar-event', label: 'fieldSetup.title.eventTypes', count: 'event_types' },
     { route: 'tenant-canals', resource: 'canals', icon: 'tabler-broadcast', label: 'fieldSetup.title.canals', count: 'canals' },
     { route: 'tenant-materiels', resource: 'materiels', icon: 'tabler-gift', label: 'fieldSetup.title.materiels', count: 'materiels' },
-    // Expense types and expense settings come with the Expenses module.
+    { route: 'tenant-expense-types', resource: 'expense-types', icon: 'tabler-receipt', label: 'fieldSetup.title.expenseTypes', count: 'expense_types' },
+    // Expense settings come with the Expenses module.
     { route: 'tenant-holidays', resource: 'holidays', icon: 'tabler-calendar-off', label: 'holidays.title', count: 'holidays' },
   ],
 }

@@ -57,7 +57,8 @@ export const settingsGroups: SettingsGroup[] = [
       { title: 'settings.links.eventTypes.title', description: 'settings.links.eventTypes.description', to: { name: 'tenant-event-types' }, icon: 'tabler-calendar-event', resource: 'event-types', count: 'event_types' },
       { title: 'settings.links.canals.title', description: 'settings.links.canals.description', to: { name: 'tenant-canals' }, icon: 'tabler-broadcast', resource: 'canals', count: 'canals' },
       { title: 'settings.links.materiels.title', description: 'settings.links.materiels.description', to: { name: 'tenant-materiels' }, icon: 'tabler-gift', resource: 'materiels', count: 'materiels' },
-      // Expense types and expense settings come with the Expenses module.
+      { title: 'settings.links.expenseTypes.title', description: 'settings.links.expenseTypes.description', to: { name: 'tenant-expense-types' }, icon: 'tabler-receipt', resource: 'expense-types', count: 'expense_types' },
+      // Expense settings come with the Expenses module.
       { title: 'settings.links.holidays.title', description: 'settings.links.holidays.description', to: { name: 'tenant-holidays' }, icon: 'tabler-calendar-off', resource: 'holidays', count: 'holidays' },
     ],
   },

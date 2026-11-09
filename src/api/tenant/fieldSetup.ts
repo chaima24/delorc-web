@@ -131,3 +131,22 @@ export interface Language {
 }
 
 export const fetchLanguages = (params?: ListParams) => page<Language>('/languages', params)
+
+/** What an expense line is for. */
+export const EXPENSE_TYPE_CONTEXTS = ['visit', 'activity', 'other'] as const
+
+export interface ExpenseType {
+  id: number
+  type: (typeof EXPENSE_TYPE_CONTEXTS)[number]
+  content: string
+  /** Expense lines using it (0 until expenses). */
+  expenses_count?: number
+  created_at?: string | null
+}
+
+export type ExpenseTypePayload = { type: string; content: string }
+
+export const fetchExpenseTypes = (params?: ListParams) => page<ExpenseType>('/expense-types', params)
+export const createExpenseType = (body: ExpenseTypePayload) => one<ExpenseType>(client.post('/expense-types', body))
+export const updateExpenseType = (id: number, body: ExpenseTypePayload) => one<ExpenseType>(client.put(`/expense-types/${id}`, body))
+export const deleteExpenseType = (id: number) => client.delete(`/expense-types/${id}`)
