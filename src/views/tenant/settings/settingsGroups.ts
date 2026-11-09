@@ -49,6 +49,19 @@ export const settingsGroups: SettingsGroup[] = [
     ],
   },
   {
+    title: 'settings.groups.field.title',
+    subtitle: 'settings.groups.field.subtitle',
+    icon: 'tabler-route',
+    links: [
+      { title: 'settings.links.activityTypes.title', description: 'settings.links.activityTypes.description', to: { name: 'tenant-activity-types' }, icon: 'tabler-run', resource: 'activity-types', count: 'activity_types' },
+      { title: 'settings.links.eventTypes.title', description: 'settings.links.eventTypes.description', to: { name: 'tenant-event-types' }, icon: 'tabler-calendar-event', resource: 'event-types', count: 'event_types' },
+      { title: 'settings.links.canals.title', description: 'settings.links.canals.description', to: { name: 'tenant-canals' }, icon: 'tabler-broadcast', resource: 'canals', count: 'canals' },
+      { title: 'settings.links.materiels.title', description: 'settings.links.materiels.description', to: { name: 'tenant-materiels' }, icon: 'tabler-gift', resource: 'materiels', count: 'materiels' },
+      // Expense types and expense settings come with the Expenses module.
+      { title: 'settings.links.holidays.title', description: 'settings.links.holidays.description', to: { name: 'tenant-holidays' }, icon: 'tabler-calendar-off', resource: 'holidays', count: 'holidays' },
+    ],
+  },
+  {
     title: 'settings.groups.access.title',
     subtitle: 'settings.groups.access.subtitle',
     icon: 'tabler-shield-lock',

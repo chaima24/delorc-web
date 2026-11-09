@@ -36,6 +36,18 @@ export const customersSection: StudioSection = {
   ],
 }
 
+export const fieldSection: StudioSection = {
+  label: 'settings.groups.field.title',
+  levels: [
+    { route: 'tenant-activity-types', resource: 'activity-types', icon: 'tabler-run', label: 'fieldSetup.title.activityTypes', count: 'activity_types' },
+    { route: 'tenant-event-types', resource: 'event-types', icon: 'tabler-calendar-event', label: 'fieldSetup.title.eventTypes', count: 'event_types' },
+    { route: 'tenant-canals', resource: 'canals', icon: 'tabler-broadcast', label: 'fieldSetup.title.canals', count: 'canals' },
+    { route: 'tenant-materiels', resource: 'materiels', icon: 'tabler-gift', label: 'fieldSetup.title.materiels', count: 'materiels' },
+    // Expense types and expense settings come with the Expenses module.
+    { route: 'tenant-holidays', resource: 'holidays', icon: 'tabler-calendar-off', label: 'holidays.title', count: 'holidays' },
+  ],
+}
+
 export const accessSection: StudioSection = {
   label: 'settings.groups.access.title',
   levels: [
