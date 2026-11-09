@@ -44,7 +44,7 @@ const signIn = computed(() => {
       </span>
     </template>
     <template v-if="actions.menuItems.value.length" #actions>
-      <DlMenu :label="t('fieldSetup.menu.label')" :items="actions.menuItems.value" />
+      <DlMenu :label="t('fieldSetup.menu.label')" :items="actions.menuItems.value" always-menu />
     </template>
 
     <div class="flex flex-col gap-3.5">

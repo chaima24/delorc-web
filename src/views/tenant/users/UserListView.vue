@@ -163,19 +163,20 @@ async function exportList() {
 </script>
 
 <template>
-  <div class="flex w-full flex-col gap-5" :class="auth.can('users.create') && 'max-md:pb-20'">
-    <div class="flex flex-wrap items-end justify-between gap-4">
-      <div class="flex min-w-0 flex-col gap-1.5">
-        <span class="text-sm text-dl-muted">{{ t('nav.workspaces.studio') }}</span>
-        <h1 class="font-display text-[28px] font-extrabold leading-tight tracking-[-0.03em] md:text-[40px]">{{ t('users.title') }}</h1>
+  <!-- As the mockup (studio-mockups/Users.html): the panel sits beside the whole column (title + list), from the top. -->
+  <div class="flex w-full items-start gap-5" :class="auth.can('users.create') && 'max-md:pb-20'">
+    <div class="flex min-w-0 flex-1 flex-col gap-5">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="flex min-w-0 flex-col gap-1.5">
+          <span class="text-sm text-dl-muted">{{ t('nav.workspaces.studio') }}</span>
+          <h1 class="font-display text-[28px] font-extrabold leading-tight tracking-[-0.03em] md:text-[40px]">{{ t('users.title') }}</h1>
+        </div>
+        <div class="flex gap-2.5">
+          <DlButton variant="outline" icon="tabler-file-spreadsheet" :loading="exporting" :disabled="!total" @click="exportList">{{ t('users.export') }}</DlButton>
+          <DlButton v-if="auth.can('users.create')" variant="primary" icon="tabler-plus" class="max-md:hidden" @click="add">{{ t('users.add.button') }}</DlButton>
+        </div>
       </div>
-      <div class="flex gap-2.5">
-        <DlButton variant="outline" icon="tabler-file-spreadsheet" :loading="exporting" :disabled="!total" @click="exportList">{{ t('users.export') }}</DlButton>
-        <DlButton v-if="auth.can('users.create')" variant="primary" icon="tabler-plus" class="max-md:hidden" @click="add">{{ t('users.add.button') }}</DlButton>
-      </div>
-    </div>
 
-    <div class="flex items-start gap-5">
       <div class="flex min-w-0 flex-1 flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5 max-md:bg-transparent max-md:p-0">
         <div class="flex flex-wrap items-center gap-2.5">
           <DlInput
@@ -239,10 +240,10 @@ async function exportList() {
 
         <DlPagination v-model="page" v-model:per-page="perPage" :total="total" />
       </div>
-
-      <UserCreatePanel v-if="adding" v-model:open="open" @created="onCreated" />
-      <UserReadPanel v-else-if="selected" v-model:open="open" :user="selected" @changed="onPanelChange" />
     </div>
+
+    <UserCreatePanel v-if="adding" v-model:open="open" @created="onCreated" />
+    <UserReadPanel v-else-if="selected" v-model:open="open" :user="selected" @changed="onPanelChange" />
 
     <!-- Phone: "Add" sits at the bottom, in reach of the thumb -->
     <div v-if="auth.can('users.create')" class="fixed inset-x-4 bottom-24 z-800 md:hidden">

@@ -18,17 +18,19 @@ export interface DlMenuItem {
 
 /**
  * A "⋯" button opening a short list of actions. With a single action there is nothing to
- * hide: it shows as a plain button instead.
+ * hide: it shows as a plain button instead, unless `alwaysMenu` keeps the "⋯" (a panel header,
+ * where a wide button would squeeze the title).
  */
 defineProps<{
   label: string
   items: DlMenuItem[]
+  alwaysMenu?: boolean
 }>()
 </script>
 
 <template>
   <button
-    v-if="items.length === 1"
+    v-if="items.length === 1 && !alwaysMenu"
     type="button"
     class="flex h-10 shrink-0 items-center gap-2 rounded-[10px] border border-dl-line px-3 text-sm font-semibold hover:bg-dl-line-soft focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-dl-cobalt"
     :class="items[0]!.danger && 'text-dl-rejected'"
