@@ -19,6 +19,11 @@ export interface User {
   two_factor: { method: 'none' | 'app' | 'email' | 'sms'; confirmed: boolean; recovery_codes_left: number; required: boolean }
 }
 
+export interface LabAccess {
+  features: Record<string, number | boolean | null>
+  grace_ends_on: string | null
+}
+
 export interface Session {
   status: 'ok'
   access_token: string
@@ -53,6 +58,9 @@ export const authApi = {
       .then((response) => response.data),
 
   me: () => client.get<{ data: User }>('/auth/me').then((response) => response.data.data),
+
+  /** On a lab, `auth/me` also says what the lab gets today, and its grace end for admins (null otherwise). */
+  labAccess: () => client.get<{ lab: LabAccess }>('/auth/me').then((response) => response.data.lab),
 
   logout: (refreshToken: string | null) => client.post('/auth/logout', { refresh_token: refreshToken }),
 

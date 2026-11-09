@@ -26,11 +26,23 @@ const centralRoutes = [
   },
 ]
 
+/** A lab: its layout, the welcome page (until the dashboard) and my profile. Each module adds its pages here. */
+const labRoutes = [
+  {
+    path: '/',
+    component: () => import('@/layouts/LabLayout.vue'),
+    children: [
+      { path: '', name: 'home', component: () => import('@/views/tenant/HomeView.vue') },
+      { path: 'profile', name: 'tenant-profile', component: () => import('@/views/tenant/ProfileView.vue') },
+    ],
+  },
+]
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', name: 'home', component: () => import('@/views/HomeView.vue') },
-    ...(space.isCentral ? centralRoutes : []),
+    // Central: `home` sends to the first page the person may see (guards). A lab: `home` is the welcome page.
+    ...(space.isCentral ? [{ path: '/', name: 'home', component: () => import('@/views/HomeView.vue') }, ...centralRoutes] : labRoutes),
     {
       path: '/',
       component: () => import('@/layouts/SignInLayout.vue'),
