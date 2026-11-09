@@ -21,7 +21,7 @@ export interface Workspace {
 
 /**
  * The lab's workspaces, in workflow order. Only built pages appear here: each module adds its links
- * (module 2 adds Users, Teams and Roles). A workspace with no link the person may open is not shown.
+ * (module 2b added Users; Teams come next). A workspace with no link the person may open is not shown.
  */
 export const workspaces: Workspace[] = [
   {
@@ -31,6 +31,7 @@ export const workspaces: Workspace[] = [
     links: [
       // Paramètres: the Studio home and every settings page it opens.
       { title: 'nav.settings', to: { name: 'tenant-settings' }, icon: 'tabler-settings', matches: settingsPages },
+      { title: 'nav.organization.users', to: { name: 'tenant-users' }, icon: 'tabler-user-cog', resource: 'users', matches: ['tenant-user-detail'] },
     ],
   },
 ]
