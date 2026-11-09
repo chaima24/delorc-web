@@ -60,6 +60,12 @@
       "text": "Saisissez votre e-mail, nous vous envoyons un lien pour choisir un nouveau mot de passe.",
       "title": "Mot de passe oublié"
     },
+    "lab": {
+      "suspendedText": "Ses utilisateurs ne peuvent pas se connecter pour le moment. Contactez votre administrateur.",
+      "suspendedTitle": "Ce laboratoire est suspendu",
+      "unknownText": "Aucun laboratoire n’utilise l’adresse {address}. Vérifiez l’adresse saisie.",
+      "unknownTitle": "Ce laboratoire n’existe pas"
+    },
     "login": {
       "email": "E-mail",
       "forgot": "Mot de passe oublié ?",

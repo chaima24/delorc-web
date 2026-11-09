@@ -60,6 +60,12 @@
       "text": "Enter your email and we will send you a link to choose a new password.",
       "title": "Forgot your password"
     },
+    "lab": {
+      "suspendedText": "Its people cannot sign in for now. Contact your administrator.",
+      "suspendedTitle": "This lab is suspended",
+      "unknownText": "No lab uses the address {address}. Check the address you typed.",
+      "unknownTitle": "This lab does not exist"
+    },
     "login": {
       "email": "Email",
       "forgot": "Forgot your password?",
