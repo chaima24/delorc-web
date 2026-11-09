@@ -117,3 +117,17 @@ export const deleteHoliday = (id: number) => client.delete(`/holidays/${id}`)
 /** The lab's weekend days (Carbon day numbers: 0 = Sunday … 6 = Saturday). 1 to 3 days. */
 export const fetchWorkingWeek = () => one<{ weekend_days: number[] }>(client.get('/working-week'))
 export const updateWorkingWeek = (weekendDays: number[]) => one<{ weekend_days: number[] }>(client.put('/working-week', { weekend_days: weekendDays }))
+
+/** A language of the lab (Studio › Langues, read only: central chooses them). */
+export interface Language {
+  id: number
+  code: string
+  name: string
+  native_name: string
+  direction: 'ltr' | 'rtl'
+  is_active: boolean
+  /** Active people who chose it. */
+  users_count?: number
+}
+
+export const fetchLanguages = (params?: ListParams) => page<Language>('/languages', params)

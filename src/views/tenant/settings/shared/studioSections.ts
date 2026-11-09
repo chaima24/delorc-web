@@ -48,6 +48,14 @@ export const fieldSection: StudioSection = {
   ],
 }
 
+export const rulesSection: StudioSection = {
+  label: 'settings.groups.rules.title',
+  levels: [
+    // Planning rules and validation rules come with teams and people.
+    { route: 'tenant-languages', resource: 'languages', icon: 'tabler-language', label: 'rulesSetup.title.languages', count: 'languages' },
+  ],
+}
+
 export const accessSection: StudioSection = {
   label: 'settings.groups.access.title',
   levels: [

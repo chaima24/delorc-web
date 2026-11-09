@@ -62,6 +62,15 @@ export const settingsGroups: SettingsGroup[] = [
     ],
   },
   {
+    title: 'settings.groups.rules.title',
+    subtitle: 'settings.groups.rules.subtitle',
+    icon: 'tabler-settings',
+    links: [
+      // Planning rules and validation rules come with teams and people.
+      { title: 'settings.links.languages.title', description: 'settings.links.languages.description', to: { name: 'tenant-languages' }, icon: 'tabler-language', resource: 'languages', count: 'languages' },
+    ],
+  },
+  {
     title: 'settings.groups.access.title',
     subtitle: 'settings.groups.access.subtitle',
     icon: 'tabler-shield-lock',
