@@ -11,12 +11,13 @@ import DlIcon from '@/components/DlIcon.vue'
 import DlSkeleton from '@/components/DlSkeleton.vue'
 import DlTabs from '@/components/DlTabs.vue'
 import UserAccessTab from './tabs/UserAccessTab.vue'
+import UserAssignmentsTab from './tabs/UserAssignmentsTab.vue'
 import UserOverviewTab from './tabs/UserOverviewTab.vue'
 import { useUserActions } from './useUserActions'
-import { STATUS_TONES, accountStatus, useUserText } from './userDisplay'
+import { STATUS_TONES, accountStatus, currentTeams, useUserText } from './userDisplay'
 
 // A person's full page: Overview · Assignments · Cycles · Rules · Sign-in and access.
-// Assignments, Cycles and Rules fill in with the teams, territory, rules and cycles modules.
+// Assignments has the teams; managers and territory join it, Cycles and Rules fill in, with their modules.
 const props = defineProps<{ id: string }>()
 const { t } = useI18n()
 const route = useRoute()
@@ -40,7 +41,7 @@ watch(() => props.id, () => {
 }, { immediate: true })
 
 const TABS = ['overview', 'assignments', 'cycles', 'rules', 'access'] as const
-const LATER = ['assignments', 'cycles', 'rules'] as const
+const LATER = ['cycles', 'rules'] as const
 const tab = computed({
   get: () => (TABS.includes(route.query.tab as typeof TABS[number]) ? String(route.query.tab) : 'overview'),
   set: value => router.replace({ query: { ...route.query, tab: value === 'overview' ? undefined : value } }),
@@ -76,6 +77,7 @@ const status = computed(() => (user.value ? accountStatus(user.value) : 'active'
           <h1 class="font-display text-[26px] font-extrabold leading-tight tracking-[-0.03em] md:text-[32px]">{{ user.full_name }}</h1>
           <div class="flex flex-wrap items-center gap-1.5">
             <DlBadge size="sm">{{ text.role(user) }}</DlBadge>
+            <DlBadge v-for="team in currentTeams(user)" :key="team.id" size="sm">{{ team.name }}</DlBadge>
             <DlBadge size="sm" dot :tone="STATUS_TONES[status]">{{ text.status(user) }}</DlBadge>
           </div>
         </div>
@@ -96,7 +98,8 @@ const status = computed(() => (user.value ? accountStatus(user.value) : 'active'
       </header>
 
       <DlTabs v-model="tab" :label="user.full_name" :items="tabs">
-        <template #overview><UserOverviewTab :user="user" @changed="load" /></template>
+        <template #overview><UserOverviewTab :user="user" @changed="load" @go="value => (tab = value)" /></template>
+        <template #assignments><UserAssignmentsTab :user="user" @changed="load" /></template>
         <template v-for="later in LATER" :key="later" #[later]>
           <div class="rounded-3xl bg-dl-paper p-5">
             <DlEmptyState icon="tabler-clock" :title="t(`users.later.${later}.title`)" :description="t(`users.later.${later}.text`)" />

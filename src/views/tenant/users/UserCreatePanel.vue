@@ -13,8 +13,9 @@ import DlSelect from '@/components/DlSelect.vue'
 import DlSteps from '@/components/DlSteps.vue'
 import { useToast } from '@/composables/useToast'
 import { loadCommunes, useUserLookups } from './useUserLookups'
+import { today } from './userDisplay'
 
-// "Add a user" in steps: person · role. Team, manager, territory, rules and the first cycle
+// "Add a user" in steps: person · role and team. Manager, territory, rules and the first cycle
 // join the second step (and a third) with their modules.
 const emit = defineEmits<{ created: [user: TenantUser] }>()
 const open = defineModel<boolean>('open', { default: false })
@@ -27,19 +28,22 @@ function blank() {
     first_name: '', last_name: '', email: '', phone: '', address: '',
     wilaya_id: null as number | null, commune_id: null as number | null, language_id: null as number | null,
     avatar: null as File | null,
-    role: null as string | null, send_access: true,
+    role: null as string | null, team_id: null as number | null, second_team_id: null as number | null,
+    start_date: today(), send_access: true,
   }
 }
 const form = reactive(blank())
 const step = ref(0)
 const errors = ref<Record<string, string>>({})
 const saving = ref(false)
+const showSecondTeam = ref(false)
 
 watch(open, value => {
   if (!value) return
   Object.assign(form, blank(), { language_id: defaultLanguage() })
   step.value = 0
   errors.value = {}
+  showSecondTeam.value = false
 })
 
 // Default language: French when the lab has it (labs usually work in French), else the first one.
@@ -65,13 +69,13 @@ function pickPhoto(event: Event) {
   if (file) form.avatar = file
 }
 
-const steps = computed(() => [t('users.add.steps.person'), t('users.add.steps.role')])
+const steps = computed(() => [t('users.add.steps.person'), t('users.add.steps.place')])
 const LAST = 1
 
 /** Fields of each step, to send the API's errors back to the right step. */
 const STEP_FIELDS: string[][] = [
   ['first_name', 'last_name', 'email', 'phone', 'address', 'commune_id', 'language_id', 'avatar'],
-  ['role'],
+  ['role', 'teams', 'start_date'],
 ]
 const required = (value: unknown) => (value === null || value === '' ? t('users.add.required') : null)
 function check(index: number): boolean {
@@ -82,7 +86,7 @@ function check(index: number): boolean {
     need('phone', form.phone.trim()); need('commune_id', form.commune_id); need('language_id', form.language_id)
     if (form.phone && !/^\d{10}$/.test(form.phone.replace(/\s/g, ''))) found.phone = t('users.add.phoneFormat')
   }
-  if (index === 1) need('role', form.role)
+  if (index === 1) { need('role', form.role); need('teams', form.team_id); need('start_date', form.start_date) }
   errors.value = found
   return !Object.keys(found).length
 }
@@ -94,6 +98,7 @@ async function save() {
   if (!check(LAST)) return
   saving.value = true
   try {
+    const teams = [form.team_id, form.second_team_id].filter((id, i, all): id is number => !!id && all.indexOf(id) === i)
     const user = await createUser({
       user: {
         first_name: form.first_name.trim(), last_name: form.last_name.trim(), email: form.email.trim(),
@@ -101,15 +106,16 @@ async function save() {
         commune_id: form.commune_id, language_id: form.language_id, avatar: form.avatar,
       },
       role: form.role!,
+      teams: teams.map((id, i) => ({ id, start_date: form.start_date, is_primary: i === 0 })),
       send_access: form.send_access,
     })
     toast.success(form.send_access ? t('users.add.createdInvited', { email: user.email }) : t('users.add.created'))
     emit('created', user)
   }
   catch (error) {
-    // "user.email" → "email"
+    // "user.email" → "email", "teams.0.id" → "teams"
     const found: Record<string, string> = {}
-    for (const [key, message] of Object.entries(fieldErrors(error))) found[key.startsWith('user.') ? key.slice(5) : key] ??= message
+    for (const [key, message] of Object.entries(fieldErrors(error))) found[key.startsWith('user.') ? key.slice(5) : key.split('.')[0]!] ??= message
     if (!Object.keys(found).length) {
       toast.error(errorMessage(error) ?? t('studio.list.toast.failed'))
       return
@@ -159,6 +165,14 @@ async function save() {
       <form v-else id="user-add" class="flex flex-col gap-3.5" novalidate @submit.prevent="save">
         <DlSelect v-model="form.role" :label="t('users.columns.role')" :options="lookups.roles.value" :placeholder="t('users.add.choose')" />
         <p v-if="errors.role" class="-mt-2 text-xs text-dl-rejected">{{ errors.role }}</p>
+        <div class="flex flex-col gap-1.5">
+          <DlCombobox v-model="form.team_id" :label="t('users.add.mainTeam')" :options="lookups.teams.value" :error="errors.teams" />
+          <button v-if="!showSecondTeam" type="button" class="self-start text-xs font-semibold text-dl-cobalt hover:underline" @click="showSecondTeam = true">
+            ＋ {{ t('users.add.anotherTeam') }}
+          </button>
+        </div>
+        <DlCombobox v-if="showSecondTeam" v-model="form.second_team_id" :label="t('users.add.secondTeam')" :options="lookups.teams.value.filter(team => team.value !== form.team_id)" />
+        <DlInput v-model="form.start_date" type="date" :label="t('users.add.startsOn')" :hint="t('users.add.startsOnHint')" :error="errors.start_date" />
         <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5" :class="form.send_access ? 'bg-dl-signal-soft ring-[1.5px] ring-dl-fg ring-inset' : 'border border-dl-line'">
           <input v-model="form.send_access" type="checkbox" class="mt-0.5 h-[18px] w-[18px] accent-dl-ink">
           <span class="flex flex-col">

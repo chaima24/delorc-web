@@ -1,5 +1,6 @@
 import { client } from '@/api/client'
 import type { ListParams, Page } from '@/api/tenant/geography'
+import type { Team } from '@/api/tenant/teams'
 
 /** active · invited (link sent, no password yet) · not_invited · inactive (docs/api/users.md). */
 export type UserAccountStatus = 'active' | 'invited' | 'not_invited' | 'inactive'
@@ -36,6 +37,8 @@ export interface TenantUser {
   commune?: { id: number; name: string; wilaya: { id: number; name: string } } | null
   two_factor_method?: 'none' | 'app' | 'email' | 'sms'
   created_by?: { id: number; full_name: string } | null
+  /** List: current teams, main first. Page: every stint, open ones first, newest first. */
+  teams?: Team[]
 }
 
 export interface UserProfileInput {
@@ -52,6 +55,8 @@ export interface UserProfileInput {
 export interface CreateUserPayload {
   user: UserProfileInput & { avatar?: File | null }
   role: string
+  /** At least one; with several, the flagged one (else the first) is the main team. */
+  teams: { id: number; start_date: string; is_primary?: boolean }[]
   /** Email the person a link to choose their password (default on). */
   send_access: boolean
 }
@@ -90,5 +95,11 @@ export const createUser = (body: CreateUserPayload) => one(client.post('/users',
 export const updateUser = (id: number, body: UpdateUserPayload) => hasFile(body)
   ? one(client.post(`/users/${id}`, asForm({ ...body, _method: 'PUT' })))
   : one(client.put(`/users/${id}`, body))
+/** As the previous API: end or re-flag current stints, open new ones. */
+export interface SyncUserTeamsPayload {
+  existing_teams?: { id: number; end_date?: string | null; is_primary?: boolean }[]
+  new_teams?: { id: number; start_date: string; end_date?: string | null; is_primary?: boolean }[]
+}
+export const syncUserTeams = (id: number, body: SyncUserTeamsPayload) => one(client.put(`/users/${id}/teams`, body))
 export const sendUserAccessLink = (id: number) => client.post(`/users/${id}/access-link`)
 export const resetUserSecondFactor = (id: number) => one(client.post(`/users/${id}/second-factor/reset`))

@@ -11,8 +11,8 @@ import { useAuthStore } from '@/stores/auth'
 import { useUserActions } from './useUserActions'
 import { STATUS_TONES, accountStatus, useUserText } from './userDisplay'
 
-// Reading panel: contact and sign-in. "Open full page" for the rest.
-// Team, manager, territory, cycle, rules and hierarchy come back with their modules.
+// Reading panel: where the person is now, contact, sign-in. "Open full page" for the rest.
+// Manager, territory, cycle, rules and hierarchy come back with their modules.
 const props = defineProps<{ user: TenantUser }>()
 const emit = defineEmits<{ changed: [] }>()
 const open = defineModel<boolean>('open', { default: false })
@@ -23,6 +23,7 @@ const auth = useAuthStore()
 const actions = useUserActions(toRef(props, 'user'), { onChange: () => emit('changed') })
 
 const status = computed(() => accountStatus(props.user))
+const tiles = computed(() => [{ label: t('users.columns.team'), value: text.teams(props.user) }])
 const commune = computed(() => [props.user.commune?.name, props.user.commune?.wilaya?.name].filter(Boolean).join(', ') || '—')
 const signIn = computed(() => {
   if (status.value === 'active') return t('users.read.signedIn', { date: text.dateTime(props.user.last_login_at) })
@@ -54,6 +55,13 @@ const signIn = computed(() => {
           {{ t(status === 'invited' ? 'users.actions.resendAccess' : 'users.actions.sendAccess') }}
         </button>
       </p>
+
+      <dl class="grid grid-cols-2 gap-2">
+        <div v-for="tile in tiles" :key="tile.label" class="flex flex-col gap-0.5 rounded-2xl bg-dl-mist px-3.5 py-2.5">
+          <dt class="text-[11.5px] text-dl-muted">{{ tile.label }}</dt>
+          <dd class="truncate text-[13px] font-semibold">{{ tile.value }}</dd>
+        </div>
+      </dl>
 
       <section class="rounded-2xl border border-dl-line px-3.5 py-3">
         <h3 class="mb-1.5 text-sm font-semibold">{{ t('users.read.contact') }}</h3>

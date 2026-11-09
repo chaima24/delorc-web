@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import { updateUser, type TenantUser } from '@/api/tenant/users'
 import DlAvatar from '@/components/DlAvatar.vue'
+import DlBadge from '@/components/DlBadge.vue'
 import DlCombobox from '@/components/DlCombobox.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlRecordSection from '@/components/DlRecordSection.vue'
@@ -11,11 +12,11 @@ import DlSelect from '@/components/DlSelect.vue'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import { loadCommunes, useUserLookups } from '../useUserLookups'
-import { useUserText } from '../userDisplay'
+import { currentTeams, useUserText } from '../userDisplay'
 
-// The profile card. "Maintenant" (team, manager, territory) and "Cycle actuel" come back with their modules.
+// The profile card and "Maintenant" (teams). Manager, territory and "Cycle actuel" come back with their modules.
 const props = defineProps<{ user: TenantUser }>()
-const emit = defineEmits<{ changed: [] }>()
+const emit = defineEmits<{ changed: []; go: [tab: string] }>()
 const { t } = useI18n()
 const toast = useToast()
 const text = useUserText()
@@ -123,5 +124,25 @@ const added = computed(() => props.user.created_by?.full_name
         <DlSelect v-model="form.language_id" :label="t('users.fields.language')" :options="languageOptions" />
       </template>
     </DlRecordSection>
+
+    <div class="flex flex-col gap-4">
+      <section class="rounded-2xl border border-dl-line bg-dl-paper px-3.5 py-3">
+        <header class="mb-2 flex items-center gap-2">
+          <h3 class="flex-1 text-sm font-semibold">{{ t('users.read.now') }}</h3>
+          <button type="button" class="text-[13px] font-semibold text-dl-cobalt hover:underline" @click="emit('go', 'assignments')">{{ t('users.read.seeHistory') }}</button>
+        </header>
+        <dl class="grid grid-cols-[120px_1fr] gap-x-3 gap-y-2 text-[13px]">
+          <dt class="text-dl-muted">{{ t('users.columns.team') }}</dt>
+          <dd class="flex flex-col gap-1">
+            <span v-for="team in currentTeams(user)" :key="team.id" class="flex flex-wrap items-center gap-1.5">
+              <strong>{{ team.name }}</strong>
+              <DlBadge v-if="team.isPrimary && currentTeams(user).length > 1" size="sm">{{ t('users.history.main') }}</DlBadge>
+              <span class="text-dl-muted">{{ text.period(team) }}</span>
+            </span>
+            <span v-if="!currentTeams(user).length">—</span>
+          </dd>
+        </dl>
+      </section>
+    </div>
   </div>
 </template>

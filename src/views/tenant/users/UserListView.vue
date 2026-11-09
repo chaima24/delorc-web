@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { rolesApi } from '@/api/tenant/roles'
+import { type Team, fetchAllTeams } from '@/api/tenant/teams'
 import { fetchUser, fetchUsers, type TenantUser } from '@/api/tenant/users'
 import type { ListParams } from '@/api/tenant/geography'
 import DlAvatar from '@/components/DlAvatar.vue'
@@ -21,14 +22,14 @@ import UserReadPanel from './UserReadPanel.vue'
 import { STATUS_TONES, accountStatus, today, useUserText } from './userDisplay'
 
 // Studio › Users: list, reading panel, "Add a user". Everything else on the full page.
-// The team filter, the hierarchy view and the team, manager and territory columns come with their modules.
+// The hierarchy view and the manager and territory columns come with their modules.
 const { t } = useI18n()
 const auth = useAuthStore()
 const text = useUserText()
 const toast = useToast()
 
 const ALL = 'all'
-type Filters = { role: string | null; account: string; added: string; from: string; to: string }
+type Filters = { role: string | null; team: number | null; account: string; added: string; from: string; to: string }
 
 /** The "Added" filter as API dates: one day, or a range typed in any order. */
 function addedDates(f: Filters): { from?: string; to?: string } {
@@ -45,6 +46,7 @@ function queryOf(search: string, filters: Filters): ListParams {
   return {
     'filter[q]': search || undefined,
     'filter[role]': filters.role ?? undefined,
+    'filter[team]': filters.team ?? undefined,
     'filter[account]': filters.account === ALL ? undefined : filters.account,
     'filter[created_from]': from,
     'filter[created_to]': to,
@@ -53,14 +55,17 @@ function queryOf(search: string, filters: Filters): ListParams {
 
 const list = useStudioList<TenantUser, Filters>(
   ({ page, perPage, search, sort, filters }) => fetchUsers({ page, per_page: perPage, sort, ...queryOf(search, filters) }),
-  { role: null, account: 'current', added: ALL, from: '', to: '' },
+  { role: null, team: null, account: 'current', added: ALL, from: '', to: '' },
 )
 const { page, perPage, search, sort, filters, items, total, loading } = list
 list.reload()
 
 const roles = ref<string[]>([])
+const teams = ref<Team[]>([])
 onMounted(async () => {
-  roles.value = (await rolesApi.list()).map(role => role.name)
+  const [roleList, teamList] = await Promise.all([rolesApi.list(), fetchAllTeams()])
+  roles.value = roleList.map(role => role.name)
+  teams.value = teamList
 })
 
 const roleFilter = computed({
@@ -70,6 +75,14 @@ const roleFilter = computed({
 const roleOptions = computed(() => [
   { value: ALL, label: t('users.filter.allRoles') },
   ...roles.value.map(name => ({ value: name, label: roleLabel(name) })).sort((a, b) => a.label.localeCompare(b.label)),
+])
+const teamFilter = computed({
+  get: () => filters.team ?? ALL,
+  set: value => { filters.team = value === ALL || value == null ? null : Number(value) },
+})
+const teamOptions = computed(() => [
+  { value: ALL, label: t('users.filter.allTeams') },
+  ...teams.value.map(team => ({ value: team.id, label: team.name })),
 ])
 const accountOptions = computed(() => ['current', 'active', 'invited', 'not_invited', 'inactive', ALL].map(value => ({
   value,
@@ -90,7 +103,7 @@ const addedOptions = computed(() => [
   { value: 'day', label: t('access.log.filter.oneDay') },
   { value: 'range', label: t('access.log.filter.range') },
 ])
-const filtered = computed(() => !!(search.value || filters.role || filters.account !== 'current' || filters.added !== ALL))
+const filtered = computed(() => !!(search.value || filters.role || filters.team || filters.account !== 'current' || filters.added !== ALL))
 
 // Panel: a person (reading mode) or "Add a user".
 const open = ref(false)
@@ -123,6 +136,7 @@ const added = useAddedColumn()
 const columns = [
   { key: 'person', label: t('users.columns.person'), sortKey: 'first_name' },
   { key: 'role', label: t('users.columns.role') },
+  { key: 'team', label: t('users.columns.team') },
   { key: 'status', label: t('users.columns.status') },
   { ...added.column, secondary: true },
 ]
@@ -149,6 +163,7 @@ async function exportList() {
       [t('users.fields.email')]: user.email,
       [t('users.fields.phone')]: user.phone ?? '',
       [t('users.columns.role')]: text.role(user),
+      [t('users.columns.team')]: text.teams(user),
       [t('users.columns.status')]: text.status(user),
       [t('studio.list.added')]: user.created_at?.slice(0, 10) ?? '',
     })), `${t('users.title')} ${today()}`, t('users.title'))
@@ -189,6 +204,7 @@ async function exportList() {
             class="w-full sm:max-w-xs"
           />
           <DlSelect v-model="roleFilter" :label="t('users.columns.role')" :options="roleOptions" appearance="filter" />
+          <DlSelect v-model="teamFilter" :label="t('users.columns.team')" :options="teamOptions" appearance="filter" />
           <DlSelect v-model="filters.account" :label="t('users.columns.status')" :options="accountOptions" appearance="filter" />
           <DlSelect v-model="addedFilter" :label="t('studio.list.added')" :options="addedOptions" appearance="filter" />
           <DlInput v-if="filters.added === 'day'" v-model="filters.from" type="date" :max="today()" :label="t('access.log.filter.day')" hide-label class="w-44" />
@@ -222,6 +238,7 @@ async function exportList() {
             </span>
           </template>
           <template #cell-role="{ row }">{{ text.role(row) }}</template>
+          <template #cell-team="{ row }">{{ text.teams(row) }}</template>
           <template #cell-status="{ row }">
             <DlBadge size="sm" dot :tone="STATUS_TONES[accountStatus(row)]">{{ text.status(row) }}</DlBadge>
           </template>
@@ -231,7 +248,7 @@ async function exportList() {
               <DlAvatar :name="row.full_name" :src="row.avatar?.url" size="sm" :tone="accountStatus(row) === 'inactive' ? 'neutral' : 'cobalt'" />
               <span class="flex min-w-0 flex-1 flex-col">
                 <strong class="truncate font-semibold">{{ row.full_name }}</strong>
-                <span class="truncate text-xs text-dl-muted">{{ text.role(row) }}</span>
+                <span class="truncate text-xs text-dl-muted">{{ text.role(row) }} · {{ text.teams(row) }}</span>
               </span>
               <DlBadge size="sm" dot :tone="STATUS_TONES[accountStatus(row)]">{{ text.status(row) }}</DlBadge>
             </span>

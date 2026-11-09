@@ -1,10 +1,41 @@
 import { useI18n } from 'vue-i18n'
+import type { Team } from '@/api/tenant/teams'
 import type { TenantUser, UserAccountStatus } from '@/api/tenant/users'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 
-// Teams, managers and territory (with their dates) come back here with their modules.
+// Managers and territory (with their dates) come back here with their modules.
+
+/** A team (later: manager, territory) link with its dates. */
+export interface Stint {
+  id: number
+  name: string
+  start: string | null
+  end: string | null
+  isPrimary: boolean
+}
 
 export const today = () => new Date().toISOString().slice(0, 10)
+const day = (value?: string | null) => (value ? value.slice(0, 10) : null)
+
+/** Newest first: open stints on top, then by start date. */
+export function stints(rows: Team[] | undefined): Stint[] {
+  return (rows ?? [])
+    .map(row => ({
+      id: row.id,
+      name: row.name,
+      start: day(row.pivot?.start_date),
+      end: day(row.pivot?.end_date),
+      isPrimary: !!row.pivot?.is_primary,
+    }))
+    .sort((a, b) => Number(!!a.end) - Number(!!b.end) || (b.start ?? '').localeCompare(a.start ?? ''))
+}
+
+/** Not ended: today, or starting later (a person added for next week already has a team). */
+export const isOpen = (stint: Stint) => !stint.end || stint.end >= today()
+
+export function currentTeams(user: TenantUser) {
+  return stints(user.teams).filter(isOpen).sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))
+}
 
 export const accountStatus = (user: TenantUser): UserAccountStatus => user.account_status
 
@@ -28,5 +59,10 @@ export function useUserText() {
     dateTime,
     role: (user: TenantUser) => roleLabel(user.role),
     status: (user: TenantUser) => t(`users.status.${accountStatus(user)}`),
+    /** "2 Sep 2026 → today" */
+    period: (stint: Stint) => stint.start && stint.start > today() && !stint.end
+      ? t('users.history.startsOn', { date: date(stint.start) })
+      : t('users.history.period', { from: date(stint.start), to: stint.end ? date(stint.end) : t('users.history.today') }),
+    teams: (user: TenantUser) => currentTeams(user).map(team => team.name).join(' · ') || '—',
   }
 }
