@@ -27,6 +27,15 @@ export const geographySection: StudioSection = {
   ],
 }
 
+export const customersSection: StudioSection = {
+  label: 'settings.groups.customers.title',
+  levels: [
+    { route: 'tenant-specialities', resource: 'specialities', icon: 'tabler-stethoscope', label: 'customersSetup.title.specialities', count: 'specialities' },
+    { route: 'tenant-segmentations', resource: 'segmentations', icon: 'tabler-chart-pie', label: 'customersSetup.title.segmentations', count: 'segmentations' },
+    { route: 'tenant-priorities', resource: 'priorities', icon: 'tabler-flag-3', label: 'customersSetup.title.priorities', count: 'priorities' },
+  ],
+}
+
 export const accessSection: StudioSection = {
   label: 'settings.groups.access.title',
   levels: [

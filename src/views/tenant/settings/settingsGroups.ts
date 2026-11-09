@@ -39,6 +39,16 @@ export const settingsGroups: SettingsGroup[] = [
     ],
   },
   {
+    title: 'settings.groups.customers.title',
+    subtitle: 'settings.groups.customers.subtitle',
+    icon: 'tabler-stethoscope',
+    links: [
+      { title: 'settings.links.specialities.title', description: 'settings.links.specialities.description', to: { name: 'tenant-specialities' }, icon: 'tabler-stethoscope', resource: 'specialities', count: 'specialities' },
+      { title: 'settings.links.segmentations.title', description: 'settings.links.segmentations.description', to: { name: 'tenant-segmentations' }, icon: 'tabler-chart-pie', resource: 'segmentations', count: 'segmentations' },
+      { title: 'settings.links.priorities.title', description: 'settings.links.priorities.description', to: { name: 'tenant-priorities' }, icon: 'tabler-flag-3', resource: 'priorities', count: 'priorities' },
+    ],
+  },
+  {
     title: 'settings.groups.access.title',
     subtitle: 'settings.groups.access.subtitle',
     icon: 'tabler-shield-lock',
