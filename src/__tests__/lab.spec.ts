@@ -1,11 +1,11 @@
 import { mount } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { labApi, type Lab } from '@/api/tenant/lab'
+import { labApi, type LabInfo } from '@/api/tenant/lab'
 import { currentLocale, i18n, nestTexts } from '@/plugins/i18n'
 import { useLabStore } from '@/stores/lab'
 
-const demo: Lab = {
+const demo: LabInfo = {
   id: 'demo',
   name: 'Demo Pharma',
   logo_url: null,
@@ -68,16 +68,19 @@ describe('lab texts', () => {
     vi.doUnmock('@/space')
   })
 
-  it('keeps the API message when this address is not a lab, or a suspended one', async () => {
-    const answer = (status: number, message: string) => ({ isAxiosError: true, response: { status, data: { message } } })
-    vi.spyOn(labApi, 'show').mockRejectedValueOnce(answer(404, "Ce laboratoire n'existe pas."))
+  it('marks an address that is not a lab, or a suspended lab, and loads no texts', async () => {
+    const answer = (status: number) => ({ isAxiosError: true, response: { status, data: { message: 'x' } } })
+    vi.spyOn(labApi, 'show').mockRejectedValueOnce(answer(404))
     const store = useLabStore()
 
     await store.load()
-    expect(store.unavailable).toEqual({ status: 404, message: "Ce laboratoire n'existe pas." })
+    expect(store.state).toBe('unknown')
     expect(labApi.texts).not.toHaveBeenCalled()
 
-    vi.spyOn(labApi, 'show').mockRejectedValueOnce(new Error('Network Error')) // no answer: the form opens as usual
-    await expect(useLabStore().load()).rejects.toThrow('Network Error')
+    setActivePinia(createPinia())
+    vi.spyOn(labApi, 'show').mockRejectedValueOnce(answer(403))
+    const suspended = useLabStore()
+    await suspended.load()
+    expect(suspended.state).toBe('suspended')
   })
 })

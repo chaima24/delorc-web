@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { errorMessage } from '@/api/errors'
 import { nearLimit, usageApi, type UsageOverview, type UsageRow } from '@/api/central/usage'
 import DlAlert from '@/components/DlAlert.vue'
@@ -27,6 +27,9 @@ const month = ref('')
 const search = ref('')
 const plan = ref<string | number>('all')
 const near = ref(false)
+// The bell opens this page with ?near=1: only labs near or over a limit.
+const route = useRoute()
+watch(() => route.query.near, (value) => { near.value = value === '1' }, { immediate: true })
 const sort = ref('name')
 
 const GB = 1024 ** 3

@@ -1,35 +1,36 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
 import { ref } from 'vue'
-import { errorMessage } from '@/api/errors'
-import { labApi, type Lab } from '@/api/tenant/lab'
+import { isAxiosError } from 'axios'
+import { labApi, type LabInfo } from '@/api/tenant/lab'
 import { savedLocale, setLocale, useLabLanguages } from '@/plugins/i18n'
 
-/** The lab of this address (name, languages), read once before the app opens. Empty on central. */
+/**
+ * The lab of this address, asked once before any lab page opens, like a middleware that checks the tenant.
+ * `unknown`: no lab here (404). `suspended`: the lab exists but is suspended (403).
+ */
 export const useLabStore = defineStore('lab', () => {
-  const lab = ref<Lab | null>(null)
-  /** The API's answer when this address is not a lab (404) or a suspended one (403): shown instead of the sign-in form. */
-  const unavailable = ref<{ status: 404 | 403; message: string } | null>(null)
+  const lab = ref<LabInfo | null>(null)
+  const state = ref<'ok' | 'unknown' | 'suspended'>('ok')
+  let loaded = false
 
-  /**
-   * Reads the lab, then switches the texts to the lab's own: the language this browser used last time,
-   * else the lab's default language. Like a boot step that runs before the first request is served.
-   */
+  /** Then switches the texts to the lab's own: the language this browser used last time, else the lab's default. */
   async function load(): Promise<void> {
+    if (loaded) return
+    loaded = true
+
     try {
       lab.value = await labApi.show()
     } catch (error) {
-      const status = axios.isAxiosError(error) ? error.response?.status : undefined
-      if (status === 404 || status === 403) {
-        unavailable.value = { status, message: errorMessage(error) ?? '' }
-        return
-      }
-      throw error // no network: the sign-in form opens as usual
+      const status = isAxiosError(error) ? error.response?.status : undefined
+      // Any other failure (API down…) keeps the sign-in page, which shows its own error.
+      if (status === 404) state.value = 'unknown'
+      if (status === 403) state.value = 'suspended'
+      return
     }
 
     useLabLanguages({ codes: lab.value.languages.map((language) => language.code), load: labApi.texts })
-    await setLocale(savedLocale() ?? lab.value.default_language)
+    await setLocale(savedLocale() ?? lab.value.default_language).catch(() => undefined) // no texts: the central ones stay
   }
 
-  return { lab, unavailable, load }
+  return { lab, state, load }
 })

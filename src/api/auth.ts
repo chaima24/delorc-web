@@ -5,6 +5,8 @@ export interface User {
   name: string
   initials: string
   email: string
+  /** A new email waiting for the link sent to it. */
+  pending_email: string | null
   phone: string | null
   locale: string
   is_active: boolean
@@ -13,7 +15,8 @@ export interface User {
   /** Owner or admin: may do everything, and `permissions` stays empty. */
   is_super: boolean
   permissions: string[]
-  two_factor: { method: 'none' | 'app' | 'email' | 'sms'; confirmed: boolean; recovery_codes_left: number }
+  /** `required`: everyone must have one, so it cannot be turned off (switching method is allowed). */
+  two_factor: { method: 'none' | 'app' | 'email' | 'sms'; confirmed: boolean; recovery_codes_left: number; required: boolean }
 }
 
 export interface Session {
@@ -52,4 +55,20 @@ export const authApi = {
   me: () => client.get<{ data: User }>('/auth/me').then((response) => response.data.data),
 
   logout: (refreshToken: string | null) => client.post('/auth/logout', { refresh_token: refreshToken }),
+
+  /** Step 1 of the authenticator app: a secret and its QR code. Nothing changes until it is confirmed. */
+  setupApp: () => client.post<{ secret: string; otpauth_url: string; qr_svg: string }>('/auth/two-factor/app/setup').then((response) => response.data),
+
+  /** Step 2: the first code from the app turns it on, and gives the recovery codes once. */
+  confirmApp: (code: string) =>
+    client.post<{ recovery_codes: string[]; user: User }>('/auth/two-factor/app/confirm', { code }).then((response) => response.data),
+
+  useEmailCode: (password: string) =>
+    client.put<{ data: User }>('/auth/two-factor/method', { method: 'email', password }).then((response) => response.data.data),
+
+  disableTwoFactor: (password: string) =>
+    client.post<{ data: User }>('/auth/two-factor/disable', { password }).then((response) => response.data.data),
+
+  newRecoveryCodes: (password: string) =>
+    client.post<{ recovery_codes: string[] }>('/auth/two-factor/recovery-codes', { password }).then((response) => response.data.recovery_codes),
 }

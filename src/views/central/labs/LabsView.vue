@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { errorMessage } from '@/api/errors'
 import { labsApi, type LabRow } from '@/api/central/labs'
 import DlAlert from '@/components/DlAlert.vue'
@@ -14,6 +14,7 @@ import DlSortHeader from '@/components/DlSortHeader.vue'
 import DlSwitch from '@/components/DlSwitch.vue'
 import { sortRows } from '@/composables/sortRows'
 import { useAuthStore } from '@/stores/auth'
+import AttentionRow from './AttentionRow.vue'
 import LabLogo from './LabLogo.vue'
 import { dayFromToday, useLabTexts } from './useLabTexts'
 
@@ -30,6 +31,12 @@ const status = ref('all')
 const plan = ref<string | number>('all')
 const period = ref('all')
 const endingSoon = ref(false)
+// The bell opens this page with a filter already set: ?period=grace, or ?period=trial&ending=1.
+const route = useRoute()
+watch(() => route.query, (query) => {
+  period.value = typeof query.period === 'string' ? query.period : 'all'
+  endingSoon.value = query.ending === '1'
+}, { immediate: true })
 const sort = ref('-created_at')
 
 const all = computed(() => ({ value: 'all', label: t('common.list.all') }))
@@ -83,6 +90,7 @@ const open = (lab: LabRow) => router.push({ name: 'central-lab', params: { id: l
       <h1 class="font-display text-4xl font-extrabold tracking-[-0.03em]">{{ t('central.labs.title') }}</h1>
       <DlButton v-if="auth.can('labs.create')" variant="primary" icon="tabler-plus" :to="{ name: 'central-lab-new' }">{{ t('central.labs.add') }}</DlButton>
     </div>
+    <AttentionRow />
     <DlAlert v-if="error">{{ error }}</DlAlert>
 
     <div class="overflow-x-auto rounded-3xl bg-dl-paper p-4">

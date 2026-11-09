@@ -1,42 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
-import DlIconButton from '@/components/DlIconButton.vue'
+import { useRoute } from 'vue-router'
 import DlLogo from '@/components/DlLogo.vue'
 import DlIcon from '@/components/DlIcon.vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAttentionStore } from '@/stores/attention'
+import CentralTopBar from './central/CentralTopBar.vue'
+import { centralMenu } from './central/centralMenu'
 
 const { t } = useI18n()
 const route = useRoute()
-const router = useRouter()
-const auth = useAuthStore()
+const menu = computed(() => centralMenu())
 
-// Each module adds its line here when it is built.
-const menu = computed(() =>
-  [
-    { to: 'central-labs', pages: ['central-labs', 'central-lab-new', 'central-lab'], label: 'central.menu.labs', icon: 'tabler-building-factory-2', allowed: auth.can('labs.show') },
-    { to: 'central-usage', pages: ['central-usage'], label: 'central.menu.usage', icon: 'tabler-chart-bar', allowed: auth.can('usage.show') },
-    { to: 'central-users', pages: ['central-users'], label: 'central.users.title', icon: 'tabler-users', allowed: auth.can('users.show') },
-    { to: 'central-roles', pages: ['central-roles', 'central-role-access'], label: 'central.roles.title', icon: 'tabler-shield-lock', allowed: auth.can('roles.show') },
-    { to: 'central-activity', pages: ['central-activity'], label: 'central.menu.activity', icon: 'tabler-history', allowed: auth.can('activity-log.show') },
-    {
-      to: auth.can('translations.show') ? 'central-translations' : 'central-languages',
-      pages: ['central-translations', 'central-languages'],
-      label: 'central.menu.translations',
-      icon: 'tabler-language',
-      allowed: auth.can('translations.show') || auth.can('languages.show'),
-    },
-    { to: 'central-countries', pages: ['central-countries', 'central-country'], label: 'central.menu.geography', icon: 'tabler-map', allowed: auth.can('geography.show') },
-    { to: 'central-plans', pages: ['central-plans'], label: 'central.menu.plans', icon: 'tabler-stack-2', allowed: auth.can('plans.show') },
-    { to: 'central-settings', pages: ['central-settings'], label: 'central.menu.settings', icon: 'tabler-settings', allowed: auth.can('settings.show') },
-  ].filter((item) => item.allowed),
-)
-
-async function signOut(): Promise<void> {
-  await auth.logout()
-  router.push({ name: 'login' })
-}
+onMounted(() => useAttentionStore().start())
 </script>
 
 <template>
@@ -58,11 +34,7 @@ async function signOut(): Promise<void> {
     </nav>
 
     <div class="flex min-w-0 flex-1 flex-col">
-      <header class="flex items-center justify-end gap-3 border-b border-dl-line px-4 py-3 md:px-7">
-        <span class="text-sm font-semibold">{{ auth.user?.name }}</span>
-        <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-dl-cobalt text-sm font-bold text-white">{{ auth.user?.initials }}</span>
-        <DlIconButton icon="tabler-logout" :label="t('auth.logout')" @click="signOut" />
-      </header>
+      <CentralTopBar />
       <main class="flex-1 px-4 py-5 md:px-7">
         <RouterView />
       </main>
