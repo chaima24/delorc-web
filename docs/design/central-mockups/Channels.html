@@ -1,0 +1,133 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Email channels</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.sec { border: 1px solid var(--line); border-radius: 16px; background: var(--paper); }
+.sec.editing { border: 2px solid var(--ink); }
+.sec header { display: flex; align-items: center; gap: 8px; padding: 12px 14px 6px; } .sec header strong { flex: 1; font-size: 15px; }
+.sec .line { padding: 0 14px 12px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.tl { display: flex; gap: 10px; padding: 9px 14px; font-size: 14px; border-top: 1px solid var(--line-soft); } .tl span:first-child { flex: 1; font-weight: 600; } .tl em { font-style: normal; color: var(--ink); font-weight: 600; text-align: end; }
+.tl small { display: block; font-weight: 400; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+.eform { display: flex; flex-direction: column; gap: 12px; padding: 6px 14px 14px; } .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } .three { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
+.acts { display: flex; justify-content: flex-end; gap: 8px; }
+.later { opacity: .55; }
+.open { background: var(--paper); border: 1px dashed var(--amber); border-radius: 14px; padding: 10px 14px; font-size: 13px; color: var(--amber); }
+.ev { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 14px; }
+.ev .av { width: 34px; height: 34px; border-radius: 10px; background: var(--cobalt); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ev p { margin: 0; font-size: 14px; } .ev time { margin-inline-start: auto; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.err { color: var(--brick); font-size: 12px; } .input.badin { box-shadow: inset 0 0 0 1.5px var(--brick); }
+.lg { width: 56px; height: 56px; border-radius: 16px; background: var(--ink-2); color: var(--signal); font-size: 18px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+.tabs2 { display: flex; gap: 6px; } .tabs2 span { height: 34px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; background: var(--paper); font-size: 13px; font-weight: 600; color: var(--body); }
+.tabs2 span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.hint2 { font-size: 12px; color: var(--muted); }
+.okbox { background: var(--signal-soft); color: var(--ink); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.bad { background: rgba(192,54,44,.08); color: var(--brick); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.warn { background: rgba(180,83,9,.08); color: var(--amber); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.modes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mode { border: 1px solid var(--line); border-radius: 14px; padding: 12px; font-size: 13px; color: var(--body); display: flex; gap: 10px; }
+.mode.on { border: 2px solid var(--ink); background: var(--signal-soft); }
+.mode b { display: block; color: var(--ink); font-size: 14px; margin-bottom: 2px; }
+.dot { width: 16px; height: 16px; border-radius: 99px; border: 2px solid var(--line); flex-shrink: 0; margin-top: 2px; } .mode.on .dot { border: 5px solid var(--ink); }
+.bar { height: 8px; border-radius: 99px; background: var(--line-soft); overflow: hidden; margin-top: 6px; } .bar i { display: block; height: 100%; background: var(--ink); border-radius: 99px; } .bar.full i { background: var(--brick); }
+.test { display: flex; gap: 8px; align-items: flex-end; padding: 10px 14px 14px; border-top: 1px solid var(--line-soft); } .test .field { flex: 1; }
+.from { font-family: ui-monospace, monospace; font-size: 12.5px; background: var(--mist); border-radius: 10px; padding: 8px 10px; margin: 0 14px 12px; color: var(--ink); }
+</style></head><body>
+<p class="caption"><strong>Central › Settings and Central › Labs › a lab › Channels (module 8a).</strong> Email only: Delorc's shared account, and each lab's email (shared or its own SMTP), with a test send and this month's usage. SMS comes when a provider is chosen, on the lab side only. Interface texts are the real texts; hosts, people, dates and counts are invented. Sofia Rahmani is support. <span style="color:var(--amber)">Dashed amber boxes are points to confirm.</span></p>
+<div id="frames"></div>
+<script>
+const logo = `<svg width='34' height='34' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const MENU = ['Labs', 'People', 'Roles', 'Activity', 'Translations', 'Geography', 'Plans', 'Settings']
+const rail = on => `<nav class='rail'><div class='brand'>${logo}<span class='display'>Delorc</span></div><div style='display:flex;flex-direction:column;gap:6px'>${MENU.map(m => `<a class='${m === on ? 'on' : ''}'>${m}</a>`).join('')}</div></nav>`
+const frame = (n, label, { menu = 'Labs', head, body, who = 'SR' }) => `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:600px'>${rail(menu)}
+<div class='main'><div class='topbar'><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${who}</span></div>
+<div style='display:flex;flex-direction:column;gap:16px;padding:20px 28px 28px'>${head}${body}</div></div></div>`
+
+const field = (label, value, hint = '', bad = '') => `<div class='field'><span>${label}</span><div class='input ${bad ? 'badin' : ''}'>${value}</div>${bad ? `<span class='err'>${bad}</span>` : hint ? `<span class='hint'>${hint}</span>` : ''}</div>`
+const muted = t => `<span style='color:var(--muted)'>${t}</span>`
+const chip = (t, c = '') => `<span class='chip ${c}'>${t}</span>`
+const open = t => `<div class='open'>To confirm: ${t}</div>`
+const editBtn = `<span class='edit'>✎ Edit</span>`
+const editActs = `<div class='acts'><span class='btn outline sm'>Cancel</span><span class='btn dark sm'>Save</span></div>`
+const tl = (label, value, hint = '') => `<div class='tl'><span>${label}${hint ? `<small>${hint}</small>` : ''}</span><em>${value}</em></div>`
+const testRow = (result = '') => `<div class='test'>${field('Send a test email to', 'sofia.rahmani@delorc.dz')}<span class='btn outline sm' style='height:40px'>Send a test</span></div>${result}`
+const sent = `<div class='okbox' style='margin:0 14px 14px'>Sent to sofia.rahmani@delorc.dz at 10:42. Check the inbox, and the spam folder.</div>`
+const refused = `<div class='bad' style='margin:0 14px 14px'><b>Not sent.</b> The server refused the user name or password (535 Authentication failed). Nothing was saved or changed.</div>`
+
+// ---------- Settings ----------
+const settingsHead = `<div><div class='crumbs'>Settings</div><h1 class='title display' style='font-size:36px'>Settings</h1></div>`
+const labsCard = `<section class='sec'><header><strong>Labs</strong>${editBtn}</header>${tl('Trial length', '1 month')}${tl('Grace days', '7 days')}${tl('Export days', '7 days')}</section>`
+const sharedRead = (state = 'set', canEdit = true, result = '') => `<section class='sec'><header><strong>Delorc's email account</strong>${state === 'set' ? chip('Set', 'ok') : chip('Not set', 'warn')}${canEdit ? editBtn : ''}</header>
+  <div class='line'>Sends central's own emails, and the emails of every lab on the shared mode.</div>
+  ${state === 'set' ? tl('Server', 'smtp.delorc.dz : 587 · TLS') + tl('User name', 'no-reply@delorc.dz') + tl('Password', 'Saved', 'Never shown again. Type a new one to replace it.') + tl('Sender address', 'no-reply@delorc.dz', 'Central sends as "Delorc"; a lab on shared mode as its own name.') + (canEdit ? testRow(result) : '')
+    : `<div class='warn' style='margin:0 14px 14px'>No account yet: emails are only written to the server log. Set it before the first lab signs in.</div>`}</section>`
+const sharedEdit = (bad = false) => `<section class='sec editing'><header><strong>Delorc's email account</strong></header><div class='eform'>
+  <div class='three'>${field('Server (SMTP host)', 'smtp.delorc.dz')}${field('Port', bad ? '99999' : '587', '', bad ? 'A port from 1 to 65535.' : '')}${field('Encryption', 'TLS ▾', 'TLS, SSL or none.')}</div>
+  <div class='two'>${field('User name', 'no-reply@delorc.dz')}${field('Password', muted('••••••••'), 'Leave empty to keep the saved password.')}</div>
+  ${field('Sender address', bad ? 'no-reply@' : 'no-reply@delorc.dz', '', bad ? 'Enter a valid email address.' : '')}
+  ${editActs}</div></section>`
+const channelsLater = `<section class='sec later'><header><strong>SMS</strong>${chip('When a provider is chosen', 'info')}</header><div class='line'>Central never sends SMS. Each lab will use its own provider, set on its Channels tab.</div></section>`
+
+// ---------- Lab page ----------
+const labHead = `<div style='display:flex;gap:14px;align-items:center'><span class='lg'>DP</span><div><div class='crumbs'>Labs › Demo Pharma</div><h1 class='title display' style='font-size:32px;margin:0'>Demo Pharma</h1>
+  <div style='display:flex;gap:6px;margin-top:6px;align-items:center'>${chip('Active', 'ok')}${chip('Paid', 'ok')}<span class='hint2'>demo.localhost · Starter</span></div></div></div>`
+const tabs = `<div class='tabs2'>${['Overview', 'Subscription', 'Features', 'Texts', 'Channels', 'Data', 'Activity'].map(t => `<span class='${t === 'Channels' ? 'on' : ''}'>${t}</span>`).join('')}</div>`
+const usage = (used, quota) => {
+  const full = quota !== null && used >= quota
+  return `<div class='tl' style='display:block'><div style='display:flex'><span style='flex:1;font-weight:600'>This month</span><em style='font-style:normal;font-weight:600;color:var(--${full ? 'brick' : 'ink'})'>${quota === null ? `${used} · no limit` : `${used.toLocaleString('en')} of ${quota.toLocaleString('en')}`}</em></div>
+    ${quota === null ? '' : `<div class='bar ${full ? 'full' : ''}'><i style='width:${Math.min(100, used / quota * 100)}%'></i></div>`}
+    <small class='hint2'>Emails per month from the lab's plan and feature changes. A test is not counted.</small></div>
+    ${full ? `<div class='warn' style='margin:0 14px 12px'><b>Quota reached for November.</b> Only sign-in codes and access links are sent, and still counted, until 1 Dec 2026. Add a feature change to give more.</div>` : ''}`
+}
+const sharedLab = ({ canEdit = true, used = 38, quota = 1000, result = '' } = {}) => `<section class='sec'><header><strong>Email</strong>${chip('Shared')}${canEdit ? editBtn : ''}</header>
+  <div class='line'>Sent through Delorc's account. Replies go to the lab.</div>
+  <div class='from'>From: "Demo Pharma" &lt;no-reply@delorc.dz&gt;<br>Reply-To: contact@demo.dz</div>
+  ${usage(used, quota)}${canEdit ? testRow(result) : ''}</section>`
+const ownLab = ({ result = '', lastError = false } = {}) => `<section class='sec'><header><strong>Email</strong>${chip('Own account', 'info')}${editBtn}</header>
+  <div class='line'>Sent through the lab's own server.</div>
+  ${tl('Server', 'mail.demo.dz : 465 · SSL')}${tl('User name', 'crm@demo.dz')}${tl('Password', 'Saved', 'Never shown again.')}
+  <div class='from' style='margin-top:10px'>From: "Demo Pharma" &lt;crm@demo.dz&gt;</div>
+  ${lastError ? `<div class='bad' style='margin:0 14px 12px'><b>Last error, 20 Nov 2026 at 08:15:</b> host mail.demo.dz could not be reached. 3 emails were not sent since. Check the server with the lab, then send a test.</div>` : ''}
+  ${usage(212, 1000)}${testRow(result)}</section>`
+const modeEdit = (own, bad = false) => `<section class='sec editing'><header><strong>Email</strong></header><div class='eform'>
+  <div class='modes'>
+    <div class='mode ${own ? '' : 'on'}'><span class='dot'></span><div><b>Shared</b>Delorc's account. From the lab's name, replies to the lab's email. Nothing to set.</div></div>
+    <div class='mode ${own ? 'on' : ''}'><span class='dot'></span><div><b>Own account</b>The lab's SMTP server. Its emails come from its own address.</div></div>
+  </div>
+  ${own ? `<div class='three'>${field('Server (SMTP host)', 'mail.demo.dz')}${field('Port', '465')}${field('Encryption', 'SSL ▾')}</div>
+  <div class='two'>${field('User name', 'crm@demo.dz')}${field('Password', bad ? '' : '••••••••', bad ? '' : 'Typed now; never shown again after saving.', bad ? 'The password is required for a new own account.' : '')}</div>
+  <div class='two'>${field('Sender address', 'crm@demo.dz')}${field('Sender name', 'Demo Pharma', 'The lab\'s name by default.')}</div>` : ''}
+  ${editActs}</div></section>`
+const smsLater = `<section class='sec later'><header><strong>SMS</strong>${chip('When a provider is chosen', 'info')}</header><div class='line'>The lab will use its own SMS provider. Until then, sign-in codes by SMS are not available to this lab.</div></section>`
+
+// ---------- Activity ----------
+const ev = (av, text, time, chips = []) => `<div class='ev'><span class='av'>${av}</span><div><p>${text}</p>${chips.length ? `<div style='display:flex;gap:6px;margin-top:6px;flex-wrap:wrap'>${chips.map(c => chip(c)).join('')}</div>` : ''}</div><time>${time}</time></div>`
+const activity = `<div class='card' style='padding:12px 14px'>
+  ${ev('SR', '<b>Sofia Rahmani</b> changed the email of Demo Pharma', '20 Nov, 10:40', ['Mode: Shared → Own account', 'Server: — → mail.demo.dz', 'Password: changed'])}
+  ${ev('SR', '<b>Sofia Rahmani</b> sent a test email for Demo Pharma to sofia.rahmani@delorc.dz: sent', '20 Nov, 10:42')}
+  ${ev('MC', '<b>Mehdi Cherif</b> changed Delorc\'s email account', '7 Nov, 09:10', ['Server: — → smtp.delorc.dz', 'Password: changed'])}
+  <div class='hint2' style='padding:8px 12px'>A password is never written in the log: the line only says it changed.</div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Settings, before the account is set.</strong> A new card under Labs. Emails only go to the server log until it is set.`, { menu: 'Settings', who: 'MC', head: settingsHead, body: labsCard + sharedRead('none') + channelsLater }),
+  frame(2, `<strong>Set Delorc's account.</strong> The card edits in place. The password box is empty: leave it empty to keep the saved one.`, { menu: 'Settings', who: 'MC', head: settingsHead, body: labsCard + sharedEdit() }),
+  frame(3, `<strong>A wrong value.</strong> Nothing is saved.`, { menu: 'Settings', who: 'MC', head: settingsHead, body: labsCard + sharedEdit(true) }),
+  frame(4, `<strong>Saved, then a test.</strong> The box is prefilled with your own email; any address can be typed.`, { menu: 'Settings', who: 'MC', head: settingsHead, body: labsCard + sharedRead('set', true, sent) +
+    open('the test uses the saved values, so Save comes first (suggested). Testing values before saving would need a second set of fields.') }),
+  frame(5, `<strong>A test that fails.</strong> The server's answer in plain words, with its code.`, { menu: 'Settings', who: 'MC', head: settingsHead, body: labsCard + sharedRead('set', true, refused) }),
+  frame(6, `<strong>A lab on the shared mode.</strong> A new Channels tab. Every new lab starts here. The From line says exactly what people receive.`, { head: labHead, body: tabs + sharedLab() + smsLater +
+    open('the place: a Channels tab (shown), next to Texts and Data, because it will hold SMS too.') }),
+  frame(7, `<strong>Switch to its own account.</strong> The card edits in place; choosing Own account shows the SMTP fields.`, { head: labHead, body: tabs + modeEdit(true) }),
+  frame(8, `<strong>A new own account needs its password.</strong>`, { head: labHead, body: tabs + modeEdit(true, true) }),
+  frame(9, `<strong>On its own account, with a test.</strong>`, { head: labHead, body: tabs + ownLab({ result: sent }) }),
+  frame(10, `<strong>Its own server stops answering.</strong> Emails are not moved to Delorc's account: the card shows the last error until a send works again.`, { head: labHead, body: tabs + ownLab({ lastError: true }) +
+    open('no fallback to Delorc\'s account when the lab\'s own server fails (suggested): the lab chose to send from its own address, and its emails would suddenly come from Delorc. The failed email is lost and the card shows the last error. Sign-in codes by email fail too, so the person can use another method or ask for a new link later.') }),
+  frame(11, `<strong>Quota reached.</strong> Other emails are refused until the next month; security emails still go out.`, { head: labHead, body: tabs + sharedLab({ used: 1000 }) +
+    open('a refused email is lost, not kept for next month (suggested). The month counts on the server\'s calendar, 1st to last day.') }),
+  frame(12, `<strong>Billing's view.</strong> labs.show reads the card (never the password). No Edit, no test: changing it needs labs.channels (owner, support).`, { who: 'BK', head: labHead, body: tabs + sharedLab({ canEdit: false }) }),
+  frame(13, `<strong>In the activity log.</strong> Changes with before and after, test sends with their result.`, { menu: 'Activity', head: `<div><div class='crumbs'>Activity</div><h1 class='title display' style='font-size:36px'>Activity</h1></div>`, body: activity }),
+].join('')
+</script>
+</body></html>

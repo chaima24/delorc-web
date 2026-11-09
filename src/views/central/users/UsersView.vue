@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import { errorMessage } from '@/api/errors'
 import { rolesApi, type Role } from '@/api/central/roles'
 import { usersApi, type CentralUser } from '@/api/central/users'
@@ -11,13 +12,14 @@ import DlEmptyState from '@/components/DlEmptyState.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlPagination from '@/components/DlPagination.vue'
 import DlSelect from '@/components/DlSelect.vue'
+import DlSortHeader from '@/components/DlSortHeader.vue'
 import { useAccessLabels } from '@/composables/useAccessLabels'
 import { useAuthStore } from '@/stores/auth'
-import UsersRolesTabs from '../UsersRolesTabs.vue'
 import AddPersonPanel from './AddPersonPanel.vue'
 import PersonPanel from './PersonPanel.vue'
 
 const { t, d } = useI18n()
+const route = useRoute()
 const auth = useAuthStore()
 const { roleLabel } = useAccessLabels()
 
@@ -29,6 +31,7 @@ const perPage = ref(25)
 const search = ref('')
 const roleFilter = ref('all')
 const statusFilter = ref('all')
+const sort = ref('-created_at')
 const error = ref<string | null>(null)
 const loading = ref(true)
 
@@ -60,6 +63,7 @@ async function load(): Promise<void> {
       search: search.value || undefined,
       role: roleFilter.value === 'all' ? undefined : roleFilter.value,
       is_active: statusFilter.value === 'all' ? undefined : statusFilter.value === 'active',
+      sort: sort.value,
     }, page.value, perPage.value)
     users.value = answer.data
     total.value = answer.meta.total
@@ -80,11 +84,13 @@ watch(search, () => {
   clearTimeout(typing)
   typing = setTimeout(reloadFromFirstPage, 300)
 })
-watch([roleFilter, statusFilter, perPage], reloadFromFirstPage)
+watch([roleFilter, statusFilter, sort, perPage], reloadFromFirstPage)
 watch(page, load)
 
 onMounted(async () => {
   load()
+  // The activity log links here with ?open={id}.
+  if (route.query.open) usersApi.get(String(route.query.open)).then(open).catch(() => {})
   if (auth.can('roles.show')) roles.value = await rolesApi.list().catch(() => [])
 })
 
@@ -123,7 +129,6 @@ function statusOf(user: CentralUser): { tone: 'success' | 'warning' | 'neutral';
         <h1 class="font-display text-4xl font-extrabold tracking-[-0.03em]">{{ t('central.users.title') }}</h1>
         <DlButton v-if="auth.can('users.create')" variant="primary" icon="tabler-plus" @click="startAdding">{{ t('central.users.add') }}</DlButton>
       </div>
-      <UsersRolesTabs />
       <DlAlert v-if="error">{{ error }}</DlAlert>
 
       <div class="rounded-3xl bg-dl-paper p-4">
@@ -138,11 +143,12 @@ function statusOf(user: CentralUser): { tone: 'success' | 'warning' | 'neutral';
           <table class="w-full border-collapse text-sm">
             <thead>
               <tr class="border-b border-dl-line text-start text-xs font-semibold text-dl-muted">
-                <th class="p-3 text-start font-semibold">{{ t('central.users.person') }}</th>
-                <th class="p-3 text-start font-semibold">{{ t('central.users.role') }}</th>
-                <th class="p-3 text-start font-semibold">{{ t('central.users.statusLabel') }}</th>
-                <th class="p-3 text-start font-semibold" :class="panelOpen || adding ? 'hidden' : 'hidden lg:table-cell'">{{ t('central.users.secondFactor') }}</th>
-                <th class="p-3 text-start font-semibold" :class="panelOpen || adding ? 'hidden' : 'hidden lg:table-cell'">{{ t('central.users.lastLogin') }}</th>
+                <DlSortHeader v-model="sort" column="name" :label="t('central.users.person')" />
+                <DlSortHeader v-model="sort" column="role" :label="t('central.users.role')" />
+                <DlSortHeader v-model="sort" column="status" :label="t('central.users.statusLabel')" />
+                <DlSortHeader v-model="sort" column="two_factor_method" :label="t('central.users.secondFactor')" :class="panelOpen || adding ? 'hidden' : 'hidden lg:table-cell'" />
+                <DlSortHeader v-model="sort" column="last_login_at" :label="t('central.users.lastLogin')" :class="panelOpen || adding ? 'hidden' : 'hidden lg:table-cell'" />
+                <DlSortHeader v-model="sort" column="created_at" :label="t('common.list.createdAt')" :class="panelOpen || adding ? 'hidden' : 'hidden lg:table-cell'" />
               </tr>
             </thead>
             <tbody>
@@ -165,6 +171,7 @@ function statusOf(user: CentralUser): { tone: 'success' | 'warning' | 'neutral';
                 <td class="p-3"><DlBadge :tone="statusOf(user).tone" dot>{{ t(`central.users.status.${statusOf(user).key}`) }}</DlBadge></td>
                 <td class="p-3 text-[13px] text-dl-muted" :class="panelOpen || adding ? 'hidden' : 'hidden lg:table-cell'">{{ t(`central.users.factor.${user.two_factor_method}`) }}</td>
                 <td class="p-3 text-[13px] text-dl-muted" :class="panelOpen || adding ? 'hidden' : 'hidden lg:table-cell'">{{ user.last_login_at ? d(new Date(user.last_login_at)) : t('central.users.never') }}</td>
+                <td class="p-3 text-[13px] text-dl-muted" :class="panelOpen || adding ? 'hidden' : 'hidden lg:table-cell'">{{ d(new Date(user.created_at)) }}</td>
               </tr>
             </tbody>
           </table>

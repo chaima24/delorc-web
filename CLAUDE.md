@@ -26,6 +26,7 @@ The address decides what opens: `localhost:5173` is the central console, `{lab}.
 - `src/components/` reusable pieces, including the Dl* kit
 - `src/composables/` reusable logic
 - `src/plugins/` app setup (i18n)
+- `src/locales/` central texts, one JSON file per language
 - `src/styles/` Tailwind and design tokens
 - `src/space.ts` central or lab, read from the address
 
@@ -35,7 +36,7 @@ The address decides what opens: `localhost:5173` is the central console, `{lab}.
 - Colours come from the `dl-*` tokens, never written by hand.
 - Every API call goes through `src/api/client.ts`, which adds the token and the language and refreshes the session. A page never calls axios directly.
 - A page needs a session unless its route has `meta: { public: true }`.
-- Texts come from translations, never written in a page. Until the translations module exists, pages use keys and `docs/translation-keys.md` keeps their French text.
+- Texts are never written in a page: pages use keys. The central console reads them from `src/locales/{fr,en,ar}.json`, so a new key goes in all three files. Lab texts will come from the database, with the Labs module.
 - Copying from the previous front follows the rules in `../CLAUDE.md`.
 - Wording: "professionnels de santé", not "clients".
 - No real lab name in code or tests: use `demo`.

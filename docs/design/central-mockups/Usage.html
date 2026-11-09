@@ -1,0 +1,100 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lab usage</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.lg { width: 34px; height: 34px; border-radius: 10px; background: var(--ink-2); color: var(--signal); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.lg.big { width: 56px; height: 56px; border-radius: 16px; font-size: 18px; } .lg.img { background: var(--cobalt); color: #fff; }
+.namecell { display: flex; gap: 10px; align-items: center; }
+.tabs2 { display: flex; gap: 6px; } .tabs2 span { height: 34px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; background: var(--paper); font-size: 13px; font-weight: 600; color: var(--body); }
+.tabs2 span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.hint2 { font-size: 12px; color: var(--muted); }
+.open { background: var(--paper); border: 1px dashed var(--amber); border-radius: 14px; padding: 10px 14px; font-size: 13px; color: var(--amber); }
+.tiles { display: flex; flex-wrap: wrap; gap: 12px; } .tiles > .tile { flex: 1; min-width: 180px; }
+.tile { background: var(--paper); border-radius: 18px; padding: 14px 16px; } .tile small { display: block; font-size: 12px; color: var(--muted); font-weight: 600; }
+.tile b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; color: var(--ink); margin-top: 4px; font-variant-numeric: tabular-nums; } .tile em { font-style: normal; font-size: 12px; color: var(--body); }
+.meter { min-width: 120px; } .meter .v { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); display: flex; gap: 6px; align-items: center; }
+.meter .v i { font-style: normal; font-weight: 400; color: var(--muted); }
+.bar { height: 6px; border-radius: 99px; background: var(--line-soft); overflow: hidden; margin-top: 5px; } .bar i { display: block; height: 100%; border-radius: 99px; background: var(--ink); }
+.bar.warn i { background: var(--amber); } .bar.full i { background: var(--brick); }
+.chip.bad { background: rgba(192,54,44,.1); color: var(--brick); }
+tr.gone td { opacity: .5; }
+.months td, .months th { text-align: end; } .months td:first-child, .months th:first-child { text-align: start; }
+</style></head><body>
+<p class="caption"><strong>Central › Usage, and the Usage tab of a lab (module 9).</strong> What each lab uses per month against its plan: active accounts, people who signed in, emails sent, storage. Emails and sign-ins are counted when they happen; accounts and storage are measured every night. Interface texts are the real texts; labs, numbers and amounts are invented. Today is 8 Nov 2026. <span style="color:var(--amber)">Dashed amber boxes are points to confirm.</span></p>
+<div id="frames"></div>
+<script>
+const logo = `<svg width='34' height='34' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const MENU = ['Labs', 'Usage', 'People', 'Roles', 'Activity', 'Translations', 'Geography', 'Plans', 'Settings']
+const rail = on => `<nav class='rail'><div class='brand'>${logo}<span class='display'>Delorc</span></div><div style='display:flex;flex-direction:column;gap:6px'>${MENU.map(m => `<a class='${m === on ? 'on' : ''}'>${m}</a>`).join('')}</div></nav>`
+const frame = (n, label, { menu = 'Usage', head, add = '', body, who = 'MC' }) => `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:640px'>${rail(menu)}
+<div class='main'><div class='topbar'><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${who}</span></div>
+<div style='display:flex;flex-direction:column;gap:16px;padding:20px 28px 28px'><div style='display:flex;justify-content:space-between;align-items:flex-end;gap:12px'>${head}<div style='display:flex;gap:8px'>${add}</div></div>${body}</div></div></div>`
+
+const chip = (t, c = '') => `<span class='chip ${c}'>${t}</span>`
+const open = t => `<div class='open'>To confirm: ${t}</div>`
+const fmt = v => v.toLocaleString('en')
+/** used of limit: null = unlimited, 0 = none. */
+function meter(used, limit, unit = '') {
+  if (limit === null) return `<div class='meter'><div class='v'>${fmt(used)}${unit} <i>· no limit</i></div></div>`
+  if (limit === 0) return `<div class='meter'><div class='v'>${fmt(used)}${unit} <i>· none in plan</i></div></div>`
+  const p = used / limit * 100
+  const cls = p >= 100 ? 'full' : p >= 80 ? 'warn' : ''
+  return `<div class='meter'><div class='v'>${fmt(used)}${unit} <i>of ${fmt(limit)}${unit}</i>${p >= 100 ? chip('Over', 'bad') : p >= 80 ? chip(`${Math.round(p)}%`, 'warn') : ''}</div><div class='bar ${cls}'><i style='width:${Math.min(100, p)}%'></i></div></div>`
+}
+const gb = v => `${v.toLocaleString('en', { maximumFractionDigits: 1 })}`
+const name = (ini, n, img) => `<div class='namecell'><span class='lg ${img ? 'img' : ''}'>${ini}</span><strong>${n}</strong></div>`
+
+// ---------- Overview ----------
+const LABS = [
+  { n: name('DP', 'Demo Pharma'), plan: 'Starter', st: chip('Trial', 'info'), acc: [9, 10], sign: 7, mail: [812, 1000], sto: [0.4, 5] },
+  { n: name('AL', 'Alpha Labs', true), plan: 'Pro', st: chip('Paid', 'ok'), acc: [46, 50], sign: 41, mail: [9120, 10000], sto: [12.6, 20] },
+  { n: name('BS', 'Beta Santé'), plan: 'Pro', st: chip('Grace', 'warn'), acc: [22, 50], sign: 3, mail: [184, 10000], sto: [3.1, 20] },
+  { n: name('GM', 'Gamma Médical', true), plan: 'Enterprise', st: chip('Paid', 'ok'), acc: [183, null], sign: 160, mail: [24300, null], sto: [61.2, null] },
+  { n: name('DB', 'Delta Bio'), plan: 'Starter', st: chip('Ended'), acc: [10, 10], sign: 0, mail: [0, 1000], sto: [5.2, 5] },
+]
+const head = `<div><div class='crumbs'>Usage</div><h1 class='title display' style='font-size:36px'>Usage</h1></div>`
+const monthPicker = (m = 'November 2026') => `<span class='input'>Month <b>${m}</b> ▾</span>`
+const tiles = (past = false) => `<div class='tiles'>
+  <div class='tile'><small>Active labs</small><b>24</b><em>${past ? 'today' : '5 in trial'}</em></div>
+  <div class='tile'><small>Suspended</small><b>2</b><em>nothing deleted</em></div>
+  <div class='tile'><small>In trial</small><b>5</b><em>2 end within 30 days</em></div>
+  <div class='tile'><small>Monthly revenue</small><b>480,000</b><em>DZD · paid periods ${past ? 'in October' : 'this month'}</em></div>
+  <div class='tile'><small>Monthly revenue</small><b>1,200</b><em>EUR · paid periods ${past ? 'in October' : 'this month'}</em></div></div>`
+const sortH = (h, on = '') => `<th>${h} ${h === on ? '↓' : '↕'}</th>`
+const overview = ({ rows = LABS, sort = 'Lab', near = false, measured = 'Accounts and storage measured last night at 02:00.' } = {}) => `<div class='card' style='padding:16px 18px'>
+  <div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center'><div class='input muted' style='width:240px'>⌕ Search a name or slug</div>
+    <span class='input'>Plan <b>All</b> ▾</span><span class='input'>${near ? '<b>Near or over a limit</b> ✕' : 'Near or over a limit'}</span><span class='hint2' style='margin-inline-start:auto'>${measured}</span></div>
+  <table class='table'><thead><tr>${['Lab', 'Plan', 'Period', 'Accounts', 'Signed in', 'Emails', 'Storage (GB)'].map(h => sortH(h, sort)).join('')}<th></th></tr></thead><tbody>
+  ${rows.map(r => `<tr><td>${r.n}</td><td>${r.plan}</td><td>${r.st}</td><td>${meter(...r.acc)}</td><td class='num'>${r.sign}</td><td>${meter(...r.mail)}</td><td>${meter(r.sto[0], r.sto[1])}</td><td class='muted'>›</td></tr>`).join('')}</tbody></table>
+  <div class='hint2' style='padding-top:10px'>Limits come from each lab's plan and its feature changes for that month. Amber from 80%, red at 100%. Deleted labs are not listed.</div></div>`
+
+// ---------- Lab tab ----------
+const labHead = `<div style='display:flex;gap:14px;align-items:center'><span class='lg big'>DP</span><div><div class='crumbs'>Labs › Demo Pharma</div><h1 class='title display' style='font-size:32px;margin:0'>Demo Pharma</h1>
+  <div style='display:flex;gap:6px;margin-top:6px;align-items:center'>${chip('Active', 'ok')}${chip('Trial', 'info')}<span class='hint2'>demo.localhost · Starter</span></div></div></div>`
+const tabs = `<div class='tabs2'>${['Overview', 'Subscription', 'Features', 'Texts', 'Channels', 'Usage', 'Data', 'Activity'].map(t => `<span class='${t === 'Usage' ? 'on' : ''}'>${t}</span>`).join('')}</div>`
+const now = `<div class='tiles'>
+  <div class='tile'><small>Accounts</small>${meter(9, 10)}<em class='hint2'>Active user accounts · users per plan: 10</em></div>
+  <div class='tile'><small>Signed in this month</small><b style='font-size:22px'>7</b><em class='hint2'>Different people</em></div>
+  <div class='tile'><small>Emails this month</small>${meter(812, 1000)}<em class='hint2'>Security emails included</em></div>
+  <div class='tile'><small>Storage</small>${meter(0.4, 5, ' GB')}<em class='hint2'>Its files, without exports</em></div></div>`
+const MONTHS = [['November 2026', '9 / 10', 7, '812 / 1,000', '0.4 / 5', 'This month'], ['October 2026', '8 / 10', 8, '1,000 / 1,000', '0.4 / 5', ''], ['September 2026', '6 / 10', 5, '402 / 1,000', '0.3 / 5', ''], ['August 2026', '—', '—', '—', '—', 'Before the lab was created']]
+const history = `<div class='card' style='padding:16px 18px'><strong style='font-size:15px'>Last 12 months</strong>
+  <table class='table months' style='margin-top:8px'><thead><tr><th>Month ↓</th><th>Accounts</th><th>Signed in</th><th>Emails</th><th>Storage (GB)</th><th></th></tr></thead><tbody>
+  ${MONTHS.map(m => `<tr><td><b>${m[0]}</b></td><td>${m[1]}</td><td>${m[2]}</td><td>${m[3].startsWith('1,000 /') ? `${m[3]} ${chip('Over', 'bad')}` : m[3]}</td><td>${m[4]}</td><td class='hint2'>${m[5]}</td></tr>`).join('')}</tbody></table>
+  <div class='hint2' style='padding-top:10px'>Each past month keeps the limits it had, so a plan change later does not rewrite history. Accounts and storage are the last night's measure of that month.</div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The overview, this month.</strong> A new menu item. Totals on top, then one row per lab with its four numbers against its plan.`, { head, add: monthPicker(), body: tiles() + overview() +
+    open('the menu place: right after Labs (shown), since it is about labs. Revenue counts paid periods only, per currency; trials count 0.') }),
+  frame(2, `<strong>Near or over a limit.</strong> One click keeps the labs at 80% or more of any limit, sorted by emails.`, { head, add: monthPicker(), body: tiles() + overview({ rows: [LABS[1], LABS[4], LABS[0]], sort: 'Emails', near: true }) }),
+  frame(3, `<strong>A past month.</strong> The numbers stay as they were: October keeps October's limits.`, { head, add: monthPicker('October 2026'), body: tiles(true) + overview({ measured: 'Accounts and storage: last measure of October (31 Oct, 02:00).', rows: LABS.map(r => ({ ...r, sign: Math.max(0, r.sign - 2) })) }) +
+    open('the month picker lists the months that have numbers, starting with the first month any lab was counted. History is kept forever (a few rows per lab and month).') }),
+  frame(4, `<strong>The lab's Usage tab.</strong> This month in four tiles, then the last 12 months.`, { menu: 'Labs', head: labHead, body: tabs + now + history }),
+  frame(5, `<strong>Unlimited and none.</strong> An Enterprise lab shows "no limit"; a plan without SMS would show "none in plan".`, { head, add: monthPicker(), body: overview({ rows: [LABS[3]] }) +
+    open('the nightly job runs at 02:00 (server time), after the 00:30 periods check. A lab that cannot be measured one night (database down) keeps yesterday\'s numbers, and the job goes on with the other labs.') }),
+  frame(6, `<strong>Billing's view.</strong> The same pages: usage.show is read only. Owner, support and billing have it.`, { who: 'BK', head, add: monthPicker(), body: tiles() + overview({ rows: LABS.slice(0, 3) }) }),
+].join('')
+</script>
+</body></html>

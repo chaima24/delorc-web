@@ -62,10 +62,15 @@ export const useAuthStore = defineStore('auth', () => {
     startSession(await authApi.setPassword(token, password, confirmation))
   }
 
+  /** Reads the person again, after a change made outside this tab (an email confirmed from its link). */
+  async function refreshUser(): Promise<User | null> {
+    return authApi.me().catch(() => user.value)
+  }
+
   async function logout(): Promise<void> {
     await authApi.logout(tokens.refresh).catch(() => undefined)
     endSession()
   }
 
-  return { user, twoFactorSetupRequired, isSignedIn, can, load, login, verifyTwoFactor, setPassword, logout, endSession }
+  return { user, twoFactorSetupRequired, isSignedIn, can, load, login, verifyTwoFactor, setPassword, logout, endSession, startSession, refreshUser }
 })

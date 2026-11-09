@@ -1,0 +1,107 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Central activity log</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph .ic { width: 42px; height: 42px; border-radius: 13px; background: var(--cobalt); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+.ph .ic.sys { background: var(--line-soft); color: var(--muted); }
+.ph .ic.bad { background: rgba(192,54,44,.1); color: var(--brick); }
+.ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 4px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.day { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; padding: 14px 4px 6px; }
+.ev { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 14px; }
+.ev.sel { background: var(--signal-soft); }
+.ev .av { width: 34px; height: 34px; border-radius: 10px; background: var(--cobalt); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ev .av.sys { background: var(--line-soft); color: var(--muted); }
+.ev .av.bad { background: rgba(192,54,44,.1); color: var(--brick); }
+.ev p { margin: 0; font-size: 14px; } .ev .ch { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.ev time { margin-inline-start: auto; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.diff { width: 100%; border-collapse: collapse; font-size: 13px; } .diff th { font-size: 12px; color: var(--muted); text-align: start; padding: 6px 8px; font-weight: 600; }
+.diff td { padding: 8px; border-top: 1px solid var(--line-soft); } .diff .old { color: var(--brick); text-decoration: line-through; } .diff .new { color: var(--ink); font-weight: 600; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; white-space: nowrap; } .toggle i { width: 34px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; } .toggle i::after { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); top: 3px; right: 3px; }
+.toggle.no i { background: var(--line); } .toggle.no i::after { background: var(--paper); right: auto; left: 3px; }
+.empty { padding: 56px 20px; text-align: center; color: var(--muted); font-size: 14px; } .empty strong { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+</style></head><body>
+<p class="caption"><strong>Central › Activity.</strong> The lab activity log from <code>studio-mockups/AccessSecurity.html</code>, in the central shell: same lines, filters and panel. Only three things are added for central: failed sign-ins, “System” as an author, and the role the person had at the time. People are invented.</p>
+<div id="frames"></div>
+<script>
+const logo = `<svg width='34' height='34' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const MENU = ['People', 'Roles', 'Activity']
+const rail = `<nav class='rail'><div class='brand'>${logo}<span class='display'>Delorc</span></div><div style='display:flex;flex-direction:column;gap:6px'>${MENU.map(m => `<a class='${m === 'Activity' ? 'on' : ''}'>${m}</a>`).join('')}</div></nav>`
+
+function frame(n, label, { list, panel = '' }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:760px'>${rail}
+<div class='main'>
+  <div class='topbar'><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>MC</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      <div><div class='crumbs'>Activity</div><h1 class='title display' style='font-size:36px'>Activity log</h1></div>
+      ${list}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+
+const filters = ({ person = 'All', record = 'All', search = '', hide = true } = {}) => `<div style='display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px'>
+  <div class='input ${search ? '' : 'muted'}' style='width:240px'>⌕ ${search || 'Search'}</div>
+  <span class='input'>Person <b>${person}</b> ▾</span><span class='input'>Record <b>${record}</b> ▾</span><span class='input'>Action <b>All</b> ▾</span><span class='input'>Last 7 days ▾</span>
+  <span class='toggle ${hide ? '' : 'no'}' style='margin-inline-start:auto'><i></i>Hide automatic changes</span></div>`
+
+// [id, initials, avatar kind, sentence, chips, time, automatic]
+const evs = [
+  ['Today'],
+  ['role', 'MC', '', `<strong>Mehdi Cherif</strong> changed the role of <a>Karim Toumi</a>`, ['Role: Support → Billing'], '10:42'],
+  ['perm', 'MC', '', `<strong>Mehdi Cherif</strong> changed the access of <a>Support</a>`, ['Translations, edit: added', 'Labs, export: removed'], '10:15'],
+  ['fail', '!', 'bad', `Failed sign-in for <strong>sara@delorc.test</strong>`, ['Wrong password'], '09:58'],
+  ['link', 'SB', '', `<strong>Sara Benali</strong> sent an access link to <a>Lina Haddad</a>`, [], '09:20'],
+  ['Yesterday'],
+  ['sys', 'SYS', 'sys', `<strong>System</strong> reset the second factor of <a>Yacine B.</a>`, ['Second factor: App → None'], '17:31', true],
+  ['off', 'MC', '', `<strong>Mehdi Cherif</strong> deactivated <a>Nadia Ouali</a>`, ['Status: Active → Deactivated'], '11:05'],
+  ['new', 'YB', '', `<strong>Yacine B.</strong> added <a>Karim Toumi</a>`, [], '09:47'],
+]
+const line = (e, sel) => e.length === 1 ? `<div class='day'>${e[0]}</div>` : `<div class='ev ${e[0] === sel ? 'sel' : ''}'><span class='av ${e[2]}'>${e[1]}</span><div><p>${e[3]}</p>${e[4].length ? `<div class='ch'>${e[4].map(c => `<span class='chip'>${c}</span>`).join('')}</div>` : ''}</div><time>${e[5]}</time></div>`
+const log = (sel, hide = true) => `<div class='card' style='padding:16px 18px;display:flex;flex-direction:column;gap:4px'>${filters({ hide })}
+  ${evs.filter(e => !(hide && e[6])).map(e => line(e, sel)).join('')}</div>`
+
+const panel = (ic, kind, title, chips, body) => `<aside class='panel'>
+  <div class='ph'><span class='ic ${kind}'>${ic}</span><div style='flex:1'><h2 class='display'>${title}</h2><div class='sub'>${chips.map(c => `<span class='chip'>${c}</span>`).join('')}</div></div><span class='icb'>✕</span></div>
+  <div class='pb'>${body}<div class='hint' style='margin-top:auto'>Nobody can edit or delete the log.</div></div>
+</aside>`
+const record = text => `<section class='sec'><header><strong>Record</strong><span class='edit'>Open ↗</span></header><div class='line'>${text}</div></section>`
+const changed = rows => `<section class='sec'><header><strong>What changed</strong></header><table class='diff'><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td class='old'>${r[1]}</td><td class='new'>${r[2]}</td></tr>`).join('')}</tbody></table></section>`
+
+const rolePanel = panel('MC', '', 'Role changed', ['Today 10:42', 'Mehdi Cherif', 'Owner at the time'],
+  record(`Person <strong>Karim Toumi</strong>`) + changed([['Role', 'Support', 'Billing']]))
+
+const permPanel = panel('MC', '', 'Role access changed', ['Today 10:15', 'Mehdi Cherif', 'Owner at the time'],
+  record(`Role <strong>Support</strong>`) + changed([['Translations, edit', 'No', 'Yes'], ['Labs, export', 'Yes', 'No']]))
+
+const failPanel = panel('!', 'bad', 'Failed sign-in', ['Today 09:58', 'Nobody signed in'],
+  `<section class='sec'><header><strong>Attempt</strong></header><div class='line'>Email typed: <strong>sara@delorc.test</strong><br>Step: password<br>Reason: wrong password<br>IP address: 41.111.20.8</div></section>
+   <div class='hint'>What was typed as a password or code is never saved.</div>`)
+
+const sysPanel = panel('SYS', 'sys', 'Second factor reset', ['Yesterday 17:31', 'System'],
+  record(`Person <strong>Yacine B.</strong>`) + changed([['Second factor', 'App', 'None']]) + `<div class='hint'>Secrets and recovery codes never enter the log, only the method that changed.</div>`)
+
+const emptyList = `<div class='card' style='padding:16px 18px;display:flex;flex-direction:column;gap:4px'>${filters({ person: 'Lina Haddad', record: 'Role', search: 'Support' })}
+  <div class='empty'><strong>No matching activity</strong>Try other filters or a wider date range.</div></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The page opens.</strong> Sentences by day, with the changed fields as chips. Filters: person, record type, action, dates. Automatic changes are hidden unless you switch the toggle off. Failed sign-ins always show.`, { list: log() }),
+  frame(2, `<strong>Click a line.</strong> Record and what changed. Central addition: the chip with the role the person had at the time.`, { list: log('role'), panel: rolePanel }),
+  frame(3, `<strong>Role access changed.</strong> The same panel: each right is a row, in the same words as the Edit access page.`, { list: log('perm'), panel: permPanel }),
+  frame(4, `<strong>Central addition: failed sign-in.</strong> It has no author, because nobody is signed in. The email is shown as typed, even when no such account exists.`, { list: log('fail'), panel: failPanel }),
+  frame(5, `<strong>Central addition: “System”.</strong> With the toggle off, changes from commands and jobs appear, with System as the author. First install seeders are never logged.`, { list: log('sys', false), panel: sysPanel }),
+  frame(6, `<strong>No result.</strong> Filters match nothing.`, { list: emptyList }),
+].join('')
+</script>
+</body></html>

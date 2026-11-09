@@ -7,6 +7,7 @@ export interface Role {
   is_super: boolean
   users_count: number
   permissions: string[]
+  created_at: string
 }
 
 /** area → resource → actions */

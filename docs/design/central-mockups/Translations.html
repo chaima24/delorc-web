@@ -1,0 +1,202 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Central translations</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.levels { display: flex; gap: 6px; flex-wrap: wrap; }
+.levels span { height: 34px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; background: var(--paper); color: var(--body); }
+.levels span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.levels small { color: var(--muted); font-weight: 600; }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph .ic { width: 42px; height: 42px; border-radius: 13px; background: var(--ink); color: var(--signal); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+.ph h2 { margin: 0; font-size: 21px; overflow-wrap: anywhere; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-inline-start: auto; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 4px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; }
+.tile b { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800; } .tile span { font-size: 11.5px; color: var(--muted); }
+.tl { display: flex; gap: 10px; padding: 7px 12px; font-size: 13px; border-top: 1px solid var(--line-soft); } .tl span:first-child { flex: 1; font-weight: 600; } .tl em { font-style: normal; color: var(--muted); font-size: 12px; }
+.btnrow { display: flex; gap: 8px; margin-top: auto; padding-top: 8px; }
+.warn { background: rgba(180,83,9,.08); color: var(--amber); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.savebar { position: sticky; bottom: 0; display: flex; align-items: center; gap: 12px; background: var(--ink); color: var(--mist); border-radius: 18px; padding: 10px 12px 10px 18px; font-size: 14px; }
+/* progress */
+.bar { display: inline-block; width: 120px; height: 8px; border-radius: 99px; background: var(--line-soft); overflow: hidden; vertical-align: middle; margin-inline-end: 8px; } .bar i { display: block; height: 100%; background: var(--cobalt); }
+/* text grid */
+.tx { width: 100%; border-collapse: collapse; font-size: 13.5px; table-layout: fixed; }
+.tx th { text-align: start; font-size: 12px; font-weight: 600; color: var(--muted); padding: 10px; border-bottom: 1px solid var(--line); }
+.tx td { padding: 9px 10px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+.tx tr.sel td { background: var(--signal-soft); }
+.key { font-family: ui-monospace, monospace; font-size: 12px; color: var(--body); overflow-wrap: anywhere; }
+.ta { min-height: 40px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); padding: 9px 11px; }
+.ta.empty { color: var(--muted); font-style: italic; border-style: dashed; }
+.ta.chg { box-shadow: 0 0 0 3px var(--signal); border-color: var(--ink); }
+.ta.bad { box-shadow: 0 0 0 2px var(--brick); border-color: var(--brick); }
+.ta.big { min-height: 64px; }
+.bad-line { color: var(--brick); font-size: 12px; margin-top: 5px; }
+.drop { border: 1.5px dashed var(--line); border-radius: 14px; padding: 18px 12px; text-align: center; font-size: 13px; color: var(--body); }
+</style></head><body>
+<p class="caption"><strong>Central › Translations.</strong> The master texts that every new lab will copy. The central console keeps its own JSON texts. The list starts with the 55 sign-in and shared texts, and each lab module adds its keys. Keys and French texts are real. The English and Arabic texts, percentages, people and dates are invented. Per-lab languages and lab wording are not here: they come with the Labs module.</p>
+<div id="frames"></div>
+<script>
+const logo = `<svg width='34' height='34' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const MENU = ['People', 'Roles', 'Activity', 'Translations']
+const rail = `<nav class='rail'><div class='brand'>${logo}<span class='display'>Delorc</span></div><div style='display:flex;flex-direction:column;gap:6px'>${MENU.map(m => `<a class='${m === 'Translations' ? 'on' : ''}'>${m}</a>`).join('')}</div></nav>`
+const LEVELS = [['Texts', 55], ['Languages', 3]]
+function frame(n, label, { title, level = 'Texts', add, list, panel = '', languages = 3 }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:760px'>${rail}
+<div class='main'>
+  <div class='topbar'><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>LH</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>Translations</div><h1 class='title display' style='font-size:36px'>${title}</h1></div>
+        ${add || ''}
+      </div>
+      <div class='levels'>${LEVELS.map(([l, c]) => `<span class='${l === level ? 'on' : ''}'>${l} <small>${l === 'Languages' ? languages : c}</small></span>`).join('')}</div>
+      ${list}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+const closeBtn = `<span class='icb'>✕</span>`
+const ioBtn = `<span class='btn outline'>Import / export</span>`
+const addLang = `<span class='btn primary'>＋ Add a language</span>`
+
+// Texts: [key, french, english, arabic]
+const T = [
+  ['auth.login.title', 'Bon retour', 'Welcome back', 'مرحبا بعودتك'],
+  ['auth.login.email', 'E-mail', 'Email', 'البريد الإلكتروني'],
+  ['auth.login.forgot', 'Mot de passe oublié ?', '', ''],
+  ['auth.login.submit', 'Connexion', '', 'تسجيل الدخول'],
+  ['auth.forgot.submit', 'Envoyer le lien', 'Send the link', ''],
+  ['common.list.page', 'Page {page}', '', ''],
+  ['common.list.showing', '{from} à {to} sur {total}', '{from} to {to} of {total}', ''],
+  ['common.actions.save', 'Enregistrer', 'Save', 'حفظ'],
+]
+const toolbar = (lang, pct, missing, filter = 'All') => `<div style='display:flex;gap:10px;margin-bottom:12px;align-items:center;flex-wrap:wrap'>
+  <span class='input'>Language <b>${lang}</b> ▾</span><div class='input muted' style='width:230px'>⌕ Search a key or text</div>
+  <span class='input'>Used in <b>All</b> ▾</span><span class='input'>Show <b>${filter}</b> ▾</span>
+  <span class='label' style='margin-inline-start:auto'><span class='bar'><i style='width:${pct}%'></i></span>${pct}% · ${missing} missing</span></div>`
+const pager = `<div class='label' style='display:flex;justify-content:space-between;padding-top:12px'><span>1 to 8 of 55</span><span>Page 1 ‹ ›</span></div>`
+function grid({ col, lang, dir = 'ltr', pct, missing, filter, rows = T, edits = {}, bad = {}, sel = -1, narrow = false, bar = '' }) {
+  return `<div class='card' style='padding:16px 18px'>${toolbar(lang, pct, missing, filter)}
+  <table class='tx'><thead><tr>${narrow ? '' : `<th style='width:25%'>Key ↕</th>`}<th style='width:${narrow ? 45 : 32}%'>French (reference) ↕</th><th>${lang} ↕</th></tr></thead><tbody>
+  ${rows.map((r, i) => {
+    const value = edits[r[0]] ?? r[col]
+    const cls = bad[r[0]] ? 'bad' : edits[r[0]] ? 'chg' : value ? '' : 'empty'
+    const text = value || `Missing: shows “${r[1]}”`
+    const rtl = value && dir === 'rtl' ? `dir='rtl'` : ''
+    return `<tr class='${i === sel ? 'sel' : ''}'>${narrow ? '' : `<td class='key'>${r[0]}</td>`}<td>${narrow ? `<div class='key' style='margin-bottom:3px'>${r[0]}</div>` : ''}${r[1]}</td><td><div class='ta ${cls}' ${rtl}>${text}</div>${bad[r[0]] ? `<div class='bad-line'>${bad[r[0]]}</div>` : ''}</td></tr>`
+  }).join('')}</tbody></table>${bar || pager}</div>`
+}
+// No language chosen: every language side by side, read only.
+const allPage = () => `<div class='card' style='padding:16px 18px'>${toolbar('All', 83, 28)}
+  <table class='tx'><thead><tr><th style='width:22%'>Key ↕</th><th>French (reference) ↕</th><th>English ↕</th><th>Arabic ↕</th></tr></thead><tbody>
+  ${T.map(r => `<tr><td class='key'>${r[0]}</td><td>${r[1]}</td>${[r[2], r[3]].map((v, i) => v ? `<td ${i ? `dir='rtl'` : ''}>${v}</td>` : `<td><span class='hint'>Missing</span></td>`).join('')}</tr>`).join('')}
+  </tbody></table>${pager}</div>`
+const enPage = o => grid({ col: 2, lang: 'English', pct: 81, missing: 10, ...o })
+const arPage = o => grid({ col: 3, lang: 'Arabic', dir: 'rtl', pct: 68, missing: 18, ...o })
+const saveBar = (n, note, disabled) => `<div class='savebar' style='margin-top:12px'><span>${n} · <span style='color:var(--on-ink-muted)'>${note}</span></span><span class='btn ghost sm' style='margin-inline-start:auto;color:var(--mist)'>Undo</span><span class='btn primary sm' style='${disabled ? 'opacity:.45' : ''}'>Save texts</span></div>`
+
+const textPanel = `<aside class='panel'>
+  <div class='ph'><div style='min-width:0'><h2 class='key' style='font-size:16px;color:var(--ink)'>common.list.page</h2><div class='sub'><span class='chip'>Web</span></div></div>${closeBtn}</div>
+  <div class='pb'>
+    <section class='sec'><header><strong>Note for translators</strong></header><div class='line'>Shown in the page numbers under a list. {page} is the page number.</div></section>
+    <div class='field'><span>French (reference)</span><div class='ta big'>Page {page}</div><span class='hint'>Changed by Mehdi Cherif · 3 Nov 2026</span></div>
+    <div class='field'><span>English</span><div class='ta big chg'>Page {page}</div><span class='hint'>Not saved yet</span></div>
+    <div class='field'><span>Arabic</span><div class='ta big empty'>Missing: shows “Page {page}”</div><span class='hint'>Falls back to French</span></div>
+    <div class='btnrow'><span class='btn primary sm'>Save</span><span class='btn outline sm'>Cancel</span></div>
+  </div>
+</aside>`
+
+const ioPanel = `<aside class='panel'>
+  <div class='ph'><div><h2>Import / export</h2><div class='hint' style='margin-top:4px'>The database is the source. Files are only a backup.</div></div>${closeBtn}</div>
+  <div class='pb'>
+    <section class='sec'><header><strong>Export</strong><span class='edit'>Download</span></header><div class='line'>All languages and texts in one JSON file.</div></section>
+    <section class='sec'><header><strong>Import</strong></header><div class='line'>Only adds what is missing. A text already in the database is never changed, so importing twice is safe.</div>
+      <div style='padding:0 12px 12px'><div class='drop'>delorc-translations-2026-11-02.json<br><span class='hint'>Click to choose another JSON file</span></div></div></section>
+    <section class='sec'><header><strong>Last import result</strong></header>
+      <div class='tl'><span>Keys added</span><em>6</em></div>
+      <div class='tl'><span>Texts added</span><em>18</em></div>
+      <div class='tl'><span>Texts left unchanged</span><em>147</em></div>
+    </section>
+    <div class='btnrow'><span class='btn primary sm'>Import the file</span><span class='btn outline sm'>Close</span></div>
+  </div>
+</aside>`
+
+// Languages
+const L = [
+  ['fr', 'French', 'Français', 'Left to right', 'fr-DZ', '—', 100, 0, 'ok', '3 Nov 2026'],
+  ['en', 'English', 'English', 'Left to right', 'en-GB', 'French', 81, 10, 'ok', '3 Nov 2026'],
+  ['ar', 'Arabic', 'العربية', 'Right to left', 'ar-DZ', 'French', 68, 18, 'ok', '3 Nov 2026'],
+]
+const langTable = (sel = -1, wide = true, rows = L) => `<div class='card' style='padding:16px 18px'>
+  <div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:230px'>⌕ Search a language</div><span class='input'>Status <b>All</b> ▾</span></div>
+  <table class='table'><thead><tr><th>Language ↕</th>${wide ? `<th>Direction ↕</th><th>Dates and numbers ↕</th>` : ''}<th>Done ↕</th><th>Status ↕</th>${wide ? `<th>Added on ↓</th>` : ''}<th></th></tr></thead><tbody>
+  ${rows.map((l, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${l[1]}</strong><div class='hint'>${l[2]} · ${l[0]}</div></td>${wide ? `<td class='label'>${l[3]}</td><td class='label'>${l[4]}</td>` : ''}<td class='label' style='white-space:nowrap'>${wide ? `<span class='bar'><i style='width:${l[6]}%'></i></span>` : ''}${l[6]}%</td><td><span class='chip ${l[8]}'>${l[8] === 'ok' ? 'Active' : 'Inactive'}</span></td>${wide ? `<td class='label'>${l[9]}</td>` : ''}<td style='color:var(--muted)'>›</td></tr>`).join('')}</tbody></table></div>`
+
+const langPanel = `<aside class='panel'>
+  <div class='ph'><div class='ic'>AR</div><div><h2>Arabic</h2><div class='sub'><span class='chip ok'>Active</span><span class='chip'>Right to left</span></div></div>${closeBtn}</div>
+  <div class='pb'>
+    <div class='tiles'><div class='tile'><b>37</b><span>texts done</span></div><div class='tile'><b>18</b><span>texts missing</span></div></div>
+    <span class='btn dark sm' style='justify-content:center'>Translate the 41 missing texts</span>
+    <section class='sec'><header><strong>Details</strong><span class='edit'>Edit</span></header>
+      <div class='tl'><span>Name</span><em>Arabic · العربية</em></div>
+      <div class='tl'><span>Code</span><em>ar</em></div>
+      <div class='tl'><span>Dates and numbers</span><em>ar-DZ</em></div>
+    </section>
+    <section class='sec'><header><strong>Active</strong><span class='edit'>Deactivate</span></header><div class='line hint'>Hidden from language choices. Its texts are kept.</div></section>
+    <section class='sec'><header><strong>Delete</strong><span class='edit' style='opacity:.45'>Delete</span></header><div class='line hint'>37 texts are written, so this language can only be deactivated.</div></section>
+  </div>
+</aside>`
+
+const field = (label, value, hint = '') => `<div class='field'><span>${label}</span><div class='input'>${value}</div>${hint ? `<span class='hint'>${hint}</span>` : ''}</div>`
+const addPanel = `<aside class='panel'>
+  <div class='ph'><div><h2>Add a language</h2><div class='hint' style='margin-top:4px'>No code and no deploy. Add it, translate it, then activate it.</div></div>${closeBtn}</div>
+  <div class='pb'>
+    ${field('Code', 'es', 'Fixed after creation.')}
+    <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'>${field('Name', 'Spanish')}${field('Native name', 'Español')}</div>
+    <div class='field'><span>Direction</span><div class='seg' style='align-self:flex-start'><span class='on'>Left to right</span><span>Right to left</span></div></div>
+    ${field('Dates and numbers', 'es-ES', 'Controls formats like 06/11/2026 and 1 200,50.')}
+    <div class='warn'>All 55 texts start as missing. The language stays inactive until you activate it.</div>
+    <div class='btnrow'><span class='btn primary sm'>Add the language</span><span class='btn outline sm'>Cancel</span></div>
+  </div>
+</aside>`
+
+const newPanel = `<aside class='panel'>
+  <div class='ph'><div class='ic'>ES</div><div><h2>Spanish</h2><div class='sub'><span class='chip'>Inactive</span><span class='chip'>Left to right</span></div></div>${closeBtn}</div>
+  <div class='pb'>
+    <div class='tiles'><div class='tile'><b>0</b><span>texts done</span></div><div class='tile'><b>55</b><span>texts missing</span></div></div>
+    <span class='btn dark sm' style='justify-content:center'>Translate the 55 missing texts</span>
+    <section class='sec'><header><strong>Details</strong><span class='edit'>Edit</span></header>
+      <div class='tl'><span>Name</span><em>Spanish · Español</em></div>
+      <div class='tl'><span>Code</span><em>es</em></div>
+      <div class='tl'><span>Dates and numbers</span><em>es-ES</em></div>
+    </section>
+    <section class='sec'><header><strong>Inactive</strong><span class='edit'>Activate</span></header><div class='line hint'>Nobody can choose it yet.</div></section>
+    <section class='sec'><header><strong>Delete</strong><span class='edit'>Delete</span></header><div class='line hint'>No text is written yet, so it can still be deleted.</div></section>
+  </div>
+</aside>`
+const withSpanish = [...L, ['es', 'Spanish', 'Español', 'Left to right', 'es-ES', 'English', 0, 55, '', 'Today']]
+const missingRows = T.filter(r => !r[2])
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>Texts: the page opens.</strong> All languages, read only: nothing can be typed here. Click a key to see it in the side panel.`, { title: 'Texts', add: ioBtn, list: allPage() }),
+  frame(2, `<strong>Choose a language to edit.</strong> The boxes appear for that language only. French stays as the reference column. Each missing text shows what users see for now, never a raw key.`, { title: 'Texts', add: ioBtn, list: enPage({}) }),
+  frame(3, `<strong>Translate several texts, save once.</strong> Pick “Missing only” and type straight in the cells. This is the bulk edit, with the same save bar as the access page. Nothing is saved until “Save texts”.`, { title: 'Texts', add: ioBtn, list: enPage({ rows: missingRows, filter: 'Missing only', edits: { 'auth.login.forgot': 'Forgot your password?', 'auth.login.submit': 'Sign in' }, bar: saveBar('2 changes', 'English') }) }),
+  frame(4, `<strong>Arabic.</strong> The cell switches to right to left and the French column does not. If a text loses a slot like {total}, the save is refused, as with a 422 validation error, and the translator fixes the text first.`, { title: 'Texts', add: ioBtn, list: arPage({ edits: { 'common.list.showing': 'من {from} إلى {to}' }, bad: { 'common.list.showing': 'Must contain {total}' }, bar: saveBar('1 change', '1 text to fix', true) }) }),
+  frame(5, `<strong>Click a key.</strong> All languages side by side, the note for translators, and who changed each text and when. French is edited like any other language.`, { title: 'Texts', add: ioBtn, list: enPage({ sel: 5, narrow: true }), panel: textPanel }),
+  frame(6, `<strong>Import / export.</strong> Each button appears only if your role has <code>translations.import</code> or <code>translations.export</code>.`, { title: 'Texts', add: ioBtn, list: enPage({ narrow: true }), panel: ioPanel }),
+  frame(7, `<strong>Languages.</strong> Percentage done for each language, with search, a status filter and sortable columns. A missing text shows French here, and the lab's default language, then French, in a lab.`, { title: 'Languages', level: 'Languages', add: addLang, list: langTable() }),
+  frame(8, `<strong>Click a language.</strong> The button jumps to its missing texts. A language with written texts cannot be deleted, only deactivated, so nobody loses a translator's work in one click.`, { title: 'Languages', level: 'Languages', add: addLang, list: langTable(2, false), panel: langPanel }),
+  frame(9, `<strong>Add a language.</strong> Six fields, as in the spec.`, { title: 'Languages', level: 'Languages', list: langTable(-1, false), panel: addPanel }),
+  frame(10, `<strong>The new language.</strong> Inactive and empty, so it can still be deleted if it was a mistake. Translators fill it in, then someone activates it.`, { title: 'Languages', level: 'Languages', add: addLang, list: langTable(3, false, withSpanish), panel: newPanel, languages: 4 }),
+].join('')
+</script>
+</body></html>
