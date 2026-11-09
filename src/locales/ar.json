@@ -81,7 +81,8 @@
       "title": "اختر كلمة المرور"
     },
     "space": {
-      "central": "Delorc Central"
+      "central": "Delorc Central",
+      "checkAddress": "تحقّق من العنوان في المتصفّح."
     },
     "twoFactor": {
       "app": {

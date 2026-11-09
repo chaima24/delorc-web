@@ -36,7 +36,7 @@ The address decides what opens: `localhost:5173` is the central console, `{lab}.
 - Colours come from the `dl-*` tokens, never written by hand.
 - Every API call goes through `src/api/client.ts`, which adds the token and the language and refreshes the session. A page never calls axios directly.
 - A page needs a session unless its route has `meta: { public: true }`.
-- Texts are never written in a page: pages use keys. The central console reads them from `src/locales/{fr,en,ar}.json`, so a new key goes in all three files. Lab texts will come from the database, with the Labs module.
+- Texts are never written in a page: pages use keys. The central console reads them from `src/locales/{fr,en,ar}.json`, so a new key goes in all three files. A lab reads its own texts from its database (`GET texts`, loaded by `stores/lab.ts` before the app opens).
 - Copying from the previous front follows the rules in `../CLAUDE.md`.
 - Wording: "professionnels de santé", not "clients".
 - No real lab name in code or tests: use `demo`.

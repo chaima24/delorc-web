@@ -81,7 +81,8 @@
       "title": "Choose your password"
     },
     "space": {
-      "central": "Delorc Central"
+      "central": "Delorc Central",
+      "checkAddress": "Check the address in your browser."
     },
     "twoFactor": {
       "app": {

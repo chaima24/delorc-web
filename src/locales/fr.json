@@ -81,7 +81,8 @@
       "title": "Choisissez votre mot de passe"
     },
     "space": {
-      "central": "Delorc Central"
+      "central": "Delorc Central",
+      "checkAddress": "Vérifiez l’adresse dans votre navigateur."
     },
     "twoFactor": {
       "app": {
