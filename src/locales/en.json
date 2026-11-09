@@ -12,6 +12,7 @@
       "suspend": "Suspend",
       "test": "Test send",
       "update": "Edit",
+      "update-contact": "Change own email and phone",
       "update-plan": "Change plan"
     },
     "actionsCount": "{count} actions",
@@ -31,6 +32,7 @@
       "languages": "Languages",
       "notifications": "Notifications",
       "plans": "Plans",
+      "profile": "My profile",
       "roles": "Roles",
       "rule-types": "Rule types",
       "settings": "Settings",
@@ -413,6 +415,17 @@
       "whatChanged": "What changed",
       "yes": "Yes",
       "yesterday": "Yesterday"
+    },
+    "attention": {
+      "endsOn": "{name} ends {date}",
+      "firstTrial": "The first one: {name}, {date}",
+      "labs_in_grace": "{count} lab in grace, suspended soon | {count} labs in grace, suspended soon",
+      "near_limit": "{count} lab near or over a limit this month | {count} labs near or over a limit this month",
+      "nothing": "Nothing needs your attention.",
+      "percent": "{name} · {metric} {percent}%",
+      "see": "See",
+      "title": "Needs attention",
+      "trials_ending": "{count} trial ends within 30 days | {count} trials end within 30 days"
     },
     "channels": {
       "backToShared": "Its own server settings are erased when you save: to use them again, they must be typed again.",
@@ -945,6 +958,28 @@
       "trialMonthsApplies": "Applies to labs created from now on. Trials already running keep their dates.",
       "trialMonthsField": "Trial length (months)",
       "trialMonthsHint": "Every new lab starts with a trial this long on the plan chosen at creation."
+    },
+    "topbar": {
+      "account": "My account",
+      "console": "Console",
+      "labs": "Labs",
+      "language": "Language",
+      "languageHint": "Saved on your account: the console and the emails you receive use it on every device.",
+      "myProfile": "My profile",
+      "notifications": "Notifications",
+      "pages": "Pages",
+      "search": "Search a page or a lab…",
+      "searchEmpty": "No page or lab matches.",
+      "searchHelp": "↑ ↓ to move · Enter to open · Esc to close",
+      "searchTitle": "Search",
+      "theme": "Theme",
+      "themeHint": "Saved in this browser. System follows your computer.",
+      "themes": {
+        "dark": "Dark",
+        "light": "Light",
+        "system": "System"
+      },
+      "you": "You"
     },
     "translations": {
       "backupHint": "The database is the source. Files are only a backup.",

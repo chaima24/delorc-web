@@ -20,6 +20,7 @@ const centralRoutes = [
       { path: 'geography/:code', name: 'central-country', component: () => import('@/views/central/geography/PlacesView.vue'), meta: { permission: 'geography.show' } },
       { path: 'plans', name: 'central-plans', component: () => import('@/views/central/plans/PlansView.vue'), meta: { permission: 'plans.show' } },
       { path: 'settings', name: 'central-settings', component: () => import('@/views/central/settings/SettingsView.vue'), meta: { permission: 'settings.show' } },
+      { path: 'profile', name: 'central-profile', component: () => import('@/views/central/profile/ProfileView.vue') },
       { path: 'languages', name: 'central-languages', component: () => import('@/views/central/translations/LanguagesView.vue'), meta: { permission: 'languages.show' } },
     ],
   },

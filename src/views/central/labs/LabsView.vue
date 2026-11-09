@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { errorMessage } from '@/api/errors'
 import { labsApi, type LabRow } from '@/api/central/labs'
 import DlAlert from '@/components/DlAlert.vue'
@@ -30,6 +30,12 @@ const status = ref('all')
 const plan = ref<string | number>('all')
 const period = ref('all')
 const endingSoon = ref(false)
+// The bell opens this page with a filter already set: ?period=grace, or ?period=trial&ending=1.
+const route = useRoute()
+watch(() => route.query, (query) => {
+  period.value = typeof query.period === 'string' ? query.period : 'all'
+  endingSoon.value = query.ending === '1'
+}, { immediate: true })
 const sort = ref('-created_at')
 
 const all = computed(() => ({ value: 'all', label: t('common.list.all') }))

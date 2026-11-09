@@ -12,6 +12,7 @@
       "suspend": "Suspendre",
       "test": "Envoi de test",
       "update": "Modifier",
+      "update-contact": "Changer son e-mail et son téléphone",
       "update-plan": "Changer le plan"
     },
     "actionsCount": "{count} actions",
@@ -31,6 +32,7 @@
       "languages": "Langues",
       "notifications": "Notifications",
       "plans": "Plans",
+      "profile": "Mon profil",
       "roles": "Rôles",
       "rule-types": "Types de règles",
       "settings": "Paramètres",
@@ -413,6 +415,17 @@
       "whatChanged": "Ce qui a changé",
       "yes": "Oui",
       "yesterday": "Hier"
+    },
+    "attention": {
+      "endsOn": "{name} finit le {date}",
+      "firstTrial": "Le premier : {name}, {date}",
+      "labs_in_grace": "{count} laboratoire en période de grâce, bientôt suspendu | {count} laboratoires en période de grâce, bientôt suspendus",
+      "near_limit": "{count} laboratoire proche ou au-delà d’une limite ce mois-ci | {count} laboratoires proches ou au-delà d’une limite ce mois-ci",
+      "nothing": "Rien ne demande votre attention.",
+      "percent": "{name} · {metric} {percent} %",
+      "see": "Voir",
+      "title": "À surveiller",
+      "trials_ending": "{count} essai finit dans les 30 jours | {count} essais finissent dans les 30 jours"
     },
     "channels": {
       "backToShared": "Les réglages de son serveur sont effacés à l'enregistrement : pour les réutiliser, il faudra les retaper.",
@@ -945,6 +958,28 @@
       "trialMonthsApplies": "S'applique aux laboratoires créés à partir de maintenant. Les essais en cours gardent leurs dates.",
       "trialMonthsField": "Durée de l'essai (mois)",
       "trialMonthsHint": "Chaque nouveau laboratoire commence par un essai de cette durée sur le plan choisi à la création."
+    },
+    "topbar": {
+      "account": "Mon compte",
+      "console": "Console",
+      "labs": "Laboratoires",
+      "language": "Langue",
+      "languageHint": "Enregistrée sur votre compte : la console et les e-mails que vous recevez l’utilisent sur tous vos appareils.",
+      "myProfile": "Mon profil",
+      "notifications": "Notifications",
+      "pages": "Pages",
+      "search": "Chercher une page ou un laboratoire…",
+      "searchEmpty": "Aucune page ni aucun laboratoire ne correspond.",
+      "searchHelp": "↑ ↓ pour se déplacer · Entrée pour ouvrir · Échap pour fermer",
+      "searchTitle": "Recherche",
+      "theme": "Thème",
+      "themeHint": "Enregistré dans ce navigateur. Système suit votre ordinateur.",
+      "themes": {
+        "dark": "Sombre",
+        "light": "Clair",
+        "system": "Système"
+      },
+      "you": "Vous"
     },
     "translations": {
       "backupHint": "La base de données est la source. Les fichiers ne sont qu'une sauvegarde.",
