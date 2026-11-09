@@ -1,0 +1,236 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lab export and delete</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.frame { position: relative; }
+.lg { width: 34px; height: 34px; border-radius: 10px; background: var(--ink-2); color: var(--signal); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.lg.big { width: 56px; height: 56px; border-radius: 16px; font-size: 18px; } .lg.gone { background: var(--line); color: var(--muted); }
+.namecell { display: flex; gap: 10px; align-items: center; } .namecell strong { display: block; }
+tr.gone td { color: var(--muted); } tr.gone td strong { color: var(--muted); }
+.tabs2 { display: flex; gap: 6px; } .tabs2 span { height: 34px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; background: var(--paper); font-size: 13px; font-weight: 600; color: var(--body); }
+.tabs2 span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.muted { color: var(--muted); } .hint2 { font-size: 12px; color: var(--muted); }
+.banner { display: flex; gap: 12px; align-items: center; border-radius: 16px; padding: 12px 16px; font-size: 14px; }
+.banner .grow { flex: 1; } .banner small { display: block; font-size: 12.5px; opacity: .85; margin-top: 2px; }
+.warn { background: rgba(180,83,9,.08); color: var(--amber); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.bad { background: rgba(192,54,44,.08); color: var(--brick); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.okbox { background: var(--signal-soft); color: var(--ink); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.chip.bad { background: rgba(192,54,44,.1); color: var(--brick); }
+.err { color: var(--brick); font-size: 12px; } .input.badin { box-shadow: inset 0 0 0 1.5px var(--brick); }
+.open { background: var(--paper); border: 1px dashed var(--amber); border-radius: 14px; padding: 10px 14px; font-size: 13px; color: var(--amber); }
+.overlay { position: absolute; inset: 0; background: rgba(15,31,28,.42); border-radius: inherit; display: flex; align-items: center; justify-content: center; z-index: 2; }
+.dialog { width: 500px; background: var(--paper); border-radius: 24px; padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+.dialog h2 { margin: 0; font-size: 22px; } .dialog p { margin: 0; font-size: 14px; color: var(--body); }
+.dialog ul { margin: 0; padding-inline-start: 18px; font-size: 13.5px; color: var(--body); display: flex; flex-direction: column; gap: 4px; }
+.btn.danger { background: var(--brick); color: #fff; } .btn.off { opacity: .4; }
+.danger-card { border: 1.5px solid rgba(192,54,44,.35); }
+.ev { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 14px; }
+.ev .av { width: 34px; height: 34px; border-radius: 10px; background: var(--cobalt); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ev .av.sys { background: var(--line-soft); color: var(--muted); }
+.ev p { margin: 0; font-size: 14px; } .ev time { margin-inline-start: auto; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.mail { max-width: 560px; background: var(--paper); border-radius: 18px; border: 1px solid var(--line); overflow: hidden; }
+.mail .mh { padding: 12px 18px; border-bottom: 1px solid var(--line-soft); font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
+.mail .mb { padding: 18px; font-size: 14px; color: var(--body); display: flex; flex-direction: column; gap: 12px; }
+.tree { font-family: ui-monospace, monospace; font-size: 13px; background: var(--mist); border-radius: 12px; padding: 12px 14px; line-height: 1.7; white-space: pre; margin: 0; }
+.tree em { font-style: normal; color: var(--muted); }
+</style></head><body>
+<p class="caption"><strong>Central › Labs › a lab › Data (module 7).</strong> Export a lab's data as one ZIP archive, then delete a suspended lab. Interface texts are the real texts. Lab names, people, dates and sizes are invented. Mehdi Cherif is an owner, Sofia Rahmani is support. Today is 8 Nov 2026. <span style="color:var(--amber)">Dashed amber boxes are points to confirm.</span></p>
+<div id="frames"></div>
+<script>
+const logo = `<svg width='34' height='34' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const MENU = ['Labs', 'People', 'Roles', 'Activity', 'Translations', 'Geography', 'Plans', 'Settings']
+const rail = `<nav class='rail'><div class='brand'>${logo}<span class='display'>Delorc</span></div><div style='display:flex;flex-direction:column;gap:6px'>${MENU.map(m => `<a class='${m === 'Labs' ? 'on' : ''}'>${m}</a>`).join('')}</div></nav>`
+
+function frame(n, label, { head = '', add = '', body, overlay = '', who = 'MC' }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:720px'>${rail}
+<div class='main'><div class='topbar'><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${who}</span></div>
+  <div style='display:flex;flex-direction:column;gap:16px;padding:20px 28px 28px'>
+    <div style='display:flex;justify-content:space-between;align-items:flex-end;gap:12px'>${head}<div style='display:flex;gap:8px'>${add}</div></div>
+    ${body}
+  </div></div>${overlay}</div>`
+}
+
+// Small parts
+const chip = (t, c = '') => `<span class='chip ${c}'>${t}</span>`
+const open = t => `<div class='open'>To confirm: ${t}</div>`
+const field = (label, value, hint = '', bad = '') => `<div class='field'><span>${label}</span><div class='input ${bad ? 'badin' : ''}'>${value}</div>${bad ? `<span class='err'>${bad}</span>` : hint ? `<span class='hint'>${hint}</span>` : ''}</div>`
+const ST = { active: chip('Active', 'ok'), suspended: chip('Suspended', 'warn'), deleted: chip('Deleted', 'bad') }
+
+// Two labs: Demo Pharma (active) and Delta Bio (suspended automatically on 22 Oct 2026)
+const LABS = {
+  demo: { ini: 'DP', name: 'Demo Pharma', slug: 'demo', plan: 'Starter', period: chip('Paid', 'ok') },
+  delta: { ini: 'DB', name: 'Delta Bio', slug: 'delta', plan: 'Starter', period: chip('Ended') },
+}
+const head = (lab, status) => `<div style='display:flex;gap:14px;align-items:center'><span class='lg big ${status === 'deleted' ? 'gone' : ''}'>${lab.ini}</span><div>
+  <div class='crumbs'>Labs › ${lab.name}</div><h1 class='title display' style='font-size:32px;margin:0'>${lab.name}</h1>
+  <div style='display:flex;gap:6px;margin-top:6px;align-items:center'>${ST[status]}${status === 'deleted' ? '' : lab.period}<span class='hint2'>${lab.slug}.localhost · ${lab.plan}</span></div></div></div>`
+const TABS = ['Overview', 'Subscription', 'Features', 'Texts', 'Data', 'Activity']
+const tabs = (on = 'Data', only = null) => `<div class='tabs2'>${(only || TABS).map(t => `<span class='${t === on ? 'on' : ''}'>${t}</span>`).join('')}</div>`
+
+// Exports card
+const STATE = {
+  preparing: chip('Preparing…', 'info'), ready: chip('Ready', 'ok'), failed: chip('Failed', 'bad'), expired: chip('Expired'),
+}
+const exportBtn = (state = 'on') => state === 'busy' ? `<span class='btn primary sm off'>Preparing…</span>` : state === 'hide' ? '' : `<span class='btn primary sm'>Export the data</span>`
+function exportsCard(rows, { btn = 'on', note = '' } = {}) {
+  const body = rows.length ? `<table class='table'><thead><tr><th>Asked on ↓</th><th>Asked by ↕</th><th>State ↕</th><th>Size ↕</th><th>Available until ↕</th><th></th></tr></thead><tbody>
+    ${rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${STATE[r[2]]}${r[5] ? ` <span class='hint2'>${r[5]}</span>` : ''}</td><td class='num'>${r[3]}</td><td>${r[4]}</td>
+    <td style='text-align:end'>${r[2] === 'ready' ? `<span class='btn outline sm'>⤓ Download</span>` : r[2] === 'failed' ? `<span class='btn outline sm'>Try again</span>` : ''}</td></tr>`).join('')}
+    </tbody></table>`
+    : `<div class='hint2' style='padding:18px 0'>No export yet.</div>`
+  return `<div class='card' style='padding:16px 18px'>
+    <div style='display:flex;align-items:center;gap:10px;margin-bottom:6px'><strong style='flex:1;font-size:15px'>Exports</strong>${exportBtn(btn)}</div>
+    <div class='hint2' style='margin-bottom:8px'>One ZIP archive with every table of the lab as CSV, its files, and its central record. Prepared in the background; you get an email when it is ready. Each archive can be downloaded for 7 days.</div>
+    ${body}${note}</div>`
+}
+
+// Delete card (owner only)
+function deleteCard(state) {
+  const text = {
+    active: `<div class='hint2'>Only a suspended lab can be deleted. Suspend it first from the Overview tab.</div>`,
+    noExport: `<div class='warn'>Export the data first. The last export (10 Oct 2026) was made before the lab was suspended on 22 Oct 2026, so it may not hold the final data.</div>`,
+    expired: `<div class='warn'>Export the data first. The export of 23 Oct 2026 has expired: its archive is no longer available.</div>`,
+    preparing: `<div class='warn'>An export is being prepared. Delete is possible once it is ready.</div>`,
+    ok: `<div class='okbox'>Ready: the export of 8 Nov 2026 was made after the suspension and holds the final data.</div>`,
+  }[state]
+  const can = state === 'ok'
+  return `<div class='card danger-card' style='padding:16px 18px;display:flex;flex-direction:column;gap:10px'>
+    <div style='display:flex;align-items:center;gap:10px'><strong style='flex:1;font-size:15px;color:var(--brick)'>Delete the lab</strong><span class='btn danger sm ${can ? '' : 'off'}'>Delete the lab…</span></div>
+    <div class='hint2'>Removes the lab's database, its files, its periods and its feature changes. This cannot be undone. The lab stays in the list as Deleted, and its slug can never be used again.</div>
+    ${text}</div>`
+}
+
+// Rows
+const R_NONE = []
+const R_PREP = [['8 Nov 2026, 10:12', 'Mehdi Cherif', 'preparing', '—', '—']]
+const R_READY = [['8 Nov 2026, 10:12', 'Mehdi Cherif', 'ready', '18.4 MB', '15 Nov 2026']]
+const R_FAILED = [['8 Nov 2026, 10:12', 'Mehdi Cherif', 'failed', '—', '—', 'Storage could not be reached.']]
+const D_OLD = [['10 Oct 2026, 09:30', 'Sofia Rahmani', 'expired', '17.9 MB', '17 Oct 2026']]
+const D_READY = [['8 Nov 2026, 11:04', 'Mehdi Cherif', 'ready', '18.6 MB', '15 Nov 2026'], ...D_OLD]
+const D_EXPIRED = [['23 Oct 2026, 14:50', 'Mehdi Cherif', 'expired', '18.6 MB', '30 Oct 2026'], ...D_OLD]
+
+const suspendedBanner = `<div class='banner bad'><span style='font-size:20px'>⏸</span><div class='grow'><b>Suspended automatically on 22 Oct 2026.</b><small>No period after 15 Oct 2026. Nothing was deleted.</small></div></div>`
+const deletedBanner = `<div class='banner bad'><span style='font-size:20px'>🗑</span><div class='grow'><b>Deleted by Mehdi Cherif on 8 Nov 2026, 11:31.</b><small>Its database, files, periods and feature changes are removed. Only the exports stay, until their 7 days end.</small></div></div>`
+
+// Dialogs
+const exportDialog = `<div class='overlay'><div class='dialog'>
+  <h2 class='display'>Export the data of Demo Pharma?</h2>
+  <p>The archive is prepared in the background. It holds:</p>
+  <ul><li>every table of the lab, one CSV file each;</li><li>the lab's files (logo, and later receipts, images…);</li><li><b>lab.json</b>: the lab's details, its periods and its feature changes.</li></ul>
+  <p class='hint2' style='font-size:12.5px'>Secrets are left out: password hashes, second factor secrets, recovery codes and tokens are empty columns.</p>
+  <p>You get an email at <b>mehdi.cherif@delorc.dz</b> when it is ready. The archive can be downloaded for 7 days.</p>
+  <div style='display:flex;gap:8px;justify-content:flex-end'><span class='btn outline sm'>Cancel</span><span class='btn primary sm'>Export the data</span></div></div></div>`
+const deleteDialog = (typed, err = '') => `<div class='overlay'><div class='dialog'>
+  <h2 class='display'>Delete Delta Bio?</h2>
+  <p>Its database, its files, its periods and its feature changes are removed now. <b>This cannot be undone.</b> The export of 8 Nov 2026 stays available until 15 Nov 2026.</p>
+  ${field('Type the slug delta to confirm', typed || '<span class="muted">delta</span>', typed && typed !== 'delta' ? '' : 'The button works only once the slug is typed exactly.', typed && typed !== 'delta' ? 'This is not the slug of this lab.' : '')}
+  ${err ? `<div class='bad'>${err}</div>` : ''}
+  <div style='display:flex;gap:8px;justify-content:flex-end'><span class='btn outline sm'>Cancel</span><span class='btn danger sm ${typed === 'delta' ? '' : 'off'}'>Delete the lab</span></div></div></div>`
+
+// Emails
+const mail = (subject, body) => `<div class='mail'><div class='mh'><span>From: Delorc &lt;no-reply@delorc.dz&gt; · To: mehdi.cherif@delorc.dz</span><b style='color:var(--ink);font-size:14px'>${subject}</b></div><div class='mb'>${body}</div></div>`
+const readyMail = mail('The data export of Demo Pharma is ready', `<p>Hello Mehdi,</p>
+  <p>The export you asked for on 8 Nov 2026 at 10:12 is ready (18.4 MB).</p>
+  <p><span class='btn primary sm'>Open the export</span></p>
+  <p class='hint2' style='font-size:12.5px'>The button opens the lab's Data tab in Delorc, where you sign in and download it. The archive is available until 15 Nov 2026.</p>`)
+const failedMail = mail('The data export of Demo Pharma failed', `<p>Hello Mehdi,</p>
+  <p>The export you asked for on 8 Nov 2026 at 10:12 could not be prepared. Nothing was changed in the lab.</p>
+  <p><span class='btn primary sm'>Open the lab</span></p>
+  <p class='hint2' style='font-size:12.5px'>You can try again from the lab's Data tab.</p>`)
+
+// Archive content
+const archive = `<div class='card' style='padding:16px 18px;display:flex;flex-direction:column;gap:10px'>
+  <strong style='font-size:15px'>Inside the archive</strong>
+<pre class='tree'>demo-export-2026-11-08.zip
+├── lab.json                 <em>details, country, languages, periods, feature changes</em>
+├── tables/
+│   ├── users.csv
+│   ├── settings.csv
+│   ├── roles.csv
+│   ├── permissions.csv
+│   ├── wilayas.csv
+│   ├── communes.csv
+│   ├── languages.csv
+│   ├── translations.csv
+│   └── …                    <em>every table of the lab database, one file each</em>
+└── files/
+    └── logo.png             <em>the lab's files, same folders as in storage</em></pre>
+  <strong style='font-size:14px;margin-top:4px'>tables/users.csv (first lines)</strong>
+<pre class='tree'>id,name,email,phone,password,two_factor_secret,two_factor_recovery_codes,active,created_at
+1,Amina Belkacem,amina.belkacem@demo.dz,+213 550 12 34 56,,,,true,2026-11-07 10:42:05
+2,Karim Ouali,karim.ouali@demo.dz,,,,,true,2026-11-07 15:20:11</pre>
+  <div class='hint2'>Secret columns stay in the header but are empty. The list of secret columns is kept in the code, like the activity log's field lists. Dates are written as in the database.</div></div>`
+
+// Labs list with a deleted lab
+const name = (ini, n, gone) => `<div class='namecell'><span class='lg ${gone ? 'gone' : ''}'>${ini}</span><strong>${n}</strong></div>`
+const L = [
+  ['', name('DP', 'Demo Pharma'), 'demo', 'Algeria', 'Starter', chip('Paid', 'ok'), '6 Dec 2027', ST.active, '7 Nov 2026'],
+  ['', name('AL', 'Alpha Labs'), 'alpha', 'Algeria', 'Pro', chip('Paid', 'ok'), '31 Dec 2027', ST.active, '12 Oct 2026'],
+  ['gone', name('DB', 'Delta Bio', true), 'delta', 'Algeria', '—', '—', '—', ST.deleted, '1 Aug 2026'],
+  ['', name('EP', 'Epsilon Pharma'), 'epsilon', 'Algeria', 'Pro', chip('Paid', 'ok'), '28 Nov 2026', ST.suspended, '14 Jul 2026'],
+]
+const listHead = ['Lab', 'Slug', 'Country', 'Plan', 'Period', 'Ends on', 'Status', 'Added on']
+const list = (rows, statusVal = 'All') => `<div class='card' style='padding:16px 18px'>
+  <div style='display:flex;gap:10px;margin-bottom:12px;align-items:center'><div class='input muted' style='width:240px'>⌕ Search a name or slug</div>
+  <span class='input'>Status <b>${statusVal}</b> ▾</span><span class='input'>Plan <b>All</b> ▾</span><span class='input'>Period <b>All</b> ▾</span><span class='input'>Ending within 30 days</span></div>
+  <table class='table'><thead><tr>${listHead.map(h => `<th>${h} ${h === 'Added on' ? '↓' : '↕'}</th>`).join('')}<th></th></tr></thead><tbody>
+  ${rows.map(r => `<tr class='${r[0]}'>${r.slice(1).map(c => `<td>${c}</td>`).join('')}<td class='muted'>›</td></tr>`).join('')}</tbody></table>
+  <div class='label' style='display:flex;justify-content:space-between;padding-top:12px'><span>1 to ${rows.length} of ${rows.length}</span><span>Page 1 ‹ ›</span></div></div>`
+
+// Activity lines
+const ev = (av, text, time, sys) => `<div class='ev'><span class='av ${sys ? 'sys' : ''}'>${av}</span><p>${text}</p><time>${time}</time></div>`
+const activity = `<div class='card' style='padding:16px 18px'>
+  ${ev('MC', '<b>Mehdi Cherif</b> deleted the lab Delta Bio (delta). Its database and files were removed.', '8 Nov, 11:31')}
+  ${ev('MC', '<b>Mehdi Cherif</b> downloaded the data export of Delta Bio of 8 Nov 2026.', '8 Nov, 11:15')}
+  ${ev('SY', '<b>System</b>: the data export of Delta Bio is ready (18.6 MB).', '8 Nov, 11:06', true)}
+  ${ev('MC', '<b>Mehdi Cherif</b> asked for a data export of Delta Bio.', '8 Nov, 11:04')}
+  ${ev('SY', '<b>System</b>: the data export of Demo Pharma failed.', '8 Nov, 10:13', true)}
+  <div class='hint' style='padding:8px 12px'>Central › Activity. Removing expired archives is not logged: their line simply shows Expired.</div></div>`
+
+const D = LABS.delta, P = LABS.demo
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The Data tab, active lab.</strong> A new tab on the lab page. No export yet. Delete is greyed: only a suspended lab can be deleted.`,
+    { head: head(P, 'active'), add: `<span class='btn outline'>Suspend</span>`, body: tabs() + exportsCard(R_NONE) + deleteCard('active') +
+      open('the place: a Data tab with Exports and Delete (shown), or both cards at the bottom of Overview. Suggestion: the tab, so Overview stays about the lab itself.') }),
+  frame(2, `<strong>Export the data.</strong> The dialog says what the archive holds and where the email goes.`,
+    { head: head(P, 'active'), add: `<span class='btn outline'>Suspend</span>`, body: tabs() + exportsCard(R_NONE) + deleteCard('active'), overlay: exportDialog }),
+  frame(3, `<strong>Preparing.</strong> A queued job writes the archive. One export per lab at a time: the button waits until it ends. The page checks the state again every few seconds.`,
+    { head: head(P, 'active'), add: `<span class='btn outline'>Suspend</span>`, body: tabs() + exportsCard(R_PREP, { btn: 'busy' }) + deleteCard('active') +
+      open('one export per lab at a time (shown). Asking again while one is preparing answers 422.') }),
+  frame(4, `<strong>Ready.</strong> Download gives the ZIP through a short-lived link. Anyone allowed to export this lab can download it, not only the person who asked.`,
+    { head: head(P, 'active'), add: `<span class='btn outline'>Suspend</span>`, body: tabs() + exportsCard(R_READY) + deleteCard('active') +
+      open('who can download: anyone with labs.export (owner, support), shown. Each download is written in the activity log, because the archive holds personal data.') }),
+  frame(5, `<strong>The email when it is ready.</strong> Sent to the person who asked, in their language. The button opens Delorc, not the file: the person signs in, so a forwarded email gives nothing.`,
+    { head: head(P, 'active'), body: readyMail }),
+  frame(6, `<strong>What the archive holds.</strong> One CSV per table, the lab's files, and lab.json from central.`,
+    { head: head(P, 'active'), body: archive }),
+  frame(7, `<strong>Failed.</strong> The line shows why, with Try again. The person who asked gets an email; nothing in the lab changes.`,
+    { head: head(P, 'active'), add: `<span class='btn outline'>Suspend</span>`, body: tabs() + exportsCard(R_FAILED) + failedMail }),
+  frame(8, `<strong>Suspended lab, no recent export.</strong> The only export was made before the suspension, so Delete stays greyed and says why.`,
+    { head: head(D, 'suspended'), body: suspendedBanner + tabs() + exportsCard(D_OLD) + deleteCard('noExport') }),
+  frame(9, `<strong>The export after the suspension has expired.</strong> Its archive is gone after 7 days, so it no longer counts: export again.`,
+    { head: head(D, 'suspended'), body: suspendedBanner + tabs() + exportsCard(D_EXPIRED) + deleteCard('expired') +
+      open('an expired export does not count (shown): delete needs an archive that can still be downloaded, so the final data can be sent to the lab.') }),
+  frame(10, `<strong>Ready to delete.</strong> A finished export made after the suspension, still available.`,
+    { head: head(D, 'suspended'), body: suspendedBanner + tabs() + exportsCard(D_READY) + deleteCard('ok') }),
+  frame(11, `<strong>Confirm by typing the slug.</strong> The button stays greyed until the slug is typed exactly.`,
+    { head: head(D, 'suspended'), body: suspendedBanner + tabs() + exportsCard(D_READY) + deleteCard('ok'), overlay: deleteDialog('') }),
+  frame(12, `<strong>Wrong slug.</strong>`,
+    { head: head(D, 'suspended'), body: suspendedBanner + tabs() + exportsCard(D_READY) + deleteCard('ok'), overlay: deleteDialog('delta-bio') }),
+  frame(13, `<strong>Delete failed.</strong> Runs during the request; if something goes wrong the message says so and the lab stays suspended, with nothing removed from central.`,
+    { head: head(D, 'suspended'), body: suspendedBanner + tabs() + exportsCard(D_READY) + deleteCard('ok'), overlay: deleteDialog('delta', 'The lab could not be deleted. It is still suspended; try again in a moment.') }),
+  frame(14, `<strong>Deleted.</strong> The page keeps only the Exports card: the final archive can still be downloaded until 15 Nov 2026. Nothing else can be done.`,
+    { head: head(D, 'deleted'), body: deletedBanner + tabs('Data', ['Data', 'Activity']) + exportsCard(D_READY, { btn: 'hide' }) +
+      open('the deleted lab keeps two tabs, Data and Activity (shown), so its history stays readable.') }),
+  frame(15, `<strong>The list.</strong> Deleted labs are hidden by default; Status › Deleted shows them, greyed.`,
+    { head: `<div><div class='crumbs'>Labs</div><h1 class='title display' style='font-size:36px'>Labs</h1></div>`, add: `<span class='btn primary'>＋ New lab</span>`, body: list(L, 'Deleted, Active, Suspended') +
+      open('deleted labs hidden by default, like automatic changes in the activity log (suggested). The Status filter adds Deleted. The New lab form refuses a deleted lab\'s slug: "This slug belonged to a deleted lab."') }),
+  frame(16, `<strong>Support's view.</strong> Support can export and download (labs.export) but not delete (labs.delete, owner only): no Delete card. Billing has no labs.export, so no Data tab.`,
+    { who: 'SR', head: head(P, 'active'), body: tabs() + exportsCard(R_READY) }),
+  frame(17, `<strong>In the activity log.</strong> Asked, ready or failed (System), downloaded, deleted.`,
+    { head: `<div><div class='crumbs'>Activity</div><h1 class='title display' style='font-size:36px'>Activity</h1></div>`, body: activity }),
+].join('')
+</script>
+</body></html>

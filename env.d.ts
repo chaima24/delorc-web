@@ -8,3 +8,8 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+declare module 'virtual:tabler-icons' {
+  const icons: import('@iconify/vue').IconifyJSON
+  export default icons
+}

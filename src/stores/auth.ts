@@ -10,6 +10,11 @@ export const useAuthStore = defineStore('auth', () => {
   const twoFactorSetupRequired = ref(false)
   const isSignedIn = computed(() => user.value !== null)
 
+  /** Hides what the person may not do. The API checks again: this is only for the screen. */
+  function can(permission: string): boolean {
+    return !!user.value && (user.value.is_super || user.value.permissions.includes(permission))
+  }
+
   let loaded = false
 
   function startSession(session: Session): void {
@@ -57,10 +62,15 @@ export const useAuthStore = defineStore('auth', () => {
     startSession(await authApi.setPassword(token, password, confirmation))
   }
 
+  /** Reads the person again, after a change made outside this tab (an email confirmed from its link). */
+  async function refreshUser(): Promise<User | null> {
+    return authApi.me().catch(() => user.value)
+  }
+
   async function logout(): Promise<void> {
     await authApi.logout(tokens.refresh).catch(() => undefined)
     endSession()
   }
 
-  return { user, twoFactorSetupRequired, isSignedIn, load, login, verifyTwoFactor, setPassword, logout, endSession }
+  return { user, twoFactorSetupRequired, isSignedIn, can, load, login, verifyTwoFactor, setPassword, logout, endSession, startSession, refreshUser }
 })

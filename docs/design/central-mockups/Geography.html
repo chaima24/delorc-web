@@ -1,0 +1,181 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Central geography</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.levels { display: flex; gap: 6px; flex-wrap: wrap; }
+.levels span { height: 34px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; background: var(--paper); color: var(--body); }
+.levels span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.levels small { color: var(--muted); font-weight: 600; }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph .ic { width: 42px; height: 42px; border-radius: 13px; background: var(--ink); color: var(--signal); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+.ph h2 { margin: 0; font-size: 21px; overflow-wrap: anywhere; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-inline-start: auto; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 4px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; }
+.tile b { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 800; } .tile span { font-size: 11.5px; color: var(--muted); }
+.tl { display: flex; gap: 10px; padding: 7px 12px; font-size: 13px; border-top: 1px solid var(--line-soft); } .tl span:first-child { flex: 1; font-weight: 600; } .tl em { font-style: normal; color: var(--muted); font-size: 12px; }
+.btnrow { display: flex; gap: 8px; margin-top: auto; padding-top: 8px; }
+.warn { background: rgba(180,83,9,.08); color: var(--amber); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.savebar { position: sticky; bottom: 0; display: flex; align-items: center; gap: 12px; background: var(--ink); color: var(--mist); border-radius: 18px; padding: 10px 12px 10px 18px; font-size: 14px; }
+</style></head><body>
+<p class="caption"><strong>Central › Geography.</strong> The library each new lab copies its places from. Algeria's rows are real, from the package. Spain, people and dates are invented. A lab's own places are not here: they come with the Labs module.</p>
+<div id="frames"></div>
+<script>
+const logo = `<svg width='34' height='34' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const MENU = ['People', 'Roles', 'Activity', 'Translations', 'Geography']
+const rail = `<nav class='rail'><div class='brand'>${logo}<span class='display'>Delorc</span></div><div style='display:flex;flex-direction:column;gap:6px'>${MENU.map(m => `<a class='${m === 'Geography' ? 'on' : ''}'>${m}</a>`).join('')}</div></nav>`
+const LEVELS = [['Regions', '4'], ['Wilayas', '69'], ['Communes', '1,541']]
+
+function frame(n, label, { crumbs = 'Geography', title, add = '', level = null, list, panel = '' }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:760px'>${rail}
+<div class='main'>
+  <div class='topbar'><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>MC</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end;gap:12px'>
+        <div><div class='crumbs'>${crumbs}</div><h1 class='title display' style='font-size:36px'>${title}</h1></div>
+        <div style='display:flex;gap:8px'>${add}</div>
+      </div>
+      ${level ? `<div class='levels'>${LEVELS.map(([l, c]) => `<span class='${l === level ? 'on' : ''}'>${l} <small>${c}</small></span>`).join('')}</div>` : ''}
+      ${list}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+const close = `<span class='icb'>✕</span>`
+const primary = text => `<span class='btn primary'>＋ ${text}</span>`
+const importBtn = `<span class='btn outline'>Import a country</span>`
+const status = on => `<span class='chip ${on ? 'ok' : ''}'>${on ? 'Active' : 'Inactive'}</span>`
+const pager = (a, b) => `<div class='label' style='display:flex;justify-content:space-between;padding-top:12px'><span>${a} of ${b}</span><span>Page 1 ‹ ›</span></div>`
+const bar = (...items) => `<div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'>${items.join('')}</div>`
+const search = text => `<div class='input muted' style='width:240px'>⌕ ${text}</div>`
+const filter = (label, value = 'All') => `<span class='input'>${label} <b>${value}</b> ▾</span>`
+
+function table(headers, rows, sel = -1, hide = []) {
+  const keep = (_, i) => !hide.includes(i)
+  return `<table class='table'><thead><tr>${headers.filter(keep).map(h => `<th>${h} ↕</th>`).join('')}<th></th></tr></thead><tbody>
+  ${rows.map((r, i) => `<tr class='${i === sel ? 'sel' : ''}'>${r.filter(keep).map(c => `<td>${c}</td>`).join('')}<td style='color:var(--muted)'>›</td></tr>`).join('')}</tbody></table>`
+}
+const two = (a, b, rtl) => `<strong>${a}</strong><div class='hint' ${rtl ? `dir='rtl' style='text-align:start'` : ''}>${b}</div>`
+
+// Countries
+const C = [
+  [two('Algeria', 'الجزائر · DZ'), '+213', '4', '69', '1,541', status(true), '3 Nov 2026'],
+]
+const CS = [[two('Spain', 'España · ES'), '+34', '0', '0', '0', status(false), 'Today'], ...C]
+const countryHead = ['Country', 'Phone code', 'Regions', 'Wilayas or provinces', 'Communes', 'Status', 'Added on']
+const countries = (rows = C, sel = -1, hide = []) => `<div class='card' style='padding:16px 18px'>${bar(search('Search a country'), filter('Status'))}${table(countryHead, rows, sel, hide)}</div>`
+
+// Regions, wilayas, communes
+const R = [['Centre', '13', '3 Nov 2026'], ['Est', '16', '3 Nov 2026'], ['Ouest', '13', '3 Nov 2026'], ['Sud', '27', '3 Nov 2026']]
+const W = [
+  [two('Adrar', 'أدرار'), 'Sud', '049', '16', '3 Nov 2026'],
+  [two('Aflou', 'آفلو'), 'Sud', '029', '12', '3 Nov 2026'],
+  [two('Alger', 'الجزائر'), 'Centre', '021', '57', '3 Nov 2026'],
+  [two('Constantine', 'قسنطينة'), 'Est', '031', '12', '3 Nov 2026'],
+  [two('El Abiodh Sidi Cheikh', 'الأبيض سيدي الشيخ'), 'Sud', '049', '7', '3 Nov 2026'],
+  [two('El Meniaa', 'المنيعة'), 'Sud', '029', '3', '3 Nov 2026'],
+  [two('Oran', 'وهران'), 'Ouest', '041', '26', '3 Nov 2026'],
+]
+const K = [
+  [two('Alger Centre', 'الجزائر الوسطى'), 'Alger', '16000', '3 Nov 2026'],
+  [two('Bab El Oued', 'باب الوادي'), 'Alger', '16008', '3 Nov 2026'],
+  [two('Bologhine Ibnou Ziri', 'بولوغين'), 'Alger', '16030', '3 Nov 2026'],
+  [two('El Madania', 'المدنية'), 'Alger', '16015', '3 Nov 2026'],
+  [two('Mohamed Belouizdad', 'محمد بلوزداد'), 'Alger', '16244', '3 Nov 2026'],
+  [two("Sidi M'Hamed", 'سيدي امحمد'), 'Alger', '16007', '3 Nov 2026'],
+]
+const regions = (sel = -1) => `<div class='card' style='padding:16px 18px'>${bar(search('Search a region'))}${table(['Region', 'Wilayas', 'Added on'], R, sel)}</div>`
+const wilayas = (sel = -1, hide = []) => `<div class='card' style='padding:16px 18px'>${bar(search('Search a wilaya'), filter('Region'))}${table(['Wilaya', 'Region', 'Phone code', 'Communes', 'Added on'], W, sel, hide)}${pager('1 to 7', '69')}</div>`
+const communes = (sel = -1, hide = []) => `<div class='card' style='padding:16px 18px'>${bar(search('Search a commune or postal code'), filter('Region'), filter('Wilaya', 'Alger'))}${table(['Commune', 'Wilaya', 'Postal code', 'Added on'], K, sel, hide)}${pager('1 to 6', '57')}</div>`
+
+// Panels
+const panel = (head, body) => `<aside class='panel'>${head}<div class='pb'>${body}</div></aside>`
+const ph = (ic, title, chips = []) => `<div class='ph'>${ic ? `<div class='ic'>${ic}</div>` : ''}<div style='min-width:0'><h2 class='display'>${title}</h2>${chips.length ? `<div class='sub'>${chips.join('')}</div>` : ''}</div>${close}</div>`
+const details = rows => `<section class='sec'><header><strong>Details</strong><span class='edit'>Edit</span></header>${rows.map(([a, b]) => `<div class='tl'><span>${a}</span><em>${b}</em></div>`).join('')}</section>`
+const remove = (hint, off) => `<section class='sec'><header><strong>Delete</strong><span class='edit' style='${off ? 'opacity:.45' : ''}'>Delete</span></header><div class='line hint'>${hint}</div></section>`
+const field = (label, value, hint = '') => `<div class='field'><span>${label}</span><div class='input'>${value}</div>${hint ? `<span class='hint'>${hint}</span>` : ''}</div>`
+const saveRow = text => `<div class='btnrow'><span class='btn primary sm'>${text}</span><span class='btn outline sm'>Cancel</span></div>`
+const copyHint = `<div class='hint'>A new lab copies these places. Labs already created keep their own list.</div>`
+
+const countryPanel = panel(ph('DZ', 'Algeria', [status(true)]), `
+  <div class='tiles'><div class='tile'><b>69</b><span>wilayas</span></div><div class='tile'><b>1,541</b><span>communes</span></div></div>
+  <span class='btn dark sm' style='justify-content:center'>Browse its places</span>
+  ${details([['Name', 'Algeria · الجزائر'], ['Code', 'DZ'], ['Phone code', '+213']])}
+  <section class='sec'><header><strong>Export</strong><span class='edit'>Download</span></header><div class='line hint'>All its regions, wilayas and communes in one JSON file, the same format as import.</div></section>
+  <section class='sec'><header><strong>Active</strong><span class='edit'>Deactivate</span></header><div class='line hint'>Inactive countries cannot be chosen for a new lab. Their places are kept.</div></section>
+  ${remove('This country has places, so it can only be deactivated.', true)}${copyHint}`)
+
+const addCountry = panel(ph('', 'Add a country'), `
+  ${field('Code', 'ES', 'Two letters. Fixed after creation.')}
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'>${field('Name', 'Spain')}${field('Native name', 'España')}</div>
+  ${field('Phone code', '+34')}
+  <div class='warn'>The country starts inactive and empty. Add its places by hand, or import them.</div>
+  ${saveRow('Add the country')}`)
+
+const importPanel = panel(ph('', 'Import a country'), `
+  <section class='sec'><header><strong>File</strong></header><div class='line'>One JSON file with the country, its regions, wilayas or provinces, and communes. The country is created if it does not exist. To see the format, export Algeria and copy it.</div>
+    <div style='padding:0 12px 12px'><div class='drop'>spain-places.json<br><span class='hint'>Click to choose another JSON file</span></div></div></section>
+  <section class='sec'><header><strong>Only adds what is missing</strong></header><div class='line'>A place already in the library is never changed, so importing twice is safe.</div></section>
+  <section class='sec'><header><strong>Import result</strong></header>
+    <div class='tl'><span>Regions added</span><em>17</em></div><div class='tl'><span>Provinces added</span><em>50</em></div><div class='tl'><span>Communes added</span><em>8,131</em></div><div class='tl'><span>Left unchanged</span><em>0</em></div></section>
+  ${saveRow('Import the file')}`)
+
+const wilayaPanel = panel(ph('', 'Alger', [`<span class='chip'>Centre</span>`]), `
+  <div class='tiles'><div class='tile'><b>57</b><span>communes</span></div><div class='tile'><b>021</b><span>phone code</span></div></div>
+  <span class='btn dark sm' style='justify-content:center'>See its communes</span>
+  ${details([['Name', 'Alger'], ['Arabic name', 'الجزائر'], ['Region', 'Centre'], ['Phone code', '021'], ['Position', '36.7761, 3.0583']])}
+  ${remove('This wilaya has communes, so it cannot be deleted.', true)}${copyHint}`)
+
+const wilayaEdit = panel(ph('', 'Alger', [`<span class='chip'>Centre</span>`]), `
+  ${field('Name', 'Alger')}${field('Arabic name', 'الجزائر')}${field('Region', 'Centre ▾')}
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'>${field('Latitude', '36.7761')}${field('Longitude', '3.0583')}</div>
+  ${field('Phone code', '021')}${saveRow('Save')}`)
+
+const communePanel = panel(ph('', 'Bab El Oued', [`<span class='chip'>Alger</span>`]), `
+  ${details([['Name', 'Bab El Oued'], ['Arabic name', 'باب الوادي'], ['Wilaya', 'Alger'], ['Postal code', '16008'], ['Position', '36.7907, 3.0500']])}
+  ${remove('Deleting it removes it from the library. Labs already created keep it.', false)}${copyHint}`)
+
+const addCommune = panel(ph('', 'Add a commune'), `
+  ${field('Wilaya', 'Alger ▾')}
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'>${field('Name', 'Zéralda')}${field('Arabic name', 'زرالدة')}</div>
+  ${field('Postal code', '16063')}
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'>${field('Latitude', '')}${field('Longitude', '')}</div>
+  ${saveRow('Add the commune')}`)
+
+const regionPanel = panel(ph('', 'Centre'), `
+  <div class='tiles'><div class='tile'><b>13</b><span>wilayas</span></div><div class='tile'><b>4</b><span>regions in Algeria</span></div></div>
+  <span class='btn dark sm' style='justify-content:center'>See its wilayas</span>
+  ${details([['Name', 'Centre']])}
+  ${remove('This region has wilayas, so it cannot be deleted.', true)}`)
+
+const empty = `<div class='card' style='padding:16px 18px'>${bar(search('Search a commune or postal code'), filter('Wilaya', 'Alger'))}<div style='padding:56px 20px;text-align:center;color:var(--muted);font-size:14px'><strong style='display:block;color:var(--ink);font-size:16px;margin-bottom:4px'>No commune found</strong>Try another search or filter.</div></div>`
+
+const place = (level, o) => ({ crumbs: 'Geography › Algeria', title: 'Algeria', level, ...o })
+const countryBtns = importBtn + primary('Add a country')
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The page opens.</strong> One line per country in the library. Algeria comes from the package.`, { title: 'Countries', add: countryBtns, list: countries() }),
+  frame(2, `<strong>Click a country.</strong> Its counts and details. “Browse its places” opens the next page. Export downloads the country as a file: a backup, and an example for preparing another country.`, { title: 'Countries', add: countryBtns, list: countries(C, 0, [1, 2, 6]), panel: countryPanel }),
+  frame(3, `<strong>Add a country.</strong> Four fields, as in the previous API. It starts inactive and empty.`, { title: 'Countries', add: countryBtns, list: countries(C, -1, [1, 2, 6]), panel: addCountry }),
+  frame(4, `<strong>Import a country.</strong> Same rule as texts: it only adds. Inactive until someone activates it.`, { title: 'Countries', add: countryBtns, list: countries(CS, -1, [1, 2, 6]), panel: importPanel }),
+  frame(5, `<strong>Browse a country: wilayas.</strong> Three tabs, sortable columns, search and a region filter.`, place('Wilayas', { add: primary('Add a wilaya'), list: wilayas() })),
+  frame(6, `<strong>Click a wilaya.</strong> Details, and a button to its communes.`, place('Wilayas', { add: primary('Add a wilaya'), list: wilayas(2, [2, 4]), panel: wilayaPanel })),
+  frame(7, `<strong>Edit a wilaya.</strong> Changing the region is done here.`, place('Wilayas', { add: primary('Add a wilaya'), list: wilayas(2, [2, 4]), panel: wilayaEdit })),
+  frame(8, `<strong>Communes.</strong> 1,541 rows, so the API searches, filters and sorts them.`, place('Communes', { add: primary('Add a commune'), list: communes() })),
+  frame(9, `<strong>Click a commune.</strong> A commune has nothing under it, so it can be deleted.`, place('Communes', { add: primary('Add a commune'), list: communes(1, [3]), panel: communePanel })),
+  frame(10, `<strong>Add a commune.</strong> Position is optional.`, place('Communes', { add: primary('Add a commune'), list: communes(-1, [3]), panel: addCommune })),
+  frame(11, `<strong>Regions.</strong> The same list and panel.`, place('Regions', { add: primary('Add a region'), list: regions(0), panel: regionPanel })),
+  frame(12, `<strong>No result.</strong> Filters match nothing.`, place('Communes', { add: primary('Add a commune'), list: empty })),
+].join('')
+</script>
+</body></html>

@@ -1,0 +1,106 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lab texts</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 420px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 600px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; border-bottom: 1px solid var(--line-soft); } .ph h2 { margin: 0; font-size: 21px; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; margin-inline-start: auto; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.lg { width: 56px; height: 56px; border-radius: 16px; background: var(--ink-2); color: var(--signal); font-size: 18px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+.tabs2 { display: flex; gap: 6px; } .tabs2 span { height: 34px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; background: var(--paper); font-size: 13px; font-weight: 600; color: var(--body); }
+.tabs2 span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.tt { width: 100%; border-collapse: collapse; font-size: 14px; } .tt th { text-align: start; font-size: 12px; color: var(--muted); font-weight: 600; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.tt td { padding: 11px 12px; border-bottom: 1px solid var(--line-soft); vertical-align: top; } .tt .key { font-size: 12.5px; color: var(--muted); font-family: ui-monospace, monospace; }
+.tt .master { color: var(--muted); } .tt td.chg { background: var(--signal-soft); }
+.cell { border: 1px solid var(--line); border-radius: 10px; padding: 7px 10px; background: var(--paper); min-height: 20px; }
+.cell.changed { box-shadow: inset 0 0 0 1.5px var(--ink); } .cell.bad { box-shadow: inset 0 0 0 1.5px var(--brick); }
+.err { color: var(--brick); font-size: 12px; margin-top: 4px; }
+.edit { height: 28px; padding: 0 9px; border-radius: 9px; font-size: 12px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; } .toggle i { width: 34px; height: 20px; border-radius: 99px; background: var(--line); position: relative; }
+.toggle i::after { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 99px; background: #fff; top: 3px; left: 3px; } .toggle.on i { background: var(--ink); } .toggle.on i::after { left: auto; right: 3px; background: var(--signal); }
+.savebar { display: flex; align-items: center; gap: 12px; background: var(--ink); color: var(--mist); border-radius: 18px; padding: 10px 12px 10px 18px; font-size: 14px; } .savebar .grow { flex: 1; } .savebar small { color: var(--on-ink-muted); font-size: 12.5px; display: block; }
+.langs { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 13px; }
+.open { background: var(--paper); border: 1px dashed var(--amber); border-radius: 14px; padding: 10px 14px; font-size: 13px; color: var(--amber); }
+.okbox { background: var(--signal-soft); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.ev { display: flex; gap: 12px; align-items: flex-start; padding: 10px; } .ev .av { width: 34px; height: 34px; border-radius: 10px; background: var(--line-soft); color: var(--muted); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.ev p { margin: 0; font-size: 14px; } .ev time { margin-inline-start: auto; font-size: 12px; color: var(--muted); }
+.pick { display: flex; gap: 10px; align-items: center; border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; font-size: 14px; } .pick.on { box-shadow: inset 0 0 0 1.5px var(--ink); background: var(--signal-soft); }
+</style></head><body>
+<p class="caption"><strong>Central › Labs › a lab › Texts (part 6c, central side).</strong> The lab's own copy of the texts: central changes a word for this lab ("Passages" instead of "Visites"), puts a text back to the master, or adds a language. Master fixes reach every lab by themselves, except texts changed for that lab. The lab web app reads these texts later, with the lab shell. Keys and texts are real examples; the lab, people and counts are invented. <span style="color:var(--amber)">Dashed amber boxes are points to confirm.</span></p>
+<div id="frames"></div>
+<script>
+const logo = `<svg width='34' height='34' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const MENU = ['Labs', 'People', 'Roles', 'Activity', 'Translations', 'Geography', 'Plans', 'Settings']
+const rail = on => `<nav class='rail'><div class='brand'>${logo}<span class='display'>Delorc</span></div><div style='display:flex;flex-direction:column;gap:6px'>${MENU.map(m => `<a class='${m === on ? 'on' : ''}'>${m}</a>`).join('')}</div></nav>`
+const head = `<div style='display:flex;gap:14px;align-items:center'><span class='lg'>DP</span><div><div class='crumbs'>Labs</div><h1 class='title display' style='font-size:32px;margin:0'>Demo Pharma</h1>
+  <div style='display:flex;gap:6px;margin-top:6px'><span class='chip ok'>Active</span><span class='chip ok'>Paid</span><span style='font-size:12px;color:var(--muted)'>demo.localhost · Starter</span></div></div></div>`
+const tabs = `<div class='tabs2'><span>Overview</span><span>Subscription</span><span>Features</span><span class='on'>Texts</span><span>Activity</span></div>`
+const frame = (n, label, body, panel = '', menu = 'Labs', top = true) => `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:700px'>${rail(menu)}
+<div class='main'><div class='topbar'><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>KT</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'><div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>${top ? head + tabs : ''}${body}</div>${panel}</div></div></div>`
+const panel = (title, body) => `<aside class='panel'><div class='ph'><h2 class='display'>${title}</h2><span class='icb'>✕</span></div><div class='pb'>${body}</div></aside>`
+const toggle = (label, on) => `<span class='toggle ${on ? 'on' : ''}'><i></i>${label}</span>`
+
+const langs = (canEdit = true) => `<div class='langs'><strong>Languages of this lab:</strong> <span class='chip'>Français · default</span><span class='chip'>English</span><span class='chip'>العربية</span>${canEdit ? `<span class='edit'>＋ Add a language</span>` : ''}</div>`
+const bar = (lang = 'All languages', only = false) => `<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px'><div class='input muted' style='width:240px'>⌕ Search a key or a text</div>
+  <span class='input'>Language <b>${lang}</b> ▾</span>${toggle('Changed for this lab', only)}<span style='flex:1'></span><span style='font-size:12.5px;color:var(--muted)'>2 texts changed for this lab</span></div>`
+
+// rows: key, lab text, master text, changed
+const R = [
+  ['visits.title', 'Passages', 'Visites', true],
+  ['visits.new', 'Nouveau passage', 'Nouvelle visite', true],
+  ['auth.signIn', 'Se connecter', 'Se connecter', false],
+  ['auth.forgotPassword', 'Mot de passe oublié ?', 'Mot de passe oublié ?', false],
+  ['common.actions.save', 'Enregistrer', 'Enregistrer', false],
+]
+const readTable = (canEdit = true, rows = R) => `<div class='card' style='padding:16px 18px'>${langs(canEdit)}<div style='height:12px'></div>${bar()}
+  <table class='tt'><thead><tr><th style='width:210px'>Key ↕</th><th>Français in Demo Pharma ↕</th><th>English in Demo Pharma ↕</th><th>Master text (Français) ↕</th><th style='width:110px'></th></tr></thead><tbody>
+  ${rows.map(([k, v, m, c]) => `<tr><td class='key'>${k}</td><td class='${c ? 'chg' : ''}'>${v}${c ? ` <span class='chip warn'>Changed for this lab</span>` : ''}</td><td>${{ 'visits.title': 'Visits', 'visits.new': 'New visit', 'auth.signIn': 'Sign in', 'auth.forgotPassword': 'Forgot your password?', 'common.actions.save': 'Save' }[k]}</td><td class='master'>${m}</td>
+    <td>${c && canEdit ? `<span class='edit'>Put back</span>` : ''}</td></tr>`).join('')}
+  </tbody></table><div style='font-size:12.5px;color:var(--muted);padding-top:10px'>Choose a language to edit its texts. A text changed for this lab keeps its words when the master text changes.</div></div>`
+
+const editTable = ({ bad = false } = {}) => `<div class='card' style='padding:16px 18px'>${langs()}<div style='height:12px'></div>${bar('Français')}
+  <table class='tt'><thead><tr><th style='width:210px'>Key ↕</th><th>Français in Demo Pharma</th><th>Master text ↕</th><th style='width:110px'></th></tr></thead><tbody>
+  <tr><td class='key'>visits.title</td><td class='chg'><div class='cell'>Passages</div></td><td class='master'>Visites</td><td><span class='edit'>Put back</span></td></tr>
+  <tr><td class='key'>visits.new</td><td class='chg'><div class='cell'>Nouveau passage</div></td><td class='master'>Nouvelle visite</td><td><span class='edit'>Put back</span></td></tr>
+  <tr><td class='key'>visits.count</td><td><div class='cell changed ${bad ? 'bad' : ''}'>${bad ? '{n} passages' : '{count} passages'}</div>${bad ? `<div class='err'>The text must contain {count}.</div>` : ''}</td><td class='master'>{count} visites</td><td></td></tr>
+  <tr><td class='key'>auth.signIn</td><td><div class='cell'>Se connecter</div></td><td class='master'>Se connecter</td><td></td></tr>
+  <tr><td class='key'>common.actions.save</td><td><div class='cell'>Enregistrer</div></td><td class='master'>Enregistrer</td><td></td></tr>
+  </tbody></table></div>
+  <div class='savebar'><div class='grow'><b>1 change</b><small>${bad ? '1 text to fix before saving.' : 'Saved texts are marked "Changed for this lab": master fixes will not replace them.'}</small></div><span class='btn outline sm' style='background:transparent;color:var(--mist);border-color:#33504A'>Cancel</span><span class='btn primary sm' style='${bad ? 'opacity:.5' : ''}'>Save texts</span></div>`
+
+const putBack = `<div class='card' style='padding:16px 18px'>${langs()}<div style='height:12px'></div>${bar('Français', true)}
+  <table class='tt'><thead><tr><th style='width:210px'>Key ↕</th><th>Français in Demo Pharma</th><th>Master text ↕</th><th style='width:230px'></th></tr></thead><tbody>
+  <tr><td class='key'>visits.title</td><td class='chg'>Passages <span class='chip warn'>Changed for this lab</span></td><td class='master'>Visites</td>
+    <td><div style='font-size:12.5px;margin-bottom:6px'>Take "Visites" again, and receive later master fixes?</div><span class='btn dark sm'>Put back</span> <span class='btn ghost sm'>Cancel</span></td></tr>
+  <tr><td class='key'>visits.new</td><td class='chg'>Nouveau passage <span class='chip warn'>Changed for this lab</span></td><td class='master'>Nouvelle visite</td><td><span class='edit'>Put back</span></td></tr>
+  </tbody></table></div>`
+
+const addLang = panel('Add a language', `
+  <div style='font-size:13px;color:var(--body)'>Active languages of the master that this lab does not have yet. The language and all its master texts are copied into the lab.</div>
+  <div class='pick on'><span class='chip'>ES</span><div style='flex:1'><strong>Español</strong><div style='font-size:12.5px;color:var(--muted)'>412 of 640 texts written</div></div></div>
+  <div class='pick'><span class='chip'>TR</span><div style='flex:1'><strong>Türkçe</strong><div style='font-size:12.5px;color:var(--muted)'>640 of 640 texts written</div></div></div>
+  <div class='okbox'>Missing texts show the lab's default language, then French, never a raw key.</div>
+  <div style='display:flex;gap:8px;margin-top:auto'><span class='btn primary sm'>Add Español to Demo Pharma</span><span class='btn outline sm'>Cancel</span></div>`)
+
+const masterSave = `<div><div class='crumbs'>Translations</div><h1 class='title display' style='font-size:36px;margin:0'>Texts</h1></div>
+  <div class='card' style='padding:16px 18px'><table class='tt'><thead><tr><th style='width:210px'>Key</th><th>Français (master)</th></tr></thead><tbody>
+  <tr><td class='key'>visits.title</td><td><div class='cell changed'>Visites terrain</div></td></tr><tr><td class='key'>auth.signIn</td><td><div class='cell'>Se connecter</div></td></tr></tbody></table></div>
+  <div class='okbox'><b>Saved.</b> The labs are being updated in the background: texts changed for a lab are kept.</div>
+  <div class='card' style='padding:8px 10px'><div class='ev'><span class='av'>SYS</span><div><p><b>System</b> updated the texts of 5 labs</p><div style='display:flex;gap:6px;margin-top:6px;flex-wrap:wrap'><span class='chip'>1 text, 4 labs updated</span><span class='chip'>Kept in 1 lab: changed for Demo Pharma</span></div></div><time>Today, 11:42</time></div></div>`
+
+const rules = `<div class='open'>To confirm: the translator role has translations.update but not labs.show, so it cannot open a lab page. Suggestion: keep it so for now (owner and support edit lab texts), or give translator labs.show on the Roles screen.</div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The Texts tab.</strong> The lab's copy in every language it has, read only, with the master text next to it. Texts changed for this lab are marked and have "Put back".`, readTable() + rules),
+  frame(2, `<strong>Choose a language to edit.</strong> Boxes appear for that language, as on Central › Translations. One save for all changed boxes; saved texts become "Changed for this lab".`, editTable()),
+  frame(3, `<strong>Same rules as the master.</strong> A text that loses a slot like {count} is refused.`, editTable({ bad: true })),
+  frame(4, `<strong>Put back.</strong> The lab takes today's master text again and receives later master fixes. Asked once, in the row.`, putBack),
+  frame(5, `<strong>Add a language.</strong> Only on request: a language activated in central after the lab was created reaches it from here.`, readTable(), addLang),
+  frame(6, `<strong>Meanwhile, on Central › Translations.</strong> A master save starts a job that updates every lab, except texts changed for that lab. One log line says what happened.`, masterSave, '', 'Translations', false),
+  frame(7, `<strong>Read only.</strong> Someone with labs.show but not translations.update (billing): no boxes, no Put back, no Add a language.`, readTable(false)),
+].join('')
+</script>
+</body></html>

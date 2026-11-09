@@ -1,0 +1,203 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Central plans</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 420px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 690px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .ph .sub { display: flex; gap: 6px; margin-top: 6px; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-inline-start: auto; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 4px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.tl { display: flex; gap: 10px; padding: 7px 12px; font-size: 13px; border-top: 1px solid var(--line-soft); } .tl span:first-child { flex: 1; font-weight: 600; } .tl em { font-style: normal; color: var(--muted); font-size: 12px; text-align: end; }
+.btnrow { display: flex; gap: 8px; margin-top: auto; padding-top: 8px; }
+.warn { background: rgba(180,83,9,.08); color: var(--amber); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+.savebar { display: flex; align-items: center; gap: 12px; background: var(--ink); color: var(--mist); border-radius: 18px; padding: 10px 12px 10px 18px; font-size: 14px; }
+.savebar .grow { flex: 1; } .savebar small { color: var(--on-ink-muted); font-size: 12.5px; display: block; }
+/* comparison table */
+.cmp { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; }
+.cmp th, .cmp td { padding: 12px 14px; border-bottom: 1px solid var(--line-soft); text-align: start; vertical-align: middle; }
+.cmp thead th { vertical-align: top; border-bottom: 1px solid var(--line); }
+.cmp td.v, .cmp th.p { width: 170px; }
+.cmp th.p.sel, .cmp td.sel { background: var(--signal-soft); }
+.cmp th.p.off, .cmp td.off { color: var(--muted); }
+.cmp .pn { font-family: 'Bricolage Grotesque', sans-serif; font-size: 19px; font-weight: 800; color: var(--ink); display: flex; align-items: center; gap: 6px; }
+.cmp .off .pn { color: var(--muted); }
+.cmp .price { font-size: 13px; font-weight: 600; color: var(--body); margin-top: 4px; font-variant-numeric: tabular-nums; }
+.cmp .meta { font-size: 11.5px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+.cmp .group td { padding: 14px 14px 6px; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border-bottom: 0; }
+.cmp .fname { font-weight: 600; color: var(--ink); } .cmp .fdesc { font-size: 12px; color: var(--muted); margin-top: 2px; max-width: 330px; }
+.cmp .num { font-variant-numeric: tabular-nums; font-weight: 600; }
+.cmp .unl { color: var(--body); font-weight: 600; } .cmp .none { color: var(--muted); }
+.cmp .dflt { color: var(--muted); font-style: italic; font-size: 13px; }
+.cmp .cellin { height: 36px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); padding: 0 10px; display: flex; align-items: center; font-size: 14px; font-variant-numeric: tabular-nums; }
+.cmp .cellin.ph-unl { color: var(--muted); }
+.cmp .cellin.changed { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.cmp .cellin.bad { box-shadow: inset 0 0 0 1.5px var(--brick); }
+.cmp .err { color: var(--brick); font-size: 11.5px; margin-top: 4px; }
+.sw { width: 38px; height: 22px; border-radius: 99px; background: var(--line); position: relative; display: inline-block; vertical-align: middle; }
+.sw::after { content: ''; position: absolute; top: 3px; inset-inline-start: 3px; width: 16px; height: 16px; border-radius: 99px; background: #fff; }
+.sw.on { background: var(--ink); } .sw.on::after { inset-inline-start: 19px; background: var(--signal); }
+.sw.changed { box-shadow: 0 0 0 2px var(--signal-soft), 0 0 0 3.5px var(--ink); }
+.yes { font-weight: 600; color: var(--ink); } .no { color: var(--muted); }
+.tbar { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+.tbar .grow { flex: 1; }
+.togglef { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--body); }
+</style></head><body>
+<p class="caption"><strong>Central › Plans.</strong> One table compares every plan: a row per feature, a column per plan. Features come from the code, so they cannot be added here; plans are data and are edited on this page. Feature names are the real texts. Plans, prices, lab counts and dates are invented. A lab's own plan and its overrides come with the Labs module.</p>
+<div id="frames"></div>
+<script>
+const logo = `<svg width='34' height='34' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const MENU = ['People', 'Roles', 'Activity', 'Translations', 'Geography', 'Plans']
+const rail = `<nav class='rail'><div class='brand'>${logo}<span class='display'>Delorc</span></div><div style='display:flex;flex-direction:column;gap:6px'>${MENU.map(m => `<a class='${m === 'Plans' ? 'on' : ''}'>${m}</a>`).join('')}</div></nav>`
+
+function frame(n, label, { add = '', body, panel = '' }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:760px'>${rail}
+<div class='main'>
+  <div class='topbar'><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>MC</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end;gap:12px'>
+        <div><div class='crumbs'>Plans</div><h1 class='title display' style='font-size:36px'>Plans and features</h1></div>
+        <div style='display:flex;gap:8px'>${add}</div>
+      </div>
+      ${body}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+const close = `<span class='icb'>✕</span>`
+const primary = text => `<span class='btn primary'>＋ ${text}</span>`
+const editBtn = `<span class='btn outline'>Edit values</span>`
+const status = on => `<span class='chip ${on ? 'ok' : ''}'>${on ? 'Active' : 'Inactive'}</span>`
+const sw = (on, extra = '') => `<span class='sw ${on ? 'on' : ''} ${extra}'></span>`
+
+// Plans: key, name, price, labs, added, active, values
+// Values: number, null (unlimited), or true/false; undefined = no value saved yet (catalog default)
+const PLANS = {
+  starter: { name: 'Starter', price: '20,000 DZD', labs: 3, added: '7 Nov 2026', active: true,
+    v: { users: 10, sms: 0, email: 1000, storage: 5, smsch: false, support: false } },
+  pro: { name: 'Pro', price: '45,000 DZD', labs: 5, added: '7 Nov 2026', active: true,
+    v: { users: 50, sms: 2000, email: 10000, storage: 20, smsch: true, support: true } },
+  ent: { name: 'Enterprise', price: '1,200 EUR', labs: 1, added: '7 Nov 2026', active: true,
+    v: { users: null, sms: 10000, email: null, storage: 100, smsch: true, support: true } },
+  pilot: { name: 'Pilot 2026', price: '0 DZD', labs: 0, added: '4 Nov 2026', active: false,
+    v: { users: 5, sms: 0, email: 500, storage: 2, smsch: false, support: true } },
+}
+
+// The catalog, from the code. Real texts.
+const LIMITS = [
+  ['users', 'Users', 'Active users the lab can have at the same time.', 'users'],
+  ['sms', 'SMS per month', 'SMS the lab can send each month. Counted from the 1st.', 'SMS'],
+  ['email', 'Emails per month', 'Emails the lab can send each month. Counted from the 1st.', 'emails'],
+  ['storage', 'Storage', 'Files the lab can keep: photos, documents, imports.', 'GB'],
+]
+const SWITCHES = [
+  ['smsch', 'SMS channel', 'Sign-in codes and notifications can be sent by SMS.'],
+  ['support', 'Support access', 'Delorc support can open the lab as one of its users, for a limited time, with a reason.'],
+]
+const NEW_SWITCH = ['expenses', 'Expenses', 'Reps record their expenses and managers approve them.']
+
+function showLimit(val, unit) {
+  if (val === undefined) return `<span class='dflt'>Default: 0</span>`
+  if (val === null) return `<span class='unl'>Unlimited</span>`
+  if (val === 0) return `<span class='none'>None</span>`
+  return `<span class='num'>${val.toLocaleString('en')}</span> <span class='hint'>${unit}</span>`
+}
+const showSwitch = val => val === undefined ? `<span class='dflt'>Default: off</span>` : val ? `<span class='yes'>✓ Included</span>` : `<span class='no'>—</span>`
+
+function editLimit(val, cell) {
+  if (cell && cell.bad) return `<div class='cellin bad'>${cell.text}</div><div class='err'>${cell.bad}</div>`
+  if (cell) return cell.text === '' ? `<div class='cellin ph-unl changed'>Unlimited</div>` : `<div class='cellin changed'>${cell.text}</div>`
+  return val === null ? `<div class='cellin ph-unl'>Unlimited</div>` : `<div class='cellin'>${val === undefined ? '' : val}</div>`
+}
+const editSwitch = (val, cell) => cell ? sw(cell.on, 'changed') : sw(val)
+
+/**
+ * keys: which plans to show. sel: highlighted plan. edit: plans in edit mode with changed cells.
+ * extra: an extra switch row (new feature from code).
+ */
+function cmp({ keys = ['starter', 'pro', 'ent'], sel = '', edit = null, extra = null, readOnly = false }) {
+  const cls = k => `${k === sel ? 'sel' : ''} ${PLANS[k].active ? '' : 'off'}`
+  const head = keys.map(k => { const p = PLANS[k]; return `<th class='p ${cls(k)}'>
+      <div class='pn'>${p.name} ${p.active ? '' : `<span class='chip'>Inactive</span>`}</div>
+      <div class='price'>${p.price} <span class='meta'>/ month</span></div>
+      <div class='meta'>${p.labs} ${p.labs === 1 ? 'lab' : 'labs'} · Added ${p.added}</div>
+      ${readOnly ? '' : `<div class='meta' style='margin-top:6px;color:var(--ink);font-weight:600'>Details ›</div>`}</th>` }).join('')
+  const cell = (k, f, type, unit) => {
+    const val = PLANS[k].v[f]
+    const changed = edit && edit[k] && edit[k][f]
+    const inner = edit ? (type === 'limit' ? editLimit(val, changed) : editSwitch(val, changed)) : (type === 'limit' ? showLimit(val, unit) : showSwitch(val))
+    return `<td class='v ${cls(k)}'>${inner}</td>`
+  }
+  const row = ([f, name, desc, unit], type, isNew) => `<tr><td><div class='fname'>${name} ${isNew ? `<span class='chip info'>New</span>` : ''}</div><div class='fdesc'>${desc}</div></td>${keys.map(k => cell(k, f, type, unit)).join('')}</tr>`
+  const group = t => `<tr class='group'><td colspan='${keys.length + 1}'>${t}</td></tr>`
+  return `<table class='cmp'><thead><tr><th style='width:auto'><div class='label' style='font-weight:600'>Feature</div></th>${head}</tr></thead><tbody>
+    ${group('Limits')}${LIMITS.map(r => row(r, 'limit')).join('')}
+    ${group('Included')}${SWITCHES.map(r => row(r, 'switch')).join('')}${extra ? row(extra, 'switch', true) : ''}
+  </tbody></table>`
+}
+
+const sortSel = `<span class='input'>Order <b>Price</b> ▾</span>`
+const inactiveToggle = on => `<span class='togglef'>${sw(on)} Show inactive plans</span>`
+const tbar = (on = false) => `<div class='tbar'>${sortSel}${inactiveToggle(on)}<span class='grow'></span><span class='hint'>Leave a limit empty for unlimited. 0 means none.</span></div>`
+const card = (inner, on) => `<div class='card' style='padding:16px 18px'>${tbar(on)}${inner}</div>`
+
+// Panels
+const panel = (head, body) => `<aside class='panel'>${head}<div class='pb'>${body}</div></aside>`
+const ph = (title, chips = []) => `<div class='ph'><div style='min-width:0'><h2 class='display'>${title}</h2>${chips.length ? `<div class='sub'>${chips.join('')}</div>` : ''}</div>${close}</div>`
+const details = rows => `<section class='sec'><header><strong>Details</strong><span class='edit'>Edit</span></header>${rows.map(([a, b]) => `<div class='tl'><span>${a}</span><em>${b}</em></div>`).join('')}</section>`
+const field = (label, value, hint = '') => `<div class='field'><span>${label}</span><div class='input'>${value}</div>${hint ? `<span class='hint'>${hint}</span>` : ''}</div>`
+const saveRow = text => `<div class='btnrow'><span class='btn primary sm'>${text}</span><span class='btn outline sm'>Cancel</span></div>`
+
+const proPanel = panel(ph('Pro', [status(true)]), `
+  ${details([['Name', 'Pro'], ['Description', 'For labs with a full field team.'], ['Price per month', '45,000 DZD'], ['Added on', '7 Nov 2026']])}
+  <section class='sec'><header><strong>Labs on this plan</strong><span class='edit'>See them</span></header><div class='line'>5 labs. A change to a value applies to all of them at once.</div></section>
+  <section class='sec'><header><strong>Active</strong><span class='edit'>Deactivate</span></header><div class='line hint'>An inactive plan cannot be chosen for a new lab. Labs already on it keep it.</div></section>
+  <section class='sec'><header><strong>Delete</strong><span class='edit' style='opacity:.45'>Delete</span></header><div class='line hint'>5 labs use this plan, so it can only be deactivated.</div></section>`)
+
+const proEdit = panel(ph('Pro', [status(true)]), `
+  ${field('Name', 'Pro', 'Shown only in the central console.')}
+  ${field('Description', 'For labs with a full field team.')}
+  <div style='display:grid;grid-template-columns:1fr 120px;gap:10px'>${field('Price per month', '45,000')}${field('Currency', 'DZD ▾')}</div>
+  <span class='hint'>For information only. Invoices are made outside Delorc.</span>
+  ${saveRow('Save')}`)
+
+const newPlan = panel(ph('New plan'), `
+  ${field('Name', 'Growth', 'Must be different from the other plans.')}
+  ${field('Description', 'For labs growing past 10 reps.')}
+  <div style='display:grid;grid-template-columns:1fr 120px;gap:10px'>${field('Price per month', '30,000')}${field('Currency', 'DZD ▾')}</div>
+  ${field('Start from', 'Starter ▾', 'Its values are copied, then you edit them in the table. Choose “Feature defaults” to start empty.')}
+  <div class='warn'>The plan starts active, so it can be chosen for a new lab at once.</div>
+  ${saveRow('Create the plan')}`)
+
+const pilotPanel = panel(ph('Pilot 2026', [status(false)]), `
+  ${details([['Name', 'Pilot 2026'], ['Description', 'Free plan for the first test labs.'], ['Price per month', '0 DZD'], ['Added on', '4 Nov 2026']])}
+  <section class='sec'><header><strong>Labs on this plan</strong></header><div class='line'>No lab.</div></section>
+  <section class='sec'><header><strong>Active</strong><span class='edit'>Activate</span></header><div class='line hint'>Inactive: not offered when a lab is created.</div></section>
+  <section class='sec'><header><strong>Delete</strong><span class='edit' style='color:var(--brick)'>Delete</span></header><div class='line hint'>No lab uses this plan, so it can be deleted. This cannot be undone.</div></section>`)
+
+const editing = { pro: { users: { text: '60' }, sms: { text: '2,500' }, support: { on: false } }, ent: { storage: { text: '-5', bad: 'A whole number, 0 or more.' } } }
+const savebar = `<div class='savebar'><div class='grow'><b>4 changes</b><small>Pro: 3 changes, applied at once to its 5 labs. Enterprise: 1 change to fix.</small></div><span class='btn outline sm' style='background:transparent;color:var(--mist);border-color:#33504A'>Cancel</span><span class='btn primary sm' style='opacity:.5'>Save</span></div>`
+
+const empty = `<div class='card' style='padding:16px 18px'><div style='padding:56px 20px;text-align:center;color:var(--muted);font-size:14px'><strong style='display:block;color:var(--ink);font-size:16px;margin-bottom:4px'>No plan yet</strong>A lab needs a plan when it is created. Create the first one; the 6 features are ready.</div></div>`
+
+const btns = editBtn + primary('New plan')
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>The page opens.</strong> Active plans, cheapest first. Limits on top, included features below. Each column shows the price, the number of labs and the date added.`, { add: btns, body: card(cmp({})) }),
+  frame(2, `<strong>Edit values.</strong> Every cell becomes a box or a switch. Changed cells are outlined, a wrong one is red. One save for the whole table; nothing is saved while a cell is wrong.`, { add: '', body: card(cmp({ edit: editing })) + savebar }),
+  frame(3, `<strong>Click a plan.</strong> Its details, its labs, deactivate and delete. Pro has labs, so delete is off.`, { add: btns, body: card(cmp({ sel: 'pro' })), panel: proPanel }),
+  frame(4, `<strong>Edit a plan's details.</strong> Name, description, price and its currency.`, { add: btns, body: card(cmp({ sel: 'pro' })), panel: proEdit }),
+  frame(5, `<strong>New plan.</strong> It copies the values of a plan you choose, or starts from the feature defaults.`, { add: btns, body: card(cmp({})), panel: newPlan }),
+  frame(6, `<strong>Show inactive plans.</strong> They stay greyed. Pilot 2026 has no lab, so it can be deleted.`, { add: btns, body: card(cmp({ keys: ['pilot', 'starter', 'pro', 'ent'], sel: 'pilot' }), true), panel: pilotPanel }),
+  frame(7, `<strong>A new feature arrives with the code.</strong> Later, the Expenses module ships its switch. Plans have no value for it yet, so they show the feature's default until someone edits them.`, { add: btns, body: card(cmp({ extra: NEW_SWITCH })) }),
+  frame(8, `<strong>Read only.</strong> Support sees the plans but cannot change them: no buttons, no panel actions.`, { add: '', body: card(cmp({ readOnly: true })) }),
+  frame(9, `<strong>No plan yet.</strong> First install.`, { add: primary('New plan'), body: empty }),
+].join('')
+</script>
+</body></html>
