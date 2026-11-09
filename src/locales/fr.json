@@ -52,6 +52,12 @@
       "body": "Planifiez le cycle, visitez les professionnels de santé, prenez les commandes et suivez votre équipe, au même endroit, en arabe, français et anglais.",
       "tagline": "La plateforme terrain des laboratoires pharmaceutiques."
     },
+    "confirmEmail": {
+      "noLink": "Ce lien est incomplet. Ouvrez-le de nouveau depuis l’e-mail.",
+      "text": "Nous vérifions le lien que vous avez ouvert.",
+      "title": "Confirmez votre nouvel e-mail",
+      "toProfile": "Retour à mon profil"
+    },
     "forgot": {
       "back": "Retour à la connexion",
       "sentText": "Si un compte existe pour cette adresse, un lien vient de lui être envoyé. Il est valable 48 heures.",
@@ -921,6 +927,58 @@
       },
       "title": "Offres et fonctionnalités",
       "unlimited": "Illimité"
+    },
+    "profile": {
+      "appKey": "Impossible de scanner ? Saisissez cette clé :",
+      "appOn": "L’application d’authentification est activée. À votre prochaine connexion, vous saisirez le code qu’elle affiche.",
+      "appStep1": "1. Scannez ce code avec Google Authenticator, Microsoft Authenticator ou Authy.",
+      "appStep2": "2. Saisissez le code à 6 chiffres affiché par l’application.",
+      "askAdmin": "Demandez à une personne qui gère les utilisateurs de la console de le modifier.",
+      "cannotTurnOff": "Vous ne pouvez pas la désactiver tant qu’elle est obligatoire. Vous pouvez passer à l’autre méthode.",
+      "changePassword": "Changer le mot de passe",
+      "codesHelp": "Gardez ces 8 codes en lieu sûr. Chacun ne sert qu’une fois si vous perdez votre téléphone. Ils ne sont affichés que maintenant.",
+      "codesLeft": "Il en reste {count} sur 8. Chacun ne sert qu’une fois, si vous perdez votre téléphone.",
+      "confirm": "Confirmer",
+      "confirmText": {
+        "codes": "Vos codes de secours actuels ne fonctionneront plus. Saisissez votre mot de passe pour continuer.",
+        "email": "Un code à 6 chiffres sera envoyé à votre e-mail à chaque connexion. Saisissez votre mot de passe pour continuer.",
+        "off": "Plus rien ne sera demandé après votre mot de passe. Saisissez votre mot de passe pour continuer."
+      },
+      "confirmTitle": {
+        "codes": "Obtenir de nouveaux codes",
+        "email": "Utiliser un code par e-mail",
+        "off": "Désactiver la double authentification"
+      },
+      "currentPassword": "Mot de passe actuel",
+      "download": "Télécharger",
+      "emailHint": "Un lien est envoyé à la nouvelle adresse. Tant qu’il n’est pas ouvert, vous vous connectez avec l’adresse actuelle.",
+      "emailOn": "À votre prochaine connexion, un code sera envoyé à votre e-mail.",
+      "factorOff": "La double authentification est désactivée.",
+      "identity": "Identité",
+      "linkSent": "Un lien de confirmation a été envoyé à {email}. Il est valable 48 heures.",
+      "method": {
+        "app": "Application d’authentification",
+        "email": "Code par e-mail",
+        "none": "Désactivée",
+        "sms": "Code par SMS"
+      },
+      "methodLabel": "Méthode",
+      "newCodes": "Obtenir de nouveaux codes",
+      "optional": "Facultative pour les utilisateurs de la console.",
+      "othersSignedOut": "Vos autres appareils seront déconnectés ; celui-ci reste connecté.",
+      "password": "Mot de passe",
+      "passwordChanged": "Votre mot de passe est modifié. Vos autres appareils sont déconnectés.",
+      "recoveryCodes": "Codes de secours",
+      "required": "Obligatoire pour tous les utilisateurs de la console.",
+      "resend": "Renvoyer le lien",
+      "roleHint": "Modifié par une personne qui gère les utilisateurs de la console.",
+      "saved": "Je les ai enregistrés",
+      "security": "Sécurité",
+      "turnOff": "Désactiver",
+      "useApp": "Utiliser une application d’authentification",
+      "useEmail": "Utiliser un code par e-mail",
+      "waiting": "En attente de confirmation : {email}",
+      "yourCodes": "Vos codes de secours"
     },
     "roles": {
       "access": "Accès",

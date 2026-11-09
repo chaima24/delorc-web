@@ -52,6 +52,12 @@
       "body": "Plan the cycle, visit healthcare professionals, take orders and follow your team, all in one place, in Arabic, French and English.",
       "tagline": "The field platform for pharmaceutical laboratories."
     },
+    "confirmEmail": {
+      "noLink": "This link is incomplete. Open it again from the email.",
+      "text": "We are checking the link you opened.",
+      "title": "Confirm your new email",
+      "toProfile": "Back to my profile"
+    },
     "forgot": {
       "back": "Back to sign in",
       "sentText": "If an account exists for this address, a link has just been sent to it. It is valid for 48 hours.",
@@ -921,6 +927,58 @@
       },
       "title": "Plans and features",
       "unlimited": "Unlimited"
+    },
+    "profile": {
+      "appKey": "Cannot scan? Type this key:",
+      "appOn": "The authenticator app is on. From your next sign-in, you type the code it shows.",
+      "appStep1": "1. Scan this code with Google Authenticator, Microsoft Authenticator or Authy.",
+      "appStep2": "2. Type the 6-digit code the app shows.",
+      "askAdmin": "Ask a person who manages central users to change it.",
+      "cannotTurnOff": "You cannot turn it off while it is required. You can switch to the other method.",
+      "changePassword": "Change password",
+      "codesHelp": "Keep these 8 codes somewhere safe. Each one works once if you lose your phone. They are shown only now.",
+      "codesLeft": "{count} of 8 left. Each one works once, if you lose your phone.",
+      "confirm": "Confirm",
+      "confirmText": {
+        "codes": "Your current recovery codes stop working. Type your password to continue.",
+        "email": "A 6-digit code will be sent to your email at each sign-in. Type your password to continue.",
+        "off": "Nothing will be asked after your password any more. Type your password to continue."
+      },
+      "confirmTitle": {
+        "codes": "Get new codes",
+        "email": "Use a code by email",
+        "off": "Turn off the second factor"
+      },
+      "currentPassword": "Current password",
+      "download": "Download",
+      "emailHint": "A link is sent to the new address. Until it is opened, you keep signing in with the current one.",
+      "emailOn": "From your next sign-in, a code is sent to your email.",
+      "factorOff": "The second factor is off.",
+      "identity": "Identity",
+      "linkSent": "A confirmation link was sent to {email}. It is valid for 48 hours.",
+      "method": {
+        "app": "Authenticator app",
+        "email": "Code by email",
+        "none": "Off",
+        "sms": "Code by SMS"
+      },
+      "methodLabel": "Method",
+      "newCodes": "Get new codes",
+      "optional": "Optional for central users.",
+      "othersSignedOut": "Your other devices will be signed out; this one stays signed in.",
+      "password": "Password",
+      "passwordChanged": "Your password is changed. Your other devices are signed out.",
+      "recoveryCodes": "Recovery codes",
+      "required": "Required for every central user.",
+      "resend": "Send the link again",
+      "roleHint": "Changed by a person who manages central users.",
+      "saved": "I saved them",
+      "security": "Security",
+      "turnOff": "Turn off",
+      "useApp": "Use an authenticator app",
+      "useEmail": "Use a code by email",
+      "waiting": "Waiting for confirmation: {email}",
+      "yourCodes": "Your recovery codes"
     },
     "roles": {
       "access": "Access",

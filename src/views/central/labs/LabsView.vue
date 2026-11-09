@@ -14,6 +14,7 @@ import DlSortHeader from '@/components/DlSortHeader.vue'
 import DlSwitch from '@/components/DlSwitch.vue'
 import { sortRows } from '@/composables/sortRows'
 import { useAuthStore } from '@/stores/auth'
+import AttentionRow from './AttentionRow.vue'
 import LabLogo from './LabLogo.vue'
 import { dayFromToday, useLabTexts } from './useLabTexts'
 
@@ -89,6 +90,7 @@ const open = (lab: LabRow) => router.push({ name: 'central-lab', params: { id: l
       <h1 class="font-display text-4xl font-extrabold tracking-[-0.03em]">{{ t('central.labs.title') }}</h1>
       <DlButton v-if="auth.can('labs.create')" variant="primary" icon="tabler-plus" :to="{ name: 'central-lab-new' }">{{ t('central.labs.add') }}</DlButton>
     </div>
+    <AttentionRow />
     <DlAlert v-if="error">{{ error }}</DlAlert>
 
     <div class="overflow-x-auto rounded-3xl bg-dl-paper p-4">

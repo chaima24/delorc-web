@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'reka-ui'
 import DlIcon from '@/components/DlIcon.vue'
 import type { AttentionItem } from '@/api/central/attention'
-import { useAttentionStore } from '@/stores/attention'
+import { ATTENTION_ICONS, ATTENTION_LINKS, isUrgent, useAttentionStore } from '@/stores/attention'
 import { useLabTexts } from '@/views/central/labs/useLabTexts'
 
 /** The bell: what needs attention now. The red count is the number of items; each item opens its list already filtered. */
@@ -12,14 +12,6 @@ const { t } = useI18n()
 const { day } = useLabTexts()
 const attention = useAttentionStore()
 const open = ref(false)
-
-const LINKS = {
-  labs_in_grace: { name: 'central-labs', query: { period: 'grace' } },
-  trials_ending: { name: 'central-labs', query: { period: 'trial', ending: '1' } },
-  near_limit: { name: 'central-usage', query: { near: '1' } },
-} as const
-
-const ICONS = { labs_in_grace: 'tabler-hourglass', trials_ending: 'tabler-clock', near_limit: 'tabler-alert-triangle' } as const
 
 function detail(item: AttentionItem): string {
   if (item.key === 'labs_in_grace') {
@@ -62,15 +54,15 @@ function detail(item: AttentionItem): string {
         <RouterLink
           v-for="item in attention.items"
           :key="item.key"
-          :to="LINKS[item.key]"
+          :to="ATTENTION_LINKS[item.key]"
           class="flex items-start gap-3 border-t border-dl-line-soft px-4 py-3 no-underline hover:bg-dl-line-soft"
           @click="open = false"
         >
           <span
             class="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[10px]"
-            :class="item.key === 'trials_ending' ? 'bg-dl-mist text-dl-fg' : 'bg-dl-pending/12 text-dl-pending'"
+            :class="isUrgent(item.key) ? 'bg-dl-pending/12 text-dl-pending' : 'bg-dl-mist text-dl-fg'"
           >
-            <DlIcon :icon="ICONS[item.key]" :size="18" />
+            <DlIcon :icon="ATTENTION_ICONS[item.key]" :size="18" />
           </span>
           <span class="min-w-0 flex-1">
             <span class="block text-sm text-dl-fg">{{ t(`central.attention.${item.key}`, { count: item.count }, item.count) }}</span>

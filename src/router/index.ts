@@ -39,6 +39,8 @@ const router = createRouter({
         { path: 'login', name: 'login', component: () => import('@/views/auth/LoginView.vue') },
         { path: 'forgot-password', name: 'forgot-password', component: () => import('@/views/auth/ForgotPasswordView.vue') },
         { path: 'set-password', name: 'set-password', component: () => import('@/views/auth/SetPasswordView.vue') },
+        // Central only for now: lab users get My profile with the lab modules.
+        ...(space.isCentral ? [{ path: 'email/confirm', name: 'confirm-email', component: () => import('@/views/auth/ConfirmEmailView.vue') }] : []),
         { path: 'lab-unavailable', name: 'lab-unavailable', component: () => import('@/views/auth/LabUnavailableView.vue') },
       ],
     },
