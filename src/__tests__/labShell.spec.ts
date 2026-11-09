@@ -39,3 +39,15 @@ describe('lab top bar', () => {
     expect(mountTopBar().find('img').attributes('src')).toBe('https://files.test/demo.png')
   })
 })
+
+describe('search shortcut', () => {
+  it("jumps into the field with its key, but not while typing elsewhere", async () => {
+    const { default: DlInput } = await import('@/components/DlInput.vue')
+    const wrapper = mount(DlInput, { props: { label: 'Chercher', shortcut: '/' }, attachTo: document.body })
+
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: '/' }))
+    expect(document.activeElement).toBe(wrapper.find('input').element)
+    expect(wrapper.find('kbd').text()).toBe('/')
+    wrapper.unmount()
+  })
+})

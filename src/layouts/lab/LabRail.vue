@@ -9,7 +9,7 @@ import { useRail } from './useRail'
 
 const { t } = useI18n()
 const { visibleWorkspaces, activeWorkspace, workspaceHome } = useWorkspaces()
-const { expanded, toggle } = useRail()
+const { expanded } = useRail()
 
 const mainWorkspaces = computed(() => visibleWorkspaces.value.filter(ws => ws.id !== 'studio'))
 const studio = computed(() => visibleWorkspaces.value.find(ws => ws.id === 'studio'))
@@ -66,23 +66,6 @@ const labelClass = computed(() =>
         <span :class="labelClass">{{ t(studio.title) }}</span>
       </RouterLink>
 
-      <button
-        type="button"
-        :aria-expanded="expanded"
-        :aria-label="expanded ? t('layout.rail.collapse') : t('layout.rail.expand')"
-        :title="expanded ? t('layout.rail.collapse') : t('layout.rail.expand')"
-        class="flex h-11 items-center gap-3 rounded-[14px] text-dl-on-ink-muted transition hover:bg-dl-ink-2 hover:text-dl-on-ink focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-dl-signal"
-        :class="expanded ? 'w-full px-3' : 'w-11 justify-center'"
-        @click="toggle"
-      >
-        <!-- Arrows flip in RTL so they always point toward the content edge. -->
-        <DlIcon
-          :icon="expanded ? 'tabler-layout-sidebar-left-collapse' : 'tabler-layout-sidebar-left-expand'"
-          :size="22"
-          class="rtl:-scale-x-100"
-        />
-        <span v-if="expanded" class="text-sm font-semibold">{{ t('layout.rail.collapse') }}</span>
-      </button>
     </div>
   </nav>
 </template>

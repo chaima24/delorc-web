@@ -1,4 +1,5 @@
 import type { RouteLocationRaw } from 'vue-router'
+import { settingsPages } from '@/views/tenant/settings/settingsGroups'
 
 /** A menu entry: text key, route and Tabler icon. `resource` hides it without `{resource}.show`. */
 export interface NavLink {
@@ -22,7 +23,17 @@ export interface Workspace {
  * The lab's workspaces, in workflow order. Only built pages appear here: each module adds its links
  * (module 2 adds Users, Teams and Roles). A workspace with no link the person may open is not shown.
  */
-export const workspaces: Workspace[] = []
+export const workspaces: Workspace[] = [
+  {
+    id: 'studio',
+    title: 'nav.workspaces.studio',
+    icon: 'tabler-adjustments',
+    links: [
+      // Paramètres: the Studio home and every settings page it opens.
+      { title: 'nav.settings', to: { name: 'tenant-settings' }, icon: 'tabler-settings', matches: settingsPages },
+    ],
+  },
+]
 
 export function routeName(link: NavLink): string | undefined {
   const to = link.to as { name?: string } | undefined

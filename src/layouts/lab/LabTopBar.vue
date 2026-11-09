@@ -23,6 +23,7 @@ import { currentLocale, setLocale } from '@/plugins/i18n'
 import { useAuthStore } from '@/stores/auth'
 import { useLabStore } from '@/stores/lab'
 import LabSearch from './LabSearch.vue'
+import { useRail } from './useRail'
 
 /**
  * The central console's top bar, plus the lab's logo and name on the left.
@@ -33,6 +34,7 @@ const router = useRouter()
 const auth = useAuthStore()
 const labStore = useLabStore()
 const { theme } = useTheme()
+const rail = useRail()
 
 const searching = ref(false)
 const isMac = /Mac|iPhone|iPad/.test(navigator.platform)
@@ -60,6 +62,18 @@ const item = 'flex h-10 cursor-pointer select-none items-center gap-2.5 rounded-
 
 <template>
   <header class="sticky top-0 z-900 flex items-center gap-2.5 border-b border-dl-line bg-dl-paper px-4 py-3 md:px-7">
+    <!-- Opens / closes the rail (tablet and desktop; phones use the bottom bar). -->
+    <button
+      type="button"
+      :class="[trigger, 'hidden w-11 md:inline-flex']"
+      :aria-expanded="rail.expanded.value"
+      :aria-label="rail.expanded.value ? t('layout.rail.collapse') : t('layout.rail.expand')"
+      :title="rail.expanded.value ? t('layout.rail.collapse') : t('layout.rail.expand')"
+      @click="rail.toggle"
+    >
+      <DlIcon :icon="rail.expanded.value ? 'tabler-layout-sidebar-left-collapse' : 'tabler-layout-sidebar-left-expand'" :size="20" class="rtl:-scale-x-100" />
+    </button>
+
     <span class="flex shrink-0 items-center gap-2.5 pe-1 text-[15px] font-bold">
       <img v-if="labStore.lab?.logo_url" :src="labStore.lab.logo_url" alt="" class="h-9 w-9 rounded-[10px] border border-dl-line bg-white object-contain">
       <span v-else class="flex h-9 w-9 items-center justify-center rounded-[10px] bg-dl-ink font-display text-base font-extrabold text-dl-signal">

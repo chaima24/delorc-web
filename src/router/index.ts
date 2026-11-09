@@ -34,6 +34,11 @@ const labRoutes = [
     children: [
       { path: '', name: 'home', component: () => import('@/views/tenant/HomeView.vue') },
       { path: 'profile', name: 'tenant-profile', component: () => import('@/views/tenant/ProfileView.vue') },
+      // Studio › Paramètres, then its sections (Accès)
+      { path: 'settings', name: 'tenant-settings', component: () => import('@/views/tenant/settings/SettingsHubView.vue') },
+      { path: 'roles', name: 'tenant-roles', component: () => import('@/views/tenant/roles/RoleListView.vue'), meta: { permission: 'roles.show' } },
+      { path: 'roles/:id/access', name: 'tenant-role-access', component: () => import('@/views/tenant/roles/RoleAccessView.vue'), props: true, meta: { permission: 'roles.show' } },
+      { path: 'permissions', name: 'tenant-permissions', component: () => import('@/views/tenant/permissions/PermissionListView.vue'), meta: { permission: 'roles.show' } },
     ],
   },
 ]

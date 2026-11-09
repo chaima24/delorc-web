@@ -5,14 +5,14 @@ import DlIcon from '@/components/DlIcon.vue'
 import { useWorkspaces } from './useWorkspaces'
 import { routeName } from './navigation'
 
-/** Pages of the active workspace, as a dark tab bar above the page. Hidden when there is only one. */
+/** Pages of the active workspace, as a dark tab bar above the page (Studio mockup: shown even with one tab). */
 const { t } = useI18n()
 const route = useRoute()
 const { activeWorkspace, activeLink } = useWorkspaces()
 </script>
 
 <template>
-  <div v-if="activeWorkspace && activeWorkspace.links.length > 1" class="px-4 pt-5 md:px-7">
+  <div v-if="activeWorkspace" class="px-4 pt-5 md:px-7">
     <nav
       :aria-label="t(activeWorkspace.title)"
       class="rounded-[20px] bg-dl-ink p-2"

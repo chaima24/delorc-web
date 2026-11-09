@@ -1,0 +1,41 @@
+import type { RouteLocationRaw } from 'vue-router'
+
+/** A card of the Studio home. `resource` hides it without `{resource}.show`. */
+export interface SettingsLink {
+  /** Text keys. */
+  title: string
+  description?: string
+  to: RouteLocationRaw
+  icon: string
+  resource?: string
+  /** Key in `GET studio/summary` counts (a table name) for the card's number. */
+  count?: string
+}
+
+/** A section of the Studio home: related settings. */
+export interface SettingsGroup {
+  /** Text keys. */
+  title: string
+  subtitle: string
+  icon: string
+  links: SettingsLink[]
+}
+
+/**
+ * Studio › Paramètres, in the order a lab sets itself up. Only built pages appear here:
+ * each module adds its group or cards (geography, professionnels de santé, field setup, rules…).
+ */
+export const settingsGroups: SettingsGroup[] = [
+  {
+    title: 'settings.groups.access.title',
+    subtitle: 'settings.groups.access.subtitle',
+    icon: 'tabler-shield-lock',
+    links: [
+      { title: 'settings.links.roles.title', description: 'settings.links.roles.description', to: { name: 'tenant-roles' }, icon: 'tabler-shield-lock', resource: 'roles', count: 'roles' },
+      // Activity log comes with the lab log, module 10.
+    ],
+  },
+]
+
+/** Every page of the Studio home, for the rail: they all belong to "Paramètres". */
+export const settingsPages = ['tenant-role-access', 'tenant-permissions', ...settingsGroups.flatMap((group) => group.links.map((link) => String((link.to as { name: string }).name)))]
