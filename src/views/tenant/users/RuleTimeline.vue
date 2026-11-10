@@ -62,7 +62,7 @@ const validateFact = computed(() => {
         </span>
       </template>
       <template v-else>
-        <span class="absolute top-[22px] h-3.5 rounded-full bg-[#0F9D8A]" :style="{ insetInlineStart: at(4), width: `${validation.width}%` }" />
+        <span class="absolute top-[22px] h-3.5 rounded-full bg-dl-teal" :style="{ insetInlineStart: at(4), width: `${validation.width}%` }" />
         <span class="absolute top-[18px] h-[22px] w-[3px] -translate-x-1/2 rounded-sm bg-dl-fg rtl:translate-x-1/2" :style="{ insetInlineStart: at(4) }" />
         <span class="absolute top-0 -translate-x-1/2 text-[11.5px] font-bold whitespace-nowrap rtl:translate-x-1/2" :style="{ insetInlineStart: at(4) }">{{ t('users.rules.axis.visit') }}</span>
         <span class="absolute top-0 -translate-x-1/2 text-[11.5px] font-bold whitespace-nowrap rtl:translate-x-1/2" :style="{ insetInlineStart: at(validation.deadline) }">{{ t('users.rules.axis.deadline') }}</span>

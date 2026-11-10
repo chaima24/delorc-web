@@ -48,6 +48,7 @@ const labRoutes = [
       { path: 'materiels', name: 'tenant-materiels', component: () => import('@/views/tenant/materiels/MaterielListView.vue'), meta: { permission: 'materiels.show' } },
       { path: 'expense-types', name: 'tenant-expense-types', component: () => import('@/views/tenant/expense-types/ExpenseTypeListView.vue'), meta: { permission: 'expense-types.show' } },
       { path: 'holidays', name: 'tenant-holidays', component: () => import('@/views/tenant/holidays/HolidayListView.vue'), meta: { permission: 'holidays.show' } },
+      { path: 'hcos', name: 'tenant-hcos', component: () => import('@/views/tenant/hcos/HcoListView.vue'), meta: { permission: 'hcos.show' } },
       { path: 'planning-rules', name: 'tenant-planning-rules', component: () => import('@/views/tenant/planning-rules/PlanningRuleListView.vue'), meta: { permission: 'planning-rules.show' } },
       { path: 'validation-rules', name: 'tenant-validation-rules', component: () => import('@/views/tenant/validation-rules/ValidationRuleListView.vue'), meta: { permission: 'validation-rules.show' } },
       { path: 'languages', name: 'tenant-languages', component: () => import('@/views/tenant/languages/LanguageListView.vue'), meta: { permission: 'languages.show' } },
