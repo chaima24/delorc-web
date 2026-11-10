@@ -16,7 +16,7 @@ import HcoFields from './HcoFields.vue'
 import { checkPart, toForm, toPayload, useHcoText, type HcoPart } from './hcoForm'
 
 // An organisation in the side panel: its figures, Organisation and Place (each with its Edit), its
-// departments, Delete. Professionals working there and visits join with their modules. Mockup: docs/design/customers-mockups/Organisations.html (frame 2)
+// departments, the professionals working there, Delete. This year's visits join with their module. Mockup: docs/design/customers-mockups/Organisations.html (frame 2)
 const props = defineProps<{ hco: Hco }>()
 const emit = defineEmits<{ changed: []; deleted: []; open: [id: number]; addDepartment: [parentId: number] }>()
 const open = defineModel<boolean>('open', { default: false })
@@ -84,8 +84,9 @@ async function remove() {
   }
 }
 
-// Professionals working there and this year's visits join these figures with their modules.
+// This year's visits join these figures with their module.
 const tiles = computed(() => [
+  { label: t('hcos.figures.hcps'), value: n(props.hco.activity?.hcps ?? 0) },
   { label: t('hcos.figures.departments'), value: n(props.hco.activity?.departments ?? 0) },
 ])
 const SHOWN = 6
@@ -145,7 +146,7 @@ const gps = computed(() => (props.hco.latitude != null && props.hco.longitude !=
           <li v-for="department in departments" :key="department.id" class="border-b border-dl-line-soft last:border-0">
             <button type="button" class="flex w-full items-center justify-between gap-2 py-2 text-start hover:text-dl-cobalt" @click="emit('open', department.id)">
               <span>{{ department.name }}</span>
-              <span class="shrink-0 text-dl-muted">›</span>
+              <span class="shrink-0 text-dl-muted">{{ t('hcos.professionals', { n: n(department.hcps_count ?? 0) }, department.hcps_count ?? 0) }} ›</span>
             </button>
           </li>
         </ul>
@@ -153,6 +154,14 @@ const gps = computed(() => (props.hco.latitude != null && props.hco.longitude !=
         <button v-if="(hco.children?.length ?? 0) > SHOWN && !showAll" type="button" class="mt-1 text-[13px] font-semibold text-dl-cobalt hover:underline" @click="showAll = true">
           {{ t('hcos.read.more', { n: n((hco.children?.length ?? 0) - SHOWN) }) }}
         </button>
+      </section>
+
+      <section class="rounded-2xl border border-dl-line px-3.5 py-3 text-[13px]">
+        <h3 class="mb-1 text-sm font-semibold">{{ t('hcos.read.professionals') }}</h3>
+        <p>
+          {{ t('hcos.read.now', { n: n(hco.activity?.hcps ?? 0) }) }}
+          <RouterLink v-if="auth.can('hcps.show') && hco.activity?.hcps" :to="{ name: 'tenant-hcps', query: { hco: hco.id } }" class="ms-1 font-semibold text-dl-cobalt">{{ t('hcos.read.seeThem') }} ›</RouterLink>
+        </p>
       </section>
     </div>
 

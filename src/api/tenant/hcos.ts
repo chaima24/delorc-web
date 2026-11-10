@@ -17,10 +17,11 @@ export interface Hco {
   latitude: number | null
   one_key_id: string
   parent_id: number | null
-  /** Lists: its departments. */
+  /** Lists: professionals working there now, and departments. */
+  hcps_count?: number
   children_count?: number
-  /** Detail: departments (professionals and this year's visits join with their modules). */
-  activity?: { departments: number; hcps?: number; visits_year?: number }
+  /** Detail: professionals working there now, departments (this year's visits join with their module). */
+  activity?: { hcps: number; departments: number; visits_year?: number }
   commune?: (Commune & { wilaya?: { id: number; name: string } }) | null
   parent?: { id: number; name: string } | null
   /** Detail: its departments, by name. */

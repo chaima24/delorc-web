@@ -145,7 +145,7 @@ const added = useAddedColumn()
 const columns = [
   { key: 'name', label: t('hcos.columns.organisation'), sortKey: 'name' },
   { key: 'commune', label: t('hcps.fields.commune') },
-  // The professionals column comes with their module.
+  { key: 'hcps', label: t('hcos.columns.professionals'), align: 'end' as const },
   { ...added.column, secondary: true },
 ]
 
@@ -175,6 +175,7 @@ async function exportList() {
       [t('hcps.fields.latitude')]: hco.latitude ?? '',
       [t('hcps.fields.longitude')]: hco.longitude ?? '',
       [t('hcps.fields.oneKeyId')]: hco.one_key_id,
+      [t('hcos.columns.professionals')]: hco.hcps_count ?? 0,
       [t('hcos.figures.departments')]: hco.children_count ?? 0,
       [t('studio.list.added')]: hco.created_at?.slice(0, 10) ?? '',
     })), `${t('hcos.title')} ${today()}`, t('hcos.title'))
@@ -255,6 +256,7 @@ async function exportList() {
             </span>
           </template>
           <template #cell-commune="{ row }">{{ text.place(row) }}</template>
+          <template #cell-hcps="{ row }"><span class="tabular-nums">{{ row.hcps_count ? n(row.hcps_count) : '—' }}</span></template>
           <template #cell-created_at="{ row }"><span class="whitespace-nowrap text-dl-muted">{{ added.format(row.created_at) }}</span></template>
           <template #card="{ row }">
             <span class="flex items-center gap-3">
@@ -263,6 +265,7 @@ async function exportList() {
                 <strong class="truncate font-semibold">{{ row.name }}</strong>
                 <span class="truncate text-xs text-dl-muted">{{ text.kind(row) }} · {{ row.commune?.name }}</span>
               </span>
+              <span v-if="row.hcps_count" class="text-xs tabular-nums text-dl-muted">{{ n(row.hcps_count) }}</span>
             </span>
           </template>
         </DlDataList>
