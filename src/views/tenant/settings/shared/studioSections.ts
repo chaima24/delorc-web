@@ -52,7 +52,8 @@ export const fieldSection: StudioSection = {
 export const rulesSection: StudioSection = {
   label: 'settings.groups.rules.title',
   levels: [
-    // Planning rules and validation rules come with teams and people.
+    { route: 'tenant-planning-rules', resource: 'planning-rules', icon: 'tabler-calendar-time', label: 'rulesSetup.title.planningRules', count: 'planning_rules' },
+    { route: 'tenant-validation-rules', resource: 'validation-rules', icon: 'tabler-shield-check', label: 'rulesSetup.title.validationRules', count: 'validation_rules' },
     { route: 'tenant-languages', resource: 'languages', icon: 'tabler-language', label: 'rulesSetup.title.languages', count: 'languages' },
   ],
 }

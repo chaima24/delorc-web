@@ -2,7 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
-import { createUser, type TenantUser } from '@/api/tenant/users'
+import { createUser, fetchUserSuggestions, type TenantUser, type UserSuggestions } from '@/api/tenant/users'
 import DlAvatar from '@/components/DlAvatar.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlCombobox from '@/components/DlCombobox.vue'
@@ -12,14 +12,16 @@ import DlSegmented from '@/components/DlSegmented.vue'
 import DlSelect from '@/components/DlSelect.vue'
 import DlSteps from '@/components/DlSteps.vue'
 import { useToast } from '@/composables/useToast'
+import { roleLabel } from '@/views/tenant/settings/shared/lookups'
+import RulePicker from './RulePicker.vue'
 import { loadCommunes, useUserLookups } from './useUserLookups'
 import { today } from './userDisplay'
 
-// "Add a user" in steps: person · role and team. Manager, territory, rules and the first cycle
-// join the second step (and a third) with their modules.
+// "Add a user" in 3 steps: person · role and team · rules. Rules are pre-filled from colleagues
+// (same role and team). Manager, territory and the first cycle join with their modules.
 const emit = defineEmits<{ created: [user: TenantUser] }>()
 const open = defineModel<boolean>('open', { default: false })
-const { t } = useI18n()
+const { t, n } = useI18n()
 const toast = useToast()
 const lookups = useUserLookups()
 
@@ -30,6 +32,7 @@ function blank() {
     avatar: null as File | null,
     role: null as string | null, team_id: null as number | null, second_team_id: null as number | null,
     start_date: today(), send_access: true,
+    planning_rule_id: null as number | null, validation_rule_id: null as number | null,
   }
 }
 const form = reactive(blank())
@@ -44,6 +47,8 @@ watch(open, value => {
   step.value = 0
   errors.value = {}
   showSecondTeam.value = false
+  suggestions.value = null
+  touched.clear()
 })
 
 // Default language: French when the lab has it (labs usually work in French), else the first one.
@@ -69,13 +74,43 @@ function pickPhoto(event: Event) {
   if (file) form.avatar = file
 }
 
-const steps = computed(() => [t('users.add.steps.person'), t('users.add.steps.place')])
-const LAST = 1
+// Suggestions from colleagues. A field the admin changed is never overwritten.
+const suggestions = ref<UserSuggestions | null>(null)
+const touched = new Set<string>()
+function touch(field: string) { touched.add(field) }
+watch(() => [form.role, form.team_id] as const, async ([role, team]) => {
+  if (!role) return
+  try {
+    const result = await fetchUserSuggestions({ role, team_id: team ?? undefined })
+    if (form.role !== role || form.team_id !== team) return
+    suggestions.value = result
+    if (!touched.has('planning')) form.planning_rule_id = result.planning_rule?.id ?? null
+    if (!touched.has('validation')) form.validation_rule_id = result.validation_rule?.id ?? null
+  }
+  catch {
+    suggestions.value = null
+  }
+})
+const teamName = computed(() => lookups.teams.value.find(team => team.value === form.team_id)?.label ?? '')
+function why(kind: 'planning_rule' | 'validation_rule') {
+  const s = suggestions.value
+  const suggestion = s?.[kind]
+  const chosen = kind === 'planning_rule' ? form.planning_rule_id : form.validation_rule_id
+  if (!s || !suggestion || suggestion.id !== chosen || !s.peers) return null
+  const role = roleLabel(form.role)
+  return s.scope === 'role_team'
+    ? t('users.add.whyTeam', { count: n(suggestion.count), total: n(s.peers), role, team: teamName.value }, s.peers)
+    : t('users.add.whyRole', { count: n(suggestion.count), total: n(s.peers), role }, s.peers)
+}
+
+const steps = computed(() => [t('users.add.steps.person'), t('users.add.steps.place'), t('users.add.steps.rules')])
+const LAST = 2
 
 /** Fields of each step, to send the API's errors back to the right step. */
 const STEP_FIELDS: string[][] = [
   ['first_name', 'last_name', 'email', 'phone', 'address', 'commune_id', 'language_id', 'avatar'],
   ['role', 'teams', 'start_date'],
+  ['planning_rule_id', 'validation_rule_id'],
 ]
 const required = (value: unknown) => (value === null || value === '' ? t('users.add.required') : null)
 function check(index: number): boolean {
@@ -108,6 +143,8 @@ async function save() {
       role: form.role!,
       teams: teams.map((id, i) => ({ id, start_date: form.start_date, is_primary: i === 0 })),
       send_access: form.send_access,
+      planning_rule_id: form.planning_rule_id,
+      validation_rule_id: form.validation_rule_id,
     })
     toast.success(form.send_access ? t('users.add.createdInvited', { email: user.email }) : t('users.add.created'))
     emit('created', user)
@@ -162,7 +199,7 @@ async function save() {
       </form>
 
       <!-- 2 · Role -->
-      <form v-else id="user-add" class="flex flex-col gap-3.5" novalidate @submit.prevent="save">
+      <form v-else-if="step === 1" id="user-add" class="flex flex-col gap-3.5" novalidate @submit.prevent="next">
         <DlSelect v-model="form.role" :label="t('users.columns.role')" :options="lookups.roles.value" :placeholder="t('users.add.choose')" />
         <p v-if="errors.role" class="-mt-2 text-xs text-dl-rejected">{{ errors.role }}</p>
         <div class="flex flex-col gap-1.5">
@@ -173,6 +210,18 @@ async function save() {
         </div>
         <DlCombobox v-if="showSecondTeam" v-model="form.second_team_id" :label="t('users.add.secondTeam')" :options="lookups.teams.value.filter(team => team.value !== form.team_id)" />
         <DlInput v-model="form.start_date" type="date" :label="t('users.add.startsOn')" :hint="t('users.add.startsOnHint')" :error="errors.start_date" />
+      </form>
+
+      <!-- 3 · Rules -->
+      <form v-else id="user-add" class="flex flex-col gap-3.5" novalidate @submit.prevent="save">
+        <div class="flex flex-col gap-1.5">
+          <RulePicker v-model="form.planning_rule_id" kind="planning" :label="t('users.rules.planning')" :placeholder="t('users.rules.none')" :error="errors.planning_rule_id" @update:model-value="touch('planning')" />
+          <p v-if="why('planning_rule')" class="rounded-[10px] bg-dl-mist px-2.5 py-2 text-xs text-dl-muted">{{ why('planning_rule') }}</p>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <RulePicker v-model="form.validation_rule_id" kind="validation" :label="t('users.rules.validation')" :placeholder="t('users.rules.none')" :error="errors.validation_rule_id" @update:model-value="touch('validation')" />
+          <p v-if="why('validation_rule')" class="rounded-[10px] bg-dl-mist px-2.5 py-2 text-xs text-dl-muted">{{ why('validation_rule') }}</p>
+        </div>
         <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5" :class="form.send_access ? 'bg-dl-signal-soft ring-[1.5px] ring-dl-fg ring-inset' : 'border border-dl-line'">
           <input v-model="form.send_access" type="checkbox" class="mt-0.5 h-[18px] w-[18px] accent-dl-ink">
           <span class="flex flex-col">

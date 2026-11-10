@@ -67,7 +67,8 @@ export const settingsGroups: SettingsGroup[] = [
     subtitle: 'settings.groups.rules.subtitle',
     icon: 'tabler-settings',
     links: [
-      // Planning rules and validation rules come with teams and people.
+      { title: 'settings.links.planningRules.title', description: 'settings.links.planningRules.description', to: { name: 'tenant-planning-rules' }, icon: 'tabler-calendar-time', resource: 'planning-rules', count: 'planning_rules' },
+      { title: 'settings.links.validationRules.title', description: 'settings.links.validationRules.description', to: { name: 'tenant-validation-rules' }, icon: 'tabler-shield-check', resource: 'validation-rules', count: 'validation_rules' },
       { title: 'settings.links.languages.title', description: 'settings.links.languages.description', to: { name: 'tenant-languages' }, icon: 'tabler-language', resource: 'languages', count: 'languages' },
     ],
   },

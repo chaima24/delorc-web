@@ -2,6 +2,7 @@ import { onMounted, ref } from 'vue'
 import { type Wilaya, fetchCommunes, fetchWilayas } from '@/api/tenant/geography'
 import { type Language, fetchLanguages } from '@/api/tenant/fieldSetup'
 import { rolesApi } from '@/api/tenant/roles'
+import { planningRulesApi, validationRulesApi, type PlanningRule, type ValidationRule } from '@/api/tenant/rules'
 import { fetchAllTeams } from '@/api/tenant/teams'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 
@@ -29,6 +30,34 @@ export function useUserLookups() {
   })
 
   return { roles, teams, wilayas, languages }
+}
+
+/** Full rules (values, description, people using them), active first then by name; shared by every picker. */
+const planningRules = ref<PlanningRule[]>([])
+const validationRules = ref<ValidationRule[]>([])
+const byRuleName = (a: { name: string; is_active: boolean }, b: { name: string; is_active: boolean }) =>
+  Number(b.is_active) - Number(a.is_active) || a.name.localeCompare(b.name)
+let rulesLoaded: Promise<void> | null = null
+
+/** Reload after a rule changes elsewhere (or to refresh the people counts). */
+export function reloadRules(): Promise<void> {
+  rulesLoaded = null
+  return loadRules()
+}
+function loadRules(): Promise<void> {
+  rulesLoaded ??= Promise.all([planningRulesApi.all(), validationRulesApi.all()])
+    .then(([planning, validation]) => {
+      planningRules.value = planning.sort(byRuleName)
+      validationRules.value = validation.sort(byRuleName)
+    })
+    .catch(() => { rulesLoaded = null })
+  return rulesLoaded
+}
+
+/** The planning and validation rules, for the rule pickers and the Règles tab. */
+export function useRuleLookups() {
+  void loadRules()
+  return { planningRules, validationRules }
 }
 
 /** Communes of one wilaya (a wilaya has up to ~60). */

@@ -11,8 +11,8 @@ import { useAuthStore } from '@/stores/auth'
 import { useUserActions } from './useUserActions'
 import { STATUS_TONES, accountStatus, useUserText } from './userDisplay'
 
-// Reading panel: where the person is now, contact, sign-in. "Open full page" for the rest.
-// Manager, territory, cycle, rules and hierarchy come back with their modules.
+// Reading panel: where the person is now, contact, rules, sign-in. "Open full page" for the rest.
+// Manager, territory, cycle and hierarchy come back with their modules.
 const props = defineProps<{ user: TenantUser }>()
 const emit = defineEmits<{ changed: [] }>()
 const open = defineModel<boolean>('open', { default: false })
@@ -70,6 +70,14 @@ const signIn = computed(() => {
           <dt class="text-dl-muted">{{ t('users.fields.phone') }}</dt><dd>{{ user.phone || '—' }}</dd>
           <dt class="text-dl-muted">{{ t('users.fields.commune') }}</dt><dd>{{ commune }}</dd>
           <dt class="text-dl-muted">{{ t('users.fields.language') }}</dt><dd>{{ user.language?.name ?? '—' }}</dd>
+        </dl>
+      </section>
+
+      <section class="rounded-2xl border border-dl-line px-3.5 py-3">
+        <h3 class="mb-1.5 text-sm font-semibold">{{ t('users.read.rules') }}</h3>
+        <dl class="grid grid-cols-[110px_1fr] gap-x-2.5 gap-y-1.5 text-[13px]">
+          <dt class="text-dl-muted">{{ t('users.rules.planning') }}</dt><dd>{{ user.planning_rule?.name ?? t('users.rules.none') }}</dd>
+          <dt class="text-dl-muted">{{ t('users.rules.validation') }}</dt><dd>{{ user.validation_rule?.name ?? t('users.rules.none') }}</dd>
         </dl>
       </section>
 
