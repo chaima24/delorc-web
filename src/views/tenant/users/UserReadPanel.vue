@@ -8,22 +8,33 @@ import DlButton from '@/components/DlButton.vue'
 import DlMenu from '@/components/DlMenu.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import { useAuthStore } from '@/stores/auth'
+import ReportsToList from './hierarchy/ReportsToList.vue'
+import { peopleUnder } from './hierarchy/orgTree'
+import { useOrgTree } from './hierarchy/useOrgTree'
 import { useUserActions } from './useUserActions'
 import { STATUS_TONES, accountStatus, useUserText } from './userDisplay'
 
 // Reading panel: where the person is now, contact, rules, sign-in. "Open full page" for the rest.
-// Manager, territory, cycle and hierarchy come back with their modules.
+// Territory and cycle come back with their modules.
 const props = defineProps<{ user: TenantUser }>()
-const emit = defineEmits<{ changed: [] }>()
+const emit = defineEmits<{ changed: []; changeManager: [] }>()
 const open = defineModel<boolean>('open', { default: false })
-const { t } = useI18n()
+const { t, n } = useI18n()
 const text = useUserText()
 const auth = useAuthStore()
+const { tree } = useOrgTree()
+
+// Hierarchy: the chain up to the top, and who is under this person.
+const direct = computed(() => (tree.value.childrenOf.get(props.user.id) ?? []).map(id => tree.value.byId.get(id)!).filter(Boolean))
+const allUnder = computed(() => peopleUnder(tree.value, props.user.id).size)
 
 const actions = useUserActions(toRef(props, 'user'), { onChange: () => emit('changed') })
 
 const status = computed(() => accountStatus(props.user))
-const tiles = computed(() => [{ label: t('users.columns.team'), value: text.teams(props.user) }])
+const tiles = computed(() => [
+  { label: t('users.columns.team'), value: text.teams(props.user) },
+  { label: t('users.columns.manager'), value: text.managers(props.user) },
+])
 const commune = computed(() => [props.user.commune?.name, props.user.commune?.wilaya?.name].filter(Boolean).join(', ') || '—')
 const signIn = computed(() => {
   if (status.value === 'active') return t('users.read.signedIn', { date: text.dateTime(props.user.last_login_at) })
@@ -81,6 +92,19 @@ const signIn = computed(() => {
         </dl>
       </section>
 
+      <section class="rounded-2xl border border-dl-line px-3.5 py-3">
+        <h3 class="mb-2 text-sm font-semibold">{{ t('users.hierarchy.reportsTo') }}</h3>
+        <ReportsToList :user-id="user.id" />
+        <h3 class="mb-1 mt-3 text-sm font-semibold">{{ t('users.assign.manages') }}</h3>
+        <p class="text-[13px] text-dl-body">
+          {{ direct.length ? t('users.hierarchy.managesCount', { direct: n(direct.length), all: n(allUnder) }) : t('users.assign.managesNobody', { name: user.first_name }) }}
+        </p>
+        <ul v-if="direct.length" class="mt-2 flex flex-wrap gap-1.5">
+          <li v-for="person in direct.slice(0, 6)" :key="person.id" class="rounded-full border border-dl-line px-2.5 py-1 text-xs font-semibold">{{ person.full_name }}</li>
+          <li v-if="direct.length > 6" class="rounded-full border border-dl-line px-2.5 py-1 text-xs font-semibold">＋ {{ n(direct.length - 6) }}</li>
+        </ul>
+      </section>
+
       <section v-if="status === 'active' || status === 'inactive'" class="rounded-2xl border border-dl-line px-3.5 py-3">
         <h3 class="mb-1 text-sm font-semibold">{{ t('users.read.signIn') }}</h3>
         <p class="text-[13px] text-dl-body">{{ signIn }}</p>
@@ -88,6 +112,7 @@ const signIn = computed(() => {
     </div>
 
     <template #footer>
+      <DlButton v-if="auth.can('users.update')" variant="outline" class="flex-1" @click="emit('changeManager')">{{ t('users.hierarchy.change') }}</DlButton>
       <DlButton variant="dark" icon-end="tabler-arrow-up-right" class="flex-1" :to="{ name: 'tenant-user-detail', params: { id: user.id } }">
         {{ t('users.read.openFullPage') }}
       </DlButton>

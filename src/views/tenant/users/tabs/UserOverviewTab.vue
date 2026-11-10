@@ -12,7 +12,7 @@ import DlSelect from '@/components/DlSelect.vue'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import { loadCommunes, useUserLookups } from '../useUserLookups'
-import { currentTeams, useUserText } from '../userDisplay'
+import { currentManagers, currentTeams, useUserText } from '../userDisplay'
 
 // The profile card and "Maintenant" (teams). Manager, territory and "Cycle actuel" come back with their modules.
 const props = defineProps<{ user: TenantUser }>()
@@ -140,6 +140,11 @@ const added = computed(() => props.user.created_by?.full_name
               <span class="text-dl-muted">{{ text.period(team) }}</span>
             </span>
             <span v-if="!currentTeams(user).length">—</span>
+          </dd>
+          <dt class="text-dl-muted">{{ t('users.columns.manager') }}</dt>
+          <dd class="flex flex-col gap-1">
+            <span v-for="manager in currentManagers(user)" :key="manager.id"><strong>{{ manager.name }}</strong> <span class="text-dl-muted">{{ text.period(manager) }}</span></span>
+            <span v-if="!currentManagers(user).length">—</span>
           </dd>
         </dl>
       </section>

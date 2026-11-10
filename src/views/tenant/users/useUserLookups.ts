@@ -1,16 +1,24 @@
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { type Wilaya, fetchCommunes, fetchWilayas } from '@/api/tenant/geography'
 import { type Language, fetchLanguages } from '@/api/tenant/fieldSetup'
 import { rolesApi } from '@/api/tenant/roles'
 import { planningRulesApi, validationRulesApi, type PlanningRule, type ValidationRule } from '@/api/tenant/rules'
 import { fetchAllTeams } from '@/api/tenant/teams'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
+import { useOrgTree } from './hierarchy/useOrgTree'
 
-type Option<V = number> = { value: V; label: string }
+type Option<V = number> = { value: V; label: string; hint?: string }
 const byLabel = <V>(a: Option<V>, b: Option<V>) => a.label.localeCompare(b.label)
 
-/** Options for the user forms (roles, teams, wilayas, active languages), loaded when the form opens. */
+/** Options for the user forms (roles, teams, people, wilayas, active languages), loaded when the form opens. */
 export function useUserLookups() {
+  // Active people, with their role underneath (managers), from the hierarchy's shared list.
+  const { people: everyone } = useOrgTree()
+  const people = computed(() => everyone.items.value
+    .filter(user => user.is_active)
+    .map(user => ({ value: user.id, label: user.full_name, hint: roleLabel(user.role) }))
+    .sort(byLabel))
+
   const roles = ref<Option<string>[]>([])
   const wilayas = ref<Option[]>([])
   const languages = ref<Language[]>([])
@@ -29,7 +37,7 @@ export function useUserLookups() {
     languages.value = languagePage.items.filter(language => language.is_active)
   })
 
-  return { roles, teams, wilayas, languages }
+  return { roles, teams, people, wilayas, languages }
 }
 
 /** Full rules (values, description, people using them), active first then by name; shared by every picker. */

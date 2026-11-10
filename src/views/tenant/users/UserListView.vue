@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
 import { rolesApi } from '@/api/tenant/roles'
 import { type Team, fetchAllTeams } from '@/api/tenant/teams'
 import { fetchUser, fetchUsers, type TenantUser } from '@/api/tenant/users'
@@ -11,19 +12,25 @@ import DlButton from '@/components/DlButton.vue'
 import DlDataList from '@/components/DlDataList.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlPagination from '@/components/DlPagination.vue'
+import DlSegmented from '@/components/DlSegmented.vue'
 import DlSelect from '@/components/DlSelect.vue'
 import { exportToXlsx } from '@/composables/exportXlsx'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
+import ChangeManagerPanel from './hierarchy/ChangeManagerPanel.vue'
+import UserHierarchy from './hierarchy/UserHierarchy.vue'
+import { useOrgTree } from './hierarchy/useOrgTree'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { STUDIO_DEFAULT_SORT, useAddedColumn, useStudioList } from '@/views/tenant/settings/shared/useStudioList'
 import UserCreatePanel from './UserCreatePanel.vue'
 import UserReadPanel from './UserReadPanel.vue'
 import { STATUS_TONES, accountStatus, today, useUserText } from './userDisplay'
 
-// Studio › Users: list, reading panel, "Add a user". Everything else on the full page.
-// The hierarchy view and the manager and territory columns come with their modules.
+// Studio › Users: list or hierarchy, reading panel, "Add a user" in 3 steps. Everything else on the full page.
+// The territory column comes with its module. Mockup: docs/design/studio-mockups/Users.html
 const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
 const auth = useAuthStore()
 const text = useUserText()
 const toast = useToast()
@@ -105,30 +112,56 @@ const addedOptions = computed(() => [
 ])
 const filtered = computed(() => !!(search.value || filters.role || filters.team || filters.account !== 'current' || filters.added !== ALL))
 
-// Panel: a person (reading mode) or "Add a user".
+// List or Hierarchy (kept in the address: ?view=hierarchy&focus=<user id>).
+const view = computed({
+  get: () => (route.query.view === 'hierarchy' ? 'hierarchy' : 'list'),
+  set: value => router.replace({ query: { ...route.query, view: value === 'hierarchy' ? 'hierarchy' : undefined, focus: undefined } }),
+})
+const viewItems = computed(() => [{ value: 'list', label: t('users.hierarchy.list') }, { value: 'hierarchy', label: t('users.hierarchy.title') }])
+const focusId = computed(() => (route.query.focus ? Number(route.query.focus) : null))
+const org = useOrgTree()
+
+// Panel: a person (reading mode), "Add a user", or "Change manager".
 const open = ref(false)
 const selected = ref<TenantUser | null>(null)
 const adding = ref(false)
+const moving = ref<{ user: TenantUser; managerId: number | null; fromManagerId: number | null } | null>(null)
+
+function changeManager(user: TenantUser, managerId: number | null = null, fromManagerId: number | null = null) {
+  adding.value = false
+  moving.value = { user, managerId, fromManagerId }
+  open.value = true
+}
+async function onMoved() {
+  list.reload()
+  const user = moving.value?.user
+  moving.value = null
+  if (user) await show(user)
+}
 
 async function show(row: TenantUser) {
   adding.value = false
+  moving.value = null
   selected.value = row
   open.value = true
-  // The row has the list's fields; the panel also shows language and commune.
+  // The row has the list's fields; the panel also shows rules, language and commune.
   const full = await fetchUser(row.id)
   if (selected.value?.id === row.id) selected.value = full
 }
 function add() {
   selected.value = null
+  moving.value = null
   adding.value = true
   open.value = true
 }
 async function onCreated(user: TenantUser) {
   list.reload()
+  org.refresh()
   await show(user)
 }
 function onPanelChange() {
   list.reload()
+  org.refresh()
   if (selected.value) show(selected.value)
 }
 
@@ -137,6 +170,7 @@ const columns = [
   { key: 'person', label: t('users.columns.person'), sortKey: 'first_name' },
   { key: 'role', label: t('users.columns.role') },
   { key: 'team', label: t('users.columns.team') },
+  { key: 'manager', label: t('users.columns.manager'), secondary: true },
   { key: 'status', label: t('users.columns.status') },
   { ...added.column, secondary: true },
 ]
@@ -164,6 +198,7 @@ async function exportList() {
       [t('users.fields.phone')]: user.phone ?? '',
       [t('users.columns.role')]: text.role(user),
       [t('users.columns.team')]: text.teams(user),
+      [t('users.columns.manager')]: text.managers(user),
       [t('users.columns.status')]: text.status(user),
       [t('studio.list.added')]: user.created_at?.slice(0, 10) ?? '',
     })), `${t('users.title')} ${today()}`, t('users.title'))
@@ -194,6 +229,7 @@ async function exportList() {
 
       <div class="flex min-w-0 flex-1 flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5 max-md:bg-transparent max-md:p-0">
         <div class="flex flex-wrap items-center gap-2.5">
+          <DlSegmented v-model="view" :label="t('users.hierarchy.view')" :items="viewItems" />
           <DlInput
             v-model="search"
             type="search"
@@ -206,16 +242,29 @@ async function exportList() {
           <DlSelect v-model="roleFilter" :label="t('users.columns.role')" :options="roleOptions" appearance="filter" />
           <DlSelect v-model="teamFilter" :label="t('users.columns.team')" :options="teamOptions" appearance="filter" />
           <DlSelect v-model="filters.account" :label="t('users.columns.status')" :options="accountOptions" appearance="filter" />
-          <DlSelect v-model="addedFilter" :label="t('studio.list.added')" :options="addedOptions" appearance="filter" />
-          <DlInput v-if="filters.added === 'day'" v-model="filters.from" type="date" :max="today()" :label="t('access.log.filter.day')" hide-label class="w-44" />
-          <template v-if="filters.added === 'range'">
+          <DlSelect v-if="view === 'list'" v-model="addedFilter" :label="t('studio.list.added')" :options="addedOptions" appearance="filter" />
+          <DlInput v-if="view === 'list' && filters.added === 'day'" v-model="filters.from" type="date" :max="today()" :label="t('access.log.filter.day')" hide-label class="w-44" />
+          <template v-if="view === 'list' && filters.added === 'range'">
             <DlInput v-model="filters.from" type="date" :max="filters.to || today()" :label="t('access.log.filter.from')" hide-label class="w-44" />
             <span class="inline-block text-sm text-dl-muted rtl:-scale-x-100" aria-hidden="true">→</span>
             <DlInput v-model="filters.to" type="date" :min="filters.from" :max="today()" :label="t('access.log.filter.to')" hide-label class="w-44" />
           </template>
         </div>
 
+        <UserHierarchy
+          v-if="view === 'hierarchy'"
+          :search="search"
+          :role="filters.role"
+          :team="filters.team"
+          :account="filters.account"
+          :selected-id="open ? selected?.id ?? null : null"
+          :focus-id="focusId"
+          @open="show"
+          @move="(user, managerId, from) => changeManager(user, managerId, from)"
+        />
+
         <DlDataList
+          v-else
           v-model:sort="sort"
           :default-sort="STUDIO_DEFAULT_SORT"
           :label="t('users.title')"
@@ -239,6 +288,7 @@ async function exportList() {
           </template>
           <template #cell-role="{ row }">{{ text.role(row) }}</template>
           <template #cell-team="{ row }">{{ text.teams(row) }}</template>
+          <template #cell-manager="{ row }">{{ text.managers(row) }}</template>
           <template #cell-status="{ row }">
             <DlBadge size="sm" dot :tone="STATUS_TONES[accountStatus(row)]">{{ text.status(row) }}</DlBadge>
           </template>
@@ -255,12 +305,13 @@ async function exportList() {
           </template>
         </DlDataList>
 
-        <DlPagination v-model="page" v-model:per-page="perPage" :total="total" />
+        <DlPagination v-if="view === 'list'" v-model="page" v-model:per-page="perPage" :total="total" />
       </div>
     </div>
 
     <UserCreatePanel v-if="adding" v-model:open="open" @created="onCreated" />
-    <UserReadPanel v-else-if="selected" v-model:open="open" :user="selected" @changed="onPanelChange" />
+    <ChangeManagerPanel v-else-if="moving" v-model:open="open" :user="moving.user" :manager-id="moving.managerId" :from-manager-id="moving.fromManagerId" @done="onMoved" />
+    <UserReadPanel v-else-if="selected" v-model:open="open" :user="selected" @changed="onPanelChange" @change-manager="changeManager(selected!)" />
 
     <!-- Phone: "Add" sits at the bottom, in reach of the thumb -->
     <div v-if="auth.can('users.create')" class="fixed inset-x-4 bottom-24 z-800 md:hidden">

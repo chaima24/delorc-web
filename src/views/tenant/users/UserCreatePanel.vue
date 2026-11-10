@@ -17,8 +17,8 @@ import RulePicker from './RulePicker.vue'
 import { loadCommunes, useUserLookups } from './useUserLookups'
 import { today } from './userDisplay'
 
-// "Add a user" in 3 steps: person · role and team · rules. Rules are pre-filled from colleagues
-// (same role and team). Manager, territory and the first cycle join with their modules.
+// "Add a user" in 3 steps: person · role, team and manager · rules. Rules and manager are pre-filled
+// from colleagues (same role and team). Territory and the first cycle join with their modules.
 const emit = defineEmits<{ created: [user: TenantUser] }>()
 const open = defineModel<boolean>('open', { default: false })
 const { t, n } = useI18n()
@@ -31,6 +31,7 @@ function blank() {
     wilaya_id: null as number | null, commune_id: null as number | null, language_id: null as number | null,
     avatar: null as File | null,
     role: null as string | null, team_id: null as number | null, second_team_id: null as number | null,
+    manager_id: null as number | null,
     start_date: today(), send_access: true,
     planning_rule_id: null as number | null, validation_rule_id: null as number | null,
   }
@@ -84,6 +85,7 @@ watch(() => [form.role, form.team_id] as const, async ([role, team]) => {
     const result = await fetchUserSuggestions({ role, team_id: team ?? undefined })
     if (form.role !== role || form.team_id !== team) return
     suggestions.value = result
+    if (!touched.has('manager') && result.manager) form.manager_id = result.manager.id
     if (!touched.has('planning')) form.planning_rule_id = result.planning_rule?.id ?? null
     if (!touched.has('validation')) form.validation_rule_id = result.validation_rule?.id ?? null
   }
@@ -103,13 +105,18 @@ function why(kind: 'planning_rule' | 'validation_rule') {
     : t('users.add.whyRole', { count: n(suggestion.count), total: n(s.peers), role }, s.peers)
 }
 
+const managerHint = computed(() => {
+  const manager = suggestions.value?.manager
+  return manager && manager.id === form.manager_id ? t('users.add.managerSuggested', { team: teamName.value || roleLabel(form.role) }) : undefined
+})
+
 const steps = computed(() => [t('users.add.steps.person'), t('users.add.steps.place'), t('users.add.steps.rules')])
 const LAST = 2
 
 /** Fields of each step, to send the API's errors back to the right step. */
 const STEP_FIELDS: string[][] = [
   ['first_name', 'last_name', 'email', 'phone', 'address', 'commune_id', 'language_id', 'avatar'],
-  ['role', 'teams', 'start_date'],
+  ['role', 'teams', 'managers', 'start_date'],
   ['planning_rule_id', 'validation_rule_id'],
 ]
 const required = (value: unknown) => (value === null || value === '' ? t('users.add.required') : null)
@@ -143,6 +150,7 @@ async function save() {
       role: form.role!,
       teams: teams.map((id, i) => ({ id, start_date: form.start_date, is_primary: i === 0 })),
       send_access: form.send_access,
+      managers: form.manager_id ? [{ id: form.manager_id, start_date: form.start_date }] : [],
       planning_rule_id: form.planning_rule_id,
       validation_rule_id: form.validation_rule_id,
     })
@@ -209,6 +217,14 @@ async function save() {
           </button>
         </div>
         <DlCombobox v-if="showSecondTeam" v-model="form.second_team_id" :label="t('users.add.secondTeam')" :options="lookups.teams.value.filter(team => team.value !== form.team_id)" />
+        <DlCombobox
+          v-model="form.manager_id"
+          :label="t('users.columns.manager')"
+          :options="lookups.people.value"
+          :hint="managerHint ?? t('users.add.managerOptional')"
+          :error="errors.managers"
+          @update:model-value="touch('manager')"
+        />
         <DlInput v-model="form.start_date" type="date" :label="t('users.add.startsOn')" :hint="t('users.add.startsOnHint')" :error="errors.start_date" />
       </form>
 

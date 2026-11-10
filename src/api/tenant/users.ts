@@ -40,11 +40,22 @@ export interface TenantUser {
   created_by?: { id: number; full_name: string } | null
   /** List: current teams, main first. Page: every stint, open ones first, newest first. */
   teams?: Team[]
+  /** List: current manager links. Page: every link, open ones first, newest first (docs/api/hierarchy.md). */
+  managers?: UserManager[]
   /** Page: the rules the person follows (docs/api/rules.md). */
   planning_rule_id?: number | null
   validation_rule_id?: number | null
   planning_rule?: PlanningRule | null
   validation_rule?: ValidationRule | null
+}
+
+/** A manager on a person, with the link's dates. */
+export interface UserManager {
+  id: number
+  full_name: string
+  role: string | null
+  is_active: boolean
+  pivot: { id: number; start_date: string | null; end_date: string | null }
 }
 
 export interface UserProfileInput {
@@ -67,6 +78,8 @@ export interface CreateUserPayload {
   send_access: boolean
   planning_rule_id?: number | null
   validation_rule_id?: number | null
+  /** Who the person reports to, from a date (optional). */
+  managers?: { id: number; start_date: string }[]
 }
 
 /** PUT users/{id}: any field. `role` also needs `users.change-role`. */
@@ -109,6 +122,12 @@ export interface SyncUserTeamsPayload {
   new_teams?: { id: number; start_date: string; end_date?: string | null; is_primary?: boolean }[]
 }
 export const syncUserTeams = (id: number, body: SyncUserTeamsPayload) => one(client.put(`/users/${id}/teams`, body))
+/** As the previous API: end open manager links, open new ones (docs/api/hierarchy.md). */
+export interface SyncUserManagersPayload {
+  existing_managers?: { id: number; end_date: string }[]
+  new_managers?: { id: number; start_date: string; end_date?: string | null }[]
+}
+export const syncUserManagers = (id: number, body: SyncUserManagersPayload) => one(client.put(`/users/${id}/managers`, body))
 export const sendUserAccessLink = (id: number) => client.post(`/users/${id}/access-link`)
 export const resetUserSecondFactor = (id: number) => one(client.post(`/users/${id}/second-factor/reset`))
 
@@ -123,6 +142,8 @@ export interface UserSuggestions {
   peers: number
   planning_rule: { id: number; name: string; count: number } | null
   validation_rule: { id: number; name: string; count: number } | null
+  /** The person most colleagues report to today (docs/api/hierarchy.md). */
+  manager: { id: number; full_name: string; role: string | null; count: number } | null
 }
 export const fetchUserSuggestions = (params: { role?: string; team_id?: number }) =>
   client.get<{ data: UserSuggestions }>('/users/suggestions', { params }).then((response) => response.data.data)
