@@ -43,7 +43,7 @@ export const workspaces: Workspace[] = [
     title: 'nav.workspaces.customers',
     icon: 'tabler-users',
     links: [
-      { title: 'nav.organization.hcps', to: { name: 'tenant-hcps' }, icon: 'tabler-stethoscope', resource: 'hcps', matches: ['tenant-hcp-detail'] },
+      { title: 'nav.organization.hcps', to: { name: 'tenant-hcps' }, icon: 'tabler-stethoscope', resource: 'hcps', matches: ['tenant-hcp-detail', 'tenant-hcp-import'] },
       { title: 'nav.organization.hcos', to: { name: 'tenant-hcos' }, icon: 'tabler-building-hospital', resource: 'hcos' },
     ],
   },

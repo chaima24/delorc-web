@@ -134,3 +134,29 @@ export const addHcpWorkplace = (hcpId: number, body: HcpWorkplacePayload) => dat
 export const updateHcpWorkplace = (hcpId: number, workplaceId: number, body: HcpWorkplacePayload) =>
   data<HcpWorkplace>(client.put(`/hcps/${hcpId}/workplaces/${workplaceId}`, body))
 export const deleteHcpWorkplace = (hcpId: number, workplaceId: number) => client.delete(`/hcps/${hcpId}/workplaces/${workplaceId}`)
+
+/** Excel import (part 5b): one file row, raw cell text per field; `row` = its line in the file. */
+export type HcpImportField = 'name' | 'type' | 'gender' | 'speciality' | 'hco' | 'since' | 'wilaya' | 'commune' | 'address'
+  | 'latitude' | 'longitude' | 'phone' | 'email' | 'fax' | 'contacted_by' | 'status' | 'one_key_id' | 'wkp_id'
+export type HcpImportRow = { row: number } & Partial<Record<HcpImportField, string>>
+
+export interface HcpImportProblem {
+  field: string
+  /** required · too_long · unknown · not_found · not_in_wilaya · ambiguous · invalid · taken · workplace_incomplete */
+  code: string
+  value?: string
+  other?: string | null
+}
+
+export interface HcpImportResult {
+  row: number
+  action: 'create' | 'update' | 'unchanged' | 'error'
+  name: string
+  errors: HcpImportProblem[]
+  warnings: HcpImportProblem[]
+}
+
+/** What each row would do; nothing saved. */
+export const checkHcpImport = (rows: HcpImportRow[]) => data<HcpImportResult[]>(client.post('/hcps/import/check', { rows }))
+/** Saves the rows without problems; same answer, after saving. */
+export const runHcpImport = (rows: HcpImportRow[]) => data<HcpImportResult[]>(client.post('/hcps/import', { rows }))

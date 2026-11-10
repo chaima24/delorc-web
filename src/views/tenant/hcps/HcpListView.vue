@@ -26,7 +26,7 @@ import { useHcpLookups } from './useHcpLookups'
 // Professionals › Healthcare professionals: type tabs with counts, search + filters, reading panel,
 // "Add" in 3 steps; editing is on the full page. "Missing" counters filter on what is missing.
 // ?type=<type> opens a tab, ?missing=<gps|phone|…> a counter, ?hco=<id> an organisation, ?view=map the map.
-// Import (5b), duplicates (5c), proposals (5d) and the territory filter come with their parts.
+// Duplicates (5c), proposals (5d) and the territory filter come with their parts.
 // Mockup: docs/design/customers-mockups/Professionals.html
 const { t, n } = useI18n()
 const route = useRoute()
@@ -278,6 +278,7 @@ async function exportList() {
       </div>
       <div class="flex flex-wrap items-center gap-2.5">
         <DlSegmented v-model="view" :label="t('hcps.map.view')" :items="viewItems" />
+        <DlButton v-if="auth.can('hcps.import')" variant="outline" icon="tabler-file-upload" class="max-md:hidden" :to="{ name: 'tenant-hcp-import' }">{{ t('hcpImport.button') }}</DlButton>
         <DlButton variant="outline" icon="tabler-file-spreadsheet" :loading="exporting" :disabled="!total" @click="exportList">{{ t('users.export') }}</DlButton>
         <DlButton v-if="canAdd" variant="primary" icon="tabler-plus" class="max-md:hidden" @click="add">{{ t('hcps.add.button') }}</DlButton>
       </div>

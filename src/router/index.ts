@@ -49,6 +49,7 @@ const labRoutes = [
       { path: 'expense-types', name: 'tenant-expense-types', component: () => import('@/views/tenant/expense-types/ExpenseTypeListView.vue'), meta: { permission: 'expense-types.show' } },
       { path: 'holidays', name: 'tenant-holidays', component: () => import('@/views/tenant/holidays/HolidayListView.vue'), meta: { permission: 'holidays.show' } },
       { path: 'hcps', name: 'tenant-hcps', component: () => import('@/views/tenant/hcps/HcpListView.vue'), meta: { permission: 'hcps.show' } },
+      { path: 'hcps/import', name: 'tenant-hcp-import', component: () => import('@/views/tenant/hcps/import/HcpImportView.vue'), meta: { permission: 'hcps.import' } },
       { path: 'hcps/:id', name: 'tenant-hcp-detail', component: () => import('@/views/tenant/hcps/HcpDetailView.vue'), props: true, meta: { permission: 'hcps.show' } },
       { path: 'hcos', name: 'tenant-hcos', component: () => import('@/views/tenant/hcos/HcoListView.vue'), meta: { permission: 'hcos.show' } },
       { path: 'planning-rules', name: 'tenant-planning-rules', component: () => import('@/views/tenant/planning-rules/PlanningRuleListView.vue'), meta: { permission: 'planning-rules.show' } },
