@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { errorMessage } from '@/api/errors'
-import { deleteHcp, fetchHcp, type Hcp } from '@/api/tenant/hcps'
+import { approveHcpRequest, deleteHcp, fetchHcp, refuseHcpRequest, type Hcp } from '@/api/tenant/hcps'
 import DlAvatar from '@/components/DlAvatar.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlEmptyState from '@/components/DlEmptyState.vue'
@@ -20,7 +20,7 @@ import HcpOverviewTab from './tabs/HcpOverviewTab.vue'
 
 // A professional's full page: header with the 4 figures, then tabs Overview · Visits · Cycles · Consents
 // (each list tab only with its own permission; Visits, Cycles and Consents show "Arrive avec…" until their modules).
-// Proposals (5d) add their banner. Mockup: docs/design/customers-mockups/Professionals.html (frames 6–6c)
+// A proposal shows its banner (Approve / Refuse for approvers). Mockup: docs/design/customers-mockups/Professionals.html (frames 6–6c)
 const props = defineProps<{ id: string }>()
 const { t, n } = useI18n()
 const route = useRoute()
@@ -72,6 +72,48 @@ const addedLine = computed(() => {
   return by ? t('hcps.page.addedBy', { date: text.date(hcp.value.created_at), name: by }) : t('hcps.page.added', { date: text.date(hcp.value.created_at) })
 })
 
+// A proposal: banner with Approve / Refuse (with a reason) for approvers.
+const proposedBy = computed(() => hcp.value?.added_by?.full_name ?? '—')
+const deciding = ref(false)
+const refusing = ref(false)
+const reason = ref('')
+const reasonError = ref('')
+async function approve() {
+  if (!hcp.value) return
+  deciding.value = true
+  try {
+    await approveHcpRequest(hcp.value.id)
+    toast.success(t('hcps.requests.approved', { name: hcp.value.name }))
+    await load()
+  }
+  catch (error) {
+    toast.error(errorMessage(error) ?? t('studio.list.toast.failed'))
+  }
+  finally {
+    deciding.value = false
+  }
+}
+async function refuse() {
+  if (!hcp.value) return
+  if (!reason.value.trim()) {
+    reasonError.value = t('users.add.required')
+    return
+  }
+  deciding.value = true
+  try {
+    await refuseHcpRequest(hcp.value.id, reason.value.trim())
+    toast.success(t('hcps.requests.refused', { name: hcp.value.name }))
+    refusing.value = false
+    await load()
+  }
+  catch (error) {
+    toast.error(errorMessage(error) ?? t('studio.list.toast.failed'))
+  }
+  finally {
+    deciding.value = false
+  }
+}
+
 async function remove() {
   if (!hcp.value) return
   const ok = await confirm({
@@ -112,6 +154,31 @@ async function remove() {
     </div>
 
     <template v-else>
+      <section v-if="hcp.status === 'pending' || hcp.status === 'refused'" class="flex flex-col gap-3 rounded-[18px] px-4 py-3 text-sm" :class="hcp.status === 'pending' ? 'bg-dl-pending/10' : 'bg-dl-rejected/10'">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="flex-1">
+            <strong :class="hcp.status === 'pending' ? 'text-dl-pending' : 'text-dl-rejected'">{{ t(`hcps.status.${hcp.status}`) }}</strong> ·
+            {{ t('hcps.requests.by', { name: proposedBy, date: text.date(hcp.created_at) }) }}.
+            <template v-if="hcp.status === 'pending'">{{ t('hcps.requests.bannerWaiting') }}</template>
+            <template v-else>“{{ hcp.refusal_reason }}”</template>
+          </span>
+          <template v-if="hcp.status === 'pending' && auth.can('hcp-requests.approve') && !refusing">
+            <DlButton variant="outline" size="sm" class="text-dl-rejected!" @click="refusing = true">{{ t('hcps.requests.refuseEllipsis') }}</DlButton>
+            <DlButton variant="primary" size="sm" :loading="deciding" @click="approve">{{ t('hcps.requests.approve') }}</DlButton>
+          </template>
+        </div>
+        <form v-if="refusing" class="flex flex-col gap-2" @submit.prevent="refuse">
+          <label class="flex flex-col gap-1.5">
+            <span class="text-[13px] font-semibold">{{ t('hcps.requests.reason', { name: proposedBy }) }}</span>
+            <textarea v-model="reason" rows="2" class="rounded-xl border border-dl-line bg-dl-paper px-3.5 py-2.5 text-sm outline-hidden focus:ring-2 focus:ring-dl-cobalt" />
+            <span v-if="reasonError" class="text-xs text-dl-rejected">{{ reasonError }}</span>
+          </label>
+          <div class="flex justify-end gap-2">
+            <DlButton variant="outline" size="sm" @click="refusing = false">{{ t('common.actions.cancel') }}</DlButton>
+            <DlButton type="submit" variant="danger" size="sm" :loading="deciding">{{ t('hcps.requests.refuse') }}</DlButton>
+          </div>
+        </form>
+      </section>
 
       <header class="flex flex-col gap-5 rounded-3xl bg-dl-paper p-5 md:p-6">
         <div class="flex flex-wrap items-center gap-4 md:gap-5">

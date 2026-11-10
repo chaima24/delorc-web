@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import type { ListParams } from '@/api/tenant/geography'
-import { HCP_MISSING, HCP_TYPES, fetchHcp, fetchHcpMissingCounts, fetchHcpTypeCounts, fetchHcps, type Hcp, type HcpMissing, type HcpMissingCounts, type HcpType, type HcpTypeCounts } from '@/api/tenant/hcps'
+import { HCP_MISSING, HCP_TYPES, fetchHcp, fetchHcpDuplicateCount, fetchHcpMissingCounts, fetchHcpRequestCount, fetchHcpTypeCounts, fetchHcps, type Hcp, type HcpMissing, type HcpMissingCounts, type HcpType, type HcpTypeCounts } from '@/api/tenant/hcps'
 import DlAvatar from '@/components/DlAvatar.vue'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlDataList from '@/components/DlDataList.vue'
+import DlIcon from '@/components/DlIcon.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlPagination from '@/components/DlPagination.vue'
 import DlSelect from '@/components/DlSelect.vue'
@@ -26,14 +27,15 @@ import { useHcpLookups } from './useHcpLookups'
 // Professionals › Healthcare professionals: type tabs with counts, search + filters, reading panel,
 // "Add" in 3 steps; editing is on the full page. "Missing" counters filter on what is missing.
 // ?type=<type> opens a tab, ?missing=<gps|phone|…> a counter, ?hco=<id> an organisation, ?view=map the map.
-// Duplicates (5c), proposals (5d) and the territory filter come with their parts.
+// The territory filter comes with territories.
 // Mockup: docs/design/customers-mockups/Professionals.html
 const { t, n } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const toast = useToast()
 const auth = useAuthStore()
-const canAdd = computed(() => auth.can('hcps.create'))
+// Reps propose with hcp-requests.create (the add becomes a proposal without the right to approve).
+const canAdd = computed(() => auth.can('hcps.create') || auth.can('hcp-requests.create'))
 const text = useHcpText()
 const lookups = useHcpLookups()
 
@@ -121,6 +123,31 @@ watch(() => JSON.stringify({ ...queryOf(search.value.trim(), filters), 'filter[m
   clearTimeout(missingTimer)
   missingTimer = setTimeout(loadMissing, 250)
 }, { immediate: true })
+// Proposals: approvers see "Demandes" (all waiting), the others "Mes propositions" (their own waiting).
+const requests = ref<{ waiting: number; approver: boolean } | null>(null)
+async function loadRequests() {
+  if (!auth.can('hcp-requests.show')) return
+  try {
+    requests.value = await fetchHcpRequestCount()
+  }
+  catch {
+    requests.value = null
+  }
+}
+loadRequests()
+
+// Possible duplicates: a link at the end of the Missing row when there are some.
+const duplicates = ref(0)
+async function loadDuplicates() {
+  try {
+    duplicates.value = (await fetchHcpDuplicateCount()).count
+  }
+  catch {
+    duplicates.value = 0
+  }
+}
+loadDuplicates()
+
 function toggleMissing(value: HcpMissing) {
   filters.missing = filters.missing === value ? ALL : value
   router.replace({ query: { ...route.query, missing: filters.missing === ALL ? undefined : filters.missing } })
@@ -204,9 +231,16 @@ function add() {
   open.value = true
 }
 async function onCreated(hcp: Hcp) {
+  if (hcp.status === 'pending') {
+    // A proposal: not in the list until approved.
+    open.value = false
+    loadRequests()
+    return
+  }
   list.reload()
   loadCounts()
   loadMissing()
+  loadDuplicates()
   await show(hcp)
 }
 
@@ -278,6 +312,16 @@ async function exportList() {
       </div>
       <div class="flex flex-wrap items-center gap-2.5">
         <DlSegmented v-model="view" :label="t('hcps.map.view')" :items="viewItems" />
+        <DlButton
+          v-if="requests && (requests.approver || requests.waiting)"
+          variant="outline"
+          icon="tabler-inbox"
+          :to="{ name: requests.approver ? 'tenant-hcp-requests' : 'tenant-hcp-proposals' }"
+        >
+          {{ t(requests.approver ? 'hcps.requests.title' : 'hcps.proposals.title') }}
+          <span v-if="requests.waiting" class="rounded-full bg-dl-pending/15 px-2 py-0.5 text-xs font-bold text-dl-pending">{{ n(requests.waiting) }}</span>
+        </DlButton>
+        <DlButton v-else-if="requests && auth.can('hcp-requests.create')" variant="ghost" :to="{ name: 'tenant-hcp-proposals' }">{{ t('hcps.proposals.title') }}</DlButton>
         <DlButton v-if="auth.can('hcps.import')" variant="outline" icon="tabler-file-upload" class="max-md:hidden" :to="{ name: 'tenant-hcp-import' }">{{ t('hcpImport.button') }}</DlButton>
         <DlButton variant="outline" icon="tabler-file-spreadsheet" :loading="exporting" :disabled="!total" @click="exportList">{{ t('users.export') }}</DlButton>
         <DlButton v-if="canAdd" variant="primary" icon="tabler-plus" class="max-md:hidden" @click="add">{{ t('hcps.add.button') }}</DlButton>
@@ -315,6 +359,14 @@ async function exportList() {
         {{ t(`hcps.missing.${key}`) }}
         <span class="tabular-nums" :class="filters.missing === key ? 'text-dl-signal dark:text-dl-ink' : 'text-dl-fg'">{{ n(missingCounts[key]) }}</span>
       </button>
+      <RouterLink
+        v-if="duplicates"
+        :to="{ name: 'tenant-hcp-duplicates' }"
+        class="ms-auto inline-flex h-9 items-center gap-2 rounded-[11px] border border-dl-line bg-dl-paper px-3 text-[13px] font-semibold text-dl-cobalt no-underline hover:bg-dl-mist"
+      >
+        <DlIcon icon="tabler-copy" :size="15" />{{ t('hcps.duplicates.link', { n: n(duplicates) }, duplicates) }}
+        <DlIcon icon="tabler-chevron-right" :size="14" class="rtl:-scale-x-100" />
+      </RouterLink>
     </div>
 
       <div class="flex min-w-0 flex-1 flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5 max-md:bg-transparent max-md:p-0">

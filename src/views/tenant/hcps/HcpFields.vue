@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { HCP_TYPES, type HcpContactedBy, type HcpGender, type HcpStatus } from '@/api/tenant/hcps'
+import { HCP_TYPES, isProposal, type HcpContactedBy, type HcpGender, type HcpStatus } from '@/api/tenant/hcps'
 import DlCombobox from '@/components/DlCombobox.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlSegmented from '@/components/DlSegmented.vue'
@@ -80,8 +80,7 @@ const communeOptions = computed(() => lookups.communeOptions(form.value.wilaya_i
       <span v-if="errors?.gender" class="text-xs text-dl-rejected">{{ errors.gender }}</span>
     </div>
     <template v-if="full">
-      <!-- A proposal's status changes only by approving or refusing it (part 5d). -->
-      <div class="flex flex-col gap-1.5">
+      <div v-if="!isProposal(form.status)" class="flex flex-col gap-1.5">
         <span class="text-[13px] font-semibold">{{ t('hcps.fields.status') }}</span>
         <DlSegmented v-model="status" :label="t('hcps.fields.status')" :items="statuses" block />
       </div>

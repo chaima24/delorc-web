@@ -9,6 +9,7 @@ import DlIcon from '@/components/DlIcon.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import DlSteps from '@/components/DlSteps.vue'
 import { useToast } from '@/composables/useToast'
+import { useAuthStore } from '@/stores/auth'
 import HcpFields from './HcpFields.vue'
 import HcpWorkplaceFields from './HcpWorkplaceFields.vue'
 import { avatarName, checkPart, emptyWorkplace, toForm, toPayload, useHcpText, type HcpPart, type WorkplaceForm } from './hcpForm'
@@ -20,7 +21,9 @@ const open = defineModel<boolean>('open', { default: false })
 const { t } = useI18n()
 const toast = useToast()
 const text = useHcpText()
-// Every professional added is active; the proposal rule (no right to approve) comes with part 5d.
+// Without the right to approve, adding is a proposal a manager checks first.
+const auth = useAuthStore()
+const direct = computed(() => auth.can('hcp-requests.approve'))
 
 const form = ref(toForm())
 const workplaces = ref<WorkplaceForm[]>([])
@@ -96,7 +99,7 @@ async function save() {
       workplaces: workplaces.value.map(w => ({ hco_id: w.hco_id as number, speciality_id: w.speciality_id as number, start_date: w.start_date })),
     }
     const created = await createHcp(payload)
-    toast.success(t('hcps.add.done', { name: form.value.name.trim() }))
+    toast.success(t(direct.value ? 'hcps.add.done' : 'hcps.requests.sent', { name: form.value.name.trim() }))
     emit('created', created)
   }
   catch (error) {
@@ -162,6 +165,9 @@ async function save() {
         </DlButton>
         <h3 class="mt-1 text-[13px] font-semibold">{{ t('hcps.read.ids') }}</h3>
         <HcpFields v-model:form="form" part="ids" :errors="errors" />
+        <p v-if="!direct" class="flex gap-2 rounded-xl bg-dl-pending/10 px-3 py-2.5 text-[13px] text-dl-body">
+          <DlIcon icon="tabler-info-circle" :size="17" class="mt-px text-dl-pending" />{{ t('hcps.requests.note') }}
+        </p>
       </template>
     </form>
 
@@ -169,7 +175,7 @@ async function save() {
       <DlButton v-if="step === 0" variant="ghost" @click="open = false">{{ t('common.actions.cancel') }}</DlButton>
       <DlButton v-else variant="ghost" @click="step--">{{ t('users.add.back') }}</DlButton>
       <DlButton v-if="step < 2" type="submit" form="hcp-create" variant="dark" class="ms-auto">{{ t('users.add.next') }}</DlButton>
-      <DlButton v-else type="submit" form="hcp-create" variant="primary" class="ms-auto" :loading="saving">{{ t('hcps.add.save') }}</DlButton>
+      <DlButton v-else type="submit" form="hcp-create" variant="primary" class="ms-auto" :loading="saving">{{ t(direct ? 'hcps.add.save' : 'hcps.requests.send') }}</DlButton>
     </template>
   </DlRecordPanel>
 </template>

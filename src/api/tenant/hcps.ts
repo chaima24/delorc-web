@@ -1,11 +1,12 @@
 import { client } from '@/api/client'
 import type { Commune, ListParams, Page } from '@/api/tenant/geography'
 
-/** Professionnels de santé (docs/api/professionals.md). Import, duplicates and proposals come with their parts. */
+/** Professionnels de santé (docs/api/professionals.md): parts 5a list and page, 5b import, 5c duplicates, 5d proposals. */
 export type HcpType = 'doctor' | 'pharmacie' | 'dentiste' | 'wholestore' | 'distributor'
 export type HcpGender = 'male' | 'female'
-/** `pending` and `refused` (proposals) come with part 5d. */
-export type HcpStatus = 'active' | 'inactive'
+/** `pending` and `refused` are proposals, only on the Demandes pages. */
+export type HcpStatus = 'active' | 'inactive' | 'pending' | 'refused'
+export const isProposal = (status?: HcpStatus | null) => status === 'pending' || status === 'refused'
 export type HcpContactedBy = 'phone' | 'email' | 'other'
 
 export const HCP_TYPES: HcpType[] = ['doctor', 'pharmacie', 'dentiste', 'wholestore', 'distributor']
@@ -63,6 +64,14 @@ export interface Hcp {
   activity?: HcpActivity
   /** Look-alikes only: what matched. */
   match?: ('name' | 'phone' | 'email')[]
+  /** Proposals: who approved or refused it, when, and why (refused). */
+  decided_by?: { id: number; full_name: string } | null
+  decided_at?: string | null
+  refusal_reason?: string | null
+  /** Demandes page, waiting ones: professionals that look like it. */
+  lookalikes?: Hcp[]
+  /** Duplicate groups only: what is linked to it (0 until visits, orders and cycles exist). */
+  usage?: { visits: number; orders: number; cycle_targets: number }
   created_at: string | null
   updated_at?: string | null
 }
@@ -99,6 +108,44 @@ export interface HcpPayload {
   wkp_id?: string
   /** Add only. */
   workplaces?: Required<Omit<HcpWorkplacePayload, 'end_date'>>[]
+}
+
+// ── 5c: duplicates and merge ──────────────────────────────────────────────
+
+export type HcpDuplicateReason = 'name' | 'phone' | 'email'
+
+/** Professionals that look like the same one; `key` identifies the group. */
+export interface HcpDuplicateGroup {
+  key: string
+  reasons: HcpDuplicateReason[]
+  members: Hcp[]
+}
+
+export interface HcpDuplicateGroupsResponse {
+  data: HcpDuplicateGroup[]
+  meta: { total: number; current_page: number; per_page: number; last_page: number; counts: Record<HcpDuplicateReason | 'all', number> }
+}
+
+/** Fields whose value can be taken from the merged record (`gps` = latitude + longitude). */
+export const HCP_MERGE_FIELDS = ['name', 'type', 'gender', 'phone', 'email', 'fax', 'address', 'commune_id', 'gps', 'contacted_by', 'status', 'verified', 'one_key_id', 'wkp_id'] as const
+export type HcpMergeField = typeof HCP_MERGE_FIELDS[number]
+
+export interface HcpMergePreview {
+  keep: Hcp
+  other: Hcp
+  /** What would move from `other` to `keep` (workplaces now; visits, orders, cycles… with their modules). */
+  moves: Partial<Record<'visits' | 'orders' | 'cycle_targets' | 'workplaces' | 'consents' | 'survey_answers' | 'activities' | 'campaigns', number>>
+  /** Cycles where both are targets: the kept one's target stays. */
+  shared_cycles: { id: number; name: string; user: string | null }[]
+}
+
+// ── 5d: proposals ─────────────────────────────────────────────────────────
+
+export type HcpRequestState = 'waiting' | 'refused' | 'approved'
+
+export interface HcpRequestsResponse {
+  data: Hcp[]
+  meta: { total: number; current_page: number; last_page: number; per_page: number; counts: Record<HcpRequestState, number> }
 }
 
 export interface HcpMapPoint {
@@ -160,3 +207,21 @@ export interface HcpImportResult {
 export const checkHcpImport = (rows: HcpImportRow[]) => data<HcpImportResult[]>(client.post('/hcps/import/check', { rows }))
 /** Saves the rows without problems; same answer, after saving. */
 export const runHcpImport = (rows: HcpImportRow[]) => data<HcpImportResult[]>(client.post('/hcps/import', { rows }))
+
+export const fetchHcpDuplicateGroups = (params?: ListParams) =>
+  client.get<HcpDuplicateGroupsResponse>('/hcps/duplicates/groups', { params }).then((response) => response.data)
+/** How many groups (the link on the list). */
+export const fetchHcpDuplicateCount = () => data<{ count: number }>(client.get('/hcps/duplicates/count'))
+/** "Ce ne sont pas les mêmes": these professionals are no longer proposed as duplicates of each other. */
+export const dismissHcpDuplicates = (hcpIds: number[]) => client.post('/hcps/duplicates/dismiss', { hcp_ids: hcpIds })
+export const fetchHcpMergePreview = (keepId: number, otherId: number) => data<HcpMergePreview>(client.get(`/hcps/${keepId}/merge/${otherId}`))
+/** Merges `otherId` into `keepId` (the other is deleted); `take` = values that come from the other. */
+export const mergeHcps = (keepId: number, otherId: number, take: HcpMergeField[]) => one(client.post(`/hcps/${keepId}/merge/${otherId}`, { take }))
+
+/** Proposals: all of them for approvers, one's own otherwise (or with filter[mine]=1). */
+export const fetchHcpRequests = (params?: ListParams) =>
+  client.get<HcpRequestsResponse>('/hcp-requests', { params }).then((response) => response.data)
+/** Proposals waiting (all for approvers, one's own otherwise) and whether the caller can approve. */
+export const fetchHcpRequestCount = () => data<{ waiting: number; approver: boolean }>(client.get('/hcp-requests/count'))
+export const approveHcpRequest = (id: number) => one(client.post(`/hcp-requests/${id}/approve`))
+export const refuseHcpRequest = (id: number, reason: string) => one(client.post(`/hcp-requests/${id}/refuse`, { reason }))
