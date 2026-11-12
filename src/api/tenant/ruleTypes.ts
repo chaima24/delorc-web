@@ -42,3 +42,15 @@ export interface RuleTypeTerritory {
 export const fetchRuleTypes = () => client.get<{ data: RuleType[] }>('/rule-types').then((response) => response.data.data)
 
 export const fetchRuleType = (id: number) => client.get<{ data: RuleType }>(`/rule-types/${id}`).then((response) => response.data.data)
+
+/** A choice of a type for a territory's covers step: an item (`main:16`) or a wilaya's sub-zone (`sub:3`), with its parent. */
+export interface RuleTypeOption {
+  value: string
+  id: number
+  label: string
+  is_sub_zone: boolean
+  parent_id: number | null
+  parent_label: string | null
+}
+
+export const fetchRuleTypeOptions = (id: number) => client.get<{ data: RuleTypeOption[] }>(`/rule-types/${id}/options`).then((response) => response.data.data)

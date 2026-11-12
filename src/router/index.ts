@@ -61,6 +61,11 @@ const labRoutes = [
       { path: 'languages', name: 'tenant-languages', component: () => import('@/views/tenant/languages/LanguageListView.vue'), meta: { permission: 'languages.show' } },
       { path: 'sub-wilaya-zones', name: 'tenant-sub-wilaya-zones', component: () => import('@/views/tenant/sub-wilaya-zones/SubWilayaZoneListView.vue'), meta: { permission: 'sub-wilaya-zones.show' } },
       { path: 'rule-types', name: 'tenant-rule-types', component: () => import('@/views/tenant/rule-types/RuleTypeListView.vue'), meta: { permission: 'rule-types.show' } },
+      // Planifier › Territoires (docs/api/territories.md).
+      { path: 'territories', name: 'tenant-territories', component: () => import('@/views/tenant/territories/TerritoryListView.vue'), meta: { permission: 'territories.show' } },
+      { path: 'territories/new', name: 'tenant-territory-new', component: () => import('@/views/tenant/territories/TerritoryCreateView.vue'), meta: { permission: 'territories.create' } },
+      { path: 'territories/:id(\\d+)/covers', name: 'tenant-territory-covers', component: () => import('@/views/tenant/territories/TerritoryCoversEditView.vue'), props: true, meta: { permission: 'territories.update' } },
+      { path: 'territories/:id(\\d+)', name: 'tenant-territory-detail', component: () => import('@/views/tenant/territories/TerritoryDetailView.vue'), props: true, meta: { permission: 'territories.show' } },
       { path: 'settings', name: 'tenant-settings', component: () => import('@/views/tenant/settings/SettingsHubView.vue') },
       { path: 'roles', name: 'tenant-roles', component: () => import('@/views/tenant/roles/RoleListView.vue'), meta: { permission: 'roles.show' } },
       { path: 'roles/:id/access', name: 'tenant-role-access', component: () => import('@/views/tenant/roles/RoleAccessView.vue'), props: true, meta: { permission: 'roles.show' } },

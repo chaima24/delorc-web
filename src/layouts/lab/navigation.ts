@@ -38,6 +38,15 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
+    // Planifier: territories; cycles join with their module.
+    id: 'plan',
+    title: 'nav.workspaces.plan',
+    icon: 'tabler-calendar-stats',
+    links: [
+      { title: 'nav.plan.territories', to: { name: 'tenant-territories' }, icon: 'tabler-map-pins', resource: 'territories', matches: ['tenant-territory-detail', 'tenant-territory-new', 'tenant-territory-covers'] },
+    ],
+  },
+  {
     // Professionnels de santé: consents join with their module.
     id: 'customers',
     title: 'nav.workspaces.customers',
