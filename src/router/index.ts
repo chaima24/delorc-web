@@ -68,6 +68,9 @@ const labRoutes = [
       { path: 'territories/new', name: 'tenant-territory-new', component: () => import('@/views/tenant/territories/TerritoryCreateView.vue'), meta: { permission: 'territories.create' } },
       { path: 'territories/:id(\\d+)/covers', name: 'tenant-territory-covers', component: () => import('@/views/tenant/territories/TerritoryCoversEditView.vue'), props: true, meta: { permission: 'territories.update' } },
       { path: 'territories/:id(\\d+)', name: 'tenant-territory-detail', component: () => import('@/views/tenant/territories/TerritoryDetailView.vue'), props: true, meta: { permission: 'territories.show' } },
+      // Planifier › Objectifs, Fréquences (docs/api/objectives-frequencies.md).
+      { path: 'objectives', name: 'tenant-objectives', component: () => import('@/views/tenant/objectives/ObjectiveListView.vue'), meta: { permission: 'objectives.show' } },
+      { path: 'frequencies', name: 'tenant-frequencies', component: () => import('@/views/tenant/frequencies/FrequencyListView.vue'), meta: { permission: 'frequencies.show' } },
       { path: 'settings', name: 'tenant-settings', component: () => import('@/views/tenant/settings/SettingsHubView.vue') },
       { path: 'roles', name: 'tenant-roles', component: () => import('@/views/tenant/roles/RoleListView.vue'), meta: { permission: 'roles.show' } },
       { path: 'roles/:id/access', name: 'tenant-role-access', component: () => import('@/views/tenant/roles/RoleAccessView.vue'), props: true, meta: { permission: 'roles.show' } },

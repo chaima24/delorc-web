@@ -21,6 +21,8 @@ export interface HcpWorkplace {
   speciality_id: number
   start_date: string | null
   end_date: string | null
+  /** The main workplace: its speciality is the one the frequency grids use. */
+  is_main: boolean
   hco?: { id: number; name: string; type?: string } | null
   speciality?: { id: number; name: string } | null
 }
@@ -87,6 +89,8 @@ export interface HcpWorkplacePayload {
   speciality_id?: number
   start_date?: string
   end_date?: string | null
+  /** Edit only: make it the main one (the first current one is main by itself). */
+  is_main?: true
 }
 
 /** Fields sent when adding (all) or saving one section of the page (some). */
@@ -107,7 +111,7 @@ export interface HcpPayload {
   one_key_id?: string
   wkp_id?: string
   /** Add only. */
-  workplaces?: Required<Omit<HcpWorkplacePayload, 'end_date'>>[]
+  workplaces?: Required<Omit<HcpWorkplacePayload, 'end_date' | 'is_main'>>[]
 }
 
 // ── 5c: duplicates and merge ──────────────────────────────────────────────

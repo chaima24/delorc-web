@@ -38,12 +38,14 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
-    // Planifier: territories; cycles join with their module.
+    // Planifier: territories, objectives, frequencies; activities and cycles join with their modules.
     id: 'plan',
     title: 'nav.workspaces.plan',
     icon: 'tabler-calendar-stats',
     links: [
       { title: 'nav.plan.territories', to: { name: 'tenant-territories' }, icon: 'tabler-map-pins', resource: 'territories', matches: ['tenant-territory-detail', 'tenant-territory-new', 'tenant-territory-covers'] },
+      { title: 'nav.plan.objectives', to: { name: 'tenant-objectives' }, icon: 'tabler-target-arrow', resource: 'objectives' },
+      { title: 'nav.plan.frequencies', to: { name: 'tenant-frequencies' }, icon: 'tabler-repeat', resource: 'frequencies' },
     ],
   },
   {

@@ -57,9 +57,18 @@ export function useUserText() {
   const dateTime = (value?: string | null) =>
     value ? d(new Date(value), { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'
 
+  /** "1 Jan – 30 Nov 2026" (the year once when both dates share it). */
+  const range = (start?: string | null, end?: string | null) => {
+    if (!start || !end) return '—'
+    const sameYear = start.slice(0, 4) === end.slice(0, 4)
+    const from = d(new Date(`${start.slice(0, 10)}T12:00:00`), sameYear ? { day: 'numeric', month: 'short' } : { day: 'numeric', month: 'short', year: 'numeric' })
+    return `${from} – ${date(end)}`
+  }
+
   return {
     date,
     dateTime,
+    range,
     role: (user: TenantUser) => roleLabel(user.role),
     status: (user: TenantUser) => t(`users.status.${accountStatus(user)}`),
     /** "2 Sep 2026 → today" */

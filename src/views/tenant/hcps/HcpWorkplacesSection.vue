@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import { addHcpWorkplace, deleteHcpWorkplace, updateHcpWorkplace, type Hcp, type HcpWorkplace } from '@/api/tenant/hcps'
+import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlIcon from '@/components/DlIcon.vue'
 import DlInput from '@/components/DlInput.vue'
@@ -14,7 +15,8 @@ import HcpWorkplaceFields from './HcpWorkplaceFields.vue'
 import { emptyWorkplace, useHcpText, type WorkplaceForm } from './hcpForm'
 
 // "Works at": current workplaces, then past ones (greyed). In edit mode a workplace is ended
-// (last day, it stays in the history), a new one added, or one added by mistake deleted.
+// (last day, it stays in the history), a new one added, one added by mistake deleted, or a
+// current one made the main one ("Lieu principal": its speciality is the one the frequency grids use).
 const props = defineProps<{ hcp: Hcp }>()
 const emit = defineEmits<{ changed: [] }>()
 const { t } = useI18n()
@@ -95,6 +97,22 @@ async function add() {
   }
 }
 
+// Make a current one the main one: the other loses the mark.
+async function makeMain(w: HcpWorkplace) {
+  busy.value = true
+  try {
+    await updateHcpWorkplace(props.hcp.id, w.id, { is_main: true })
+    toast.success(t('studio.list.toast.saved'))
+    emit('changed')
+  }
+  catch (error) {
+    fail(error)
+  }
+  finally {
+    busy.value = false
+  }
+}
+
 async function remove(w: HcpWorkplace) {
   const ok = await confirm({
     title: t('hcps.workplaces.deleteTitle', { name: w.hco?.name ?? '' }),
@@ -137,10 +155,14 @@ function done() {
         <div class="flex items-start gap-3">
           <span class="w-1 self-stretch rounded-full" :class="isCurrent(w) ? 'bg-dl-cobalt' : 'bg-dl-line'" aria-hidden="true" />
           <span class="flex min-w-0 flex-1 flex-col" :class="!isCurrent(w) && 'text-dl-muted'">
-            <span class="font-semibold">{{ w.hco?.name ?? '—' }}</span>
+            <span class="flex flex-wrap items-center gap-1.5">
+              <span class="font-semibold">{{ w.hco?.name ?? '—' }}</span>
+              <DlBadge v-if="w.is_main" size="sm" tone="info">{{ t('hcps.workplaces.main') }}</DlBadge>
+            </span>
             <span class="text-xs text-dl-muted">{{ w.speciality?.name ?? '—' }} · {{ when(w) }}</span>
           </span>
           <template v-if="editing && ending !== w.id">
+            <DlButton v-if="isCurrent(w) && !w.is_main" variant="ghost" size="sm" :loading="busy" @click="makeMain(w)">{{ t('hcps.workplaces.makeMain') }}</DlButton>
             <DlButton v-if="isCurrent(w) && !w.end_date" variant="outline" size="sm" @click="startEnd(w)">{{ t('hcps.workplaces.end') }}</DlButton>
             <button type="button" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] text-dl-muted hover:bg-dl-line-soft hover:text-dl-rejected" :aria-label="t('hcps.workplaces.deleteTitle', { name: w.hco?.name ?? '' })" @click="remove(w)">
               <DlIcon icon="tabler-trash" :size="16" />
