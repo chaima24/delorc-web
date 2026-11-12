@@ -12,18 +12,18 @@ export interface HcpFigure {
   tone?: string
 }
 
-/** The 4 figures of a record (visits, last visit, current cycle, consent), from `activity`; none until visits exist. */
+/** The 4 figures of a record (visits, last visit, current cycle, consent), from `activity`: the consent now, the other three with visits and cycles. */
 export function useHcpFigures(hcp: MaybeRefOrGetter<Hcp | null | undefined>) {
   const { t, n } = useI18n()
   const text = useHcpText()
 
   return computed<HcpFigure[]>(() => {
     const activity = toValue(hcp)?.activity
-    if (!activity || activity.visits_year === undefined) return []
+    if (!activity) return []
     const { last_visit: last, current_cycle: cycle, consent } = activity
     const consentState = !consent ? 'none' : consent.approval === null ? 'pending' : consent.approval ? 'given' : 'refused'
 
-    return [
+    const figures: HcpFigure[] = activity.visits_year === undefined ? [] : [
       {
         key: 'visits',
         label: t('hcps.figures.visits'),
@@ -42,6 +42,11 @@ export function useHcpFigures(hcp: MaybeRefOrGetter<Hcp | null | undefined>) {
         value: cycle ? `${n(cycle.done)} / ${n(cycle.planned)}` : '—',
         note: cycle ? t('hcps.figures.cycleNote', cycle.targets) : t('hcps.figures.notTargeted'),
       },
+    ]
+    if (!('consent' in activity)) return figures
+
+    return [
+      ...figures,
       {
         key: 'consent',
         label: t('hcps.figures.consent'),

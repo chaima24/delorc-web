@@ -47,13 +47,14 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
-    // Professionnels de santé: consents join with their module.
+    // Professionnels de santé.
     id: 'customers',
     title: 'nav.workspaces.customers',
     icon: 'tabler-users',
     links: [
       { title: 'nav.organization.hcps', to: { name: 'tenant-hcps' }, icon: 'tabler-stethoscope', resource: 'hcps', matches: ['tenant-hcp-detail', 'tenant-hcp-import', 'tenant-hcp-duplicates', 'tenant-hcp-merge', 'tenant-hcp-requests', 'tenant-hcp-proposals'] },
       { title: 'nav.organization.hcos', to: { name: 'tenant-hcos' }, icon: 'tabler-building-hospital', resource: 'hcos' },
+      { title: 'nav.organization.consents', to: { name: 'tenant-consents' }, icon: 'tabler-shield-check', resource: 'consents' },
     ],
   },
 ]

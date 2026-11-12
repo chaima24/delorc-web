@@ -61,6 +61,8 @@ const labRoutes = [
       { path: 'languages', name: 'tenant-languages', component: () => import('@/views/tenant/languages/LanguageListView.vue'), meta: { permission: 'languages.show' } },
       { path: 'sub-wilaya-zones', name: 'tenant-sub-wilaya-zones', component: () => import('@/views/tenant/sub-wilaya-zones/SubWilayaZoneListView.vue'), meta: { permission: 'sub-wilaya-zones.show' } },
       { path: 'rule-types', name: 'tenant-rule-types', component: () => import('@/views/tenant/rule-types/RuleTypeListView.vue'), meta: { permission: 'rule-types.show' } },
+      // Professionnels › Consentements (docs/api/consents.md).
+      { path: 'consents', name: 'tenant-consents', component: () => import('@/views/tenant/consents/ConsentListView.vue'), meta: { permission: 'consents.show' } },
       // Planifier › Territoires (docs/api/territories.md).
       { path: 'territories', name: 'tenant-territories', component: () => import('@/views/tenant/territories/TerritoryListView.vue'), meta: { permission: 'territories.show' } },
       { path: 'territories/new', name: 'tenant-territory-new', component: () => import('@/views/tenant/territories/TerritoryCreateView.vue'), meta: { permission: 'territories.create' } },
@@ -86,6 +88,8 @@ const router = createRouter({
   routes: [
     // Central: `home` sends to the first page the person may see (guards). A lab: `home` is the welcome page.
     ...(space.isCentral ? [{ path: '/', name: 'home', component: () => import('@/views/HomeView.vue') }, ...centralRoutes] : labRoutes),
+    // A lab's public page: a professional answers a consent from its link or QR code. No sign-in, no app shell.
+    ...(space.isCentral ? [] : [{ path: '/consent/:token', name: 'public-consent', component: () => import('@/views/public/ConsentSignView.vue'), props: true, meta: { public: true } }]),
     {
       path: '/',
       component: () => import('@/layouts/SignInLayout.vue'),
