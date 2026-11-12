@@ -24,6 +24,8 @@ export const geographySection: StudioSection = {
     { route: 'tenant-wilayas', resource: 'wilayas', icon: 'tabler-map-pin', label: 'geo.title.wilayas', count: 'wilayas' },
     { route: 'tenant-communes', resource: 'communes', icon: 'tabler-building-community', label: 'geo.title.communes', count: 'communes' },
     { route: 'tenant-sub-wilaya-zones', resource: 'sub-wilaya-zones', icon: 'tabler-hexagons', label: 'geo.title.zones', count: 'sub_wilaya_zones' },
+    // Read only: central sets the types up (docs/api/rule-types.md).
+    { route: 'tenant-rule-types', resource: 'rule-types', icon: 'tabler-list-details', label: 'ruleTypes.title' },
   ],
 }
 

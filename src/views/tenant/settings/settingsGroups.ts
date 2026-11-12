@@ -36,6 +36,7 @@ export const settingsGroups: SettingsGroup[] = [
       { title: 'settings.links.wilayas.title', description: 'settings.links.wilayas.description', to: { name: 'tenant-wilayas' }, icon: 'tabler-map-pin', resource: 'wilayas', count: 'wilayas' },
       { title: 'settings.links.communes.title', description: 'settings.links.communes.description', to: { name: 'tenant-communes' }, icon: 'tabler-building-community', resource: 'communes', count: 'communes' },
       { title: 'settings.links.subWilayaZones.title', description: 'settings.links.subWilayaZones.description', to: { name: 'tenant-sub-wilaya-zones' }, icon: 'tabler-hexagons', resource: 'sub-wilaya-zones', count: 'sub_wilaya_zones' },
+      { title: 'settings.links.ruleTypes.title', description: 'settings.links.ruleTypes.description', to: { name: 'tenant-rule-types' }, icon: 'tabler-list-details', resource: 'rule-types' },
     ],
   },
   {

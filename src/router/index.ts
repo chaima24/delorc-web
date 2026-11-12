@@ -60,6 +60,7 @@ const labRoutes = [
       { path: 'validation-rules', name: 'tenant-validation-rules', component: () => import('@/views/tenant/validation-rules/ValidationRuleListView.vue'), meta: { permission: 'validation-rules.show' } },
       { path: 'languages', name: 'tenant-languages', component: () => import('@/views/tenant/languages/LanguageListView.vue'), meta: { permission: 'languages.show' } },
       { path: 'sub-wilaya-zones', name: 'tenant-sub-wilaya-zones', component: () => import('@/views/tenant/sub-wilaya-zones/SubWilayaZoneListView.vue'), meta: { permission: 'sub-wilaya-zones.show' } },
+      { path: 'rule-types', name: 'tenant-rule-types', component: () => import('@/views/tenant/rule-types/RuleTypeListView.vue'), meta: { permission: 'rule-types.show' } },
       { path: 'settings', name: 'tenant-settings', component: () => import('@/views/tenant/settings/SettingsHubView.vue') },
       { path: 'roles', name: 'tenant-roles', component: () => import('@/views/tenant/roles/RoleListView.vue'), meta: { permission: 'roles.show' } },
       { path: 'roles/:id/access', name: 'tenant-role-access', component: () => import('@/views/tenant/roles/RoleAccessView.vue'), props: true, meta: { permission: 'roles.show' } },

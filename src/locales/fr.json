@@ -158,7 +158,10 @@
         "text_put_back": "Texte rétabli",
         "texts_changed": "Textes modifiés",
         "updated": "Modification",
-        "values_changed": "Valeurs modifiées"
+        "values_changed": "Valeurs modifiées",
+        "rule_type_added": "Type de règle ajouté",
+        "rule_type_changed": "Type de règle modifié",
+        "rule_type_deleted": "Type de règle supprimé"
       },
       "actionLabel": "Action",
       "after": "Après",
@@ -307,7 +310,10 @@
           "suspended": "{author} a suspendu le laboratoire {record}",
           "text_put_back": "{author} a rétabli un texte de {record} sur le texte maître",
           "texts_changed": "{author} a modifié des textes de {record}",
-          "updated": "{author} a modifié le laboratoire {record}"
+          "updated": "{author} a modifié le laboratoire {record}",
+          "rule_type_added": "{author} a ajouté un type de règle à {record}",
+          "rule_type_changed": "{author} a modifié un type de règle de {record}",
+          "rule_type_deleted": "{author} a supprimé un type de règle de {record}"
         },
         "language": {
           "created": "{author} a ajouté la langue {record}",
@@ -783,7 +789,8 @@
         "overview": "Vue d'ensemble",
         "subscription": "Abonnement",
         "texts": "Textes",
-        "usage": "Utilisation"
+        "usage": "Utilisation",
+        "ruleTypes": "Types de règles"
       },
       "texts": {
         "add": "Ajouter",
@@ -817,6 +824,67 @@
         "places": "Les lieux de {country} sont copiés.",
         "trial": "Un essai d'un mois sur {plan} commence aujourd'hui.",
         "weekend": "Le week-end commence en vendredi + samedi. L'administrateur du laboratoire le change dans Studio."
+      },
+      "ruleTypes": {
+        "title": "Types de règles de {name}",
+        "add": "Ajouter un type",
+        "addSubmit": "Ajouter le type",
+        "empty": "Aucun type de règle",
+        "name": "Nom",
+        "code": "Code",
+        "place": "Dans",
+        "choices": "Choix",
+        "hcpLink": "Lien aux professionnels",
+        "userLink": "Lien aux personnes",
+        "shown": "Affiché",
+        "territories": "Territoires",
+        "inside": "Dans {name}",
+        "top": "Niveau le plus haut",
+        "alone": "Indépendant",
+        "subZonesCount": "{n} sous-zones",
+        "zoneType": "type de zone",
+        "allKinds": "tous",
+        "skipsEmpty": "ignore le vide",
+        "visible": "Affiché",
+        "hidden": "Masqué",
+        "rule": "Un type sans lien aux professionnels (Segmentation) n’est pas proposé dans les territoires du laboratoire.",
+        "clickHint": "Cliquez sur un type pour le modifier.",
+        "usedBy": "Utilisé par {n} territoire : il ne peut être ni masqué ni supprimé. | Utilisé par {n} territoires : il ne peut être ni masqué ni supprimé.",
+        "unused": "Aucun territoire ne l’utilise.",
+        "kind": {
+          "doctor": "Médecins",
+          "pharmacie": "Pharmacies",
+          "dentiste": "Dentistes",
+          "wholestore": "Grossistes",
+          "distributor": "Distributeurs"
+        },
+        "form": {
+          "theType": "Le type",
+          "nameHint": "Ce que lit le laboratoire.",
+          "codeHint": "Lettres, chiffres, - et _. Unique dans le laboratoire.",
+          "parent": "Dans · facultatif",
+          "noParent": "— Aucun",
+          "parentHint": "Le type dans lequel il se trouve (une commune est dans une wilaya).",
+          "parentKey": "Colonne du parent",
+          "parentKeyHint": "Colonne de la table qui pointe vers le parent.",
+          "table": "Table",
+          "model": "Classe du modèle",
+          "visible": "Affiché dans le laboratoire",
+          "visibleHint": "Masqué : le laboratoire ne le propose pas dans les territoires.",
+          "wilayaOptions": "Options de la wilaya",
+          "subZones": "Sous-zones",
+          "zoneType": "Type de zone (Résidence / Semi / Hors)",
+          "subTable": "Table des sous-zones",
+          "subModel": "Classe du modèle des sous-zones",
+          "path": "Chemin · facultatif",
+          "subPath": "Chemin des sous-zones · facultatif",
+          "hcpPathHint": "Vide : non proposé dans les territoires.",
+          "kinds": "Types de professionnels",
+          "kindsHint": "Aucun coché : tous.",
+          "userPathHint": "Sert à suggérer qui peut travailler un territoire.",
+          "skipEmpty": "Une personne sans rien sur ce chemin correspond quand même",
+          "skipEmptyHint": "Par exemple une équipe sans spécialité."
+        }
       }
     },
     "languages": {

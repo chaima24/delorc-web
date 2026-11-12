@@ -158,7 +158,10 @@
         "text_put_back": "Text put back",
         "texts_changed": "Texts changed",
         "updated": "Edited",
-        "values_changed": "Values changed"
+        "values_changed": "Values changed",
+        "rule_type_added": "Rule type added",
+        "rule_type_changed": "Rule type changed",
+        "rule_type_deleted": "Rule type deleted"
       },
       "actionLabel": "Action",
       "after": "After",
@@ -307,7 +310,10 @@
           "suspended": "{author} suspended the lab {record}",
           "text_put_back": "{author} put a text of {record} back to the master",
           "texts_changed": "{author} changed texts of {record}",
-          "updated": "{author} edited the lab {record}"
+          "updated": "{author} edited the lab {record}",
+          "rule_type_added": "{author} added a rule type to {record}",
+          "rule_type_changed": "{author} changed a rule type of {record}",
+          "rule_type_deleted": "{author} deleted a rule type of {record}"
         },
         "language": {
           "created": "{author} added the language {record}",
@@ -783,7 +789,8 @@
         "overview": "Overview",
         "subscription": "Subscription",
         "texts": "Texts",
-        "usage": "Usage"
+        "usage": "Usage",
+        "ruleTypes": "Rule types"
       },
       "texts": {
         "add": "Add",
@@ -817,6 +824,67 @@
         "places": "The places of {country} are copied.",
         "trial": "A 1-month trial on {plan} starts today.",
         "weekend": "The weekend starts as Friday + Saturday. The lab admin changes it in Studio."
+      },
+      "ruleTypes": {
+        "title": "Rule types of {name}",
+        "add": "Add a type",
+        "addSubmit": "Add the type",
+        "empty": "No rule type",
+        "name": "Name",
+        "code": "Code",
+        "place": "Inside",
+        "choices": "Choices",
+        "hcpLink": "Link to professionals",
+        "userLink": "Link to people",
+        "shown": "Shown",
+        "territories": "Territories",
+        "inside": "Inside {name}",
+        "top": "Top level",
+        "alone": "On its own",
+        "subZonesCount": "{n} sub-zones",
+        "zoneType": "zone type",
+        "allKinds": "all",
+        "skipsEmpty": "skips empty",
+        "visible": "Shown",
+        "hidden": "Hidden",
+        "rule": "A type with no link to professionals (Segmentation) is not offered in the lab’s territories.",
+        "clickHint": "Click a type to edit it.",
+        "usedBy": "Used by {n} territory: it can’t be hidden or deleted. | Used by {n} territories: it can’t be hidden or deleted.",
+        "unused": "No territory uses it.",
+        "kind": {
+          "doctor": "Doctors",
+          "pharmacie": "Pharmacies",
+          "dentiste": "Dentists",
+          "wholestore": "Wholesalers",
+          "distributor": "Distributors"
+        },
+        "form": {
+          "theType": "The type",
+          "nameHint": "What the lab reads.",
+          "codeHint": "Letters, digits, - and _. Unique in the lab.",
+          "parent": "Inside · optional",
+          "noParent": "— None",
+          "parentHint": "The type it sits in (a commune is inside a wilaya).",
+          "parentKey": "Parent column",
+          "parentKeyHint": "Column of the table that points to the parent.",
+          "table": "Table",
+          "model": "Model class",
+          "visible": "Shown in the lab",
+          "visibleHint": "Hidden: the lab does not offer it in territories.",
+          "wilayaOptions": "Wilaya options",
+          "subZones": "Sub-zones",
+          "zoneType": "Zone type (Résidence / Semi / Hors)",
+          "subTable": "Sub-zone table",
+          "subModel": "Sub-zone model class",
+          "path": "Path · optional",
+          "subPath": "Sub-zone path · optional",
+          "hcpPathHint": "Empty: not offered in territories.",
+          "kinds": "Kinds of professionals",
+          "kindsHint": "None ticked: all kinds.",
+          "userPathHint": "Used to suggest who can work a territory.",
+          "skipEmpty": "A person with nothing on this path still matches",
+          "skipEmptyHint": "For example a team with no specialities."
+        }
       }
     },
     "languages": {
