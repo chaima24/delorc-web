@@ -38,6 +38,8 @@ export interface TenantUser {
   commune?: { id: number; name: string; wilaya: { id: number; name: string } } | null
   two_factor_method?: 'none' | 'app' | 'email' | 'sms'
   created_by?: { id: number; full_name: string } | null
+  /** The cycle running today; the goal and professionals only on one person's page. */
+  active_cycle?: { id: number; start_date: string; end_date: string; goal_visits?: number; professionals?: number; field_days?: number } | null
   /** List: current teams, main first. Page: every stint, open ones first, newest first. */
   teams?: Team[]
   /** List: current manager links. Page: every link, open ones first, newest first (docs/api/hierarchy.md). */
@@ -91,6 +93,8 @@ export interface CreateUserPayload {
   managers?: { id: number; start_date: string }[]
   /** The territory they start working (optional). */
   territory?: { id: number; start_date: string } | null
+  /** Their own first cycle (optional, docs/api/cycles.md). */
+  cycle?: { start_date: string; end_date: string } | null
 }
 
 /** PUT users/{id}: any field. `role` also needs `users.change-role`. */
@@ -122,7 +126,10 @@ export const fetchUsers = (params?: ListParams) =>
   client.get<{ data: TenantUser[]; meta: { total: number } }>('/users', { params })
     .then((response): Page<TenantUser> => ({ items: response.data.data, total: response.data.meta.total }))
 export const fetchUser = (id: number | string) => one(client.get(`/users/${id}`))
-export const createUser = (body: CreateUserPayload) => one(client.post('/users', asForm(body as unknown as Record<string, unknown>)))
+/** `cycle_skipped`: "no_objective" when the first cycle could not be made. */
+export const createUser = (body: CreateUserPayload) =>
+  client.post<{ data: TenantUser; cycle_skipped?: string | null }>('/users', asForm(body as unknown as Record<string, unknown>))
+    .then((response) => ({ ...response.data.data, cycle_skipped: response.data.cycle_skipped ?? null }))
 /** With a photo the update goes as a form: `POST` + `_method=PUT`, because PHP reads files only on POST. */
 export const updateUser = (id: number, body: UpdateUserPayload) => hasFile(body)
   ? one(client.post(`/users/${id}`, asForm({ ...body, _method: 'PUT' })))

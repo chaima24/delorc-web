@@ -14,10 +14,11 @@ import { useAuthStore } from '@/stores/auth'
 import { loadCommunes, useUserLookups } from '../useUserLookups'
 import { currentManagers, currentTeams, currentTerritory, useUserText } from '../userDisplay'
 
-// The profile card and "Maintenant" (teams). "Cycle actuel" comes back with its module.
+// The profile card, "Maintenant" (teams, manager, territory) and "Cycle actuel" (the goal is worked out live).
 const props = defineProps<{ user: TenantUser }>()
 const emit = defineEmits<{ changed: []; go: [tab: string] }>()
-const { t } = useI18n()
+const cycle = computed(() => props.user.active_cycle ?? null)
+const { t, n } = useI18n()
 const toast = useToast()
 const text = useUserText()
 const auth = useAuthStore()
@@ -151,6 +152,18 @@ const added = computed(() => props.user.created_by?.full_name
             <template v-if="currentTerritory(user)"><strong>{{ currentTerritory(user)?.name }}</strong> <span class="text-dl-muted">{{ text.period(currentTerritory(user)!) }}</span></template>
             <template v-else>—</template>
           </dd>
+        </dl>
+      </section>
+      <section class="rounded-2xl border border-dl-line bg-dl-paper px-3.5 py-3">
+        <header class="mb-2 flex items-center gap-2">
+          <h3 class="flex-1 text-sm font-semibold">{{ t('users.read.currentCycle') }}</h3>
+          <button type="button" class="text-[13px] font-semibold text-dl-cobalt hover:underline" @click="emit('go', 'cycles')">{{ t('users.read.allCycles') }}</button>
+        </header>
+        <p v-if="!cycle" class="text-[13px] text-dl-muted">{{ t('users.cycles.noneNow') }}</p>
+        <dl v-else class="grid grid-cols-[120px_1fr] gap-x-3 gap-y-2 text-[13px]">
+          <dt class="text-dl-muted">{{ t('users.cycles.dates') }}</dt><dd>{{ text.range(cycle.start_date, cycle.end_date) }}</dd>
+          <dt class="text-dl-muted">{{ t('users.cycles.targets') }}</dt>
+          <dd>{{ t('users.cycles.goalLine', { goal: n(cycle.goal_visits ?? 0), professionals: n(cycle.professionals ?? 0) }) }}</dd>
         </dl>
       </section>
     </div>

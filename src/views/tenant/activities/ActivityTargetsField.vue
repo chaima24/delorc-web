@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { activityTargetKind } from '@/api/tenant/activities'
+import { searchCycleProfessionals } from '@/api/tenant/cycles'
 import { fetchHcps } from '@/api/tenant/hcps'
 import { fetchTerritories } from '@/api/tenant/territories'
 import DlIcon from '@/components/DlIcon.vue'
@@ -10,7 +11,7 @@ import { useUsers } from '@/views/tenant/territories/useTerritoryLookups'
 import { watchDebounced } from '@/views/tenant/territories/watchDebounced'
 
 // What the activity is linked to, by its type's "linked to": reps, pharmacies / wholesalers,
-// a territory or professionals of a cycle (with cycles: "Arrive avec les cycles" until then). Search, tick; the picked ones show as chips.
+// a territory or professionals of a cycle. Search, tick; the picked ones show as chips.
 const props = defineProps<{ value: string; picked?: { id: number; label: string }[]; error?: string; date?: string }>()
 const model = defineModel<number[]>({ required: true })
 const { t } = useI18n()
@@ -47,6 +48,11 @@ async function load() {
       const page = await fetchTerritories({ 'filter[q]': term, per_page: 30 })
       rows.value = page.items.map(row => ({ id: row.id, label: row.name }))
     }
+    else if (kind.value === 'cycle_target') {
+      // Professionals of the cycles running on the activity's day (today when not set yet).
+      const found = await searchCycleProfessionals({ q: term, date: props.date || undefined })
+      rows.value = found.map(row => ({ id: row.id, label: [row.name, row.rep].filter(Boolean).join(' · '), hint: t(`hcps.types.${row.type}`) }))
+    }
     rows.value.forEach(row => known.value.set(row.id, row.label))
   }
   finally {
@@ -57,6 +63,7 @@ watch(() => props.value, () => {
   search.value = ''
   load()
 }, { immediate: true })
+watch(() => props.date, () => { if (kind.value === 'cycle_target') load() })
 watchDebounced(search, load, 350)
 
 function toggle(id: number) {
@@ -65,9 +72,7 @@ function toggle(id: number) {
 </script>
 
 <template>
-  <!-- Professionals of a cycle: the picker comes with cycles -->
-  <p v-if="kind === 'cycle_target'" class="rounded-xl bg-dl-mist px-3 py-2 text-xs text-dl-body">{{ t('activities.linked.cycleLater') }}</p>
-  <fieldset v-else-if="kind" class="flex min-w-0 flex-col gap-2">
+  <fieldset v-if="kind" class="flex min-w-0 flex-col gap-2">
     <legend class="mb-1 flex w-full items-baseline justify-between text-[13px] font-semibold">
       {{ t(`activities.linked.${value}`) }}
       <span class="font-normal text-dl-muted">{{ t('activities.linked.count', { count: model.length }, model.length) }}</span>

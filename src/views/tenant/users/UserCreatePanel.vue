@@ -18,8 +18,9 @@ import { loadCommunes, useUserLookups } from './useUserLookups'
 import { today } from './userDisplay'
 import { useAuthStore } from '@/stores/auth'
 
-// "Add a user" in 3 steps: person · role, team and manager · rules. Rules and manager are pre-filled
-// from colleagues (same role and team). The territory is optional and starts with the teams. The first cycle joins with its module.
+// "Add a user" in 3 steps: person · role, team and manager · rules and cycle. Rules and manager are pre-filled
+// from colleagues (same role and team). The territory is optional and starts with the teams. The first cycle is
+// optional, ticked for field roles; made only when the role + team has an objective (docs/api/cycles.md).
 const emit = defineEmits<{ created: [user: TenantUser] }>()
 const open = defineModel<boolean>('open', { default: false })
 const { t, n } = useI18n()
@@ -27,7 +28,15 @@ const auth = useAuthStore()
 const toast = useToast()
 const lookups = useUserLookups()
 
+/** Last day of the quarter `date` is in: cycles usually run by quarter. */
+function quarterEnd(date: string) {
+  const [year = 0, month = 1] = date.split('-').map(Number)
+  const end = new Date(Date.UTC(year, Math.floor((month - 1) / 3) * 3 + 3, 0))
+  return end.toISOString().slice(0, 10)
+}
+
 function blank() {
+  const start = today()
   return {
     first_name: '', last_name: '', email: '', phone: '', address: '',
     wilaya_id: null as number | null, commune_id: null as number | null, language_id: null as number | null,
@@ -36,6 +45,7 @@ function blank() {
     manager_id: null as number | null, territory_id: null as number | null,
     start_date: today(), send_access: true,
     planning_rule_id: null as number | null, validation_rule_id: null as number | null,
+    first_cycle: false, cycle_start: start, cycle_end: quarterEnd(start),
   }
 }
 const form = reactive(blank())
@@ -52,6 +62,14 @@ watch(open, value => {
   showSecondTeam.value = false
   suggestions.value = null
   touched.clear()
+})
+
+// A field role gets a first cycle by default; the start date also moves the cycle, until it is changed by hand.
+watch(() => form.role, role => { form.first_cycle = !!role && lookups.fieldRoles.value.includes(role) })
+watch(() => form.start_date, (value, previous) => {
+  if (!value) return
+  if (form.cycle_start === previous) form.cycle_start = value
+  if (form.cycle_end === quarterEnd(previous ?? value)) form.cycle_end = quarterEnd(value)
 })
 
 // Default language: French when the lab has it (labs usually work in French), else the first one.
@@ -119,7 +137,7 @@ const LAST = 2
 const STEP_FIELDS: string[][] = [
   ['first_name', 'last_name', 'email', 'phone', 'address', 'commune_id', 'language_id', 'avatar'],
   ['role', 'teams', 'managers', 'territory', 'start_date'],
-  ['planning_rule_id', 'validation_rule_id'],
+  ['planning_rule_id', 'validation_rule_id', 'cycle_start', 'cycle_end'],
 ]
 const required = (value: unknown) => (value === null || value === '' ? t('users.add.required') : null)
 function check(index: number): boolean {
@@ -131,6 +149,10 @@ function check(index: number): boolean {
     if (form.phone && !/^\d{10}$/.test(form.phone.replace(/\s/g, ''))) found.phone = t('users.add.phoneFormat')
   }
   if (index === 1) { need('role', form.role); need('teams', form.team_id); need('start_date', form.start_date) }
+  if (index === 2 && form.first_cycle) {
+    need('cycle_start', form.cycle_start); need('cycle_end', form.cycle_end)
+    if (form.cycle_start && form.cycle_end && form.cycle_end < form.cycle_start) found.cycle_end = t('users.add.cycleOrder')
+  }
   errors.value = found
   return !Object.keys(found).length
 }
@@ -156,14 +178,20 @@ async function save() {
       territory: form.territory_id ? { id: form.territory_id, start_date: form.start_date } : null,
       planning_rule_id: form.planning_rule_id,
       validation_rule_id: form.validation_rule_id,
+      cycle: form.first_cycle ? { start_date: form.cycle_start, end_date: form.cycle_end } : null,
     })
     toast.success(form.send_access ? t('users.add.createdInvited', { email: user.email }) : t('users.add.created'))
+    // No objective for the role + team: added without a cycle, and told why.
+    if (user.cycle_skipped) toast.error(t('users.add.cycleSkipped'))
     emit('created', user)
   }
   catch (error) {
-    // "user.email" → "email", "teams.0.id" → "teams"
+    // "user.email" → "email", "teams.0.id" → "teams", "cycle.end_date" → "cycle_end"
     const found: Record<string, string> = {}
-    for (const [key, message] of Object.entries(fieldErrors(error))) found[key.startsWith('user.') ? key.slice(5) : key.split('.')[0]!] ??= message
+    for (const [key, message] of Object.entries(fieldErrors(error))) {
+      const field = key.startsWith('user.') ? key.slice(5) : key.startsWith('cycle.') ? `cycle_${key.slice(6, -5)}` : key.split('.')[0]!
+      found[field] ??= message
+    }
     if (!Object.keys(found).length) {
       toast.error(errorMessage(error) ?? t('studio.list.toast.failed'))
       return
@@ -241,6 +269,17 @@ async function save() {
         <div class="flex flex-col gap-1.5">
           <RulePicker v-model="form.validation_rule_id" kind="validation" :label="t('users.rules.validation')" :placeholder="t('users.rules.none')" :error="errors.validation_rule_id" @update:model-value="touch('validation')" />
           <p v-if="why('validation_rule')" class="rounded-[10px] bg-dl-mist px-2.5 py-2 text-xs text-dl-muted">{{ why('validation_rule') }}</p>
+        </div>
+        <div v-if="auth.can('cycles.create')" class="flex flex-col gap-1.5">
+          <label class="flex cursor-pointer items-center gap-3 text-[13px] font-semibold">
+            <input v-model="form.first_cycle" type="checkbox" class="h-[18px] w-[18px] accent-dl-ink">
+            {{ t('users.add.firstCycle') }}
+          </label>
+          <div v-if="form.first_cycle" class="flex flex-col gap-3.5">
+            <DlInput v-model="form.cycle_start" type="date" :label="t('access.log.filter.from')" :error="errors.cycle_start" />
+            <DlInput v-model="form.cycle_end" type="date" :min="form.cycle_start" :label="t('access.log.filter.to')" :error="errors.cycle_end" />
+          </div>
+          <p class="text-xs text-dl-muted">{{ t('users.add.cycleHint') }}</p>
         </div>
         <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5" :class="form.send_access ? 'bg-dl-signal-soft ring-[1.5px] ring-dl-fg ring-inset' : 'border border-dl-line'">
           <input v-model="form.send_access" type="checkbox" class="mt-0.5 h-[18px] w-[18px] accent-dl-ink">

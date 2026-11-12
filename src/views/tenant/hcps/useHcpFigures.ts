@@ -12,7 +12,7 @@ export interface HcpFigure {
   tone?: string
 }
 
-/** The 4 figures of a record (visits, last visit, current cycle, consent), from `activity`: the consent now, the other three with visits and cycles. */
+/** The 4 figures of a record (visits, last visit, current cycle, consent), from `activity`: the cycle and the consent now, visits with their module. */
 export function useHcpFigures(hcp: MaybeRefOrGetter<Hcp | null | undefined>) {
   const { t, n } = useI18n()
   const text = useHcpText()
@@ -36,13 +36,16 @@ export function useHcpFigures(hcp: MaybeRefOrGetter<Hcp | null | undefined>) {
         value: last ? text.shortDate(last.visited_at) : '—',
         note: last ? (last.user ? t('hcps.figures.by', { name: last.user }) : text.date(last.visited_at)) : t('hcps.figures.neverVisited'),
       },
-      {
+    ]
+    // The running cycles (docs/api/cycles.md): visits to do now, done with visits.
+    if ('current_cycle' in activity) {
+      figures.push({
         key: 'cycle',
         label: t('hcps.figures.cycle'),
-        value: cycle ? `${n(cycle.done)} / ${n(cycle.planned)}` : '—',
+        value: cycle ? (activity.visits_year === undefined ? n(cycle.planned) : `${n(cycle.done)} / ${n(cycle.planned)}`) : '—',
         note: cycle ? t('hcps.figures.cycleNote', cycle.targets) : t('hcps.figures.notTargeted'),
-      },
-    ]
+      })
+    }
     if (!('consent' in activity)) return figures
 
     return [

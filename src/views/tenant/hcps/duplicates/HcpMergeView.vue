@@ -9,12 +9,14 @@ import DlSkeleton from '@/components/DlSkeleton.vue'
 import { useConfirm } from '@/composables/useConfirm'
 import { useToast } from '@/composables/useToast'
 import { useHcpText } from '../hcpForm'
+import { useCycleText } from '@/views/tenant/cycles/cycleDisplay'
 
 // Merge two professionals: field by field pick the value to keep (by default the kept record's, its empty
 // fields filled from the other), see what moves, confirm. The other record is deleted.
 // Mockup: docs/design/customers-mockups/HcpDuplicates.html (frames 3–4)
 const props = defineProps<{ keep: string; other: string }>()
 const { t, n } = useI18n()
+const cycleText = useCycleText()
 const router = useRouter()
 const toast = useToast()
 const { confirm } = useConfirm()
@@ -166,7 +168,7 @@ async function merge() {
         </div>
       </dl>
       <p v-for="cycle in preview.shared_cycles" :key="cycle.id" class="text-[12.5px] text-dl-pending">
-        ⚠ {{ t('hcps.merge.sharedCycle', { cycle: cycle.user ? `${cycle.name} · ${cycle.user}` : cycle.name }) }}
+        ⚠ {{ t('hcps.merge.sharedCycle', { cycle: [cycle.user, cycleText.period(cycle.start_date, cycle.end_date)].filter(Boolean).join(' · ') }) }}
       </p>
       <p class="text-[12.5px] text-dl-muted">{{ t('hcps.merge.workplacesNote') }}</p>
 

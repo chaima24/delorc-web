@@ -14,8 +14,8 @@ import { useOrgTree } from './hierarchy/useOrgTree'
 import { useUserActions } from './useUserActions'
 import { STATUS_TONES, accountStatus, currentTerritory, useUserText } from './userDisplay'
 
-// Reading panel: where the person is now, contact, rules, sign-in. "Open full page" for the rest.
-// The cycle comes back with its module.
+// Reading panel: where the person is now (with the cycle running today), contact, rules, sign-in.
+// "Open full page" for the rest.
 const props = defineProps<{ user: TenantUser }>()
 const emit = defineEmits<{ changed: []; changeManager: [] }>()
 const open = defineModel<boolean>('open', { default: false })
@@ -35,6 +35,7 @@ const tiles = computed(() => [
   { label: t('users.columns.team'), value: text.teams(props.user) },
   { label: t('users.columns.manager'), value: text.managers(props.user) },
   { label: t('users.columns.territory'), value: currentTerritory(props.user)?.name ?? '—' },
+  { label: t('users.read.cycle'), value: text.range(props.user.active_cycle?.start_date, props.user.active_cycle?.end_date) },
 ])
 const commune = computed(() => [props.user.commune?.name, props.user.commune?.wilaya?.name].filter(Boolean).join(', ') || '—')
 const signIn = computed(() => {

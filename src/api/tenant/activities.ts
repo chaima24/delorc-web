@@ -23,7 +23,7 @@ export type ActivityKind = 'off' | 'non' | 'field'
 
 export interface ActivityTarget {
   id: number
-  target_type: 'hcp' | 'user' | 'territory' | null
+  target_type: 'hcp' | 'user' | 'territory' | 'cycle_target' | null
   target_id: number
   /** A professional (`name`, `type`), a person (`full_name`) or a territory (`name`). */
   target: { id: number; name?: string; full_name?: string; type?: string } | null

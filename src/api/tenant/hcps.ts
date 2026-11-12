@@ -140,7 +140,8 @@ export interface HcpMergePreview {
   /** What would move from `other` to `keep` (workplaces now; visits, orders, cycles… with their modules). */
   moves: Partial<Record<'visits' | 'orders' | 'cycle_targets' | 'workplaces' | 'consents' | 'survey_answers' | 'activities' | 'campaigns', number>>
   /** Cycles where both are targets: the kept one's target stays. */
-  shared_cycles: { id: number; name: string; user: string | null }[]
+  /** Cycles both records are in (the other's row is dropped there): "Karim Bensaïd · 1–30 nov.". */
+  shared_cycles: { id: number; start_date: string; end_date: string; user: string | null }[]
 }
 
 // ── 5d: proposals ─────────────────────────────────────────────────────────

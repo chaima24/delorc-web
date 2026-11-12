@@ -1,5 +1,6 @@
 import { onMounted, ref } from 'vue'
 import { rolesApi } from '@/api/tenant/roles'
+import { fetchAllTeams } from '@/api/tenant/teams'
 
 const ACRONYMS = new Set(['vm', 'vp', 'kam', 'r'])
 
@@ -22,4 +23,17 @@ export function useRolesAndTeams() {
   })
 
   return { roles }
+}
+
+/** Teams for selects and filters (cycles), loaded once per page. */
+export function useTeamOptions() {
+  const teams = ref<{ value: number; label: string }[]>([])
+
+  onMounted(async () => {
+    teams.value = (await fetchAllTeams())
+      .map(team => ({ value: team.id, label: team.name }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+  })
+
+  return { teams }
 }

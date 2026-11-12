@@ -22,6 +22,8 @@ export function useUserLookups() {
     .sort(byLabel))
 
   const roles = ref<Option<string>[]>([])
+  /** Names of the field roles (VM, VP, KAM…): they get a first cycle by default. */
+  const fieldRoles = ref<string[]>([])
   const wilayas = ref<Option[]>([])
   const languages = ref<Language[]>([])
   const teams = ref<Option[]>([])
@@ -38,12 +40,13 @@ export function useUserLookups() {
       fetchLanguages({ per_page: 100 }),
     ])
     roles.value = roleList.map(role => ({ value: role.name, label: roleLabel(role.name) })).sort(byLabel)
+    fieldRoles.value = roleList.filter(role => role.is_field).map(role => role.name)
     teams.value = teamList.map(team => ({ value: team.id, label: team.name })).sort(byLabel)
     wilayas.value = wilayaPage.items.map((wilaya: Wilaya) => ({ value: wilaya.id, label: wilaya.name }))
     languages.value = languagePage.items.filter(language => language.is_active)
   })
 
-  return { roles, teams, people, territories, wilayas, languages }
+  return { roles, fieldRoles, teams, people, territories, wilayas, languages }
 }
 
 /** Full rules (values, description, people using them), active first then by name; shared by every picker. */

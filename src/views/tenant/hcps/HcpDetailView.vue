@@ -17,10 +17,11 @@ import HcpBadges from './HcpBadges.vue'
 import { avatarName, useHcpText } from './hcpForm'
 import { useHcpFigures } from './useHcpFigures'
 import HcpConsentsTab from './tabs/HcpConsentsTab.vue'
+import HcpCyclesTab from './tabs/HcpCyclesTab.vue'
 import HcpOverviewTab from './tabs/HcpOverviewTab.vue'
 
 // A professional's full page: header with the 4 figures, then tabs Overview · Visits · Cycles · Consents
-// (each list tab only with its own permission; Visits and Cycles show "Arrive avec…" until their modules).
+// (each list tab only with its own permission; Visits shows "Arrive avec…" until its module).
 // A proposal shows its banner (Approve / Refuse for approvers). Mockup: docs/design/customers-mockups/Professionals.html (frames 6–6c)
 const props = defineProps<{ id: string }>()
 const { t, n } = useI18n()
@@ -56,7 +57,7 @@ const TABS = [
   { value: 'consents', resource: 'consents', count: 'consents' },
 ] as const
 /** Tabs whose module comes later. */
-const LATER = ['visits', 'cycles'] as const
+const LATER = ['visits'] as const
 const visibleTabs = computed(() => TABS.filter(tab => !tab.resource || auth.can(`${tab.resource}.show`)))
 const tab = computed({
   get: () => (visibleTabs.value.some(item => item.value === route.query.tab) ? String(route.query.tab) : 'overview'),
@@ -206,6 +207,7 @@ async function remove() {
       <DlTabs v-model="tab" :label="hcp.name" :items="tabs">
         <template #overview><HcpOverviewTab :hcp="hcp" @changed="load" /></template>
         <template #consents><HcpConsentsTab :hcp="hcp" @changed="load" /></template>
+        <template #cycles><HcpCyclesTab :hcp="hcp" /></template>
         <template v-for="later in LATER" :key="later" #[later]>
           <div class="rounded-3xl bg-dl-paper p-5">
             <DlEmptyState icon="tabler-clock" :title="t(`hcps.later.${later}.title`)" :description="t(`hcps.later.${later}.text`)" />
