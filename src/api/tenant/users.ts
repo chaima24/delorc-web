@@ -42,11 +42,20 @@ export interface TenantUser {
   teams?: Team[]
   /** List: current manager links. Page: every link, open ones first, newest first (docs/api/hierarchy.md). */
   managers?: UserManager[]
+  /** List: the current territory. Page: every stint, open first, newest first (docs/api/territories.md). */
+  territories?: UserTerritory[]
   /** Page: the rules the person follows (docs/api/rules.md). */
   planning_rule_id?: number | null
   validation_rule_id?: number | null
   planning_rule?: PlanningRule | null
   validation_rule?: ValidationRule | null
+}
+
+/** A territory on a person: `pivot` is the stint, as for teams. */
+export interface UserTerritory {
+  id: number
+  name: string
+  pivot: { id: number; start_date: string; end_date: string | null }
 }
 
 /** A manager on a person, with the link's dates. */
@@ -80,6 +89,8 @@ export interface CreateUserPayload {
   validation_rule_id?: number | null
   /** Who the person reports to, from a date (optional). */
   managers?: { id: number; start_date: string }[]
+  /** The territory they start working (optional). */
+  territory?: { id: number; start_date: string } | null
 }
 
 /** PUT users/{id}: any field. `role` also needs `users.change-role`. */
@@ -127,6 +138,11 @@ export interface SyncUserManagersPayload {
   existing_managers?: { id: number; end_date: string }[]
   new_managers?: { id: number; start_date: string; end_date?: string | null }[]
 }
+/** `{ territory_id, start_date }` moves the person (the current one ends the day before); `{ end_date }` ends it. */
+export type UpdateUserTerritoryPayload = { territory_id: number; start_date: string } | { end_date: string }
+
+export const updateUserTerritory = (id: number, body: UpdateUserTerritoryPayload) => one(client.put(`/users/${id}/territory`, body))
+
 export const syncUserManagers = (id: number, body: SyncUserManagersPayload) => one(client.put(`/users/${id}/managers`, body))
 export const sendUserAccessLink = (id: number) => client.post(`/users/${id}/access-link`)
 export const resetUserSecondFactor = (id: number) => one(client.post(`/users/${id}/second-factor/reset`))

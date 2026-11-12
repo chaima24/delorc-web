@@ -12,9 +12,9 @@ import DlSelect from '@/components/DlSelect.vue'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import { loadCommunes, useUserLookups } from '../useUserLookups'
-import { currentManagers, currentTeams, useUserText } from '../userDisplay'
+import { currentManagers, currentTeams, currentTerritory, useUserText } from '../userDisplay'
 
-// The profile card and "Maintenant" (teams). Manager, territory and "Cycle actuel" come back with their modules.
+// The profile card and "Maintenant" (teams). "Cycle actuel" comes back with its module.
 const props = defineProps<{ user: TenantUser }>()
 const emit = defineEmits<{ changed: []; go: [tab: string] }>()
 const { t } = useI18n()
@@ -145,6 +145,11 @@ const added = computed(() => props.user.created_by?.full_name
           <dd class="flex flex-col gap-1">
             <span v-for="manager in currentManagers(user)" :key="manager.id"><strong>{{ manager.name }}</strong> <span class="text-dl-muted">{{ text.period(manager) }}</span></span>
             <span v-if="!currentManagers(user).length">—</span>
+          </dd>
+          <dt class="text-dl-muted">{{ t('users.columns.territory') }}</dt>
+          <dd>
+            <template v-if="currentTerritory(user)"><strong>{{ currentTerritory(user)?.name }}</strong> <span class="text-dl-muted">{{ text.period(currentTerritory(user)!) }}</span></template>
+            <template v-else>—</template>
           </dd>
         </dl>
       </section>

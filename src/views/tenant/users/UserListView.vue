@@ -24,10 +24,10 @@ import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { STUDIO_DEFAULT_SORT, useAddedColumn, useStudioList } from '@/views/tenant/settings/shared/useStudioList'
 import UserCreatePanel from './UserCreatePanel.vue'
 import UserReadPanel from './UserReadPanel.vue'
-import { STATUS_TONES, accountStatus, today, useUserText } from './userDisplay'
+import { STATUS_TONES, accountStatus, currentTerritory, today, useUserText } from './userDisplay'
 
 // Studio › Users: list or hierarchy, reading panel, "Add a user" in 3 steps. Everything else on the full page.
-// The territory column comes with its module. Mockup: docs/design/studio-mockups/Users.html
+// Mockup: docs/design/studio-mockups/Users.html
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
@@ -171,6 +171,7 @@ const columns = [
   { key: 'role', label: t('users.columns.role') },
   { key: 'team', label: t('users.columns.team') },
   { key: 'manager', label: t('users.columns.manager'), secondary: true },
+  { key: 'territory', label: t('users.columns.territory'), secondary: true },
   { key: 'status', label: t('users.columns.status') },
   { ...added.column, secondary: true },
 ]
@@ -199,6 +200,7 @@ async function exportList() {
       [t('users.columns.role')]: text.role(user),
       [t('users.columns.team')]: text.teams(user),
       [t('users.columns.manager')]: text.managers(user),
+      [t('users.columns.territory')]: currentTerritory(user)?.name ?? '',
       [t('users.columns.status')]: text.status(user),
       [t('studio.list.added')]: user.created_at?.slice(0, 10) ?? '',
     })), `${t('users.title')} ${today()}`, t('users.title'))
@@ -289,6 +291,7 @@ async function exportList() {
           <template #cell-role="{ row }">{{ text.role(row) }}</template>
           <template #cell-team="{ row }">{{ text.teams(row) }}</template>
           <template #cell-manager="{ row }">{{ text.managers(row) }}</template>
+          <template #cell-territory="{ row }">{{ currentTerritory(row)?.name ?? '—' }}</template>
           <template #cell-status="{ row }">
             <DlBadge size="sm" dot :tone="STATUS_TONES[accountStatus(row)]">{{ text.status(row) }}</DlBadge>
           </template>

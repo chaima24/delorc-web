@@ -3,7 +3,7 @@ import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import { errorMessage, fieldErrors } from '@/api/errors'
-import { syncUserManagers, syncUserTeams, type TenantUser } from '@/api/tenant/users'
+import { syncUserManagers, syncUserTeams, updateUserTerritory, type TenantUser } from '@/api/tenant/users'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlCombobox from '@/components/DlCombobox.vue'
@@ -14,10 +14,10 @@ import PersonTree from '../hierarchy/PersonTree.vue'
 import { useOrgTree } from '../hierarchy/useOrgTree'
 import { useAuthStore } from '@/stores/auth'
 import { useUserLookups } from '../useUserLookups'
-import { type Stint, isOpen, stints, today, useUserText } from '../userDisplay'
+import { type Stint, currentTerritory, isOpen, stints, today, useUserText } from '../userDisplay'
 
-// Teams and managers as timelines. A change ends the old link and starts a new one,
-// so reports for past months keep the right team and manager. The territory joins with its module.
+// Teams, managers and territory as timelines. A change ends the old link and starts a new one,
+// so reports for past months keep the right team, manager and territory.
 const props = defineProps<{ user: TenantUser }>()
 const emit = defineEmits<{ changed: [] }>()
 const { t } = useI18n()
@@ -33,7 +33,14 @@ const teams = computed(() => stints(props.user.teams))
 const managers = computed(() => stints(props.user.managers))
 const openTeams = computed(() => teams.value.filter(isOpen))
 
-type Kind = 'add-team' | 'end-team' | 'add-manager' | 'end-manager'
+/** The day before `date` (moving territory ends the current one the day before the new one starts). */
+function dayBefore(date: string) {
+  const value = new Date(`${date}T12:00:00Z`)
+  value.setUTCDate(value.getUTCDate() - 1)
+  return value.toISOString().slice(0, 10)
+}
+
+type Kind = 'add-team' | 'end-team' | 'add-manager' | 'end-manager' | 'move-territory' | 'end-territory'
 const panel = reactive({ open: false, kind: 'add-team' as Kind, target: null as Stint | null })
 const form = reactive({ id: null as number | null, date: today(), until: '', main: false })
 const errors = ref<Record<string, string>>({})
@@ -50,13 +57,22 @@ const titles = computed(() => ({
   'end-team': t('users.assign.endTeam', { name: panel.target?.name ?? '' }),
   'add-manager': t('users.assign.addManager'),
   'end-manager': t('users.assign.endManager', { name: panel.target?.name ?? '' }),
+  'move-territory': t('users.assign.moveTerritory'),
+  'end-territory': t('users.assign.endTerritory', { name: panel.target?.name ?? '' }),
 }))
-const choosing = computed(() => panel.kind.startsWith('add'))
+const choosing = computed(() => panel.kind.startsWith('add') || panel.kind === 'move-territory')
 const options = computed(() => {
   if (panel.kind === 'add-team') return lookups.teams.value.filter(team => !openTeams.value.some(open => open.id === team.value))
-  return lookups.people.value.filter(person => person.value !== props.user.id && !managers.value.some(m => isOpen(m) && m.id === person.value))
+  if (panel.kind === 'add-manager') return lookups.people.value.filter(person => person.value !== props.user.id && !managers.value.some(m => isOpen(m) && m.id === person.value))
+  return lookups.territories.value.filter(territory => territory.value !== currentTerritory(props.user)?.id)
 })
-const dateHint = computed(() => (panel.kind.startsWith('end') ? t('users.assign.endHint') : undefined))
+const territories = computed(() => stints(props.user.territories))
+const active = computed(() => currentTerritory(props.user))
+const dateHint = computed(() => {
+  if (panel.kind === 'move-territory' && active.value && form.date) return t('users.assign.moveHint', { name: active.value.name, date: text.date(dayBefore(form.date)) })
+  if (panel.kind.startsWith('end')) return t('users.assign.endHint')
+  return undefined
+})
 
 async function save() {
   if (choosing.value && !form.id) {
@@ -79,6 +95,13 @@ async function save() {
         break
       case 'end-manager':
         await syncUserManagers(id, { existing_managers: [{ id: panel.target!.id, end_date: form.date }] })
+        break
+      // The API ends the current territory the day before (docs/api/territories.md).
+      case 'move-territory':
+        await updateUserTerritory(id, { territory_id: form.id!, start_date: form.date })
+        break
+      case 'end-territory':
+        await updateUserTerritory(id, { end_date: form.date })
         break
     }
     toast.success(t('studio.list.toast.saved'))
@@ -110,6 +133,7 @@ async function makeMain(team: Stint) {
 const sections = computed(() => [
   { key: 'teams', title: t('users.assign.teams'), rows: teams.value, add: 'add-team' as Kind, addLabel: t('users.assign.addTeam'), end: 'end-team' as Kind, can: can('users.update') },
   { key: 'managers', title: t('users.assign.managers'), rows: managers.value, add: 'add-manager' as Kind, addLabel: t('users.assign.addManager'), end: 'end-manager' as Kind, can: can('users.update') },
+  { key: 'territory', title: t('users.columns.territory'), rows: territories.value, add: 'move-territory' as Kind, addLabel: t(active.value ? 'users.assign.moveTerritory' : 'users.assign.giveTerritory'), end: 'end-territory' as Kind, can: can('users.update') && can('territories.show') },
 ])
 </script>
 
@@ -119,7 +143,7 @@ const sections = computed(() => [
       <section v-for="section in sections" :key="section.key" class="rounded-2xl border border-dl-line bg-dl-paper px-3.5 py-3" :aria-label="section.title">
         <header class="mb-1 flex items-center gap-2">
           <h3 class="flex-1 text-sm font-semibold">{{ section.title }}</h3>
-          <DlButton v-if="section.can" variant="dark" size="sm" :icon="'tabler-plus'" @click="start(section.add)">
+          <DlButton v-if="section.can" variant="dark" size="sm" :icon="section.key === 'territory' && active ? 'tabler-arrows-exchange' : 'tabler-plus'" @click="start(section.add)">
             {{ section.addLabel }}
           </DlButton>
         </header>
@@ -171,7 +195,7 @@ const sections = computed(() => [
         <DlCombobox
           v-if="choosing"
           v-model="form.id"
-          :label="panel.kind === 'add-team' ? t('users.columns.team') : t('users.columns.manager')"
+          :label="panel.kind === 'add-team' ? t('users.columns.team') : panel.kind === 'add-manager' ? t('users.columns.manager') : t('users.assign.newTerritory')"
           :options="options"
           :error="errors.id"
         />

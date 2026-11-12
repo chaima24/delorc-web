@@ -2,9 +2,7 @@ import { useI18n } from 'vue-i18n'
 import type { TenantUser, UserAccountStatus } from '@/api/tenant/users'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 
-// The territory (with its dates) comes back here with its module.
-
-/** A team or manager link with its dates (pivot). */
+/** A team, manager or territory link with its dates (pivot). */
 export interface Stint {
   id: number
   name: string
@@ -39,6 +37,7 @@ export function currentTeams(user: TenantUser) {
 }
 
 export const currentManagers = (user: TenantUser) => stints(user.managers).filter(isOpen)
+export const currentTerritory = (user: TenantUser) => stints(user.territories).find(isOpen) ?? null
 export const userRole = (user: TenantUser) => user.role
 
 export const accountStatus = (user: TenantUser): UserAccountStatus => user.account_status

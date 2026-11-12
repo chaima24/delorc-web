@@ -12,10 +12,10 @@ import ReportsToList from './hierarchy/ReportsToList.vue'
 import { peopleUnder } from './hierarchy/orgTree'
 import { useOrgTree } from './hierarchy/useOrgTree'
 import { useUserActions } from './useUserActions'
-import { STATUS_TONES, accountStatus, useUserText } from './userDisplay'
+import { STATUS_TONES, accountStatus, currentTerritory, useUserText } from './userDisplay'
 
 // Reading panel: where the person is now, contact, rules, sign-in. "Open full page" for the rest.
-// Territory and cycle come back with their modules.
+// The cycle comes back with its module.
 const props = defineProps<{ user: TenantUser }>()
 const emit = defineEmits<{ changed: []; changeManager: [] }>()
 const open = defineModel<boolean>('open', { default: false })
@@ -34,6 +34,7 @@ const status = computed(() => accountStatus(props.user))
 const tiles = computed(() => [
   { label: t('users.columns.team'), value: text.teams(props.user) },
   { label: t('users.columns.manager'), value: text.managers(props.user) },
+  { label: t('users.columns.territory'), value: currentTerritory(props.user)?.name ?? '—' },
 ])
 const commune = computed(() => [props.user.commune?.name, props.user.commune?.wilaya?.name].filter(Boolean).join(', ') || '—')
 const signIn = computed(() => {

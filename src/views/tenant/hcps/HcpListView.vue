@@ -22,12 +22,12 @@ import HcpCreatePanel from './HcpCreatePanel.vue'
 import HcpMap from './HcpMap.vue'
 import HcpReadPanel from './HcpReadPanel.vue'
 import { avatarName, useHcpText } from './hcpForm'
+import { useTerritories } from '@/views/tenant/territories/useTerritoryLookups'
 import { useHcpLookups } from './useHcpLookups'
 
 // Professionals › Healthcare professionals: type tabs with counts, search + filters, reading panel,
 // "Add" in 3 steps; editing is on the full page. "Missing" counters filter on what is missing.
-// ?type=<type> opens a tab, ?missing=<gps|phone|…> a counter, ?hco=<id> an organisation, ?view=map the map.
-// The territory filter comes with territories.
+// ?type=<type> opens a tab, ?missing=<gps|phone|…> a counter, ?hco=<id> an organisation, ?territory=<id> a territory, ?view=map the map.
 // Mockup: docs/design/customers-mockups/Professionals.html
 const { t, n } = useI18n()
 const route = useRoute()
@@ -40,7 +40,7 @@ const text = useHcpText()
 const lookups = useHcpLookups()
 
 const ALL = 'all'
-type Filters = { type: string; missing: string; speciality: string | number; hco: string | number; wilaya: string | number; status: string; verified: string; added: string; from: string; to: string }
+type Filters = { type: string; missing: string; speciality: string | number; hco: string | number; territory: string | number; wilaya: string | number; status: string; verified: string; added: string; from: string; to: string }
 
 /** The "Added" filter as API dates: one day, or a range typed in any order. */
 function addedDates(f: Filters): { from?: string; to?: string } {
@@ -60,6 +60,7 @@ function baseQuery(search: string, f: Filters): ListParams {
     'filter[q]': search || undefined,
     'filter[speciality_id]': pick(f.speciality),
     'filter[hco_id]': pick(f.hco),
+    'filter[in_territory]': pick(f.territory),
     'filter[wilaya_id]': pick(f.wilaya),
     'filter[status]': pick(f.status),
     'filter[verified]': f.verified === ALL ? undefined : Number(f.verified),
@@ -74,9 +75,11 @@ const initialType = HCP_TYPES.includes(route.query.type as HcpType) ? String(rou
 const initialMissing = HCP_MISSING.includes(route.query.missing as HcpMissing) ? String(route.query.missing) : ALL
 // ?hco=<id>: the professionals working at an organisation (link from its panel).
 const initialHco = Number(route.query.hco) || ALL
+// ?territory=<id>: the professionals a territory covers (links from its panel and page).
+const initialTerritory = Number(route.query.territory) || ALL
 const list = useStudioList<Hcp, Filters>(
   ({ page, perPage, search, sort, filters }) => fetchHcps({ page, per_page: perPage, sort, ...queryOf(search, filters) }),
-  { type: initialType, missing: initialMissing, speciality: ALL, hco: initialHco, wilaya: ALL, status: ALL, verified: ALL, added: ALL, from: '', to: '' },
+  { type: initialType, missing: initialMissing, speciality: ALL, hco: initialHco, territory: initialTerritory, wilaya: ALL, status: ALL, verified: ALL, added: ALL, from: '', to: '' },
 )
 const { page, perPage, search, sort, filters, items, total, loading } = list
 list.reload()
@@ -161,6 +164,9 @@ function setType(value: string) {
 const withAll = (label: string, options: { value: string | number; label: string }[]) => [{ value: ALL, label }, ...options]
 const specialityOptions = computed(() => withAll(t('hcps.filter.all'), lookups.specialityOptions.value))
 const hcoOptions = computed(() => withAll(t('hcps.filter.all'), lookups.hcoOptions.value))
+const territories = useTerritories()
+if (auth.can('territories.show')) void territories.ensureLoaded()
+const territoryOptions = computed(() => withAll(t('hcps.filter.all'), territories.items.value.map(item => ({ value: item.id, label: item.name })).sort((a, b) => a.label.localeCompare(b.label))))
 const wilayaOptions = computed(() => withAll(t('hcps.filter.all'), lookups.wilayaOptions.value))
 const statusOptions = computed(() => withAll(t('hcps.filter.all'), [{ value: 'active', label: t('hcps.status.active') }, { value: 'inactive', label: t('hcps.status.inactive') }]))
 const verifiedOptions = computed(() => withAll(t('hcps.filter.all'), [{ value: '1', label: t('hcps.filter.verifiedYes') }, { value: '0', label: t('hcps.filter.verifiedNo') }]))
@@ -181,7 +187,7 @@ const addedOptions = computed(() => [
 ])
 // Phone: filters folded by default; the button says how many are on.
 const filtersOpen = ref(false)
-const activeFilters = computed(() => ['speciality', 'hco', 'wilaya', 'status', 'verified', 'added'].filter(key => filters[key as keyof Filters] !== ALL).length)
+const activeFilters = computed(() => ['speciality', 'hco', 'territory', 'wilaya', 'status', 'verified', 'added'].filter(key => filters[key as keyof Filters] !== ALL).length)
 const filtered = computed(() => !!search.value || Object.entries(filters).some(([key, value]) => !['from', 'to'].includes(key) && value !== ALL))
 
 // List or map (kept in the address).
@@ -389,6 +395,7 @@ async function exportList() {
           <div class="contents" :class="!filtersOpen && 'max-md:hidden'">
           <DlSelect v-model="filters.speciality" :label="t('hcps.workplaces.speciality')" :options="specialityOptions" appearance="filter" />
           <DlSelect v-model="filters.hco" :label="t('hcps.workplaces.hco')" :options="hcoOptions" appearance="filter" />
+          <DlSelect v-if="auth.can('territories.show')" v-model="filters.territory" :label="t('territories.one')" :options="territoryOptions" appearance="filter" />
           <DlSelect v-model="filters.wilaya" :label="t('hcps.fields.wilaya')" :options="wilayaOptions" appearance="filter" />
           <DlSelect v-model="filters.status" :label="t('hcps.fields.status')" :options="statusOptions" appearance="filter" />
           <DlSelect v-model="filters.verified" :label="t('hcps.fields.verified')" :options="verifiedOptions" appearance="filter" />

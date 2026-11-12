@@ -16,12 +16,14 @@ import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import RulePicker from './RulePicker.vue'
 import { loadCommunes, useUserLookups } from './useUserLookups'
 import { today } from './userDisplay'
+import { useAuthStore } from '@/stores/auth'
 
 // "Add a user" in 3 steps: person · role, team and manager · rules. Rules and manager are pre-filled
-// from colleagues (same role and team). Territory and the first cycle join with their modules.
+// from colleagues (same role and team). The territory is optional and starts with the teams. The first cycle joins with its module.
 const emit = defineEmits<{ created: [user: TenantUser] }>()
 const open = defineModel<boolean>('open', { default: false })
 const { t, n } = useI18n()
+const auth = useAuthStore()
 const toast = useToast()
 const lookups = useUserLookups()
 
@@ -31,7 +33,7 @@ function blank() {
     wilaya_id: null as number | null, commune_id: null as number | null, language_id: null as number | null,
     avatar: null as File | null,
     role: null as string | null, team_id: null as number | null, second_team_id: null as number | null,
-    manager_id: null as number | null,
+    manager_id: null as number | null, territory_id: null as number | null,
     start_date: today(), send_access: true,
     planning_rule_id: null as number | null, validation_rule_id: null as number | null,
   }
@@ -116,7 +118,7 @@ const LAST = 2
 /** Fields of each step, to send the API's errors back to the right step. */
 const STEP_FIELDS: string[][] = [
   ['first_name', 'last_name', 'email', 'phone', 'address', 'commune_id', 'language_id', 'avatar'],
-  ['role', 'teams', 'managers', 'start_date'],
+  ['role', 'teams', 'managers', 'territory', 'start_date'],
   ['planning_rule_id', 'validation_rule_id'],
 ]
 const required = (value: unknown) => (value === null || value === '' ? t('users.add.required') : null)
@@ -151,6 +153,7 @@ async function save() {
       teams: teams.map((id, i) => ({ id, start_date: form.start_date, is_primary: i === 0 })),
       send_access: form.send_access,
       managers: form.manager_id ? [{ id: form.manager_id, start_date: form.start_date }] : [],
+      territory: form.territory_id ? { id: form.territory_id, start_date: form.start_date } : null,
       planning_rule_id: form.planning_rule_id,
       validation_rule_id: form.validation_rule_id,
     })
@@ -225,6 +228,7 @@ async function save() {
           :error="errors.managers"
           @update:model-value="touch('manager')"
         />
+        <DlCombobox v-if="auth.can('territories.show')" v-model="form.territory_id" :label="t('users.columns.territory')" :options="lookups.territories.value" :hint="t('users.add.territoryHint')" :error="errors.territory" />
         <DlInput v-model="form.start_date" type="date" :label="t('users.add.startsOn')" :hint="t('users.add.startsOnHint')" :error="errors.start_date" />
       </form>
 

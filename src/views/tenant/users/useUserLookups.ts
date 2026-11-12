@@ -4,13 +4,15 @@ import { type Language, fetchLanguages } from '@/api/tenant/fieldSetup'
 import { rolesApi } from '@/api/tenant/roles'
 import { planningRulesApi, validationRulesApi, type PlanningRule, type ValidationRule } from '@/api/tenant/rules'
 import { fetchAllTeams } from '@/api/tenant/teams'
+import { useAuthStore } from '@/stores/auth'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
+import { useTerritories } from '@/views/tenant/territories/useTerritoryLookups'
 import { useOrgTree } from './hierarchy/useOrgTree'
 
 type Option<V = number> = { value: V; label: string; hint?: string }
 const byLabel = <V>(a: Option<V>, b: Option<V>) => a.label.localeCompare(b.label)
 
-/** Options for the user forms (roles, teams, people, wilayas, active languages), loaded when the form opens. */
+/** Options for the user forms (roles, teams, people, territories, wilayas, active languages), loaded when the form opens. */
 export function useUserLookups() {
   // Active people, with their role underneath (managers), from the hierarchy's shared list.
   const { people: everyone } = useOrgTree()
@@ -23,6 +25,10 @@ export function useUserLookups() {
   const wilayas = ref<Option[]>([])
   const languages = ref<Language[]>([])
   const teams = ref<Option[]>([])
+  // Territories: only for people who may see them (docs/api/territories.md).
+  const shared = useTerritories()
+  if (useAuthStore().can('territories.show')) void shared.ensureLoaded()
+  const territories = computed(() => shared.items.value.map(territory => ({ value: territory.id, label: territory.name })).sort(byLabel))
 
   onMounted(async () => {
     const [roleList, teamList, wilayaPage, languagePage] = await Promise.all([
@@ -37,7 +43,7 @@ export function useUserLookups() {
     languages.value = languagePage.items.filter(language => language.is_active)
   })
 
-  return { roles, teams, people, wilayas, languages }
+  return { roles, teams, people, territories, wilayas, languages }
 }
 
 /** Full rules (values, description, people using them), active first then by name; shared by every picker. */

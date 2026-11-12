@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import DlAvatar from '@/components/DlAvatar.vue'
 import DlBadge from '@/components/DlBadge.vue'
 import DlIcon from '@/components/DlIcon.vue'
-import { STATUS_TONES, accountStatus, useUserText } from '../userDisplay'
+import { STATUS_TONES, accountStatus, currentTerritory, useUserText } from '../userDisplay'
 import { HIERARCHY, type HierarchyContext } from './hierarchyContext'
 import { peopleUnder } from './orgTree'
 
@@ -21,8 +21,7 @@ const children = computed(() => (ctx.tree.value.childrenOf.get(props.id) ?? []).
 const open = computed(() => ctx.expanded.value.has(props.id))
 const shown = computed(() => (ctx.showAll.value.has(props.id) ? children.value : children.value.slice(0, ctx.pageSize)))
 const status = computed(() => accountStatus(user.value))
-// The territory joins this line with its module.
-const sub = computed(() => [text.role(user.value), text.teams(user.value)].filter(part => part && part !== '—').join(' · '))
+const sub = computed(() => [text.role(user.value), text.teams(user.value), currentTerritory(user.value)?.name].filter(part => part && part !== '—').join(' · '))
 const count = computed(() => (children.value.length ? peopleUnder(ctx.tree.value, props.id).size : 0))
 const managerCount = computed(() => ctx.tree.value.managersOf.get(props.id)?.length ?? 0)
 const isDropTarget = computed(() => ctx.dropOn.value === props.id)
