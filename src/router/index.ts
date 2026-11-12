@@ -68,6 +68,8 @@ const labRoutes = [
       { path: 'territories/new', name: 'tenant-territory-new', component: () => import('@/views/tenant/territories/TerritoryCreateView.vue'), meta: { permission: 'territories.create' } },
       { path: 'territories/:id(\\d+)/covers', name: 'tenant-territory-covers', component: () => import('@/views/tenant/territories/TerritoryCoversEditView.vue'), props: true, meta: { permission: 'territories.update' } },
       { path: 'territories/:id(\\d+)', name: 'tenant-territory-detail', component: () => import('@/views/tenant/territories/TerritoryDetailView.vue'), props: true, meta: { permission: 'territories.show' } },
+      // Planifier › Activités (docs/api/activities.md).
+      { path: 'activities', name: 'tenant-activities', component: () => import('@/views/tenant/activities/ActivityListView.vue'), meta: { permission: 'activities.show' } },
       // Planifier › Objectifs, Fréquences (docs/api/objectives-frequencies.md).
       { path: 'objectives', name: 'tenant-objectives', component: () => import('@/views/tenant/objectives/ObjectiveListView.vue'), meta: { permission: 'objectives.show' } },
       { path: 'frequencies', name: 'tenant-frequencies', component: () => import('@/views/tenant/frequencies/FrequencyListView.vue'), meta: { permission: 'frequencies.show' } },
