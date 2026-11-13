@@ -22,14 +22,16 @@ export const reportOf = (visit: Visit): ReportForm => ({
 })
 
 /** The report as the API reads it; `parts` keeps only the blocks being saved (a card of the visit's page). */
-export function reportPayload(form: ReportForm, parts: ('brands' | 'advs' | 'people')[] = ['brands', 'advs', 'people']): VisitPayload {
+export function reportPayload(form: ReportForm, parts: ('brands' | 'advs' | 'people')[] = ['brands', 'advs', 'people'], fields?: Record<string, string> | null): VisitPayload {
   const payload: VisitPayload = {}
-  if (parts.includes('brands')) payload.brands = form.brands.map(row => ({ brand_id: row.brand_id, feedback: row.feedback, stock: row.stock === '' ? null : Number(row.stock) }))
-  if (parts.includes('advs')) payload.advs = form.advs.map(row => ({ adv_id: row.adv_id, feedback: row.feedback }))
+  // A field the lab hides is never sent (docs/api/visit-report-fields.md): the API refuses a hidden field with a value.
+  const hidden = (key: string) => fields?.[key] === 'hidden'
+  if (parts.includes('brands')) payload.brands = form.brands.map(row => ({ brand_id: row.brand_id, feedback: hidden('brand_feedback') ? null : row.feedback, stock: row.stock === '' || hidden('brand_stock') ? null : Number(row.stock) }))
+  if (parts.includes('advs') && !hidden('advs')) payload.advs = form.advs.map(row => ({ adv_id: row.adv_id, feedback: hidden('adv_feedback') ? null : row.feedback }))
   if (parts.includes('people')) {
-    payload.coaches = form.coaches.map(row => row.id)
-    payload.participants = form.participants.map(row => row.id)
-    payload.hcp_replacement_id = form.replacement?.id ?? null
+    if (!hidden('coaches')) payload.coaches = form.coaches.map(row => row.id)
+    if (!hidden('participants')) payload.participants = form.participants.map(row => row.id)
+    if (!hidden('replacement')) payload.hcp_replacement_id = form.replacement?.id ?? null
   }
   return payload
 }

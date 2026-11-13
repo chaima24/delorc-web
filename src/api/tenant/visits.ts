@@ -54,6 +54,8 @@ export interface Visit {
   after_deadline: boolean
   /** The late-entry delay, on the page: locked for the viewer, when it locks, until when the day is reopened. */
   lock?: { locked: boolean; deadline: string | null; open_until: string | null }
+  /** The report's fields for this visit, on the page. */
+  fields?: Record<string, 'required' | 'optional' | 'hidden'>
   /** Null when the visit is not concerned by the approval. */
   approval: VisitApproval | null
   approval_note: string | null
@@ -128,6 +130,8 @@ export interface VisitContext {
   off_list: boolean
   last_visit: VisitShort | null
   same_day_visit_id: number | null
+  /** The report's fields for this person and target: required, optional or hidden (docs/api/visit-report-fields.md). */
+  fields: Record<string, 'required' | 'optional' | 'hidden'>
 }
 
 export interface VisitOfferedAdv {

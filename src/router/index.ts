@@ -60,6 +60,7 @@ const labRoutes = [
       { path: 'hcps/:id', name: 'tenant-hcp-detail', component: () => import('@/views/tenant/hcps/HcpDetailView.vue'), props: true, meta: { permission: 'hcps.show' } },
       { path: 'hcos', name: 'tenant-hcos', component: () => import('@/views/tenant/hcos/HcoListView.vue'), meta: { permission: 'hcos.show' } },
       { path: 'planning-rules', name: 'tenant-planning-rules', component: () => import('@/views/tenant/planning-rules/PlanningRuleListView.vue'), meta: { permission: 'planning-rules.show' } },
+      { path: 'visit-fields', name: 'tenant-visit-fields', component: () => import('@/views/tenant/visit-fields/VisitFieldRulesView.vue'), meta: { permission: 'validation-rules.show' } },
       { path: 'validation-rules', name: 'tenant-validation-rules', component: () => import('@/views/tenant/validation-rules/ValidationRuleListView.vue'), meta: { permission: 'validation-rules.show' } },
       { path: 'languages', name: 'tenant-languages', component: () => import('@/views/tenant/languages/LanguageListView.vue'), meta: { permission: 'languages.show' } },
       { path: 'sub-wilaya-zones', name: 'tenant-sub-wilaya-zones', component: () => import('@/views/tenant/sub-wilaya-zones/SubWilayaZoneListView.vue'), meta: { permission: 'sub-wilaya-zones.show' } },

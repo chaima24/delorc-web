@@ -1,0 +1,104 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Champs du compte rendu</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.roles { display: flex; gap: 6px; flex-wrap: wrap; } .roles span { height: 36px; padding: 0 14px; border-radius: 11px; border: 1px solid var(--line); background: var(--paper); display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--body); }
+.roles span.on { background: var(--ink); color: var(--mist); border-color: var(--ink); } .roles span i { font-style: normal; font-size: 11px; background: var(--signal); color: var(--ink); border-radius: 99px; padding: 0 6px; }
+.grid { width: 100%; border-collapse: separate; border-spacing: 0 4px; font-size: 13px; } .grid th { font-size: 12px; font-weight: 600; color: var(--muted); padding: 6px 8px; text-align: center; } .grid th:first-child { text-align: start; }
+.grid td { padding: 3px 4px; text-align: center; } .grid td:first-child { text-align: start; padding: 6px 8px; } .grid td small { display: block; color: var(--muted); font-size: 11.5px; }
+.grid tr.group td { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding-top: 12px; }
+.cell { display: inline-flex; align-items: center; justify-content: center; gap: 5px; width: 104px; height: 30px; border-radius: 9px; font-size: 12px; font-weight: 600; border: 1px solid transparent; }
+.cell.req { background: var(--ink); color: var(--signal); } .cell.opt { background: var(--line-soft); color: var(--body); } .cell.hid { background: rgba(192,54,44,.1); color: var(--brick); }
+.cell.inh { opacity: .45; } .cell.na { color: var(--muted); font-weight: 400; } .cell.fix { background: var(--ink); color: var(--signal); opacity: .5; } .cell.sel { outline: 2px solid var(--cobalt); outline-offset: 2px; }
+.menu { position: absolute; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 20px 50px -20px rgba(15,31,28,.45); padding: 6px; width: 250px; font-size: 13px; z-index: 5; }
+.menu div { padding: 8px 10px; border-radius: 9px; display: flex; gap: 8px; align-items: center; } .menu div.on { background: var(--mist); font-weight: 600; } .menu small { color: var(--muted); margin-inline-start: auto; font-size: 11.5px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.sec { background: var(--paper); border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; }
+.rate { display: inline-flex; gap: 3px; } .rate i { width: 26px; height: 26px; border-radius: 8px; border: 1px solid var(--line); font-style: normal; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); }
+.star { color: var(--brick); font-weight: 700; }
+.legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); align-items: center; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+</style></head><body>
+<p class="caption"><strong>Visites › partie 10c, la matrice — proposition (points confirmés le 13 nov.).</strong> La matrice dit, pour chaque rôle et chaque type de professionnel visité, quels champs du compte rendu sont <strong>obligatoires</strong>, <strong>facultatifs</strong> ou <strong>masqués</strong>. Elle remplace les règles écrites en dur : aujourd'hui seule « au moins une marque » est obligatoire.
+Elle se règle dans le Studio, sur une grille : une ligne par champ, une colonne par type de professionnel, un onglet par rôle. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Une grille, pas une liste de règles</b> (décidé le 13 nov.). L'API précédente gardait des règles libres avec des priorités ; ici chaque case de la grille est une règle. Aucun conflit possible : on voit tout d'un coup d'œil.</li>
+  <li><b>L'onglet « Tous les rôles »</b> est la base. <b>Un onglet par rôle de terrain</b> (VM, VP, KAM…) ne montre que les types que ce rôle visite, et n'enregistre que ce qui diffère : une case non touchée suit « Tous les rôles » (affichée en clair, « hérité »).</li>
+  <li><b>Trois valeurs par case :</b> obligatoire · facultatif · masqué. Un champ masqué n'apparaît pas dans le formulaire et l'API ne l'accepte pas.</li>
+  <li><b>Les champs réglables :</b> l'intérêt pour chaque marque · le stock · au moins une aide de visite · la note de chaque aide · accompagné par · autres professionnels présents · remplaçant vu · objectif · prochain objectif · commentaire · l'heure de la visite.</li>
+  <li><b>Fixes, non réglables :</b> « au moins une marque » reste obligatoire partout (case grisée) ; le stock n'existe pas pour un médecin ou un dentiste (« — »).</li>
+  <li><b>Quel rôle compte :</b> celui de la personne de la visite (Karim), même quand son manager saisit pour lui.</li>
+  <li><b>Vérifié sur le compte rendu seulement :</b> quand une visite est enregistrée « Réalisée » ou qu'une visite réalisée est corrigée. Une visite planifiée n'est pas concernée.</li>
+  <li><b>Un laboratoire neuf</b> commence avec tout en facultatif (le comportement d'aujourd'hui). Rien ne change tant qu'il ne touche pas à la grille.</li>
+  <li><b>Changer la grille ne touche pas le passé</b> (décidé le 13 nov.) : une visite déjà réalisée reste valable, rien n'est revérifié ; les nouvelles règles s'appliquent à la prochaine saisie ou correction.</li>
+  <li><b>Le nom de la page</b> (décidé le 13 nov.) : « Champs du compte rendu », dans Studio › Règles et plateforme (« Matrice de validation » se confondait avec les « Règles de validation », qui sont le délai de saisie).</li>
+  <li><b>Droits :</b> ceux des règles de validation (<code>validation-rules</code> : voir, modifier).</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const shell = (inner, rail = 'Studio', avatar = 'SH', extra = '', h = 700) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${avatar}</span></div>
+  <div style='display:flex;flex:1;gap:16px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+const L = { req: 'Obligatoire', opt: 'Facultatif', hid: 'Masqué', na: '—', fix: 'Obligatoire' }
+const cell = (v, extra = '') => `<span class='cell ${v} ${extra}'>${L[v.split(' ')[0]]}</span>`
+const KINDS = ['Médecin', 'Dentiste', 'Pharmacie', 'Grossiste', 'Distributeur', 'Organisation']
+// group, field, hint, values per kind
+const FIELDS = [
+  ['Marques', 'Au moins une marque', 'toujours obligatoire', 'fix'],
+  ['Marques', 'Intérêt pour chaque marque', 'de 1 à 5', ['req', 'req', 'opt', 'opt', 'opt', 'opt']],
+  ['Marques', 'Stock', 'boîtes vues', ['na', 'na', 'req', 'req', 'opt', 'opt']],
+  ['Aides de visite', 'Au moins une aide montrée', '', ['opt', 'opt', 'hid', 'hid', 'hid', 'opt']],
+  ['Aides de visite', 'Note de chaque aide', 'de 1 à 5', ['opt', 'opt', 'hid', 'hid', 'hid', 'opt']],
+  ['Personnes', 'Accompagné par', '', ['opt', 'opt', 'opt', 'opt', 'opt', 'opt']],
+  ['Personnes', 'Autres professionnels présents', '', ['opt', 'opt', 'hid', 'hid', 'hid', 'opt']],
+  ['Personnes', 'Remplaçant vu', '', ['opt', 'opt', 'hid', 'hid', 'hid', 'hid']],
+  ['Objectifs et commentaire', 'Objectif', '', ['opt', 'opt', 'opt', 'opt', 'opt', 'opt']],
+  ['Objectifs et commentaire', 'Prochain objectif', '', ['req', 'opt', 'opt', 'opt', 'opt', 'opt']],
+  ['Objectifs et commentaire', 'Commentaire', '', ['opt', 'opt', 'opt', 'opt', 'opt', 'req']],
+  ['La visite', 'Heure de la visite', '', ['opt', 'opt', 'opt', 'opt', 'opt', 'opt']],
+]
+// `own(field index, kind index)` returns the role's own value, or null to inherit.
+const grid = (kinds, own = () => null, sel = '') => {
+  let last = ''
+  return `<table class='grid'><thead><tr><th>Champ du compte rendu</th>${kinds.map(k => `<th>${KINDS[k]}</th>`).join('')}</tr></thead><tbody>${FIELDS.map((f, i) => {
+    const head = f[0] !== last ? `<tr class='group'><td colspan='${kinds.length + 1}'>${f[0]}</td></tr>` : ''
+    last = f[0]
+    return head + `<tr><td><strong>${f[1]}</strong>${f[2] ? `<small>${f[2]}</small>` : ''}</td>${kinds.map(k => {
+      if (f[3] === 'fix') return `<td>${cell('fix')}</td>`
+      const mine = own(i, k), base = f[3][k]
+      return `<td>${base === 'na' ? cell('na') : cell(mine ?? base, (mine ? '' : own.role ? 'inh' : '') + (sel === `${i}-${k}` ? ' sel' : ''))}</td>`
+    }).join('')}</tr>`
+  }).join('')}</tbody></table>`
+}
+const tabs = on => `<div class='roles'>${[['Tous les rôles', ''], ['VM', '3'], ['VP', '1'], ['KAM', '']].map(([r, n]) => `<span class='${r === on ? 'on' : ''}'>${r}${n ? ` <i>${n}</i>` : ''}</span>`).join('')}</div>`
+const head = `<div><div class='crumbs'>Studio › Règles et plateforme</div><h1 class='title display' style='font-size:34px'>Champs du compte rendu</h1><div class='hint' style='margin-top:4px'>Ce qui est obligatoire, facultatif ou masqué quand une visite est réalisée, selon le rôle et le type de professionnel</div></div>`
+const legend = role => `<div class='legend'>${cell('req')} ${cell('opt')} ${cell('hid')} ${role ? `<span>${cell('opt', 'inh')} hérité de « Tous les rôles »</span>` : ''}<span>Cliquez une case pour la changer.</span></div>`
+const vm = Object.assign((i, k) => ({ '3-0': 'req', '8-0': 'req', '10-2': 'req' }[`${i}-${k}`] ?? null), { role: true })
+const menu = `<div class='menu' style='top:392px;left:560px'><div><span class='cell req' style='width:20px;height:20px'></span>Obligatoire</div><div class='on'><span class='cell opt' style='width:20px;height:20px'></span>Facultatif</div><div><span class='cell hid' style='width:20px;height:20px'></span>Masqué</div><div style='border-top:1px solid var(--line-soft);border-radius:0;margin-top:4px'>↺ Comme « Tous les rôles »<small>Facultatif</small></div></div>`
+
+const form = `<div class='col' style='max-width:760px'>
+  <div class='crumbs'>Visites › Nouvelle visite</div><h1 class='title display' style='font-size:30px'>Nouvelle visite</h1>
+  <div class='sec'><strong>La visite</strong><div class='hint'>Karim Benali (VM) · Pharmacie Ibn Sina · Pharmacie · Hydra · jeudi 12 nov. 2026 · Réalisée</div></div>
+  <div class='sec'><strong>Marques présentées</strong>
+    <div style='display:flex;align-items:center;gap:10px'><strong style='flex:1'>Dolex</strong><span class='hint'>Intérêt</span><span class='rate'><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></span><span class='input' style='height:32px;width:110px;font-size:12.5px;border-color:var(--brick)'>Stock <span class='star'>*</span></span></div>
+    <div class='why bad'>Le stock est obligatoire pour une pharmacie.</div></div>
+  <div class='sec'><strong>Personnes <span class='hint' style='font-weight:400'>· facultatif</span></strong><label class='field'><span>Accompagné par</span><div class='input muted'>Ajouter un manager ou un collègue</div></label><span class='hint'>« Autres professionnels présents » et « Remplaçant vu » sont masqués pour une pharmacie.</span></div>
+  <div class='sec'><strong>Objectifs et commentaire</strong><label class='field'><span>Prochain objectif</span><div class='input'></div></label><label class='field'><span>Commentaire <span class='star'>*</span></span><div class='input' style='height:60px;border-color:var(--brick)'></div></label><div class='why bad'>Le commentaire est obligatoire (règle VM · Pharmacie).</div></div>
+</div>
+<div class='sec' style='width:330px;flex-shrink:0'><strong>Ce que le formulaire a retenu</strong><span class='hint'>VM · Pharmacie</span>
+  <div>Stock : <strong>obligatoire</strong> <span class='hint'>(Tous les rôles)</span></div><div>Commentaire : <strong>obligatoire</strong> <span class='hint'>(VM)</span></div><div>Aides de visite : <strong>masquées</strong> <span class='hint'>(Tous les rôles)</span></div><div>Autres présents, remplaçant : <strong>masqués</strong></div><div class='hint'>Le bloc « Aides de visite montrées » n'est pas affiché.</div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Studio › Règles et plateforme › Champs du compte rendu, onglet « Tous les rôles ».</strong> La base : une ligne par champ, une colonne par type de professionnel. Ici le laboratoire demande l'intérêt pour un médecin, le stock pour une pharmacie et un grossiste, et masque les aides de visite pour les officines.`) + shell(`<div class='col'>${head}${tabs('Tous les rôles')}<div class='card' style='padding:14px 18px'>${grid([0, 1, 2, 3, 4, 5])}</div>${legend(false)}</div>`),
+  label(2, `<strong>Onglet « VM ».</strong> Seuls les types que le rôle visite (médecin, dentiste, pharmacie) et les organisations. Les cases claires suivent « Tous les rôles » ; les trois cases pleines sont propres au VM (le chiffre sur l'onglet).`) + shell(`<div class='col'>${head}${tabs('VM')}<div class='card' style='padding:14px 18px'>${grid([0, 1, 2, 5], vm)}</div>${legend(true)}</div>`),
+  label(3, `<strong>Clic sur une case.</strong> Un petit menu : obligatoire, facultatif, masqué, ou revenir à « Tous les rôles ». Le changement est enregistré tout de suite.`) + shell(`<div class='col'>${head}${tabs('VM')}<div class='card' style='padding:14px 18px'>${grid([0, 1, 2, 5], vm, '5-0')}</div>${legend(true)}</div>`, 'Studio', 'SH', menu),
+  label(4, `<strong>L'effet sur « Nouvelle visite ».</strong> Karim (VM) saisit une visite à une pharmacie : le stock et le commentaire portent l'étoile et bloquent l'enregistrement s'ils sont vides ; les aides de visite, les autres présents et le remplaçant ne sont pas affichés.`) + shell(form, 'Visites', 'KB', '', 620),
+].join('')
+</script></body></html>

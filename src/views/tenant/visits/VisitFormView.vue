@@ -66,6 +66,11 @@ const personName = computed(() => people.value.find(person => person.id === form
 const userModel = computed({ get: () => form.user_id, set: value => { form.user_id = value == null ? null : Number(value) } })
 const canalModel = computed({ get: () => form.canal_id, set: value => { form.canal_id = value == null ? null : Number(value) } })
 const stock = computed(() => !!form.target && givesStock(form.type, form.target.kind))
+// The lab's grid for this person and target (docs/api/visit-report-fields.md): hidden fields are not shown, required ones get a star.
+const fields = computed(() => context.value?.fields ?? null)
+const shown = (key: string) => fields.value?.[key] !== 'hidden'
+const star = (key: string) => (fields.value?.[key] === 'required' ? ' *' : '')
+const peopleShown = computed(() => ['coaches', 'participants', 'replacement'].some(shown))
 
 // What the summary shows: the cycle found, off-list, the last visit, a visit already there that day.
 const context = ref<VisitContext | null>(null)
@@ -122,9 +127,15 @@ async function save() {
 
   const payload = {
     user_id: form.user_id ?? undefined, visitable_type: form.type, visitable_id: form.target.id,
-    visit_date: form.date, visit_time: form.time || null, canal_id: form.canal_id ?? undefined, status: form.status,
-    objective: form.objective.trim() || null,
-    ...(done.value ? { next_objective: form.next_objective.trim() || null, comment: form.comment.trim() || null, ...reportPayload(report.value) } : {}),
+    visit_date: form.date, canal_id: form.canal_id ?? undefined, status: form.status,
+    // On a report, a field the lab hides for this person and target is not sent.
+    ...(!done.value || shown('visit_time') ? { visit_time: form.time || null } : {}),
+    ...(!done.value || shown('objective') ? { objective: form.objective.trim() || null } : {}),
+    ...(done.value ? {
+      ...(shown('next_objective') ? { next_objective: form.next_objective.trim() || null } : {}),
+      ...(shown('comment') ? { comment: form.comment.trim() || null } : {}),
+      ...reportPayload(report.value, undefined, fields.value),
+    } : {}),
   }
   saving.value = true
   const id = existing.value?.id
@@ -186,7 +197,7 @@ const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', p
 
           <div class="grid gap-3 sm:grid-cols-[1fr_150px_1fr]">
             <DlInput v-model="form.date" type="date" :label="t('visits.fields.day')" :error="errors.visit_date" />
-            <DlInput v-model="form.time" type="time" :label="t('visits.fields.timeOptional')" :error="errors.visit_time" />
+            <DlInput v-if="!done || shown('visit_time')" v-model="form.time" type="time" :label="done && star('visit_time') ? t('visits.fields.time') + ' *' : t('visits.fields.timeOptional')" :error="errors.visit_time" />
             <DlSelect v-model="canalModel" :label="t('visits.fields.canal')" :options="canals" :placeholder="t('visits.form.pickCanal')" />
           </div>
           <span v-if="errors.canal_id" class="-mt-2 text-xs text-dl-rejected">{{ errors.canal_id }}</span>
@@ -197,26 +208,27 @@ const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', p
             <span class="text-xs text-dl-muted">{{ t(future ? 'visits.form.futureHint' : done ? 'visits.form.doneHint' : 'visits.form.plannedHint') }}</span>
             <span v-if="errors.status" class="text-xs text-dl-rejected">{{ errors.status }}</span>
           </div>
-          <DlInput v-model="form.objective" :label="t('visits.fields.objectiveOptional')" :error="errors.objective" />
+          <DlInput v-if="!done || shown('objective')" v-model="form.objective" :label="done && star('objective') ? t('visits.fields.objective') + ' *' : t('visits.fields.objectiveOptional')" :error="errors.objective" />
         </section>
 
         <template v-if="done">
           <section class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
             <h2 class="text-base font-semibold">{{ t('visits.blocks.brands') }}</h2>
-            <VisitReportFields v-model="report" part="brands" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="form.target?.name ?? ''" :errors="errors" />
+            <VisitReportFields v-model="report" part="brands" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="form.target?.name ?? ''" :errors="errors" :fields="fields" />
           </section>
-          <section class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
-            <h2 class="text-base font-semibold">{{ t('visits.blocks.advs') }} <small class="font-normal text-dl-muted">· {{ t('visits.optional') }}</small></h2>
-            <VisitReportFields v-model="report" part="advs" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="form.target?.name ?? ''" :errors="errors" />
+          <section v-if="shown('advs')" class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
+            <h2 class="text-base font-semibold">{{ t('visits.blocks.advs') }}{{ star('advs') }} <small v-if="!star('advs')" class="font-normal text-dl-muted">· {{ t('visits.optional') }}</small></h2>
+            <VisitReportFields v-model="report" part="advs" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="form.target?.name ?? ''" :errors="errors" :fields="fields" />
           </section>
-          <section class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
-            <h2 class="text-base font-semibold">{{ t('visits.blocks.people') }} <small class="font-normal text-dl-muted">· {{ t('visits.optional') }}</small></h2>
-            <VisitReportFields v-model="report" v-model:replacing="replacing" part="people" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="form.target?.name ?? ''" :errors="errors" />
+          <section v-if="peopleShown" class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
+            <h2 class="text-base font-semibold">{{ t('visits.blocks.people') }}</h2>
+            <VisitReportFields v-model="report" v-model:replacing="replacing" part="people" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="form.target?.name ?? ''" :errors="errors" :fields="fields" />
           </section>
-          <section class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
-            <h2 class="text-base font-semibold">{{ t('visits.blocks.notes') }} <small class="font-normal text-dl-muted">· {{ t('visits.optional') }}</small></h2>
-            <DlInput v-model="form.next_objective" :label="t('visits.fields.nextObjective')" :error="errors.next_objective" />
-            <DlTextarea v-model="form.comment" :label="t('visits.fields.comment')" :rows="3" />
+          <section v-if="shown('next_objective') || shown('comment')" class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
+            <h2 class="text-base font-semibold">{{ t('visits.blocks.notes') }}</h2>
+            <DlInput v-if="shown('next_objective')" v-model="form.next_objective" :label="t('visits.fields.nextObjective') + star('next_objective')" :error="errors.next_objective" />
+            <DlTextarea v-if="shown('comment')" v-model="form.comment" :label="t('visits.fields.comment') + star('comment')" :rows="3" />
+            <span v-if="errors.comment" class="-mt-2 text-xs text-dl-rejected">{{ errors.comment }}</span>
           </section>
         </template>
         <p v-else class="rounded-2xl bg-dl-mist px-4 py-4 text-center text-[13px] text-dl-muted">{{ t('visits.form.reportLater') }}</p>

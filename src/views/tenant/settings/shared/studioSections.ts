@@ -60,6 +60,7 @@ export const rulesSection: StudioSection = {
   levels: [
     { route: 'tenant-planning-rules', resource: 'planning-rules', icon: 'tabler-calendar-time', label: 'rulesSetup.title.planningRules', count: 'planning_rules' },
     { route: 'tenant-validation-rules', resource: 'validation-rules', icon: 'tabler-shield-check', label: 'rulesSetup.title.validationRules', count: 'validation_rules' },
+    { route: 'tenant-visit-fields', resource: 'validation-rules', icon: 'tabler-forms', label: 'visitFields.title' },
     { route: 'tenant-languages', resource: 'languages', icon: 'tabler-language', label: 'rulesSetup.title.languages', count: 'languages' },
   ],
 }

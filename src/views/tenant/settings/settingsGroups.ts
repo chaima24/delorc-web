@@ -74,6 +74,7 @@ export const settingsGroups: SettingsGroup[] = [
     links: [
       { title: 'settings.links.planningRules.title', description: 'settings.links.planningRules.description', to: { name: 'tenant-planning-rules' }, icon: 'tabler-calendar-time', resource: 'planning-rules', count: 'planning_rules' },
       { title: 'settings.links.validationRules.title', description: 'settings.links.validationRules.description', to: { name: 'tenant-validation-rules' }, icon: 'tabler-shield-check', resource: 'validation-rules', count: 'validation_rules' },
+      { title: 'settings.links.visitFields.title', description: 'settings.links.visitFields.description', to: { name: 'tenant-visit-fields' }, icon: 'tabler-forms', resource: 'validation-rules' },
       { title: 'settings.links.languages.title', description: 'settings.links.languages.description', to: { name: 'tenant-languages' }, icon: 'tabler-language', resource: 'languages', count: 'languages' },
     ],
   },

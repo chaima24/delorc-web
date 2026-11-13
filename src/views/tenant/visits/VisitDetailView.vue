@@ -52,6 +52,10 @@ async function load() {
 }
 
 const isDone = computed(() => visit.value?.status === 'done')
+// The lab's grid for this visit (docs/api/visit-report-fields.md): hidden fields and blocks are not shown.
+const shown = (key: string) => visit.value?.fields?.[key] !== 'hidden'
+const star = (key: string) => (visit.value?.fields?.[key] === 'required' ? ' *' : '')
+const peopleShown = computed(() => ['coaches', 'participants', 'replacement'].some(shown))
 // The late-entry delay (docs/api/visit-planning.md): once passed, nothing can be done on the visit.
 const locked = computed(() => !!visit.value?.lock?.locked)
 const canEdit = computed(() => auth.can('visits.update') && visit.value?.status !== 'cancelled' && !locked.value)
@@ -107,10 +111,11 @@ async function edit(part: Part) {
 async function save() {
   if (!visit.value || !editing.value) return
   const payload: VisitPayload = editing.value === 'visit'
-    ? { visit_date: form.date, visit_time: form.time || null, canal_id: form.canal_id ?? undefined, ...(isDone.value ? {} : { objective: form.objective.trim() || null }) }
+    ? { visit_date: form.date, canal_id: form.canal_id ?? undefined, ...(isDone.value && !shown('visit_time') ? {} : { visit_time: form.time || null }), ...(isDone.value ? {} : { objective: form.objective.trim() || null }) }
     : editing.value === 'notes'
-      ? { objective: form.objective.trim() || null, next_objective: form.next_objective.trim() || null, comment: form.comment.trim() || null }
-      : reportPayload(report.value, [editing.value])
+      // A field the lab hides is not sent (the API refuses a hidden field with a value).
+      ? { ...(shown('objective') ? { objective: form.objective.trim() || null } : {}), ...(shown('next_objective') ? { next_objective: form.next_objective.trim() || null } : {}), ...(shown('comment') ? { comment: form.comment.trim() || null } : {}) }
+      : reportPayload(report.value, [editing.value], visit.value.fields)
   busy.value = true
   const id = visit.value.id
   // A planned visit moved to another day goes through the planning checks (a weekend asks to confirm).
@@ -219,11 +224,11 @@ watch(() => props.id, load, { immediate: true })
                 </li>
               </ul>
               <template #edit>
-                <VisitReportFields v-model="report" part="brands" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="visit.target.name ?? ''" :errors="errors" />
+                <VisitReportFields v-model="report" part="brands" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="visit.target.name ?? ''" :errors="errors" :fields="visit.fields" />
               </template>
             </DlRecordSection>
 
-            <DlRecordSection v-bind="section('advs')" :title="t('visits.blocks.advsN', { n: n(visit.advs?.length ?? 0) })" icon="tabler-presentation" class="bg-dl-paper" @update:editing="edit('advs')" @save="save" @cancel="editing = null">
+            <DlRecordSection v-if="shown('advs') || visit.advs?.length" v-bind="section('advs')" :title="t('visits.blocks.advsN', { n: n(visit.advs?.length ?? 0) })" icon="tabler-presentation" class="bg-dl-paper" @update:editing="edit('advs')" @save="save" @cancel="editing = null">
               <ul class="flex flex-col text-[13.5px]">
                 <li v-for="adv in visit.advs" :key="adv.id" class="flex items-center gap-3 border-b border-dl-line-soft py-2 last:border-0">
                   <span class="min-w-0 flex-1"><strong class="font-semibold">{{ adv.name }}</strong><small class="block text-xs text-dl-muted">{{ [t(`advs.type.${adv.type}`), adv.brand].filter(Boolean).join(' · ') }}</small></span>
@@ -232,7 +237,7 @@ watch(() => props.id, load, { immediate: true })
               </ul>
               <p v-if="!visit.advs?.length" class="text-[13px] text-dl-muted">{{ t('visits.advs.noneShown') }}</p>
               <template #edit>
-                <VisitReportFields v-model="report" part="advs" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="visit.target.name ?? ''" :errors="errors" />
+                <VisitReportFields v-model="report" part="advs" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="visit.target.name ?? ''" :errors="errors" :fields="visit.fields" />
               </template>
             </DlRecordSection>
 
@@ -244,9 +249,10 @@ watch(() => props.id, load, { immediate: true })
               </dl>
               <template #edit>
                 <div class="flex flex-col gap-3">
-                  <DlInput v-model="form.objective" :label="t('visits.fields.objective')" :error="errors.objective" />
-                  <DlInput v-model="form.next_objective" :label="t('visits.fields.nextObjective')" :error="errors.next_objective" />
-                  <DlTextarea v-model="form.comment" :label="t('visits.fields.comment')" :rows="3" />
+                  <DlInput v-if="shown('objective')" v-model="form.objective" :label="t('visits.fields.objective') + star('objective')" :error="errors.objective" />
+                  <DlInput v-if="shown('next_objective')" v-model="form.next_objective" :label="t('visits.fields.nextObjective') + star('next_objective')" :error="errors.next_objective" />
+                  <DlTextarea v-if="shown('comment')" v-model="form.comment" :label="t('visits.fields.comment') + star('comment')" :rows="3" />
+                  <span v-if="errors.comment" class="-mt-2 text-xs text-dl-rejected">{{ errors.comment }}</span>
                 </div>
               </template>
             </DlRecordSection>
@@ -284,7 +290,7 @@ watch(() => props.id, load, { immediate: true })
             <template #edit>
               <div class="flex flex-col gap-3">
                 <DlInput v-model="form.date" type="date" :label="t('visits.fields.day')" :error="errors.visit_date" />
-                <DlInput v-model="form.time" type="time" :label="t('visits.fields.timeOptional')" :error="errors.visit_time" />
+                <DlInput v-if="!isDone || shown('visit_time')" v-model="form.time" type="time" :label="isDone && star('visit_time') ? t('visits.fields.time') + ' *' : t('visits.fields.timeOptional')" :error="errors.visit_time" />
                 <DlSelect v-model="canalModel" :label="t('visits.fields.canal')" :options="canals" />
                 <DlInput v-if="!isDone" v-model="form.objective" :label="t('visits.fields.objectiveOptional')" />
                 <span v-if="errors.status" class="text-xs text-dl-rejected">{{ errors.status }}</span>
@@ -292,7 +298,7 @@ watch(() => props.id, load, { immediate: true })
             </template>
           </DlRecordSection>
 
-          <DlRecordSection v-if="isDone" v-bind="section('people')" :title="t('visits.blocks.people')" icon="tabler-users" class="bg-dl-paper" @update:editing="edit('people')" @save="save" @cancel="editing = null">
+          <DlRecordSection v-if="isDone && peopleShown" v-bind="section('people')" :title="t('visits.blocks.people')" icon="tabler-users" class="bg-dl-paper" @update:editing="edit('people')" @save="save" @cancel="editing = null">
             <dl class="grid grid-cols-[130px_1fr] gap-x-2.5 gap-y-2 text-[13.5px]">
               <dt class="text-dl-muted">{{ t('visits.fields.coaches') }}</dt>
               <dd><span v-for="person in visit.coaches" :key="person.id" class="block">{{ person.full_name }} <small class="text-xs text-dl-muted">· {{ roleLabel(person.role) }}</small></span><template v-if="!visit.coaches?.length">—</template></dd>
@@ -301,7 +307,7 @@ watch(() => props.id, load, { immediate: true })
               <dt class="text-dl-muted">{{ t('visits.people.replacementSeen') }}</dt><dd>{{ visit.replacement?.name ?? t('visits.people.no') }}</dd>
             </dl>
             <template #edit>
-              <VisitReportFields v-model="report" v-model:replacing="replacing" part="people" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="visit.target.name ?? ''" :errors="errors" />
+              <VisitReportFields v-model="report" v-model:replacing="replacing" part="people" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="visit.target.name ?? ''" :errors="errors" :fields="visit.fields" />
             </template>
           </DlRecordSection>
 
