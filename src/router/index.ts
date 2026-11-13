@@ -78,6 +78,7 @@ const labRoutes = [
       // Visites (docs/api/visits.md): the list, a visit's page, the add page (also "Saisir le compte rendu").
       { path: 'visits', name: 'tenant-visits', component: () => import('@/views/tenant/visits/VisitListView.vue'), meta: { permission: 'visits.show' } },
       { path: 'visits/planning', name: 'tenant-visit-planning', component: () => import('@/views/tenant/visits/VisitPlanningView.vue'), meta: { permission: 'visits.show' } },
+      { path: 'visits/plans', name: 'tenant-visit-plans', component: () => import('@/views/tenant/visits/VisitPlanListView.vue'), meta: { permission: 'visits.validate' } },
       { path: 'visits/new', name: 'tenant-visit-new', component: () => import('@/views/tenant/visits/VisitFormView.vue'), meta: { permission: 'visits.create' } },
       { path: 'visits/:id(\\d+)', name: 'tenant-visit-detail', component: () => import('@/views/tenant/visits/VisitDetailView.vue'), props: true, meta: { permission: 'visits.show' } },
       { path: 'visits/:id(\\d+)/report', name: 'tenant-visit-report', component: () => import('@/views/tenant/visits/VisitFormView.vue'), props: true, meta: { permission: 'visits.update' } },

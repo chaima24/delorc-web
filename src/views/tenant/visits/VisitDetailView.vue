@@ -3,7 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { errorMessage, fieldErrors } from '@/api/errors'
-import { deleteVisit, fetchVisit, updateVisit, type Visit, type VisitOfferedAdv, type VisitPayload, type VisitShort } from '@/api/tenant/visits'
+import { approveVisit, deleteVisit, fetchVisit, rejectVisit, updateVisit, type Visit, type VisitOfferedAdv, type VisitPayload, type VisitShort } from '@/api/tenant/visits'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlEmptyState from '@/components/DlEmptyState.vue'
@@ -19,6 +19,7 @@ import { useAuthStore } from '@/stores/auth'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import VisitCancelSheet from './VisitCancelSheet.vue'
 import { usePlanningSave } from './visitPlanning'
+import VisitNoteSheet from './VisitNoteSheet.vue'
 import VisitReopenSheet from './VisitReopenSheet.vue'
 import { useVisitText } from './visitDisplay'
 import VisitReportFields from './VisitReportFields.vue'
@@ -57,6 +58,21 @@ const canEdit = computed(() => auth.can('visits.update') && visit.value?.status 
 // A day is reopened for someone else, by a person who can change their visits (the API checks the hierarchy).
 const canReopen = computed(() => locked.value && auth.can('visits.update') && visit.value?.user?.id !== auth.user?.id)
 const reopening = ref(false)
+// The cycle's plan (docs/api/visit-approval.md): someone above the person approves or rejects a waiting visit here too.
+const decides = computed(() => visit.value?.status === 'planned' && (visit.value.approval === 'waiting' || visit.value.approval === 'rejected') && auth.can('visits.validate') && visit.value.user?.id !== auth.user?.id)
+const rejecting = ref(false)
+async function approveIt() {
+  if (!visit.value) return
+  try {
+    visit.value = await approveVisit(visit.value.id)
+    toast.success(t('visits.approval.toast.visitApproved'))
+  }
+  catch (error) {
+    toast.error(errorMessage(error) ?? t('studio.list.toast.failed'))
+  }
+}
+const rejectIt = (note: string) => rejectVisit(visit.value!.id, note).then((updated) => { visit.value = updated })
+const APPROVAL_TONE = { draft: 'neutral', waiting: 'warning', approved: 'info', rejected: 'danger' } as const
 const planning = usePlanningSave()
 const stock = computed(() => !!visit.value && givesStock(visit.value.target.type, visit.value.target.kind))
 const targetLink = computed(() => (visit.value?.target.type === 'hcp' && auth.can('hcps.show') ? { name: 'tenant-hcp-detail', params: { id: visit.value.target.id } } : null))
@@ -154,14 +170,20 @@ watch(() => props.id, load, { immediate: true })
             <DlBadge size="sm" :tone="text.tone(visit)" dot>{{ text.state(visit) }}</DlBadge>
             <DlBadge v-if="visit.off_list" size="sm" tone="warning">{{ t('visits.offList') }}</DlBadge>
             <DlBadge v-if="visit.after_deadline" size="sm" tone="info">{{ t('visits.planning.afterDeadline') }}</DlBadge>
+            <DlBadge v-if="visit.status === 'planned' && visit.approval" size="sm" :tone="APPROVAL_TONE[visit.approval]">{{ t(`visits.approval.state.${visit.approval}`) }}</DlBadge>
+            <DlBadge v-if="visit.unapproved" size="sm" tone="warning">{{ t('visits.approval.unapproved') }}</DlBadge>
             {{ text.where(visit.target) }}
             <RouterLink v-if="targetLink" :to="targetLink" class="text-dl-cobalt no-underline hover:underline">{{ t('visits.page.seeRecord') }}</RouterLink>
           </p>
         </div>
         <div class="flex flex-wrap gap-2.5">
+          <template v-if="decides">
+            <DlButton v-if="visit.approval === 'waiting'" variant="outline" @click="rejecting = true">{{ t('visits.approval.rejectVisit') }}</DlButton>
+            <DlButton variant="dark" icon="tabler-check" @click="approveIt">{{ t('visits.approval.approveVisit') }}</DlButton>
+          </template>
           <template v-if="visit.status === 'planned' && canEdit">
             <DlButton variant="outline" @click="cancelling = true">{{ t('visits.cancel.title') }}</DlButton>
-            <DlButton variant="primary" icon="tabler-clipboard-check" :to="{ name: 'tenant-visit-report', params: { id: visit.id } }">{{ t('visits.report.title') }}</DlButton>
+            <DlButton v-if="visit.approval !== 'rejected'" variant="primary" icon="tabler-clipboard-check" :to="{ name: 'tenant-visit-report', params: { id: visit.id } }">{{ t('visits.report.title') }}</DlButton>
           </template>
           <DlButton v-if="canReopen" variant="primary" icon="tabler-lock-open" @click="reopening = true">{{ t('visits.reopen.title') }}</DlButton>
           <DlMenu v-if="menuItems.length" :label="t('visits.page.menu')" :items="menuItems" />
@@ -175,6 +197,11 @@ watch(() => props.id, load, { immediate: true })
       <p v-else-if="visit.late" class="rounded-2xl bg-dl-pending/8 px-4 py-3 text-[13.5px] text-dl-pending">
         <strong>{{ t('visits.late.title', { day: text.dayLong(visit.visit_date) }) }}</strong> {{ t('visits.late.hint') }}
       </p>
+      <p v-if="visit.status === 'planned' && visit.approval === 'rejected'" class="rounded-2xl bg-dl-rejected/8 px-4 py-3 text-[13.5px] text-dl-rejected">
+        <strong>{{ t('visits.approval.rejectedBy', { name: visit.approved_by?.full_name ?? '—', date: text.date(visit.approved_at) }) }}</strong>
+        <template v-if="visit.approval_note"> « {{ visit.approval_note }} »</template> {{ t('visits.approval.rejectedHint') }}
+      </p>
+      <p v-else-if="visit.status === 'planned' && (visit.approval === 'waiting' || visit.approval === 'draft')" class="rounded-2xl bg-dl-mist px-4 py-3 text-[13.5px] text-dl-muted">{{ t(`visits.approval.hint.${visit.approval}`) }}</p>
       <p v-if="visit.status === 'cancelled'" class="rounded-2xl bg-dl-mist px-4 py-3 text-[13.5px]">
         <strong>{{ t('visits.cancel.because', { reason: visit.cancel_reason?.name ?? '—' }) }}</strong>
         <template v-if="visit.cancel_note"> {{ visit.cancel_note }}</template>
@@ -301,6 +328,7 @@ watch(() => props.id, load, { immediate: true })
 
       <VisitCancelSheet v-model:open="cancelling" :visit="visit" @cancelled="updated => (visit = updated)" />
       <VisitReopenSheet v-model:open="reopening" :visit="visit" @opened="load" />
+      <VisitNoteSheet v-model:open="rejecting" :title="t('visits.approval.rejectVisit')" :description="`${visit.target.name ?? ''} · ${text.dayLong(visit.visit_date)}`" :label="t('visits.approval.note')" :confirm-label="t('visits.approval.rejectVisit')" :run="rejectIt" />
     </template>
   </div>
 </template>

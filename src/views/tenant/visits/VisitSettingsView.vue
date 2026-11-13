@@ -15,7 +15,7 @@ import { useAuthStore } from '@/stores/auth'
 import StudioListPage from '@/views/tenant/settings/shared/StudioListPage.vue'
 import { fieldSection } from '@/views/tenant/settings/shared/studioSections'
 
-// Studio › Configuration terrain › Planning des visites: the lab's four settings for planning visits, kept in the
+// Studio › Configuration terrain › Planning des visites: the lab's five settings for planning visits, kept in the
 // lab's own settings (like the working week). Mockup: docs/design/visits-mockups/Planning.html (frame 7)
 const { t } = useI18n()
 const auth = useAuthStore()
@@ -25,7 +25,7 @@ const canEdit = computed(() => auth.can('calendar.update'))
 const loading = ref(true)
 const saving = ref(false)
 const errors = ref<Record<string, string>>({})
-const form = reactive({ max: '', planAfter: 'yes', canal: null as number | null, addAfter: 'no' })
+const form = reactive({ max: '', planAfter: 'yes', canal: null as number | null, addAfter: 'no', approval: 'no' })
 const canals = ref<{ value: number; label: string }[]>([])
 const yesNo = (yes: string, no: string) => [{ value: 'yes', label: t(yes) }, { value: 'no', label: t(no) }]
 const canalModel = computed({ get: () => form.canal, set: value => { form.canal = value == null ? null : Number(value) } })
@@ -36,7 +36,7 @@ async function load() {
   if (loading.value) {
     Object.assign(form, {
       max: settings.max_doctors_per_day == null ? '' : String(settings.max_doctors_per_day),
-      planAfter: settings.plan_after_deadline ? 'yes' : 'no', canal: settings.default_canal_id, addAfter: settings.add_after_delay ? 'yes' : 'no',
+      planAfter: settings.plan_after_deadline ? 'yes' : 'no', canal: settings.default_canal_id, addAfter: settings.add_after_delay ? 'yes' : 'no', approval: settings.plan_approval ? 'yes' : 'no',
     })
   }
   loading.value = false
@@ -50,7 +50,7 @@ async function save() {
   try {
     await saveVisitSettings({
       max_doctors_per_day: form.max === '' ? null : Number(form.max), plan_after_deadline: form.planAfter === 'yes',
-      default_canal_id: form.canal, add_after_delay: form.addAfter === 'yes',
+      default_canal_id: form.canal, add_after_delay: form.addAfter === 'yes', plan_approval: form.approval === 'yes',
     })
     toast.success(t('studio.list.toast.saved'))
   }
@@ -88,6 +88,11 @@ async function save() {
         <p class="text-[13px] text-dl-muted">{{ t('visits.settings.defaultCanalHint') }}</p>
         <div class="max-w-xs"><DlSelect v-model="canalModel" :label="t('visits.settings.defaultCanal')" :options="canals" :placeholder="t('visits.form.pickCanal')" :disabled="!canEdit" hide-label /></div>
         <span v-if="errors.default_canal_id" class="text-xs text-dl-rejected">{{ errors.default_canal_id }}</span>
+      </section>
+      <section class="flex flex-col gap-2 rounded-3xl bg-dl-paper p-4 md:p-5">
+        <h2 class="text-base font-semibold">{{ t('visits.settings.approval') }}</h2>
+        <p class="text-[13px] text-dl-muted">{{ t('visits.settings.approvalHint') }}</p>
+        <DlSegmented v-model="form.approval" :label="t('visits.settings.approval')" :items="yesNo('visits.people.yes', 'visits.people.no')" class="self-start" :class="!canEdit && 'pointer-events-none opacity-60'" />
       </section>
       <p class="text-xs text-dl-muted">{{ t('visits.settings.rulesHint') }}</p>
       <DlButton v-if="canEdit" type="submit" variant="dark" class="self-start" :loading="saving">{{ t('common.actions.save') }}</DlButton>

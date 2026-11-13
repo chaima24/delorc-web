@@ -7,6 +7,8 @@ export interface NavLink {
   to: RouteLocationRaw
   icon: string
   resource?: string
+  /** A full permission the entry needs when it is not `{resource}.show` (`visits.validate`). */
+  permission?: string
   /** Other pages that belong to this entry (detail pages, sub-pages). */
   matches?: string[]
   /** The lab's plan switch it needs (`module.expenses`): hidden without it. */
@@ -71,6 +73,8 @@ export const workspaces: Workspace[] = [
     links: [
       { title: 'nav.visits.visits', to: { name: 'tenant-visits' }, icon: 'tabler-map-pin-check', resource: 'visits', matches: ['tenant-visit-new', 'tenant-visit-detail', 'tenant-visit-report'] },
       { title: 'nav.visits.planning', to: { name: 'tenant-visit-planning' }, icon: 'tabler-calendar-week', resource: 'visits' },
+      // The approval of the cycles' plans (docs/api/visit-approval.md): for the people who approve.
+      { title: 'nav.visits.plans', to: { name: 'tenant-visit-plans' }, icon: 'tabler-checklist', permission: 'visits.validate' },
     ],
   },
   {

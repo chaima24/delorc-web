@@ -5,6 +5,8 @@ import type { ListParams, Page } from '@/api/tenant/geography'
 
 export type VisitStatus = 'planned' | 'done' | 'cancelled'
 export type VisitTargetType = 'hcp' | 'hco'
+/** A planned visit's place in the cycle's plan, when the lab asks for an approval (docs/api/visit-approval.md). */
+export type VisitApproval = 'draft' | 'waiting' | 'approved' | 'rejected'
 
 export interface VisitBrand {
   id: number
@@ -52,6 +54,13 @@ export interface Visit {
   after_deadline: boolean
   /** The late-entry delay, on the page: locked for the viewer, when it locks, until when the day is reopened. */
   lock?: { locked: boolean; deadline: string | null; open_until: string | null }
+  /** Null when the visit is not concerned by the approval. */
+  approval: VisitApproval | null
+  approval_note: string | null
+  approved_by?: { id: number; full_name: string } | null
+  approved_at: string | null
+  /** Done while still a draft or waiting. */
+  unapproved: boolean
   visit_date: string
   visit_time: string | null
   user: { id: number; full_name: string; role: string | null; team: string | null } | null
@@ -151,5 +160,8 @@ export const createVisit = (payload: VisitPayload) => one(client.post('/visits',
 export const updateVisit = (id: number, payload: VisitPayload) => one(client.put(`/visits/${id}`, payload))
 export const cancelVisit = (id: number, payload: { cancel_reason_id: number; cancel_note?: string | null }) => one(client.post(`/visits/${id}/cancel`, payload))
 export const deleteVisit = (id: number) => client.delete(`/visits/${id}`)
+/** One visit of a plan: rejected with a note, or approved (which also takes a rejection back). */
+export const rejectVisit = (id: number, note: string) => one(client.post(`/visits/${id}/reject`, { note }))
+export const approveVisit = (id: number) => one(client.post(`/visits/${id}/approve`))
 /** Every active person, for "Accompagné par". */
 export const fetchVisitCoaches = () => data<{ id: number; full_name: string; role: string | null }[]>(client.get('/visits/coaches'))

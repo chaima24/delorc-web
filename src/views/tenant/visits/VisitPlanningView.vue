@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import { fetchPlanningProfessionals, fetchVisitCalendar, type CalendarDay, type CalendarVisit, type PlanningProfessional, type VisitCalendar } from '@/api/tenant/visitPlanning'
-import { createVisit, fetchVisitPeople, updateVisit, type VisitPerson } from '@/api/tenant/visits'
+import { useRoute, useRouter } from 'vue-router'
+import { errorMessage } from '@/api/errors'
+import { approveVisitPlan, fetchPlanningProfessionals, fetchVisitCalendar, refuseVisitPlan, sendVisitPlan, type CalendarDay, type CalendarVisit, type PlanningProfessional, type VisitCalendar } from '@/api/tenant/visitPlanning'
+import { approveVisit, createVisit, fetchVisitPeople, rejectVisit, updateVisit, type VisitPerson } from '@/api/tenant/visits'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlIconButton from '@/components/DlIconButton.vue'
@@ -15,6 +16,7 @@ import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import { todayIso, useVisitText, visitState } from './visitDisplay'
+import VisitNoteSheet from './VisitNoteSheet.vue'
 import { addDays, dateOf, isoOf, usePlanningSave, weekStart } from './visitPlanning'
 
 // Visites › Planning: the professionals of the person's cycle at the side, dropped on a day to plan a visit; a
@@ -22,6 +24,7 @@ import { addDays, dateOf, isoOf, usePlanningSave, weekStart } from './visitPlann
 // drop (holiday, day off, maximum of doctors, planning rule, weekend). Mockup: visits-mockups/Planning.html
 const { t, n, d } = useI18n()
 const router = useRouter()
+const route = useRoute()
 const auth = useAuthStore()
 const toast = useToast()
 const text = useVisitText()
@@ -31,10 +34,11 @@ const canMove = computed(() => auth.can('visits.update'))
 
 // ── Whose calendar, which period ────────────────────────────────────────────
 const people = ref<VisitPerson[]>([])
-const userId = ref<number | null>(auth.user?.id ?? null)
+// "Plans à approuver" opens a person's Planning on a day of their cycle: `?user=12&date=2026-11-01`.
+const userId = ref<number | null>(Number(route.query.user) || (auth.user?.id ?? null))
 const userModel = computed({ get: () => userId.value, set: value => { userId.value = value == null ? null : Number(value) } })
 const view = ref<'month' | 'week' | 'day'>('month')
-const anchor = ref(todayIso())
+const anchor = ref(/^\d{4}-\d{2}-\d{2}$/.test(String(route.query.date)) ? String(route.query.date) : todayIso())
 const views = computed(() => (['month', 'week', 'day'] as const).map(value => ({ value, label: t(`visits.planning.view.${value}`) })))
 
 const range = computed(() => {
@@ -91,6 +95,55 @@ const windowText = computed(() => {
   if (!window || window.state === 'free' || window.state === 'open') return null
   if (window.state === 'not_open') return t('visits.planning.window.notOpen', { date: text.date(window.opens_on) })
   return t(window.allowed ? 'visits.planning.window.closedAllowed' : 'visits.planning.window.closed', { date: text.date(window.closes_on) })
+})
+
+// ── The cycle's plan, when the lab asks a manager to approve it (docs/api/visit-approval.md) ──
+const plan = computed(() => (calendar.value?.plan_approval ? cycle.value?.plan ?? null : null))
+/** The viewer decides on this person's plan: visits are approved or rejected instead of opened. */
+const approving = computed(() => !!plan.value?.can_approve)
+const planBusy = ref(false)
+async function planAction(action: (cycleId: number) => Promise<unknown>, done: string) {
+  if (!cycle.value) return
+  planBusy.value = true
+  try {
+    await action(cycle.value.id)
+    toast.success(done)
+    await load()
+  }
+  catch (error) {
+    toast.error(errorMessage(error) ?? t('studio.list.toast.failed'))
+  }
+  finally {
+    planBusy.value = false
+  }
+}
+const sendPlan = () => planAction(sendVisitPlan, t('visits.approval.toast.sent'))
+const approvePlan = () => planAction(approveVisitPlan, t('visits.approval.toast.approved'))
+const refusing = ref(false)
+const refusePlan = (reason: string) => refuseVisitPlan(cycle.value!.id, reason)
+// One visit: the approver clicks it to approve or reject it.
+const deciding = ref<CalendarVisit | null>(null)
+const rejecting = ref(false)
+async function approveOne() {
+  if (!deciding.value) return
+  await approveVisit(deciding.value.id).then(() => toast.success(t('visits.approval.toast.visitApproved'))).catch(error => toast.error(errorMessage(error) ?? t('studio.list.toast.failed')))
+  deciding.value = null
+  load()
+}
+const rejectOne = (note: string) => rejectVisit(deciding.value!.id, note)
+const planBanner = computed(() => {
+  const value = plan.value
+  if (!value) return null
+  const date = text.date(value.decided_at ?? value.sent_at)
+  const by = value.decided_by?.full_name ?? ''
+  if (value.status === 'refused') return { tone: 'bg-dl-rejected/8', title: t('visits.approval.banner.refused', { date, name: by }), text: value.reason ? `« ${value.reason} »` : '' }
+  if (value.counts.waiting) {
+    return value.status === 'approved'
+      ? { tone: 'bg-dl-pending/8', title: t('visits.approval.banner.changes', { n: n(value.counts.waiting) }, value.counts.waiting), text: t('visits.approval.banner.approved', { date, name: by }) }
+      : { tone: 'bg-dl-pending/8', title: t('visits.approval.banner.sent', { date: text.date(value.sent_at) }), text: t('visits.approval.banner.waiting', { n: n(value.counts.waiting) }, value.counts.waiting) }
+  }
+  if (value.status === 'approved') return { tone: 'bg-dl-signal-soft', title: t('visits.approval.banner.approved', { date, name: by }), text: value.counts.rejected ? t('visits.approval.banner.rejected', { n: n(value.counts.rejected) }, value.counts.rejected) : '' }
+  return value.counts.draft ? { tone: 'bg-dl-paper', title: t('visits.approval.banner.draft'), text: t('visits.approval.banner.drafts', { n: n(value.counts.draft) }, value.counts.draft) } : null
 })
 
 // ── The side list ───────────────────────────────────────────────────────────
@@ -163,11 +216,19 @@ const dropZone = (key: string) => ({
 })
 
 const HOURS = Array.from({ length: 11 }, (_, index) => `${String(index + 8).padStart(2, '0')}:00`)
+const APPROVAL_CLASS = { draft: 'border border-dashed border-dl-muted text-dl-body', waiting: 'bg-dl-pending/12 text-dl-pending', approved: 'bg-dl-cobalt/10 text-dl-cobalt', rejected: 'bg-dl-rejected/10 text-dl-rejected' }
 const chipClass = (visit: CalendarVisit) => [
-  { planned: 'bg-dl-cobalt/10 text-dl-cobalt', done: 'bg-dl-teal/12 text-dl-teal', late: 'bg-dl-pending/12 text-dl-pending', cancelled: 'bg-dl-mist text-dl-muted line-through' }[visitState(visit)],
+  // A planned visit takes the colour of its place in the plan when the lab asks for an approval.
+  visit.status === 'planned' && !visit.late && visit.approval && calendar.value?.plan_approval
+    ? APPROVAL_CLASS[visit.approval]
+    : { planned: 'bg-dl-cobalt/10 text-dl-cobalt', done: 'bg-dl-teal/12 text-dl-teal', late: 'bg-dl-pending/12 text-dl-pending', cancelled: 'bg-dl-mist text-dl-muted line-through' }[visitState(visit)],
   visit.after_deadline && 'border border-dashed border-dl-cobalt',
 ]
-const openVisit = (visit: CalendarVisit) => router.push({ name: 'tenant-visit-detail', params: { id: visit.id } })
+/** A click opens the visit; for the approver, a waiting or rejected visit opens the decision instead. */
+function openVisit(visit: CalendarVisit) {
+  if (approving.value && visit.status === 'planned' && (visit.approval === 'waiting' || visit.approval === 'rejected')) deciding.value = visit
+  else router.push({ name: 'tenant-visit-detail', params: { id: visit.id } })
+}
 const dayClass = (day: string) => [
   over.value === day ? 'border-2 border-dashed border-dl-fg bg-dl-signal-soft' : day === todayIso() ? 'border-2 border-dl-fg' : 'border border-dl-line-soft',
   markOf(day)?.kind === 'holiday' ? 'bg-dl-pending/8' : markOf(day)?.kind === 'activity' ? 'bg-dl-cobalt/8' : isWeekend(day) ? 'bg-dl-mist' : '',
@@ -227,6 +288,16 @@ const weekdays = computed(() => dates.value.slice(0, 7).map(day => d(dateOf(day)
         </div>
       </div>
       <p v-if="windowText" class="rounded-2xl px-4 py-2.5 text-[13px]" :class="cycle?.planning.allowed ? 'bg-dl-pending/8 text-dl-pending' : 'bg-dl-rejected/8 text-dl-rejected'">{{ windowText }}</p>
+
+      <div v-if="planBanner" class="flex flex-wrap items-center gap-3 rounded-2xl px-4 py-3 text-[13.5px]" :class="planBanner.tone">
+        <span class="min-w-0 flex-1"><strong class="block">{{ planBanner.title }}</strong><small v-if="planBanner.text" class="text-[12.5px] text-dl-muted">{{ planBanner.text }}</small></span>
+        <DlButton v-if="plan?.can_send" variant="primary" :loading="planBusy" @click="sendPlan">{{ t(plan.status === 'draft' ? 'visits.approval.send' : 'visits.approval.sendAgain') }}</DlButton>
+        <template v-if="approving && plan?.counts.waiting">
+          <DlButton variant="outline" :disabled="planBusy" @click="refusing = true">{{ t('visits.approval.refuse') }}</DlButton>
+          <DlButton variant="primary" :loading="planBusy" @click="approvePlan">{{ t('visits.approval.approve') }}</DlButton>
+        </template>
+      </div>
+      <p v-if="approving && plan?.counts.waiting" class="-mt-2 text-xs text-dl-muted">{{ t('visits.approval.clickHint') }}</p>
 
       <DlSkeleton v-if="loading" class="h-[520px] rounded-3xl" />
       <section v-else class="rounded-3xl bg-dl-paper p-3.5" :aria-label="t('visits.planning.title')">
@@ -292,8 +363,27 @@ const weekdays = computed(() => dates.value.slice(0, 7).map(day => d(dateOf(day)
           <li><span class="rounded-md bg-dl-teal/12 px-1.5 py-0.5 font-semibold text-dl-teal">{{ t('visits.state.done') }}</span></li>
           <li><span class="rounded-md bg-dl-pending/12 px-1.5 py-0.5 font-semibold text-dl-pending">{{ t('visits.state.late') }}</span></li>
           <li><span class="rounded-md border border-dashed border-dl-cobalt px-1.5 py-0.5 font-semibold text-dl-cobalt">{{ t('visits.planning.afterDeadline') }}</span></li>
+          <template v-if="plan">
+            <li v-for="state in (['draft', 'waiting', 'approved', 'rejected'] as const)" :key="state"><span class="rounded-md px-1.5 py-0.5 font-semibold" :class="APPROVAL_CLASS[state]">{{ t(`visits.approval.state.${state}`) }}</span></li>
+          </template>
         </ul>
       </section>
     </div>
+
+    <!-- The approver's decision on one visit, and the reason of a refused plan. -->
+    <div v-if="deciding && !rejecting" class="fixed inset-0 z-900 flex items-center justify-center bg-dl-fg/40 p-4" @click.self="deciding = null">
+      <div class="flex w-full max-w-sm flex-col gap-3 rounded-3xl bg-dl-paper p-5 text-[13.5px]" role="dialog" :aria-label="deciding.target.name ?? ''">
+        <strong class="text-base">{{ deciding.target.name }}</strong>
+        <span class="text-dl-muted first-letter:uppercase">{{ text.dayLong(deciding.visit_date) }} · {{ t(`visits.approval.state.${deciding.approval}`) }}</span>
+        <p v-if="deciding.approval_note" class="rounded-xl bg-dl-rejected/8 px-3 py-2 text-xs text-dl-rejected">« {{ deciding.approval_note }} »</p>
+        <div class="flex gap-2">
+          <DlButton v-if="deciding.approval === 'waiting'" variant="outline" class="flex-1" @click="rejecting = true">{{ t('visits.approval.rejectVisit') }}</DlButton>
+          <DlButton variant="primary" class="flex-1" @click="approveOne">{{ t('visits.approval.approveVisit') }}</DlButton>
+        </div>
+        <DlButton variant="ghost" size="sm" :to="{ name: 'tenant-visit-detail', params: { id: deciding.id } }">{{ t('visits.open') }}</DlButton>
+      </div>
+    </div>
+    <VisitNoteSheet v-if="deciding" v-model:open="rejecting" :title="t('visits.approval.rejectVisit')" :description="`${deciding.target.name ?? ''} · ${text.dayLong(deciding.visit_date)}`" :label="t('visits.approval.note')" :confirm-label="t('visits.approval.rejectVisit')" :run="rejectOne" @done="deciding = null; load()" />
+    <VisitNoteSheet v-model:open="refusing" :title="t('visits.approval.refuse')" :description="calendar?.user.full_name" :label="t('visits.approval.reason')" :hint="t('visits.approval.refuseHint')" :confirm-label="t('visits.approval.refuse')" :run="refusePlan" @done="load()" />
   </div>
 </template>
