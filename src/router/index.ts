@@ -83,6 +83,15 @@ const labRoutes = [
       { path: 'visits/new', name: 'tenant-visit-new', component: () => import('@/views/tenant/visits/VisitFormView.vue'), meta: { permission: 'visits.create' } },
       { path: 'visits/:id(\\d+)', name: 'tenant-visit-detail', component: () => import('@/views/tenant/visits/VisitDetailView.vue'), props: true, meta: { permission: 'visits.show' } },
       { path: 'visits/:id(\\d+)/report', name: 'tenant-visit-report', component: () => import('@/views/tenant/visits/VisitFormView.vue'), props: true, meta: { permission: 'visits.update' } },
+      // Coaching › Séances, Réglages (docs/api/coaching-sessions.md).
+      { path: 'coaching-sessions', name: 'tenant-coaching-sessions', component: () => import('@/views/tenant/coaching/CoachingSessionListView.vue'), meta: { permission: 'coaching-sessions.show' } },
+      { path: 'coaching-sessions/:id(\\d+)', name: 'tenant-coaching-session', component: () => import('@/views/tenant/coaching/CoachingSessionView.vue'), props: true, meta: { permission: 'coaching-sessions.show' } },
+      { path: 'coaching-sessions/:id(\\d+)/fill', name: 'tenant-coaching-session-fill', component: () => import('@/views/tenant/coaching/CoachingSessionFillView.vue'), props: true, meta: { permission: 'coaching-sessions.update' } },
+      { path: 'coaching-settings', name: 'tenant-coaching-settings', component: () => import('@/views/tenant/coaching/CoachingSettingsView.vue'), meta: { permission: 'coaching-setup.show' } },
+      // Coaching › Programmes, Grille d'évaluation (docs/api/coaching-setup.md).
+      { path: 'coachings', name: 'tenant-coachings', component: () => import('@/views/tenant/coaching/CoachingListView.vue'), meta: { permission: 'coaching-setup.show' } },
+      { path: 'coachings/:id(\\d+)', name: 'tenant-coaching-detail', component: () => import('@/views/tenant/coaching/CoachingDetailView.vue'), props: true, meta: { permission: 'coaching-setup.show' } },
+      { path: 'coaching-grid', name: 'tenant-coaching-grid', component: () => import('@/views/tenant/coaching/CoachingGridView.vue'), meta: { permission: 'coaching-setup.show' } },
       // Engager › Aides de visite (docs/api/advs.md).
       { path: 'advs', name: 'tenant-advs', component: () => import('@/views/tenant/advs/AdvListView.vue'), meta: { permission: 'advs.show' } },
       // Équipe › Frais (docs/api/expenses.md): the board for approvers, else the person's own month.

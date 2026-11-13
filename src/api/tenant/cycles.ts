@@ -33,6 +33,8 @@ export interface CycleFiguresSummary {
   list_short: boolean
   /** Visits done in the cycle (off-list included), planned to come, planned and late. */
   visits_done: number
+  /** Coaching sessions the person received, validated by the coach, inside the cycle. */
+  coaching_done: number
   visits_off_list: number
   visits_planned: number
   late: number

@@ -14,6 +14,7 @@ import DlInput from '@/components/DlInput.vue'
 import DlPagination from '@/components/DlPagination.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import DlSelect from '@/components/DlSelect.vue'
+import DlSwitch from '@/components/DlSwitch.vue'
 import { useAuthStore } from '@/stores/auth'
 import StudioListPage from '@/views/tenant/settings/shared/StudioListPage.vue'
 import { customersSection } from '@/views/tenant/settings/shared/studioSections'
@@ -52,10 +53,11 @@ const typeFilter = computed({
   set: value => { filters.type = value === ALL || value == null ? null : String(value) },
 })
 
-const panel = useRecordPanel<Speciality, { name: string; type: string }>({
-  toForm: speciality => ({ name: speciality?.name ?? '', type: speciality?.type ?? filters.type ?? 'medecin' }),
-  create: form => createSpeciality(form),
-  update: (speciality, form) => updateSpeciality(speciality.id, form),
+const panel = useRecordPanel<Speciality, { name: string; type: string; is_generalist: boolean }>({
+  toForm: speciality => ({ name: speciality?.name ?? '', type: speciality?.type ?? filters.type ?? 'medecin', is_generalist: speciality?.is_generalist ?? false }),
+  // Only a medical speciality can be general medicine.
+  create: form => createSpeciality({ ...form, is_generalist: form.type === 'medecin' && form.is_generalist }),
+  update: (speciality, form) => updateSpeciality(speciality.id, { ...form, is_generalist: form.type === 'medecin' && form.is_generalist }),
   remove: speciality => deleteSpeciality(speciality.id),
   recordName: speciality => speciality.name,
   onChange: () => {
@@ -116,6 +118,7 @@ const columns = [
       <template #cell-name="{ row }"><strong class="font-semibold">{{ row.name }}</strong></template>
       <template #cell-type="{ row }">
         <span class="rounded-full bg-dl-line-soft px-2.5 py-0.5 text-xs font-semibold">{{ typeLabel(row.type) }}</span>
+        <span v-if="row.is_generalist" class="ms-1 rounded-full bg-dl-signal-soft px-2.5 py-0.5 text-xs font-semibold">{{ t('customersSetup.generalist') }}</span>
       </template>
       <template #cell-customers_count="{ row }">{{ row.customers_count == null ? '—' : n(row.customers_count) }}</template>
       <template #cell-created_at="{ row }"><span class="whitespace-nowrap text-dl-muted">{{ added.format(row.created_at) }}</span></template>
@@ -139,6 +142,10 @@ const columns = [
             <DlSelect v-model="form.type" :label="t('customersSetup.columns.type')" :options="typeOptions" :disabled="!canEdit" />
             <p v-if="errors.type" class="text-xs text-dl-rejected">{{ errors.type }}</p>
             <p class="text-xs text-dl-muted">{{ t('customersSetup.typeHint') }}</p>
+          </div>
+          <div v-if="form.type === 'medecin'" class="flex flex-col gap-1">
+            <DlSwitch v-model="form.is_generalist" :label="t('customersSetup.generalist')" :disabled="!canEdit" />
+            <p class="text-xs text-dl-muted">{{ t('customersSetup.generalistHint') }}</p>
           </div>
           <div v-if="record" class="rounded-2xl bg-dl-mist px-4 py-3">
             <p class="text-xs text-dl-muted">{{ t('customersSetup.columns.customers') }}</p>

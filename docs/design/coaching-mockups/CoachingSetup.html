@@ -1,0 +1,120 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Coaching, la configuration</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.subnav { width: 220px; flex-shrink: 0; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.subnav div { padding: 10px 12px; border-radius: 11px; color: var(--body); font-weight: 600; display: flex; align-items: center; gap: 8px; } .subnav div.on { background: var(--paper); color: var(--ink); }
+.subnav div.off { color: var(--muted); font-weight: 400; } .subnav small { margin-inline-start: auto; font-size: 11px; color: var(--muted); }
+.subnav .ws { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: 4px 12px 8px; }
+.tree { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+.tree div { padding: 9px 12px; border-radius: 11px; display: flex; align-items: center; gap: 8px; } .tree div.sub { padding-inline-start: 30px; font-weight: 400; }
+.tree div.fam { font-weight: 700; } .tree div.on { background: var(--signal-soft); } .tree small { margin-inline-start: auto; color: var(--muted); font-size: 12px; }
+.q { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-bottom: 1px solid var(--line-soft); font-size: 14px; }
+.q .ord { display: inline-flex; flex-direction: column; color: var(--muted); font-size: 10px; line-height: 10px; }
+.q .n { width: 26px; color: var(--muted); font-variant-numeric: tabular-nums; } .q.off span.t { color: var(--muted); text-decoration: line-through; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 170px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 460px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+</style></head><body>
+<p class="caption"><strong>Coaching › partie 11a, la configuration — proposition.</strong> Le laboratoire prépare ici ce que le coach notera pendant une séance (11b) : une <strong>grille</strong> (familles › sections › questions, notées de 1 à 4) et des <strong>programmes</strong> (qui coache qui, quand, avec quelles sections et quelles questions ouvertes).
+Nouvel espace de menu <strong>« Coaching »</strong>. Les séances arrivent en 11b. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>La structure de l'API précédente</b> (décidé le 13 nov.) : catégories sur 2 niveaux (famille « Médecin », section « Préparation ») → questions (ordre, active ou non) → programmes (nom, dates, sections, rôles coachs, rôles coachés, questions ouvertes).</li>
+  <li><b>Proposé : catégories et questions sur une seule page, « Grille d'évaluation »</b> : l'arbre à gauche, les questions de la section choisie à droite (l'API précédente avait deux listes séparées). L'API garde ses deux ressources.</li>
+  <li><b>Une question ne vit que dans une section</b> (pas dans une famille). Une famille peut n'avoir que des sections.</li>
+  <li><b>Un programme choisit des sections</b> (cocher une famille coche toutes ses sections). Une séance (11b) montre les questions actives de ces sections, dans l'ordre.</li>
+  <li><b>Deux programmes qui partagent un rôle coach et un rôle coaché sur des dates qui se chevauchent sont refusés à l'enregistrement</b> (décidé le 13 nov.) : une séance trouve toujours un seul programme, ou aucun.</li>
+  <li><b>Une fois utilisé, refusé</b> (décidé le 13 nov.) : une question déjà notée se désactive seulement (les anciennes notes restent) ; une catégorie avec des questions ou choisie par un programme ne se supprime pas ; un programme avec des séances ne se supprime pas. Avant 11b, rien n'est encore « utilisé » par une séance.</li>
+  <li><b>Proposé : les dates d'un programme</b> peuvent changer tant qu'aucune séance ne sort des nouvelles dates (comme les cycles et leurs visites).</li>
+  <li><b>Un laboratoire neuf commence vide</b> (décidé le 13 nov.).</li>
+  <li><b>Droits</b> (décidé le 13 nov.) : les admins, et le droit <code>coaching-setup</code> (voir, ajouter, modifier, supprimer) que le laboratoire peut donner à un autre rôle dans Studio › Rôles. Les managers et les délégués ne voient pas la configuration.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const subnav = on => `<div class='subnav'><div class='ws'>Coaching</div>${[['Séances', 'en 11b'], ['Programmes', ''], ["Grille d'évaluation", '']].map(([t, s]) => `<div class='${t === on ? 'on' : ''} ${s ? 'off' : ''}'>${t}${s ? `<small>${s}</small>` : ''}</div>`).join('')}</div>`
+const shell = (on, inner, extra = '', h = 680) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf('Coaching')}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SH</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${subnav(on)}${inner}</div>
+</div>${extra}</div>`
+
+const TREE = [
+  ['Médecin', 0, [['Préparation', 4], ['Introduction', 3], ['Découverte', 2], ['Argumentation', 2], ['Objections', 1], ['Conclusion', 1], ['Suivi', 1]]],
+  ['Pharmacie', 0, [['Aptitudes', 10], ['Attitudes', 6]]],
+]
+const tree = sel => `<div class='card' style='width:330px;flex-shrink:0;padding:16px'><div style='display:flex;align-items:center;margin-bottom:8px'><strong>Catégories</strong><span class='btn sm outline' style='margin-inline-start:auto'>+ Famille</span></div><div class='tree'>${TREE.map(([f, , subs]) => `<div class='fam'>${f}<small>${subs.length} sections</small></div>${subs.map(([s, n]) => `<div class='sub ${s === sel ? 'on' : ''}'>${s}<small>${n} questions</small></div>`).join('')}<div class='sub' style='color:var(--cobalt);font-size:13px'>+ Section</div>`).join('')}</div></div>`
+const QS = [['Respecte le plan de tournée et la fréquence de visite', 1], ['Prise de décision et autonomie', 1], ['Gère la relation avec le pharmacien', 1], ['Négocie et traite les objections', 1], ['Conclut avec un bon de commande', 1], ['Prend des notes pour la prochaine visite', 1], ['Assure la disponibilité des produits en promotion', 1], ['Assure la disponibilité des produits en lancement', 1], ['Veille concurrentielle', 0], ['Sécurise la prescription', 1]]
+const questions = (extra = '') => `<div class='card col' style='padding:16px 18px;gap:6px'><div style='display:flex;align-items:center;gap:10px'><div><div class='hint'>Pharmacie ›</div><strong style='font-size:17px'>Aptitudes</strong></div><span class='hint' style='margin-inline-start:12px'>10 questions · 9 actives · notées de 1 à 4</span><span class='btn sm dark' style='margin-inline-start:auto'>+ Question</span><span class='iconbtn' style='width:36px;height:36px'>⋯</span></div>
+${QS.map(([t, on], i) => `<div class='q ${on ? '' : 'off'}'><span class='ord'>▲<br>▼</span><span class='n'>${i + 1}</span><span class='t' style='flex:1'>${t}</span>${on ? '' : `<span class='chip'>désactivée</span>`}<span class='tg ${on ? '' : 'off'}'></span><span class='hint'>✎</span></div>`).join('')}${extra}</div>`
+const head = (t, hint, btn = '') => `<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Coaching</div><h1 class='title display' style='font-size:34px'>${t}</h1><div class='hint' style='margin-top:4px'>${hint}</div></div>${btn}</div>`
+
+const PROGS = [
+  ['Coaching VM 2026', '1 janv. → 31 déc. 2026', 'Superviseur, Directeur régional', 'VM', 'Médecin (7)', 2, ['ok', 'En cours']],
+  ['Coaching VP 2026', '1 janv. → 31 déc. 2026', 'Superviseur', 'VP', 'Pharmacie (2)', 1, ['ok', 'En cours']],
+  ['Coaching KAM S2', '1 juil. → 31 déc. 2026', 'Directeur régional', 'KAM', 'Médecin (4), Pharmacie (1)', 0, ['ok', 'En cours']],
+  ['Coaching VM 2027', '1 janv. → 31 déc. 2027', 'Superviseur', 'VM', 'Médecin (7)', 2, ['info', 'À venir']],
+  ['Coaching VM 2025', '1 janv. → 31 déc. 2025', 'Superviseur', 'VM', 'Médecin (7)', 1, ['', 'Terminé']],
+]
+const progList = `<div class='col'>${head('Programmes', 'Qui coache qui, quand, et avec quelles sections de la grille', `<span class='btn primary' style='margin-inline-start:auto'>+ Ajouter un programme</span>`)}
+<div style='display:flex;gap:10px'><div class='input muted' style='width:300px'>Rechercher un programme</div><span class='seg'><span class='on'>Tous</span><span>En cours</span><span>À venir</span><span>Terminés</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Programme ↕</th><th>Dates ↕</th><th>Coachs</th><th>Coachés</th><th>Sections</th><th class='num'>Questions ouvertes</th><th>État</th><th>Ajouté le ↕</th></tr></thead><tbody>
+${PROGS.map(([n, d, c, cd, s, o, [k, st]], i) => `<tr class='${i === 0 ? 'sel' : ''}'><td><strong>${n}</strong></td><td>${d}</td><td>${c}</td><td><span class='chip'>${cd}</span></td><td>${s}</td><td class='num'>${o}</td><td><span class='chip ${k}'>${st}</span></td><td class='hint'>${['12 déc. 2025', '12 déc. 2025', '20 juin 2026', '2 nov. 2026', '3 déc. 2024'][i]}</td></tr>`).join('')}
+</tbody></table></div></div>`
+
+const progPage = (editing) => `<div class='col' style='max-width:980px'>
+<div><div class='crumbs'>Coaching › Programmes</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>Coaching VM 2026</h1><span class='chip ok'>En cours</span><span class='btn sm outline' style='margin-inline-start:auto'>Supprimer</span></div><div class='hint'>Ajouté par Sara Haddad le 12 déc. 2025 · 0 séance (les séances arrivent en 11b)</div></div>
+<div class='rec'><header><strong>Le programme</strong><span class='btn sm outline'>✎ Modifier</span></header><div class='kv'><span>Nom</span><span>Coaching VM 2026</span><span>Du</span><span>1 janv. 2026</span><span>Au</span><span>31 déc. 2026</span></div></div>
+${editing ? `<div class='rec' style='outline:2px solid var(--cobalt)'><header><strong>Qui coache qui</strong></header>
+  <label class='field'><span>Rôles coachs</span><div class='input'><span class='chip'>Superviseur ✕</span><span class='chip'>Directeur régional ✕</span></div></label>
+  <label class='field'><span>Rôles coachés</span><div class='input'><span class='chip'>VM ✕</span><span class='chip'>VP ✕</span></div></label>
+  <div class='why bad'>« Coaching VP 2026 » utilise déjà Superviseur → VP du 1 janv. au 31 déc. 2026. Deux programmes ne peuvent pas partager un coach et un coaché sur les mêmes dates : changez les dates ou les rôles.</div>
+  <div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm dark' style='opacity:.5'>Enregistrer</span></div></div>`
+  : `<div class='rec'><header><strong>Qui coache qui</strong><span class='btn sm outline'>✎ Modifier</span></header><div class='kv'><span>Rôles coachs</span><span class='pills'><span class='chip'>Superviseur</span><span class='chip'>Directeur régional</span></span><span>Rôles coachés</span><span class='pills'><span class='chip'>VM</span></span></div></div>`}
+<div style='display:flex;gap:14px;align-items:flex-start'>
+<div class='rec' style='flex:1'><header><strong>Sections de la grille</strong><span class='btn sm outline'>✎ Modifier</span></header>
+  <div class='tree'><div class='fam'><span class='check' style='background:var(--ink)'></span>Médecin<small>14 questions actives</small></div>${TREE[0][2].map(([s, n]) => `<div class='sub'><span class='check' style='background:var(--ink)'></span>${s}<small>${n}</small></div>`).join('')}<div class='fam' style='color:var(--muted)'><span class='check'></span>Pharmacie<small>2 sections</small></div></div></div>
+<div class='rec' style='flex:1'><header><strong>Questions ouvertes</strong><span class='btn sm outline'>+ Ajouter</span></header><span class='hint'>Le coach y répond par un texte libre à la fin de la séance.</span>
+  <div class='q'><span class='n'>1</span><span style='flex:1'>Point fort principal observé pendant la journée</span><span class='hint'>✎ ✕</span></div>
+  <div class='q'><span class='n'>2</span><span style='flex:1'>Axe de progrès pour la prochaine séance</span><span class='hint'>✎ ✕</span></div></div>
+</div></div>`
+
+const addSheet = `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet'><header><div><strong style='font-size:18px'>Ajouter un programme</strong><div class='hint'>Les sections et les questions ouvertes s'ajoutent ensuite sur sa page.</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header>
+<div class='body'><label class='field'><span>Nom *</span><div class='input'>Coaching VM 2027</div></label>
+<div style='display:flex;gap:12px'><label class='field' style='flex:1'><span>Du *</span><div class='input'>1 janv. 2027</div></label><label class='field' style='flex:1'><span>Au *</span><div class='input'>31 déc. 2027</div></label></div>
+<label class='field'><span>Rôles coachs *</span><div class='input'><span class='chip'>Superviseur ✕</span></div></label>
+<label class='field'><span>Rôles coachés *</span><div class='input'><span class='chip'>VM ✕</span></div></label>
+<label class='field'><span>Sections de la grille *</span><div class='input'><span class='chip'>Médecin (7 sections) ✕</span></div></label>
+<div class='why'>Libre : aucun autre programme Superviseur → VM en 2027.</div></div>
+<footer><span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>Ajouter le programme</span></footer></div></div>`
+
+const qSheet = `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet'><header><div><strong style='font-size:18px'>Ajouter une question</strong><div class='hint'>Pharmacie › Aptitudes</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header>
+<div class='body'><label class='field'><span>Section *</span><div class='input'>Pharmacie › Aptitudes</div></label><label class='field'><span>Question *</span><div class='input' style='height:80px;align-items:flex-start;padding-top:12px'>Présente les nouveautés de la gamme au pharmacien</div></label>
+<label class='field'><span>Position</span><div class='input'>À la fin (11)</div></label><div style='display:flex;align-items:center;gap:10px'><span class='tg'></span>Active</div>
+<div class='why'>Le coach la notera de 1 à 4 (1 Insuffisant · 2 Moyen · 3 Bien · 4 Excellent) dans les programmes qui utilisent cette section.</div></div>
+<footer><span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>Ajouter</span></footer></div></div>`
+
+const dialog = (title, text, actions) => `<div class='dialog'><div class='box'><strong style='font-size:17px'>${title}</strong><div>${text}</div><footer>${actions}</footer></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Coaching › Grille d'évaluation.</strong> À gauche, les familles et leurs sections ; à droite, les questions de la section choisie, dans l'ordre où le coach les verra. Une question se range (▲▼), se modifie (✎) et s'active ou se désactive.`) + shell("Grille d'évaluation", `${tree('Aptitudes')}${questions()}`),
+  label(2, `<strong>« + Question ».</strong> Un panneau court : la section, le texte, la position, active ou non.`) + shell("Grille d'évaluation", `${tree('Aptitudes')}${questions()}`, qSheet),
+  label(3, `<strong>Coaching › Programmes.</strong> Toutes les colonnes se trient ; recherche et filtre par état (en cours, à venir, terminé, d'après les dates). Un clic ouvre la page du programme.`) + shell('Programmes', progList),
+  label(4, `<strong>« + Ajouter un programme ».</strong> Nom, dates, rôles coachs, rôles coachés et sections. Le chevauchement est vérifié avant l'enregistrement.`) + shell('Programmes', progList, addSheet),
+  label(5, `<strong>La page d'un programme.</strong> Des cartes modifiées sur place : le programme, qui coache qui, les sections de la grille, les questions ouvertes.`) + shell('Programmes', progPage(false), '', 720),
+  label(6, `<strong>Chevauchement refusé.</strong> Sara ajoute VP aux coachés de « Coaching VM 2026 » : « Coaching VP 2026 » a déjà Superviseur → VP sur les mêmes dates, l'enregistrement est refusé.`) + shell('Programmes', progPage(true), '', 720),
+  label(7, `<strong>Supprimer une chose utilisée (dès 11b).</strong> Une question déjà notée dans une séance ne se supprime pas : on la désactive. Une section avec des questions, ou choisie par un programme, ne se supprime pas non plus.`) + shell("Grille d'évaluation", `${tree('Aptitudes')}${questions()}`, dialog('Supprimer « Veille concurrentielle » ?', `Cette question a été notée dans <strong>38 séances</strong> : elle ne peut pas être supprimée. Désactivée, elle n'apparaît plus dans les nouvelles séances et les anciennes notes restent.`, `<span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Désactiver</span>`)),
+].join('')
+</script></body></html>

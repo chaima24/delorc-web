@@ -6,6 +6,8 @@ export interface Speciality {
   id: number
   name: string
   type: 'medecin' | 'pharmacie' | 'grossiste'
+  /** General medicine: a doctor of it counts as a generalist in a coaching session. */
+  is_generalist: boolean
   /** Professionnels de santé and organisations with it (0 until their module). */
   customers_count?: number
   created_at?: string | null
@@ -31,7 +33,7 @@ export interface Priority {
 }
 
 /** The API checks `type` against its list (422 otherwise). */
-export type SpecialityPayload = { name: string; type: string }
+export type SpecialityPayload = { name: string; type: string; is_generalist?: boolean }
 export type SegmentationPayload = { name: string; color: string; position: number; type: string }
 export type PriorityPayload = Pick<Priority, 'name' | 'order' | 'color'>
 
