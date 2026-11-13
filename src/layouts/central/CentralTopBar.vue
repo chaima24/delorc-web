@@ -17,7 +17,7 @@ import DlIcon from '@/components/DlIcon.vue'
 import { profileApi } from '@/api/central/profile'
 import { useAccessLabels } from '@/composables/useAccessLabels'
 import { THEMES, useTheme, type ThemeChoice } from '@/composables/useTheme'
-import { currentLocale, LOCALES, setLocale } from '@/plugins/i18n'
+import { currentLocale, LOCALES, setLocale, type Locale } from '@/plugins/i18n'
 import { useAttentionStore } from '@/stores/attention'
 import { useAuthStore } from '@/stores/auth'
 import AttentionBell from './AttentionBell.vue'
@@ -38,7 +38,7 @@ const LANGUAGE_NAMES = { fr: 'Français', en: 'English', ar: 'العربية' } 
 const THEME_ICONS: Record<ThemeChoice, string> = { light: 'tabler-sun', dark: 'tabler-moon', system: 'tabler-device-desktop' }
 
 const locale = computed({
-  get: () => currentLocale(),
+  get: () => currentLocale() as Locale, // central only shows its JSON languages
   /** Shown at once, then saved on the account, so the API and the emails use it on every device. */
   set: (value: string) => {
     setLocale(value)

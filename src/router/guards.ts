@@ -10,6 +10,8 @@ declare module 'vue-router' {
     public?: boolean
     /** The permission this page needs, like `permission:` on an API route. */
     permission?: string
+    /** The lab's plan switch this page needs (`module.expenses`), like `lab.feature:` on an API route. */
+    feature?: string
   }
 }
 
@@ -51,6 +53,11 @@ export function installGuards(router: Router): void {
 
     if (to.meta.permission && !auth.can(to.meta.permission)) {
       return { name: 'home' }
+    }
+
+    if (to.meta.feature && !space.isCentral) {
+      await auth.loadLabAccess()
+      if (!auth.hasFeature(to.meta.feature)) return { name: 'home' }
     }
 
     if (to.name === 'home' && space.isCentral) {
