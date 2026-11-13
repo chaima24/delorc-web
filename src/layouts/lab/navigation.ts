@@ -64,6 +64,15 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
+    // Engager: what reps show and hand out (docs/api/advs.md); campaigns and materials later.
+    id: 'engage',
+    title: 'nav.workspaces.engage',
+    icon: 'tabler-presentation',
+    links: [
+      { title: 'nav.catalog.advs', to: { name: 'tenant-advs' }, icon: 'tabler-presentation', resource: 'advs' },
+    ],
+  },
+  {
     // Équipe: expenses (docs/api/expenses.md); coaching later.
     id: 'team',
     title: 'nav.workspaces.team',

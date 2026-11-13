@@ -73,6 +73,8 @@ const labRoutes = [
       { path: 'cycles', name: 'tenant-cycles', component: () => import('@/views/tenant/cycles/CycleListView.vue'), meta: { permission: 'cycles.show' } },
       { path: 'cycles/new', name: 'tenant-cycle-create', component: () => import('@/views/tenant/cycles/CycleCreateView.vue'), meta: { permission: 'cycles.create' } },
       { path: 'cycles/:id(\\d+)', name: 'tenant-cycle-detail', component: () => import('@/views/tenant/cycles/CycleDetailView.vue'), props: true, meta: { permission: 'cycles.show' } },
+      // Engager › Aides de visite (docs/api/advs.md).
+      { path: 'advs', name: 'tenant-advs', component: () => import('@/views/tenant/advs/AdvListView.vue'), meta: { permission: 'advs.show' } },
       // Équipe › Frais (docs/api/expenses.md): the board for approvers, else the person's own month.
       { path: 'expenses', name: 'tenant-expenses', component: () => import('@/views/tenant/expenses/ExpenseBoardView.vue'), meta: { permission: 'expenses.show', feature: 'module.expenses' } },
       { path: 'expenses/me', name: 'tenant-expense-mine', component: () => import('@/views/tenant/expenses/ExpenseMonthView.vue'), meta: { permission: 'expenses.show', feature: 'module.expenses' } },
