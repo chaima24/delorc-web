@@ -1303,6 +1303,12 @@
         "description": "Active users the lab can have at the same time.",
         "name": "Users"
       }
+    },
+    "module": {
+      "expenses": {
+        "description": "Team expense claims (one day per person, approved by their manager) and their settings in the Studio.",
+        "name": "Expenses"
+      }
     }
   }
 }

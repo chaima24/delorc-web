@@ -1303,6 +1303,12 @@
         "description": "Utilisateurs actifs que le laboratoire peut avoir en même temps.",
         "name": "Utilisateurs"
       }
+    },
+    "module": {
+      "expenses": {
+        "description": "Notes de frais des équipes (un jour par personne, approuvé par le responsable) et leurs paramètres dans le Studio.",
+        "name": "Frais"
+      }
     }
   }
 }

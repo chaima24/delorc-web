@@ -26,7 +26,7 @@ const route = useRoute()
 const auth = useAuthStore()
 const { counts } = useStudioCounts()
 
-const levels = computed(() => props.section.levels.filter(level => auth.can(`${level.resource}.show`)))
+const levels = computed(() => props.section.levels.filter(level => auth.can(`${level.resource}.show`) && (!level.feature || auth.hasFeature(level.feature))))
 </script>
 
 <template>

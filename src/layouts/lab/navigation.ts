@@ -9,6 +9,8 @@ export interface NavLink {
   resource?: string
   /** Other pages that belong to this entry (detail pages, sub-pages). */
   matches?: string[]
+  /** The lab's plan switch it needs (`module.expenses`): hidden without it. */
+  feature?: string
 }
 
 export interface Workspace {
@@ -59,6 +61,15 @@ export const workspaces: Workspace[] = [
       { title: 'nav.organization.hcps', to: { name: 'tenant-hcps' }, icon: 'tabler-stethoscope', resource: 'hcps', matches: ['tenant-hcp-detail', 'tenant-hcp-import', 'tenant-hcp-duplicates', 'tenant-hcp-merge', 'tenant-hcp-requests', 'tenant-hcp-proposals'] },
       { title: 'nav.organization.hcos', to: { name: 'tenant-hcos' }, icon: 'tabler-building-hospital', resource: 'hcos' },
       { title: 'nav.organization.consents', to: { name: 'tenant-consents' }, icon: 'tabler-shield-check', resource: 'consents' },
+    ],
+  },
+  {
+    // Équipe: expenses (docs/api/expenses.md); coaching later.
+    id: 'team',
+    title: 'nav.workspaces.team',
+    icon: 'tabler-users-group',
+    links: [
+      { title: 'nav.expenses.expenses', to: { name: 'tenant-expenses' }, icon: 'tabler-receipt-tax', resource: 'expenses', feature: 'module.expenses', matches: ['tenant-expense-mine', 'tenant-expense-month', 'tenant-expense-new', 'tenant-expense-edit'] },
     ],
   },
 ]

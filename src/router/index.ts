@@ -46,7 +46,8 @@ const labRoutes = [
       { path: 'event-types', name: 'tenant-event-types', component: () => import('@/views/tenant/event-types/EventTypeListView.vue'), meta: { permission: 'event-types.show' } },
       { path: 'canals', name: 'tenant-canals', component: () => import('@/views/tenant/canals/CanalListView.vue'), meta: { permission: 'canals.show' } },
       { path: 'materiels', name: 'tenant-materiels', component: () => import('@/views/tenant/materiels/MaterielListView.vue'), meta: { permission: 'materiels.show' } },
-      { path: 'expense-types', name: 'tenant-expense-types', component: () => import('@/views/tenant/expense-types/ExpenseTypeListView.vue'), meta: { permission: 'expense-types.show' } },
+      { path: 'expense-types', name: 'tenant-expense-types', component: () => import('@/views/tenant/expense-types/ExpenseTypeListView.vue'), meta: { permission: 'expense-types.show', feature: 'module.expenses' } },
+      { path: 'expense-settings', name: 'tenant-expense-settings', component: () => import('@/views/tenant/expense-settings/ExpenseSettingListView.vue'), meta: { permission: 'expense-settings.show', feature: 'module.expenses' } },
       { path: 'holidays', name: 'tenant-holidays', component: () => import('@/views/tenant/holidays/HolidayListView.vue'), meta: { permission: 'holidays.show' } },
       { path: 'hcps', name: 'tenant-hcps', component: () => import('@/views/tenant/hcps/HcpListView.vue'), meta: { permission: 'hcps.show' } },
       { path: 'hcps/duplicates', name: 'tenant-hcp-duplicates', component: () => import('@/views/tenant/hcps/duplicates/HcpDuplicatesView.vue'), meta: { permission: 'hcps.show' } },
@@ -72,6 +73,12 @@ const labRoutes = [
       { path: 'cycles', name: 'tenant-cycles', component: () => import('@/views/tenant/cycles/CycleListView.vue'), meta: { permission: 'cycles.show' } },
       { path: 'cycles/new', name: 'tenant-cycle-create', component: () => import('@/views/tenant/cycles/CycleCreateView.vue'), meta: { permission: 'cycles.create' } },
       { path: 'cycles/:id(\\d+)', name: 'tenant-cycle-detail', component: () => import('@/views/tenant/cycles/CycleDetailView.vue'), props: true, meta: { permission: 'cycles.show' } },
+      // Équipe › Frais (docs/api/expenses.md): the board for approvers, else the person's own month.
+      { path: 'expenses', name: 'tenant-expenses', component: () => import('@/views/tenant/expenses/ExpenseBoardView.vue'), meta: { permission: 'expenses.show', feature: 'module.expenses' } },
+      { path: 'expenses/me', name: 'tenant-expense-mine', component: () => import('@/views/tenant/expenses/ExpenseMonthView.vue'), meta: { permission: 'expenses.show', feature: 'module.expenses' } },
+      { path: 'expenses/new', name: 'tenant-expense-new', component: () => import('@/views/tenant/expenses/ExpenseDayFormView.vue'), meta: { permission: 'expenses.create', feature: 'module.expenses' } },
+      { path: 'expenses/day/:id(\\d+)', name: 'tenant-expense-edit', component: () => import('@/views/tenant/expenses/ExpenseDayFormView.vue'), props: true, meta: { permission: 'expenses.update', feature: 'module.expenses' } },
+      { path: 'expenses/:userId(\\d+)', name: 'tenant-expense-month', component: () => import('@/views/tenant/expenses/ExpenseMonthView.vue'), props: true, meta: { permission: 'expenses.show', feature: 'module.expenses' } },
       // Planifier › Activités (docs/api/activities.md).
       { path: 'activities', name: 'tenant-activities', component: () => import('@/views/tenant/activities/ActivityListView.vue'), meta: { permission: 'activities.show' } },
       // Planifier › Objectifs, Fréquences (docs/api/objectives-frequencies.md).

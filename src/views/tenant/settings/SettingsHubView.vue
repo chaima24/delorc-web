@@ -19,7 +19,7 @@ const auth = useAuthStore()
 
 // The cards this person may open; a group with none is not shown.
 const visibleSettingsGroups = computed(() => settingsGroups
-  .map(group => ({ ...group, links: group.links.filter(link => !link.resource || auth.can(`${link.resource}.show`)) }))
+  .map(group => ({ ...group, links: group.links.filter(link => (!link.resource || auth.can(`${link.resource}.show`)) && (!link.feature || auth.hasFeature(link.feature))) }))
   .filter(group => group.links.length > 0))
 const visibleSettingsLinks = computed(() => visibleSettingsGroups.value.flatMap(group => group.links))
 

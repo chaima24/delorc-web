@@ -8,7 +8,7 @@ export function useWorkspaces() {
   const route = useRoute()
   const auth = useAuthStore()
 
-  const isVisible = (link: NavLink) => !link.resource || auth.can(`${link.resource}.show`)
+  const isVisible = (link: NavLink) => (!link.resource || auth.can(`${link.resource}.show`)) && (!link.feature || auth.hasFeature(link.feature))
 
   const visibleWorkspaces = computed<Workspace[]>(() =>
     workspaces.map((ws) => ({ ...ws, links: ws.links.filter(isVisible) })).filter((ws) => ws.links.length > 0),

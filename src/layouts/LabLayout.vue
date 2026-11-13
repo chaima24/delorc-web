@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { authApi } from '@/api/auth'
 import DlIcon from '@/components/DlIcon.vue'
+import { useAuthStore } from '@/stores/auth'
 import LabBottomNav from './lab/LabBottomNav.vue'
 import LabRail from './lab/LabRail.vue'
 import LabSubnav from './lab/LabSubnav.vue'
@@ -10,11 +10,12 @@ import LabTopBar from './lab/LabTopBar.vue'
 
 /** Lab shell: dark rail (desktop) / bottom bar (phone), top bar, workspace tabs, page. */
 const { t, d } = useI18n()
+const auth = useAuthStore()
 
 /** Admins only: the lab's period has ended and it will be suspended on this day. */
 const graceEndsOn = ref<string | null>(null)
 onMounted(async () => {
-  graceEndsOn.value = (await authApi.labAccess().catch(() => null))?.grace_ends_on ?? null
+  graceEndsOn.value = (await auth.loadLabAccess())?.grace_ends_on ?? null
 })
 const graceDate = computed(() => (graceEndsOn.value ? d(new Date(`${graceEndsOn.value}T00:00:00`), { day: 'numeric', month: 'long' }) : ''))
 </script>
