@@ -87,13 +87,15 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
-    // Coaching: the setup (docs/api/coaching-setup.md); the sessions come in 11b.
+    // Coaching: the sessions (docs/api/coaching-sessions.md) and their setup (docs/api/coaching-setup.md).
     id: 'coaching',
     title: 'nav.workspaces.coaching',
     icon: 'tabler-school',
     links: [
+      { title: 'nav.coaching.sessions', to: { name: 'tenant-coaching-sessions' }, icon: 'tabler-school', resource: 'coaching-sessions', matches: ['tenant-coaching-session', 'tenant-coaching-session-fill'] },
       { title: 'nav.coaching.programs', to: { name: 'tenant-coachings' }, icon: 'tabler-calendar-user', resource: 'coaching-setup', matches: ['tenant-coaching-detail'] },
       { title: 'nav.coaching.grid', to: { name: 'tenant-coaching-grid' }, icon: 'tabler-list-check', resource: 'coaching-setup' },
+      { title: 'nav.coaching.settings', to: { name: 'tenant-coaching-settings' }, icon: 'tabler-settings', resource: 'coaching-setup' },
     ],
   },
   {

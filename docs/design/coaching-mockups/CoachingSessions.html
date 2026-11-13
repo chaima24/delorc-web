@@ -1,0 +1,138 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Coaching, les séances</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.subnav { width: 220px; flex-shrink: 0; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.subnav div { padding: 10px 12px; border-radius: 11px; color: var(--body); font-weight: 600; } .subnav div.on { background: var(--paper); color: var(--ink); }
+.subnav .ws { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: 4px 12px 8px; }
+.figs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; } .fig { background: var(--paper); border-radius: 18px; padding: 14px 16px; } .fig b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; } .fig span { font-size: 12.5px; color: var(--muted); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn, .rec header .chip { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 150px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.q { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .q:last-child { border-bottom: 0; }
+.notes { display: inline-flex; gap: 4px; } .notes i { width: 30px; height: 30px; border-radius: 9px; border: 1px solid var(--line); font-style: normal; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); }
+.notes i.on { background: var(--ink); color: var(--signal); border-color: var(--ink); } .notes i.na { width: 42px; font-weight: 500; font-size: 11.5px; } .notes i.na.on { background: var(--line-soft); color: var(--body); border-color: var(--line); }
+.bar { height: 8px; border-radius: 99px; background: var(--line-soft); flex: 1; overflow: hidden; } .bar i { display: block; height: 100%; background: var(--ink); border-radius: 99px; }
+.sec-row { display: flex; align-items: center; gap: 12px; font-size: 13.5px; } .sec-row span:first-child { width: 150px; } .sec-row b { width: 34px; text-align: end; font-variant-numeric: tabular-nums; }
+.score { font-family: 'Bricolage Grotesque', sans-serif; font-size: 46px; font-weight: 800; line-height: 1; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); } .why.ok { background: var(--signal-soft); color: var(--ink); }
+.visit { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .visit:last-child { border-bottom: 0; } .visit small { color: var(--muted); }
+.num { width: 64px; height: 36px; border: 1px solid var(--line); border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+</style></head><body>
+<p class="caption"><strong>Coaching › partie 11b, les séances — proposition.</strong> Un coach planifie une journée avec une personne de son équipe, l'accompagne en visite, note la grille de son programme (11a) puis valide ; la personne coachée accepte ou refuse la séance. Tout se passe dans l'espace <strong>« Coaching »</strong>, page <strong>« Séances »</strong>.
+Les points décidés le 13 nov. et ceux à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Une séance = un coach, une personne coachée, un jour.</b> Le coach est celui qui la planifie. <b>Une seule séance par coach, personne et jour : un réglage du laboratoire</b> (décidé le 13 nov.), dans Coaching › Réglages, activé au départ. Désactivé : plusieurs séances le même jour sont possibles. Les séances annulées ne comptent pas.</li>
+  <li><b>Qui coache qui</b> (décidé) : seulement les personnes sous le coach dans la hiérarchie, et il faut un programme en cours ce jour-là pour leurs deux rôles (11a). Sinon : « Aucun programme pour Superviseur → KAM à cette date ». Les admins voient tout.</li>
+  <li><b>Quatre états enregistrés</b> : planifiée → validée par le coach (en attente de la personne) → acceptée, ou refusée avec un motif ; et annulée (avec un motif). <b>« En retard » n'est pas enregistré</b> (décidé) : une séance planifiée dont le jour est passé.</li>
+  <li><b>Refusée</b> (décidé) : la séance revient au coach avec le motif ; il corrige les notes ou les commentaires et valide de nouveau ; la personne répond de nouveau.</li>
+  <li><b>Reporter = changer la date</b> d'une séance planifiée (décidé) ; le journal garde l'ancienne date.</li>
+  <li><b>La grille</b> : les questions actives des sections du programme, notées de 1 à 4, ou « N/A » (ne compte pas). Un commentaire par question est possible. Les questions ouvertes du programme à la fin. <b>Pour valider, chaque question a une note ou N/A, et chaque question ouverte une réponse</b> (décidé le 13 nov.). Le coach peut enregistrer un brouillon avant.</li>
+  <li><b>Le score, des deux façons</b> (décidé) : un pourcentage global (somme des notes ÷ (nombre de notes × 4) × 100, sans les N/A) et, par section, la moyenne sur 4 avec son libellé : 1 Insuffisant · 2 Moyen · 3 Bien · 4 Excellent.</li>
+  <li><b>Les visites du jour</b> (décidé) : la page montre les visites de la personne ce jour-là où le coach est dans « Accompagné par ». Rien n'est obligatoire. <b>Les trois compteurs</b> (généralistes, spécialistes, pharmacies) <b>et les marques</b> sont pré-remplis depuis ces visites et le coach peut les corriger.</li>
+  <li><b>Proposé : l'objectif de la séance est pré-rempli</b> avec le « prochain objectif » de la dernière séance acceptée de la personne (comme les anciennes applications) ; le coach peut le changer.</li>
+  <li><b>La case « Coaching » d'un cycle</b> (décidé) compte les séances que la personne a reçues, validées par le coach, datées dans le cycle : « Coaching 2 / 3 ».</li>
+  <li><b>Une fois validée, une séance ne se supprime plus</b> ; ses questions ne se suppriment plus dans la grille (désactivation seulement), son programme non plus, et les dates du programme ne peuvent pas la laisser dehors (annoncé en 11a).</li>
+  <li><b>Droits</b> (décidé le 13 nov.) : <code>coaching-sessions</code> : voir, ajouter, modifier, supprimer. Les rôles managers : voir, ajouter, modifier (leurs séances comme coach). Les rôles terrain : voir (leurs séances reçues) ; accepter ou refuser sa propre séance ne demande pas d'autre droit. Supprimer une séance planifiée : le coach ou un admin.</li>
+  <li><b>Notifications</b> (avec le module notifications) : séance planifiée ou déplacée → la personne ; séance validée → la personne ; acceptée ou refusée → le coach.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const subnav = (links = ['Séances', 'Programmes', "Grille d'évaluation", 'Réglages']) => `<div class='subnav'><div class='ws'>Coaching</div>${links.map((t, i) => `<div class='${i === 0 ? 'on' : ''}'>${t}</div>`).join('')}</div>`
+const shell = (inner, { avatar = 'NK', extra = '', h = 680, links } = {}) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf('Coaching')}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${avatar}</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${subnav(links)}${inner}</div>
+</div>${extra}</div>`
+const chip = (k, t) => `<span class='chip ${k}'>${t}</span>`
+const ST = { planned: ['info', 'Planifiée'], late: ['warn', 'En retard'], validated: ['warn', 'En attente de la personne'], accepted: ['ok', 'Acceptée'], refused: ['', 'Refusée'], cancelled: ['', 'Annulée'] }
+const st = k => chip(ST[k][0], ST[k][1])
+
+const ROWS = [
+  ['Mar. 17 nov. 2026', 'Karim Benali', 'VM · Cardio Alger', 'Coaching VM 2026', 'planned', '—'],
+  ['Jeu. 12 nov. 2026', 'Lina Mansouri', 'VP · Officine Alger', 'Coaching VP 2026', 'validated', '81 %'],
+  ['Mar. 10 nov. 2026', 'Omar Haddad', 'VM · Cardio Blida', 'Coaching VM 2026', 'late', '—'],
+  ['Mer. 4 nov. 2026', 'Karim Benali', 'VM · Cardio Alger', 'Coaching VM 2026', 'refused', '62 %'],
+  ['Mar. 20 oct. 2026', 'Karim Benali', 'VM · Cardio Alger', 'Coaching VM 2026', 'accepted', '74 %'],
+  ['Lun. 12 oct. 2026', 'Lina Mansouri', 'VP · Officine Alger', 'Coaching VP 2026', 'accepted', '88 %'],
+]
+const list = `<div class='col'>
+<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Coaching</div><h1 class='title display' style='font-size:34px'>Séances</h1><div class='hint' style='margin-top:4px'>Les journées de coaching de votre équipe</div></div><span class='btn primary' style='margin-inline-start:auto'>+ Planifier une séance</span></div>
+<div class='figs'><div class='fig'><b>1</b><span>planifiée à venir</span></div><div class='fig'><b style='color:var(--amber)'>1</b><span>en retard</span></div><div class='fig'><b>1</b><span>en attente de la personne</span></div><div class='fig'><b>1</b><span>refusée, à corriger</span></div></div>
+<div style='display:flex;gap:10px;flex-wrap:wrap'><div class='input muted' style='width:260px'>Rechercher une personne</div><span class='seg'><span class='on'>Toutes</span><span>Planifiées</span><span>En retard</span><span>En attente</span><span>Acceptées</span><span>Refusées</span></span><div class='input muted' style='width:170px'>Novembre 2026 ▾</div></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Jour ↕</th><th>Personne coachée ↕</th><th>Coach</th><th>Programme</th><th>État</th><th class='num'>Score ↕</th></tr></thead><tbody>
+${ROWS.map(([d, p, r, g, s, sc]) => `<tr><td>${d}</td><td><strong>${p}</strong><div class='hint'>${r}</div></td><td>Nadia Kaci</td><td>${g}</td><td>${st(s)}</td><td class='num'><strong>${sc}</strong></td></tr>`).join('')}
+</tbody></table></div></div>`
+
+const planSheet = `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet'><header><div><strong style='font-size:18px'>Planifier une séance</strong><div class='hint'>Vous êtes le coach.</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header>
+<div class='body'><label class='field'><span>Personne coachée *</span><div class='input'>Karim Benali <span class='hint'>· VM · Cardio Alger</span></div></label>
+<label class='field'><span>Jour *</span><div class='input'>mardi 17 nov. 2026</div></label>
+<div class='why ok'>Programme : <strong>Coaching VM 2026</strong> (Superviseur → VM) · 7 sections · 14 questions · 2 questions ouvertes</div>
+<label class='field'><span>Objectif de la séance</span><div class='input' style='height:70px;align-items:flex-start;padding-top:12px'>Mieux traiter l'objection prix sur Cardiozen</div><span class='hint'>Repris du « prochain objectif » de la séance du 20 oct.</span></label>
+<div class='why'>Refusé si : la personne n'est pas dans votre équipe · aucun programme pour vos deux rôles ce jour-là · vous avez déjà une séance avec elle ce jour-là (réglage du laboratoire).</div></div>
+<footer><span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>Planifier</span></footer></div></div>`
+
+const head = (state, actions, sub = 'Coach : Nadia Kaci · Programme « Coaching VM 2026 »') => `<div><div class='crumbs'>Coaching › Séances</div><div style='display:flex;align-items:center;gap:12px;flex-wrap:wrap'><h1 class='title display' style='font-size:30px'>Karim Benali · mer. 4 nov. 2026</h1>${st(state)}<span style='margin-inline-start:auto;display:flex;gap:8px'>${actions}</span></div><div class='hint'>${sub}</div></div>`
+
+const dayCard = (edit) => `<div class='rec'><header><strong>Les visites du jour</strong><span class='chip'>3 accompagnées</span></header>
+  <div class='visit'><strong style='flex:1'>Dr Saidi</strong><small>Cardiologue · Kouba</small><small>Cardiozen, Tensio</small></div>
+  <div class='visit'><strong style='flex:1'>Dr Cherif</strong><small>Généraliste · Hydra</small><small>Cardiozen</small></div>
+  <div class='visit'><strong style='flex:1'>Pharmacie Ibn Sina</strong><small>Pharmacie · Hydra</small><small>Tensio</small></div>
+  <div style='display:flex;gap:14px;align-items:center;font-size:13px;flex-wrap:wrap'><span>Généralistes <span class='num'>1</span></span><span>Spécialistes <span class='num'>1</span></span><span>Pharmacies <span class='num'>1</span></span></div>
+  <div style='font-size:13px'>Marques : <span class='chip'>Cardiozen ${edit ? '✕' : ''}</span> <span class='chip'>Tensio ${edit ? '✕' : ''}</span></div>
+  <span class='hint'>${edit ? 'Repris des visites où vous êtes dans « Accompagné par ». Vous pouvez corriger les nombres et les marques.' : 'Repris des visites accompagnées, corrigé par le coach si besoin.'}</span></div>`
+
+const notes = (v) => `<span class='notes'>${[1, 2, 3, 4].map(n => `<i class='${n === v ? 'on' : ''}'>${n}</i>`).join('')}<i class='na ${v === 0 ? 'on' : ''}'>N/A</i></span>`
+const SECTION = (name, qs) => `<div class='rec'><header><strong>${name}</strong><span class='hint' style='margin-inline-start:auto'>${qs.length} questions</span></header>${qs.map(([t, v, c]) => `<div class='q'><span style='flex:1'>${t}${c ? `<div class='hint'>« ${c} »</div>` : ''}</span>${notes(v)}<span class='hint'>💬</span></div>`).join('')}</div>`
+const fill = `<div class='col'>${head('planned', `<span class='btn sm outline'>Enregistrer le brouillon</span><span class='btn sm dark'>Valider la séance</span>`)}
+<div style='display:flex;gap:14px;align-items:flex-start'>
+<div class='col'>
+${SECTION('Médecin › Préparation', [['Situation', 3], ["Sélection de l'objectif de visite", 2, "Objectif trop large pour Dr Cherif"], ['Stratégie et structure de visite', 3], ['Support', 0]])}
+${SECTION('Médecin › Argumentation', [['Besoins, arguments, caractéristiques', 3], ['Communication verbale et non verbale', undefined]])}
+<div class='hint'>… Introduction, Découverte, Objections, Conclusion, Suivi</div>
+<div class='rec'><header><strong>Questions ouvertes</strong></header><label class='field'><span>Point fort principal observé pendant la journée *</span><div class='input' style='height:54px'>Très bonne écoute du médecin</div></label><label class='field'><span>Axe de progrès pour la prochaine séance *</span><div class='input' style='height:54px;border-color:var(--brick)'></div></label></div>
+<div class='why bad'>Pour valider : il manque 1 note (Argumentation) et 1 réponse ouverte.</div>
+</div>
+<div style='width:400px;flex-shrink:0;display:flex;flex-direction:column;gap:14px'>
+${dayCard(true)}
+<div class='rec'><header><strong>Objectifs et commentaire</strong></header><label class='field'><span>Objectif de la séance</span><div class='input'>Mieux traiter l'objection prix</div></label><label class='field'><span>Prochain objectif</span><div class='input muted'>Pour la prochaine séance</div></label><label class='field'><span>Commentaire</span><div class='input' style='height:60px'></div></label></div>
+</div></div></div>`
+
+const SECS = [['Préparation', 2.7, 'Bien'], ['Introduction', 3.3, 'Bien'], ['Découverte', 2.0, 'Moyen'], ['Argumentation', 2.5, 'Bien'], ['Objections', 1.0, 'Insuffisant'], ['Conclusion', 3.0, 'Bien'], ['Suivi', 3.0, 'Bien']]
+const scoreCard = `<div class='rec'><header><strong>Score</strong></header><div style='display:flex;align-items:flex-end;gap:14px'><span class='score'>62 %</span><span class='hint'>13 notes · 1 N/A · séance précédente 74 %</span></div>
+${SECS.map(([n, a, l]) => `<div class='sec-row'><span>${n}</span><span class='bar'><i style='width:${a / 4 * 100}%'></i></span><b>${a.toFixed(1).replace('.', ',')}</b>${chip(l === 'Insuffisant' ? 'warn' : l === 'Moyen' ? '' : 'ok', l)}</div>`).join('')}</div>`
+const read = (state, actions, banner, avatar) => shell(`<div class='col'>${head(state, actions)}${banner}
+<div style='display:flex;gap:14px;align-items:flex-start'><div class='col'>${scoreCard}
+<div class='rec'><header><strong>Objectifs et commentaire</strong></header><div class='kv'><span>Objectif</span><span>Mieux traiter l'objection prix sur Cardiozen</span><span>Prochain objectif</span><span>Préparer deux réponses à l'objection prix</span><span>Commentaire</span><span>Bonne journée, à l'aise en introduction.</span></div></div>
+<div class='rec'><header><strong>La grille notée</strong><span class='btn sm outline'>Voir les 14 notes</span></header><span class='hint'>Préparation : Situation 3 · Objectif de visite 2 « Objectif trop large pour Dr Cherif » · Stratégie 3 · Support N/A …</span></div></div>
+<div style='width:400px;flex-shrink:0'>${dayCard(false)}</div></div></div>`, { avatar, h: 700, links: avatar === 'KB' ? ['Mes séances'] : undefined })
+
+const refuseDialog = `<div style='position:absolute;inset:0;background:rgba(15,31,28,.35);display:flex;align-items:center;justify-content:center;z-index:6'><div style='width:460px;background:var(--paper);border-radius:22px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;font-size:14px'><strong style='font-size:17px'>Refuser cette séance ?</strong><div>Nadia Kaci verra votre motif et pourra corriger la séance, puis vous la renvoyer.</div><label class='field'><span>Motif *</span><div class='input' style='height:70px;align-items:flex-start;padding-top:12px'>La visite Dr Cherif a été écourtée par une urgence, la note « Objections » ne reflète pas la journée.</div></label><div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Refuser la séance</span></div></div></div>`
+
+const cycle = `<div class='col' style='max-width:900px'><div class='crumbs'>Planifier › Cycles › Karim Benali · Novembre 2026</div>
+<div class='figs'><div class='fig'><b>38 / 42</b><span>visites médecins</span></div><div class='fig'><b>11 / 12</b><span>visites pharmacies</span></div><div class='fig'><b>6 / 8</b><span>commandes</span></div><div class='fig' style='outline:2px solid var(--cobalt)'><b>2 / 3</b><span>coaching · séances reçues, validées par le coach</span></div></div>
+<div class='hint'>Avant 11b, cette case affichait « — / 3 ».</div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Coaching › Séances, vue du coach (Nadia, superviseure).</strong> Ses séances avec son équipe : quatre chiffres, recherche, filtre par état et par mois, colonnes triables. Un clic ouvre la séance.`) + shell(list),
+  label(2, `<strong>« + Planifier une séance ».</strong> La personne (seulement son équipe) et le jour. Le programme est trouvé tout seul d'après les deux rôles ; l'objectif reprend le « prochain objectif » de la dernière séance.`) + shell(list, { extra: planSheet }),
+  label(3, `<strong>Le jour venu : remplir la grille.</strong> Les sections du programme, une note de 1 à 4 ou N/A par question, un commentaire possible (💬), les questions ouvertes. À droite, les visites accompagnées du jour avec les compteurs et les marques, corrigeables. Brouillon possible ; « Valider » demande que tout soit rempli.`) + shell(fill, { h: 900 }),
+  label(4, `<strong>Séance validée par le coach.</strong> Le score global en %, et par section la moyenne sur 4 avec son libellé. La séance attend la réponse de Karim ; le coach ne peut plus la modifier.`) + read('validated', '', `<div class='why'>Validée le 4 nov. à 18:20. En attente de la réponse de Karim Benali.</div>`, 'NK'),
+  label(5, `<strong>Vue de la personne coachée (Karim).</strong> Dans « Mes séances », il lit sa séance et répond : accepter, ou refuser avec un motif.`) + read('validated', `<span class='btn sm outline'>Refuser</span><span class='btn sm dark'>Accepter la séance</span>`, `<div class='why'>Nadia Kaci a validé cette séance. Lisez-la, puis acceptez-la ou refusez-la.</div>`, 'KB'),
+  label(6, `<strong>« Refuser ».</strong> Le motif est obligatoire.`) + read('validated', `<span class='btn sm outline'>Refuser</span><span class='btn sm dark'>Accepter la séance</span>`, '', 'KB').replace(/<\/div>$/, refuseDialog + '</div>'),
+  label(7, `<strong>Refusée : la séance revient au coach.</strong> Nadia voit le motif, corrige les notes ou les commentaires, et valide de nouveau ; Karim répond de nouveau.`) + read('refused', `<span class='btn sm dark'>Corriger la séance</span>`, `<div class='why bad'><strong>Refusée par Karim Benali le 5 nov. :</strong> « La visite Dr Cherif a été écourtée par une urgence, la note "Objections" ne reflète pas la journée. »</div>`, 'NK'),
+  label(8, `<strong>Une séance planifiée dont le jour est passé : « En retard ».</strong> Le coach la remplit quand même, la déplace à un autre jour, ou l'annule avec un motif.`) + shell(`<div class='col'><div><div class='crumbs'>Coaching › Séances</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:30px'>Omar Haddad · mar. 10 nov. 2026</h1>${st('late')}<span style='margin-inline-start:auto;display:flex;gap:8px'><span class='btn sm outline'>Annuler la séance</span><span class='btn sm outline'>Changer le jour</span><span class='btn sm dark'>Remplir la grille</span></span></div><div class='hint'>Coach : Nadia Kaci · Programme « Coaching VM 2026 »</div></div>
+<div class='why'>Aucune visite accompagnée ce jour-là : les compteurs commencent à 0.</div>
+<div class='rec' style='max-width:520px'><header><strong>Changer le jour</strong></header><label class='field'><span>Nouveau jour *</span><div class='input'>jeudi 19 nov. 2026</div></label><span class='hint'>Le journal garde l'ancienne date (10 nov.).</span><div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Déplacer</span></div></div></div>`, { h: 460 }),
+  label(9, `<strong>Dans le cycle de la personne.</strong> La case « Coaching » compte les séances reçues et validées par le coach, datées dans le cycle.`) + `<div class='frame' style='min-height:300px'>${railOf('Planifier')}<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><span style='margin-inline-start:auto' class='avatar'>NK</span></div><div style='padding:18px 28px 24px'>${cycle}</div></div></div>`,
+  label(10, `<strong>Coaching › Réglages.</strong> Le laboratoire choisit si un coach peut avoir plusieurs séances avec la même personne le même jour. Activé au départ ; même droit que la configuration (admins).`) + shell(`<div class='col' style='max-width:760px'><div><div class='crumbs'>Coaching</div><h1 class='title display' style='font-size:34px'>Réglages</h1></div>
+<div class='rec'><div style='display:flex;align-items:center;gap:14px'><div style='flex:1'><strong>Une seule séance par jour</strong><div class='hint'>Un coach ne peut pas planifier deux séances avec la même personne le même jour. Les séances annulées ne comptent pas.</div></div><span style='width:36px;height:20px;border-radius:99px;background:var(--ink);position:relative;flex-shrink:0'><span style='position:absolute;top:3px;inset-inline-end:3px;width:14px;height:14px;border-radius:99px;background:var(--signal)'></span></span></div></div>
+<div class='hint'>Désactiver ce réglage ne touche pas les séances existantes.</div></div>`, { avatar: 'SH', h: 360 }).replace("<div class='on'>Séances</div>", "<div>Séances</div>").replace("<div class=''>Réglages</div>", "<div class='on'>Réglages</div>"),
+].join('')
+</script></body></html>

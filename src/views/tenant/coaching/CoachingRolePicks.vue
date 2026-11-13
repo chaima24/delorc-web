@@ -4,10 +4,12 @@ import { useI18n } from 'vue-i18n'
 import DlIconButton from '@/components/DlIconButton.vue'
 import DlSelect from '@/components/DlSelect.vue'
 
-// Several roles: each picked role is a chip with ✕; the select below adds one more.
+// Several roles (or brands): each one picked is a chip with ✕; the select below adds one more.
 const props = defineProps<{
   label: string
   options: { value: number; label: string }[]
+  /** The select's text; "add a role" by default. */
+  addLabel?: string
   error?: string
 }>()
 const ids = defineModel<number[]>({ required: true })
@@ -30,7 +32,7 @@ const picked = computed({
         <DlIconButton icon="tabler-x" variant="ghost" :size="26" :label="t('coaching.picks.remove', { name: nameOf(id) })" @click="ids = ids.filter(row => row !== id)" />
       </span>
     </div>
-    <DlSelect v-if="left.length" v-model="picked" :label="t('coaching.picks.add')" :options="left" :placeholder="t('coaching.picks.add')" hide-label />
+    <DlSelect v-if="left.length" v-model="picked" :label="addLabel ?? t('coaching.picks.add')" :options="left" :placeholder="addLabel ?? t('coaching.picks.add')" hide-label />
     <p v-if="error" class="text-xs text-dl-rejected">{{ error }}</p>
   </fieldset>
 </template>

@@ -33,7 +33,7 @@ const objectiveName = computed(() => props.cycle.objective
       <dd><b>{{ text.days(cycle.field_days) }}</b> <span class="text-xs text-dl-muted">· {{ why }}</span></dd>
       <template v-for="goal in goals" :key="goal.key">
         <dt class="text-dl-muted">{{ t(`cycles.goal.kinds.${goal.key}`) }}</dt>
-        <dd>{{ n(goal.total) }} <span class="text-xs text-dl-muted">· {{ t('cycles.goal.perDay', { n: n(goal.per_day) }) }}</span></dd>
+        <dd><template v-if="goal.key === 'coaching'">{{ n(cycle.coaching_done) }} / </template>{{ n(goal.total) }} <span class="text-xs text-dl-muted">· {{ t('cycles.goal.perDay', { n: n(goal.per_day) }) }}</span></dd>
       </template>
       <dt class="text-dl-muted">{{ t('cycles.goal.from') }}</dt>
       <dd>
