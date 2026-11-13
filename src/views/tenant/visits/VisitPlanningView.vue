@@ -242,7 +242,7 @@ const weekdays = computed(() => dates.value.slice(0, 7).map(day => d(dateOf(day)
       <h2 class="text-sm font-bold">{{ t('visits.planning.list.title') }}</h2>
       <DlInput v-model="search" type="search" icon="tabler-search" :label="t('visits.planning.list.search')" :placeholder="t('visits.planning.list.search')" hide-label />
       <div class="flex flex-wrap gap-1.5">
-        <button type="button" class="rounded-full px-2.5 py-1 text-xs font-semibold" :class="onlyLeft ? 'bg-dl-fg text-dl-bg' : 'bg-dl-mist text-dl-body'" :aria-pressed="onlyLeft" @click="onlyLeft = !onlyLeft">{{ t('visits.planning.list.left', { n: n(prosMeta.left) }) }}</button>
+        <button type="button" class="rounded-full px-2.5 py-1 text-xs font-semibold" :class="onlyLeft ? 'bg-dl-signal-soft text-dl-fg ring-1 ring-inset ring-dl-fg' : 'bg-dl-mist text-dl-body'" :aria-pressed="onlyLeft" @click="onlyLeft = !onlyLeft">{{ t('visits.planning.list.left', { n: n(prosMeta.left) }) }}</button>
         <span class="rounded-full bg-dl-mist px-2.5 py-1 text-xs font-semibold text-dl-body">{{ t('visits.planning.list.all', { n: n(prosMeta.total) }) }}</span>
       </div>
       <p v-if="!prosMeta.cycle_id && !search" class="rounded-xl bg-dl-mist px-3 py-2.5 text-xs text-dl-muted">{{ t('visits.planning.list.noCycle') }}</p>

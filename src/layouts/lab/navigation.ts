@@ -87,7 +87,17 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
-    // Équipe: expenses (docs/api/expenses.md); coaching later.
+    // Coaching: the setup (docs/api/coaching-setup.md); the sessions come in 11b.
+    id: 'coaching',
+    title: 'nav.workspaces.coaching',
+    icon: 'tabler-school',
+    links: [
+      { title: 'nav.coaching.programs', to: { name: 'tenant-coachings' }, icon: 'tabler-calendar-user', resource: 'coaching-setup', matches: ['tenant-coaching-detail'] },
+      { title: 'nav.coaching.grid', to: { name: 'tenant-coaching-grid' }, icon: 'tabler-list-check', resource: 'coaching-setup' },
+    ],
+  },
+  {
+    // Équipe: expenses (docs/api/expenses.md).
     id: 'team',
     title: 'nav.workspaces.team',
     icon: 'tabler-users-group',

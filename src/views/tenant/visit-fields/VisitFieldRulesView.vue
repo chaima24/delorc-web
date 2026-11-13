@@ -58,7 +58,7 @@ async function change(kind: string, field: string, event: Event) {
   }
 }
 
-const TONE: Record<FieldValue, string> = { required: 'bg-dl-fg text-dl-bg', optional: 'bg-dl-mist text-dl-body', hidden: 'bg-dl-rejected/10 text-dl-rejected' }
+const TONE: Record<FieldValue, string> = { required: 'bg-dl-signal-soft text-dl-fg ring-1 ring-inset ring-dl-fg', optional: 'bg-dl-mist text-dl-body', hidden: 'bg-dl-rejected/10 text-dl-rejected' }
 const VALUES: FieldValue[] = ['required', 'optional', 'hidden']
 </script>
 
@@ -68,8 +68,8 @@ const VALUES: FieldValue[] = ['required', 'optional', 'hidden']
     <DlSkeleton v-if="!grid" class="h-[480px] rounded-3xl" />
     <template v-else>
       <div class="flex flex-wrap gap-1.5" role="tablist" :aria-label="t('visitFields.roles')">
-        <button type="button" role="tab" :aria-selected="roleId === null" class="h-9 rounded-xl border px-3.5 text-[13px] font-semibold" :class="roleId === null ? 'border-dl-fg bg-dl-fg text-dl-bg' : 'border-dl-line bg-dl-paper text-dl-body'" @click="roleId = null">{{ t('visitFields.allRoles') }}</button>
-        <button v-for="row in grid.roles" :key="row.id" type="button" role="tab" :aria-selected="roleId === row.id" class="flex h-9 items-center gap-1.5 rounded-xl border px-3.5 text-[13px] font-semibold" :class="roleId === row.id ? 'border-dl-fg bg-dl-fg text-dl-bg' : 'border-dl-line bg-dl-paper text-dl-body'" @click="roleId = row.id">
+        <button type="button" role="tab" :aria-selected="roleId === null" class="h-9 rounded-xl border px-3.5 text-[13px] font-semibold" :class="roleId === null ? 'border-dl-fg bg-dl-signal-soft text-dl-fg' : 'border-dl-line bg-dl-paper text-dl-body'" @click="roleId = null">{{ t('visitFields.allRoles') }}</button>
+        <button v-for="row in grid.roles" :key="row.id" type="button" role="tab" :aria-selected="roleId === row.id" class="flex h-9 items-center gap-1.5 rounded-xl border px-3.5 text-[13px] font-semibold" :class="roleId === row.id ? 'border-dl-fg bg-dl-signal-soft text-dl-fg' : 'border-dl-line bg-dl-paper text-dl-body'" @click="roleId = row.id">
           {{ roleLabel(row.name) }}<span v-if="row.own_count" class="rounded-full bg-dl-signal px-1.5 text-[11px] text-dl-ink">{{ row.own_count }}</span>
         </button>
       </div>
@@ -86,7 +86,7 @@ const VALUES: FieldValue[] = ['required', 'optional', 'hidden']
             <tr><td :colspan="kinds.length + 1" class="px-2 pb-1 pt-3 text-[11.5px] font-bold uppercase tracking-wide text-dl-muted">{{ t(`visitFields.groups.${group.group}`) }}</td></tr>
             <tr v-if="group.group === 'brands'">
               <td class="px-2 py-1.5"><strong class="font-semibold">{{ t('visitFields.fixedBrand') }}</strong><small class="block text-[11.5px] text-dl-muted">{{ t('visitFields.fixedBrandHint') }}</small></td>
-              <td v-for="kind in kinds" :key="kind" class="px-1 text-center"><span class="inline-flex h-8 w-[118px] items-center justify-center rounded-lg bg-dl-fg text-xs font-semibold text-dl-bg opacity-50">{{ t('visitFields.values.required') }}</span></td>
+              <td v-for="kind in kinds" :key="kind" class="px-1 text-center"><span class="inline-flex h-8 w-[118px] items-center justify-center rounded-lg bg-dl-signal-soft text-dl-fg ring-1 ring-inset ring-dl-fg text-xs font-semibold opacity-50">{{ t('visitFields.values.required') }}</span></td>
             </tr>
             <tr v-for="field in group.fields" :key="field.key">
               <td class="px-2 py-1.5"><strong class="font-semibold">{{ t(`visitFields.fields.${field.key}`) }}</strong></td>
@@ -97,7 +97,7 @@ const VALUES: FieldValue[] = ['required', 'optional', 'hidden']
                   :value="selected(kind, field.key)"
                   :disabled="!canEdit || saving === `${kind}.${field.key}`"
                   :aria-label="`${t(`visitFields.fields.${field.key}`)} · ${t(`visitFields.kinds.${kind}`)}`"
-                  class="h-8 w-[118px] cursor-pointer rounded-lg border-0 px-2 text-center text-xs font-semibold focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-dl-cobalt disabled:cursor-default"
+                  class="h-8 w-[118px] cursor-pointer rounded-lg border-0 px-2 text-center text-xs font-semibold focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-dl-cobalt disabled:cursor-default [&>option]:bg-dl-paper [&>option]:text-dl-fg"
                   :class="[TONE[valueOf(kind, field.key)], role && !ownOf(kind, field.key) && 'opacity-50']"
                   @change="change(kind, field.key, $event)"
                 >
