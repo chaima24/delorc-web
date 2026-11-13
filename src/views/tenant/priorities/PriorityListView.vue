@@ -12,7 +12,6 @@ import { useAuthStore } from '@/stores/auth'
 import StudioListPage from '@/views/tenant/settings/shared/StudioListPage.vue'
 import { customersSection } from '@/views/tenant/settings/shared/studioSections'
 import {
-  STUDIO_DEFAULT_SORT,
   useAddedColumn,
   useRecordPanel,
   useStudioCounts,
@@ -26,6 +25,7 @@ const { refresh: refreshCounts } = useStudioCounts()
 const list = useStudioList<Priority, Record<string, never>>(
   ({ page, perPage, search, sort }) => fetchPriorities({ page, per_page: perPage, sort, 'filter[name]': search || undefined }),
   {},
+  'order',
 )
 const { page, perPage, search, sort, items, total, loading } = list
 list.reload()
@@ -78,7 +78,7 @@ const columns = [
 
     <DlDataList
       v-model:sort="sort"
-      :default-sort="STUDIO_DEFAULT_SORT"
+      :default-sort="'order'"
       :label="t('customersSetup.title.priorities')"
       :columns="columns"
       :rows="items"
