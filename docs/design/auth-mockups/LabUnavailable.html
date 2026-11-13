@@ -1,0 +1,43 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Laboratoire introuvable</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step { width:1200px; margin:36px 28px 12px; font-size:15px; color:var(--body); }
+.step b { display:inline-grid; place-items:center; width:30px; height:30px; margin-inline-end:10px; border-radius:99px; background:var(--ink); color:var(--signal); font-family:'Bricolage Grotesque',sans-serif; }
+.step strong { color:var(--ink); }
+.auth { width:1200px; height:760px; margin:0 28px; display:flex; border-radius:18px; overflow:hidden; background:var(--mist); }
+.brand { position:relative; width:46%; padding:48px; background:var(--ink); color:#F2F4F1; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; }
+.brand .mark { display:flex; align-items:center; gap:12px; font-size:30px; }
+.brand .big { position:absolute; inset-inline-end:-96px; top:40%; width:460px; height:460px; transform:translateY(-50%); }
+.pitch { position:relative; max-width:420px; } .pitch h2 { margin:0 0 16px; font-size:44px; line-height:1.05; letter-spacing:-.03em; } .pitch p { margin:0; color:var(--on-ink-muted); line-height:1.6; }
+.side { flex:1; display:flex; align-items:center; justify-content:center; padding:40px 16px; }
+.form { width:100%; max-width:420px; display:flex; flex-direction:column; gap:16px; }
+.head { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; } .space { font-size:14px; font-weight:600; color:var(--muted); }
+.head h1 { margin:0; font-size:32px; line-height:1.1; letter-spacing:-.03em; } .head p { margin:0; font-size:15px; color:var(--body); }
+.field small { font-size:13px; color:var(--muted); } .field small.error { color:var(--brick); font-weight:500; }
+.form .input { height:48px; justify-content:space-between; } .form .input i { font-style:normal; color:var(--muted); } .form .input.err { border-color:var(--brick); } .form .input.mono { letter-spacing:.2em; font-weight:600; font-size:18px; }
+.alert { margin:0; padding:12px 16px; border-radius:16px; background:rgba(192,54,44,.1); color:var(--brick); font-size:14px; font-weight:500; }
+.eye { font-size:15px; opacity:.55; } .right { align-self:flex-end; font-size:14px; font-weight:600; }
+.btn.big { height:52px; width:100%; justify-content:center; font-size:15px; }
+.links { display:flex; justify-content:space-between; gap:8px; font-size:14px; font-weight:600; } .links .quiet { color:var(--muted); }
+.done { width:56px; height:56px; display:grid; place-items:center; border-radius:18px; background:var(--signal); font-size:24px; font-weight:700; }
+.phone .form { padding:28px 20px; margin:auto 0; }
+.phone .small-logo { display:flex; align-items:center; gap:10px; font-size:24px; margin-bottom:12px; }
+.icon { width:56px; height:56px; display:grid; place-items:center; border-radius:18px; background:rgba(192,54,44,.1); color:var(--brick); font-size:26px; font-weight:700; }
+</style></head><body>
+<div class="caption"><strong>Adresse de laboratoire indisponible.</strong> Avant le formulaire, l'application demande à l'API si l'adresse est un laboratoire (<code>GET lab</code>). Si la réponse est 404 ou 403, elle affiche ce message à la place du formulaire. Aucun lien : il n'y a rien à faire sur cette page.</div>
+<div class="step"><b>1</b><strong>Adresse inconnue</strong> (404) : <code>test.localhost</code> n'est pas un laboratoire. Le titre est le message de l'API ; la ligne d'aide est un texte de l'application. Au-dessus du titre, l'adresse tapée.</div>
+<div class="auth"><aside class="brand">
+  <div class="mark"><svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#1B302C"/><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#C8F03C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg><span class="display">delorc</span></div>
+  <svg class="big" viewBox="0 0 48 48" aria-hidden="true"><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#1B302C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg>
+  <div class="pitch"><h2 class="display">La plateforme terrain des laboratoires pharmaceutiques.</h2>
+  <p>Planifiez le cycle, visitez les professionnels de santé, prenez les commandes et suivez votre équipe, au même endroit, en arabe, français et anglais.</p></div>
+</aside><main class="side"><div class="form"><div class="icon">!</div><div class="head"><span class="space">test</span><h1 class="display">Ce laboratoire n’existe pas.</h1><p>Vérifiez l’adresse dans votre navigateur.</p></div></div></main></div>
+<div class="step"><b>2</b><strong>Laboratoire suspendu</strong> (403) : le message de l'API dit déjà quoi faire, pas de ligne d'aide. Le nom du laboratoire n'est pas connu (l'API ne le donne pas), donc l'adresse.</div>
+<div class="auth"><aside class="brand">
+  <div class="mark"><svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#1B302C"/><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#C8F03C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg><span class="display">delorc</span></div>
+  <svg class="big" viewBox="0 0 48 48" aria-hidden="true"><path d="M15 28 V13 H23 A11 11 0 0 1 23 35 H21" fill="none" stroke="#1B302C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="35" r="3.2" fill="#C8F03C"/></svg>
+  <div class="pitch"><h2 class="display">La plateforme terrain des laboratoires pharmaceutiques.</h2>
+  <p>Planifiez le cycle, visitez les professionnels de santé, prenez les commandes et suivez votre équipe, au même endroit, en arabe, français et anglais.</p></div>
+</aside><main class="side"><div class="form"><div class="icon">!</div><div class="head"><span class="space">demo</span><h1 class="display">Ce laboratoire est suspendu. Contactez votre administrateur.</h1></div></div></main></div>
+<div class="step"><b>3</b><strong>Pas de réseau</strong> : l'API ne répond pas. Le formulaire s'ouvre comme aujourd'hui, avec les textes de la console ; la connexion affichera l'erreur réseau habituelle.</div>
+</body></html>

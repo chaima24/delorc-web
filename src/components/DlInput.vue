@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, useAttrs, useId } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, useAttrs, useId } from 'vue'
 import DlIcon from './DlIcon.vue'
 
 // Extra attributes (autocomplete, autofocus, name…) go to the <input>; class/style stay on the wrapper.
 defineOptions({ inheritAttrs: false })
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   label: string
   /** Keep the label for screen readers only. */
   hideLabel?: boolean
@@ -19,6 +19,8 @@ withDefaults(defineProps<{
   large?: boolean
   /** Spaced bold digits, for one-time codes. */
   code?: boolean
+  /** A key that jumps into the field from anywhere on the page (e.g. `/`), shown at its end. */
+  shortcut?: string
 }>(), {
   hideLabel: false,
   type: 'text',
@@ -28,6 +30,18 @@ withDefaults(defineProps<{
 })
 
 const model = defineModel<string | number | null>()
+const field = ref<HTMLInputElement | null>(null)
+
+/** The shortcut works when the person is not typing somewhere else. */
+function onKey(event: KeyboardEvent): void {
+  const typing = event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable="true"]')
+  if (props.shortcut && event.key === props.shortcut && !typing && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    event.preventDefault()
+    field.value?.focus()
+  }
+}
+onMounted(() => { if (props.shortcut) window.addEventListener('keydown', onKey) })
+onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
 const id = useId()
 const attrs = useAttrs()
 const inputAttrs = computed(() => {
@@ -52,6 +66,7 @@ const inputAttrs = computed(() => {
       <DlIcon v-if="icon" :icon="icon" :size="18" class="text-dl-muted" />
       <input
         :id="id"
+        ref="field"
         v-bind="inputAttrs"
         v-model="model"
         :type="type"
@@ -62,6 +77,7 @@ const inputAttrs = computed(() => {
         class="h-full min-w-0 flex-1 border-0 bg-transparent text-dl-fg outline-hidden placeholder:text-dl-muted"
         :class="code ? 'text-lg font-semibold tracking-[0.2em]' : 'text-sm'"
       >
+      <kbd v-if="shortcut" class="hidden shrink-0 rounded-md border border-dl-line px-1.5 py-0.5 font-sans text-xs text-dl-muted sm:inline">{{ shortcut }}</kbd>
       <slot name="end" />
     </div>
     <p

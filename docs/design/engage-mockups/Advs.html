@@ -1,0 +1,169 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Aides de visite</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 460px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; min-height: 720px; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; padding: 2px 12px 12px; font-size: 13px; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.tile { background: var(--mist); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 11.5px; color: var(--muted); } .tile strong { font-size: 18px; }
+.mini-steps { display: flex; gap: 6px; padding: 12px 20px 0; } .mini-steps span { flex: 1; height: 4px; border-radius: 9px; background: var(--line); } .mini-steps span.on { background: var(--ink); }
+.why { font-size: 12px; color: var(--muted); background: var(--mist); border-radius: 10px; padding: 8px 10px; }
+.why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; } .st i { width: 8px; height: 8px; border-radius: 9px; background: currentColor; }
+.st.on { color: #0F7A3D; } .st.off { color: var(--muted); }
+/* A presentation's cover: a brand-coloured tile with the kind of file on it. */
+.cover { border-radius: 12px; background: var(--ink-2); color: var(--signal); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; flex-shrink: 0; }
+.cover.h { width: 64px; height: 44px; } .cover.v { width: 36px; height: 48px; } .cover.big { width: 100%; height: 190px; border-radius: 16px; font-size: 15px; }
+.kinds { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.kind { border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; font-size: 13px; display: flex; flex-direction: column; gap: 2px; } .kind small { color: var(--muted); font-size: 12px; }
+.kind.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.drop { border: 1.5px dashed #9FB0AA; border-radius: 14px; padding: 16px; text-align: center; font-size: 13px; color: var(--body); } .drop small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+.slide { display: flex; align-items: center; gap: 10px; padding: 7px 12px; font-size: 13px; } .slide small { display: block; color: var(--muted); font-size: 12px; }
+.slide .grip { color: var(--muted); cursor: grab; } .slide .x { margin-inline-start: auto; color: var(--muted); }
+.who { display: grid; grid-template-columns: 1fr 118px 118px 20px; gap: 6px; align-items: center; padding: 4px 12px; font-size: 13px; }
+.who .input { height: 34px; font-size: 12.5px; }
+.meter { height: 8px; border-radius: 9px; background: var(--line-soft); overflow: hidden; } .meter i { display: block; height: 100%; background: var(--ink); }
+/* The preview: the presentation as the rep sees it, on a dark stage over the page. */
+.stage { flex: 1; background: var(--ink); display: flex; flex-direction: column; color: var(--mist); min-width: 0; }
+.stage .bar { display: flex; align-items: center; gap: 12px; padding: 16px 24px; } .stage .bar small { color: var(--on-ink-muted); font-size: 13px; }
+.stage .x { margin-inline-start: auto; width: 40px; height: 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; }
+.stage .view { flex: 1; display: flex; align-items: center; justify-content: center; gap: 28px; padding: 8px 24px; }
+.stage .page { width: 360px; height: 520px; border-radius: 18px; background: var(--paper); color: var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-size: 15px; }
+.stage .arrow { width: 48px; height: 48px; border-radius: 99px; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.stage .thumbs { display: flex; gap: 8px; justify-content: center; padding: 14px 24px 8px; }
+.stage .thumbs span { width: 44px; height: 60px; border-radius: 8px; background: rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--on-ink-muted); }
+.stage .thumbs span.on { background: var(--signal); color: var(--ink); font-weight: 700; }
+.stage .foot { display: flex; justify-content: center; gap: 18px; padding: 6px 24px 20px; font-size: 13px; color: var(--on-ink-muted); }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+</style></head><body>
+<p class="caption"><strong>Engager › Aides de visite (ADV) — proposition.</strong> Une aide de visite est la présentation d'une marque que le délégué montre pendant une visite : un PDF, une vidéo, une galerie d'images ou un module HTML5. La page est neuve (l'ancienne n'a jamais été redessinée) et suit le modèle des autres listes : la liste à gauche, un panneau à droite pour lire et modifier, « Ajouter » en 3 étapes.
+L'API reprend celle de l'API précédente. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Un seul état : En ligne ou Hors ligne.</b> L'API précédente avait deux champs pour la même idée (« actif » et « statut »). Un seul suffit : hors ligne, les délégués ne la voient plus ; les visites passées gardent ce qui a été montré.</li>
+  <li><b>Quatre types, comme avant.</b> PDF, vidéo et HTML5 = un seul fichier. Galerie = plusieurs images, dans l'ordre choisi (glisser pour réordonner). Une image de couverture pour tous.</li>
+  <li><b>Pour qui :</b> des équipes et des spécialités, chacune avec des dates facultatives (comme avant). Sans équipe ni spécialité : personne ne la reçoit, et la liste le signale.</li>
+  <li><b>Stockage :</b> un envoi est refusé quand le laboratoire dépasserait le stockage de son plan (décidé le 13 nov.). Le panneau d'ajout montre la place restante.</li>
+  <li><b>Suppression :</b> une aide montrée dans des visites ne pourra pas être supprimée (seulement mise hors ligne), pour garder les comptes rendus. S'applique dès que les visites existent.</li>
+  <li><b>Aperçu</b> (cadre 7) : plein écran, lecture seule, pour vérifier l'aide avant de la mettre en ligne. Le module HTML5 s'ouvre dans un cadre isolé (il ne peut pas lire la session de l'utilisateur).</li>
+  <li><b>« Montrée en visite »</b> (nombre de visites, note moyenne sur 5) arrive avec les visites.</li>
+  <li><b>Droits :</b> <code>advs</code> (voir, ajouter, modifier, supprimer). Le marketing (chef de produit, directeur marketing) gère ; les délégués et les managers voient.</li>
+</ol>
+<script>
+const rail = `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>Engager</span></nav>`
+function frame(n, label, { body, panel = '' }) {
+  return `<div class='step-label'><b>${n}</b><span>${label}</span></div><div class='frame' style='min-height:820px'>${rail}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>LB</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>
+    <div style='flex:1;min-width:0;display:flex;flex-direction:column;gap:16px'>
+      <nav class='ws-nav'><a class='on'>Aides de visite</a></nav>
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>Engager</div><h1 class='title display' style='font-size:36px'>Aides de visite</h1><div class='hint' style='margin-top:4px'>Les présentations que vos délégués montrent en visite, par marque</div></div><span class='btn primary'>＋ Ajouter une aide de visite</span>
+      </div>
+      ${body}
+    </div>${panel}
+  </div>
+</div></div>`
+}
+const KIND = { pdf: 'PDF', video: 'Vidéo', galerie: 'Galerie', html5: 'HTML5' }
+// name, brand, kind, orientation, files, teams, specialities, online, added
+const advs = [
+  ['Cardiozen · étude CARE 2026', 'Cardiozen', 'pdf', 'h', '1 fichier · 24 pages', ['Cardio Alger', 'Cardio Est'], ['Cardiologie'], true, '3 nov. 2026'],
+  ['Tensio · mode d\'action', 'Tensio', 'video', 'h', '1 vidéo · 2 min 40', ['Cardio Alger'], ['Cardiologie', 'Médecine interne'], true, '28 oct. 2026'],
+  ['Neurocalm · galerie patient', 'Neurocalm', 'galerie', 'v', '8 images', ['Neuro'], ['Neurologie'], true, '12 oct. 2026'],
+  ['Gastrel · module interactif', 'Gastrel', 'html5', 'h', '1 module', ['Gastro'], [], true, '2 sept. 2026'],
+  ['Dolex · fiche officine', 'Dolex', 'pdf', 'v', '1 fichier · 2 pages', [], [], true, '20 août 2026'],
+  ['Cardiozen · lancement 2025', 'Cardiozen', 'pdf', 'h', '1 fichier · 18 pages', ['Cardio Alger'], ['Cardiologie'], false, '10 janv. 2025'],
+]
+const chips = (xs, max) => xs.slice(0, max).map(x => `<span class='chip'>${x}</span>`).join(' ') + (xs.length > max ? ` <span class='chip'>+${xs.length - max}</span>` : '')
+const forWho = (a, full) => (a[5].length || a[6].length) ? chips([...a[5], ...a[6]], full ? 3 : 1) : `<span class='chip warn'>Personne</span>`
+const listCard = (full, sel = -1) => `<div class='card' style='padding:16px 18px'>
+  <div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:${full ? 280 : 200}px'>⌕ Nom de l'aide</div><span class='input'>Marque <b>Toutes</b> ▾</span><span class='input'>Type <b>Tous</b> ▾</span>${full ? `<span class='input'>Équipe <b>Toutes</b> ▾</span>` : ''}<span class='input'>État <b>Tous</b> ▾</span></div>
+  <table class='table'><thead><tr><th>Aide de visite</th><th>Type</th>${full ? `<th>Contenu</th>` : ''}<th>Pour</th><th>État</th>${full ? `<th>Ajoutée ↓</th>` : ''}<th></th></tr></thead><tbody>
+  ${advs.map((a, i) => `<tr class='${i === sel ? 'sel' : ''}' style='${a[7] ? '' : 'opacity:.6'}'><td><span style='display:flex;align-items:center;gap:10px'><span class='cover ${a[3]}'>${KIND[a[2]]}</span><span><strong>${a[0]}</strong><small style='display:block;color:var(--muted);font-size:12px'>${a[1]}</small></span></span></td><td><span class='chip info'>${KIND[a[2]]}</span></td>${full ? `<td class='label'>${a[4]}</td>` : ''}<td>${forWho(a, full)}</td><td><span class='st ${a[7] ? 'on' : 'off'}'><i></i>${a[7] ? 'En ligne' : 'Hors ligne'}</span></td>${full ? `<td class='label'>${a[8]}</td>` : ''}<td style='color:var(--muted)'>›</td></tr>`).join('')}
+  </tbody></table>
+  <div style='display:flex;justify-content:space-between;align-items:center;padding-top:12px' class='label'><span>1–6 sur 6</span><span>Lignes 25 ▾ ‹ 1 ›</span></div></div>`
+
+const readPanel = `<aside class='panel'>
+  <div class='ph'><div style='flex:1'><h2 class='display'>Neurocalm · galerie patient</h2><div class='sub'><span class='chip info'>Galerie</span><span class='st on'><i></i>En ligne</span><span class='hint'>· ajoutée par Lina B. le 12 oct. 2026</span></div></div><span class='icb'>⋯</span><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <div class='cover big'>Couverture · Neurocalm</div>
+    <div class='tiles'><div class='tile'><span>Images</span><strong>8</strong></div><div class='tile'><span>Reçue par</span><strong>14 pers.</strong></div><div class='tile'><span>Montrée en visite</span><strong style='font-size:12.5px;font-weight:600;color:var(--muted)'>Arrive avec les visites</strong></div></div>
+    <section class='sec'><header><strong>L'aide</strong><span class='edit'>✎ Modifier</span></header><dl class='kv'><dt>Nom</dt><dd>Neurocalm · galerie patient</dd><dt>Marque</dt><dd>Neurocalm</dd><dt>Type</dt><dd>Galerie d'images · portrait</dd><dt>Conseil</dt><dd>Montrer les images 3 et 4 aux neurologues qui suivent des patients âgés.</dd></dl></section>
+    <section class='sec'><header><strong>Images · 8</strong><span class='edit'>＋ Ajouter</span></header>
+      ${['01-accroche.jpg', '02-mecanisme.jpg', '03-etude-senior.jpg', '04-tolerance.jpg'].map((f, i) => `<div class='slide'><span class='grip'>⠿</span><span class='cover v' style='width:28px;height:38px;font-size:10px'>${i + 1}</span><span>${f}<small>${[412, 388, 530, 295][i]} Ko</small></span><span class='x'>🗑</span></div>`).join('')}
+      <div class='line hint'>+ 4 autres · glissez ⠿ pour changer l'ordre</div></section>
+    <section class='sec'><header><strong>Pour qui</strong><span class='edit'>✎ Modifier</span></header><dl class='kv'><dt>Équipes</dt><dd>Neuro <span class='hint'>· depuis le 12 oct. 2026</span></dd><dt>Spécialités</dt><dd>Neurologie</dd></dl></section>
+  </div>
+  <div class='pf'><span class='btn outline' style='flex:1;justify-content:center'>Mettre hors ligne</span><span class='btn dark' style='flex:1;justify-content:center'>▶ Aperçu</span></div>
+</aside>`
+
+const addHead = (step, name) => `<div class='ph'><div style='flex:1'><h2 class='display'>Nouvelle aide de visite</h2><div class='hint' style='margin-top:4px'>Étape ${step} sur 3 · ${name}</div></div><span class='icb'>✕</span></div><div class='mini-steps'>${[1, 2, 3].map(i => `<span class='${i <= step ? 'on' : ''}'></span>`).join('')}</div>`
+const add1 = `<aside class='panel'>${addHead(1, 'L\'aide')}
+  <div class='pb'>
+    <label class='field'><span>Nom</span><div class='input'>Tensio · données de tolérance</div></label>
+    <label class='field'><span>Marque</span><div class='input'>Tensio ▾</div></label>
+    <div class='field'><span>Type</span><div class='kinds'>
+      <div class='kind on'><strong>PDF</strong><small>Un fichier, page par page</small></div><div class='kind'><strong>Vidéo</strong><small>mp4, mov, webm</small></div>
+      <div class='kind'><strong>Galerie</strong><small>Plusieurs images, dans l'ordre</small></div><div class='kind'><strong>HTML5</strong><small>Un module interactif (zip)</small></div></div></div>
+    <div class='field'><span>Sens</span><div class='seg'><span class='on'>Paysage</span><span>Portrait</span></div></div>
+    <label class='field'><span>Conseil au délégué <em class='hint' style='font-weight:400'>· facultatif</em></span><div class='input' style='height:64px;align-items:flex-start;padding-top:8px'>À présenter après l'étude CARE.</div></label>
+  </div>
+  <div class='pf'><span class='btn dark' style='flex:1;justify-content:center'>Suivant : les fichiers</span></div></aside>`
+const storage = (used, pct, bad) => `<div class='why ${bad ? 'bad' : ''}'><div style='display:flex;justify-content:space-between;margin-bottom:6px'><span>Stockage du laboratoire</span><strong>${used} sur 300 Go</strong></div><div class='meter'><i style='width:${pct}%${bad ? ';background:var(--brick)' : ''}'></i></div>${bad ? `<div style='margin-top:6px'>Ce fichier (1,4 Go) dépasse la place restante (0,8 Go). Supprimez des fichiers ou demandez plus de stockage.</div>` : ''}</div>`
+const add2 = bad => `<aside class='panel'>${addHead(2, 'Les fichiers')}
+  <div class='pb'>
+    <div class='field'><span>Image de couverture</span><div class='slide' style='border:1px solid var(--line);border-radius:12px'><span class='cover h' style='width:52px;height:36px'>JPG</span><span>tensio-couverture.jpg<small>220 Ko</small></span><span class='x'>Changer</span></div></div>
+    <div class='field'><span>Le PDF</span>${bad
+      ? `<div class='slide' style='border:1px solid var(--brick);border-radius:12px'><span class='cover v' style='width:28px;height:38px;font-size:10px'>PDF</span><span>tensio-tolerance-HD.pdf<small>1,4 Go</small></span><span class='x'>🗑</span></div>`
+      : `<div class='slide' style='border:1px solid var(--line);border-radius:12px'><span class='cover v' style='width:28px;height:38px;font-size:10px'>PDF</span><span>tensio-tolerance.pdf<small>6,2 Mo · 14 pages</small></span><span class='x'>🗑</span></div>`}
+      <div class='drop'>Déposez un fichier ici ou <u>parcourez</u><small>Un seul fichier PDF. Une galerie accepte plusieurs images.</small></div></div>
+    ${bad ? storage('299,2 Go', 99.7, true) : storage('212 Go', 71, false)}
+  </div>
+  <div class='pf'><span class='btn outline'>Retour</span><span class='btn dark' style='flex:1;justify-content:center${bad ? ';opacity:.4' : ''}'>Suivant : pour qui</span></div></aside>`
+const add3 = `<aside class='panel'>${addHead(3, 'Pour qui')}
+  <div class='pb'>
+    <section class='sec'><header><strong>Équipes</strong><span class='edit'>＋ Ajouter</span></header>
+      <div class='who' style='color:var(--muted);font-size:12px'><span></span><span>Du</span><span>Au</span><span></span></div>
+      <div class='who'><span>Cardio Alger</span><span class='input'>15 nov. 2026</span><span class='input muted'>Sans fin</span><span>✕</span></div>
+      <div class='who' style='padding-bottom:10px'><span>Cardio Est</span><span class='input'>15 nov. 2026</span><span class='input'>31 mars 2027</span><span>✕</span></div></section>
+    <section class='sec'><header><strong>Spécialités</strong><span class='edit'>＋ Ajouter</span></header>
+      <div class='who' style='padding-bottom:10px'><span>Cardiologie</span><span class='input muted'>Dès maintenant</span><span class='input muted'>Sans fin</span><span>✕</span></div></section>
+    <div class='why'><strong style='color:var(--ink)'>9 personnes la recevront</strong> : les membres de Cardio Alger et Cardio Est, pour leurs visites aux cardiologues.</div>
+    <div class='field'><span>État à l'ajout</span><div class='seg'><span class='on'>En ligne</span><span>Hors ligne</span></div><span class='hint'>Hors ligne : vous la préparez, les délégués ne la voient pas encore.</span></div>
+  </div>
+  <div class='pf'><span class='btn outline'>Retour</span><span class='btn primary' style='flex:1;justify-content:center'>Ajouter l'aide de visite</span></div></aside>`
+
+const previewFrame = `<div class='step-label'><b>7</b><span><strong>Clic sur « ▶ Aperçu ».</strong> L'aide s'ouvre en plein écran, comme le délégué la verra en visite : on passe d'une image à l'autre avec les flèches, le clavier ou les vignettes. Échap ou ✕ ferme. Rien n'est enregistré : c'est seulement pour vérifier avant de mettre en ligne.</span></div><div class='frame' style='min-height:820px'>
+<div class='stage'>
+  <div class='bar'><strong style='font-size:16px'>Neurocalm · galerie patient</strong><small>Neurocalm · Galerie · portrait</small><span class='chip' style='background:rgba(200,240,60,.15);color:var(--signal)'>Aperçu</span><span class='x'>✕</span></div>
+  <div class='view'><span class='arrow'>‹</span><div class='page'><strong class='display' style='font-size:22px'>Image 3 sur 8</strong><span style='color:var(--muted)'>03-etude-senior.jpg</span></div><span class='arrow'>›</span></div>
+  <div class='thumbs'>${[1, 2, 3, 4, 5, 6, 7, 8].map(i => `<span class='${i === 3 ? 'on' : ''}'>${i}</span>`).join('')}</div>
+  <div class='foot'><span>← → pour changer d'image</span><span>Échap pour fermer</span></div>
+</div></div>
+<div class='step-label'><b></b><span>Selon le type : un <strong>PDF</strong> s'affiche page par page avec les mêmes flèches ; une <strong>vidéo</strong> se lit dans un lecteur (lecture, pause, plein écran) ; un module <strong>HTML5</strong> s'ouvre dans un cadre isolé du reste de l'application.</span></div>`
+
+document.getElementById('frames').innerHTML = [
+  frame(1, `<strong>La page s'ouvre.</strong> La liste seule : une ligne par aide de visite, sa marque, son type, pour qui, son état. « Personne » signale une aide que nul ne reçoit.`, { body: listCard(true) }),
+  frame(2, `<strong>Clic sur une ligne.</strong> Le panneau montre la couverture, les fichiers (une galerie se réordonne en glissant), pour qui, et l'aperçu. Chaque carte se modifie sur place.`, { body: listCard(false, 2), panel: readPanel }),
+  frame(3, `<strong>« ＋ Ajouter une aide de visite » → étape 1 sur 3.</strong> Le nom, la marque, le type et le sens.`, { body: listCard(false), panel: add1 }),
+  frame(4, `<strong>Étape 2 : les fichiers.</strong> La couverture et le fichier (ou les images). La place restante du laboratoire est affichée.`, { body: listCard(false), panel: add2(false) }),
+  frame(5, `<strong>Stockage plein.</strong> Un fichier trop gros pour la place restante est refusé avant l'envoi, avec la raison.`, { body: listCard(false), panel: add2(true) }),
+  frame(6, `<strong>Étape 3 : pour qui.</strong> Les équipes et les spécialités, avec leurs dates. Le nombre de personnes qui la recevront est annoncé.`, { body: listCard(false), panel: add3 }),
+].join('') + previewFrame
+</script></body></html>

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { authApi, type Session, type User } from '@/api/auth'
+import { authApi, type LabAccess, type Session, type User } from '@/api/auth'
 import { tokens } from '@/api/tokens'
 import { setLocale } from '@/plugins/i18n'
 
@@ -15,6 +15,18 @@ export const useAuthStore = defineStore('auth', () => {
     return !!user.value && (user.value.is_super || user.value.permissions.includes(permission))
   }
 
+  /**
+   * On a lab: what its plan gives today (`auth/me` → `lab`), asked once. Hides the pages of an optional product the
+   * lab doesn't have (`module.expenses`…); the API answers 404 for them anyway.
+   */
+  const labAccess = ref<LabAccess | null>(null)
+  let accessRequest: Promise<LabAccess | null> | null = null
+  function loadLabAccess(): Promise<LabAccess | null> {
+    accessRequest ??= authApi.labAccess().then((access) => (labAccess.value = access)).catch(() => null)
+    return accessRequest
+  }
+  const hasFeature = (key: string): boolean => !!labAccess.value?.features[key]
+
   let loaded = false
 
   function startSession(session: Session): void {
@@ -28,6 +40,8 @@ export const useAuthStore = defineStore('auth', () => {
   function endSession(): void {
     tokens.clear()
     user.value = null
+    labAccess.value = null
+    accessRequest = null
     twoFactorSetupRequired.value = false
   }
 
@@ -72,5 +86,5 @@ export const useAuthStore = defineStore('auth', () => {
     endSession()
   }
 
-  return { user, twoFactorSetupRequired, isSignedIn, can, load, login, verifyTwoFactor, setPassword, logout, endSession, startSession, refreshUser }
+  return { user, twoFactorSetupRequired, isSignedIn, can, labAccess, loadLabAccess, hasFeature, load, login, verifyTwoFactor, setPassword, logout, endSession, startSession, refreshUser }
 })

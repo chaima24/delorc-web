@@ -1,0 +1,69 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Working week</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.frame-lite { display:flex; gap:20px; width:1200px; margin:0 28px 40px; padding:24px; background:var(--mist); border-radius:18px; border:1px solid var(--line); align-items:flex-start; }
+.main { flex:1; display:flex; flex-direction:column; gap:16px; min-width:0; }
+.step { width:1200px; margin:36px 28px 12px; font-size:15px; color:var(--body); }
+.step b { display:inline-grid; place-items:center; width:30px; height:30px; margin-inline-end:10px; border-radius:99px; background:var(--ink); color:var(--signal); font-family:'Bricolage Grotesque',sans-serif; }
+.step strong { color:var(--ink); }
+.page-head h1 { margin:4px 0 0; font-size:36px; } .crumbs { font-size:14px; color:var(--muted); }
+.strip { display:flex; gap:6px; } .strip a { height:38px; padding:0 14px; border-radius:12px; background:var(--paper); display:inline-flex; align-items:center; font-size:14px; font-weight:600; color:var(--body); }
+.strip a.on { background:var(--signal-soft); color:var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.yearbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px; } .yearbar b.display { font-size:22px; }
+.wk { margin-inline-start:12px; font-size:14px; color:var(--body); } .wk b { color:var(--ink); }
+.edit { margin-inline-start:6px; font-weight:600; font-size:13px; color:var(--cobalt); }
+.muted { color:var(--muted); font-size:13px; }
+.rows .row { display:flex; align-items:center; gap:14px; padding:12px 4px; border-top:1px solid var(--line-soft); font-size:14px; }
+.rows .row.dim { color:var(--muted); } .date { width:70px; font-weight:600; color:var(--ink); }
+.badge { margin-inline-start:auto; font-size:12px; padding:2px 10px; border-radius:99px; background:var(--line-soft); color:var(--body); }
+.panel { width:380px; background:var(--paper); border-radius:24px; padding:22px; display:flex; flex-direction:column; gap:14px; }
+.panel h2 { margin:0; font-size:22px; } .panel p { margin:0; }
+.days { display:flex; flex-wrap:wrap; gap:8px; }
+.day { height:38px; padding:0 14px; border-radius:12px; border:1px solid var(--line); display:inline-flex; align-items:center; font-size:14px; font-weight:600; color:var(--body); }
+.day.on { background:var(--ink); color:var(--mist); border-color:var(--ink); }
+.preview { background:var(--mist); border-radius:14px; padding:12px 14px; font-size:13.5px; }
+.hint { font-size:12.5px; color:var(--muted); line-height:1.45; }
+.actions { display:flex; gap:8px; }
+</style></head><body>
+<div class="caption"><strong>Semaine de travail du laboratoire</strong> (not in the redesigned app: the old Holidays page only showed the weekend). The lab changes its weekend days from the Holidays page, where the weekend is already shown. Rights: <code>calendar.show</code> to see it, <code>calendar.update</code> to change it. A new lab starts with Friday + Saturday. Texts are real; the lab's language decides them.</div>
+<div class="step"><b>1</b><strong>Holidays page, with the right to change</strong>: next to "Week-end : vendredi – samedi", a "Modifier" link.</div>
+<div class="frame-lite"><div class="main"><div class="page-head"><div><span class="crumbs">Paramètres › Terrain</span><h1 class="display">Jours fériés</h1></div></div>
+<nav class="strip"><a>Types d’activité</a><a>Types d’événement</a><a>Canaux</a><a>Matériels</a><a class="on">Jours fériés 13</a></nav>
+<div class="card"><div class="yearbar"><span class="btn outline sm">‹</span><b class="display">2026</b><span class="btn outline sm">›</span>
+<span class="wk">Week-end : <b>vendredi – samedi</b> <a class="edit">✎ Modifier</a></span><span class="muted">· 9 jours fériés tombent un jour travaillé</span></div>
+<div class="rows"><div class="row"><span class="date">1 janv.</span>Jour de l’An<span class="badge">chaque année</span></div><div class="row"><span class="date">12 janv.</span>Yennayer (Nouvel An Amazigh)<span class="badge">chaque année</span></div><div class="row"><span class="date">20 mars</span>Aïd el-Fitr</div><div class="row dim"><span class="date">1 mai</span>Fête du Travail<span class="badge">week-end</span></div></div></div>
+</div></div>
+
+<div class="step"><b>2</b><strong>The panel</strong>: the 7 days; the weekend days are dark. Below, the working days it leaves, worked out live.</div>
+<div class="frame-lite"><div class="main"><div class="page-head"><div><span class="crumbs">Paramètres › Terrain</span><h1 class="display">Jours fériés</h1></div></div>
+<nav class="strip"><a>Types d’activité</a><a>Types d’événement</a><a>Canaux</a><a>Matériels</a><a class="on">Jours fériés 13</a></nav>
+<div class="card"><div class="yearbar"><span class="btn outline sm">‹</span><b class="display">2026</b><span class="btn outline sm">›</span>
+<span class="wk">Week-end : <b>vendredi – samedi</b> <a class="edit">✎ Modifier</a></span><span class="muted">· 9 jours fériés tombent un jour travaillé</span></div>
+<div class="rows"><div class="row"><span class="date">1 janv.</span>Jour de l’An<span class="badge">chaque année</span></div><div class="row"><span class="date">12 janv.</span>Yennayer (Nouvel An Amazigh)<span class="badge">chaque année</span></div><div class="row"><span class="date">20 mars</span>Aïd el-Fitr</div><div class="row dim"><span class="date">1 mai</span>Fête du Travail<span class="badge">week-end</span></div></div></div>
+</div><aside class="panel"><h2 class="display">Semaine de travail</h2><p class="muted">Cochez les jours de week-end du laboratoire.</p>
+<div class="days"><span class="day">Lundi</span><span class="day">Mardi</span><span class="day">Mercredi</span><span class="day">Jeudi</span><span class="day on">Vendredi</span><span class="day on">Samedi</span><span class="day">Dimanche</span></div>
+<div class="preview">Jours travaillés : <b>dimanche, lundi, mardi, mercredi, jeudi</b> (5 jours)</div>
+<p class="hint">Les jours fériés, les objectifs des cycles et les notes de frais comptent les jours travaillés de ce choix.</p>
+<div class="actions"><span class="btn primary">Enregistrer</span><span class="btn outline">Annuler</span></div></aside></div>
+
+<div class="step"><b>3</b><strong>Changed to Saturday + Sunday</strong>: the preview follows before saving. After "Enregistrer", the page shows "Week-end : samedi – dimanche" and the "jours fériés un jour travaillé" count is worked out again.</div>
+<div class="frame-lite"><div class="main"><div class="page-head"><div><span class="crumbs">Paramètres › Terrain</span><h1 class="display">Jours fériés</h1></div></div>
+<nav class="strip"><a>Types d’activité</a><a>Types d’événement</a><a>Canaux</a><a>Matériels</a><a class="on">Jours fériés 13</a></nav>
+<div class="card"><div class="yearbar"><span class="btn outline sm">‹</span><b class="display">2026</b><span class="btn outline sm">›</span>
+<span class="wk">Week-end : <b>vendredi – samedi</b> <a class="edit">✎ Modifier</a></span><span class="muted">· 9 jours fériés tombent un jour travaillé</span></div>
+<div class="rows"><div class="row"><span class="date">1 janv.</span>Jour de l’An<span class="badge">chaque année</span></div><div class="row"><span class="date">12 janv.</span>Yennayer (Nouvel An Amazigh)<span class="badge">chaque année</span></div><div class="row"><span class="date">20 mars</span>Aïd el-Fitr</div><div class="row dim"><span class="date">1 mai</span>Fête du Travail<span class="badge">week-end</span></div></div></div>
+</div><aside class="panel"><h2 class="display">Semaine de travail</h2><p class="muted">Cochez les jours de week-end du laboratoire.</p>
+<div class="days"><span class="day">Lundi</span><span class="day">Mardi</span><span class="day">Mercredi</span><span class="day">Jeudi</span><span class="day">Vendredi</span><span class="day on">Samedi</span><span class="day on">Dimanche</span></div>
+<div class="preview">Jours travaillés : <b>lundi, mardi, mercredi, jeudi, vendredi</b> (5 jours)</div>
+<p class="hint">Les jours fériés, les objectifs des cycles et les notes de frais comptent les jours travaillés de ce choix.</p>
+<div class="actions"><span class="btn primary">Enregistrer</span><span class="btn outline">Annuler</span></div></aside></div>
+
+<div class="step"><b>4</b><strong>Without the right</strong>: the weekend is shown, with no "Modifier".</div>
+<div class="frame-lite"><div class="main"><div class="page-head"><div><span class="crumbs">Paramètres › Terrain</span><h1 class="display">Jours fériés</h1></div></div>
+<nav class="strip"><a>Types d’activité</a><a>Types d’événement</a><a>Canaux</a><a>Matériels</a><a class="on">Jours fériés 13</a></nav>
+<div class="card"><div class="yearbar"><span class="btn outline sm">‹</span><b class="display">2026</b><span class="btn outline sm">›</span>
+<span class="wk">Week-end : <b>vendredi – samedi</b> </span><span class="muted">· 9 jours fériés tombent un jour travaillé</span></div>
+<div class="rows"><div class="row"><span class="date">1 janv.</span>Jour de l’An<span class="badge">chaque année</span></div><div class="row"><span class="date">12 janv.</span>Yennayer (Nouvel An Amazigh)<span class="badge">chaque année</span></div><div class="row"><span class="date">20 mars</span>Aïd el-Fitr</div><div class="row dim"><span class="date">1 mai</span>Fête du Travail<span class="badge">week-end</span></div></div></div>
+</div></div>
+
+</body></html>

@@ -13,7 +13,7 @@ const algeria: Country = {
   regions_count: 4, wilayas_count: 69, communes_count: 1541, created_at: '2026-11-03T10:00:00+00:00',
 }
 const spain: Country = { ...algeria, id: 2, code: 'ES', name: 'Spain', native_name: 'España', is_active: false, regions_count: 0, wilayas_count: 0, communes_count: 0, created_at: '2026-11-07T10:00:00+00:00' }
-const centre: Region = { id: 1, name: 'CENTRE', wilayas_count: 13, created_at: algeria.created_at }
+const centre: Region = { id: 1, name: 'CENTRE', arabic_name: 'الوسط', wilayas_count: 13, created_at: algeria.created_at }
 const alger: Wilaya = {
   id: 16, name: 'Alger', arabic_name: 'الجزائر', phone_code: '021', latitude: 36.776111, longitude: 3.058333,
   region: { id: 1, name: 'CENTRE' }, communes_count: 57, created_at: algeria.created_at,

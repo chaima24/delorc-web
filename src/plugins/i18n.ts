@@ -8,14 +8,39 @@ export type Locale = (typeof LOCALES)[number]
 
 const STORAGE_KEY = 'delorc.locale'
 
-function isLocale(value: unknown): value is Locale {
-  return LOCALES.includes(value as Locale)
+/** On a lab: its own languages, and how to fetch one language's texts (set by the lab store). */
+interface LabLanguages {
+  codes: string[]
+  load: (code: string) => Promise<{ direction: 'ltr' | 'rtl'; texts: Record<string, string> }>
 }
 
-function savedLocale(): Locale {
+let lab: LabLanguages | null = null
+
+function isLocale(value: unknown): value is string {
+  return typeof value === 'string' && (lab ? lab.codes.includes(value) : LOCALES.includes(value as Locale))
+}
+
+/** The language this browser used last time, if it is still allowed here. */
+export function savedLocale(): string | null {
   const saved = localStorage.getItem(STORAGE_KEY)
 
-  return isLocale(saved) ? saved : 'fr'
+  return isLocale(saved) ? saved : null
+}
+
+/** `{ "auth.login.title": "Bon retour" }` → `{ auth: { login: { title: "Bon retour" } } }`, the shape vue-i18n reads. */
+export function nestTexts(texts: Record<string, string>): Record<string, unknown> {
+  const nested: Record<string, unknown> = {}
+
+  for (const [key, value] of Object.entries(texts)) {
+    const parts = key.split('.')
+    let node = nested
+    for (const part of parts.slice(0, -1)) {
+      node = (node[part] ??= {}) as Record<string, unknown>
+    }
+    node[parts[parts.length - 1]!] = value
+  }
+
+  return nested
 }
 
 /**
@@ -38,10 +63,10 @@ function arabicPlural(count: number, forms: number): number {
   return 5
 }
 
-/** The central console reads its texts from these JSON files. Lab texts will come from the database, with the Labs module. */
+/** The central console reads its texts from these JSON files. A lab replaces them with its own texts, from its database. */
 export const i18n = createI18n({
   legacy: false,
-  locale: savedLocale(),
+  locale: savedLocale() ?? 'fr',
   fallbackLocale: 'fr',
   missingWarn: false,
   fallbackWarn: false,
@@ -49,20 +74,35 @@ export const i18n = createI18n({
   pluralRules: { ar: arabicPlural },
 })
 
-export function currentLocale(): Locale {
-  return i18n.global.locale.value as Locale
+export function currentLocale(): string {
+  return i18n.global.locale.value
 }
 
-/** Changes the language everywhere: texts, API answers, and the page direction (Arabic reads right to left). */
-export function setLocale(locale: string): void {
+/** From now on, texts come from the lab: only its languages, each fetched when chosen. */
+export function useLabLanguages(languages: LabLanguages): void {
+  lab = languages
+}
+
+/**
+ * Changes the language everywhere: texts, API answers, and the page direction (Arabic reads right to left).
+ * On a lab, it first fetches that language's texts (the browser answers from its cache when they did not change).
+ */
+export async function setLocale(locale: string): Promise<void> {
   if (!isLocale(locale)) {
     return
   }
 
-  i18n.global.locale.value = locale
+  let direction = locale === 'ar' ? 'rtl' : 'ltr'
+  if (lab) {
+    const bundle = await lab.load(locale)
+    i18n.global.setLocaleMessage(locale as Locale, nestTexts(bundle.texts) as typeof fr) // same keys as the JSON files
+    direction = bundle.direction
+  }
+
+  i18n.global.locale.value = locale as Locale
   localStorage.setItem(STORAGE_KEY, locale)
   document.documentElement.lang = locale
-  document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr'
+  document.documentElement.dir = direction
 }
 
-setLocale(savedLocale())
+void setLocale(savedLocale() ?? 'fr')

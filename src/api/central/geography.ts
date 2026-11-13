@@ -16,9 +16,13 @@ export interface Country {
 export interface Region {
   id: number
   name: string
+  arabic_name: string | null
   wilayas_count: number
   created_at: string
 }
+
+/** What a region's form sends. */
+export type RegionFields = { name: string; arabic_name: string | null }
 
 export interface Place {
   id: number
@@ -91,8 +95,8 @@ export const countriesApi = {
 
 export const placesApi = {
   regions: (code: string) => client.get<{ data: Region[] }>(`/countries/${code}/regions`).then((response) => response.data.data),
-  createRegion: (code: string, name: string) => client.post(`/countries/${code}/regions`, { name }).then(one<Region>),
-  updateRegion: (id: number, name: string) => client.put(`/regions/${id}`, { name }).then(one<Region>),
+  createRegion: (code: string, region: RegionFields) => client.post(`/countries/${code}/regions`, region).then(one<Region>),
+  updateRegion: (id: number, region: RegionFields) => client.put(`/regions/${id}`, region).then(one<Region>),
   removeRegion: (id: number) => client.delete(`/regions/${id}`),
 
   wilayas: (code: string, filters: PlaceFilters, page: number, perPage: number) =>

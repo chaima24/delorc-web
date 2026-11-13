@@ -235,3 +235,45 @@ export const labTextsApi = {
   putBack: (labId: string, language: string, key: string) => client.post(`/labs/${labId}/texts/put-back`, { language, key }),
   addLanguage: (labId: string, languageId: number) => client.post(`/labs/${labId}/languages`, { language_id: languageId }).then(one),
 }
+
+/** A lab's rule type, every field (docs/api/rule-types.md): the building blocks of its territories. */
+export interface LabRuleTypeFields {
+  name: string
+  code: string
+  /** The type it sits in, and the column of its table that points there (commune: wilaya + wilaya_id). */
+  parent_code: string | null
+  parent_key: string | null
+  is_visible: boolean
+  supports_sub_zone: boolean
+  /** Résidence / Semi-résidence / Hors résidence per wilaya. */
+  supports_zone_type: boolean
+  main_table: string
+  main_model_class: string
+  sub_zone_table: string | null
+  sub_model_class: string | null
+  /** How a professional reaches a choice; null: not offered in territories. */
+  hcp_path: string | null
+  hcp_sub_path: string | null
+  /** Kinds of professionals; null = all. */
+  hcp_types: string[] | null
+  user_path: string | null
+  user_sub_path: string | null
+  user_skip_empty: boolean
+}
+
+export interface LabRuleType extends LabRuleTypeFields {
+  id: number
+  choices_count: number
+  sub_zones_count: number | null
+  territories_count: number
+}
+
+const ruleType = (response: { data: { data: LabRuleType } }) => response.data.data
+
+export const labRuleTypesApi = {
+  /** In chain order: Région › Wilaya › Commune, then the types on their own. */
+  list: (labId: string) => client.get<{ data: LabRuleType[] }>(`/labs/${labId}/rule-types`).then((response) => response.data.data),
+  add: (labId: string, fields: LabRuleTypeFields) => client.post(`/labs/${labId}/rule-types`, fields).then(ruleType),
+  update: (labId: string, id: number, fields: Partial<LabRuleTypeFields>) => client.put(`/labs/${labId}/rule-types/${id}`, fields).then(ruleType),
+  remove: (labId: string, id: number) => client.delete(`/labs/${labId}/rule-types/${id}`),
+}
