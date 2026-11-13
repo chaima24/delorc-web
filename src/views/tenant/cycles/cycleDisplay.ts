@@ -16,13 +16,14 @@ export const PRO_STATE_TONE: Record<CycleProState, 'success' | 'info' | 'warning
 }
 
 /**
- * Day marks of the strip (docs/design/plan-mockups/Cycles.html). Until visits, a past day without activity is `past`;
- * the visits module brings field (a visit done), none (nothing recorded) and extra (a day off with visits).
+ * Day marks of the strip (docs/design/plan-mockups/Cycles.html): a past day is `field` (a visit done) or `none`
+ * (nothing recorded).
  */
 export const DAY_CLASS: Record<CycleDayKind, string> = {
   activity: 'bg-dl-cobalt/12 border-transparent',
   half: 'bg-[linear-gradient(90deg,rgb(var(--dl-cobalt)/.12)_50%,rgb(var(--dl-signal-soft))_50%)] border-transparent',
-  past: 'border-dl-line',
+  field: 'bg-dl-signal-soft border-transparent',
+  none: 'border-dl-pending/50 bg-dl-pending/8',
   future: 'border-dl-line opacity-45',
 }
 

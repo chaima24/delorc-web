@@ -42,6 +42,8 @@ export interface Adv {
   /** Active people of its teams today (panel only). */
   people_count?: number
   visits_count: number
+  /** Average 1 to 5 rating given in visits (panel only). */
+  rating?: number | null
   created_by?: { id: number; full_name: string } | null
   created_at: string | null
 }

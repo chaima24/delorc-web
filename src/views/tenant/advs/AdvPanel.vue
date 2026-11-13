@@ -179,8 +179,8 @@ watch(() => props.advId, load, { immediate: true })
           <dd class="font-display text-[22px] font-extrabold tracking-[-0.02em]">{{ n(adv.people_count ?? 0) }}</dd>
         </div>
         <div class="flex flex-col rounded-2xl bg-dl-mist px-3 py-2.5">
-          <dt class="text-[11.5px] text-dl-muted">{{ t('advs.tiles.shown') }}</dt>
-          <dd class="text-xs font-semibold text-dl-muted">{{ t('advs.tiles.withVisits') }}</dd>
+          <dt class="order-2 text-[11.5px] text-dl-muted">{{ t('advs.tiles.shown') }}<template v-if="adv.rating != null"> · {{ t('advs.tiles.rating', { n: n(adv.rating) }) }}</template></dt>
+          <dd class="font-display text-[22px] font-extrabold tracking-[-0.02em]">{{ n(adv.visits_count) }}</dd>
         </div>
       </dl>
 

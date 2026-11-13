@@ -1,0 +1,272 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Visites</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.panel { width: 420px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.ph h2 { margin: 0; font-size: 21px; } .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+/* A card of the details page and of the add page. */
+.sec { background: var(--paper); border-radius: 20px; padding: 6px 8px 8px; }
+.sec header { display: flex; align-items: center; padding: 10px 12px 8px; gap: 8px; } .sec header strong { flex: 1; font-size: 15px; }
+.sec .line { padding: 0 12px 10px; font-size: 13px; color: var(--body); }
+.sec .form { padding: 4px 12px 12px; display: flex; flex-direction: column; gap: 12px; }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 130px 1fr; gap: 8px 10px; padding: 2px 12px 12px; font-size: 13.5px; margin: 0; } .kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.tile { background: var(--paper); border-radius: 18px; padding: 12px 16px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; } .tile span { font-size: 12px; color: var(--muted); } .tile strong { font-size: 24px; } .tile small { font-size: 12px; color: var(--muted); }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.why.warn { background: rgba(180, 83, 9, .08); color: var(--amber); }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; white-space: nowrap; } .st i { width: 8px; height: 8px; border-radius: 9px; background: currentColor; }
+.st.done { color: #0F7A3D; } .st.plan { color: var(--cobalt); } .st.late { color: var(--amber); } .st.off { color: var(--muted); }
+.who { width: 34px; height: 34px; border-radius: 11px; background: var(--ink-2); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.who.org { background: rgba(47, 84, 235, .12); color: var(--cobalt); } .who.big { width: 56px; height: 56px; border-radius: 16px; font-size: 18px; }
+.row { display: flex; align-items: center; gap: 10px; padding: 9px 12px; font-size: 13.5px; border-top: 1px solid var(--line-soft); } .row small { display: block; color: var(--muted); font-size: 12px; } .row .end { margin-inline-start: auto; display: flex; align-items: center; gap: 10px; }
+.rate { display: inline-flex; gap: 4px; } .rate i { width: 30px; height: 30px; border-radius: 9px; border: 1px solid var(--line); font-style: normal; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); }
+.rate i.on { background: var(--ink); color: var(--signal); border-color: var(--ink); }
+.score { font-weight: 700; font-size: 14px; } .score small { display: inline; font-weight: 400; color: var(--muted); }
+.pick { border: 1px solid var(--line); border-radius: 14px; padding: 8px 12px; display: flex; align-items: center; gap: 10px; font-size: 13.5px; } .pick small { display: block; color: var(--muted); font-size: 12px; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.side { width: 380px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.head { display: flex; align-items: center; gap: 16px; } .head h1 { margin: 0; font-size: 32px; }
+.reasons { display: flex; flex-direction: column; gap: 6px; } .reason { border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; font-size: 13px; display: flex; gap: 10px; align-items: center; }
+.reason i { width: 16px; height: 16px; border-radius: 99px; border: 1.5px solid #9FB0AA; } .reason.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); } .reason.on i { border: 5px solid var(--ink); }
+.dialog { width: 460px; background: var(--paper); border-radius: 24px; box-shadow: 0 30px 80px -30px rgba(15, 31, 28, .5); display: flex; flex-direction: column; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+</style></head><body>
+<p class="caption"><strong>Visites › partie 10a, la visite — proposition (2ᵉ version).</strong> Une visite est le passage d'un délégué chez un professionnel de santé ou dans une organisation : d'abord planifiée, puis réalisée avec son compte rendu, ou annulée avec un motif.
+Une visite porte beaucoup d'informations : elle a donc <strong>sa page de détail</strong> et <strong>sa page d'ajout</strong>. Dans la liste, un clic ouvre un panneau court (le résumé) avec un bouton vers la page.
+Le planning (semaine, approbation du manager, délai de saisie) est la partie 10b ; la matrice de validation, la partie 10c. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Trois états enregistrés :</b> Planifiée, Réalisée, Annulée (avec un motif). <b>« En retard »</b> n'est pas enregistré : c'est une visite planifiée dont le jour est passé, calculé à l'affichage.</li>
+  <li><b>La cible :</b> un professionnel de santé (médecin, pharmacie, grossiste…) ou une organisation (hôpital, clinique, service). La spécialité est reprise de la fiche (spécialité principale) ; le cycle est trouvé d'après le jour.</li>
+  <li><b>Une seule visite par délégué, par cible et par jour.</b> Une deuxième est refusée avec la raison (cadre 7).</li>
+  <li><b>« Hors cycle » :</b> une visite à un professionnel absent de la liste du cycle est acceptée et marquée. Elle compte dans les visites réalisées, pas dans la couverture.</li>
+  <li><b>Le compte rendu, quatre blocs :</b> marques présentées (intérêt de 1 à 5, et le stock pour une pharmacie) · aides de visite montrées (note de 1 à 5) · personnes (accompagnateur, autres professionnels présents, remplaçant vu) · objectif, prochain objectif, commentaire. <b>Seules les marques sont obligatoires.</b></li>
+  <li><b>Aides de visite :</b> la page propose les aides en ligne des marques choisies, pour l'équipe du délégué et la spécialité de la cible. Une aide montrée en visite ne peut plus être supprimée, seulement mise hors ligne.</li>
+  <li><b>Le jour est obligatoire, l'heure facultative</b> (décidé le 13 nov.). <b>Le canal est obligatoire.</b> La durée et la position GPS viennent du téléphone seulement ; la page les montre quand elles existent.</li>
+  <li><b>Motifs d'annulation :</b> une liste du Studio (cadre 8). Un nouveau laboratoire commence avec Absent, En congé, Reportée, Autre. Un motif déjà utilisé ne peut pas être supprimé.</li>
+  <li><b>Qui voit :</b> la hiérarchie, comme pour les frais (soi, ses équipes, ou tout le monde selon le rôle).</li>
+  <li><b>Qui saisit</b> (décidé le 13 nov., comme les anciennes applications) : chacun saisit ses visites ; un manager peut aussi ajouter et modifier celles des personnes sous lui, avec le champ « Personne » de la page d'ajout. La visite garde qui l'a vraiment saisie (« Ajoutée par »).</li>
+  <li><b>Corriger une visite réalisée</b> (décidé le 13 nov.) : sur place, carte par carte ; elle reste « Réalisée ». Pas de limite de temps en 10a ; le délai de saisie et de correction (N jours) arrive en 10b.</li>
+  <li><b>Le calendrier</b> où l'on glisse un professionnel sur un jour pour planifier arrive en 10b, avec son propre mockup.</li>
+  <li><b>Plus tard :</b> échantillons et matériel remis (avec le module Matériel), commande prise en visite (avec les commandes).</li>
+  <li><b>Les « Arrive avec les visites » remplis en 10a</b> (cadre 9) : l'onglet Visites du professionnel et du cycle, les chiffres visites / couverture / rythme des cycles, les jours « terrain » de la bande des jours, le nombre de visites des organisations et des territoires, « Montrée en visite » des aides.</li>
+  <li><b>Droits :</b> <code>visits</code> (voir, ajouter, modifier, supprimer) et <code>cancel-reasons</code> pour le Studio. Supprimer une visite reste aux administrateurs.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const shell = (rail, inner, avatar = 'KB', extra = '') => `<div class='frame' style='min-height:820px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${avatar}</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:20px 28px 28px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+const wsNav = `<nav class='ws-nav'><a class='on'>Visites</a></nav>`
+function listFrame(n, text, { body, panel = '', avatar }) {
+  return label(n, text) + shell('Visites', `<div class='col'>${wsNav}
+      <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+        <div><div class='crumbs'>Visites</div><h1 class='title display' style='font-size:36px'>Visites</h1><div class='hint' style='margin-top:4px'>Les visites planifiées, réalisées et annulées, les vôtres et celles de vos équipes</div></div><span class='btn primary'>＋ Ajouter une visite</span>
+      </div>
+      ${body}
+    </div>${panel}`, avatar)
+}
+const ST = { done: 'Réalisée', plan: 'Planifiée', late: 'En retard', off: 'Annulée' }
+const ini = s => s.replace(/^Dr /, '').split(' ').map(w => w[0]).slice(0, 2).join('')
+// day, hour, target, org?, speciality · commune, person, canal, brands, state, off-list, cancel reason
+const visits = [
+  ['Dim. 15 nov.', '09:30', 'Dr Nora Saidi', 0, 'Cardiologie · El Biar', 'Karim Benali', 'Face à face', [], 'plan', 0],
+  ['Dim. 15 nov.', '', 'Pharmacie Ibn Sina', 1, 'Pharmacie · Hydra', 'Karim Benali', 'Face à face', [], 'plan', 0],
+  ['Jeu. 12 nov.', '10:15', 'Dr Samir Haddad', 0, 'Cardiologie · Alger-Centre', 'Karim Benali', 'Face à face', ['Cardiozen', 'Tensio'], 'done', 0],
+  ['Jeu. 12 nov.', '11:40', 'Dr Leïla Mansouri', 0, 'Médecine interne · Kouba', 'Karim Benali', 'Face à face', ['Tensio'], 'done', 1],
+  ['Jeu. 12 nov.', '14:00', 'Pharmacie El Amel', 1, 'Pharmacie · Kouba', 'Omar Ziani', 'Face à face', ['Dolex', 'Gastrel'], 'done', 0],
+  ['Mer. 11 nov.', '', 'Dr Yacine Belkacem', 0, 'Cardiologie · Bab Ezzouar', 'Karim Benali', 'Face à face', [], 'late', 0],
+  ['Mer. 11 nov.', '16:20', 'Dr Amel Cherif', 0, 'Neurologie · Hussein Dey', 'Omar Ziani', 'Téléphone', ['Neurocalm'], 'done', 0],
+  ['Mar. 10 nov.', '', 'Dr Farid Bouzid', 0, 'Cardiologie · Birkhadem', 'Karim Benali', 'Face à face', [], 'off', 0, 'Absent'],
+]
+const chips = (xs, max) => xs.length ? xs.slice(0, max).map(x => `<span class='chip'>${x}</span>`).join(' ') + (xs.length > max ? ` <span class='chip'>+${xs.length - max}</span>` : '') : `<span class='label'>—</span>`
+const target = v => `<span style='display:flex;align-items:center;gap:10px'><span class='who ${v[3] ? 'org' : ''}'>${v[3] ? '⌂' : ini(v[2])}</span><span><strong>${v[2]}</strong>${v[9] ? ` <span class='chip warn'>Hors cycle</span>` : ''}<small style='display:block;color:var(--muted);font-size:12px'>${v[4]}</small></span></span>`
+const state = v => `<span class='st ${v[8]}'><i></i>${ST[v[8]]}</span>${v[10] ? `<small style='display:block;color:var(--muted);font-size:12px'>${v[10]}</small>` : ''}`
+const tiles = `<div class='tiles'>
+  <div class='tile'><span>Réalisées · cette semaine</span><strong class='display'>38</strong><small>dont 3 hors cycle</small></div>
+  <div class='tile'><span>Planifiées · à venir</span><strong class='display'>21</strong><small>jusqu'au jeu. 19 nov.</small></div>
+  <div class='tile'><span>En retard</span><strong class='display' style='color:var(--amber)'>4</strong><small>planifiées, jour passé, sans compte rendu</small></div>
+  <div class='tile'><span>Annulées · cette semaine</span><strong class='display'>2</strong><small>Absent 1 · Reportée 1</small></div></div>`
+const listCard = (full, sel = -1) => `<div class='card' style='padding:16px 18px'>
+  <div style='display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap'><div class='input muted' style='width:${full ? 260 : 190}px'>⌕ Professionnel ou organisation</div><span class='input'>Du <b>8 nov.</b> au <b>19 nov.</b> ▾</span><span class='input'>État <b>Tous</b> ▾</span>${full ? `<span class='input'>Personne <b>Toutes</b> ▾</span><span class='input'>Équipe <b>Toutes</b> ▾</span><span class='input'>Marque <b>Toutes</b> ▾</span><span class='input'>Canal <b>Tous</b> ▾</span><span class='input'><span class='check'></span> Hors cycle</span>` : ''}</div>
+  <table class='table'><thead><tr><th>Jour ↓</th><th>Professionnel ou organisation</th><th>Personne</th>${full ? `<th>Canal</th><th>Marques présentées</th>` : ''}<th>État</th><th></th></tr></thead><tbody>
+  ${visits.map((v, i) => `<tr class='${i === sel ? 'sel' : ''}' style='${v[8] === 'off' ? 'opacity:.6' : ''}'><td style='white-space:nowrap'>${v[0]}${v[1] ? `<small style='display:block;color:var(--muted);font-size:12px'>${v[1]}</small>` : ''}</td><td>${target(v)}</td><td>${v[5]}</td>${full ? `<td class='label'>${v[6]}</td><td>${chips(v[7], 2)}</td>` : ''}<td>${state(v)}</td><td style='color:var(--muted)'>›</td></tr>`).join('')}
+  </tbody></table>
+  <div style='display:flex;justify-content:space-between;align-items:center;padding-top:12px' class='label'><span>1–8 sur 65</span><span>Lignes 25 ▾ ‹ 1 2 3 ›</span></div></div>`
+
+const rate = n => `<span class='rate'>${[1, 2, 3, 4, 5].map(i => `<i class='${i === n ? 'on' : ''}'>${i}</i>`).join('')}</span>`
+const score = n => `<span class='score'>${n}<small> / 5</small></span>`
+const opt = `<em class='hint' style='font-weight:400'>· facultatif</em>`
+
+// 2 · the short panel: a summary and the way to the page
+const quick = `<aside class='panel'>
+  <div class='ph'><span class='who' style='width:44px;height:44px;font-size:14px'>SH</span><div style='flex:1'><h2 class='display'>Dr Samir Haddad</h2><div class='sub'><span class='st done'><i></i>Réalisée</span><span class='hint'>· Cardiologie · Alger-Centre</span></div></div><span class='icb'>✕</span></div>
+  <div class='pb'>
+    <dl class='kv' style='padding:0'><dt>Jour</dt><dd>Jeudi 12 nov. 2026 · 10:15</dd><dt>Personne</dt><dd>Karim Benali</dd><dt>Canal</dt><dd>Face à face</dd><dt>Cycle</dt><dd>Novembre 2026</dd><dt>Marques</dt><dd>Cardiozen ${score(4)} · Tensio ${score(3)}</dd><dt>Aides montrées</dt><dd>1</dd><dt>Accompagné par</dt><dd>Nadia Kaci</dd></dl>
+    <div class='why'><strong style='color:var(--ink)'>Prochain objectif</strong><br>Revenir avec les données de tolérance de Tensio.</div>
+  </div>
+  <div class='pf'><span class='btn dark' style='flex:1;justify-content:center'>Ouvrir la visite →</span></div>
+</aside>`
+
+// 3 · the details page of a visit done
+const pageHead = (who, name, sub, st, actions) => `<div class='crumbs'><a>Visites</a> › ${name} · ${sub[0]}</div>
+  <div class='head'><span class='who big'>${who}</span><div style='flex:1'><h1 class='display'>${name}</h1><div class='sub'><span class='st ${st}'><i></i>${ST[st]}</span><span class='hint'>· ${sub[1]}</span><a style='font-size:13px'>Voir la fiche →</a></div></div>${actions}</div>`
+const detailDone = `<div class='col'>${pageHead('SH', 'Dr Samir Haddad', ['12 nov. 2026', 'Cardiologie · Alger-Centre'], 'done', `<span class='btn outline'>⋯</span>`)}
+  <div style='display:flex;gap:16px;align-items:flex-start'>
+    <div class='col'>
+      <section class='sec'><header><strong>Marques présentées · 2</strong><span class='edit'>✎ Modifier</span></header>
+        <div class='row'><span><strong>Cardiozen</strong><small>Intérêt du professionnel</small></span><span class='end'>${score(4)}</span></div>
+        <div class='row'><span><strong>Tensio</strong><small>Intérêt du professionnel</small></span><span class='end'>${score(3)}</span></div></section>
+      <section class='sec'><header><strong>Aides de visite montrées · 1</strong><span class='edit'>✎ Modifier</span></header>
+        <div class='row'><span class='who' style='border-radius:8px;width:44px;font-size:10px'>PDF</span><span><strong>Cardiozen · étude CARE 2026</strong><small>Cardiozen · 24 pages</small></span><span class='end'>${score(5)}</span></div></section>
+      <section class='sec'><header><strong>Objectifs et commentaire</strong><span class='edit'>✎ Modifier</span></header><dl class='kv'><dt>Objectif</dt><dd>Présenter l'étude CARE 2026.</dd><dt>Prochain objectif</dt><dd>Revenir avec les données de tolérance de Tensio.</dd><dt>Commentaire</dt><dd>Intéressé par Cardiozen pour ses patients âgés. Demande la version imprimée de l'étude.</dd></dl></section>
+    </div>
+    <div class='side'>
+      <section class='sec'><header><strong>La visite</strong><span class='edit'>✎ Modifier</span></header><dl class='kv'><dt>Jour</dt><dd>Jeudi 12 nov. 2026 · 10:15</dd><dt>Personne</dt><dd>Karim Benali<br><span class='hint'>VM · Cardio Alger</span></dd><dt>Canal</dt><dd>Face à face</dd><dt>Cycle</dt><dd><a>Novembre 2026</a><br><span class='hint'>Dans la liste · 2ᵉ visite sur 2</span></dd><dt>Durée</dt><dd>14 min <span class='hint'>· téléphone</span></dd></dl></section>
+      <section class='sec'><header><strong>Personnes</strong><span class='edit'>✎ Modifier</span></header><dl class='kv'><dt>Accompagné par</dt><dd>Nadia Kaci <span class='hint'>· superviseure</span></dd><dt>Aussi présents</dt><dd class='label'>Personne</dd><dt>Remplaçant vu</dt><dd class='label'>Non</dd></dl></section>
+      <section class='sec'><header><strong>Avant et après</strong></header><div class='line'><span class='hint'>Visite précédente</span><br><a>Mar. 13 oct. 2026</a> · Cardiozen ${score(3)}</div><div class='line'><span class='hint'>Visite suivante</span><br>Aucune planifiée</div></section>
+      <div class='hint' style='padding:0 12px'>Ajoutée par Nadia Kaci pour Karim Benali le 12 nov. 2026 à 10:31</div>
+    </div>
+  </div></div>`
+
+// 4 · the details page of a planned visit whose day has passed
+const detailLate = `<div class='col'>${pageHead('YB', 'Dr Yacine Belkacem', ['11 nov. 2026', 'Cardiologie · Bab Ezzouar'], 'late', `<span class='btn outline'>Annuler la visite</span><span class='btn primary'>Saisir le compte rendu</span>`)}
+  <div class='why warn' style='font-size:13.5px'><strong>Planifiée pour le mercredi 11 nov., sans compte rendu.</strong> Saisissez le compte rendu si la visite a eu lieu, sinon annulez-la avec un motif.</div>
+  <div style='display:flex;gap:16px;align-items:flex-start'>
+    <div class='col'>
+      <section class='sec'><header><strong>Compte rendu</strong></header><div class='line' style='padding:20px 12px 26px;text-align:center;color:var(--muted)'>Pas encore de compte rendu.<br>Les marques, les aides montrées, les personnes et le commentaire s'affichent ici une fois la visite réalisée.</div></section>
+      <section class='sec'><header><strong>Objectif prévu</strong><span class='edit'>✎ Modifier</span></header><div class='line'>Présenter Tensio · mode d'action.</div></section>
+    </div>
+    <div class='side'>
+      <section class='sec'><header><strong>La visite</strong><span class='edit'>✎ Modifier</span></header><dl class='kv'><dt>Jour prévu</dt><dd>Mercredi 11 nov. 2026</dd><dt>Personne</dt><dd>Karim Benali<br><span class='hint'>VM · Cardio Alger</span></dd><dt>Canal</dt><dd>Face à face</dd><dt>Cycle</dt><dd><a>Novembre 2026</a><br><span class='hint'>Dans la liste · 1ʳᵉ visite sur 2</span></dd></dl></section>
+      <section class='sec'><header><strong>Avant et après</strong></header><div class='line'><span class='hint'>Visite précédente</span><br><a>Mar. 13 oct. 2026</a> · Cardiozen ${score(3)}<br><span class='hint'>Prochain objectif noté : « Parler de Tensio pour les patients hypertendus. »</span></div></section>
+    </div>
+  </div></div>`
+
+// 5–6 · the add page
+const addHead = `<div class='crumbs'><a>Visites</a> › Nouvelle visite</div><div class='head'><div style='flex:1'><h1 class='display'>Nouvelle visite</h1><div class='hint' style='margin-top:4px'>Planifiez une visite, ou saisissez une visite déjà faite avec son compte rendu</div></div></div>`
+const visitCard = (done, offList) => `<section class='sec'><header><strong>La visite</strong></header><div class='form'>
+  <label class='field'><span>Personne</span><div class='input' style='max-width:420px'>Karim Benali · VM · Cardio Alger ▾</div><span class='hint'>Vous, ou une personne sous vous. Un délégué ne voit pas ce champ : la visite est la sienne.</span></label>
+  <div class='field'><span>Qui est visité</span><div class='seg' style='align-self:flex-start'><span class='on'>Un professionnel de santé</span><span>Une organisation</span></div>
+    ${offList ? `<div class='pick'><span class='who'>LM</span><span><strong>Dr Leïla Mansouri</strong> <span class='chip warn'>Hors cycle</span><small>Médecine interne · Kouba</small></span><span style='margin-inline-start:auto' class='hint'>Changer</span></div>
+    <div class='why warn'><strong>Hors cycle.</strong> Ce professionnel n'est pas dans la liste de Karim pour Novembre 2026. La visite est acceptée et marquée « Hors cycle » : elle compte dans ses visites, pas dans sa couverture.</div>`
+    : `<div class='pick'><span class='who'>NS</span><span><strong>Dr Nora Saidi</strong><small>Cardiologie · El Biar</small></span><span style='margin-inline-start:auto' class='hint'>Changer</span></div>`}</div>
+  <div style='display:grid;grid-template-columns:1fr 150px 1fr;gap:12px'><label class='field'><span>Jour</span><div class='input'>${done ? 'Jeudi 12 nov. 2026' : 'Dimanche 15 nov. 2026'}</div></label><label class='field'><span>Heure ${opt}</span><div class='input'>${done ? '11:40' : '09:30'}</div></label><label class='field'><span>Canal</span><div class='input'>Face à face ▾</div></label></div>
+  <div class='field'><span>Cette visite est</span><div class='seg' style='align-self:flex-start'><span class='${done ? '' : 'on'}'>Planifiée</span><span class='${done ? 'on' : ''}'>Réalisée</span></div><span class='hint'>${done ? 'Réalisée : le compte rendu se saisit ci-dessous.' : 'Un jour à venir est toujours planifié. Le compte rendu se saisit après la visite.'}</span></div>
+  <label class='field'><span>Objectif de la visite ${opt}</span><div class='input'>${done ? 'Présenter Tensio' : 'Présenter l\'étude CARE 2026'}</div></label>
+</div></section>`
+const summary = (done, lines, button) => `<div class='side'>
+  <section class='sec'><header><strong>Résumé</strong></header><dl class='kv'>${lines}</dl>
+    <div style='padding:4px 12px 12px;display:flex;flex-direction:column;gap:8px'><span class='btn primary' style='justify-content:center'>${button}</span><span class='btn outline' style='justify-content:center'>Annuler</span></div></section>
+  <section class='sec'><header><strong>Dernière visite</strong></header><div class='line'>${done ? `Aucune visite à ce professionnel.` : `<a>Jeu. 15 oct. 2026</a> · Cardiozen ${score(4)}<br><span class='hint'>Prochain objectif noté : « Présenter l'étude CARE 2026. »</span>`}</div></section>
+</div>`
+const addDone = `<div class='col'>${addHead}
+  <div style='display:flex;gap:16px;align-items:flex-start'>
+    <div class='col'>${visitCard(true, true)}
+      <section class='sec'><header><strong>Marques présentées</strong><span class='edit'>＋ Ajouter une marque</span></header>
+        <div class='row'><span><strong>Tensio</strong></span><span class='end'><span class='hint'>Intérêt</span>${rate(4)}<span>✕</span></span></div>
+        <div class='row'><span><strong>Cardiozen</strong></span><span class='end'><span class='hint'>Intérêt</span>${rate(0)}<span>✕</span></span></div>
+        <div class='line hint' style='padding-top:8px'>Au moins une marque. L'intérêt va de 1 (aucun) à 5 (très fort) ; il est facultatif. Pour une pharmacie ou un grossiste, chaque marque a aussi une case « Stock » (boîtes vues).</div></section>
+      <section class='sec'><header><strong>Aides de visite montrées</strong><span class='hint'>facultatif</span></header>
+        <div class='row'><span class='check' style='background:var(--ink);border-color:var(--ink)'></span><span><strong>Tensio · mode d'action</strong><small>Vidéo · 2 min 40</small></span><span class='end'><span class='hint'>Note</span>${rate(5)}</span></div>
+        <div class='row'><span class='check'></span><span><strong>Cardiozen · étude CARE 2026</strong><small>PDF · 24 pages</small></span></div>
+        <div class='line hint' style='padding-top:8px'>Les aides en ligne des marques choisies, pour votre équipe et la spécialité du professionnel.</div></section>
+      <section class='sec'><header><strong>Personnes</strong><span class='hint'>facultatif</span></header><div class='form'>
+        <div class='cols'><label class='field'><span>Accompagné par</span><div class='input'><span class='chip'>Nadia Kaci ✕</span></div></label><label class='field'><span>Autres professionnels présents</span><div class='input muted'>⌕ Ajouter un professionnel de santé</div></label></div>
+        <div class='field'><span>Vous avez vu un remplaçant</span><div class='seg' style='align-self:flex-start'><span class='on'>Non</span><span>Oui</span></div><span class='hint'>Oui : choisissez le professionnel qui remplaçait le Dr Mansouri ce jour-là.</span></div></div></section>
+      <section class='sec'><header><strong>Suite et commentaire</strong><span class='hint'>facultatif</span></header><div class='form'>
+        <label class='field'><span>Prochain objectif</span><div class='input'>Apporter l'étude de tolérance</div></label>
+        <label class='field'><span>Commentaire</span><div class='input' style='height:84px;align-items:flex-start;padding-top:8px'>Prescrit déjà un concurrent. Ouverte à un essai sur 5 patients.</div></label></div></section>
+    </div>
+    ${summary(true, `<dt>Personne</dt><dd>Karim Benali</dd><dt>Professionnel</dt><dd>Dr Leïla Mansouri <span class='chip warn'>Hors cycle</span></dd><dt>Jour</dt><dd>Jeu. 12 nov. 2026 · 11:40</dd><dt>Cycle</dt><dd>Novembre 2026<br><span class='hint'>trouvé d'après le jour</span></dd><dt>État</dt><dd><span class='st done'><i></i>Réalisée</span></dd><dt>Marques</dt><dd>2</dd><dt>Aides montrées</dt><dd>1</dd>`, 'Enregistrer la visite')}
+  </div></div>`
+const addPlan = `<div class='col'>${addHead}
+  <div style='display:flex;gap:16px;align-items:flex-start'>
+    <div class='col'>${visitCard(false, false)}
+      <div class='why' style='text-align:center;padding:18px'>Les cartes du compte rendu (marques, aides de visite, personnes, commentaire) apparaissent quand la visite est « Réalisée ».</div>
+    </div>
+    ${summary(false, `<dt>Personne</dt><dd>Karim Benali</dd><dt>Professionnel</dt><dd>Dr Nora Saidi</dd><dt>Jour</dt><dd>Dim. 15 nov. 2026 · 09:30</dd><dt>Cycle</dt><dd>Novembre 2026<br><span class='hint'>Dans la liste · 2ᵉ visite sur 2</span></dd><dt>État</dt><dd><span class='st plan'><i></i>Planifiée</span></dd>`, 'Planifier la visite')}
+  </div></div>`
+
+// 7 · cancel dialog, and the same-day refusal
+const cancel = `<div style='position:absolute;inset:0;background:rgba(15,31,28,.45);display:flex;align-items:center;justify-content:center;gap:28px'>
+  <div class='dialog'>
+    <div class='ph'><div style='flex:1'><h2 class='display'>Annuler la visite</h2><div class='hint' style='margin-top:4px'>Dr Yacine Belkacem · mercredi 11 nov. 2026</div></div><span class='icb'>✕</span></div>
+    <div class='pb'>
+      <div class='field'><span>Motif</span><div class='reasons'><div class='reason on'><i></i>Absent</div><div class='reason'><i></i>En congé</div><div class='reason'><i></i>Reportée</div><div class='reason'><i></i>Autre</div></div></div>
+      <label class='field'><span>Précision ${opt}</span><div class='input' style='height:64px;align-items:flex-start;padding-top:8px'>Cabinet fermé, pas d'affiche.</div></label>
+      <div class='why'>La visite reste dans la liste, en « Annulée ». Elle ne compte ni dans les visites réalisées ni dans la couverture. Vous pourrez en planifier une autre pour ce professionnel.</div>
+    </div>
+    <div class='pf'><span class='btn outline'>Retour</span><span class='btn dark' style='flex:1;justify-content:center'>Annuler la visite</span></div>
+  </div>
+  <div class='dialog' style='width:380px'><div class='pb'><span class='hint'>Autre refus, sur la page d'ajout :</span><div class='why bad'><strong>Vous avez déjà une visite chez le Dr Samir Haddad le jeudi 12 nov. 2026.</strong> Une seule visite par professionnel et par jour.<br><a style='color:var(--brick);text-decoration:underline'>Ouvrir cette visite →</a></div></div></div>
+</div>`
+
+// 8 · Studio list of cancel reasons
+const reasons = [['Absent', 12, '3 nov. 2026'], ['En congé', 4, '3 nov. 2026'], ['Reportée', 7, '3 nov. 2026'], ['Autre', 2, '3 nov. 2026'], ['Refus de recevoir', 0, '12 nov. 2026']]
+const studio = label(8, `<strong>Studio › Configuration terrain › Motifs d'annulation.</strong> Une liste simple, comme les types d'activité. Un motif déjà utilisé ne peut pas être supprimé (la corbeille est grisée).`) + shell('Studio', `<div class='col'>
+    <div style='display:flex;justify-content:space-between;align-items:flex-end'>
+      <div><div class='crumbs'>Studio › Configuration terrain</div><h1 class='title display' style='font-size:36px'>Motifs d'annulation</h1><div class='hint' style='margin-top:4px'>Les raisons proposées quand une visite est annulée</div></div><span class='btn primary'>＋ Ajouter un motif</span>
+    </div>
+    <div class='card' style='padding:16px 18px'>
+      <div style='display:flex;gap:10px;margin-bottom:12px'><div class='input muted' style='width:280px'>⌕ Nom du motif</div></div>
+      <table class='table'><thead><tr><th>Motif</th><th class='num'>Visites annulées</th><th>Ajouté le ↓</th><th></th></tr></thead><tbody>
+      ${reasons.map(r => `<tr><td><strong>${r[0]}</strong></td><td class='num'>${r[1]}</td><td class='label'>${r[2]}</td><td style='text-align:end;white-space:nowrap'>✎ <span style='margin-inline-start:12px${r[1] ? ';opacity:.3' : ''}'>🗑</span></td></tr>`).join('')}
+      </tbody></table></div>
+  </div>
+  <aside class='panel'>
+    <div class='ph'><div style='flex:1'><h2 class='display'>Nouveau motif</h2></div><span class='icb'>✕</span></div>
+    <div class='pb'><label class='field'><span>Nom</span><div class='input'>Refus de recevoir</div></label></div>
+    <div class='pf'><span class='btn primary' style='flex:1;justify-content:center'>Ajouter le motif</span></div>
+  </aside>`, 'SH')
+
+// 9 · what was waiting for visits
+const hcpVisits = [['Jeu. 12 nov. 2026', 'Karim Benali', 'Cardiozen 4 · Tensio 3', 'done'], ['Mar. 13 oct. 2026', 'Karim Benali', 'Cardiozen 3', 'done'], ['Lun. 21 sept. 2026', 'Karim Benali', '—', 'off'], ['Mar. 8 sept. 2026', 'Omar Ziani', 'Tensio 4', 'done']]
+const filled = label(9, `<strong>Les « Arrive avec les visites » se remplissent.</strong> À gauche, l'onglet Visites d'un professionnel ; à droite, les chiffres d'un cycle. Les mêmes chiffres arrivent dans les listes (cycles, organisations, territoires, aides de visite).`) + shell('Visites', `
+  <div class='col' style='gap:12px'>
+    <div class='crumbs'>Professionnels de santé › Dr Samir Haddad</div>
+    <div class='tabs'><span>Aperçu</span><span class='on'>Visites <span class='count'>14</span></span><span>Cycles</span><span>Consentements</span></div>
+    <div class='card' style='padding:16px 18px'>
+      <table class='table'><thead><tr><th>Jour ↓</th><th>Personne</th><th>Marques et intérêt</th><th>État</th><th></th></tr></thead><tbody>
+      ${hcpVisits.map(v => `<tr style='${v[3] === 'off' ? 'opacity:.6' : ''}'><td>${v[0]}</td><td>${v[1]}</td><td class='label'>${v[2]}</td><td><span class='st ${v[3]}'><i></i>${ST[v[3]]}</span></td><td style='color:var(--muted)'>›</td></tr>`).join('')}
+      </tbody></table>
+      <div class='label' style='padding-top:12px'>1–4 sur 14 · un clic ouvre la page de la visite</div></div>
+  </div>
+  <div style='width:560px;flex-shrink:0;display:flex;flex-direction:column;gap:12px'>
+    <div class='crumbs'>Cycles › Karim Benali · Novembre 2026</div>
+    <div class='tiles' style='grid-template-columns:1fr 1fr'>
+      <div class='tile'><span>Visites</span><strong class='display'>96 <small>/ 240</small></strong><small>dont 3 hors cycle</small></div>
+      <div class='tile'><span>Couverture</span><strong class='display'>41 %</strong><small>49 professionnels vus sur 120</small></div>
+      <div class='tile'><span>Rythme</span><strong class='display'>10,7 <small>/ jour</small></strong><small>objectif 12 · 9 jours de terrain faits</small></div>
+      <div class='tile'><span>En retard</span><strong class='display' style='color:var(--amber)'>4</strong><small>planifiées sans compte rendu</small></div>
+    </div>
+    <div class='card' style='padding:14px 18px'><strong style='font-size:14px'>Bande des jours</strong>
+      <div style='display:flex;gap:4px;margin-top:10px'>${[12, 11, 13, 9, 0, 12, 10, 11, 8, 10, -1, -1, -1, -1].map(n => `<span style='flex:1;height:38px;border-radius:8px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;${n > 0 ? 'background:var(--ink);color:var(--signal)' : n === 0 ? 'background:rgba(180,83,9,.12);color:var(--amber)' : 'background:var(--line-soft);color:var(--muted)'}'>${n > 0 ? n : n === 0 ? '0' : ''}</span>`).join('')}</div>
+      <div class='hint' style='margin-top:8px'>Le nombre de visites réalisées par jour ouvré · orange : jour de terrain sans visite · gris : pas encore</div></div>
+  </div>`)
+
+document.getElementById('frames').innerHTML = [
+  listFrame(1, `<strong>La page s'ouvre.</strong> Quatre chiffres, puis une ligne par visite, la plus récente en haut. Karim (délégué) voit les siennes ; Nadia (superviseure) voit aussi celles de ses équipes. « En retard » et « Hors cycle » se voient d'un coup d'œil.`, { body: tiles + listCard(true), avatar: 'NK' }),
+  listFrame(2, `<strong>Clic sur une ligne.</strong> Un panneau court : le résumé de la visite, pour en parcourir plusieurs sans quitter la liste. « Ouvrir la visite » mène à sa page.`, { body: listCard(false, 2), panel: quick }),
+  label(3, `<strong>La page d'une visite réalisée.</strong> À gauche le compte rendu (marques, aides montrées, objectifs et commentaire) ; à droite la visite, les personnes, la visite d'avant et celle d'après. Chaque carte se modifie sur place.`) + shell('Visites', detailDone),
+  label(4, `<strong>La page d'une visite planifiée dont le jour est passé.</strong> Deux sorties, en haut : saisir le compte rendu (elle devient Réalisée) ou l'annuler avec un motif. La visite précédente rappelle ce qui était prévu.`) + shell('Visites', detailLate),
+  label(5, `<strong>« ＋ Ajouter une visite » : la page d'ajout, visite réalisée.</strong> Une seule page, un seul « Enregistrer » : la visite en haut, puis les quatre blocs du compte rendu. Le résumé reste visible à droite. Ici Nadia (superviseure) saisit pour Karim avec le champ « Personne ». Un professionnel hors de la liste du cycle est signalé, pas refusé. « Saisir le compte rendu » d'une visite planifiée ouvre cette même page, déjà remplie.`) + shell('Visites', addDone, 'NK'),
+  label(6, `<strong>La même page, visite planifiée.</strong> Seule la première carte est demandée ; le compte rendu viendra après la visite.`) + shell('Visites', addPlan, 'NK'),
+  label(7, `<strong>Annuler, et le refus du doublon.</strong> « Annuler la visite » ouvre une petite fenêtre : un motif de la liste est obligatoire. À droite, le message quand on ajoute une deuxième visite le même jour chez le même professionnel.`) + shell('Visites', detailLate, 'KB', cancel),
+].join('') + studio + filled
+</script></body></html>

@@ -64,6 +64,15 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
+    // Visites (docs/api/visits.md); the planning calendar joins in 10b.
+    id: 'visits',
+    title: 'nav.workspaces.visits',
+    icon: 'tabler-map-pin-check',
+    links: [
+      { title: 'nav.visits.visits', to: { name: 'tenant-visits' }, icon: 'tabler-map-pin-check', resource: 'visits', matches: ['tenant-visit-new', 'tenant-visit-detail', 'tenant-visit-report'] },
+    ],
+  },
+  {
     // Engager: what reps show and hand out (docs/api/advs.md); campaigns and materials later.
     id: 'engage',
     title: 'nav.workspaces.engage',

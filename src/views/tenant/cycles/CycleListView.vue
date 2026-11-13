@@ -218,9 +218,10 @@ function createFor(userIds: number[]) {
           </template>
           <template #cell-territory="{ row }">{{ row.territory?.name ?? '—' }}</template>
           <template #cell-professionals="{ row }"><span class="tabular-nums">{{ n(row.professionals) }}</span></template>
-          <template #cell-coverage><span class="text-[12.5px] text-dl-muted">{{ t('cycles.laterVisits') }}</span></template>
+          <template #cell-coverage="{ row }"><span class="tabular-nums">{{ row.coverage == null ? '—' : `${n(row.coverage)} %` }}</span></template>
           <template #cell-visits="{ row }">
-            <span class="text-[13px] text-dl-muted">{{ t('cycles.board.goal', { n: n(row.goal_visits) }) }}</span>
+            <span class="tabular-nums">{{ n(row.visits_done) }}</span> <span class="text-[13px] text-dl-muted">{{ t('cycles.board.goal', { n: n(row.goal_visits) }) }}</span>
+            <small v-if="row.late" class="block text-xs text-dl-pending">{{ t('cycles.figures.late', { n: n(row.late) }, row.late) }}</small>
           </template>
           <template #cell-state="{ row }">
             <DlBadge size="sm" :tone="STATE_TONE[row.state]" :dot="row.state === 'running'">{{ text.state(row.state, row.start_date) }}</DlBadge>
