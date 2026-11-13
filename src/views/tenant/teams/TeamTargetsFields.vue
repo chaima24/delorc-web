@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchAllBrands } from '@/api/tenant/brands'
 import { fetchSpecialities } from '@/api/tenant/customerSetup'
 import CheckList from '@/views/tenant/settings/shared/CheckList.vue'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 // Specialities the team visits (at least one) and brands it promotes. `only` shows one of the two.
 defineProps<{
@@ -16,7 +17,7 @@ const { t } = useI18n()
 
 const specialityList = ref<{ id: number; name: string }[]>([])
 const brandList = ref<{ id: number; name: string }[]>([])
-onMounted(async () => {
+onMountedAndFocus(async () => {
   const [specialityPage, brandRows] = await Promise.all([fetchSpecialities({ per_page: 100, sort: 'name' }), fetchAllBrands()])
   specialityList.value = specialityPage.items
   brandList.value = brandRows

@@ -1,4 +1,5 @@
-import { computed, onMounted, ref } from 'vue'
+import { refreshOnFocus } from '@/composables/refreshOnFocus'
+import { computed, ref } from 'vue'
 import { type Wilaya, fetchCommunes, fetchWilayas } from '@/api/tenant/geography'
 import { type Language, fetchLanguages } from '@/api/tenant/fieldSetup'
 import { rolesApi } from '@/api/tenant/roles'
@@ -8,6 +9,7 @@ import { useAuthStore } from '@/stores/auth'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { useTerritories } from '@/views/tenant/territories/useTerritoryLookups'
 import { useOrgTree } from './hierarchy/useOrgTree'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 type Option<V = number> = { value: V; label: string; hint?: string }
 const byLabel = <V>(a: Option<V>, b: Option<V>) => a.label.localeCompare(b.label)
@@ -32,7 +34,7 @@ export function useUserLookups() {
   if (useAuthStore().can('territories.show')) void shared.ensureLoaded()
   const territories = computed(() => shared.items.value.map(territory => ({ value: territory.id, label: territory.name })).sort(byLabel))
 
-  onMounted(async () => {
+  onMountedAndFocus(async () => {
     const [roleList, teamList, wilayaPage, languagePage] = await Promise.all([
       rolesApi.list(),
       fetchAllTeams(),
@@ -74,6 +76,7 @@ function loadRules(): Promise<void> {
 /** The planning and validation rules, for the rule pickers and the Règles tab. */
 export function useRuleLookups() {
   void loadRules()
+  refreshOnFocus(reloadRules)
   return { planningRules, validationRules }
 }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FrequencyGrid } from '@/api/tenant/frequencies'
 import { rolesApi, type Role } from '@/api/tenant/roles'
@@ -11,6 +11,7 @@ import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import { nextMonthStart } from '@/views/tenant/objectives/objectiveDisplay'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { type GridLine, type GridValues, sortLines, startingLines, valuesOf } from './frequencyDisplay'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 // "New grid": role, team (or all teams), from a date, and what it starts with (empty lines for the
 // kinds the role visits, or a copy of another grid). The grid is then filled on the page.
@@ -25,7 +26,7 @@ const ALL_TEAMS = 'all'
 const EMPTY = 'empty'
 const roles = ref<Role[]>([])
 const teams = ref<Team[]>([])
-onMounted(async () => {
+onMountedAndFocus(async () => {
   const [roleRows, teamRows] = await Promise.all([rolesApi.list(), fetchAllTeams()])
   roles.value = roleRows.filter(role => !role.is_super)
   teams.value = teamRows

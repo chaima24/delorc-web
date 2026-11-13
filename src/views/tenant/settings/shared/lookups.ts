@@ -1,6 +1,7 @@
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { rolesApi } from '@/api/tenant/roles'
 import { fetchAllTeams } from '@/api/tenant/teams'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 const ACRONYMS = new Set(['vm', 'vp', 'kam', 'r'])
 
@@ -16,7 +17,7 @@ export function roleLabel(name?: string | null): string {
 export function useRolesAndTeams() {
   const roles = ref<{ value: number; label: string }[]>([])
 
-  onMounted(async () => {
+  onMountedAndFocus(async () => {
     roles.value = (await rolesApi.list())
       .map(role => ({ value: role.id, label: roleLabel(role.name) }))
       .sort((a, b) => a.label.localeCompare(b.label))
@@ -29,7 +30,7 @@ export function useRolesAndTeams() {
 export function useTeamOptions() {
   const teams = ref<{ value: number; label: string }[]>([])
 
-  onMounted(async () => {
+  onMountedAndFocus(async () => {
     teams.value = (await fetchAllTeams())
       .map(team => ({ value: team.id, label: team.name }))
       .sort((a, b) => a.label.localeCompare(b.label))

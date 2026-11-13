@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { rolesApi } from '@/api/tenant/roles'
@@ -25,6 +25,7 @@ import { STUDIO_DEFAULT_SORT, useAddedColumn, useStudioList } from '@/views/tena
 import UserCreatePanel from './UserCreatePanel.vue'
 import UserReadPanel from './UserReadPanel.vue'
 import { STATUS_TONES, accountStatus, currentTerritory, today, useUserText } from './userDisplay'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 // Studio › Users: list or hierarchy, reading panel, "Add a user" in 3 steps. Everything else on the full page.
 // Mockup: docs/design/studio-mockups/Users.html
@@ -69,7 +70,7 @@ list.reload()
 
 const roles = ref<string[]>([])
 const teams = ref<Team[]>([])
-onMounted(async () => {
+onMountedAndFocus(async () => {
   const [roleList, teamList] = await Promise.all([rolesApi.list(), fetchAllTeams()])
   roles.value = roleList.map(role => role.name)
   teams.value = teamList

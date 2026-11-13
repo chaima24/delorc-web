@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchBrand, fetchBrands, type Brand } from '@/api/tenant/brands'
 import type { ListParams } from '@/api/tenant/geography'
@@ -17,6 +17,7 @@ import { STUDIO_DEFAULT_SORT, useAddedColumn, useStudioList } from '@/views/tena
 import { today } from '@/views/tenant/users/userDisplay'
 import BrandCreatePanel from './BrandCreatePanel.vue'
 import BrandPanel from './BrandPanel.vue'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 // Studio › Brands: list, a side panel to read and edit a brand, "Add a brand".
 // Mockup: docs/design/studio-mockups/Brands.html
@@ -24,7 +25,7 @@ const { t, n } = useI18n()
 const auth = useAuthStore()
 const toast = useToast()
 const teams = ref<Team[]>([])
-onMounted(async () => { teams.value = await fetchAllTeams() })
+onMountedAndFocus(async () => { teams.value = await fetchAllTeams() })
 
 const ALL = 'all'
 type Filters = { team: number | null }

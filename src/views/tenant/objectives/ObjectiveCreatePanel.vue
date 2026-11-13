@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import { createObjective, type Objective, type ObjectiveNumbers } from '@/api/tenant/objectives'
@@ -13,6 +13,7 @@ import { useToast } from '@/composables/useToast'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { emptyNumbers, nextMonthStart, numbersFor } from './objectiveDisplay'
 import ObjectiveNumbersFields from './ObjectiveNumbersFields.vue'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 // "Add objective": role, team (or all teams), from a date, and only the numbers the role needs.
 // `preset` fills role/team in (from "People with no objective").
@@ -25,7 +26,7 @@ const toast = useToast()
 const ALL_TEAMS = 'all'
 const roles = ref<Role[]>([])
 const teams = ref<Team[]>([])
-onMounted(async () => {
+onMountedAndFocus(async () => {
   const [roleRows, teamRows] = await Promise.all([rolesApi.list(), fetchAllTeams()])
   roles.value = roleRows.filter(role => !role.is_super)
   teams.value = teamRows

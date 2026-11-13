@@ -1,4 +1,4 @@
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { ListParams, Page } from '@/api/tenant/geography'
 import { fetchRuleCoverage, type RuleCoverage, type RuleKind, type RuleWho, type RuleWhoPayload } from '@/api/tenant/rules'
@@ -7,6 +7,7 @@ import { fetchUsers } from '@/api/tenant/users'
 import { useAuthStore } from '@/stores/auth'
 import { roleLabel, useRolesAndTeams } from '@/views/tenant/settings/shared/lookups'
 import { useRecordPanel, useStudioCounts, useStudioList } from '@/views/tenant/settings/shared/useStudioList'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 /** A planning or validation rule as the pages need it. */
 export interface Rule extends RuleWho {
@@ -73,7 +74,7 @@ export function useRulePage<T extends Rule, F extends RuleForm, P extends object
 
   const teams = ref<{ value: number; label: string }[]>([])
   const users = ref<{ value: number; label: string }[]>([])
-  onMounted(async () => {
+  onMountedAndFocus(async () => {
     teams.value = (await fetchAllTeams()).map(team => ({ value: team.id, label: team.name })).sort((a, b) => a.label.localeCompare(b.label))
     // Every person not deactivated, 100 at a time.
     const people: { value: number; label: string }[] = []

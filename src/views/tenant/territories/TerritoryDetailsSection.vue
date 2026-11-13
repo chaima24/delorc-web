@@ -8,7 +8,7 @@ import { useTerritories } from './useTerritoryLookups'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/composables/useToast'
 import TerritoryDetailsFields, { type TerritoryDetailsForm } from './TerritoryDetailsFields.vue'
-import { personName, useTerritoryText } from './territoryText'
+import { useTerritoryText } from './territoryText'
 
 // "Details" section (panel and full page): name, part of, sector, description, created by.
 const props = defineProps<{ territory: Territory }>()

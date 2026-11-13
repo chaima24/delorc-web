@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { PlanningRule, ValidationRule } from '@/api/tenant/rules'
 import DlCombobox from '@/components/DlCombobox.vue'
@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/auth'
 import RuleCreateForm from './RuleCreateForm.vue'
 import RuleTimeline from './RuleTimeline.vue'
 import { reloadRules, useRuleLookups } from './useUserLookups'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 // Choose a planning or validation rule by name, seeing what each one does: its values under its
 // name in the list, and the chosen one drawn on its timeline. No rule fits? "New rule" creates one in
@@ -17,7 +18,7 @@ const { t, n } = useI18n()
 const auth = useAuthStore()
 const lookups = useRuleLookups()
 // Rules added a moment ago in Studio show up without reloading the page.
-onMounted(() => reloadRules())
+onMountedAndFocus(() => reloadRules())
 
 type Rule = PlanningRule | ValidationRule
 const rules = computed<Rule[]>(() => (props.kind === 'planning' ? lookups.planningRules.value : lookups.validationRules.value))

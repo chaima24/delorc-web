@@ -25,6 +25,7 @@ import DlInput from '@/components/DlInput.vue'
 import DlSegmented from '@/components/DlSegmented.vue'
 import DlSelect from '@/components/DlSelect.vue'
 import DlSkeleton from '@/components/DlSkeleton.vue'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import { useUsers } from '@/views/tenant/territories/useTerritoryLookups'
@@ -53,11 +54,13 @@ async function allOf<T>(fetch: (params: ListParams) => Promise<Page<T>>, params:
   }
   return rows
 }
-// Expense types and wilayas, loaded once when the page opens.
+// Expense types and wilayas, loaded when the page opens and again on coming back to the tab.
 const types = { items: ref<ExpenseKind[]>([]) }
 const wilayas = { items: ref<Wilaya[]>([]) }
-allOf(fetchExpenseTypes).then(rows => { types.items.value = rows }).catch(() => toast.error(t('studio.list.toast.failed')))
-allOf(fetchWilayas, { sort: 'name' }).then(rows => { wilayas.items.value = rows }).catch(() => toast.error(t('studio.list.toast.failed')))
+onMountedAndFocus(() => {
+  allOf(fetchExpenseTypes).then(rows => { types.items.value = rows }).catch(() => toast.error(t('studio.list.toast.failed')))
+  allOf(fetchWilayas, { sort: 'name' }).then(rows => { wilayas.items.value = rows }).catch(() => toast.error(t('studio.list.toast.failed')))
+})
 
 const me = computed(() => Number(auth.user?.id))
 const editing = ref<ExpenseDay | null>(null)

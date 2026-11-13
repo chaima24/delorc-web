@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
@@ -107,8 +108,8 @@ async function onCreated(product: Product) {
   await show(product)
 }
 
+onMountedAndFocus(async () => { brands.value = await fetchAllBrands() })
 onMounted(async () => {
-  brands.value = await fetchAllBrands()
   const id = Number(route.query.duplicate)
   if (!id) return
   router.replace({ query: { ...route.query, duplicate: undefined } })

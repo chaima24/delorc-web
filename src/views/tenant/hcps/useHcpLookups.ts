@@ -1,3 +1,4 @@
+import { refreshOnFocus } from '@/composables/refreshOnFocus'
 import { computed, ref, shallowRef } from 'vue'
 import { fetchSpecialities, type Speciality } from '@/api/tenant/customerSetup'
 import { fetchCommunes, fetchWilayas, type Commune, type Wilaya } from '@/api/tenant/geography'
@@ -5,11 +6,12 @@ import { fetchAllHcos, type Hco } from '@/api/tenant/hcos'
 
 const byName = (a: { label: string }, b: { label: string }) => a.label.localeCompare(b.label)
 
-// Wilayas and specialities: loaded once per visit.
+// Wilayas and specialities: loaded when a page first needs them, and again on coming back to the tab.
 const wilayas = shallowRef<Wilaya[]>([])
 const specialities = shallowRef<Speciality[]>([])
 let basicsLoading: Promise<void> | null = null
-function loadBasics() {
+function loadBasics(force = false) {
+  if (force) basicsLoading = null
   basicsLoading ??= Promise.all([fetchWilayas({ per_page: 100, sort: 'name' }), fetchSpecialities({ per_page: 100, sort: 'name' })])
     .then(([wilayaPage, specialityPage]) => {
       wilayas.value = wilayaPage.items
@@ -19,7 +21,7 @@ function loadBasics() {
   return basicsLoading
 }
 
-// Organisations: every one, loaded once per visit.
+// Organisations: every one, loaded when a page first needs them, and again on coming back to the tab.
 const hcos = shallowRef<Hco[]>([])
 let hcosLoading: Promise<void> | null = null
 function loadHcos(force = false) {
@@ -38,10 +40,14 @@ async function loadCommunes(wilayaId: number | null) {
   communes.value = { ...communes.value, [wilayaId]: result.items }
 }
 
+/** A speciality or an organisation added in another tab shows up. */
+const refreshAll = () => { void loadBasics(true); void loadHcos(true) }
+
 /** Options for the professional and organisation forms and filters: wilayas, communes, organisations, specialities. */
 export function useHcpLookups() {
   void loadBasics()
   void loadHcos()
+  refreshOnFocus(refreshAll)
 
   return {
     wilayaOptions: computed(() => wilayas.value.map(w => ({ value: w.id, label: w.name })).sort(byName)),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { type Commune, type SubWilayaZone, type Wilaya, createSubWilayaZone, deleteSubWilayaZone, fetchCommunes, fetchSubWilayaZones, fetchWilayas, updateSubWilayaZone } from '@/api/tenant/geography'
@@ -13,6 +13,7 @@ import { useAuthStore } from '@/stores/auth'
 import StudioListPage from '@/views/tenant/settings/shared/StudioListPage.vue'
 import { geographySection } from '@/views/tenant/settings/shared/studioSections'
 import { STUDIO_DEFAULT_SORT, useStudioList, useRecordPanel, useStudioCounts, useAddedColumn } from '@/views/tenant/settings/shared/useStudioList'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 const { t, n } = useI18n()
 const route = useRoute()
@@ -37,7 +38,7 @@ const { page, perPage, search, sort, filters, items, total, loading } = list
 list.reload()
 
 const wilayas = ref<Wilaya[]>([])
-onMounted(async () => {
+onMountedAndFocus(async () => {
   const response = await fetchWilayas({ per_page: 200, sort: 'name', include: 'region' })
   wilayas.value = response.items
 })

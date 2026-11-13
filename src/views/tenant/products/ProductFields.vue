@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, useId } from 'vue'
+import { computed, ref, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchAllBrands } from '@/api/tenant/brands'
 import { fetchTherapeuticAreas } from '@/api/tenant/products'
@@ -7,6 +7,7 @@ import DlCombobox from '@/components/DlCombobox.vue'
 import DlIcon from '@/components/DlIcon.vue'
 import DlInput from '@/components/DlInput.vue'
 import { PRICE_FIELDS, type ProductForm, type ProductPart } from './productForm'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 // The fields of one part of a product: info · prices · orders (strategic, pack discount, UG).
 defineProps<{
@@ -22,7 +23,7 @@ const brandOptions = computed(() => brands.value.map(brand => ({ value: brand.id
 
 // Areas already used, offered while typing (a new one can still be typed).
 const areas = ref<string[]>([])
-onMounted(async () => {
+onMountedAndFocus(async () => {
   brands.value = await fetchAllBrands()
   try {
     areas.value = await fetchTherapeuticAreas()

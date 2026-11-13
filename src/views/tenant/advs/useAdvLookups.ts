@@ -1,3 +1,4 @@
+import { refreshOnFocus } from '@/composables/refreshOnFocus'
 import { ref } from 'vue'
 import { fetchAllBrands } from '@/api/tenant/brands'
 import { fetchSpecialities } from '@/api/tenant/customerSetup'
@@ -32,9 +33,11 @@ function load(): Promise<void> {
     .catch(() => { loading = null })
 }
 
-/** `refresh()` asks again: a brand or a team added meanwhile (in another tab, by a colleague) then shows up. */
+const refresh = () => { loading = load() }
+
+/** `refresh()` asks again (also done on coming back to the tab): a brand or a team added meanwhile (in another tab, by a colleague) then shows up. */
 export function useAdvLookups() {
   loading ??= load()
-  const refresh = () => { loading = load() }
+  refreshOnFocus(refresh)
   return { brands, teams, specialities, refresh }
 }

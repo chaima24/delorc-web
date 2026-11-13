@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchAllTeams, type Team } from '@/api/tenant/teams'
 import CheckList from '@/views/tenant/settings/shared/CheckList.vue'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 // Teams that promote the brand: the same link as "Brands promoted" on each team.
 defineProps<{ error?: string }>()
 const model = defineModel<number[]>({ required: true })
 const { t } = useI18n()
 const teams = ref<Team[]>([])
-onMounted(async () => { teams.value = await fetchAllTeams() })
+onMountedAndFocus(async () => { teams.value = await fetchAllTeams() })
 
 const items = computed(() => teams.value
   .map(team => ({ value: team.id, label: team.name, hint: team.status === false ? t('teams.status.inactive') : undefined }))

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
@@ -37,7 +38,7 @@ const text = useActivityText()
 const users = useUsers()
 users.ensureLoaded()
 const types = ref<ActivityType[]>([])
-fetchActivityTypes({ per_page: 100, sort: 'activity' }).then(page => { types.value = page.items })
+onMountedAndFocus(() => fetchActivityTypes({ per_page: 100, sort: 'activity' }).then(page => { types.value = page.items }))
 
 const ALL = 'all'
 const view = ref<'list' | 'calendar'>(route.query.view === 'calendar' ? 'calendar' : 'list')

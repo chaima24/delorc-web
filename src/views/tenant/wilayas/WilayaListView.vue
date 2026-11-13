@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { type Commune, type Region, type SubWilayaZone, type Wilaya, createWilaya, deleteWilaya, fetchCommunes, fetchRegions, fetchSubWilayaZones, fetchWilayas, updateWilaya } from '@/api/tenant/geography'
@@ -15,6 +15,7 @@ import RecordChildren from '@/views/tenant/settings/shared/RecordChildren.vue'
 import StudioListPage from '@/views/tenant/settings/shared/StudioListPage.vue'
 import { geographySection } from '@/views/tenant/settings/shared/studioSections'
 import { STUDIO_DEFAULT_SORT, useStudioList, useRecordPanel, useStudioCounts, useAddedColumn } from '@/views/tenant/settings/shared/useStudioList'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 const { t, n } = useI18n()
 const route = useRoute()
@@ -39,7 +40,7 @@ const { page, perPage, search, sort, filters, items, total, loading } = list
 list.reload()
 
 const regions = ref<Region[]>([])
-onMounted(async () => {
+onMountedAndFocus(async () => {
   const response = await fetchRegions({ per_page: 100, sort: 'name' })
   regions.value = response.items
 })

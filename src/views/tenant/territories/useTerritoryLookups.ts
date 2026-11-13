@@ -1,3 +1,4 @@
+import { refreshOnFocus } from '@/composables/refreshOnFocus'
 import { ref } from 'vue'
 import type { ListParams } from '@/api/tenant/geography'
 import { fetchTerritories, type Territory } from '@/api/tenant/territories'
@@ -30,8 +31,12 @@ function refresh(): Promise<void> {
   return loading
 }
 
+/** On coming back to the tab: only when a page already asked for the territories. */
+const refreshIfUsed = () => { if (loading) void refresh() }
+
 /** Every territory (id, name, parent). */
 export function useTerritories() {
+  refreshOnFocus(refreshIfUsed)
   return { items, loaded, refresh, ensureLoaded: () => loading ?? refresh() }
 }
 

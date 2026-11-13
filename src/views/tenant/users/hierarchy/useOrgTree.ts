@@ -1,3 +1,4 @@
+import { refreshOnFocus } from '@/composables/refreshOnFocus'
 import { computed, ref } from 'vue'
 import { fetchUsers, type TenantUser } from '@/api/tenant/users'
 import { buildOrgTree } from './orgTree'
@@ -30,5 +31,6 @@ const tree = computed(() => buildOrgTree(items.value))
 
 export function useOrgTree() {
   if (!loading) void refresh()
+  refreshOnFocus(refresh) // someone added or changed in another tab shows up
   return { people, tree, refresh }
 }

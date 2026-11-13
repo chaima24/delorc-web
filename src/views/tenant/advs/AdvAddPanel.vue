@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import { ADV_TYPES, createAdv, fetchAdvStorage, type Adv, type AdvOrientation, type AdvType } from '@/api/tenant/advs'
@@ -24,11 +24,9 @@ const { t, n } = useI18n()
 const toast = useToast()
 const text = useAdvText()
 const { brands, teams, specialities, refresh } = useAdvLookups()
-// The lists are asked again when the panel opens and when the person comes back to this tab: a brand they just
+// The lists are asked again when the panel opens (and, by useAdvLookups, on coming back to this tab): a brand just
 // added elsewhere is then in the select.
 refresh()
-window.addEventListener('focus', refresh)
-onBeforeUnmount(() => window.removeEventListener('focus', refresh))
 
 const form = reactive({
   name: '',

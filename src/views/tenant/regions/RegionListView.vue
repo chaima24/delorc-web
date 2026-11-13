@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { type Country, type Region, type Wilaya, createRegion, deleteRegion, fetchCountries, fetchRegions, fetchWilayas, updateRegion } from '@/api/tenant/geography'
 import DlButton from '@/components/DlButton.vue'
@@ -13,6 +13,7 @@ import RecordChildren from '@/views/tenant/settings/shared/RecordChildren.vue'
 import StudioListPage from '@/views/tenant/settings/shared/StudioListPage.vue'
 import { geographySection } from '@/views/tenant/settings/shared/studioSections'
 import { STUDIO_DEFAULT_SORT, useStudioList, useRecordPanel, useStudioCounts, useAddedColumn } from '@/views/tenant/settings/shared/useStudioList'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 const { t, n } = useI18n()
 const auth = useAuthStore()
@@ -33,7 +34,7 @@ list.reload()
 
 // A lab has one country: every region is in it, so there is no country to choose or filter on.
 const countries = ref<Country[]>([])
-onMounted(async () => {
+onMountedAndFocus(async () => {
   countries.value = await fetchCountries()
 })
 const countryName = computed(() => countries.value[0]?.name ?? '—')

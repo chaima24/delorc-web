@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import {
@@ -26,6 +26,7 @@ import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { today } from '@/views/tenant/users/userDisplay'
 import { durationKey, KIND_TONE, kindOfType, useActivityText } from './activityDisplay'
 import ActivityTargetsField from './ActivityTargetsField.vue'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 // Add or edit an activity: for whom, type (only those allowed for that person's role), title,
 // date and duration, what it is linked to, note. Someone of a field role adds only for themselves
@@ -41,7 +42,7 @@ const users = useUsers()
 users.ensureLoaded()
 const types = ref<ActivityType[]>([])
 const roles = ref<Role[]>([])
-onMounted(async () => {
+onMountedAndFocus(async () => {
   const [typePage, roleRows] = await Promise.all([fetchActivityTypes({ per_page: 100, sort: 'activity', include: 'roles' }), rolesApi.list()])
   types.value = typePage.items
   roles.value = roleRows

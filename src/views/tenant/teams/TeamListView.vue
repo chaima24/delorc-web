@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchAllBrands } from '@/api/tenant/brands'
 import { fetchSpecialities } from '@/api/tenant/customerSetup'
@@ -19,6 +19,7 @@ import { STUDIO_DEFAULT_SORT, useAddedColumn, useStudioList } from '@/views/tena
 import { today } from '@/views/tenant/users/userDisplay'
 import TeamCreatePanel from './TeamCreatePanel.vue'
 import TeamPanel from './TeamPanel.vue'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 
 // Studio › Teams: list, a side panel to read and edit a team, "Add a team" in 2 steps.
 // Mockup: docs/design/studio-mockups/Teams.html
@@ -27,7 +28,7 @@ const auth = useAuthStore()
 const toast = useToast()
 const specialities = ref<{ id: number; name: string }[]>([])
 const brands = ref<{ id: number; name: string }[]>([])
-onMounted(async () => {
+onMountedAndFocus(async () => {
   const [specialityPage, brandRows] = await Promise.all([fetchSpecialities({ per_page: 100, sort: 'name' }), fetchAllBrands()])
   specialities.value = specialityPage.items
   brands.value = brandRows

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchUsers, type TenantUser } from '@/api/tenant/users'
 import DlAvatar from '@/components/DlAvatar.vue'
@@ -20,13 +21,15 @@ const { t } = useI18n()
 // Everyone not deactivated, 100 at a time.
 const users = ref<TenantUser[]>([])
 const loading = ref(true)
-onMounted(async () => {
+onMountedAndFocus(async () => {
   try {
+    const rows: typeof users.value = []
     for (let page = 1; ; page++) {
       const result = await fetchUsers({ page, per_page: 100, sort: 'first_name', 'filter[account]': 'current' })
-      users.value.push(...result.items)
-      if (!result.items.length || users.value.length >= result.total) break
+      rows.push(...result.items)
+      if (!result.items.length || rows.length >= result.total) break
     }
+    users.value = rows
   }
   finally {
     loading.value = false
