@@ -48,6 +48,10 @@ export interface Visit {
   /** Planned and its day has passed. */
   late: boolean
   off_list: boolean
+  /** Planned after the planning rule's deadline (docs/api/visit-planning.md). */
+  after_deadline: boolean
+  /** The late-entry delay, on the page: locked for the viewer, when it locks, until when the day is reopened. */
+  lock?: { locked: boolean; deadline: string | null; open_until: string | null }
   visit_date: string
   visit_time: string | null
   user: { id: number; full_name: string; role: string | null; team: string | null } | null
@@ -77,8 +81,11 @@ export interface VisitPayload {
   visitable_id?: number
   visit_date?: string
   visit_time?: string | null
+  /** Left out when planning: the lab's default canal. */
   canal_id?: number
   status?: 'planned' | 'done'
+  /** Sent again after the person confirmed a weekend day. */
+  confirm_weekend?: boolean
   objective?: string | null
   next_objective?: string | null
   comment?: string | null

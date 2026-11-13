@@ -1,0 +1,154 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Planning des visites</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.side { width: 300px; flex-shrink: 0; background: var(--paper); border-radius: 24px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.pro { border: 1px solid var(--line); border-radius: 12px; padding: 7px 10px; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: grab; background: var(--paper); }
+.pro small { display: block; color: var(--muted); font-size: 11.5px; } .pro .left { margin-inline-start: auto; font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+.pro.done { opacity: .5; } .pro.drag { border: 2px solid var(--ink); box-shadow: 0 14px 30px -12px rgba(15,31,28,.45); transform: rotate(-2deg); width: 250px; position: absolute; z-index: 5; }
+.seg-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+.cal { background: var(--paper); border-radius: 24px; padding: 14px; }
+.grid7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.dow { font-size: 12px; color: var(--muted); font-weight: 600; padding: 2px 6px; }
+.day { min-height: 92px; border: 1px solid var(--line-soft); border-radius: 12px; padding: 6px; display: flex; flex-direction: column; gap: 3px; font-size: 11.5px; position: relative; }
+.day b { font-size: 12.5px; } .day.we { background: var(--mist); } .day.out { opacity: .35; } .day.today { border: 2px solid var(--ink); }
+.day.off { background: rgba(47,84,235,.07); } .day.hol { background: rgba(180,83,9,.07); } .day.drop { border: 2px dashed var(--ink); background: var(--signal-soft); }
+.ev { border-radius: 7px; padding: 2px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+.ev.plan { background: rgba(47,84,235,.1); color: var(--cobalt); } .ev.done { background: #E2F4E8; color: #0F7A3D; } .ev.late { background: rgba(180,83,9,.12); color: var(--amber); }
+.ev.note { background: transparent; color: var(--muted); font-weight: 400; padding: 0 2px; } .ev.after { border: 1px dashed var(--cobalt); }
+.more { color: var(--muted); padding: 0 2px; }
+.wk { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; } .wk .day { min-height: 380px; font-size: 12px; } .wk .ev { white-space: normal; padding: 5px 7px; } .wk .ev small { display: block; font-weight: 400; opacity: .8; }
+.hours { display: grid; grid-template-columns: 56px 1fr; font-size: 12px; } .hours .h { color: var(--muted); padding: 6px 4px; border-top: 1px solid var(--line-soft); height: 44px; } .hours .slot { border-top: 1px solid var(--line-soft); height: 44px; padding: 3px; display: flex; gap: 6px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); } .why.warn { background: rgba(180, 83, 9, .08); color: var(--amber); }
+.dialog { width: 400px; background: var(--paper); border-radius: 20px; box-shadow: 0 30px 80px -30px rgba(15, 31, 28, .5); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; }
+.dialog h3 { margin: 0; font-size: 16px; } .dialog .acts { display: flex; gap: 8px; justify-content: flex-end; }
+.toast { position: absolute; bottom: 22px; inset-inline-end: 28px; background: var(--ink); color: var(--mist); border-radius: 14px; padding: 10px 14px; font-size: 13px; }
+.sec { background: var(--paper); border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+</style></head><body>
+<p class="caption"><strong>Visites › partie 10b-1, le planning — proposition.</strong> Un calendrier pour planifier les visites d'un cycle : la liste des professionnels du cycle à gauche, on en glisse un sur un jour et la visite est planifiée. Trois vues : mois, semaine, jour avec les heures.
+Cette partie apporte aussi les contrôles de planification et le délai de saisie. L'approbation du plan par le manager est la partie 10b-2. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>La liste de gauche :</b> les professionnels du cycle de la personne, pour la période affichée. La couleur est le segment ; « reste 1 sur 2 » dit ce qui reste à planifier (visites réalisées + planifiées, comparées aux visites à faire). Ceux à qui il reste des visites sont en haut ; les autres sont grisés mais restent glissables. La recherche trouve aussi un professionnel hors de la liste (marqué « Hors cycle »).</li>
+  <li><b>Glisser sur un jour = une visite planifiée</b>, sans heure, avec le canal par défaut du laboratoire (réglage, cadre 7). Un clic sur la visite ouvre le petit panneau pour ajouter l'heure, l'objectif, ou ouvrir sa page.</li>
+  <li><b>Déplacer :</b> une visite planifiée se glisse sur un autre jour (mêmes contrôles). Une visite réalisée ou annulée ne bouge pas.</li>
+  <li><b>Contrôles à la planification</b> (calendrier et page d'ajout) : jour férié → refusé · jour pris par une activité d'une journée entière (congé, formation) → refusé · week-end → demande de confirmation · nombre maximum de médecins par jour → refusé au-delà (réglage du laboratoire, pharmacies non comptées, vide = pas de limite) · déjà une visite ce jour-là chez ce professionnel → refusé (règle de 10a).</li>
+  <li><b>Règle de planification</b> (Studio › Règles, « de J−7 à J−2 avant le début du cycle ») : elle s'applique toujours. Après le délai, un réglage du laboratoire dit si l'on peut encore planifier ; si oui, la visite est marquée <b>« ajoutée après le délai »</b> (bord en pointillé). Une personne sans règle planifie librement. Saisir une visite déjà réalisée n'est jamais concerné.</li>
+  <li><b>Délai de saisie</b> (la règle de validation de la personne, N heures après le jour de la visite) : une fois dépassé, plus rien n'est possible sur la visite (ni compte rendu, ni correction, ni déplacement). <b>Son manager peut rouvrir un jour passé</b>, avec une note ; la personne peut alors saisir ses visites de ce jour jusqu'à la fin de la journée d'ouverture. Les administrateurs ne sont jamais bloqués.</li>
+  <li><b>Qui :</b> chacun voit son calendrier ; un manager choisit une personne sous lui dans « Personne » et planifie pour elle (comme en 10a).</li>
+  <li><b>Affichés aussi :</b> les jours fériés, les activités (congé, formation, réunion) et les week-ends, pour ne pas planifier dessus.</li>
+  <li><b>À confirmer — le canal par défaut</b> pour une visite glissée (sinon il faudrait une fenêtre à chaque glissement).</li>
+  <li><b>À confirmer — vue Jour :</b> une visite sans heure est dans la ligne « Sans heure » ; la glisser sur une heure lui donne cette heure.</li>
+  <li><b>Droits :</b> ceux des visites (<code>visits.create</code> / <code>visits.update</code>) ; rouvrir un jour = être manager de la personne ; les réglages = <code>calendar.update</code>.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const shell = (rail, inner, avatar = 'KB', extra = '') => `<div class='frame' style='min-height:780px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${avatar}</span></div>
+  <div style='display:flex;flex:1;gap:16px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+const SEG = { A: '#3DBE6A', B: '#2F54EB', C: '#9AA9A4' }
+// name, speciality · commune, segment, left, to do
+const pros = [
+  ['Dr Nora Saidi', 'Cardiologie · El Biar', 'A', 1, 2], ['Dr Yacine Belkacem', 'Cardiologie · Bab Ezzouar', 'A', 2, 2], ['Dr Farid Bouzid', 'Cardiologie · Birkhadem', 'B', 1, 1],
+  ['Pharmacie Ibn Sina', 'Pharmacie · Hydra', 'B', 1, 1], ['Dr Amel Cherif', 'Neurologie · Hussein Dey', 'C', 1, 1], ['Dr Samir Haddad', 'Cardiologie · Alger-Centre', 'A', 0, 2], ['Pharmacie El Amel', 'Pharmacie · Kouba', 'C', 0, 1],
+]
+const pro = (p, cls = '') => `<div class='pro ${p[3] ? '' : 'done'} ${cls}'><i class='seg-dot' style='background:${SEG[p[2]]}'></i><span>${p[0]}<small>${p[1]}</small></span><span class='left' style='color:${p[3] ? 'var(--ink)' : 'var(--muted)'}'>${p[3] ? `reste ${p[3]} sur ${p[4]}` : 'planifié'}</span></div>`
+const sideList = (extra = '') => `<aside class='side'>
+  <strong style='font-size:14px'>Professionnels du cycle</strong>
+  <div class='input muted' style='height:38px;font-size:13px'>⌕ Nom, spécialité, commune</div>
+  <div style='display:flex;gap:6px;flex-wrap:wrap'><span class='chip ok'>Reste à planifier 18</span><span class='chip'>Tous 120</span><span class='chip'>Segment ▾</span></div>
+  ${pros.map(p => pro(p)).join('')}
+  <span class='hint'>+ 113 autres · glissez un professionnel sur un jour</span>${extra}
+</aside>`
+const head = (view, period, person = 'Karim Benali', manager = false) => `<nav class='ws-nav'><a>Visites</a><a class='on'>Planning</a></nav>
+  <div style='display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap'>
+    <div><div class='crumbs'>Visites</div><h1 class='title display' style='font-size:34px'>Planning</h1><div class='hint' style='margin-top:4px'>Cycle de novembre 2026 · 96 visites planifiées ou réalisées sur 240 à faire</div></div>
+    <div style='display:flex;gap:10px;align-items:center'>${manager ? `<span class='input' style='height:40px;font-size:13px'>Personne <b>${person}</b> ▾</span>` : ''}<span class='input' style='height:40px;font-size:13px'>‹ <b>${period}</b> ›</span><span class='seg'>${['Mois', 'Semaine', 'Jour'].map(v => `<span class='${v === view ? 'on' : ''}'>${v}</span>`).join('')}</span></div>
+  </div>`
+// November 2026 starts on a Sunday. Weekend = Friday + Saturday.
+const DOW = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.']
+const evs = {
+  1: [['done', 'Dr Haddad'], ['done', 'Ph. El Amel'], ['more', '+ 9']], 2: [['done', 'Dr Cherif'], ['more', '+ 11']], 3: [['done', 'Dr Bouzid'], ['more', '+ 12']], 4: [['done', 'Dr Saidi'], ['more', '+ 8']],
+  8: [['done', 'Dr Mansouri'], ['more', '+ 11']], 9: [['done', 'Ph. Ibn Sina'], ['more', '+ 9']], 10: [['done', 'Dr Haddad'], ['more', '+ 10']], 11: [['late', 'Dr Belkacem'], ['done', 'Dr Cherif'], ['more', '+ 7']], 12: [['done', 'Dr Haddad'], ['done', 'Dr Mansouri'], ['more', '+ 8']],
+  15: [['plan', '09:30 Dr Saidi'], ['plan', 'Ph. Ibn Sina'], ['more', '+ 6']], 16: [['plan', 'Dr Belkacem'], ['plan after', 'Dr Bouzid'], ['more', '+ 4']], 17: [['plan', 'Dr Cherif'], ['more', '+ 5']], 18: [['note', 'Formation · journée']], 19: [['plan', 'Dr Haddad'], ['more', '+ 3']],
+  22: [['plan', 'Dr Belkacem'], ['more', '+ 2']], 23: [['plan', 'Dr Saidi']], 24: [], 25: [], 26: [], 29: [], 30: [],
+}
+const month = (drop = 0) => `<div class='cal'><div class='grid7' style='margin-bottom:6px'>${DOW.map(d => `<span class='dow'>${d}</span>`).join('')}</div><div class='grid7'>
+  ${Array.from({ length: 35 }, (_, i) => {
+    const d = i + 1, out = d > 30, we = i % 7 >= 5, hol = d === 1 && false, off = d === 18
+    const cls = [out && 'out', we && 'we', d === 13 && 'today', off && 'off', d === drop && 'drop'].filter(Boolean).join(' ')
+    const list = (evs[d] ?? []).map(e => e[0] === 'more' ? `<span class='more'>${e[1]}</span>` : `<span class='ev ${e[0]}'>${e[1]}</span>`).join('')
+    return `<div class='day ${cls}'><b>${out ? d - 30 : d}</b>${we && !out ? `<span class='ev note'>Week-end</span>` : ''}${out ? '' : list}${d === drop ? `<span class='ev note' style='color:var(--ink)'>Déposer ici</span>` : ''}</div>`
+  }).join('')}</div>
+  <div style='display:flex;gap:14px;margin-top:10px;font-size:12px;color:var(--muted);flex-wrap:wrap'><span><span class='ev plan'>Planifiée</span></span><span><span class='ev done'>Réalisée</span></span><span><span class='ev late'>En retard</span></span><span><span class='ev plan after'>Ajoutée après le délai</span></span><span>■ bleu clair : activité d'une journée</span><span>■ gris : week-end</span></div></div>`
+
+const week = `<div class='cal'><div class='wk'>
+  ${[['Dim. 15', [['plan', '09:30', 'Dr Nora Saidi', 'Cardiologie · El Biar'], ['plan', '', 'Pharmacie Ibn Sina', 'Hydra'], ['plan', '', 'Dr Rachid Ould', 'Cardiologie · Hydra']]], ['Lun. 16', [['plan', '', 'Dr Yacine Belkacem', 'Bab Ezzouar'], ['plan after', '', 'Dr Farid Bouzid', 'ajoutée après le délai']]], ['Mar. 17', [['plan', '10:00', 'Dr Amel Cherif', 'Hussein Dey']]], ['Mer. 18', 'off'], ['Jeu. 19', [['plan', '', 'Dr Samir Haddad', 'Alger-Centre']]], ['Ven. 20', 'we'], ['Sam. 21', 'we']]
+    .map(([d, list], i) => `<div class='day ${list === 'we' ? 'we' : list === 'off' ? 'off' : ''} ${i === 2 ? 'drop' : ''}'><b>${d}</b>${list === 'we' ? `<span class='ev note'>Week-end</span>` : list === 'off' ? `<span class='ev note'>Formation · journée entière</span><span class='ev note'>Pas de planification</span>` : list.map(e => `<span class='ev ${e[0]}'>${e[1] ? e[1] + ' · ' : ''}${e[2]}<small>${e[3]}</small></span>`).join('')}${i === 2 ? `<span class='ev plan' style='opacity:.6;border:2px solid var(--ink)'>Dr Yacine Belkacem<small>déplacée depuis lundi</small></span>` : ''}</div>`).join('')}
+  </div></div>`
+
+const dayView = `<div class='cal'>
+  <div style='display:flex;gap:8px;align-items:center;padding:4px 4px 10px;border-bottom:1px solid var(--line);flex-wrap:wrap'><strong style='font-size:13px;width:86px'>Sans heure</strong><span class='ev plan' style='padding:6px 10px'>Pharmacie Ibn Sina</span><span class='ev plan' style='padding:6px 10px'>Dr Rachid Ould</span><span class='hint'>glissez une visite sur une heure pour la lui donner</span></div>
+  <div class='hours'>${['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'].map(h => `<span class='h'>${h}</span><span class='slot'>${h === '09:00' ? `<span class='ev plan' style='padding:8px 12px;align-self:flex-end'>09:30 · Dr Nora Saidi · Cardiologie · El Biar</span>` : h === '14:00' ? `<span class='ev plan' style='padding:8px 12px;border:2px dashed var(--ink);background:var(--signal-soft);color:var(--ink)'>Déposer ici → 14:00</span>` : ''}</span>`).join('')}</div></div>`
+
+const dlg = (title, body, acts, tone = '') => `<div class='dialog'><h3>${title}</h3><div class='why ${tone}'>${body}</div><div class='acts'>${acts}</div></div>`
+const refusals = `<div style='position:absolute;inset:0;background:rgba(15,31,28,.45);display:grid;grid-template-columns:repeat(3,400px);gap:18px;align-content:center;justify-content:center'>
+  ${dlg('Jour férié', '<strong>Dimanche 1ᵉʳ novembre est férié (Fête de la Révolution).</strong> Une visite ne peut pas y être planifiée.', `<span class='btn dark sm'>Compris</span>`, 'bad')}
+  ${dlg('Journée prise', '<strong>Mercredi 18 novembre : Formation, journée entière.</strong> Pas de visite planifiée ce jour-là.', `<span class='btn dark sm'>Compris</span>`, 'bad')}
+  ${dlg('Ce jour est un week-end', 'Vendredi 20 novembre est un jour de week-end. Planifier quand même la visite chez le Dr Saidi ?', `<span class='btn outline sm'>Non</span><span class='btn dark sm'>Oui, planifier</span>`, 'warn')}
+  ${dlg('Maximum atteint', '<strong>12 médecins sont déjà planifiés le dimanche 15 novembre</strong> (la limite du laboratoire). Choisissez un autre jour. Les pharmacies ne comptent pas.', `<span class='btn dark sm'>Compris</span>`, 'bad')}
+  ${dlg('Après le délai de planification', 'Le plan de novembre se préparait du 25 au 30 octobre. La visite est acceptée et marquée <strong>« ajoutée après le délai »</strong>.', `<span class='btn outline sm'>Annuler</span><span class='btn dark sm'>Planifier</span>`, 'warn')}
+  ${dlg('Planification fermée', '<strong>Le plan de novembre est fermé depuis le 30 octobre.</strong> Vous pouvez réaliser les visites planifiées, ou saisir une visite après l\'avoir faite.<br><span class="hint">Quand le laboratoire ne permet pas de planifier après le délai.</span>', `<span class='btn dark sm'>Compris</span>`, 'bad')}
+</div>`
+
+const lateSide = `<div style='display:flex;flex-direction:column;gap:14px;width:420px;flex-shrink:0'>
+  <div class='sec'><strong>Rouvrir un jour</strong><span class='hint'>Vue par Nadia (superviseure) sur la page de la visite de Karim</span>
+    <label class='field'><span>Personne</span><div class='input'>Karim Benali</div></label>
+    <div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'><label class='field'><span>Du</span><div class='input'>Dim. 8 nov. 2026</div></label><label class='field'><span>Au</span><div class='input'>Dim. 8 nov. 2026</div></label></div>
+    <label class='field'><span>Note</span><div class='input' style='height:56px;align-items:flex-start;padding-top:8px'>Panne de téléphone, saisie en retard acceptée.</div></label>
+    <div class='why'>Karim pourra saisir et corriger ses visites du 8 novembre <strong style='color:var(--ink)'>jusqu'à ce soir minuit</strong>. Ensuite le jour se referme.</div>
+    <span class='btn primary' style='justify-content:center'>Rouvrir ce jour</span></div>
+</div>`
+const lateMain = `<div class='col'>
+  <div class='crumbs'>Visites › Dr Yacine Belkacem · 8 nov. 2026</div>
+  <h1 class='title display' style='font-size:30px'>Dr Yacine Belkacem</h1>
+  <div style='display:flex;gap:8px;align-items:center'><span class='chip warn'>● En retard</span><span class='hint'>Cardiologie · Bab Ezzouar</span></div>
+  <div class='why bad' style='font-size:13.5px'><strong>Délai de saisie dépassé.</strong> Cette visite était prévue le dimanche 8 novembre ; votre règle laisse 48 heures. Elle ne peut plus être saisie, corrigée ni déplacée. Demandez à votre manager de rouvrir ce jour.</div>
+  <div class='sec'><strong>La visite</strong><div style='display:grid;grid-template-columns:130px 1fr;gap:8px 10px'><span class='label'>Jour prévu</span><span>Dimanche 8 nov. 2026</span><span class='label'>Personne</span><span>Karim Benali · VM · Cardio Alger</span><span class='label'>Délai de saisie</span><span>48 heures · dépassé depuis le mar. 10 nov. à minuit</span></div></div>
+  <div class='sec' style='opacity:.5'><strong>Compte rendu</strong><span class='hint'>« Saisir le compte rendu » et « Annuler la visite » sont grisés.</span></div>
+  <div class='sec'><strong>Vu par Karim après la réouverture</strong><div class='why'><strong style='color:var(--ink)'>Jour rouvert par Nadia Kaci jusqu'à ce soir minuit.</strong> « Panne de téléphone, saisie en retard acceptée. »</div></div>
+</div>`
+
+const settings = `<div class='col' style='max-width:760px'>
+  <div class='crumbs'>Studio › Configuration terrain</div><h1 class='title display' style='font-size:34px'>Planning des visites</h1><div class='hint'>Les réglages du laboratoire pour planifier</div>
+  <div class='sec'><strong>Maximum de médecins par jour</strong><span class='hint'>Une personne ne peut pas planifier plus de médecins différents le même jour. Les pharmacies et les grossistes ne comptent pas. Vide : pas de limite.</span><div class='input' style='width:140px'>12</div></div>
+  <div class='sec'><strong>Planifier après le délai</strong><span class='hint'>Quand la règle de planification d'une personne est dépassée (le plan du cycle se prépare de J−7 à J−2), peut-elle encore planifier ?</span>
+    <div class='seg' style='align-self:flex-start'><span class='on'>Oui, la visite est marquée</span><span>Non, le plan est fermé</span></div></div>
+  <div class='sec'><strong>Ajouter une visite après le délai de saisie</strong><span class='hint'>Quand le délai de saisie d'un jour est dépassé, peut-on encore ajouter une visite faite ce jour-là ? Une visite déjà enregistrée reste bloquée dans les deux cas.</span>
+    <div class='seg' style='align-self:flex-start'><span>Oui</span><span class='on'>Non, le manager doit rouvrir le jour</span></div></div>
+  <div class='sec'><strong>Canal par défaut</strong><span class='hint'>Le canal donné à une visite glissée dans le calendrier. Il se change ensuite sur la visite.</span><div class='input' style='width:260px'>Face à face ▾</div></div>
+  <div class='hint'>Le délai de saisie et la règle de planification se règlent par personne dans Studio › Règles (déjà en place).</div>
+  <span class='btn dark' style='align-self:flex-start'>Enregistrer</span>
+</div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Visites › Planning, vue Mois.</strong> La liste du cycle à gauche, le mois à droite. Chaque jour montre ses premières visites et « + 9 ». Le mercredi 18 est pris par une formation ; les vendredis et samedis sont le week-end du laboratoire.`) + shell('Visites', sideList() + `<div class='col'>${head('Mois', 'Novembre 2026')}${month()}</div>`),
+  label(2, `<strong>On glisse le Dr Belkacem sur le mardi 24.</strong> Le jour s'allume ; au lâcher, la visite est planifiée (sans heure, canal par défaut) et la liste passe à « reste 1 sur 2 ». Nadia (superviseure) planifie ici pour Karim avec « Personne ».`) + shell('Visites', sideList(`<div class='pro drag' style='top:330px;left:330px'><i class='seg-dot' style='background:${SEG.A}'></i><span>Dr Yacine Belkacem<small>Cardiologie · Bab Ezzouar</small></span></div>`) + `<div class='col'>${head('Mois', 'Novembre 2026', 'Karim Benali', true)}${month(24)}</div>`, 'NK', `<div class='toast'>✓ Visite planifiée le mardi 24 nov. · <u>Ouvrir</u></div>`),
+  label(3, `<strong>Les contrôles.</strong> Selon le jour choisi, la visite est refusée (rouge) ou demande une confirmation (orange). Les deux derniers dépendent du réglage « Planifier après le délai » du laboratoire.`) + shell('Visites', sideList() + `<div class='col'>${head('Mois', 'Novembre 2026')}${month()}</div>`, 'KB', refusals),
+  label(4, `<strong>Vue Semaine.</strong> Une colonne par jour avec toutes les visites. On déplace une visite planifiée en la glissant sur un autre jour (ici du lundi au mardi). La visite au bord pointillé a été ajoutée après le délai.`) + shell('Visites', sideList() + `<div class='col'>${head('Semaine', '15 – 21 nov. 2026')}${week}</div>`),
+  label(5, `<strong>Vue Jour, avec les heures.</strong> Les visites sans heure sont en haut ; en glisser une sur la grille lui donne l'heure.`) + shell('Visites', sideList() + `<div class='col'>${head('Jour', 'Dim. 15 nov. 2026')}${dayView}</div>`),
+  label(6, `<strong>Le délai de saisie.</strong> À gauche, Karim ouvre une visite dont le délai est dépassé : tout est bloqué, avec la raison. À droite, Nadia rouvre le jour pour lui, avec une note.`) + shell('Visites', lateMain + lateSide),
+  label(7, `<strong>Studio › Configuration terrain › Planning des visites.</strong> Les quatre réglages du laboratoire.`) + shell('Studio', settings, 'SH'),
+].join('')
+</script></body></html>

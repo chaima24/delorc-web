@@ -2,7 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { errorMessage, fieldErrors } from '@/api/errors'
+import { fieldErrors } from '@/api/errors'
 import { createVisit, fetchVisit, fetchVisitContext, fetchVisitPeople, updateVisit, type Visit, type VisitContext, type VisitOfferedAdv, type VisitPerson, type VisitTargetType } from '@/api/tenant/visits'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
@@ -19,6 +19,7 @@ import { todayIso, useVisitText } from './visitDisplay'
 import VisitReportFields from './VisitReportFields.vue'
 import VisitTargetSearch, { type FoundTarget } from './VisitTargetSearch.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
+import { usePlanningSave } from './visitPlanning'
 
 // "Ajouter une visite": one page, one save. The visit on top (who, which day, canal, planned or done), then the
 // report blocks when it is done; the summary stays at the side. With an id it is "Saisir le compte rendu" of a
@@ -30,6 +31,7 @@ const auth = useAuthStore()
 const toast = useToast()
 const text = useVisitText()
 const { brands, canals, coaches } = useVisitLookups()
+const planning = usePlanningSave()
 
 const reporting = computed(() => !!props.id)
 const loading = ref(reporting.value)
@@ -113,7 +115,8 @@ watch(() => form.type, () => { if (!existing.value) form.target = null })
 async function save() {
   errors.value = {}
   if (!form.target) errors.value.visitable_id = t('visits.form.pickTarget')
-  if (!form.canal_id) errors.value.canal_id = t('visits.form.pickCanal')
+  // A planned visit may leave the canal empty: the lab's default is given (docs/api/visit-planning.md).
+  if (!form.canal_id && done.value) errors.value.canal_id = t('visits.form.pickCanal')
   if (done.value && !report.value.brands.length) errors.value.brands = t('visits.form.pickBrand')
   if (Object.keys(errors.value).length || !form.target) return
 
@@ -124,18 +127,16 @@ async function save() {
     ...(done.value ? { next_objective: form.next_objective.trim() || null, comment: form.comment.trim() || null, ...reportPayload(report.value) } : {}),
   }
   saving.value = true
-  try {
-    const visit = existing.value ? await updateVisit(existing.value.id, payload) : await createVisit(payload)
-    toast.success(t(done.value ? 'visits.toast.saved' : 'visits.toast.planned'))
-    router.push({ name: 'tenant-visit-detail', params: { id: visit.id } })
-  }
-  catch (error) {
+  const id = existing.value?.id
+  // Planning answers are handled the same way everywhere: a weekend asks to confirm, a refusal shows on the day.
+  const visit = await planning.save(body => (id ? updateVisit(id, body) : createVisit(body)), payload, (error) => {
     errors.value = fieldErrors(error)
-    if (!Object.keys(errors.value).length) toast.error(errorMessage(error) ?? t('studio.list.toast.failed'))
-  }
-  finally {
-    saving.value = false
-  }
+    return Object.keys(errors.value).length > 0
+  })
+  saving.value = false
+  if (!visit) return
+  toast.success(t(done.value ? 'visits.toast.saved' : 'visits.toast.planned'))
+  router.push({ name: 'tenant-visit-detail', params: { id: visit.id } })
 }
 const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', params: { id: existing.value.id } } : { name: 'tenant-visits' }))
 </script>

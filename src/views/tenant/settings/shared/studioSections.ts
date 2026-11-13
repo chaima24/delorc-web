@@ -47,6 +47,7 @@ export const fieldSection: StudioSection = {
     { route: 'tenant-event-types', resource: 'event-types', icon: 'tabler-calendar-event', label: 'fieldSetup.title.eventTypes', count: 'event_types' },
     { route: 'tenant-canals', resource: 'canals', icon: 'tabler-broadcast', label: 'fieldSetup.title.canals', count: 'canals' },
     { route: 'tenant-cancel-reasons', resource: 'cancel-reasons', icon: 'tabler-calendar-x', label: 'fieldSetup.title.cancelReasons', count: 'cancel_reasons' },
+    { route: 'tenant-visit-settings', resource: 'calendar', icon: 'tabler-calendar-week', label: 'visits.settings.title' },
     { route: 'tenant-materiels', resource: 'materiels', icon: 'tabler-gift', label: 'fieldSetup.title.materiels', count: 'materiels' },
     { route: 'tenant-expense-types', resource: 'expense-types', icon: 'tabler-receipt', label: 'fieldSetup.title.expenseTypes', count: 'expense_types', feature: 'module.expenses' },
     { route: 'tenant-expense-settings', resource: 'expense-settings', icon: 'tabler-receipt-2', label: 'fieldSetup.title.expenseSettings', count: 'expense_settings', feature: 'module.expenses' },

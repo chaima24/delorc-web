@@ -64,12 +64,13 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
-    // Visites (docs/api/visits.md); the planning calendar joins in 10b.
+    // Visites (docs/api/visits.md) and their planning calendar (docs/api/visit-planning.md).
     id: 'visits',
     title: 'nav.workspaces.visits',
     icon: 'tabler-map-pin-check',
     links: [
       { title: 'nav.visits.visits', to: { name: 'tenant-visits' }, icon: 'tabler-map-pin-check', resource: 'visits', matches: ['tenant-visit-new', 'tenant-visit-detail', 'tenant-visit-report'] },
+      { title: 'nav.visits.planning', to: { name: 'tenant-visit-planning' }, icon: 'tabler-calendar-week', resource: 'visits' },
     ],
   },
   {

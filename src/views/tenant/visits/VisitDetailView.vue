@@ -18,6 +18,8 @@ import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import VisitCancelSheet from './VisitCancelSheet.vue'
+import { usePlanningSave } from './visitPlanning'
+import VisitReopenSheet from './VisitReopenSheet.vue'
 import { useVisitText } from './visitDisplay'
 import VisitReportFields from './VisitReportFields.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
@@ -49,7 +51,13 @@ async function load() {
 }
 
 const isDone = computed(() => visit.value?.status === 'done')
-const canEdit = computed(() => auth.can('visits.update') && visit.value?.status !== 'cancelled')
+// The late-entry delay (docs/api/visit-planning.md): once passed, nothing can be done on the visit.
+const locked = computed(() => !!visit.value?.lock?.locked)
+const canEdit = computed(() => auth.can('visits.update') && visit.value?.status !== 'cancelled' && !locked.value)
+// A day is reopened for someone else, by a person who can change their visits (the API checks the hierarchy).
+const canReopen = computed(() => locked.value && auth.can('visits.update') && visit.value?.user?.id !== auth.user?.id)
+const reopening = ref(false)
+const planning = usePlanningSave()
 const stock = computed(() => !!visit.value && givesStock(visit.value.target.type, visit.value.target.kind))
 const targetLink = computed(() => (visit.value?.target.type === 'hcp' && auth.can('hcps.show') ? { name: 'tenant-hcp-detail', params: { id: visit.value.target.id } } : null))
 
@@ -88,18 +96,17 @@ async function save() {
       ? { objective: form.objective.trim() || null, next_objective: form.next_objective.trim() || null, comment: form.comment.trim() || null }
       : reportPayload(report.value, [editing.value])
   busy.value = true
-  try {
-    visit.value = await updateVisit(visit.value.id, payload)
-    toast.success(t('studio.list.toast.saved'))
-    editing.value = null
-  }
-  catch (error) {
+  const id = visit.value.id
+  // A planned visit moved to another day goes through the planning checks (a weekend asks to confirm).
+  const saved = await planning.save(body => updateVisit(id, body), payload, (error) => {
     errors.value = fieldErrors(error)
-    if (!Object.keys(errors.value).length) toast.error(errorMessage(error) ?? t('studio.list.toast.failed'))
-  }
-  finally {
-    busy.value = false
-  }
+    return Object.keys(errors.value).length > 0
+  })
+  busy.value = false
+  if (!saved) return
+  visit.value = saved
+  toast.success(t('studio.list.toast.saved'))
+  editing.value = null
 }
 const canalModel = computed({ get: () => form.canal_id, set: value => { form.canal_id = value == null ? null : Number(value) } })
 const section = (part: Part) => ({ editing: editing.value === part, canEdit: canEdit.value && editing.value === null, saving: busy.value })
@@ -146,6 +153,7 @@ watch(() => props.id, load, { immediate: true })
           <p class="flex flex-wrap items-center gap-2 text-[13px] text-dl-muted">
             <DlBadge size="sm" :tone="text.tone(visit)" dot>{{ text.state(visit) }}</DlBadge>
             <DlBadge v-if="visit.off_list" size="sm" tone="warning">{{ t('visits.offList') }}</DlBadge>
+            <DlBadge v-if="visit.after_deadline" size="sm" tone="info">{{ t('visits.planning.afterDeadline') }}</DlBadge>
             {{ text.where(visit.target) }}
             <RouterLink v-if="targetLink" :to="targetLink" class="text-dl-cobalt no-underline hover:underline">{{ t('visits.page.seeRecord') }}</RouterLink>
           </p>
@@ -155,11 +163,16 @@ watch(() => props.id, load, { immediate: true })
             <DlButton variant="outline" @click="cancelling = true">{{ t('visits.cancel.title') }}</DlButton>
             <DlButton variant="primary" icon="tabler-clipboard-check" :to="{ name: 'tenant-visit-report', params: { id: visit.id } }">{{ t('visits.report.title') }}</DlButton>
           </template>
+          <DlButton v-if="canReopen" variant="primary" icon="tabler-lock-open" @click="reopening = true">{{ t('visits.reopen.title') }}</DlButton>
           <DlMenu v-if="menuItems.length" :label="t('visits.page.menu')" :items="menuItems" />
         </div>
       </div>
 
-      <p v-if="visit.late" class="rounded-2xl bg-dl-pending/8 px-4 py-3 text-[13.5px] text-dl-pending">
+      <p v-if="locked" class="rounded-2xl bg-dl-rejected/8 px-4 py-3 text-[13.5px] text-dl-rejected">
+        <strong>{{ t('visits.lock.title') }}</strong> {{ t(canReopen ? 'visits.lock.manager' : 'visits.lock.text') }}
+      </p>
+      <p v-else-if="visit.lock?.open_until" class="rounded-2xl bg-dl-signal-soft px-4 py-3 text-[13.5px]">{{ t('visits.lock.reopened') }}</p>
+      <p v-else-if="visit.late" class="rounded-2xl bg-dl-pending/8 px-4 py-3 text-[13.5px] text-dl-pending">
         <strong>{{ t('visits.late.title', { day: text.dayLong(visit.visit_date) }) }}</strong> {{ t('visits.late.hint') }}
       </p>
       <p v-if="visit.status === 'cancelled'" class="rounded-2xl bg-dl-mist px-4 py-3 text-[13.5px]">
@@ -287,6 +300,7 @@ watch(() => props.id, load, { immediate: true })
       </div>
 
       <VisitCancelSheet v-model:open="cancelling" :visit="visit" @cancelled="updated => (visit = updated)" />
+      <VisitReopenSheet v-model:open="reopening" :visit="visit" @opened="load" />
     </template>
   </div>
 </template>
