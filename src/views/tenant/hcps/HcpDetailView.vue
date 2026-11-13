@@ -6,7 +6,6 @@ import { errorMessage } from '@/api/errors'
 import { approveHcpRequest, deleteHcp, fetchHcp, refuseHcpRequest, type Hcp } from '@/api/tenant/hcps'
 import DlAvatar from '@/components/DlAvatar.vue'
 import DlButton from '@/components/DlButton.vue'
-import DlEmptyState from '@/components/DlEmptyState.vue'
 import DlIcon from '@/components/DlIcon.vue'
 import DlSkeleton from '@/components/DlSkeleton.vue'
 import DlTabs from '@/components/DlTabs.vue'
@@ -19,9 +18,10 @@ import { useHcpFigures } from './useHcpFigures'
 import HcpConsentsTab from './tabs/HcpConsentsTab.vue'
 import HcpCyclesTab from './tabs/HcpCyclesTab.vue'
 import HcpOverviewTab from './tabs/HcpOverviewTab.vue'
+import VisitMiniList from '@/views/tenant/visits/VisitMiniList.vue'
 
 // A professional's full page: header with the 4 figures, then tabs Overview · Visits · Cycles · Consents
-// (each list tab only with its own permission; Visits shows "Arrive avec…" until its module).
+// (each list tab only with its own permission).
 // A proposal shows its banner (Approve / Refuse for approvers). Mockup: docs/design/customers-mockups/Professionals.html (frames 6–6c)
 const props = defineProps<{ id: string }>()
 const { t, n } = useI18n()
@@ -56,8 +56,6 @@ const TABS = [
   { value: 'cycles', resource: 'cycles', count: 'cycle_targets' },
   { value: 'consents', resource: 'consents', count: 'consents' },
 ] as const
-/** Tabs whose module comes later. */
-const LATER = ['visits'] as const
 const visibleTabs = computed(() => TABS.filter(tab => !tab.resource || auth.can(`${tab.resource}.show`)))
 const tab = computed({
   get: () => (visibleTabs.value.some(item => item.value === route.query.tab) ? String(route.query.tab) : 'overview'),
@@ -208,11 +206,7 @@ async function remove() {
         <template #overview><HcpOverviewTab :hcp="hcp" @changed="load" /></template>
         <template #consents><HcpConsentsTab :hcp="hcp" @changed="load" /></template>
         <template #cycles><HcpCyclesTab :hcp="hcp" /></template>
-        <template v-for="later in LATER" :key="later" #[later]>
-          <div class="rounded-3xl bg-dl-paper p-5">
-            <DlEmptyState icon="tabler-clock" :title="t(`hcps.later.${later}.title`)" :description="t(`hcps.later.${later}.text`)" />
-          </div>
-        </template>
+        <template #visits><VisitMiniList :filter="{ 'filter[hcp_id]': hcp.id }" /></template>
       </DlTabs>
     </template>
   </div>

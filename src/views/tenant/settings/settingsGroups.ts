@@ -59,6 +59,8 @@ export const settingsGroups: SettingsGroup[] = [
       { title: 'settings.links.activityTypes.title', description: 'settings.links.activityTypes.description', to: { name: 'tenant-activity-types' }, icon: 'tabler-run', resource: 'activity-types', count: 'activity_types' },
       { title: 'settings.links.eventTypes.title', description: 'settings.links.eventTypes.description', to: { name: 'tenant-event-types' }, icon: 'tabler-calendar-event', resource: 'event-types', count: 'event_types' },
       { title: 'settings.links.canals.title', description: 'settings.links.canals.description', to: { name: 'tenant-canals' }, icon: 'tabler-broadcast', resource: 'canals', count: 'canals' },
+      { title: 'settings.links.cancelReasons.title', description: 'settings.links.cancelReasons.description', to: { name: 'tenant-cancel-reasons' }, icon: 'tabler-calendar-x', resource: 'cancel-reasons', count: 'cancel_reasons' },
+      { title: 'settings.links.visitSettings.title', description: 'settings.links.visitSettings.description', to: { name: 'tenant-visit-settings' }, icon: 'tabler-calendar-week', resource: 'calendar' },
       { title: 'settings.links.materiels.title', description: 'settings.links.materiels.description', to: { name: 'tenant-materiels' }, icon: 'tabler-gift', resource: 'materiels', count: 'materiels' },
       { title: 'settings.links.expenseTypes.title', description: 'settings.links.expenseTypes.description', to: { name: 'tenant-expense-types' }, icon: 'tabler-receipt', resource: 'expense-types', count: 'expense_types', feature: 'module.expenses' },
       { title: 'settings.links.expenseSettings.title', description: 'settings.links.expenseSettings.description', to: { name: 'tenant-expense-settings' }, icon: 'tabler-receipt-2', resource: 'expense-settings', count: 'expense_settings', feature: 'module.expenses' },
@@ -72,6 +74,7 @@ export const settingsGroups: SettingsGroup[] = [
     links: [
       { title: 'settings.links.planningRules.title', description: 'settings.links.planningRules.description', to: { name: 'tenant-planning-rules' }, icon: 'tabler-calendar-time', resource: 'planning-rules', count: 'planning_rules' },
       { title: 'settings.links.validationRules.title', description: 'settings.links.validationRules.description', to: { name: 'tenant-validation-rules' }, icon: 'tabler-shield-check', resource: 'validation-rules', count: 'validation_rules' },
+      { title: 'settings.links.visitFields.title', description: 'settings.links.visitFields.description', to: { name: 'tenant-visit-fields' }, icon: 'tabler-forms', resource: 'validation-rules' },
       { title: 'settings.links.languages.title', description: 'settings.links.languages.description', to: { name: 'tenant-languages' }, icon: 'tabler-language', resource: 'languages', count: 'languages' },
     ],
   },

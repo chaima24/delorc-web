@@ -91,7 +91,7 @@ const segmentChoices = computed(() => [
   ...segmentItems.value.map(segment => ({ value: segment.id, label: segment.name })),
 ])
 // Until visits, only these three can happen; started, reached and over come with visits.
-const STATES: CycleProState[] = ['not_seen', 'no_segment', 'none_needed']
+const STATES: CycleProState[] = ['not_seen', 'started', 'reached', 'over', 'no_segment', 'none_needed']
 const stateOptions = computed(() => [{ value: ALL, label: t('cycles.pros.allStates') }, ...STATES.map(state => ({ value: state, label: t(`cycles.pros.state.${state}`) }))])
 
 const editable = computed(() => canUpdate('cycles'))
@@ -216,8 +216,8 @@ function stateLabel(row: CycleProfessional) {
               <span v-else class="text-[12.5px] text-dl-pending">{{ t('cycles.segment.none') }}</span>
             </td>
             <td class="px-2 py-2 text-end tabular-nums">{{ row.to_do || '—' }}</td>
-            <td class="px-2 py-2 text-end tabular-nums text-dl-muted" :title="t('cycles.laterVisits')">—</td>
-            <td class="px-2 py-2 text-end tabular-nums text-dl-muted max-md:hidden" :title="t('cycles.laterVisits')">—</td>
+            <td class="px-2 py-2 text-end tabular-nums">{{ n(row.done) }}</td>
+            <td class="px-2 py-2 text-end tabular-nums text-dl-muted max-md:hidden">{{ n(row.planned) }}</td>
             <td class="px-2 py-2"><DlBadge size="sm" :tone="PRO_STATE_TONE[row.state]">{{ stateLabel(row) }}</DlBadge></td>
           </tr>
         </tbody>

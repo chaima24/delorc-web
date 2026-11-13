@@ -1,14 +1,13 @@
 import { client } from '@/api/client'
 import type { ListParams } from '@/api/tenant/geography'
 
-/** Cycles (docs/api/cycles.md): one person's working period. The visit figures come with the visits module. */
+/** Cycles (docs/api/cycles.md): one person's working period. The visit figures are counted from the cycle's visits (docs/api/visits.md). */
 
 export type CycleState = 'upcoming' | 'running' | 'ended'
 export type CycleGoalKey = 'doctor' | 'pharmacy' | 'wholesaler' | 'orders' | 'coaching'
-/** A working day: activity, half, future, or past (with visits: field or none). */
-export type CycleDayKind = 'activity' | 'half' | 'future' | 'past'
+/** A working day: activity, half, not yet, field (a past day with a visit done) or none (a past day with nothing). */
+export type CycleDayKind = 'activity' | 'half' | 'future' | 'field' | 'none'
 export type CycleFill = 'previous' | 'territory' | 'none'
-/** Until visits: no_segment, none_needed or not_seen. */
 export type CycleProState = 'no_segment' | 'not_seen' | 'started' | 'reached' | 'over' | 'none_needed'
 
 export interface Ref { id: number; name: string }
@@ -32,6 +31,16 @@ export interface CycleFiguresSummary {
   to_do: number
   no_segment: number
   list_short: boolean
+  /** Visits done in the cycle (off-list included), planned to come, planned and late. */
+  visits_done: number
+  visits_off_list: number
+  visits_planned: number
+  late: number
+  /** Professionals of the list seen at least once, and the same as a % (null with an empty list). */
+  seen: number
+  coverage: number | null
+  /** Visits done a field day so far (null before the first one). */
+  pace: number | null
 }
 
 export interface CycleBoardRow extends CycleFiguresSummary {
@@ -60,6 +69,8 @@ export interface CycleDay {
   kind: CycleDayKind
   today: boolean
   activity_ids: number[]
+  /** Visits done that day. */
+  visits: number
 }
 
 export interface CycleDetail extends CycleFiguresSummary {
@@ -78,7 +89,7 @@ export interface CycleDetail extends CycleFiguresSummary {
   goal: Partial<Record<CycleGoalKey, { per_day: number; total: number }>>
   days: CycleDay[]
   off: { name: string; days: number }[]
-  by_segment: { id: number | null; name: string | null; color: string | null; professionals: number }[]
+  by_segment: { id: number | null; name: string | null; color: string | null; professionals: number; seen: number }[]
 }
 
 export interface CycleCandidate {

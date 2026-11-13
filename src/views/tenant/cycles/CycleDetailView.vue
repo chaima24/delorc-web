@@ -16,6 +16,7 @@ import { useAuthStore } from '@/stores/auth'
 import CycleActivitiesTab from './CycleActivitiesTab.vue'
 import CycleAddPanel from './CycleAddPanel.vue'
 import CycleDatesSection from './CycleDatesSection.vue'
+import VisitMiniList from '@/views/tenant/visits/VisitMiniList.vue'
 import CycleDaysStrip from './CycleDaysStrip.vue'
 import CycleGoalSection from './CycleGoalSection.vue'
 import CycleHistoryTab from './CycleHistoryTab.vue'
@@ -165,8 +166,8 @@ const daysWhy = computed(() => {
         </div>
         <div class="flex flex-col gap-1.5 rounded-[20px] bg-dl-paper px-4 py-4">
           <span class="text-[12.5px] text-dl-muted">{{ t('cycles.columns.visits') }}</span>
-          <strong class="font-display text-[20px] font-extrabold tracking-[-0.02em] text-dl-muted">—</strong>
-          <small class="text-xs text-dl-muted">{{ t('cycles.laterVisits') }}</small>
+          <strong class="font-display text-[30px] font-extrabold tracking-[-0.02em]">{{ n(cycle.visits_done) }}</strong>
+          <small class="text-xs text-dl-muted">{{ t('cycles.figures.visitsText', { coverage: cycle.coverage == null ? '—' : `${n(cycle.coverage)} %`, pace: cycle.pace == null ? '—' : n(cycle.pace) }) }}<template v-if="cycle.late"> · <span class="text-dl-pending">{{ t('cycles.figures.late', { n: n(cycle.late) }, cycle.late) }}</span></template></small>
         </div>
       </div>
 
@@ -187,7 +188,7 @@ const daysWhy = computed(() => {
             <template #professionals>
               <CycleProfessionalsTab ref="professionals" :cycle="cycle" @changed="load" @add="openPanel('add')" @check="openPanel('check')" />
             </template>
-            <template #visits><p class="rounded-3xl bg-dl-paper p-6 text-center text-sm text-dl-muted">{{ t('cycles.laterVisits') }}</p></template>
+            <template #visits><VisitMiniList :filter="{ 'filter[cycle_id]': cycle.id }" show-target /></template>
             <template #activities><CycleActivitiesTab :cycle="cycle" /></template>
             <template #history><CycleHistoryTab :cycle="cycle" /></template>
           </DlTabs>
@@ -206,7 +207,7 @@ const daysWhy = computed(() => {
             <dt class="text-dl-muted">{{ t('cycles.days.dayKind') }}</dt><dd>{{ t(`cycles.days.kind.${day.kind}`) }}</dd>
             <dt class="text-dl-muted">{{ t('cycles.tabs.activities') }}</dt><dd>{{ n(day.activity_ids.length) }}</dd>
           </dl>
-          <p class="mt-3 text-xs text-dl-muted">{{ t('cycles.laterVisits') }}</p>
+          <p class="mt-3 text-[13px]">{{ t('cycles.days.visits', { n: n(day.visits) }, day.visits) }}</p>
         </DlRecordPanel>
       </div>
     </template>

@@ -45,6 +45,8 @@ const labRoutes = [
       { path: 'activity-types', name: 'tenant-activity-types', component: () => import('@/views/tenant/activity-types/ActivityTypeListView.vue'), meta: { permission: 'activity-types.show' } },
       { path: 'event-types', name: 'tenant-event-types', component: () => import('@/views/tenant/event-types/EventTypeListView.vue'), meta: { permission: 'event-types.show' } },
       { path: 'canals', name: 'tenant-canals', component: () => import('@/views/tenant/canals/CanalListView.vue'), meta: { permission: 'canals.show' } },
+      { path: 'cancel-reasons', name: 'tenant-cancel-reasons', component: () => import('@/views/tenant/cancel-reasons/CancelReasonListView.vue'), meta: { permission: 'cancel-reasons.show' } },
+      { path: 'visit-settings', name: 'tenant-visit-settings', component: () => import('@/views/tenant/visits/VisitSettingsView.vue'), meta: { permission: 'calendar.show' } },
       { path: 'materiels', name: 'tenant-materiels', component: () => import('@/views/tenant/materiels/MaterielListView.vue'), meta: { permission: 'materiels.show' } },
       { path: 'expense-types', name: 'tenant-expense-types', component: () => import('@/views/tenant/expense-types/ExpenseTypeListView.vue'), meta: { permission: 'expense-types.show', feature: 'module.expenses' } },
       { path: 'expense-settings', name: 'tenant-expense-settings', component: () => import('@/views/tenant/expense-settings/ExpenseSettingListView.vue'), meta: { permission: 'expense-settings.show', feature: 'module.expenses' } },
@@ -58,6 +60,7 @@ const labRoutes = [
       { path: 'hcps/:id', name: 'tenant-hcp-detail', component: () => import('@/views/tenant/hcps/HcpDetailView.vue'), props: true, meta: { permission: 'hcps.show' } },
       { path: 'hcos', name: 'tenant-hcos', component: () => import('@/views/tenant/hcos/HcoListView.vue'), meta: { permission: 'hcos.show' } },
       { path: 'planning-rules', name: 'tenant-planning-rules', component: () => import('@/views/tenant/planning-rules/PlanningRuleListView.vue'), meta: { permission: 'planning-rules.show' } },
+      { path: 'visit-fields', name: 'tenant-visit-fields', component: () => import('@/views/tenant/visit-fields/VisitFieldRulesView.vue'), meta: { permission: 'validation-rules.show' } },
       { path: 'validation-rules', name: 'tenant-validation-rules', component: () => import('@/views/tenant/validation-rules/ValidationRuleListView.vue'), meta: { permission: 'validation-rules.show' } },
       { path: 'languages', name: 'tenant-languages', component: () => import('@/views/tenant/languages/LanguageListView.vue'), meta: { permission: 'languages.show' } },
       { path: 'sub-wilaya-zones', name: 'tenant-sub-wilaya-zones', component: () => import('@/views/tenant/sub-wilaya-zones/SubWilayaZoneListView.vue'), meta: { permission: 'sub-wilaya-zones.show' } },
@@ -73,6 +76,13 @@ const labRoutes = [
       { path: 'cycles', name: 'tenant-cycles', component: () => import('@/views/tenant/cycles/CycleListView.vue'), meta: { permission: 'cycles.show' } },
       { path: 'cycles/new', name: 'tenant-cycle-create', component: () => import('@/views/tenant/cycles/CycleCreateView.vue'), meta: { permission: 'cycles.create' } },
       { path: 'cycles/:id(\\d+)', name: 'tenant-cycle-detail', component: () => import('@/views/tenant/cycles/CycleDetailView.vue'), props: true, meta: { permission: 'cycles.show' } },
+      // Visites (docs/api/visits.md): the list, a visit's page, the add page (also "Saisir le compte rendu").
+      { path: 'visits', name: 'tenant-visits', component: () => import('@/views/tenant/visits/VisitListView.vue'), meta: { permission: 'visits.show' } },
+      { path: 'visits/planning', name: 'tenant-visit-planning', component: () => import('@/views/tenant/visits/VisitPlanningView.vue'), meta: { permission: 'visits.show' } },
+      { path: 'visits/plans', name: 'tenant-visit-plans', component: () => import('@/views/tenant/visits/VisitPlanListView.vue'), meta: { permission: 'visits.validate' } },
+      { path: 'visits/new', name: 'tenant-visit-new', component: () => import('@/views/tenant/visits/VisitFormView.vue'), meta: { permission: 'visits.create' } },
+      { path: 'visits/:id(\\d+)', name: 'tenant-visit-detail', component: () => import('@/views/tenant/visits/VisitDetailView.vue'), props: true, meta: { permission: 'visits.show' } },
+      { path: 'visits/:id(\\d+)/report', name: 'tenant-visit-report', component: () => import('@/views/tenant/visits/VisitFormView.vue'), props: true, meta: { permission: 'visits.update' } },
       // Engager › Aides de visite (docs/api/advs.md).
       { path: 'advs', name: 'tenant-advs', component: () => import('@/views/tenant/advs/AdvListView.vue'), meta: { permission: 'advs.show' } },
       // Équipe › Frais (docs/api/expenses.md): the board for approvers, else the person's own month.

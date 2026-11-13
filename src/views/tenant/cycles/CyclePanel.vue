@@ -113,7 +113,10 @@ const menuItems = computed<DlMenuItem[]>(() =>
           <h3 class="flex-1 text-sm font-semibold">{{ t('cycles.panel.pace') }}</h3>
           <span class="text-xs text-dl-muted">{{ t('cycles.panel.dayOf', { day: n(cycle.days_passed), total: n(cycle.working_days) }) }}</span>
         </header>
-        <p class="text-[13px] text-dl-muted">{{ t('cycles.laterVisits') }}</p>
+        <p class="text-[13px]">
+          {{ t('cycles.panel.paceText', { done: n(cycle.visits_done), goal: n(cycle.goal_visits), pace: cycle.pace == null ? '—' : n(cycle.pace), coverage: cycle.coverage == null ? '—' : `${n(cycle.coverage)} %` }) }}
+          <span v-if="cycle.late" class="block text-xs text-dl-pending">{{ t('cycles.figures.late', { n: n(cycle.late) }, cycle.late) }}</span>
+        </p>
       </section>
 
       <section v-if="cycle.by_segment.length" class="rounded-2xl border border-dl-line px-3.5 py-3">

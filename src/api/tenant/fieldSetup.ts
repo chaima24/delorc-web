@@ -101,6 +101,18 @@ export const createCanal = (body: CanalPayload) => one<Canal>(client.post('/cana
 export const updateCanal = (id: number, body: CanalPayload) => one<Canal>(client.put(`/canals/${id}`, body))
 export const deleteCanal = (id: number) => client.delete(`/canals/${id}`)
 
+/** Why a visit was cancelled (docs/api/visits.md). */
+export interface CancelReason {
+  id: number
+  name: string
+  visits_count: number
+  created_at: string | null
+}
+export const fetchCancelReasons = (params?: ListParams) => page<CancelReason>('/cancel-reasons', params)
+export const createCancelReason = (body: CanalPayload) => one<CancelReason>(client.post('/cancel-reasons', body))
+export const updateCancelReason = (id: number, body: CanalPayload) => one<CancelReason>(client.put(`/cancel-reasons/${id}`, body))
+export const deleteCancelReason = (id: number) => client.delete(`/cancel-reasons/${id}`)
+
 export const fetchMateriels = (params?: ListParams) => page<Materiel>('/materiels', params)
 export const createMateriel = (body: MaterielPayload) => one<Materiel>(client.post('/materiels', body))
 export const updateMateriel = (id: number, body: MaterielPayload) => one<Materiel>(client.put(`/materiels/${id}`, body))
