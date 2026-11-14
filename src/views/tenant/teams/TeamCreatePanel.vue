@@ -11,6 +11,7 @@ import { useToast } from '@/composables/useToast'
 import { today } from '@/views/tenant/users/userDisplay'
 import TeamPeoplePicker from './TeamPeoplePicker.vue'
 import TeamTargetsFields from './TeamTargetsFields.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "Add a team" in 2 steps: the team (name, specialities, brands) · members (optional).
 const emit = defineEmits<{ created: [team: Team] }>()
@@ -91,7 +92,7 @@ async function save() {
 
       <template v-else>
         <TeamPeoplePicker v-model="form.users" :error="errors.users" />
-        <DlInput v-if="form.users.length" v-model="form.start_date" type="date" :label="t('teams.members.from')" :error="errors.start_date" />
+        <DlDatePicker v-if="form.users.length" v-model="form.start_date" :label="t('teams.members.from')" :error="errors.start_date" />
         <p class="rounded-xl bg-dl-mist px-3 py-2 text-xs text-dl-muted">{{ t('teams.add.membersLater') }}</p>
       </template>
     </form>

@@ -4,10 +4,10 @@ import { useI18n } from 'vue-i18n'
 import { fieldErrors } from '@/api/errors'
 import { createHolidays, fetchHolidays, type Holiday, type HolidayItem } from '@/api/tenant/fieldSetup'
 import DlButton from '@/components/DlButton.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import { useToast } from '@/composables/useToast'
 import { addDays, inYear, useHolidayText } from './holidayDisplay'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "Copy from last year": same-date holidays come with their new date; the others (religious
 // holidays, whose date moves) are listed once per holiday, to tick and date by hand.
@@ -108,9 +108,8 @@ async function save() {
               <strong class="block font-semibold">{{ line.name }}</strong>
               <small class="text-xs text-dl-muted">{{ t('holidays.copy.lastYear', { days: t('holidays.add.days', line.days), year: year - 1 }) }}</small>
             </span>
-            <DlInput
+            <DlDatePicker
               v-model="line.date"
-              type="date"
               :min="`${year}-01-01`"
               :max="`${year}-12-31`"
               :label="t('holidays.copy.dateOf', { name: line.name })"

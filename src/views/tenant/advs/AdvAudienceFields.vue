@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import DlIconButton from '@/components/DlIconButton.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlSelect from '@/components/DlSelect.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // The teams (or the specialities) an ADV is given to: pick one to add a line, each line has optional dates.
 export interface AudienceRow { id: number; start_date: string; end_date: string }
@@ -36,8 +36,8 @@ const remove = (id: number) => { rows.value = rows.value.filter(row => row.id !=
         <DlIconButton icon="tabler-x" variant="ghost" :size="32" :label="t('advs.audience.remove', { name: nameOf(row.id) })" @click="remove(row.id)" />
       </div>
       <div class="grid grid-cols-2 gap-2">
-        <DlInput v-model="row.start_date" type="date" :label="t('advs.audience.start')" />
-        <DlInput v-model="row.end_date" type="date" :label="t('advs.audience.end')" :error="errors?.[`${i}.end_date`]" />
+        <DlDatePicker v-model="row.start_date" clearable :label="t('advs.audience.start')" />
+        <DlDatePicker v-model="row.end_date" clearable :label="t('advs.audience.end')" :error="errors?.[`${i}.end_date`]" />
       </div>
     </div>
     <p v-if="!rows.length" class="text-[13px] text-dl-muted">{{ t('advs.audience.none') }}</p>

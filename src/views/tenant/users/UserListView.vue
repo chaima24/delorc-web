@@ -26,6 +26,8 @@ import UserCreatePanel from './UserCreatePanel.vue'
 import UserReadPanel from './UserReadPanel.vue'
 import { STATUS_TONES, accountStatus, currentTerritory, today, useUserText } from './userDisplay'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // Studio › Users: list or hierarchy, reading panel, "Add a user" in 3 steps. Everything else on the full page.
 // Mockup: docs/design/studio-mockups/Users.html
@@ -246,11 +248,9 @@ async function exportList() {
           <DlSelect v-model="teamFilter" :label="t('users.columns.team')" :options="teamOptions" appearance="filter" />
           <DlSelect v-model="filters.account" :label="t('users.columns.status')" :options="accountOptions" appearance="filter" />
           <DlSelect v-if="view === 'list'" v-model="addedFilter" :label="t('studio.list.added')" :options="addedOptions" appearance="filter" />
-          <DlInput v-if="view === 'list' && filters.added === 'day'" v-model="filters.from" type="date" :max="today()" :label="t('access.log.filter.day')" hide-label class="w-44" />
+          <DlDatePicker v-if="view === 'list' && filters.added === 'day'" v-model="filters.from" :max="today()" :label="t('access.log.filter.day')" hide-label class="w-44" />
           <template v-if="view === 'list' && filters.added === 'range'">
-            <DlInput v-model="filters.from" type="date" :max="filters.to || today()" :label="t('access.log.filter.from')" hide-label class="w-44" />
-            <span class="inline-block text-sm text-dl-muted rtl:-scale-x-100" aria-hidden="true">→</span>
-            <DlInput v-model="filters.to" type="date" :min="filters.from" :max="today()" :label="t('access.log.filter.to')" hide-label class="w-44" />
+            <DlDateRangePicker v-model:start="filters.from" v-model:end="filters.to" :max="today()" :label="t('common.dates.period')" hide-label class="w-72" />
           </template>
         </div>
 

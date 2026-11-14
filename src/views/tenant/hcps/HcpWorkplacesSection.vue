@@ -6,13 +6,13 @@ import { addHcpWorkplace, deleteHcpWorkplace, updateHcpWorkplace, type Hcp, type
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlIcon from '@/components/DlIcon.vue'
-import DlInput from '@/components/DlInput.vue'
 import { useConfirm } from '@/composables/useConfirm'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import { today } from '@/views/tenant/users/userDisplay'
 import HcpWorkplaceFields from './HcpWorkplaceFields.vue'
 import { emptyWorkplace, useHcpText, type WorkplaceForm } from './hcpForm'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "Works at": current workplaces, then past ones (greyed). In edit mode a workplace is ended
 // (last day, it stays in the history), a new one added, one added by mistake deleted, or a
@@ -170,7 +170,7 @@ function done() {
           </template>
         </div>
         <form v-if="editing && ending === w.id" class="ms-4 flex flex-col gap-2 rounded-xl border border-dl-line p-3" @submit.prevent="end(w)">
-          <DlInput v-model="endDate" type="date" :min="w.start_date ?? undefined" :label="t('hcps.workplaces.lastDay')" :hint="t('hcps.workplaces.lastDayHint')" :error="errors.end_date" />
+          <DlDatePicker v-model="endDate" :min="w.start_date ?? undefined" :label="t('hcps.workplaces.lastDay')" :hint="t('hcps.workplaces.lastDayHint')" :error="errors.end_date" />
           <div class="flex justify-end gap-2">
             <DlButton variant="outline" size="sm" @click="ending = null">{{ t('common.actions.cancel') }}</DlButton>
             <DlButton type="submit" variant="dark" size="sm" :loading="busy">{{ t('hcps.workplaces.end') }}</DlButton>

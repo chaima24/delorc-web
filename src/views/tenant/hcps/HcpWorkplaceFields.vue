@@ -2,9 +2,9 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import DlCombobox from '@/components/DlCombobox.vue'
-import DlInput from '@/components/DlInput.vue'
 import type { WorkplaceForm } from './hcpForm'
 import { useHcpLookups } from './useHcpLookups'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // One workplace: organisation + speciality + first day.
 defineProps<{ errors?: Record<string, string | undefined> }>()
@@ -26,6 +26,6 @@ const speciality = computed({
   <div class="flex flex-col gap-3">
     <DlCombobox v-model="hco" :label="t('hcps.workplaces.hco')" :options="lookups.hcoOptions.value" :error="errors?.hco_id" />
     <DlCombobox v-model="speciality" :label="t('hcps.workplaces.speciality')" :options="lookups.specialityOptions.value" :error="errors?.speciality_id" />
-    <DlInput v-model="form.start_date" type="date" :label="t('hcps.workplaces.since')" :error="errors?.start_date" />
+    <DlDatePicker v-model="form.start_date" :label="t('hcps.workplaces.since')" :error="errors?.start_date" />
   </div>
 </template>

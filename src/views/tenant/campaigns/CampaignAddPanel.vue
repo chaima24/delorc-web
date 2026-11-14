@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import { createCampaign, type Campaign } from '@/api/tenant/campaigns'
 import DlButton from '@/components/DlButton.vue'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import DlTextarea from '@/components/DlTextarea.vue'
@@ -51,10 +52,7 @@ async function save() {
   <DlRecordPanel v-model:open="open" :title="t('campaigns.add.title')" :description="t('campaigns.add.description')">
     <form id="campaign-add" class="flex flex-col gap-4" @submit.prevent="save">
       <DlInput v-model="form.name" :label="t('campaigns.fields.name')" :error="errors.name" />
-      <div class="grid grid-cols-2 gap-3">
-        <DlInput v-model="form.start_date" type="date" :label="t('campaigns.fields.from')" :error="errors.start_date" />
-        <DlInput v-model="form.end_date" type="date" :label="t('campaigns.fields.to')" :error="errors.end_date" />
-      </div>
+      <DlDateRangePicker v-model:start="form.start_date" v-model:end="form.end_date" :label="t('campaigns.columns.dates')" :error="errors.start_date || errors.end_date" />
       <CoachingRolePicks v-model="form.team_ids" :label="t('campaigns.fields.teams')" :add-label="t('campaigns.fields.addTeam')" :options="teams" :error="errors.team_ids" />
       <DlInput v-model="form.objective" :label="t('campaigns.fields.objective')" :error="errors.objective" />
       <DlTextarea v-model="form.comment" :label="t('campaigns.fields.comment')" :rows="3" :error="errors.comment" />

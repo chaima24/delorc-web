@@ -23,6 +23,7 @@ import { useToast } from '@/composables/useToast'
 import { roleLabel, useRolesAndTeams, useTeamOptions } from '@/views/tenant/settings/shared/lookups'
 import { today } from '@/views/tenant/users/userDisplay'
 import { monthRange, shiftMonth, useCycleText } from './cycleDisplay'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
 
 // "Create cycles" (own page, 3 steps): period, people, how each cycle is filled. "Prepare next month"
 // opens it with the people whose cycle ends this month. Mockup: docs/design/plan-mockups/Cycles.html (frames 3–5)
@@ -216,10 +217,7 @@ function back() {
               <DlIconButton icon="tabler-chevron-right" variant="ghost" :size="34" :label="t('activities.month.next')" class="rtl:-scale-x-100" @click="month = shiftMonth(month, 1)" />
             </span>
           </div>
-          <div v-else class="grid max-w-md grid-cols-2 gap-2.5">
-            <DlInput v-model="dates.start" type="date" :label="t('cycles.dates.start')" />
-            <DlInput v-model="dates.end" type="date" :min="dates.start" :label="t('cycles.dates.end')" />
-          </div>
+          <DlDateRangePicker v-else v-model:start="dates.start" v-model:end="dates.end" :label="t('common.dates.period')" class="max-w-md" />
           <p v-if="periodValid" class="text-xs text-dl-muted">
             {{ text.period(period.start, period.end) }}<template v-if="workingDays != null"> · {{ t('cycles.goal.workingDays', workingDays) }} {{ t('cycles.create.workingHint') }}</template>
           </p>

@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import DlInput from '@/components/DlInput.vue'
 import DlSegmented from '@/components/DlSegmented.vue'
 import DlSelect from '@/components/DlSelect.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 export interface ExpenseSettingForm {
   /** A group (role and/or team; both empty = everyone) or one user. */
@@ -72,8 +73,8 @@ const team = computed({
       {{ errors.role_id || errors.team_id || errors.user_id }}
     </p>
     <div class="flex flex-col gap-3.5">
-      <DlInput v-model="form.start_date" type="date" :label="t('fieldSetup.fields.startDate')" :error="errors.start_date" required />
-      <DlInput v-model="form.end_date" type="date" :label="t('fieldSetup.fields.endDate')" :error="errors.end_date" :hint="t('fieldSetup.endDateHint')" />
+      <DlDatePicker v-model="form.start_date" :label="t('fieldSetup.fields.startDate')" :error="errors.start_date" required />
+      <DlDatePicker v-model="form.end_date" clearable :label="t('fieldSetup.fields.endDate')" :error="errors.end_date" :hint="t('fieldSetup.endDateHint')" />
     </div>
   </div>
 

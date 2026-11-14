@@ -6,12 +6,12 @@ import { rolesApi, type Role } from '@/api/tenant/roles'
 import { fetchAllTeams, type Team } from '@/api/tenant/teams'
 import DlButton from '@/components/DlButton.vue'
 import DlCombobox from '@/components/DlCombobox.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import { nextMonthStart } from '@/views/tenant/objectives/objectiveDisplay'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { type GridLine, type GridValues, sortLines, startingLines, valuesOf } from './frequencyDisplay'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "New grid": role, team (or all teams), from a date, and what it starts with (empty lines for the
 // kinds the role visits, or a copy of another grid). The grid is then filled on the page.
@@ -78,7 +78,7 @@ function next() {
     <form id="frequency-create" class="flex flex-col gap-4" @submit.prevent="next">
       <DlCombobox v-model="roleId" :label="t('objectives.fields.role')" :options="roleOptions" :error="error" />
       <DlCombobox v-model="team" :label="t('objectives.fields.team')" :options="teamOptions" :hint="t('frequencies.add.teamHint')" />
-      <DlInput v-model="start" type="date" :label="t('objectives.fields.from')" />
+      <DlDatePicker v-model="start" :label="t('objectives.fields.from')" />
       <DlCombobox v-model="copy" :label="t('frequencies.add.startWith')" :options="copyOptions" />
     </form>
     <template #footer>

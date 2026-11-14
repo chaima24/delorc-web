@@ -12,6 +12,7 @@ import DeleteSection from '../geography/DeleteSection.vue'
 import { usePanelAction } from '../geography/usePanelAction'
 import CurrencySelect from '../plans/CurrencySelect.vue'
 import { dayFromToday, shiftDay, useLabTexts } from './useLabTexts'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
 
 /** Adds a period, or with `period` edits one: after saving, only its price and note change. */
 const props = defineProps<{ lab: Lab; period?: Subscription }>()
@@ -78,10 +79,7 @@ const remove = () => run(async () => {
       <template v-else>
         <div><DlSelect v-model="form.plan_id" :label="t('central.labs.plan')" :options="planOptions" /><p class="mt-1 text-xs" :class="errors.plan_id ? 'text-dl-rejected' : 'text-dl-muted'">{{ errors.plan_id ?? t('central.labs.planHint') }}</p></div>
         <DlSelect v-model="form.kind" :label="t('central.labs.kind')" :options="kindOptions" />
-        <div class="grid grid-cols-2 gap-2.5">
-          <DlInput v-model="form.starts_on" type="date" :label="t('central.labs.startsOn')" :error="errors.starts_on" />
-          <DlInput v-model="form.ends_on" type="date" :label="t('central.labs.endsOn')" :error="errors.ends_on" />
-        </div>
+        <DlDateRangePicker v-model:start="form.starts_on" v-model:end="form.ends_on" :label="t('common.dates.period')" :error="errors.starts_on || errors.ends_on" />
         <p v-if="cuts" class="rounded-xl bg-dl-pending/10 px-3 py-2 text-[13px] text-dl-pending">
           {{ t('central.labs.cutWarning', { plan: last!.plan.name, date: day(shiftDay(form.starts_on, -1)) }) }}
         </p>

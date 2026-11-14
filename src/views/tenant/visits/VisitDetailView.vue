@@ -25,6 +25,7 @@ import { useVisitText } from './visitDisplay'
 import VisitReportFields from './VisitReportFields.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
 import CampaignPromoBox from '@/views/tenant/campaigns/CampaignPromoBox.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // A visit's page: the report on the left (brands, ADVs shown, objectives and comment), the visit, the people and
 // the visits before and after on the right. Each card is edited in place; a planned visit gets "Saisir le compte
@@ -291,7 +292,7 @@ watch(() => props.id, load, { immediate: true })
             </dl>
             <template #edit>
               <div class="flex flex-col gap-3">
-                <DlInput v-model="form.date" type="date" :label="t('visits.fields.day')" :error="errors.visit_date" />
+                <DlDatePicker v-model="form.date" :label="t('visits.fields.day')" :error="errors.visit_date" />
                 <DlInput v-if="!isDone || shown('visit_time')" v-model="form.time" type="time" :label="isDone && star('visit_time') ? t('visits.fields.time') + ' *' : t('visits.fields.timeOptional')" :error="errors.visit_time" />
                 <DlSelect v-model="canalModel" :label="t('visits.fields.canal')" :options="canals" />
                 <DlInput v-if="!isDone" v-model="form.objective" :label="t('visits.fields.objectiveOptional')" />

@@ -17,6 +17,8 @@ import RulePicker from './RulePicker.vue'
 import { loadCommunes, useUserLookups } from './useUserLookups'
 import { today } from './userDisplay'
 import { useAuthStore } from '@/stores/auth'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "Add a user" in 3 steps: person · role, team and manager · rules and cycle. Rules and manager are pre-filled
 // from colleagues (same role and team). The territory is optional and starts with the teams. The first cycle is
@@ -257,7 +259,7 @@ async function save() {
           @update:model-value="touch('manager')"
         />
         <DlCombobox v-if="auth.can('territories.show')" v-model="form.territory_id" :label="t('users.columns.territory')" :options="lookups.territories.value" :hint="t('users.add.territoryHint')" :error="errors.territory" />
-        <DlInput v-model="form.start_date" type="date" :label="t('users.add.startsOn')" :hint="t('users.add.startsOnHint')" :error="errors.start_date" />
+        <DlDatePicker v-model="form.start_date" :label="t('users.add.startsOn')" :hint="t('users.add.startsOnHint')" :error="errors.start_date" />
       </form>
 
       <!-- 3 · Rules -->
@@ -276,8 +278,7 @@ async function save() {
             {{ t('users.add.firstCycle') }}
           </label>
           <div v-if="form.first_cycle" class="flex flex-col gap-3.5">
-            <DlInput v-model="form.cycle_start" type="date" :label="t('access.log.filter.from')" :error="errors.cycle_start" />
-            <DlInput v-model="form.cycle_end" type="date" :min="form.cycle_start" :label="t('access.log.filter.to')" :error="errors.cycle_end" />
+            <DlDateRangePicker v-model:start="form.cycle_start" v-model:end="form.cycle_end" :label="t('common.dates.period')" :error="errors.cycle_start || errors.cycle_end" />
           </div>
           <p class="text-xs text-dl-muted">{{ t('users.add.cycleHint') }}</p>
         </div>

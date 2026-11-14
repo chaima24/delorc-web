@@ -10,6 +10,7 @@ import { useToast } from '@/composables/useToast'
 import CoachingRolePicks from './CoachingRolePicks.vue'
 import CoachingSectionPicker from './CoachingSectionPicker.vue'
 import { useCoachingLookups } from './useCoachingLookups'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
 
 // "Ajouter un programme": name, dates, coach roles, coached roles and sections. Open questions are added on its page.
 // Mockup frame 4.
@@ -51,10 +52,7 @@ async function save() {
   <DlRecordPanel v-model:open="open" :title="t('coaching.add.title')" :description="t('coaching.add.description')">
     <form id="coaching-add" class="flex flex-col gap-4" @submit.prevent="save">
       <DlInput v-model="form.name" :label="t('coaching.fields.name')" :error="errors.name" />
-      <div class="grid grid-cols-2 gap-3">
-        <DlInput v-model="form.start_date" type="date" :label="t('coaching.fields.from')" :error="errors.start_date" />
-        <DlInput v-model="form.end_date" type="date" :label="t('coaching.fields.to')" :error="errors.end_date" />
-      </div>
+      <DlDateRangePicker v-model:start="form.start_date" v-model:end="form.end_date" :label="t('common.dates.period')" :error="errors.start_date || errors.end_date" />
       <CoachingRolePicks v-model="form.coach_role_ids" :label="t('coaching.fields.coaches')" :options="roleOptions" :error="errors.coach_role_ids" />
       <CoachingRolePicks v-model="form.coached_role_ids" :label="t('coaching.fields.coached')" :options="roleOptions" :error="errors.coached_role_ids" />
       <CoachingSectionPicker v-model="form.category_ids" :families="families" :error="errors.category_ids || errors['category_ids.0']" />

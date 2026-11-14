@@ -19,6 +19,8 @@ import { today } from '@/views/tenant/users/userDisplay'
 import HcoCreatePanel from './HcoCreatePanel.vue'
 import HcoPanel from './HcoPanel.vue'
 import { useHcoText } from './hcoForm'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // Professionals › Organisations (hospitals, clinics; departments are organisations with a parent).
 // Type tabs with counts, search + filters, side panel to read and edit, 2-step add. ?type= opens a tab.
@@ -225,11 +227,9 @@ async function exportList() {
           <DlSelect v-model="filters.wilaya" :label="t('hcps.fields.wilaya')" :options="wilayaOptions" appearance="filter" />
           <DlSelect v-model="filters.level" :label="t('hcos.filter.show')" :options="levelOptions" appearance="filter" />
           <DlSelect v-model="addedFilter" :label="t('studio.list.added')" :options="addedOptions" appearance="filter" />
-          <DlInput v-if="filters.added === 'day'" v-model="filters.from" type="date" :max="today()" :label="t('access.log.filter.day')" hide-label class="w-44" />
+          <DlDatePicker v-if="filters.added === 'day'" v-model="filters.from" :max="today()" :label="t('access.log.filter.day')" hide-label class="w-44" />
           <template v-if="filters.added === 'range'">
-            <DlInput v-model="filters.from" type="date" :max="filters.to || today()" :label="t('access.log.filter.from')" hide-label class="w-44" />
-            <span class="inline-block text-sm text-dl-muted rtl:-scale-x-100" aria-hidden="true">→</span>
-            <DlInput v-model="filters.to" type="date" :min="filters.from" :max="today()" :label="t('access.log.filter.to')" hide-label class="w-44" />
+            <DlDateRangePicker v-model:start="filters.from" v-model:end="filters.to" :max="today()" :label="t('common.dates.period')" hide-label class="w-72" />
           </template>
         </div>
 

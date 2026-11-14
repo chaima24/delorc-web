@@ -7,6 +7,7 @@ import { deleteCampaign, fetchCampaign, updateCampaign, type Campaign, type Camp
 import DlAvatar from '@/components/DlAvatar.vue'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
 import DlEmptyState from '@/components/DlEmptyState.vue'
 import DlIcon from '@/components/DlIcon.vue'
 import DlInput from '@/components/DlInput.vue'
@@ -242,10 +243,7 @@ const LATER = [
                   </dl>
                   <template #edit>
                     <DlInput v-model="form.name" :label="t('campaigns.fields.name')" :error="errors.name" />
-                    <div class="grid grid-cols-2 gap-3">
-                      <DlInput v-model="form.start_date" type="date" :label="t('campaigns.fields.from')" :error="errors.start_date" />
-                      <DlInput v-model="form.end_date" type="date" :label="t('campaigns.fields.to')" :error="errors.end_date || errors.team_ids" />
-                    </div>
+                    <DlDateRangePicker v-model:start="form.start_date" v-model:end="form.end_date" :label="t('campaigns.columns.dates')" :error="errors.start_date || errors.end_date || errors.team_ids" />
                     <DlInput v-model="form.objective" :label="t('campaigns.fields.objective')" :error="errors.objective" />
                     <DlTextarea v-model="form.comment" :label="t('campaigns.fields.comment')" :rows="3" :error="errors.comment" />
                   </template>

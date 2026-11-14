@@ -6,7 +6,6 @@ import { changeObjective, deleteObjective, type Objective, type ObjectiveNumbers
 import DlAvatar from '@/components/DlAvatar.vue'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlMenu from '@/components/DlMenu.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import { useConfirm } from '@/composables/useConfirm'
@@ -16,6 +15,7 @@ import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { useUserText } from '@/views/tenant/users/userDisplay'
 import { dayAfter, nextMonthStart, numbersFor, numbersOf, objectiveState, useObjectiveText } from './objectiveDisplay'
 import ObjectiveNumbersFields from './ObjectiveNumbersFields.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // An objective in the side panel: numbers a day, what they give for a month, who uses it and
 // the history. Numbers are never edited in place once in use: "Change from a date".
@@ -202,9 +202,8 @@ async function remove() {
 
     <!-- Change from a date -->
     <form v-else id="objective-change" class="flex flex-col gap-4" @submit.prevent="saveChange">
-      <DlInput
+      <DlDatePicker
         v-model="from"
-        type="date"
         :label="t('objectives.change.from')"
         :hint="sameDay ? t('objectives.change.sameDay') : t('objectives.change.endsBefore', { date: dates.date(objective.start_date) })"
         :error="errors.from"

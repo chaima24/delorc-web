@@ -10,7 +10,6 @@ import {
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlEmptyState from '@/components/DlEmptyState.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlSkeleton from '@/components/DlSkeleton.vue'
 import { useConfirm } from '@/composables/useConfirm'
 import { useToast } from '@/composables/useToast'
@@ -18,6 +17,7 @@ import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import CoachingDayCard from './CoachingDayCard.vue'
 import { LABEL_TONE, SESSION_TONE, sessionState, useSessionText } from './coachingDisplay'
 import CoachingReasonSheet from './CoachingReasonSheet.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // A session's page: its score (overall %, and per section the average out of 4 with its label), its objectives, the
 // notes, the day's visits. The coach fills, moves or cancels it; the person coached accepts or refuses.
@@ -48,7 +48,7 @@ const showNotes = ref(false)
 
 // The coach: change the day (planned only), cancel, delete.
 const moving = ref(false)
-const newDay = ref<string | number | null>('')
+const newDay = ref('')
 const today = new Date().toISOString().slice(0, 10)
 const errors = ref<Record<string, string>>({})
 const saving = ref(false)
@@ -143,7 +143,7 @@ async function remove() {
 
         <form v-if="moving" class="flex max-w-md flex-col gap-3 rounded-3xl bg-dl-paper p-4" @submit.prevent="move">
           <h2 class="text-sm font-semibold">{{ t('coaching.sessions.actions.move') }}</h2>
-          <DlInput v-model="newDay" type="date" :min="today" :label="t('coaching.sessions.fields.newDay')" :error="errors.date" />
+          <DlDatePicker v-model="newDay" :min="today" :label="t('coaching.sessions.fields.newDay')" :error="errors.date" />
           <div class="flex justify-end gap-2">
             <DlButton variant="ghost" size="sm" @click="moving = false">{{ t('common.actions.cancel') }}</DlButton>
             <DlButton type="submit" variant="dark" size="sm" :loading="saving">{{ t('coaching.sessions.actions.moveSave') }}</DlButton>

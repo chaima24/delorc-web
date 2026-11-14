@@ -16,7 +16,6 @@ import {
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlDataList from '@/components/DlDataList.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlMenu from '@/components/DlMenu.vue'
 import DlPagination from '@/components/DlPagination.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
@@ -36,6 +35,7 @@ import {
 } from '@/views/tenant/settings/shared/useStudioList'
 import { useUsers } from '@/views/tenant/territories/useTerritoryLookups'
 import ExpenseSettingFields, { type ExpenseSettingForm } from './ExpenseSettingFields.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // Reimbursement rates and ceilings, for a role and/or team, or one user, from a start date.
 // A setting opens in reading mode; each part is edited on its own; "Add" goes in 3 steps.
@@ -342,7 +342,7 @@ const columns = [
         </div>
         <div class="ms-auto flex flex-wrap gap-2.5">
           <DlSelect v-model="checkUser" :label="t('fieldSetup.scope.user')" :options="users" :placeholder="t('fieldSetup.check.pickRep')" appearance="filter" />
-          <DlInput v-model="check.date" type="date" :label="t('fieldSetup.check.date')" hide-label class="w-44" />
+          <DlDatePicker v-model="check.date" :label="t('fieldSetup.check.date')" hide-label class="w-44" />
         </div>
       </div>
       <p v-if="checkResult" class="text-sm" aria-live="polite">

@@ -4,12 +4,12 @@ import { useI18n } from 'vue-i18n'
 import { fetchTerritories, type CoverBlockPayload, type Territory } from '@/api/tenant/territories'
 import DlAvatar from '@/components/DlAvatar.vue'
 import DlIcon from '@/components/DlIcon.vue'
-import DlInput from '@/components/DlInput.vue'
 import { useUsers } from './useTerritoryLookups'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { useUserText } from '@/views/tenant/users/userDisplay'
 import TerritoryPersonPicker from './TerritoryPersonPicker.vue'
 import { usePeopleSuggestions } from './usePeopleSuggestions'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // Step 3 of adding a territory: the people who will work it (optional, as many as needed), all
 // starting the same day. Suggested people first (TerritoryPersonPicker). Flagged: someone who works
@@ -76,6 +76,6 @@ const errorOf = (id: number) => props.errors[`people.${id}`]
       </li>
     </ul>
 
-    <DlInput v-if="people.length" v-model="start" type="date" :label="people.length > 1 ? t('territories.people.allStartOn') : t('territories.people.startsOn')" :error="errors.start_date" />
+    <DlDatePicker v-if="people.length" v-model="start" :label="people.length > 1 ? t('territories.people.allStartOn') : t('territories.people.startsOn')" :error="errors.start_date" />
   </div>
 </template>

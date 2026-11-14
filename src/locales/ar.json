@@ -1262,6 +1262,14 @@
     "search": {
       "noMatch": "لا توجد نتيجة",
       "typeToSearch": "اكتب للبحث"
+    },
+    "dates": {
+      "pickPeriod": "اختر فترة",
+      "pickDay": "اختر يومًا",
+      "previous": "الشهر السابق",
+      "next": "الشهر التالي",
+      "period": "الفترة",
+      "clear": "مسح التاريخ"
     }
   },
   "errors": {

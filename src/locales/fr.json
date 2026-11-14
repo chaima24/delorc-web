@@ -1262,6 +1262,14 @@
     "search": {
       "noMatch": "Aucun résultat",
       "typeToSearch": "Tapez pour chercher"
+    },
+    "dates": {
+      "pickPeriod": "Choisir une période",
+      "pickDay": "Choisir un jour",
+      "previous": "Mois précédent",
+      "next": "Mois suivant",
+      "period": "Période",
+      "clear": "Effacer la date"
     }
   },
   "errors": {

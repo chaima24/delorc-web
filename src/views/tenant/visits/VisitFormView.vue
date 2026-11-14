@@ -21,6 +21,7 @@ import VisitTargetSearch, { type FoundTarget } from './VisitTargetSearch.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
 import { usePlanningSave } from './visitPlanning'
 import CampaignPromoBox from '@/views/tenant/campaigns/CampaignPromoBox.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "Ajouter une visite": one page, one save. The visit on top (who, which day, canal, planned or done), then the
 // report blocks when it is done; the summary stays at the side. With an id it is "Saisir le compte rendu" of a
@@ -197,7 +198,7 @@ const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', p
           </div>
 
           <div class="grid gap-3 sm:grid-cols-[1fr_150px_1fr]">
-            <DlInput v-model="form.date" type="date" :label="t('visits.fields.day')" :error="errors.visit_date" />
+            <DlDatePicker v-model="form.date" :label="t('visits.fields.day')" :error="errors.visit_date" />
             <DlInput v-if="!done || shown('visit_time')" v-model="form.time" type="time" :label="done && star('visit_time') ? t('visits.fields.time') + ' *' : t('visits.fields.timeOptional')" :error="errors.visit_time" />
             <DlSelect v-model="canalModel" :label="t('visits.fields.canal')" :options="canals" :placeholder="t('visits.form.pickCanal')" />
           </div>
