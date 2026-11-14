@@ -147,7 +147,7 @@ const uploadImage = async (file: File) => (await uploadMailTemplateImage(templat
             <DlInput v-model="form.label" :label="t('campaignMessages.templates.name')" :error="errors.label" :disabled="!canEdit" />
             <DlSelect v-model="brand" :label="t('campaignMessages.templates.brand')" :options="brandItems" :disabled="!canEdit" />
           </div>
-          <DlInput v-if="!isSms" v-model="form.subject" :label="t('campaignMessages.fields.subject')" :error="errors.subject" :disabled="!canEdit" />
+          <MailEditor v-if="!isSms" v-model="form.subject" single :label="t('campaignMessages.fields.subject')" :error="errors.subject" :disabled="!canEdit" />
           <MailEditor v-model="form.body" :label="t('campaignMessages.fields.body')" :plain="isSms" :disabled="!canEdit" :error="errors.body" :upload="isSms ? undefined : uploadImage" />
           <MailFilesCard v-if="!isSms" :files="template.attachments ?? []" :can-edit="canEdit" :busy="busy === 'files'" :hint="t('campaignMessages.templates.filesHint')" @add="addFiles" @remove="removeFile" />
           <section class="flex items-center gap-4 rounded-3xl bg-dl-paper p-4 md:p-5">

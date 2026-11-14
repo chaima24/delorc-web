@@ -65,7 +65,6 @@ const columns = computed(() => [
 
 const adding = ref(false)
 const openPage = (row: MailTemplate) => router.push({ name: 'tenant-mail-template', params: { id: row.id } })
-const subject = (value: string | null) => (value ?? '—').replace(/\{\{\s*([A-Z_]+)\s*\}\}/g, (_, code: string) => `◆ ${t(`campaignMessages.fields.${code}`)}`)
 </script>
 
 <template>
@@ -106,7 +105,7 @@ const subject = (value: string | null) => (value ?? '—').replace(/\{\{\s*([A-Z
             <span class="flex items-center gap-2 whitespace-nowrap text-[13px] font-semibold"><DlIcon :icon="CHANNEL_ICON[row.channel]" :size="17" />{{ text.channel(row.channel) }}</span>
           </template>
           <template #cell-brand="{ row }">{{ row.brand?.name ?? '—' }}</template>
-          <template #cell-subject="{ row }"><span class="text-dl-muted">{{ row.channel === 'sms' ? '—' : subject(row.subject) }}</span></template>
+          <template #cell-subject="{ row }"><span class="text-dl-muted">{{ row.channel === 'sms' ? '—' : text.fields(row.subject) || '—' }}</span></template>
           <template #cell-attachments_count="{ row }"><span class="tabular-nums">{{ row.attachments_count ? n(row.attachments_count) : '—' }}</span></template>
           <template #cell-messages_count="{ row }"><span class="tabular-nums">{{ n(row.messages_count ?? 0) }}</span></template>
           <template #cell-is_active="{ row }"><DlBadge size="sm" :tone="row.is_active ? 'success' : 'neutral'" dot>{{ row.is_active ? t('campaignMessages.templates.active') : t('campaignMessages.templates.inactive') }}</DlBadge></template>

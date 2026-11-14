@@ -99,6 +99,9 @@ const labRoutes = [
       { path: 'campaigns/:id(\\d+)', name: 'tenant-campaign', component: () => import('@/views/tenant/campaigns/CampaignDetailView.vue'), props: true, meta: { permission: 'campaigns.show' } },
       // A campaign's emails and SMS, and the lab's templates (docs/api/campaign-messages.md). The API checks who writes and who approves.
       { path: 'campaigns/:id(\\d+)/messages/:messageId(\\d+)', name: 'tenant-campaign-message', component: () => import('@/views/tenant/campaigns/messages/CampaignMessageView.vue'), props: true, meta: { permission: 'campaigns.show' } },
+      // A campaign's sendings (docs/api/campaign-sendings.md).
+      { path: 'campaigns/:id(\\d+)/sendings/new', name: 'tenant-campaign-sending-new', component: () => import('@/views/tenant/campaigns/sendings/CampaignSendingNewView.vue'), props: true, meta: { permission: 'campaigns.update' } },
+      { path: 'campaigns/:id(\\d+)/sendings/:sendingId(\\d+)', name: 'tenant-campaign-sending', component: () => import('@/views/tenant/campaigns/sendings/CampaignSendingView.vue'), props: true, meta: { permission: 'campaigns.show' } },
       { path: 'mail-templates', name: 'tenant-mail-templates', component: () => import('@/views/tenant/campaigns/templates/MailTemplateListView.vue'), meta: { permission: 'mail-templates.show' } },
       { path: 'mail-templates/:id(\\d+)', name: 'tenant-mail-template', component: () => import('@/views/tenant/campaigns/templates/MailTemplateView.vue'), props: true, meta: { permission: 'mail-templates.show' } },
       // Équipe › Frais (docs/api/expenses.md): the board for approvers, else the person's own month.
@@ -134,6 +137,8 @@ const router = createRouter({
     ...(space.isCentral ? [{ path: '/', name: 'home', component: () => import('@/views/HomeView.vue') }, ...centralRoutes] : labRoutes),
     // A lab's public page: a professional answers a consent from its link or QR code. No sign-in, no app shell.
     ...(space.isCentral ? [] : [{ path: '/consent/:token', name: 'public-consent', component: () => import('@/views/public/ConsentSignView.vue'), props: true, meta: { public: true } }]),
+    // A lab's public page: a professional stops receiving campaign emails from the link in one (docs/api/campaign-sendings.md).
+    ...(space.isCentral ? [] : [{ path: '/unsubscribe/:token', name: 'public-unsubscribe', component: () => import('@/views/public/UnsubscribeView.vue'), props: true, meta: { public: true } }]),
     {
       path: '/',
       component: () => import('@/layouts/SignInLayout.vue'),

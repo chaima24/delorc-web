@@ -85,7 +85,7 @@ export const workspaces: Workspace[] = [
     icon: 'tabler-presentation',
     links: [
       { title: 'nav.catalog.advs', to: { name: 'tenant-advs' }, icon: 'tabler-presentation', resource: 'advs' },
-      { title: 'nav.engage.campaigns', to: { name: 'tenant-campaigns' }, icon: 'tabler-speakerphone', resource: 'campaigns', matches: ['tenant-campaign', 'tenant-campaign-message'] },
+      { title: 'nav.engage.campaigns', to: { name: 'tenant-campaigns' }, icon: 'tabler-speakerphone', resource: 'campaigns', matches: ['tenant-campaign', 'tenant-campaign-message', 'tenant-campaign-sending', 'tenant-campaign-sending-new'] },
       { title: 'nav.engage.templates', to: { name: 'tenant-mail-templates' }, icon: 'tabler-template', resource: 'mail-templates', matches: ['tenant-mail-template'] },
     ],
   },

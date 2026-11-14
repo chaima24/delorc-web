@@ -35,8 +35,10 @@ export interface Campaign {
   ticks_count?: number
   /** The page: its emails and SMS (docs/api/campaign-messages.md). */
   messages_count?: number
+  /** The page: its sendings (docs/api/campaign-sendings.md). */
+  sendings_count?: number
   /** The page: figures read from the grid. */
-  figures?: { ticks: number; brands: number; specialities: number; with_message: number }
+  figures?: { ticks: number; brands: number; specialities: number; with_message: number; emails_sent: number }
   promoted?: { brand: { id: number; name: string }; ticks: number; by_priority: { priority: PriorityRef | null; count: number }[] }[]
   created_by?: Person | null
   created_at: string | null

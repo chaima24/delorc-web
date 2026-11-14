@@ -120,7 +120,7 @@ const openMessage = (row: CampaignMessage) => router.push({ name: 'tenant-campai
         <template #cell-channel="{ row }">
           <span class="flex items-center gap-2 whitespace-nowrap text-[13px] font-semibold"><DlIcon :icon="CHANNEL_ICON[row.channel]" :size="17" />{{ text.channel(row.channel) }}</span>
         </template>
-        <template #cell-subject="{ row }"><strong class="font-semibold">{{ row.subject || t('campaignMessages.list.noSubject') }}</strong></template>
+        <template #cell-subject="{ row }"><strong class="font-semibold">{{ text.fields(row.subject) || t('campaignMessages.list.noSubject') }}</strong></template>
         <template #cell-template="{ row }"><span class="text-dl-muted">{{ row.template?.label ?? '—' }}</span></template>
         <template #cell-status="{ row }"><DlBadge size="sm" :tone="STATUS_TONE[row.status]" dot>{{ text.status(row.status) }}</DlBadge></template>
         <template #cell-created_by="{ row }">{{ row.created_by?.full_name ?? '—' }}</template>
@@ -128,7 +128,7 @@ const openMessage = (row: CampaignMessage) => router.push({ name: 'tenant-campai
         <template #cell-attachments_count="{ row }"><span class="tabular-nums">{{ row.attachments_count ? n(row.attachments_count) : '—' }}</span></template>
         <template #cell-updated_at="{ row }"><span class="whitespace-nowrap text-dl-muted">{{ text.date(row.updated_at) }}</span></template>
         <template #card="{ row }">
-          <strong class="block font-semibold">{{ row.subject || t('campaignMessages.list.noSubject') }}</strong>
+          <strong class="block font-semibold">{{ text.fields(row.subject) || t('campaignMessages.list.noSubject') }}</strong>
           <span class="text-xs text-dl-muted">{{ [text.channel(row.channel), text.status(row.status), row.created_by?.full_name].filter(Boolean).join(' · ') }}</span>
         </template>
       </DlDataList>

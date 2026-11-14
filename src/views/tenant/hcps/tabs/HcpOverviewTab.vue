@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import { updateHcp, type Hcp } from '@/api/tenant/hcps'
+import DlIcon from '@/components/DlIcon.vue'
 import DlRecordSection from '@/components/DlRecordSection.vue'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
@@ -14,7 +15,7 @@ import { checkPart, isPerson, toForm, toPayload, useHcpText, type HcpPart } from
 // place with a map and the external IDs on the right.
 const props = defineProps<{ hcp: Hcp }>()
 const emit = defineEmits<{ changed: [] }>()
-const { t } = useI18n()
+const { t, d } = useI18n()
 const toast = useToast()
 const auth = useAuthStore()
 const canUpdate = (resource: string) => auth.can(`${resource}.update`)
@@ -125,6 +126,10 @@ const ids = computed(() => [
             <dt class="text-dl-muted">{{ row.label }}</dt><dd class="min-w-0 break-words text-dl-fg">{{ row.value }}</dd>
           </div>
         </dl>
+        <p v-if="hcp.campaign_email_opt_out_at" class="mt-3 flex gap-2 rounded-xl bg-dl-pending/15 px-3 py-2.5 text-[12.5px] text-dl-fg">
+          <DlIcon icon="tabler-mail-off" :size="16" class="mt-0.5 shrink-0" />
+          <span><strong>{{ t('hcps.optOut.title', { date: d(new Date(hcp.campaign_email_opt_out_at), { day: 'numeric', month: 'short', year: 'numeric' }) }) }}</strong> {{ t('hcps.optOut.text') }}</span>
+        </p>
         <template #edit><HcpFields v-model:form="form" part="contact" :errors="errors" /></template>
       </DlRecordSection>
 

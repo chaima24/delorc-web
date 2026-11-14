@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui'
-import { EditorContent, mergeAttributes, Node, useEditor } from '@tiptap/vue-3'
+import { EditorContent, Extension, mergeAttributes, Node, useEditor } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
@@ -15,14 +15,16 @@ import DlInput from '@/components/DlInput.vue'
  * The text of an email (a small visual editor: Tiptap) or of an SMS (`plain`: text only). A field is a chip in the
  * text and travels as `{{CODE}}`, as the API stores it (docs/api/campaign-messages.md). Images go to the API first
  * (`upload` answers their permanent link). Like a Blade view with `{{ $name }}`: the API fills the codes when it sends.
+ * `single`: one line of plain text (a subject), with chips too.
  */
 const props = withDefaults(defineProps<{
   label: string
   plain?: boolean
+  single?: boolean
   error?: string
   disabled?: boolean
   upload?: (file: File) => Promise<string>
-}>(), { plain: false, error: undefined, upload: undefined })
+}>(), { plain: false, single: false, error: undefined, upload: undefined })
 const model = defineModel<string>({ default: '' })
 const { t } = useI18n()
 
@@ -53,23 +55,30 @@ const StyledLink = Link.extend({
   },
 }).configure({ openOnClick: false, protocols: ['mailto'], HTMLAttributes: { target: '_blank', rel: null } })
 
+// One line: Enter adds nothing (no new paragraph, no line break).
+const OneLine = Extension.create({
+  name: 'oneLine',
+  addKeyboardShortcuts: () => ({ 'Enter': () => true, 'Shift-Enter': () => true, 'Mod-Enter': () => true }),
+})
+const isPlain = computed(() => props.plain || props.single)
+
 /** What the API stores → what the editor reads: bare codes become chips; an SMS's lines become paragraphs. */
 function toEditor(value: string): string {
   const escape = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  const html = props.plain ? value.split('\n').map(line => `<p>${escape(line)}</p>`).join('') : value
+  const html = isPlain.value ? value.split('\n').map(line => `<p>${escape(line)}</p>`).join('') : value
   return html
     .replace(/<span data-field="([A-Z_]+)">\{\{\1\}\}<\/span>/g, '{{$1}}')
     .replace(/\{\{\s*([A-Z_]+)\s*\}\}/g, '<span data-field="$1">{{$1}}</span>')
 }
-const fromEditor = () => (props.plain ? editor.value?.getText({ blockSeparator: '\n' }) ?? '' : editor.value?.isEmpty ? '' : editor.value?.getHTML() ?? '')
+const fromEditor = () => (isPlain.value ? editor.value?.getText({ blockSeparator: '\n' }) ?? '' : editor.value?.isEmpty ? '' : editor.value?.getHTML() ?? '')
 
 const editor = useEditor({
   content: toEditor(model.value),
   editable: !props.disabled,
-  extensions: props.plain
-    ? [StarterKit.configure({ heading: false, bold: false, italic: false, strike: false, underline: false, code: false, codeBlock: false, blockquote: false, bulletList: false, orderedList: false, listItem: false, horizontalRule: false, link: false }), MailFieldNode]
+  extensions: isPlain.value
+    ? [StarterKit.configure({ heading: false, bold: false, italic: false, strike: false, underline: false, code: false, codeBlock: false, blockquote: false, bulletList: false, orderedList: false, listItem: false, horizontalRule: false, link: false }), MailFieldNode, ...(props.single ? [OneLine] : [])]
     : [StarterKit.configure({ code: false, codeBlock: false, link: false, heading: { levels: [2, 3] } }), StyledLink, Image, MailFieldNode],
-  editorProps: { attributes: { class: 'dl-mail-text', 'aria-label': props.label } },
+  editorProps: { attributes: { class: props.single ? 'dl-mail-text dl-mail-line' : 'dl-mail-text', 'aria-label': props.label } },
   onUpdate: () => { model.value = fromEditor() },
 })
 // A new text from outside (the message loaded, a reset): set it without moving the cursor while typing.
@@ -139,9 +148,9 @@ async function addImage(event: Event) {
 <template>
   <div class="flex flex-col gap-1.5">
     <span class="text-[13px] font-semibold text-dl-fg">{{ label }}</span>
-    <div class="flex flex-col rounded-2xl border bg-dl-paper" :class="error ? 'border-dl-rejected' : 'border-dl-line'">
-      <div v-if="!disabled" class="flex flex-wrap items-center gap-1 border-b border-dl-line-soft p-2">
-        <template v-if="!plain">
+    <div class="flex rounded-2xl border bg-dl-paper" :class="[error ? 'border-dl-rejected' : 'border-dl-line', single ? 'flex-row items-center' : 'flex-col']">
+      <div v-if="!disabled" class="flex flex-wrap items-center gap-1" :class="single ? 'order-last shrink-0 p-1.5' : 'border-b border-dl-line-soft p-2'">
+        <template v-if="!isPlain">
           <button
             v-for="tool in TOOLS"
             :key="tool.icon"
@@ -159,7 +168,7 @@ async function addImage(event: Event) {
           <DlButton size="sm" variant="ghost" icon="tabler-square-rounded" @click="startLink('button')">{{ t('campaignMessages.editor.button') }}</DlButton>
           <input ref="picker" type="file" accept="image/png,image/jpeg,image/gif" class="hidden" @change="addImage">
         </template>
-        <span v-else class="ps-1 text-xs text-dl-muted">{{ t('campaignMessages.editor.plain') }}</span>
+        <span v-else-if="!single" class="ps-1 text-xs text-dl-muted">{{ t('campaignMessages.editor.plain') }}</span>
         <DropdownMenuRoot>
           <DropdownMenuTrigger class="ms-auto flex h-8 items-center gap-1.5 rounded-lg bg-dl-ink px-3 text-[13px] font-semibold text-dl-on-ink focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-dl-cobalt">
             <DlIcon icon="tabler-braces" :size="16" />{{ t('campaignMessages.editor.insertField') }}
@@ -185,7 +194,7 @@ async function addImage(event: Event) {
         <DlButton size="sm" variant="ghost" @click="linking = null">{{ t('common.actions.cancel') }}</DlButton>
         <DlButton size="sm" variant="dark" type="submit">{{ t('campaignMessages.editor.apply') }}</DlButton>
       </form>
-      <EditorContent :editor="editor" class="min-h-48 px-4 py-3" :class="plain ? 'min-h-28' : 'min-h-64'" />
+      <EditorContent :editor="editor" :class="single ? 'min-w-0 flex-1 px-3.5 py-2' : plain ? 'min-h-28 px-4 py-3' : 'min-h-64 px-4 py-3'" />
     </div>
     <span v-if="error" class="text-xs text-dl-rejected">{{ error }}</span>
   </div>
@@ -194,6 +203,8 @@ async function addImage(event: Event) {
 <style>
 .dl-mail-text { outline: none; font-size: 14.5px; line-height: 1.65; color: var(--color-dl-fg); min-height: inherit; }
 .dl-mail-text p { margin: 0 0 10px; }
+.dl-mail-line p { margin: 0; }
+.dl-mail-line { white-space: nowrap; overflow-x: auto; }
 .dl-mail-text h2 { margin: 0 0 10px; font-size: 20px; font-weight: 700; }
 .dl-mail-text h3 { margin: 0 0 8px; font-size: 17px; font-weight: 700; }
 .dl-mail-text ul { list-style: disc; padding-inline-start: 22px; margin: 0 0 10px; }

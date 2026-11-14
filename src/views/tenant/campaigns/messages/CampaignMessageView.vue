@@ -154,10 +154,11 @@ async function sendBack() {
         </nav>
         <div class="flex flex-wrap items-center gap-3">
           <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-dl-cobalt/10 text-dl-cobalt"><DlIcon :icon="CHANNEL_ICON[message.channel]" :size="20" /></span>
-          <h1 class="min-w-0 font-display text-[24px] font-extrabold leading-tight tracking-[-0.02em] md:text-[28px]">{{ message.subject || t('campaignMessages.list.noSubject') }}</h1>
+          <h1 class="min-w-0 font-display text-[24px] font-extrabold leading-tight tracking-[-0.02em] md:text-[28px]">{{ text.fields(message.subject) || t('campaignMessages.list.noSubject') }}</h1>
           <DlBadge :tone="STATUS_TONE[message.status]" dot>{{ text.status(message.status) }}</DlBadge>
           <div class="ms-auto flex flex-wrap gap-2">
             <DlButton v-if="!isSms" variant="outline" icon="tabler-mail-forward" :loading="busy === 'test'" @click="test">{{ t('campaignMessages.test.button') }}</DlButton>
+            <DlButton v-if="message.status === 'approved' && !isSms && canWrite" variant="primary" icon="tabler-send" :to="{ name: 'tenant-campaign-sending-new', params: { id }, query: { message: message.id } }">{{ t('campaignSendings.new.fromMessage') }}</DlButton>
             <template v-if="canWrite">
               <DlButton v-if="locked && !unlocked" variant="outline" icon="tabler-pencil" @click="unlock">{{ t('common.actions.edit') }}</DlButton>
               <DlButton v-if="editable" variant="outline" :disabled="!dirty" :loading="busy === 'save'" @click="save()">{{ t('campaignMessages.page.saveDraft') }}</DlButton>
@@ -202,7 +203,8 @@ async function sendBack() {
       <div class="grid items-start gap-5 lg:grid-cols-[1.15fr_1fr]">
         <div class="flex min-w-0 flex-col gap-4">
           <template v-if="editable">
-            <DlInput v-model="form.subject" :label="isSms ? t('campaignMessages.fields.smsName') : t('campaignMessages.fields.subject')" :hint="isSms ? t('campaignMessages.fields.smsNameHint') : undefined" :error="errors.subject" />
+            <DlInput v-if="isSms" v-model="form.subject" :label="t('campaignMessages.fields.smsName')" :hint="t('campaignMessages.fields.smsNameHint')" :error="errors.subject" />
+            <MailEditor v-else v-model="form.subject" single :label="t('campaignMessages.fields.subject')" :error="errors.subject" />
             <MailEditor v-model="form.body" :label="t('campaignMessages.fields.body')" :plain="isSms" :error="errors.body" :upload="isSms ? undefined : uploadImage" />
           </template>
           <MailFilesCard v-if="!isSms" :files="message.attachments ?? []" :can-edit="editable" :busy="busy === 'files'" @add="addFiles" @remove="removeFile" />

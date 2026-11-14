@@ -13,5 +13,7 @@ export function useMessageText() {
     dateTime: (value?: string | null) => (value ? d(new Date(value), { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—'),
     status: (status: MessageStatus) => t(`campaignMessages.status.${status}`),
     channel: (channel: MailChannel) => t(`campaignMessages.channel.${channel}`),
+    /** A subject as it reads: `Invitation — {{CAMPAIGN_NAME}}` → « Invitation — ◆ Nom de la campagne ». */
+    fields: (value?: string | null) => (value ?? '').replace(/\{\{\s*([A-Z_]+)\s*\}\}/g, (_, code: string) => `◆ ${t(`campaignMessages.fields.${code}`)}`),
   }
 }

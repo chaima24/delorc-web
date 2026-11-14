@@ -1,0 +1,177 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Campagnes, les envois</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 150px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.why.note { background: rgba(232, 163, 61, .13); color: var(--ink); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 500px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.ph { display: flex; align-items: center; gap: 12px; }
+.st { display: inline-flex; align-items: center; gap: 6px; border-radius: 99px; padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.st::before { content: ''; width: 7px; height: 7px; border-radius: 99px; background: currentColor; }
+.st.wait { background: rgba(47, 84, 235, .1); color: var(--cobalt); } .st.run { background: rgba(232, 163, 61, .17); color: var(--amber); }
+.st.done { background: var(--signal-soft); color: var(--ink); } .st.off { background: var(--line-soft); color: var(--body); } .st.bad { background: rgba(192, 54, 44, .1); color: var(--brick); }
+.tiles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.tile { background: var(--paper); border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.tile strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; line-height: 1; } .tile span { font-size: 12.5px; color: var(--muted); }
+.tile .bar { height: 6px; border-radius: 99px; background: var(--line-soft); overflow: hidden; margin-top: 4px; } .tile .bar i { display: block; height: 100%; border-radius: 99px; }
+.chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid #9FB0AA; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; flex-shrink: 0; }
+.chk.on { background: var(--ink); border-color: var(--ink); } .chk.part { background: var(--ink); border-color: var(--ink); }
+.seen { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; color: var(--amber); background: rgba(232, 163, 61, .15); border-radius: 99px; padding: 2px 8px; }
+.stepper { display: flex; gap: 8px; font-size: 13px; } .stepper span { padding: 6px 12px; border-radius: 99px; background: var(--line-soft); color: var(--body); font-weight: 600; } .stepper span.on { background: var(--ink); color: var(--mist); }
+.opt { border: 1.5px solid var(--line); border-radius: 16px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; } .opt.on { border-color: var(--ink); box-shadow: 0 0 0 3px var(--mist); }
+.radio { width: 18px; height: 18px; border-radius: 99px; border: 2px solid #9FB0AA; flex-shrink: 0; margin-top: 2px; } .opt.on .radio { border: 5px solid var(--ink); }
+.meter { height: 10px; border-radius: 99px; background: var(--line-soft); overflow: hidden; display: flex; } .meter i { display: block; height: 100%; }
+.public { width: 1440px; margin: 0 28px 40px; min-height: 560px; border-radius: 18px; border: 1px solid var(--line); background: #EEF1F0; display: flex; align-items: center; justify-content: center; }
+.public .card { width: 460px; background: #fff; border-radius: 22px; padding: 28px; display: flex; flex-direction: column; gap: 14px; text-align: center; }
+.mono { width: 54px; height: 54px; border-radius: 16px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; margin: 0 auto; }
+</style></head><body>
+<p class="caption"><strong>Campagnes › partie 12c, les envois — proposition.</strong> Un <strong>envoi</strong> fait partir un email <strong>approuvé</strong> (12b) aux professionnels de santé qui ont donné leur consentement et que la grille promo vise, maintenant ou à une date choisie, par le compte email du laboratoire. On suit chaque professionnel : envoyé, échoué, ouvert, cliqué, désinscrit. Les SMS partiront quand un fournisseur sera choisi. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Qui reçoit</b> (décidé le 14 nov.) : les professionnels de santé avec un <b>consentement donné et actif</b>, une adresse email, et dont la <b>spécialité principale est cochée dans la grille</b> de la campagne. Filtres (spécialité, wilaya, segment, type, recherche), puis marketing coche qui le reçoit, ou « Tout cocher ». <b>Proposé :</b> la liste montre aussi, grisés et sans case, ceux qui ne peuvent pas le recevoir et pourquoi (pas d'email, désinscrit), pour que le nombre ne surprenne pas.</li>
+  <li><b>L'adresse</b> (décidé) : celle confirmée dans le consentement, sinon celle de la fiche.</li>
+  <li><b>Déjà reçu</b> (décidé) : un professionnel qui a déjà reçu ce message est marqué « déjà reçu » et laissé décoché ; marketing peut le cocher exprès (un rappel). <b>Proposé :</b> « Tout cocher » ne coche pas les « déjà reçu ».</li>
+  <li><b>Quand</b> (décidé) : maintenant, ou à une date et une heure, <b>seulement pendant les dates de la campagne</b>. <b>Proposé :</b> une heure programmée tombe sur un quart d'heure (09:00, 09:15…) ; l'envoi part dans le quart d'heure qui suit.</li>
+  <li><b>Le quota</b> (décidé) : un envoi plus grand que ce qui reste du quota d'emails du mois est <b>refusé avant de partir</b>, et revérifié à l'heure programmée (s'il ne passe plus, l'envoi est marqué « Échoué : quota atteint », rien n'est parti). <b>Proposé :</b> le panneau montre la jauge du mois et ce que l'envoi y ajoute.</li>
+  <li><b>Annuler seulement</b> (décidé) : un envoi programmé s'annule ; un envoi en cours s'arrête, ce qui est parti reste parti, le reste est « annulé ». Pas de pause.</li>
+  <li><b>Le suivi</b> (décidé) : par professionnel, <b>envoyé ou échoué</b> (avec l'erreur du serveur), puis <b>ouvert</b> (une petite image, approximatif : certaines messageries bloquent ou chargent les images d'avance) et <b>cliqué</b> (les liens passent par une courte adresse Delorc). Pas de « remis » ni de « rebond » : le compte SMTP du laboratoire ne les donne pas. <b>Proposé :</b> on garde la première ouverture et le premier clic de chacun, et le nombre de clics.</li>
+  <li><b>Le lien de désinscription</b> (décidé) : en bas de chaque email. Un clic met une <b>désinscription des emails des campagnes</b> sur le professionnel ; son consentement reste donné. <b>Seul le professionnel peut la lever</b>, en répondant à un nouveau consentement. Sa fiche l'affiche. <b>Proposé :</b> la page de désinscription demande une confirmation d'un clic (les antivirus des messageries ouvrent parfois les liens tout seuls).</li>
+  <li><b>Qui lance</b> (décidé) : <code>campaigns.update</code> (marketing), et seulement un message <b>approuvé</b>. <b>Proposé :</b> modifier un message (il repasse en brouillon) n'arrête pas un envoi déjà programmé : l'envoi garde la version approuvée qu'il a copiée au lancement. Supprimer un message utilisé par un envoi est refusé.</li>
+  <li><b>Les résultats</b> (décidé) : l'onglet « Envois » de la campagne et la page d'un envoi ; un chiffre « emails envoyés » sur l'onglet « La campagne ». <b>Proposé :</b> une campagne qui a des envois ne se supprime plus (le refus prévu en 12a).</li>
+  <li><b>Plus tard</b> (décidé) : les sessions Zoom avec les événements (14) ; l'envoi des SMS avec un fournisseur.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const wsNav = (on, links = ['Aides de visite', 'Campagnes', 'Modèles']) => `<nav class='ws-nav'>${links.map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const shell = (on, inner, extra = '', h = 760, rail = 'Engager', links) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SH</span></div>
+  <div style='display:flex;flex-direction:column;flex:1;gap:16px;padding:20px 28px 28px'>${wsNav(on, links)}${inner}</div>
+</div>${extra}</div>`
+const dialog = (title, text, actions) => `<div class='dialog'><div class='box'><strong style='font-size:17px'>${title}</strong><div style='display:flex;flex-direction:column;gap:10px'>${text}</div><footer>${actions}</footer></div></div>`
+const sheet = (title, hint, body, foot, w = 520) => `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet' style='width:${w}px'><header><div><strong style='font-size:18px'>${title}</strong><div class='hint'>${hint}</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header><div class='body'>${body}</div><footer>${foot}</footer></div></div>`
+
+const TABS = [['La campagne', ''], ['Grille promo', '16'], ['Emails & SMS', '4'], ['Envois', '3'], ['Matériels', '13'], ['Événements', '14'], ['Actions marketing', '15']]
+const LATER = ['13', '14', '15']
+const tabs = on => `<div class='tabs'>${TABS.map(([t, c]) => `<span class='${t === on ? 'on' : ''}' style='${LATER.includes(c) ? 'opacity:.55' : ''}'>${t}${c ? `<span class='count'>${LATER.includes(c) ? 'à venir · ' + c : c}</span>` : ''}</span>`).join('')}</div>`
+const campHead = `<div class='ph'><span class='chip'>CMP0007</span><h1 class='title display' style='font-size:28px'>Hiver 2026</h1><span class='chip ok'>En cours</span><span class='hint'>jour 18 sur 92 · Cardio, Généralistes</span></div>`
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0
+
+/* 1. Envois tab */
+const SENDS = [
+  ['Tensio 90 cp : 3 mois de traitement en une boîte', 'done', 'Terminé', '12 nov. 2026, 09:00', 412, 409, 3, 236, 71, 4],
+  ['Invitation : soirée cardiologie du 4 décembre', 'wait', 'Programmé', '20 nov. 2026, 08:30', 188, 0, 0, 0, 0, 0],
+  ['Tensio 90 cp : rappel', 'off', 'Annulé', '15 nov. 2026, 10:00', 120, 46, 0, 18, 5, 1],
+]
+const tab = `<div class='col'>${campHead}${tabs('Envois')}
+<div style='display:flex;gap:10px;align-items:center'><span class='seg'><span class='on'>Tous</span><span>Programmés</span><span>En cours</span><span>Terminés</span><span>Annulés</span></span>
+<span class='hint' style='margin-inline-start:auto'>Quota d'emails : <strong style='color:var(--ink)'>620 / 1 000</strong> utilisés en novembre</span><span class='btn primary'>+ Nouvel envoi</span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Message ↕</th><th>État ↕</th><th>Départ ↕</th><th class='num'>Destinataires ↕</th><th class='num'>Envoyés</th><th class='num'>Échoués</th><th class='num'>Ouverts</th><th class='num'>Cliqués</th><th class='num'>Désinscrits</th><th>Lancé par</th></tr></thead><tbody>
+${SENDS.map(([m, k, s, d, r, ok, ko, op, cl, un], i) => `<tr class='${i === 0 ? 'sel' : ''}'><td><strong>${m}</strong></td><td><span class='st ${k}'>${s}</span></td><td class='hint'>${d}</td><td class='num'>${r}</td><td class='num'>${ok || '—'}</td><td class='num'>${ko || '—'}</td><td class='num'>${ok ? `${op} <span class='hint'>· ${pct(op, ok)} %</span>` : '—'}</td><td class='num'>${ok ? `${cl} <span class='hint'>· ${pct(cl, ok)} %</span>` : '—'}</td><td class='num'>${un || '—'}</td><td class='hint'>Sara Haddad</td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>Seuls les emails <strong>approuvés</strong> (onglet « Emails &amp; SMS ») peuvent partir. Un envoi garde la version approuvée qu'il a copiée au lancement. Les SMS partiront quand un fournisseur SMS sera choisi.</div></div>`
+
+/* 2. new sending: message + recipients */
+const PEOPLE = [
+  ['Dr Yacine Cherif', 'Cardiologie', 'Alger', 'A', 'y.cherif@mail.dz', true, false, ''],
+  ['Dr Amel Bensalem', 'Cardiologie', 'Blida', 'B', 'a.bensalem@mail.dz', true, false, ''],
+  ['Dr Karim Ould Ali', 'Médecine Générale', 'Alger', 'A', 'k.ouldali@mail.dz', false, true, ''],
+  ['Dr Nadia Ferhat', 'Médecine Interne', 'Tipaza', 'C', 'n.ferhat@mail.dz', true, false, ''],
+  ['Dr Samir Haddad', 'Médecine Générale', 'Alger', 'B', '', false, false, 'Pas d\'email'],
+  ['Dr Lila Mansouri', 'Cardiologie', 'Boumerdès', 'A', 'l.mansouri@mail.dz', false, false, 'Désinscrite le 12 nov.'],
+  ['Dr Omar Belkacem', 'Médecine Générale', 'Blida', 'C', 'o.belkacem@mail.dz', true, false, ''],
+]
+const recipientsTable = `<table class='table'><thead><tr><th style='width:34px'><span class='chk part'>–</span></th><th>Professionnel de santé ↕</th><th>Spécialité ↕</th><th>Wilaya ↕</th><th>Segment</th><th>Adresse</th><th></th></tr></thead><tbody>
+${PEOPLE.map(([n, s, w, g, e, on, seen, no]) => `<tr style='${no ? 'opacity:.5' : ''}'><td>${no ? '' : `<span class='chk ${on ? 'on' : ''}'>${on ? '✓' : ''}</span>`}</td><td><strong>${n}</strong></td><td>${s}</td><td>${w}</td><td>${g}</td><td class='hint'>${e || '—'}</td><td>${seen ? `<span class='seen'>↻ déjà reçu le 12 nov.</span>` : no ? `<span class='hint'>${no}</span>` : ''}</td></tr>`).join('')}
+</tbody></table>`
+const newSend = `<div class='col'><div><div class='crumbs'>Engager › Campagnes › Hiver 2026 › Envois</div><h1 class='title display' style='font-size:28px'>Nouvel envoi</h1></div>
+<div class='stepper'><span class='on'>1 · Message et destinataires</span><span>2 · Quand</span></div>
+<label class='field'><span>Message approuvé *</span><div class='input'>✉ Invitation : soirée cardiologie du 4 décembre · approuvé par Amine Rahmani le 18 nov. ▾</div></label>
+<div class='rec'><header><strong>Destinataires</strong><span class='hint'>Consentement donné · spécialité cochée dans la grille d'Hiver 2026</span><span style='margin-inline-start:auto' class='chip ok'>4 cochés sur 5 possibles</span></header>
+<div style='display:flex;gap:10px;flex-wrap:wrap'><div class='input muted' style='width:240px'>Rechercher un nom ou un email</div><div class='input muted' style='width:170px'>Spécialité ▾</div><div class='input muted' style='width:150px'>Wilaya ▾</div><div class='input muted' style='width:140px'>Segment ▾</div><div class='input muted' style='width:140px'>Type : Médecin ▾</div><span class='btn sm outline' style='margin-inline-start:auto'>Tout cocher</span></div>
+${recipientsTable}
+<div class='why'>7 professionnels visés par la grille ont donné leur consentement : 5 peuvent le recevoir, 2 non (grisés). « Tout cocher » laisse décochés ceux qui l'ont déjà reçu.</div></div>
+<div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn ghost'>Annuler</span><span class='btn dark'>Suivant : quand →</span></div></div>`
+
+/* 3. when + quota */
+const quota = (used, add, total, bad = false) => `<div class='rec'><header><strong>Quota d'emails de novembre</strong><span class='hint' style='margin-inline-start:auto'>${used} utilisés + ${add} = ${used + add} / ${total}</span></header>
+<div class='meter'><i style='width:${used / total * 100}%;background:var(--ink)'></i><i style='width:${Math.min(add, total - used) / total * 100}%;background:${bad ? 'var(--brick)' : 'var(--signal)'}'></i></div>
+${bad ? `<div class='why bad'>Cet envoi compte <strong>${add} emails</strong>, il en reste <strong>${total - used}</strong> ce mois : décochez des destinataires ou attendez le 1<sup>er</sup> décembre. Rien n'est parti.</div>` : `<div class='why'>Il restera ${total - used - add} emails pour le mois (notifications comprises).</div>`}</div>`
+const whenSheet = (bad = false) => sheet('Nouvel envoi · quand', 'Invitation : soirée cardiologie du 4 décembre · ' + (bad ? '520' : '4') + ' destinataires', `
+<div class='stepper'><span>1 · Message et destinataires</span><span class='on'>2 · Quand</span></div>
+<div class='opt'><span class='radio'></span><div><strong>Maintenant</strong><div class='hint'>Part dans la minute, par le compte email du laboratoire.</div></div></div>
+<div class='opt on'><span class='radio'></span><div style='flex:1;display:flex;flex-direction:column;gap:10px'><div><strong>Programmer</strong><div class='hint'>Pendant la campagne : du 1 nov. 2026 au 31 janv. 2027.</div></div>
+<div style='display:flex;gap:10px'><div class='input' style='flex:1'>📅 jeu. 20 nov. 2026</div><div class='input' style='width:120px'>08:30 ▾</div></div></div></div>
+${bad ? quota(620, 520, 1000, true) : quota(620, 4, 1000)}
+<div class='why'>Le quota est revérifié à l'heure programmée. Les liens et une petite image de suivi sont ajoutés à l'email, avec le lien de désinscription en bas.</div>`,
+`<span class='btn ghost'>← Retour</span><span class='btn dark' style='margin-inline-start:auto;${bad ? 'opacity:.45' : ''}'>Programmer l'envoi</span>`)
+
+/* 5. a sending's page */
+const ROWS = [
+  ['Dr Yacine Cherif', 'y.cherif@mail.dz', 'done', 'Envoyé', '12 nov. 09:00', '12 nov. 11:42', '12 nov. 11:43 · 2 clics'],
+  ['Dr Amel Bensalem', 'a.bensalem@mail.dz', 'done', 'Envoyé', '12 nov. 09:00', '13 nov. 08:10', '—'],
+  ['Dr Nadia Ferhat', 'n.ferhat@mail.dz', 'done', 'Envoyé', '12 nov. 09:01', '—', '—'],
+  ['Dr Rachid Kaci', 'r.kaci@mail', 'bad', 'Échoué', '12 nov. 09:01', '—', '—', '550 Adresse inconnue'],
+  ['Dr Lila Mansouri', 'l.mansouri@mail.dz', 'off', 'Désinscrite', '12 nov. 09:01', '12 nov. 18:20', '12 nov. 18:21'],
+]
+const tile = (n, l, c, of) => `<div class='tile'><strong>${n}</strong><span>${l}</span>${of ? `<div class='bar'><i style='width:${pct(n, of)}%;background:${c}'></i></div>` : ''}</div>`
+const sendPage = `<div class='col'><div><div class='crumbs'>Engager › Campagnes › Hiver 2026 › Envois</div>
+<div class='ph' style='margin-top:4px'><h1 class='title display' style='font-size:26px'>Tensio 90 cp : 3 mois de traitement en une boîte</h1><span class='st done'>Terminé</span><span class='btn outline' style='margin-inline-start:auto'>Voir le message</span></div>
+<div class='hint' style='margin-top:6px'>Lancé par Sara Haddad le 11 nov. · parti le 12 nov. 2026 à 09:00 · terminé à 09:04 · version approuvée par Amine Rahmani le 10 nov.</div></div>
+<div class='tiles'>${tile(409, 'envoyés sur 412', '#2F8F5B', 412)}${tile(3, 'échoués', 'var(--brick)', 412)}${tile(236, 'ouverts · 58 %', 'var(--cobalt)', 409)}${tile(71, 'ont cliqué · 17 %', 'var(--amber)', 409)}${tile(4, 'désinscrits', 'var(--ink)', 409)}</div>
+<div style='display:flex;gap:10px'><div class='input muted' style='width:260px'>Rechercher un professionnel</div><span class='seg'><span class='on'>Tous</span><span>Envoyés</span><span>Échoués</span><span>Ouverts</span><span>Cliqués</span><span>Désinscrits</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Professionnel de santé ↕</th><th>Adresse</th><th>État ↕</th><th>Envoyé ↕</th><th>Ouvert</th><th>Cliqué</th><th>Erreur</th></tr></thead><tbody>
+${ROWS.map(([n, e, k, s, d, o, c, err]) => `<tr><td><strong>${n}</strong></td><td class='hint'>${e}</td><td><span class='st ${k}'>${s}</span></td><td class='hint'>${d}</td><td class='hint'>${o}</td><td class='hint'>${c}</td><td class='hint' style='color:${err ? 'var(--brick)' : ''}'>${err ?? ''}</td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>Les ouvertures sont approximatives : certaines messageries bloquent les images, d'autres les chargent d'avance. Pas de « remis » ni de « rebond » : le serveur email du laboratoire dit seulement s'il a accepté le message.</div></div>`
+
+/* 6. cancel */
+const runPage = sendPage.replace("<span class='st done'>Terminé</span>", "<span class='st run'>En cours · 180 / 412</span>").replace("<span class='btn outline' style='margin-inline-start:auto'>Voir le message</span>", "<span class='btn outline' style='margin-inline-start:auto'>Voir le message</span><span class='btn outline' style='color:var(--brick)'>Annuler l'envoi</span>")
+const cancelDlg = dialog('Annuler cet envoi ?', `<div><strong>180 emails sont déjà partis</strong> : ils restent envoyés. Les <strong>232 restants</strong> ne partiront pas et sont marqués « annulé ».</div><div class='why'>Un envoi programmé qui n'a pas commencé s'annule entièrement. On peut relancer un nouvel envoi plus tard : ceux qui l'ont reçu y seront marqués « déjà reçu ».</div>`, `<span class='btn sm ghost'>Non, continuer</span><span class='btn sm dark' style='background:var(--brick)'>Annuler l'envoi</span>`)
+
+/* 7. unsubscribe page */
+const unsub = (done = false) => `<div class='public'><div class='card'><span class='mono'>D</span>
+${done ? `<h2 style='margin:0;font-family:"Bricolage Grotesque",sans-serif'>C'est noté</h2><p style='margin:0;color:var(--body)'>Vous ne recevrez plus les emails des campagnes de <strong>Demo Pharma</strong> à l'adresse y.cherif@mail.dz.</p><p class='hint' style='margin:0'>Vous avez changé d'avis ? Demandez à votre délégué un nouveau consentement.</p>`
+  : `<h2 style='margin:0;font-family:"Bricolage Grotesque",sans-serif'>Ne plus recevoir ces emails ?</h2><p style='margin:0;color:var(--body)'><strong>Demo Pharma</strong> ne vous enverra plus ses emails de campagne à <strong>y.cherif@mail.dz</strong>. Les visites de vos délégués ne changent pas.</p><span class='btn dark' style='justify-content:center'>Me désinscrire</span><span class='hint'>Vous pourrez vous réinscrire en donnant un nouveau consentement.</span>`}
+</div></div>`
+
+/* 8. on the record */
+const record = `<div class='col'><div><div class='crumbs'>Professionnels › Médecins</div><div class='ph'><h1 class='title display' style='font-size:30px'>Dr Lila Mansouri</h1><span class='chip'>Cardiologie · Boumerdès</span></div></div>
+<div class='tabs'><span class='on'>Fiche</span><span>Visites</span><span>Consentements<span class='count'>1</span></span><span>Cycles</span></div>
+<div style='display:flex;gap:14px;align-items:flex-start'>
+<div class='rec' style='flex:1'><header><strong>Contact</strong></header><div class='kv'><span>Email</span><span>l.mansouri@mail.dz</span><span>Téléphone</span><span>0550 11 22 33</span><span>Contactée par</span><span>email</span></div>
+<div class='why note'>✉̸ <strong>Ne reçoit plus les emails des campagnes</strong> depuis le 12 nov. 2026 (lien de désinscription de l'envoi « Tensio 90 cp »). Son consentement reste donné. Seule une nouvelle réponse de sa part à un consentement lève la désinscription.</div></div>
+<div class='rec' style='flex:1'><header><strong>Consentement</strong><span class='chip ok' style='margin-inline-start:auto'>Donné</span></header><div class='kv'><span>Donné le</span><span>3 oct. 2026, par email confirmé</span><span>Demandé par</span><span>Karim Benali</span></div><span class='btn sm outline' style='align-self:flex-start'>Demander un nouveau consentement</span></div>
+</div></div>`
+
+/* 9. La campagne figure */
+const campaignTab = `<div class='col'>${campHead}${tabs('La campagne')}
+<div style='display:grid;grid-template-columns:repeat(5,1fr);gap:12px'>${[['✓', '16', 'coches dans la grille'], ['◆', '5', 'marques promues'], ['✚', '5', 'spécialités visées'], ['✉', '10', 'coches avec un message'], ['➚', '455', 'emails envoyés']].map(([i, n, l], k) => `<div class='tile' style='flex-direction:row;align-items:center;gap:12px;${k === 4 ? 'outline:2px solid var(--cobalt)' : ''}'><span style='width:40px;height:40px;border-radius:12px;background:var(--mist);display:inline-flex;align-items:center;justify-content:center'>${i}</span><div><strong>${n}</strong><br><span>${l}</span></div></div>`).join('')}</div>
+<div class='why'>Nouveau (proposé) : « emails envoyés » compte les emails partis de tous les envois de la campagne (409 + 46). Un clic ouvre l'onglet « Envois ».</div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Onglet « Envois » de la campagne.</strong> Message, état (Programmé, En cours, Terminé, Annulé, Échoué), départ, destinataires, envoyés, échoués, ouverts, cliqués, désinscrits, lancé par. Le quota du mois est rappelé à côté de « + Nouvel envoi ».`) + shell('Campagnes', tab, '', 560),
+  label(2, `<strong>« + Nouvel envoi », étape 1.</strong> Un message approuvé, puis les destinataires : consentement donné et spécialité cochée dans la grille. Filtres, cases, « Tout cocher ». « Déjà reçu » laissé décoché (Dr Ould Ali) ; sans email ou désinscrit : grisé, sans case.`) + shell('Campagnes', newSend, '', 900),
+  label(3, `<strong>Étape 2 : quand.</strong> Maintenant, ou une date et une heure pendant la campagne. La jauge du quota montre le mois et ce que l'envoi y ajoute.`) + shell('Campagnes', newSend, whenSheet(), 900),
+  label(4, `<strong>Quota refusé.</strong> 520 destinataires, il reste 380 emails ce mois : le bouton est grisé, la raison est écrite. Rien n'est parti.`) + shell('Campagnes', newSend, whenSheet(true), 900),
+  label(5, `<strong>La page d'un envoi.</strong> Cinq chiffres, puis chaque professionnel : état, envoyé, ouvert, cliqué, l'erreur du serveur pour un échec. Filtres par état.`) + shell('Campagnes', sendPage, '', 760),
+  label(6, `<strong>Annuler un envoi en cours.</strong> Ce qui est parti reste parti, le reste est marqué « annulé ».`) + shell('Campagnes', runPage, cancelDlg, 760),
+  label(7, `<strong>Le lien de désinscription</strong>, en bas de chaque email : une page publique, sans connexion, qui demande un clic de confirmation…`) + unsub(),
+  label('7a', `<strong>…puis confirme.</strong> La désinscription est enregistrée sur le professionnel ; son consentement reste donné.`) + unsub(true),
+  label(8, `<strong>Sur la fiche du professionnel.</strong> La désinscription est affichée avec sa date et l'envoi d'où elle vient. Seul un nouveau consentement répondu par le professionnel la lève.`) + shell('Médecins', record, '', 560, 'Professionnels', ['Médecins', 'Organisations', 'Consentements']),
+  label(9, `<strong>« La campagne » :</strong> un cinquième chiffre, « emails envoyés ».`) + shell('Campagnes', campaignTab, '', 420),
+].join('')
+</script></body></html>
