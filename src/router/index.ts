@@ -97,6 +97,10 @@ const labRoutes = [
       // Engager › Campagnes (docs/api/campaigns.md).
       { path: 'campaigns', name: 'tenant-campaigns', component: () => import('@/views/tenant/campaigns/CampaignListView.vue'), meta: { permission: 'campaigns.show' } },
       { path: 'campaigns/:id(\\d+)', name: 'tenant-campaign', component: () => import('@/views/tenant/campaigns/CampaignDetailView.vue'), props: true, meta: { permission: 'campaigns.show' } },
+      // A campaign's emails and SMS, and the lab's templates (docs/api/campaign-messages.md). The API checks who writes and who approves.
+      { path: 'campaigns/:id(\\d+)/messages/:messageId(\\d+)', name: 'tenant-campaign-message', component: () => import('@/views/tenant/campaigns/messages/CampaignMessageView.vue'), props: true, meta: { permission: 'campaigns.show' } },
+      { path: 'mail-templates', name: 'tenant-mail-templates', component: () => import('@/views/tenant/campaigns/templates/MailTemplateListView.vue'), meta: { permission: 'mail-templates.show' } },
+      { path: 'mail-templates/:id(\\d+)', name: 'tenant-mail-template', component: () => import('@/views/tenant/campaigns/templates/MailTemplateView.vue'), props: true, meta: { permission: 'mail-templates.show' } },
       // Équipe › Frais (docs/api/expenses.md): the board for approvers, else the person's own month.
       { path: 'expenses', name: 'tenant-expenses', component: () => import('@/views/tenant/expenses/ExpenseBoardView.vue'), meta: { permission: 'expenses.show', feature: 'module.expenses' } },
       { path: 'expenses/me', name: 'tenant-expense-mine', component: () => import('@/views/tenant/expenses/ExpenseMonthView.vue'), meta: { permission: 'expenses.show', feature: 'module.expenses' } },

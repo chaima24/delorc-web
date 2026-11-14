@@ -20,11 +20,13 @@ import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import CoachingRolePicks from '@/views/tenant/coaching/CoachingRolePicks.vue'
 import CampaignGrid from './CampaignGrid.vue'
+import CampaignMessagesTab from './messages/CampaignMessagesTab.vue'
 import { brandInitials, campaignProgress, STATE_TONE, useCampaignText } from './campaignDisplay'
 import { useCampaignLookups } from './useCampaignLookups'
 
 // A campaign's page: a header card (code, state, name, objective, teams, the date bar) and one tab per part. 12a has
-// "La campagne" and "Grille promo"; messages, sendings, materials, events and actions add their tabs with their modules.
+// "La campagne" and "Grille promo", 12b "Emails & SMS" (for who writes or approves them); sendings, materials, events
+// and actions add their tabs with their modules.
 // Mockup: docs/design/campaigns-mockups/Campaigns.html (frames 3 to 9)
 const props = defineProps<{ id: string }>()
 const { t, n } = useI18n()
@@ -51,13 +53,19 @@ async function load() {
 watch(() => props.id, () => { campaign.value = null; load() }, { immediate: true })
 
 // The tab is kept in the address (?tab=grid), so a reload or a shared link opens the same tab.
+const seesMessages = computed(() => auth.can('campaigns.update') || auth.can('campaign-messages.approve'))
+const TABS = ['campaign', 'grid', 'messages']
 const tab = computed({
-  get: () => (route.query.tab === 'grid' ? 'grid' : 'campaign'),
-  set: value => router.replace({ query: { ...route.query, tab: value === 'grid' ? 'grid' : undefined } }),
+  get: () => {
+    const asked = String(route.query.tab ?? '')
+    return TABS.includes(asked) && (asked !== 'messages' || seesMessages.value) ? asked : 'campaign'
+  },
+  set: value => router.replace({ query: { ...route.query, tab: value === 'campaign' ? undefined : value } }),
 })
 const tabs = computed(() => [
   { value: 'campaign', label: t('campaigns.tabs.campaign') },
   { value: 'grid', label: `${t('campaigns.tabs.grid')} · ${n(campaign.value?.figures?.ticks ?? 0)}` },
+  ...(seesMessages.value ? [{ value: 'messages', label: `${t('campaigns.tabs.messages')} · ${n(campaign.value?.messages_count ?? 0)}` }] : []),
 ])
 
 const progress = computed(() => (campaign.value ? campaignProgress(campaign.value.start_date, campaign.value.end_date) : null))
@@ -138,7 +146,6 @@ const TILES = [
   { key: 'with_message', icon: 'tabler-message', tone: 'bg-dl-rejected/10 text-dl-rejected' },
 ] as const
 const LATER = [
-  { icon: 'tabler-message-2', key: 'messages', module: '12b' },
   { icon: 'tabler-send', key: 'sendings', module: '12c' },
   { icon: 'tabler-package', key: 'materials', module: '13' },
   { icon: 'tabler-calendar-event', key: 'events', module: '14' },
@@ -266,7 +273,7 @@ const LATER = [
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-3 md:grid-cols-5">
+            <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
               <div v-for="part in LATER" :key="part.key" class="flex items-center gap-3 rounded-2xl border-[1.5px] border-dashed border-dl-line p-3.5 text-[13px] text-dl-muted">
                 <DlIcon :icon="part.icon" :size="20" />
                 <div><strong class="block text-dl-body">{{ t(`campaigns.later.${part.key}`) }}</strong>{{ t('campaigns.later.comes', { module: part.module }) }}</div>
@@ -277,6 +284,10 @@ const LATER = [
 
         <template #grid>
           <div class="pt-1"><CampaignGrid :campaign="campaign" :can-edit="canEdit" @changed="load" /></div>
+        </template>
+
+        <template v-if="seesMessages" #messages>
+          <div class="pt-1"><CampaignMessagesTab :campaign-id="campaign.id" @changed="load" /></div>
         </template>
       </DlTabs>
     </template>
