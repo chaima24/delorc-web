@@ -45,7 +45,8 @@ const props = withDefaults(defineProps<{
 const model = defineModel<string | number | null>()
 const { t } = useI18n()
 const id = useId()
-const search = ref('')
+/** What is typed; `v-model:search` lets a page search on the server (activity targets). */
+const search = defineModel<string>('search', { default: '' })
 /** Typed since the list opened: until then every choice shows (the box holds the chosen label). */
 const typed = ref(false)
 
