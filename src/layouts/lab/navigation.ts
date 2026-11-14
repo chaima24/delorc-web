@@ -78,12 +78,13 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
-    // Engager: what reps show and hand out (docs/api/advs.md); campaigns and materials later.
+    // Engager: what reps show and hand out (docs/api/advs.md), the campaigns (docs/api/campaigns.md); materials later.
     id: 'engage',
     title: 'nav.workspaces.engage',
     icon: 'tabler-presentation',
     links: [
       { title: 'nav.catalog.advs', to: { name: 'tenant-advs' }, icon: 'tabler-presentation', resource: 'advs' },
+      { title: 'nav.engage.campaigns', to: { name: 'tenant-campaigns' }, icon: 'tabler-speakerphone', resource: 'campaigns', matches: ['tenant-campaign'] },
     ],
   },
   {

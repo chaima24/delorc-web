@@ -24,6 +24,7 @@ import VisitReopenSheet from './VisitReopenSheet.vue'
 import { useVisitText } from './visitDisplay'
 import VisitReportFields from './VisitReportFields.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
+import CampaignPromoBox from '@/views/tenant/campaigns/CampaignPromoBox.vue'
 
 // A visit's page: the report on the left (brands, ADVs shown, objectives and comment), the visit, the people and
 // the visits before and after on the right. Each card is edited in place; a planned visit gets "Saisir le compte
@@ -270,6 +271,7 @@ watch(() => props.id, load, { immediate: true })
         </div>
 
         <aside class="flex w-full shrink-0 flex-col gap-4 lg:w-[380px]">
+          <CampaignPromoBox :user-id="visit.user?.id" :date="visit.visit_date" :hcp-id="visit.target.type === 'hcp' ? visit.target.id : null" />
           <DlRecordSection v-bind="section('visit')" :title="t('visits.blocks.visit')" icon="tabler-map-pin" class="bg-dl-paper" @update:editing="edit('visit')" @save="save" @cancel="editing = null">
             <dl class="grid grid-cols-[110px_1fr] gap-x-2.5 gap-y-2 text-[13.5px]">
               <dt class="text-dl-muted">{{ t(isDone ? 'visits.fields.day' : 'visits.fields.dayPlanned') }}</dt>

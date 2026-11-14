@@ -94,6 +94,9 @@ const labRoutes = [
       { path: 'coaching-grid', name: 'tenant-coaching-grid', component: () => import('@/views/tenant/coaching/CoachingGridView.vue'), meta: { permission: 'coaching-setup.show' } },
       // Engager › Aides de visite (docs/api/advs.md).
       { path: 'advs', name: 'tenant-advs', component: () => import('@/views/tenant/advs/AdvListView.vue'), meta: { permission: 'advs.show' } },
+      // Engager › Campagnes (docs/api/campaigns.md).
+      { path: 'campaigns', name: 'tenant-campaigns', component: () => import('@/views/tenant/campaigns/CampaignListView.vue'), meta: { permission: 'campaigns.show' } },
+      { path: 'campaigns/:id(\\d+)', name: 'tenant-campaign', component: () => import('@/views/tenant/campaigns/CampaignDetailView.vue'), props: true, meta: { permission: 'campaigns.show' } },
       // Équipe › Frais (docs/api/expenses.md): the board for approvers, else the person's own month.
       { path: 'expenses', name: 'tenant-expenses', component: () => import('@/views/tenant/expenses/ExpenseBoardView.vue'), meta: { permission: 'expenses.show', feature: 'module.expenses' } },
       { path: 'expenses/me', name: 'tenant-expense-mine', component: () => import('@/views/tenant/expenses/ExpenseMonthView.vue'), meta: { permission: 'expenses.show', feature: 'module.expenses' } },

@@ -20,6 +20,7 @@ import VisitReportFields from './VisitReportFields.vue'
 import VisitTargetSearch, { type FoundTarget } from './VisitTargetSearch.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
 import { usePlanningSave } from './visitPlanning'
+import CampaignPromoBox from '@/views/tenant/campaigns/CampaignPromoBox.vue'
 
 // "Ajouter une visite": one page, one save. The visit on top (who, which day, canal, planned or done), then the
 // report blocks when it is done; the summary stays at the side. With an id it is "Saisir le compte rendu" of a
@@ -235,6 +236,7 @@ const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', p
       </div>
 
       <aside class="flex w-full shrink-0 flex-col gap-4 lg:sticky lg:top-4 lg:w-[360px]">
+        <CampaignPromoBox :user-id="form.user_id" :date="form.date" :hcp-id="form.type === 'hcp' ? form.target?.id : null" />
         <section class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
           <h2 class="text-base font-semibold">{{ t('visits.form.summary') }}</h2>
           <dl class="grid grid-cols-[110px_1fr] gap-x-2.5 gap-y-2 text-[13.5px]">

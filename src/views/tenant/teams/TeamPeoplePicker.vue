@@ -77,8 +77,8 @@ function toggle(id: number) {
       {{ t('teams.people.legend') }}
       <span class="font-normal text-dl-muted">{{ t('teams.people.chosen', { count: model.length }, model.length) }}</span>
     </legend>
-    <DlInput v-model="search" type="search" icon="tabler-search" :label="t('teams.people.search')" :placeholder="t('teams.people.search')" hide-label />
     <DlSelect v-model="role" :label="t('users.columns.role')" :options="roleOptions" />
+    <DlInput v-model="search" type="search" icon="tabler-search" :label="t('teams.people.search')" :placeholder="t('teams.people.search')" hide-label />
     <ul class="flex max-h-80 flex-col overflow-y-auto rounded-2xl border border-dl-line">
       <li v-for="person in visible" :key="person.id" class="border-b border-dl-line-soft last:border-b-0">
         <label class="flex min-h-12 cursor-pointer items-center gap-3 px-3.5 py-2 text-sm hover:bg-dl-mist">
