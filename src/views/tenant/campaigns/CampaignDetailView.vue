@@ -23,12 +23,13 @@ import CampaignGrid from './CampaignGrid.vue'
 import CampaignMessagesTab from './messages/CampaignMessagesTab.vue'
 import CampaignSendingsTab from './sendings/CampaignSendingsTab.vue'
 import CampaignMaterialsTab from './materials/CampaignMaterialsTab.vue'
+import CampaignEventsTab from '@/views/tenant/events/CampaignEventsTab.vue'
 import { brandInitials, campaignProgress, STATE_TONE, useCampaignText } from './campaignDisplay'
 import { useCampaignLookups } from './useCampaignLookups'
 
 // A campaign's page: a header card (code, state, name, objective, teams, the date bar) and one tab per part. 12a has
-// "La campagne" and "Grille promo", 12b "Emails & SMS" (for who writes or approves them); sendings, materials, events
-// and actions add their tabs with their modules.
+// "La campagne" and "Grille promo", 12b "Emails & SMS" (for who writes or approves them), then sendings, materials and
+// events (14); actions add theirs with their module.
 // Mockup: docs/design/campaigns-mockups/Campaigns.html (frames 3 to 9)
 const props = defineProps<{ id: string }>()
 const { t, n } = useI18n()
@@ -56,11 +57,12 @@ watch(() => props.id, () => { campaign.value = null; load() }, { immediate: true
 
 // The tab is kept in the address (?tab=grid), so a reload or a shared link opens the same tab.
 const seesMessages = computed(() => auth.can('campaigns.update') || auth.can('campaign-messages.approve'))
-const TABS = ['campaign', 'grid', 'messages', 'sendings', 'materials']
+const seesEvents = computed(() => auth.can('events.show'))
+const TABS = ['campaign', 'grid', 'messages', 'sendings', 'materials', 'events']
 const tab = computed({
   get: () => {
     const asked = String(route.query.tab ?? '')
-    return TABS.includes(asked) && (!['messages', 'sendings'].includes(asked) || seesMessages.value) && (asked !== 'materials' || canEdit.value) ? asked : 'campaign'
+    return TABS.includes(asked) && (!['messages', 'sendings'].includes(asked) || seesMessages.value) && (asked !== 'materials' || canEdit.value) && (asked !== 'events' || seesEvents.value) ? asked : 'campaign'
   },
   set: value => router.replace({ query: { ...route.query, tab: value === 'campaign' ? undefined : value } }),
 })
@@ -72,6 +74,7 @@ const tabs = computed(() => [
     { value: 'sendings', label: `${t('campaigns.tabs.sendings')} · ${n(campaign.value?.sendings_count ?? 0)}` },
   ] : []),
   ...(canEdit.value ? [{ value: 'materials', label: `${t('campaigns.tabs.materials')} · ${n(campaign.value?.materials_count ?? 0)}` }] : []),
+  ...(seesEvents.value ? [{ value: 'events', label: `${t('campaigns.tabs.events')} · ${n(campaign.value?.events_count ?? 0)}` }] : []),
 ])
 
 const progress = computed(() => (campaign.value ? campaignProgress(campaign.value.start_date, campaign.value.end_date) : null))
@@ -153,7 +156,6 @@ const TILES = [
   { key: 'emails_sent', icon: 'tabler-send', tone: 'bg-dl-ink/10 text-dl-fg' },
 ] as const
 const LATER = [
-  { icon: 'tabler-calendar-event', key: 'events', module: '14' },
   { icon: 'tabler-flag', key: 'actions', module: '15' },
 ]
 </script>
@@ -297,6 +299,10 @@ const LATER = [
 
         <template v-if="canEdit" #materials>
           <div class="pt-1"><CampaignMaterialsTab :campaign="campaign" @changed="load" /></div>
+        </template>
+
+        <template v-if="seesEvents" #events>
+          <div class="pt-1"><CampaignEventsTab :campaign-id="campaign.id" @changed="load" /></div>
         </template>
 
         <template v-if="seesMessages" #sendings>

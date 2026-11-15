@@ -1317,6 +1317,12 @@
         "description": "Team expense claims (one day per person, approved by their manager) and their settings in the Studio.",
         "name": "Expenses"
       }
+    },
+    "events": {
+      "sponsoring": {
+        "description": "On an event, each invited healthcare professional can be marked as sponsored by the lab, with an amount; their record lists what was sponsored.",
+        "name": "Sponsoring (events)"
+      }
     }
   }
 }

@@ -1317,6 +1317,12 @@
         "description": "Notes de frais des équipes (un jour par personne, approuvé par le responsable) et leurs paramètres dans le Studio.",
         "name": "Frais"
       }
+    },
+    "events": {
+      "sponsoring": {
+        "description": "Sur un événement, chaque professionnel de santé invité peut être noté « pris en charge » par le laboratoire, avec un montant ; sa fiche liste ses prises en charge.",
+        "name": "Pris en charge (événements)"
+      }
     }
   }
 }

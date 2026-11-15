@@ -1,0 +1,221 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Événements</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.why.note { background: rgba(232, 163, 61, .13); color: var(--ink); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 520px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.ph { display: flex; align-items: center; gap: 12px; }
+.tiles { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.tile { background: var(--paper); border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.tile strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; line-height: 1; } .tile span { font-size: 12.5px; color: var(--muted); }
+.chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid #9FB0AA; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; flex-shrink: 0; } .chk.on { background: var(--ink); border-color: var(--ink); }
+.mat { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; background: var(--mist); }
+.mat .ic { width: 38px; height: 38px; border-radius: 12px; background: var(--paper); display: inline-flex; align-items: center; justify-content: center; font-size: 17px; }
+.rpanel { width: 460px; flex-shrink: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; align-self: stretch; }
+.rpanel header { padding: 20px 22px 16px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.rpanel header .ic { width: 44px; height: 44px; border-radius: 14px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.rpanel .body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; flex: 1; font-size: 14px; }
+.rpanel footer { padding: 14px 22px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; }
+.step { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--paper); } .step span { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; } .step b { min-width: 40px; text-align: center; }
+.stars { color: #E8A33D; letter-spacing: 2px; font-size: 16px; } .stars i { color: var(--line); font-style: normal; }
+.flow { display: flex; align-items: center; gap: 8px; font-size: 13px; } .flow span { padding: 4px 10px; border-radius: 99px; background: var(--mist); color: var(--muted); font-weight: 600; } .flow span.on { background: var(--ink); color: var(--signal); } .flow span.done { background: var(--signal-soft); color: var(--ink); }
+.yn { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; } .yn span { padding: 6px 12px; font-size: 13px; font-weight: 600; } .yn span.on { background: var(--ink); color: var(--signal); }
+.feat { font-size: 11px; font-weight: 700; color: var(--cobalt); background: rgba(47, 84, 235, .1); border-radius: 99px; padding: 2px 8px; white-space: nowrap; }
+</style></head><body>
+<p class="caption"><strong>Engager › module 14, les événements — proposition.</strong> Un congrès, une journée scientifique, un salon, un staff : <strong>marketing</strong> l'organise depuis une campagne, ou un <strong>délégué / manager propose</strong> le sien, que son manager valide. Chaque participant (délégué) remplit <strong>sa partie</strong> : ses heures, s'il y a participé, une note, son coût réel, <strong>ses professionnels de santé invités et présents</strong>, les <strong>matériels « événement »</strong> pris dans son stock (module 13). Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Qui crée</b> (décidé) : marketing (<code>events</code> + toutes les personnes) crée un événement <b>déjà validé</b> ; un délégué ou un manager <b>propose</b> le sien, son manager (ou un admin) le <b>valide</b> ou le <b>refuse avec un motif</b>. <b>Proposé :</b> un événement refusé se corrige et se propose à nouveau ; la proposition d'un manager va à son propre manager ; sans manager au-dessus, il est validé par un admin.</li>
+  <li><b>Campagne facultative</b> (décidé) : l'événement d'une campagne apparaît dans son onglet « Événements » ; tous apparaissent dans <b>Engager › Événements</b>. <b>Proposé :</b> les dates d'un événement de campagne restent dans celles de la campagne.</li>
+  <li><b>Les états</b> (décidé) : Proposé → Validé (ou Refusé) → Clôturé ; un admin rouvre un événement clôturé. « À venir / en cours / passé » se lit des dates, comme les visites. <b>Proposé :</b> on clôture <b>après le début</b>, quand <b>chaque participant a répondu « a participé » oui / non</b> (frame 9) ; après la clôture rien ne change, sauf réouverture.</li>
+  <li><b>Les champs</b> (décidé) : nom, type (Studio › Types d'événement), objet, dates <b>avec les heures</b> (un jour ou plusieurs), <b>wilaya obligatoire</b>, <b>lieu libre</b> et <b>lien en ligne</b> facultatifs, <b>cible</b> (médecins, pharmacies ou les deux) et <b>spécialités</b>, <b>budget prévu</b>, participants. <b>Proposé :</b> pas de code automatique (l'API précédente n'en avait pas) ; l'objet est facultatif.</li>
+  <li><b>Les participants</b> (décidé) : chacun a ses heures (reprises de l'événement), « a participé » oui / non, une note de 1 à 5, un commentaire, son coût réel. <b>Proposé :</b> marketing ajoute n'importe quelle personne de terrain (avec « + les personnes d'une équipe ») ; un manager ajoute lui-même et les personnes en dessous ; un délégué se met lui-même. On retire un participant tant qu'il n'a ni invités, ni matériels pris.</li>
+  <li><b>Invités / présents par participant</b> (décidé) : chacun invite parmi <b>ses</b> professionnels de santé (ceux de son territoire), filtrés par la cible et les spécialités de l'événement, puis coche qui est venu. <b>Proposé :</b> on coche « présent » seulement à partir du début de l'événement ; un même professionnel n'est invité qu'une fois par événement (« déjà invité par Amine »).</li>
+  <li><b>L'argent</b> (décidé) : un budget prévu sur l'événement, un coût réel facultatif par participant ; la page montre le total réel, l'écart au budget et le <b>coût par professionnel présent</b>. <b>Proposé :</b> les montants « pris en charge » s'ajoutent au total réel (ils sont une dépense de l'événement) et sont montrés à part (« dont 120 000 DA pris en charge »).</li>
+  <li><b>Matériels</b> (décidé) : chaque participant prend dans <b>son</b> stock « événement » du module 13 ; plus que le restant est refusé ; retirer rend le stock. <b>Proposé :</b> pour un événement de campagne, les lignes de cette campagne, plus les anciennes avec « Reste au délégué » ; pour un événement sans campagne, toutes ses lignes « événement » qui ont encore du stock ; le stock est pris à l'enregistrement, pas à la clôture ; un événement refusé ou supprimé rend tout.</li>
+  <li><b>« Pris en charge »</b> (décidé : une fonctionnalité du laboratoire, <code>events.sponsoring</code>, activée depuis la console centrale) : sur chaque invité, une case « pris en charge » et un montant facultatif ; la page du professionnel liste ses prises en charge. Sans la fonctionnalité, la colonne n'apparaît pas.</li>
+  <li><b>Droits</b> (décidé) : un nouveau droit <code>events</code>. Marketing et admins voient tout ; un manager voit ses événements et ceux des personnes en dessous ; un participant voit les événements où il est et ne remplit que sa partie. <b>Proposé :</b> les détails (nom, dates, lieu, budget, participants) se changent par l'organisateur ou marketing jusqu'à la clôture ; un changement de dates sur un événement validé proposé par un délégué ne le renvoie pas en validation.</li>
+  <li><b>Supprimer</b> — <b>proposé :</b> l'organisateur supprime son événement tant qu'il est proposé ou refusé ; marketing supprime un événement validé sans présents ni matériels ; un événement clôturé ne se supprime jamais ; une campagne avec des événements ne se supprime plus (déjà prévu en 12a) ; un type d'événement utilisé ne se supprime plus.</li>
+  <li><b>Plus tard</b> (décidé) : pas de calendrier pour l'instant ; les jours d'événement ne comptent pas dans les chiffres du cycle (tableau de bord, module 21) ; les notifications (proposé, validé, refusé) avec le module 20.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const LINKS = ['Aides de visite', 'Campagnes', 'Modèles', 'Matériels', 'Événements']
+const wsNav = (on, links = LINKS) => `<nav class='ws-nav'>${links.map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const shell = (on, inner, extra = '', h = 760, rail = 'Engager', links, who = 'SH') => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${who}</span></div>
+  <div style='display:flex;flex-direction:column;flex:1;gap:16px;padding:20px 28px 28px'>${wsNav(on, links)}${inner}</div>
+</div>${extra}</div>`
+const dialog = (title, text, actions) => `<div class='dialog'><div class='box'><strong style='font-size:17px'>${title}</strong><div style='display:flex;flex-direction:column;gap:10px'>${text}</div><footer>${actions}</footer></div></div>`
+const da = v => `${v.toLocaleString('fr-FR')} DA`
+const stars = n => `<span class='stars'>${'★'.repeat(n)}<i>${'★'.repeat(5 - n)}</i></span>`
+const STATE = { 'Proposé': 'warn', 'Validé': 'ok', 'Refusé': 'bad', 'Clôturé': '' }
+const st = s => `<span class='chip ${STATE[s]}'>${s}</span>`
+
+/* 1. the list */
+const EVENTS = [
+  ['Congrès national de cardiologie', 'Congrès scientifique national', '12 → 13 déc. 2026', 'Oran', 'Hiver 2026', 'Sara Haddad', 6, '24 / —', 600000, null, 'Validé', '3 nov.'],
+  ['Journée scientifique régionale HTA', 'Journée scientifique régionale', '28 nov. 2026, 09:00 → 16:00', 'Tlemcen', '—', 'Karim Benali', 1, '8 / —', 80000, null, 'Proposé', '14 nov.'],
+  ['Staff cardiologie CHU Mustapha', 'Meeting', '19 nov. 2026, 12:30 → 14:00', 'Alger', 'Hiver 2026', 'Nadia Mansour', 2, '12 / —', 30000, null, 'Validé', '10 nov.'],
+  ['Salon Pharma Constantine', 'Salon pharma', '4 → 6 nov. 2026', 'Constantine', 'Automne 2026', 'Sara Haddad', 4, '40 / 31', 450000, 512000, 'Clôturé', '12 oct.'],
+  ['Soirée diabète Sétif', 'Symposium', '20 oct. 2026, 19:00 → 22:00', 'Sétif', '—', 'Rachid Lounis', 1, '—', 150000, null, 'Refusé', '8 oct.'],
+]
+const listRows = sel => EVENTS.map(([n, t, d, w, c, o, p, i, b, r, s, a], k) => `<tr class='${k === sel ? 'sel' : ''}'><td><strong>${n}</strong><div class='hint'>${t}</div></td><td>${d}</td><td>${w}</td><td>${c === '—' ? '<span class="hint">—</span>' : `<span class='chip'>${c}</span>`}</td><td>${o}</td><td class='num'>${p}</td><td class='num'>${i}</td><td class='num'>${da(b)}${r ? `<div class='hint' style='color:var(--brick)'>réel ${da(r)}</div>` : ''}</td><td>${st(s)}</td><td class='hint'>${a}</td></tr>`).join('')
+const filters = (todo = false) => `<div style='display:flex;gap:10px;align-items:center'><div class='input muted' style='width:240px'>Rechercher un événement</div><span class='seg'><span class='${todo ? '' : 'on'}'>Tous</span><span class='${todo ? 'on' : ''}'>À valider <span class='count'>2</span></span><span>À venir</span><span>Passés</span></span><div class='input muted' style='width:150px'>Type ▾</div><div class='input muted' style='width:150px'>Campagne ▾</div><div class='input muted' style='width:140px'>Wilaya ▾</div><div class='input muted' style='width:170px'>📅 Période</div></div>`
+const listHead = (title, hint, btn = '+ Créer un événement') => `<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Engager</div><h1 class='title display' style='font-size:34px'>${title}</h1><div class='hint' style='margin-top:4px'>${hint}</div></div><span class='btn primary' style='margin-inline-start:auto'>${btn}</span></div>`
+const table = (rows) => `<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Événement ↕</th><th>Dates ↕</th><th>Wilaya ↕</th><th>Campagne ↕</th><th>Organisé par ↕</th><th class='num'>Participants ↕</th><th class='num'>Invités / présents</th><th class='num'>Budget ↕</th><th>État ↕</th><th>Ajouté le ↕</th></tr></thead><tbody>${rows}</tbody></table></div>`
+const list = `<div class='col'>${listHead('Événements', 'Congrès, journées, salons, staffs : organisés par marketing ou proposés par le terrain')}${filters()}${table(listRows(-1))}</div>`
+
+/* 2. create panel (marketing) */
+const createPanel = (rep = false) => `<aside class='rpanel'><header><span class='ic'>✦</span><div style='flex:1'><strong style='font-size:20px;font-family:"Bricolage Grotesque",sans-serif'>${rep ? 'Proposer un événement' : 'Créer un événement'}</strong><div class='hint' style='margin-top:4px'>${rep ? 'Nadia Mansour, votre manager, le validera' : 'Créé par marketing : il est validé tout de suite'}</div></div><span class='iconbtn'>✕</span></header>
+<div class='body'>
+<div style='display:grid;grid-template-columns:1.4fr 1fr;gap:12px'><label class='field'><span>Nom *</span><div class='input'>${rep ? 'Journée scientifique régionale HTA' : 'Congrès national de cardiologie'}</div></label><label class='field'><span>Type *</span><div class='input'>${rep ? 'Journée scientifique régionale' : 'Congrès scientifique national'} ▾</div></label></div>
+<label class='field'><span>Campagne</span><div class='input ${rep ? 'muted' : ''}'>${rep ? 'Aucune' : 'Hiver 2026 · 1 nov. → 31 janv.'} ▾</div>${rep ? '' : `<span class='hint'>Facultative. Les dates restent dans celles de la campagne.</span>`}</label>
+<label class='field'><span>Dates et heures *</span><div class='input'>📅 ${rep ? '28 nov. 2026 · 09:00 → 16:00' : '12 déc. 2026 · 08:30 → 13 déc. 2026 · 18:00'}</div></label>
+<div style='display:grid;grid-template-columns:1fr 1.4fr;gap:12px'><label class='field'><span>Wilaya *</span><div class='input'>${rep ? 'Tlemcen' : 'Oran'} ▾</div></label><label class='field'><span>Lieu</span><div class='input'>${rep ? 'Hôtel Renaissance' : 'Hôtel Sheraton, salle Atlas'}</div></label></div>
+<label class='field'><span>Lien en ligne</span><div class='input muted'>https://zoom.us/j/…</div><span class='hint'>Facultatif, pour un événement en ligne ou mixte.</span></label>
+<label class='field'><span>Cible *</span><span class='seg'><span class='on'>Médecins</span><span>Pharmacies</span><span>Les deux</span></span></label>
+<label class='field'><span>Spécialités</span><div class='input'><span class='chip'>Cardiologie ✕</span><span class='chip'>Médecine Interne ✕</span>${rep ? '' : `<span class='chip'>Médecine Générale ✕</span>`}</div><span class='hint'>Vide = toutes. Elles filtrent les professionnels qu'on peut inviter.</span></label>
+<label class='field'><span>Budget prévu *</span><div class='input'>${rep ? '80 000' : '600 000'} DA</div></label>
+<label class='field'><span>Participants *</span><div class='input' style='flex-wrap:wrap;height:auto;min-height:44px;padding:8px 10px;gap:6px'>${rep ? `<span class='chip'>Karim Benali (vous)</span>` : ['Karim Benali', 'Amine Saïdi', 'Nadia Mansour', 'Yasmine Talbi', 'Rachid Lounis', 'Sofia Haddad'].map(n => `<span class='chip'>${n} ✕</span>`).join('')}</div>${rep ? '' : `<span class='btn sm ghost' style='align-self:flex-start'>+ Les personnes d'une équipe</span>`}</label>
+<label class='field'><span>Objet</span><div class='input muted' style='height:60px;align-items:flex-start;padding-top:10px'>${rep ? 'Présenter Tensio aux cardiologues de la région' : 'Stand Cardiozen, symposium HOPE-DZ'}</div></label>
+</div>
+<footer><span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>${rep ? 'Envoyer pour validation' : 'Créer'}</span></footer></aside>`
+const shortList = (rows, btn) => `<div class='col'>${listHead('Événements', 'Congrès, journées, salons, staffs', btn)}<div style='display:flex;gap:10px'><div class='input muted' style='width:240px'>Rechercher un événement</div><span class='seg'><span class='on'>Tous</span><span>À venir</span><span>Passés</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Événement ↕</th><th>Dates ↕</th><th>Wilaya ↕</th><th>État ↕</th></tr></thead><tbody>${rows.map(k => EVENTS[k]).map(([n, t, d, w, , , , , , , s]) => `<tr><td><strong>${n}</strong><div class='hint'>${t}</div></td><td>${d}</td><td>${w}</td><td>${st(s)}</td></tr>`).join('')}</tbody></table></div></div>`
+
+/* 4. manager validates */
+const todoRows = [['Journée scientifique régionale HTA', 'Karim Benali · VM', '28 nov. 2026, 09:00 → 16:00', 'Tlemcen · Hôtel Renaissance', 80000], ['Soirée pharmaciens Mostaganem', 'Amine Saïdi · VM', '3 déc. 2026, 19:00 → 22:00', 'Mostaganem', 60000]]
+const validate = `<div class='col'>${listHead('Événements', 'Les événements de votre équipe et des personnes en dessous de vous', '+ Proposer un événement')}${filters(true)}
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Événement ↕</th><th>Proposé par ↕</th><th>Dates ↕</th><th>Lieu</th><th class='num'>Budget ↕</th><th></th></tr></thead><tbody>
+${todoRows.map(([n, p, d, l, b]) => `<tr><td><strong>${n}</strong>${st('Proposé')}</td><td>${p}</td><td>${d}</td><td>${l}</td><td class='num'>${da(b)}</td><td style='text-align:end;white-space:nowrap'><span class='btn sm outline'>Refuser</span> <span class='btn sm dark'>Valider</span></td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>Nadia voit les propositions des personnes en dessous d'elle. Valider : l'événement passe « Validé » et Karim peut inviter et prendre ses matériels.</div></div>`
+const refuseDialog = dialog('Refuser « Soirée pharmaciens Mostaganem » ?', `<label class='field'><span>Motif *</span><div class='input' style='height:80px;align-items:flex-start;padding-top:10px'>Budget trop élevé pour 15 pharmaciens, revoir avec un traiteur moins cher.</div></label><div class='why'>Amine voit le motif sur son événement, le corrige et peut le proposer à nouveau.</div>`, `<span class='btn ghost'>Annuler</span><span class='btn dark'>Refuser</span>`)
+
+/* 5. event page */
+const PARTS = [
+  ['Karim Benali', 'VM · Cardio', 'Oui', '12 déc. 08:30 → 13 déc. 18:00', 5, 45000, '8 / 6', 3],
+  ['Amine Saïdi', 'VM · Cardio', 'Oui', '12 déc. 08:30 → 12 déc. 18:00', 4, 22000, '5 / 4', 2],
+  ['Nadia Mansour', 'Superviseur · Cardio', 'Oui', '12 déc. 08:30 → 13 déc. 18:00', 4, 60000, '4 / 3', 0],
+  ['Yasmine Talbi', 'VM · Généralistes', '—', '—', 0, 0, '4 / —', 0],
+  ['Rachid Lounis', 'VP · Généralistes', 'Non', '—', 0, 0, '3 / —', 0],
+  ['Sofia Haddad', 'VP · Généralistes', '—', '—', 0, 0, '—', 0],
+]
+const partTable = (closing = false) => `<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Participant ↕</th><th>A participé</th><th>Heures</th><th>Note</th><th class='num'>Coût réel</th><th class='num'>Invités / présents</th><th class='num'>Matériels</th></tr></thead><tbody>
+${PARTS.map(([n, r, y, h, s, c, i, m]) => `<tr style='${closing && y === '—' ? 'background:rgba(192,54,44,.06)' : ''}'><td><strong>${n}</strong><div class='hint'>${r}</div></td><td>${y === 'Oui' ? `<span class='chip ok'>Oui</span>` : y === 'Non' ? `<span class='chip'>Non</span>` : `<span class='hint' style='${closing ? 'color:var(--brick);font-weight:700' : ''}'>pas encore</span>`}</td><td class='hint'>${h}</td><td>${s ? stars(s) : '<span class="hint">—</span>'}</td><td class='num'>${c ? da(c) : '—'}</td><td class='num'>${i}</td><td class='num'>${m || '—'}</td></tr>`).join('')}
+</tbody></table></div>`
+const evHead = (state, extra = '') => `<div><div class='crumbs'>Engager › Événements</div>
+<div class='ph' style='margin-top:4px'><h1 class='title display' style='font-size:28px'>Congrès national de cardiologie</h1>${st(state)}<span class='chip'>Hiver 2026</span>${extra}</div>
+<div class='hint' style='margin-top:6px'>Congrès scientifique national · sam. 12 déc. 2026, 08:30 → dim. 13 déc. 2026, 18:00 · Oran, Hôtel Sheraton, salle Atlas · médecins : Cardiologie, Médecine Interne, Médecine Générale · organisé par Sara Haddad le 3 nov.</div></div>`
+const figures = (real = 127000, sp = 0) => `<div class='tiles'>${[['6', 'participants · 3 ont participé'], ['24', 'invités'], ['13', 'présents · 54 %'], [da(600000), 'budget prévu'], [da(real + sp), `réel${sp ? ` · dont ${da(sp)} pris en charge` : ''} · reste ${da(600000 - real - sp)}`], [da(Math.round((real + sp) / 13)), 'par professionnel présent']].map(([n, l]) => `<div class='tile'><strong>${n}</strong><span>${l}</span></div>`).join('')}</div>`
+const evPage = `<div class='col'><div style='display:flex;gap:12px;align-items:flex-start'>${evHead('Validé')}<div style='margin-inline-start:auto;display:flex;gap:8px'><span class='btn outline'>✎ Modifier</span><span class='btn dark'>Clôturer</span></div></div>
+<div class='flow'><span class='done'>Créé par marketing</span>→<span class='on'>Validé</span>→<span>Clôturé</span><span class='hint' style='background:none'>· en cours depuis hier</span></div>
+${figures(127000, 120000)}
+<div class='tabs'><span class='on'>Participants <span class='count'>6</span></span><span>Invités <span class='count'>24</span></span><span>Matériels <span class='count'>5</span></span><span>Détails</span><span>Historique</span></div>
+${partTable()}
+<div class='why'>Chaque participant remplit sa ligne lui-même (frame 6). L'onglet « Invités » montre tous les professionnels invités, par qui, présents ou non ; « Matériels » ce que chacun a pris dans son stock.</div></div>`
+
+/* 6. participant's own part */
+const INV = [['Dr Yacine Cherif', 'Cardiologie · Oran', true, true, 60000], ['Dr Leïla Bensaïd', 'Cardiologie · Oran', true, true, 0], ['Dr Omar Khelifi', 'Médecine Interne · Oran', true, false, 0], ['Dr Nassima Ouali', 'Médecine Générale · Arzew', false, false, 0]]
+const mine = (bad = false) => `<div class='col'>${evHead('Validé')}
+<div style='display:flex;gap:14px;align-items:flex-start'>
+<div class='col' style='flex:1'>
+<div class='rec'><header><strong>Ma participation</strong><span class='hint' style='margin-inline-start:auto'>Karim Benali</span></header>
+<div style='display:flex;align-items:center;gap:14px'><span style='width:150px'>A participé *</span><span class='yn'><span class='on'>Oui</span><span>Non</span></span></div>
+<div style='display:flex;align-items:center;gap:14px'><span style='width:150px'>Heures</span><div class='input' style='flex:1'>📅 12 déc. 08:30 → 13 déc. 18:00</div></div>
+<div style='display:flex;align-items:center;gap:14px'><span style='width:150px'>Note</span>${stars(5)}</div>
+<div style='display:flex;align-items:center;gap:14px'><span style='width:150px'>Coût réel</span><div class='input' style='flex:1'>45 000 DA</div></div>
+<div style='display:flex;align-items:flex-start;gap:14px'><span style='width:150px'>Commentaire</span><div class='input' style='flex:1;height:64px;align-items:flex-start;padding-top:10px'>Très bon accueil du stand, beaucoup de questions sur HOPE-DZ.</div></div>
+</div>
+<div class='rec' style='${bad ? 'outline:2px solid var(--brick)' : ''}'><header><strong>Mes matériels</strong><span class='hint' style='margin-inline-start:auto'>Votre stock « événement »</span></header>
+<div class='mat'><span class='ic'>📗</span><div style='flex:1'><strong>Étude HOPE-DZ (tiré à part)</strong> <span class='chip'>Hiver 2026</span><div class='hint'>Il vous reste <strong style='color:${bad ? 'var(--brick)' : 'var(--ink)'}'>${bad ? 4 : 10}</strong></div></div><span class='step' style='${bad ? 'border-color:var(--brick)' : ''}'><span>−</span><b style='${bad ? 'color:var(--brick)' : ''}'>${bad ? 6 : 3}</b><span>+</span></span></div>
+${bad ? `<div class='why bad'>Il vous reste 4 « Étude HOPE-DZ » : vous ne pouvez pas en prendre 6. Rien n'est enregistré.</div>` : `<div class='why'>Pris dans votre stock à l'enregistrement ; retiré, il revient. Seuls vos matériels de type « événement » sont proposés.</div>`}</div>
+<span class='btn dark' style='align-self:flex-end'>Enregistrer ma participation</span>
+</div>
+<div class='rec' style='flex:1.15'><header><strong>Mes invités</strong><span class='chip'>3 invités · 2 présents</span></header>
+<div class='input muted'>＋ Inviter un de vos professionnels (médecins · Cardiologie, Médecine Interne, Médecine Générale)…</div>
+<table class='table'><thead><tr><th>Professionnel</th><th>Présent</th><th>Pris en charge <span class='feat'>fonctionnalité</span></th><th class='num'>Montant</th><th></th></tr></thead><tbody>
+${INV.map(([n, s, inv, p, a]) => inv ? `<tr><td><strong>${n}</strong><div class='hint'>${s}</div></td><td><span class='chk ${p ? 'on' : ''}'>${p ? '✓' : ''}</span></td><td><span class='chk ${a ? 'on' : ''}'>${a ? '✓' : ''}</span></td><td class='num'>${a ? da(a) : '—'}</td><td class='hint'>✕</td></tr>` : `<tr style='opacity:.55'><td><strong>${n}</strong><div class='hint'>${s}</div></td><td colspan='4' class='hint' style='text-align:end'>Déjà invitée par Amine Saïdi</td></tr>`).join('')}
+</tbody></table>
+<div class='why'>Vos professionnels de santé, filtrés par la cible et les spécialités de l'événement. « Présent » se coche à partir du début de l'événement. La colonne « pris en charge » n'apparaît que si le laboratoire a cette fonctionnalité.</div></div>
+</div></div>`
+
+/* 8. rep: refused + proposed */
+const repList = `<div class='col'>${listHead('Événements', 'Les événements que vous avez proposés et ceux où vous participez', '+ Proposer un événement')}
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Événement ↕</th><th>Dates ↕</th><th>Wilaya ↕</th><th>Mon rôle</th><th>État ↕</th></tr></thead><tbody>
+<tr><td><strong>Congrès national de cardiologie</strong><div class='hint'>Congrès scientifique national</div></td><td>12 → 13 déc. 2026</td><td>Oran</td><td>Participant · à remplir</td><td>${st('Validé')}</td></tr>
+<tr><td><strong>Journée scientifique régionale HTA</strong><div class='hint'>Journée scientifique régionale</div></td><td>28 nov. 2026, 09:00 → 16:00</td><td>Tlemcen</td><td>Organisateur</td><td>${st('Proposé')}<div class='hint'>attend Nadia Mansour</div></td></tr>
+<tr class='sel'><td><strong>Soirée pharmaciens Mostaganem</strong><div class='hint'>Symposium</div></td><td>3 déc. 2026, 19:00 → 22:00</td><td>Mostaganem</td><td>Organisateur</td><td>${st('Refusé')}</td></tr>
+</tbody></table></div></div>`
+const refusedPanel = `<aside class='rpanel'><header><span class='ic'>✦</span><div style='flex:1'><strong style='font-size:20px;font-family:"Bricolage Grotesque",sans-serif'>Soirée pharmaciens Mostaganem</strong><div style='display:flex;gap:6px;margin-top:6px'>${st('Refusé')}<span class='chip'>Pharmacies</span></div></div><span class='iconbtn'>✕</span></header>
+<div class='body'><div class='why bad'><strong>Refusé par Nadia Mansour le 15 nov.</strong> — « Budget trop élevé pour 15 pharmaciens, revoir avec un traiteur moins cher. »</div>
+<label class='field'><span>Budget prévu *</span><div class='input' style='border-color:var(--cobalt)'>35 000 DA</div></label>
+<label class='field'><span>Dates et heures *</span><div class='input'>📅 3 déc. 2026 · 19:00 → 22:00</div></label>
+<label class='field'><span>Lieu</span><div class='input'>Restaurant Le Phare</div></label>
+<div class='why'>Il se corrige et se propose à nouveau : il repasse « Proposé » chez Nadia.</div></div>
+<footer><span class='btn ghost'>Supprimer</span><span class='btn dark' style='margin-inline-start:auto'>Proposer à nouveau</span></footer></aside>`
+
+/* 9. close refused / closed */
+const closeRefused = dialog('Clôturer « Congrès national de cardiologie » ?', `<div class='why bad'>2 participants n'ont pas encore dit s'ils ont participé : <strong>Yasmine Talbi, Sofia Haddad</strong>. L'événement se clôture quand chaque participant a répondu.</div><div class='hint'>Une fois clôturé, plus rien ne change (seul un admin peut le rouvrir).</div>`, `<span class='btn ghost'>Fermer</span><span class='btn dark' style='opacity:.45'>Clôturer</span>`)
+const closed = `<div class='col'><div style='display:flex;gap:12px;align-items:flex-start'>${evHead('Clôturé')}<div style='margin-inline-start:auto'><span class='btn outline'>↺ Rouvrir</span></div></div>
+<div class='flow'><span class='done'>Créé par marketing</span>→<span class='done'>Validé</span>→<span class='on'>Clôturé</span><span class='hint' style='background:none'>· par Sara Haddad le 15 déc. · « Rouvrir » : admins seulement</span></div>
+${figures(187000, 120000)}
+<div class='tabs'><span class='on'>Participants <span class='count'>6</span></span><span>Invités <span class='count'>24</span></span><span>Matériels <span class='count'>5</span></span><span>Détails</span><span>Historique</span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Participant</th><th>A participé</th><th>Note</th><th class='num'>Coût réel</th><th class='num'>Invités / présents</th></tr></thead><tbody>
+${[['Karim Benali', 'Oui', 5, 45000, '8 / 6'], ['Amine Saïdi', 'Oui', 4, 22000, '5 / 4'], ['Nadia Mansour', 'Oui', 4, 60000, '4 / 3'], ['Yasmine Talbi', 'Oui', 3, 60000, '4 / 0'], ['Rachid Lounis', 'Non', 0, 0, '3 / —'], ['Sofia Haddad', 'Non', 0, 0, '—']].map(([n, y, s, c, i]) => `<tr><td><strong>${n}</strong></td><td><span class='chip ${y === 'Oui' ? 'ok' : ''}'>${y}</span></td><td>${s ? stars(s) : '—'}</td><td class='num'>${c ? da(c) : '—'}</td><td class='num'>${i}</td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>Réel 307 000 DA (participants 187 000 + pris en charge 120 000) pour 600 000 DA prévus ; 13 professionnels présents : 23 615 DA par présent.</div></div>`
+
+/* 10. campaign tab */
+const TABS = [['La campagne', ''], ['Grille promo', '16'], ['Emails & SMS', '4'], ['Envois', '3'], ['Matériels', '3'], ['Événements', '3'], ['Actions marketing', '15']]
+const tabs = on => `<div class='tabs'>${TABS.map(([t, c]) => `<span class='${t === on ? 'on' : ''}' style='${c === '15' ? 'opacity:.55' : ''}'>${t}${c ? `<span class='count'>${c === '15' ? 'à venir · 15' : c}</span>` : ''}</span>`).join('')}</div>`
+const campTab = `<div class='col'><div class='ph'><span class='chip'>CMP0007</span><h1 class='title display' style='font-size:28px'>Hiver 2026</h1><span class='chip ok'>En cours</span><span class='hint'>jour 18 sur 92 · Cardio, Généralistes</span></div>${tabs('Événements')}
+<div class='tiles' style='grid-template-columns:repeat(5,1fr)'>${[['3', 'événements · 1 clôturé'], ['52', 'invités'], ['31', 'présents'], [da(1080000), 'budget prévu'], [da(512000), 'réel (clôturés)']].map(([n, l]) => `<div class='tile'><strong>${n}</strong><span>${l}</span></div>`).join('')}</div>
+<div style='display:flex;gap:10px'><div class='input muted' style='width:240px'>Rechercher un événement</div><div class='input muted' style='width:150px'>État ▾</div><span class='btn primary' style='margin-inline-start:auto'>+ Créer un événement</span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Événement ↕</th><th>Dates ↕</th><th>Wilaya ↕</th><th>Organisé par ↕</th><th class='num'>Participants</th><th class='num'>Invités / présents</th><th class='num'>Budget / réel</th><th>État ↕</th></tr></thead><tbody>
+${[['Congrès national de cardiologie', '12 → 13 déc.', 'Oran', 'Sara Haddad', 6, '24 / —', '600 000 DA', 'Validé'], ['Staff cardiologie CHU Mustapha', '19 nov., 12:30 → 14:00', 'Alger', 'Nadia Mansour', 2, '12 / —', '30 000 DA', 'Validé'], ['Salon Pharma Constantine', '4 → 6 nov.', 'Constantine', 'Sara Haddad', 4, '16 / 31', '450 000 / 512 000 DA', 'Clôturé']].map(([n, d, w, o, p, i, b, s]) => `<tr><td><strong>${n}</strong></td><td>${d}</td><td>${w}</td><td>${o}</td><td class='num'>${p}</td><td class='num'>${i}</td><td class='num'>${b}</td><td>${st(s)}</td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>Les événements rattachés à la campagne. « + Créer un événement » pré-remplit la campagne. Une campagne avec des événements ne se supprime plus.</div></div>`
+
+/* 11. professional's page */
+const hcp = `<div class='col'><div><div class='crumbs'>Professionnels de santé</div><div class='ph'><h1 class='title display' style='font-size:30px'>Dr Yacine Cherif</h1><span class='chip'>Cardiologie</span><span class='chip ok'>Consentement donné</span></div><div class='hint'>Oran · Cabinet El Bahia</div></div>
+<div style='display:flex;gap:14px;align-items:flex-start'><div class='rec' style='flex:1;opacity:.5;height:260px'><header><strong>Informations, lieux d'exercice, visites…</strong></header></div>
+<div class='rec' style='flex:1.3'><header><strong>Événements</strong><span class='chip'>3 invitations · 2 présences</span></header>
+<table class='table'><thead><tr><th>Événement</th><th>Date</th><th>Invité par</th><th>Présent</th><th>Pris en charge</th></tr></thead><tbody>
+<tr><td><strong>Congrès national de cardiologie</strong><div class='hint'>Hiver 2026</div></td><td>12 déc. 2026</td><td>Karim Benali</td><td><span class='chip ok'>Oui</span></td><td>${da(60000)}</td></tr>
+<tr><td><strong>Salon Pharma Constantine</strong><div class='hint'>Automne 2026</div></td><td>4 nov. 2026</td><td>Karim Benali</td><td><span class='chip ok'>Oui</span></td><td>—</td></tr>
+<tr><td><strong>Journée scientifique régionale HTA</strong><div class='hint'>Proposé</div></td><td>28 nov. 2026</td><td>Karim Benali</td><td class='hint'>à venir</td><td>—</td></tr>
+</tbody></table>
+<div class='why'>Les événements où il a été invité, qu'il soit venu ou non. « Pris en charge » seulement avec la fonctionnalité du laboratoire.</div></div></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Engager › Événements, vu par marketing.</strong> Tous les événements : nom et type, dates, wilaya, campagne (facultative), organisateur, participants, invités / présents, budget (et le réel une fois clôturé), état. Filtres : à valider, à venir, passés, type, campagne, wilaya, période.`) + shell('Événements', list, '', 640),
+  label(2, `<strong>« + Créer un événement » (marketing)</strong>, un panneau à côté de la liste : nom, type, campagne, dates et heures, wilaya, lieu, lien, cible, spécialités, budget prévu, participants (recherche avec puces, ou toute une équipe), objet. Créé par marketing : <strong>validé tout de suite</strong>.`) + shell('Événements', `<div style='display:flex;gap:16px;align-items:flex-start'>${shortList([0, 2, 3])}${createPanel()}</div>`, '', 980),
+  label(3, `<strong>Un délégué propose son événement.</strong> Karim (VM) : les mêmes champs, il est le participant ; « Envoyer pour validation » : l'événement est <strong>Proposé</strong> et attend Nadia, sa manager.`) + shell('Événements', `<div style='display:flex;gap:16px;align-items:flex-start'>${shortList([0], '+ Proposer un événement')}${createPanel(true)}</div>`, '', 900, 'Engager', LINKS, 'KB'),
+  label(4, `<strong>La manager valide.</strong> Nadia filtre « À valider » : les propositions des personnes en dessous d'elle, avec Valider et Refuser.`) + shell('Événements', validate, '', 520, 'Engager', LINKS, 'NM'),
+  label(5, `<strong>Refuser demande un motif.</strong>`) + shell('Événements', validate, refuseDialog, 520, 'Engager', LINKS, 'NM'),
+  label(6, `<strong>La page d'un événement.</strong> L'état et ses étapes, six chiffres (participants, invités, présents, budget, réel avec l'écart, coût par professionnel présent), puis les participants : a participé, heures, note, coût réel, invités / présents, matériels. Onglets Invités, Matériels, Détails (cartes modifiées sur place), Historique.`) + shell('Événements', evPage, '', 760),
+  label(7, `<strong>Karim remplit sa partie.</strong> Sa participation (a participé, heures, note, coût, commentaire), ses matériels « événement » pris dans son stock, et ses invités : ses professionnels filtrés par la cible et les spécialités, « présent » coché, et — si le laboratoire a la fonctionnalité — « pris en charge » avec un montant.`) + shell('Événements', mine(), '', 900, 'Engager', LINKS, 'KB'),
+  label(8, `<strong>Plus que son stock : refusé.</strong> 6 tirés à part demandés, il en reste 4 : rien n'est enregistré.`) + shell('Événements', mine(true), '', 900, 'Engager', LINKS, 'KB'),
+  label(9, `<strong>Refusé, corrigé, proposé à nouveau.</strong> Amine voit ses événements et ceux où il participe ; le refusé montre le motif de Nadia ; il baisse le budget et le propose à nouveau.`) + shell('Événements', `<div style='display:flex;gap:16px;align-items:flex-start'>${repList}${refusedPanel}</div>`, '', 640, 'Engager', LINKS, 'AS'),
+  label(10, `<strong>Clôturer, refusé tant qu'un participant n'a pas répondu.</strong> Yasmine et Sofia n'ont pas dit si elles ont participé : leur ligne est marquée.`) + shell('Événements', evPage.replace(partTable(), partTable(true)), closeRefused, 760),
+  label(11, `<strong>Clôturé.</strong> Les chiffres finaux : réel, écart, coût par présent. Rien ne change plus ; un admin peut le rouvrir.`) + shell('Événements', closed, '', 720),
+  label(12, `<strong>L'onglet « Événements » d'une campagne.</strong> Ses chiffres et ses événements ; « + Créer un événement » pré-remplit la campagne.`) + shell('Campagnes', campTab, '', 600),
+  label(13, `<strong>La page d'un professionnel de santé</strong> : une carte « Événements » avec ses invitations, présences et prises en charge.`) + shell('Médecins', hcp, '', 520, 'Professionnels', ['Médecins', 'Organisations', 'Consentements']),
+].join('')
+</script></body></html>

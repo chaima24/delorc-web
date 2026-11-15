@@ -79,7 +79,7 @@ export const workspaces: Workspace[] = [
   },
   {
     // Engager: what reps show and hand out (docs/api/advs.md), the campaigns (docs/api/campaigns.md), their email and SMS
-    // templates (docs/api/campaign-messages.md); materials later.
+    // templates (docs/api/campaign-messages.md), materials (docs/api/materials.md), events (docs/api/events.md).
     id: 'engage',
     title: 'nav.workspaces.engage',
     icon: 'tabler-presentation',
@@ -87,6 +87,7 @@ export const workspaces: Workspace[] = [
       { title: 'nav.catalog.advs', to: { name: 'tenant-advs' }, icon: 'tabler-presentation', resource: 'advs' },
       { title: 'nav.engage.campaigns', to: { name: 'tenant-campaigns' }, icon: 'tabler-speakerphone', resource: 'campaigns', matches: ['tenant-campaign', 'tenant-campaign-message', 'tenant-campaign-sending', 'tenant-campaign-sending-new', 'tenant-campaign-material'] },
       { title: 'nav.engage.materials', to: { name: 'tenant-material-stocks' }, icon: 'tabler-gift', resource: 'campaigns' },
+      { title: 'nav.engage.events', to: { name: 'tenant-events' }, icon: 'tabler-calendar-event', resource: 'events', matches: ['tenant-event'] },
       { title: 'nav.engage.templates', to: { name: 'tenant-mail-templates' }, icon: 'tabler-template', resource: 'mail-templates', matches: ['tenant-mail-template'] },
     ],
   },
