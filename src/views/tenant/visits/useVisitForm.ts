@@ -10,24 +10,27 @@ type Option = { value: number; label: string }
 /** Pharmacies, wholesalers and organisations give the stock seen; doctors and dentists don't. */
 export const givesStock = (type: string, kind: string | null) => type === 'hco' || !['doctor', 'dentiste'].includes(kind ?? '')
 
-export const emptyReport = (): ReportForm => ({ brands: [], advs: [], coaches: [], participants: [], replacement: null })
+export const emptyReport = (): ReportForm => ({ brands: [], advs: [], materials: [], coaches: [], participants: [], replacement: null })
 
 /** A visit's report as the forms hold it. */
 export const reportOf = (visit: Visit): ReportForm => ({
   brands: visit.brands.map(row => ({ brand_id: row.id, feedback: row.feedback, stock: row.stock == null ? '' : String(row.stock) })),
   advs: (visit.advs ?? []).map(row => ({ adv_id: row.id, feedback: row.feedback })),
+  materials: (visit.materials ?? []).map(row => ({ material_stock_id: row.material_stock_id, quantity: row.quantity })),
   coaches: (visit.coaches ?? []).map(row => ({ id: row.id, name: row.full_name })),
   participants: (visit.participants ?? []).map(row => ({ id: row.id, name: row.name })),
   replacement: visit.replacement ?? null,
 })
 
 /** The report as the API reads it; `parts` keeps only the blocks being saved (a card of the visit's page). */
-export function reportPayload(form: ReportForm, parts: ('brands' | 'advs' | 'people')[] = ['brands', 'advs', 'people'], fields?: Record<string, string> | null): VisitPayload {
+export function reportPayload(form: ReportForm, parts: ('brands' | 'advs' | 'materials' | 'people')[] = ['brands', 'advs', 'materials', 'people'], fields?: Record<string, string> | null): VisitPayload {
   const payload: VisitPayload = {}
   // A field the lab hides is never sent (docs/api/visit-report-fields.md): the API refuses a hidden field with a value.
   const hidden = (key: string) => fields?.[key] === 'hidden'
   if (parts.includes('brands')) payload.brands = form.brands.map(row => ({ brand_id: row.brand_id, feedback: hidden('brand_feedback') ? null : row.feedback, stock: row.stock === '' || hidden('brand_stock') ? null : Number(row.stock) }))
   if (parts.includes('advs') && !hidden('advs')) payload.advs = form.advs.map(row => ({ adv_id: row.adv_id, feedback: hidden('adv_feedback') ? null : row.feedback }))
+  // Materials handed out: only the lines with a quantity (docs/api/materials.md).
+  if (parts.includes('materials')) payload.materials = form.materials.filter(row => row.quantity > 0)
   if (parts.includes('people')) {
     if (!hidden('coaches')) payload.coaches = form.coaches.map(row => row.id)
     if (!hidden('participants')) payload.participants = form.participants.map(row => row.id)

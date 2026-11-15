@@ -1,6 +1,6 @@
 import { client } from '@/api/client'
 import type { ListParams, Page } from '@/api/tenant/geography'
-import type { Person } from '@/api/tenant/campaigns'
+import type { CampaignSettingsRead, Person } from '@/api/tenant/campaigns'
 
 /**
  * Campaigns, part 12b (docs/api/campaign-messages.md): a campaign's emails and SMS (written, marked ready, approved by
@@ -130,5 +130,5 @@ export function saveEmailLook(settings: { priority_required: boolean; message_re
   if (look.email_logo) form.append('email_logo', look.email_logo)
   if (look.remove_logo) form.append('remove_logo', '1')
   form.append('_method', 'PUT')
-  return one<EmailLook & { priority_required: boolean; message_required: boolean }>(client.post('/campaign-settings', form, multipart))
+  return one<CampaignSettingsRead>(client.post('/campaign-settings', form, multipart))
 }

@@ -19,6 +19,8 @@ import { todayIso, useVisitText } from './visitDisplay'
 import VisitReportFields from './VisitReportFields.vue'
 import VisitTargetSearch, { type FoundTarget } from './VisitTargetSearch.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
+import VisitMaterialsField from './VisitMaterialsField.vue'
+import { fetchVisitMaterials, type OfferedMaterial } from '@/api/tenant/materials'
 import { usePlanningSave } from './visitPlanning'
 import CampaignPromoBox from '@/views/tenant/campaigns/CampaignPromoBox.vue'
 import DlDatePicker from '@/components/DlDatePicker.vue'
@@ -81,6 +83,12 @@ watch(query, async (value) => {
   context.value = value ? await fetchVisitContext(value).catch(() => null) : null
 }, { immediate: true })
 const sameDay = computed(() => (context.value?.same_day_visit_id && context.value.same_day_visit_id !== existing.value?.id ? context.value.same_day_visit_id : null))
+
+// Materials handed out: the rep's own stock for this professional on that day (docs/api/materials.md).
+const offeredMaterials = ref<OfferedMaterial[]>([])
+watch([query, done], async () => {
+  offeredMaterials.value = query.value && done.value ? await fetchVisitMaterials(query.value).catch(() => []) : []
+})
 
 // The ADVs offered follow the brands chosen.
 const offered = ref<VisitOfferedAdv[]>([])
@@ -221,6 +229,10 @@ const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', p
           <section v-if="shown('advs')" class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
             <h2 class="text-base font-semibold">{{ t('visits.blocks.advs') }}{{ star('advs') }} <small v-if="!star('advs')" class="font-normal text-dl-muted">· {{ t('visits.optional') }}</small></h2>
             <VisitReportFields v-model="report" part="advs" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="form.target?.name ?? ''" :errors="errors" :fields="fields" />
+          </section>
+          <section v-if="offeredMaterials.length" class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
+            <h2 class="text-base font-semibold">{{ t('materials.visit.title') }} <small class="font-normal text-dl-muted">· {{ t('visits.optional') }}</small></h2>
+            <VisitMaterialsField v-model="report" :offered="offeredMaterials" :errors="errors" />
           </section>
           <section v-if="peopleShown" class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
             <h2 class="text-base font-semibold">{{ t('visits.blocks.people') }}</h2>

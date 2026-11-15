@@ -37,6 +37,8 @@ export interface Campaign {
   messages_count?: number
   /** The page: its sendings (docs/api/campaign-sendings.md). */
   sendings_count?: number
+  /** The page: its material distributions (docs/api/materials.md). */
+  materials_count?: number
   /** The page: figures read from the grid. */
   figures?: { ticks: number; brands: number; specialities: number; with_message: number; emails_sent: number }
   promoted?: { brand: { id: number; name: string }; ticks: number; by_priority: { priority: PriorityRef | null; count: number }[] }[]
@@ -64,7 +66,7 @@ export interface CampaignTick {
 
 export interface CampaignSettings { priority_required: boolean; message_required: boolean }
 /** GET also answers the email look (docs/api/campaign-messages.md). */
-export type CampaignSettingsRead = CampaignSettings & { email_color: string; email_footer: string; email_logo_url: string | null }
+export type CampaignSettingsRead = CampaignSettings & { email_color: string; email_footer: string; email_logo_url: string | null; material_period: 'campaign' | 'cycle'; material_leftover: 'stays' | 'ends' }
 
 export interface CampaignGrid {
   teams: (Required<Omit<CampaignTeam, 'specialities'>> & { specialities: { id: number; name: string }[]; brand_ids: number[] | null })[]
@@ -113,7 +115,7 @@ export const copyGrid = (id: number, fromId: number) =>
 
 // Settings ("⚙ Réglages")
 export const fetchCampaignSettings = () => one<CampaignSettingsRead>(client.get('/campaign-settings'))
-export const saveCampaignSettings = (payload: CampaignSettings) => one<CampaignSettings>(client.put('/campaign-settings', payload))
+export const saveCampaignSettings = (payload: CampaignSettings & { material_period?: string; material_leftover?: string }) => one<CampaignSettingsRead>(client.put('/campaign-settings', payload))
 
 // What a visit shows
 export const fetchPromoLines = (params: { user_id: number; date: string; hcp_id: number }) =>

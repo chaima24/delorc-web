@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import { fetchCampaignSettings, saveCampaignSettings, type CampaignSettings, type CampaignSettingsRead } from '@/api/tenant/campaigns'
@@ -7,6 +7,7 @@ import { saveEmailLook } from '@/api/tenant/campaignMessages'
 import DlButton from '@/components/DlButton.vue'
 import DlIconButton from '@/components/DlIconButton.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
+import DlSegmented from '@/components/DlSegmented.vue'
 import DlSkeleton from '@/components/DlSkeleton.vue'
 import DlSwitch from '@/components/DlSwitch.vue'
 import DlTextarea from '@/components/DlTextarea.vue'
@@ -42,6 +43,21 @@ async function set(key: keyof CampaignSettings, value: boolean) {
     toast.error(errorMessage(error) ?? t('studio.list.toast.failed'))
   }
 }
+
+// Materials (docs/api/materials.md): the stock's period and the leftover, saved on change; they apply to the next distributions.
+async function setMaterial(key: 'material_period' | 'material_leftover', value: string) {
+  if (!settings.value) return
+  try {
+    const saved = await saveCampaignSettings({ ...grid(settings.value), [key]: value })
+    settings.value = { ...settings.value, ...saved }
+    toast.success(t('studio.list.toast.saved'))
+  }
+  catch (error) {
+    toast.error(errorMessage(error) ?? t('studio.list.toast.failed'))
+  }
+}
+const periodItems = computed(() => ['campaign', 'cycle'].map(value => ({ value, label: t(`materials.settings.period.${value}`) })))
+const leftoverItems = computed(() => ['stays', 'ends'].map(value => ({ value, label: t(`materials.settings.leftover.${value}`) })))
 
 const picker = ref<HTMLInputElement | null>(null)
 const logoPreview = ref<string | null>(null)
@@ -92,6 +108,23 @@ async function saveLook() {
         <DlSwitch :model-value="settings[key]" label="" :aria-label="t(`campaigns.settings.${key}`)" @update:model-value="value => set(key, value)" />
       </section>
       <p class="text-xs text-dl-muted">{{ t('campaigns.settings.note') }}</p>
+
+      <section class="flex flex-col gap-3 border-t border-dl-line pt-4">
+        <div>
+          <strong class="text-sm">{{ t('materials.settings.title') }}</strong>
+          <p class="text-[13px] text-dl-muted">{{ t('materials.settings.description') }}</p>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <span class="text-[13px] font-semibold">{{ t('materials.settings.periodLabel') }}</span>
+          <DlSegmented :model-value="settings.material_period" :label="t('materials.settings.periodLabel')" :items="periodItems" block @update:model-value="value => setMaterial('material_period', value)" />
+          <span class="text-xs text-dl-muted">{{ t(`materials.settings.periodHint.${settings.material_period}`) }}</span>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <span class="text-[13px] font-semibold">{{ t('materials.settings.leftoverLabel') }}</span>
+          <DlSegmented :model-value="settings.material_leftover" :label="t('materials.settings.leftoverLabel')" :items="leftoverItems" block @update:model-value="value => setMaterial('material_leftover', value)" />
+          <span class="text-xs text-dl-muted">{{ t(`materials.settings.leftoverHint.${settings.material_leftover}`) }}</span>
+        </div>
+      </section>
 
       <form class="flex flex-col gap-4 border-t border-dl-line pt-4" @submit.prevent="saveLook">
         <div>

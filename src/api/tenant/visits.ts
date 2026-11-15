@@ -78,6 +78,8 @@ export interface Visit {
   created_at: string | null
   // The page only.
   advs?: VisitAdv[]
+  /** Materials handed out, from the rep's stock lines (docs/api/materials.md). */
+  materials?: { material_stock_id: number; quantity: number; materiel: string; brand: string; campaign: { id: number; code: string; name: string } }[]
   coaches?: { id: number; full_name: string; role: string | null }[]
   participants?: { id: number; name: string }[]
   replacement?: { id: number; name: string } | null
@@ -103,6 +105,7 @@ export interface VisitPayload {
   hcp_replacement_id?: number | null
   brands?: { brand_id: number; feedback?: number | null; stock?: number | null }[]
   advs?: { adv_id: number; feedback?: number | null }[]
+  materials?: { material_stock_id: number; quantity: number }[]
   coaches?: number[]
   participants?: number[]
 }

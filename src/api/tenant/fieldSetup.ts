@@ -38,8 +38,9 @@ export interface Canal {
 export interface Materiel {
   id: number
   name: string
-  role_id: number
-  role?: RoleRef
+  /** null = every field role (docs/api/materials.md). */
+  role_id: number | null
+  role?: RoleRef | null
   distributions_count?: number
   created_at?: string | null
 }
@@ -77,7 +78,7 @@ export interface HolidayItem {
 export type ActivityTypePayload = { activity: string; value: string; type: string; role_ids: number[] }
 export type EventTypePayload = { event: string }
 export type CanalPayload = { name: string }
-export type MaterielPayload = { name: string; role_id: number }
+export type MaterielPayload = { name: string; role_id: number | null }
 
 const page = <T>(path: string, params?: ListParams) =>
   client.get<{ data: T[]; meta: { total: number } }>(path, { params }).then((response): Page<T> => ({ items: response.data.data, total: response.data.meta.total }))

@@ -22,6 +22,7 @@ import CoachingRolePicks from '@/views/tenant/coaching/CoachingRolePicks.vue'
 import CampaignGrid from './CampaignGrid.vue'
 import CampaignMessagesTab from './messages/CampaignMessagesTab.vue'
 import CampaignSendingsTab from './sendings/CampaignSendingsTab.vue'
+import CampaignMaterialsTab from './materials/CampaignMaterialsTab.vue'
 import { brandInitials, campaignProgress, STATE_TONE, useCampaignText } from './campaignDisplay'
 import { useCampaignLookups } from './useCampaignLookups'
 
@@ -55,11 +56,11 @@ watch(() => props.id, () => { campaign.value = null; load() }, { immediate: true
 
 // The tab is kept in the address (?tab=grid), so a reload or a shared link opens the same tab.
 const seesMessages = computed(() => auth.can('campaigns.update') || auth.can('campaign-messages.approve'))
-const TABS = ['campaign', 'grid', 'messages', 'sendings']
+const TABS = ['campaign', 'grid', 'messages', 'sendings', 'materials']
 const tab = computed({
   get: () => {
     const asked = String(route.query.tab ?? '')
-    return TABS.includes(asked) && (!['messages', 'sendings'].includes(asked) || seesMessages.value) ? asked : 'campaign'
+    return TABS.includes(asked) && (!['messages', 'sendings'].includes(asked) || seesMessages.value) && (asked !== 'materials' || canEdit.value) ? asked : 'campaign'
   },
   set: value => router.replace({ query: { ...route.query, tab: value === 'campaign' ? undefined : value } }),
 })
@@ -70,6 +71,7 @@ const tabs = computed(() => [
     { value: 'messages', label: `${t('campaigns.tabs.messages')} · ${n(campaign.value?.messages_count ?? 0)}` },
     { value: 'sendings', label: `${t('campaigns.tabs.sendings')} · ${n(campaign.value?.sendings_count ?? 0)}` },
   ] : []),
+  ...(canEdit.value ? [{ value: 'materials', label: `${t('campaigns.tabs.materials')} · ${n(campaign.value?.materials_count ?? 0)}` }] : []),
 ])
 
 const progress = computed(() => (campaign.value ? campaignProgress(campaign.value.start_date, campaign.value.end_date) : null))
@@ -151,7 +153,6 @@ const TILES = [
   { key: 'emails_sent', icon: 'tabler-send', tone: 'bg-dl-ink/10 text-dl-fg' },
 ] as const
 const LATER = [
-  { icon: 'tabler-package', key: 'materials', module: '13' },
   { icon: 'tabler-calendar-event', key: 'events', module: '14' },
   { icon: 'tabler-flag', key: 'actions', module: '15' },
 ]
@@ -277,7 +278,7 @@ const LATER = [
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-3 md:grid-cols-3">
+            <div class="grid grid-cols-2 gap-3 md:grid-cols-2">
               <div v-for="part in LATER" :key="part.key" class="flex items-center gap-3 rounded-2xl border-[1.5px] border-dashed border-dl-line p-3.5 text-[13px] text-dl-muted">
                 <DlIcon :icon="part.icon" :size="20" />
                 <div><strong class="block text-dl-body">{{ t(`campaigns.later.${part.key}`) }}</strong>{{ t('campaigns.later.comes', { module: part.module }) }}</div>
@@ -292,6 +293,10 @@ const LATER = [
 
         <template v-if="seesMessages" #messages>
           <div class="pt-1"><CampaignMessagesTab :campaign-id="campaign.id" @changed="load" /></div>
+        </template>
+
+        <template v-if="canEdit" #materials>
+          <div class="pt-1"><CampaignMaterialsTab :campaign="campaign" @changed="load" /></div>
         </template>
 
         <template v-if="seesMessages" #sendings>

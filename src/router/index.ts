@@ -102,6 +102,9 @@ const labRoutes = [
       // A campaign's sendings (docs/api/campaign-sendings.md).
       { path: 'campaigns/:id(\\d+)/sendings/new', name: 'tenant-campaign-sending-new', component: () => import('@/views/tenant/campaigns/sendings/CampaignSendingNewView.vue'), props: true, meta: { permission: 'campaigns.update' } },
       { path: 'campaigns/:id(\\d+)/sendings/:sendingId(\\d+)', name: 'tenant-campaign-sending', component: () => import('@/views/tenant/campaigns/sendings/CampaignSendingView.vue'), props: true, meta: { permission: 'campaigns.show' } },
+      // Materials: a distribution's page and Engager › Matériels (docs/api/materials.md).
+      { path: 'campaigns/:id(\\d+)/materials/:distributionId(\\d+)', name: 'tenant-campaign-material', component: () => import('@/views/tenant/campaigns/materials/MaterialDistributionView.vue'), props: true, meta: { permission: 'campaigns.update' } },
+      { path: 'material-stocks', name: 'tenant-material-stocks', component: () => import('@/views/tenant/materials/MaterialStockListView.vue'), meta: { permission: 'campaigns.show' } },
       { path: 'mail-templates', name: 'tenant-mail-templates', component: () => import('@/views/tenant/campaigns/templates/MailTemplateListView.vue'), meta: { permission: 'mail-templates.show' } },
       { path: 'mail-templates/:id(\\d+)', name: 'tenant-mail-template', component: () => import('@/views/tenant/campaigns/templates/MailTemplateView.vue'), props: true, meta: { permission: 'mail-templates.show' } },
       // Équipe › Frais (docs/api/expenses.md): the board for approvers, else the person's own month.

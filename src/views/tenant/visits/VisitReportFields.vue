@@ -12,11 +12,14 @@ import VisitTargetSearch from './VisitTargetSearch.vue'
 
 export interface BrandRow { brand_id: number; feedback: number | null; stock: string }
 export interface AdvRow { adv_id: number; feedback: number | null }
+/** A material handed out, from one of the rep's stock lines (docs/api/materials.md). */
+export interface MaterialRow { material_stock_id: number; quantity: number }
 export interface Named { id: number; name: string }
 /** The report as the forms hold it (the add page and the cards of a visit's page). */
 export interface ReportForm {
   brands: BrandRow[]
   advs: AdvRow[]
+  materials: MaterialRow[]
   coaches: Named[]
   participants: Named[]
   replacement: Named | null
