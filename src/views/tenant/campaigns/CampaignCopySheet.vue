@@ -62,7 +62,7 @@ async function copy() {
 </script>
 
 <template>
-  <DlSheet v-model:open="open" :title="t('campaigns.copy.title')" :description="t('campaigns.copy.description', { name: campaign.name })">
+  <DlSheet v-model:open="open" size="lg" :title="t('campaigns.copy.title')" :description="t('campaigns.copy.description', { name: campaign.name })">
     <div class="flex flex-col gap-4">
       <DlCombobox v-model="fromId" :label="t('campaigns.copy.from')" :placeholder="t('campaigns.copy.pick')" :options="options" :error="error" />
       <DlSkeleton v-if="loading" class="h-24 rounded-2xl" />

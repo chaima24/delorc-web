@@ -238,7 +238,7 @@ async function launch() {
       </template>
     </template>
 
-    <DlSheet v-model:open="whenOpen" :title="t('campaignSendings.when.title')" :description="t('campaignSendings.when.description', { count: n(count) })">
+    <DlSheet v-model:open="whenOpen" size="lg" :title="t('campaignSendings.when.title')" :description="t('campaignSendings.when.description', { count: n(count) })">
       <div class="flex flex-col gap-4">
         <button type="button" class="flex items-start gap-3 rounded-2xl border-[1.5px] p-3.5 text-start" :class="now ? 'border-dl-ink ring-3 ring-dl-mist' : 'border-dl-line'" :aria-pressed="now" @click="now = true">
           <span class="mt-0.5 h-[18px] w-[18px] shrink-0 rounded-full border-2" :class="now ? 'border-[5px] border-dl-ink' : 'border-dl-muted'" />

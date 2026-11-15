@@ -1,0 +1,141 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Actions marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.why.note { background: rgba(232, 163, 61, .13); color: var(--ink); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 520px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.ph { display: flex; align-items: center; gap: 12px; }
+.tiles { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.tile { background: var(--paper); border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.tile strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; line-height: 1; } .tile span { font-size: 12.5px; color: var(--muted); }
+.chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid #9FB0AA; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; flex-shrink: 0; } .chk.on { background: var(--ink); border-color: var(--ink); }
+.mat { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; background: var(--mist); }
+.mat .ic { width: 38px; height: 38px; border-radius: 12px; background: var(--paper); display: inline-flex; align-items: center; justify-content: center; font-size: 17px; }
+.rpanel { width: 460px; flex-shrink: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; align-self: stretch; }
+.rpanel header { padding: 20px 22px 16px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.rpanel header .ic { width: 44px; height: 44px; border-radius: 14px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.rpanel .body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; flex: 1; font-size: 14px; }
+.rpanel footer { padding: 14px 22px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; }
+.step { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--paper); } .step span { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; } .step b { min-width: 40px; text-align: center; }
+.stars { color: #E8A33D; letter-spacing: 2px; font-size: 16px; } .stars i { color: var(--line); font-style: normal; }
+.flow { display: flex; align-items: center; gap: 8px; font-size: 13px; } .flow span { padding: 4px 10px; border-radius: 99px; background: var(--mist); color: var(--muted); font-weight: 600; } .flow span.on { background: var(--ink); color: var(--signal); } .flow span.done { background: var(--signal-soft); color: var(--ink); }
+.yn { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; } .yn span { padding: 6px 12px; font-size: 13px; font-weight: 600; } .yn span.on { background: var(--ink); color: var(--signal); }
+.feat { font-size: 11px; font-weight: 700; color: var(--cobalt); background: rgba(47, 84, 235, .1); border-radius: 99px; padding: 2px 8px; white-space: nowrap; }
+.prog { display: flex; align-items: center; gap: 8px; } .prog .bar { height: 8px; width: 110px; border-radius: 99px; background: var(--line-soft); overflow: hidden; } .prog .bar i { display: block; height: 100%; background: #2F8F5B; } .prog .bar i.over { background: var(--cobalt); }
+.card2 { background: var(--paper); border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+</style></head><body>
+</head><body>
+<p class="caption"><strong>Campagnes › module 15, les actions marketing — proposition.</strong> Une action marketing est un <strong>objectif d'activités</strong> que le marketing donne aux délégués pour une campagne : « pendant la campagne, faites ce type d'activité N fois chacun ». Delorc compte tout seul ce qui est <strong>réalisé</strong> à partir des activités que chaque personne enregistre (module 8b). Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Une action</b> (décidé) : un <b>type d'activité</b> (Studio › Types d'activité), des <b>dates</b> dans celles de la campagne, un <b>objectif par personne</b>, des <b>personnes</b>, un <b>budget</b> (une seule fois pour l'action), une <b>wilaya</b> et des <b>spécialités</b> pour information. <b>Proposé :</b> la wilaya et un lieu libre (l'« adresse » de l'API précédente) sont facultatifs ; au moins une spécialité n'est pas obligatoire.</li>
+  <li><b>Prévu = objectif × personnes</b> (décidé : « 2 » = 2 chacun, comme les anciennes données). <b>Réalisé</b> (décidé) = les activités du type de l'action, enregistrées par une de ses personnes, datées dans les dates de l'action et <b>déjà passées</b>. Une activité de plusieurs jours compte pour 1.</li>
+  <li><b>Proposé :</b> une même personne ne peut pas avoir <b>deux actions du même type dont les dates se chevauchent</b> (refusé à l'enregistrement), pour qu'une activité ne compte jamais deux fois. Faire plus que l'objectif est permis (3 / 2 = 150 %).</li>
+  <li><b>Les personnes</b> (décidé) : les personnes de terrain des équipes de la campagne <b>dont le rôle peut enregistrer ce type d'activité</b> ; recherche avec puces, ou « + toute une équipe ». <b>Proposé :</b> une personne qui ne peut pas (autre rôle) est grisée avec la raison.</li>
+  <li><b>Qui gère</b> (décidé) : le marketing (<code>campaigns.update</code>), sans validation. <b>Proposé :</b> tout se change à tout moment (objectif, personnes, dates) : le réalisé se recalcule, rien n'est stocké ; supprimer une action est toujours possible (aucune donnée n'y est rattachée) ; une campagne avec des actions et un type d'activité utilisé par une action ne se suppriment plus.</li>
+  <li><b>Qui voit</b> (décidé) : le marketing et les admins tout ; un manager les personnes en dessous ; un délégué ses propres actions et sa progression.</li>
+  <li><b>Écrans</b> (décidé) : l'onglet « Actions marketing » de la campagne (frame 1), la page d'une action par personne (frame 3), et <b>Engager › Actions marketing</b> groupé par personne ou par type (frames 4–6). Les autres regroupements des anciennes applications (spécialité, équipe, région, wilaya) attendent le tableau de bord (21).</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const LINKS = ['Aides de visite', 'Campagnes', 'Modèles', 'Matériels', 'Événements', 'Actions marketing']
+const wsNav = (on, links = LINKS) => `<nav class='ws-nav'>${links.map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const shell = (on, inner, extra = '', h = 700, who = 'SH') => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf('Engager')}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${who}</span></div>
+<div style='display:flex;flex-direction:column;flex:1;gap:16px;padding:20px 28px 28px'>${wsNav(on)}${inner}</div></div>${extra}</div>`
+const da = v => `${v.toLocaleString('fr-FR')} DA`
+const prog = (done, planned) => { const p = planned ? Math.round(done / planned * 100) : 0; return `<span class='prog'><span class='bar'><i class='${p > 100 ? 'over' : ''}' style='width:${Math.min(p, 100)}%'></i></span><span class='hint' style='white-space:nowrap'>${done} / ${planned} · <strong style='color:var(--ink)'>${p} %</strong></span></span>` }
+const tiles = list => `<div class='tiles' style='grid-template-columns:repeat(${list.length},1fr)'>${list.map(([n, l]) => `<div class='tile'><strong>${n}</strong><span>${l}</span></div>`).join('')}</div>`
+
+/* 1. campaign tab */
+const TABS = [['La campagne', ''], ['Grille promo', '16'], ['Emails & SMS', '4'], ['Envois', '3'], ['Matériels', '3'], ['Événements', '3'], ['Actions marketing', '4']]
+const tabs = on => `<div class='tabs'>${TABS.map(([t, c]) => `<span class='${t === on ? 'on' : ''}'>${t}${c ? `<span class='count'>${c}</span>` : ''}</span>`).join('')}</div>`
+const ACTIONS = [
+  ['FOCUS EPSP', 'Oran', 'Médecine Générale', '1 → 30 nov.', 2, 6, 9, 50000],
+  ['FOCUS SERVICES', 'Alger', 'Cardiologie, Médecine Interne', '1 nov. → 15 déc.', 1, 4, 3, 15000],
+  ['FMC', 'Constantine', 'Pneumologie, ORL', '15 nov. → 31 janv.', 1, 3, 0, 300000],
+  ['EPU', '—', 'Neurologie', '1 déc. → 31 janv.', 2, 2, 0, 15000],
+]
+const campTab = `<div class='col'><div class='ph'><span class='chip'>CMP0007</span><h1 class='title display' style='font-size:28px'>Hiver 2026</h1><span class='chip ok'>En cours</span><span class='hint'>jour 18 sur 92 · Cardio, Généralistes</span></div>${tabs('Actions marketing')}
+${tiles([['4', 'actions'], ['23', 'activités prévues'], ['12', 'réalisées'], ['52 %', 'taux de réalisation'], [da(380000), 'budget']])}
+<div style='display:flex;gap:10px'><div class='input muted' style='width:240px'>Rechercher un type</div><div class='input muted' style='width:160px'>Wilaya ▾</div><span class='btn primary' style='margin-inline-start:auto'>+ Ajouter une action</span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Type d'activité ↕</th><th>Wilaya ↕</th><th>Spécialités</th><th>Dates ↕</th><th class='num'>Objectif / pers.</th><th class='num'>Personnes</th><th>Réalisé / prévu</th><th class='num'>Budget ↕</th></tr></thead><tbody>
+${ACTIONS.map(([t, w, s, d, o, p, done, b], k) => `<tr class='${k === 0 ? 'sel' : ''}'><td><strong>${t}</strong></td><td>${w}</td><td class='hint'>${s}</td><td>${d}</td><td class='num'>${o}</td><td class='num'>${p}</td><td>${prog(done, o * p)}</td><td class='num'>${da(b)}</td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>Prévu = objectif × personnes (FOCUS EPSP : 2 × 6 = 12). Réalisé = les activités de ce type enregistrées par ces personnes dans les dates de l'action, déjà passées. Calculé à chaque lecture, rien n'est saisi à la main.</div></div>`
+
+/* 2. add panel */
+const PEOPLE = [['Karim Benali', 'VM · Cardio', true], ['Amine Saïdi', 'VM · Cardio', true], ['Yasmine Talbi', 'VM · Généralistes', true], ['Rachid Lounis', 'VP · Généralistes', false]]
+const addPanel = `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><aside class='rpanel' style='width:720px;border-radius:24px 0 0 24px'><header><span class='ic'>◎</span><div style='flex:1'><strong style='font-size:20px;font-family:"Bricolage Grotesque",sans-serif'>Ajouter une action</strong><div class='hint' style='margin-top:4px'>Hiver 2026 · 1 nov. → 31 janv.</div></div><span class='iconbtn'>✕</span></header>
+<div class='body'>
+<label class='field'><span>Type d'activité *</span><div class='input'>FOCUS EPSP ▾</div><span class='hint'>Studio › Types d'activité. C'est ce type qui sera compté.</span></label>
+<label class='field'><span>Dates *</span><div class='input'>📅 1 nov. 2026 → 30 nov. 2026</div><span class='hint'>Dans les dates de la campagne.</span></label>
+<label class='field'><span>Objectif par personne *</span><div class='input'>2</div><span class='hint'>Chaque personne doit en faire 2.</span></label>
+<label class='field'><span>Personnes *</span><div class='input' style='flex-wrap:wrap;height:auto;min-height:44px;padding:8px 10px;gap:6px'>${PEOPLE.filter(p => p[2]).map(([n]) => `<span class='chip'>${n} ✕</span>`).join('')}</div>
+<span class='hint'>Les personnes de terrain des équipes de la campagne dont le rôle peut enregistrer « FOCUS EPSP ». <strong>Rachid Lounis (VP)</strong> : grisé, son rôle n'a pas ce type.</span></label>
+<label class='field'><span>Ajouter toute une équipe</span><div class='input muted'>Choisir ▾</div></label>
+<label class='field'><span>Budget *</span><div class='input'>50 000 DA</div><span class='hint'>Pour toute l'action, pas par personne.</span></label>
+<label class='field'><span>Wilaya</span><div class='input'>Oran ▾</div></label>
+<label class='field'><span>Lieu</span><div class='input muted'>EPSP Es Seddikia</div></label>
+<label class='field'><span>Spécialités</span><div class='input'><span class='chip'>Médecine Générale ✕</span></div><span class='hint'>Pour information et pour les filtres.</span></label>
+<div class='why'>Prévu : 2 × 3 personnes = <strong>6 activités</strong>.</div>
+</div><footer><span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>Ajouter</span></footer></aside></div>`
+const shortTab = `<div class='col'><div class='ph'><span class='chip'>CMP0007</span><h1 class='title display' style='font-size:28px'>Hiver 2026</h1></div>${tabs('Actions marketing')}<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Type d'activité</th><th>Dates</th><th>Réalisé / prévu</th></tr></thead><tbody>${ACTIONS.slice(1).map(([t, , , d, o, p, done]) => `<tr><td><strong>${t}</strong></td><td>${d}</td><td>${prog(done, o * p)}</td></tr>`).join('')}</tbody></table></div></div>`
+
+/* 3. action page */
+const ROWS = [['Karim Benali', 'Cardio', 3], ['Amine Saïdi', 'Cardio', 2], ['Yasmine Talbi', 'Généralistes', 2], ['Nassim Ferhat', 'Généralistes', 1], ['Lina Haddad', 'Généralistes', 1], ['Samir Rahmani', 'Cardio', 0]]
+const ACTS = [['Mer. 4 nov.', 'FOCUS EPSP — EPSP Es Seddikia', 'Matin'], ['Lun. 9 nov.', 'FOCUS EPSP — EPSP Bir El Djir', 'Journée'], ['Jeu. 12 nov.', 'FOCUS EPSP — EPSP Arzew', 'Après-midi']]
+const page = `<div class='col'><div><div class='crumbs'>Engager › Campagnes › Hiver 2026 › Actions marketing</div>
+<div class='ph' style='margin-top:4px'><h1 class='title display' style='font-size:26px'>FOCUS EPSP</h1><span class='chip'>Hiver 2026</span><span class='chip ok'>En cours</span><span class='btn outline' style='margin-inline-start:auto'>✎ Modifier</span><span class='btn ghost'>Supprimer</span></div>
+<div class='hint' style='margin-top:6px'>1 → 30 nov. 2026 · Oran, EPSP Es Seddikia · Médecine Générale · 2 par personne · ajoutée par Sara Haddad le 1 nov.</div></div>
+${tiles([['6', 'personnes'], ['12', 'prévues'], ['9', 'réalisées'], ['75 %', 'taux'], [da(50000), 'budget'], [da(5556), 'par activité réalisée']])}
+<div style='display:flex;gap:16px;align-items:flex-start'><div class='card' style='padding:6px 12px;flex:1'><table class='table'><thead><tr><th>Personne ↕</th><th>Équipe</th><th class='num'>Objectif</th><th>Réalisé</th><th>Dernière</th></tr></thead><tbody>
+${ROWS.map(([n, t, d], k) => `<tr class='${k === 0 ? 'sel' : ''}'><td><strong>${n}</strong></td><td>${t}</td><td class='num'>2</td><td>${prog(d, 2)}</td><td class='hint'>${d ? '12 nov.' : '—'}</td></tr>`).join('')}
+</tbody></table></div>
+<aside class='rpanel' style='width:400px'><header><span class='ic'>KB</span><div style='flex:1'><strong style='font-size:18px'>Karim Benali</strong><div class='hint'>3 / 2 · 150 %</div></div><span class='iconbtn'>✕</span></header>
+<div class='body'>${ACTS.map(([d, t, h]) => `<div class='rec' style='background:var(--mist);padding:10px 12px'><strong>${t}</strong><span class='hint'>${d} · ${h}</span></div>`).join('')}
+<div class='why'>Ses activités « FOCUS EPSP » du 1 au 30 nov., déjà passées. Faire plus que l'objectif est permis.</div></div></aside></div></div>`
+
+/* 4–6. Engager page */
+const BYPERSON = [['Karim Benali', 'Cardio', 3, 5, 6], ['Amine Saïdi', 'Cardio', 3, 5, 3], ['Yasmine Talbi', 'Généralistes', 2, 4, 2], ['Samir Rahmani', 'Cardio', 2, 3, 0]]
+const BYTYPE = [['FOCUS EPSP', 2, 18, 12], ['FOCUS SERVICES', 2, 7, 5], ['FMC', 1, 3, 0], ['EPU', 1, 2, 0]]
+const filters = on => `<div style='display:flex;gap:10px;align-items:center'><span class='seg'><span class='${on === 'p' ? 'on' : ''}'>Par personne</span><span class='${on === 't' ? 'on' : ''}'>Par type</span></span><div class='input muted' style='width:200px'>Campagne ▾</div><div class='input muted' style='width:160px'>Équipe ▾</div><div class='input muted' style='width:180px'>Type d'activité ▾</div><span class='seg'><span class='on'>En cours</span><span>Passées</span></span></div>`
+const head = (title, hint) => `<div><div class='crumbs'>Engager</div><h1 class='title display' style='font-size:34px'>${title}</h1><div class='hint' style='margin-top:4px'>${hint}</div></div>`
+const byPerson = `<div class='col'>${head('Actions marketing', 'Ce que le marketing a prévu et ce qui est réalisé, pour les personnes que vous voyez')}${filters('p')}
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Personne ↕</th><th>Équipe ↕</th><th class='num'>Actions</th><th>Réalisé / prévu ↕</th></tr></thead><tbody>
+${BYPERSON.map(([n, t, a, p, d]) => `<tr><td><strong>${n}</strong></td><td>${t}</td><td class='num'>${a}</td><td>${prog(d, p)}</td></tr>`).join('')}</tbody></table></div>
+<div class='why'>Une ligne s'ouvre à côté de la liste : les actions de la personne, une ligne chacune avec sa progression.</div></div>`
+const byType = `<div class='col'>${head('Actions marketing', 'Ce que le marketing a prévu et ce qui est réalisé, pour les personnes que vous voyez')}${filters('t')}
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Type d'activité ↕</th><th class='num'>Actions</th><th>Réalisé / prévu ↕</th></tr></thead><tbody>
+${BYTYPE.map(([t, a, p, d]) => `<tr><td><strong>${t}</strong></td><td class='num'>${a}</td><td>${prog(d, p)}</td></tr>`).join('')}</tbody></table></div>
+<div class='why'>Les mêmes chiffres, regroupés par type d'activité (comme les lignes dépliées de l'ancienne page « Analyse Marketing »).</div></div>`
+const mine = `<div class='col'>${head('Mes actions marketing', 'Les activités que le marketing attend de vous')}
+<div style='display:grid;grid-template-columns:repeat(3,1fr);gap:14px'>${[['FOCUS EPSP', 'Hiver 2026 · 1 → 30 nov.', 3, 2, 'Oran'], ['FOCUS SERVICES', 'Hiver 2026 · 1 nov. → 15 déc.', 0, 1, 'Alger'], ['EPU', 'Hiver 2026 · 1 déc. → 31 janv.', 0, 2, '—']].map(([t, c, d, o, w]) => `<div class='card2'><strong style='font-size:16px'>${t}</strong><span class='hint'>${c} · ${w}</span>${prog(d, o)}<span class='hint'>${d >= o ? 'Objectif atteint' : `Encore ${o - d} à faire`}</span></div>`).join('')}</div>
+<div class='why'>Pour qu'une activité compte, enregistrez-la dans Planifier › Activités avec ce type, entre les dates de l'action.</div></div>`
+
+/* 7. overlap refused */
+const overlap = `<div class='dialog'><div class='box'><strong style='font-size:17px'>Action non enregistrée</strong><div class='why bad'>Karim Benali a déjà l'action « FOCUS EPSP » du 1 au 30 nov. (Hiver 2026) : deux actions du même type ne peuvent pas se chevaucher pour une même personne, sinon une activité compterait deux fois.</div><footer><span class='btn dark'>Corriger</span></footer></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>L'onglet « Actions marketing » de la campagne.</strong> Cinq chiffres (actions, prévues, réalisées, taux, budget), puis une ligne par action : type, wilaya, spécialités, dates, objectif par personne, personnes, réalisé / prévu, budget.`) + shell('Campagnes', campTab, '', 600),
+  label(2, `<strong>« + Ajouter une action »</strong>, une fenêtre (comme toutes les fenêtres à l'intérieur d'une campagne, même taille) : type d'activité, dates, objectif par personne, personnes (recherche avec puces, ou toute une équipe), budget, wilaya, lieu, spécialités.`) + shell('Campagnes', shortTab, addPanel, 900),
+  label(3, `<strong>La page d'une action</strong> : six chiffres et une ligne par personne (objectif, réalisé, dernière activité) ; une ligne ouvre à côté les activités qui comptent.`) + shell('Campagnes', page, '', 640),
+  label(4, `<strong>Engager › Actions marketing, par personne</strong> (marketing : tout le monde ; manager : les personnes en dessous).`) + shell('Actions marketing', byPerson, '', 560, 'NM'),
+  label(5, `<strong>…par type d'activité.</strong>`) + shell('Actions marketing', byType, '', 520, 'NM'),
+  label(6, `<strong>Vu par un délégué</strong> : ses actions et sa progression.`) + shell('Actions marketing', mine, '', 480, 'KB'),
+  label(7, `<strong>Proposé : deux actions du même type qui se chevauchent pour une personne sont refusées.</strong>`) + shell('Campagnes', campTab, overlap, 600),
+].join('')
+</script></body></html>

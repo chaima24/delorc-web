@@ -374,7 +374,7 @@ const when = (value: string) => d(new Date(value), { day: 'numeric', month: 'sho
                 <dt class="text-dl-muted">{{ t('events.fields.object') }}</dt><dd class="whitespace-pre-line">{{ event.object || '—' }}</dd>
               </dl>
               <template #edit>
-                <EventFields v-if="form" v-model="form" :errors="errors" :manage="auth.can('events.manage')" />
+                <EventFields v-if="form" v-model="form" :errors="errors" :manage="auth.can('events.manage')" wide />
               </template>
             </DlRecordSection>
           </div>

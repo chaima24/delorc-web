@@ -227,7 +227,7 @@ async function sendBack() {
       </div>
     </template>
 
-    <DlSheet v-model:open="returning" :title="t('campaignMessages.return.title', { name: message?.created_by?.full_name ?? '' })" :description="t('campaignMessages.return.description')">
+    <DlSheet v-model:open="returning" size="lg" :title="t('campaignMessages.return.title', { name: message?.created_by?.full_name ?? '' })" :description="t('campaignMessages.return.description')">
       <form id="message-return" @submit.prevent="sendBack">
         <DlTextarea v-model="reason" :label="t('campaignMessages.return.reason')" :rows="5" :error="errors.reason" />
       </form>

@@ -60,7 +60,7 @@ const untick = () => props.cell.tick && run(() => deleteTick(props.cell.tick!.id
 </script>
 
 <template>
-  <DlSheet v-model:open="open" :title="title" :description="t(cell.tick ? 'campaigns.tick.editHint' : 'campaigns.tick.newHint')">
+  <DlSheet v-model:open="open" size="lg" :title="title" :description="t(cell.tick ? 'campaigns.tick.editHint' : 'campaigns.tick.newHint')">
     <form id="campaign-tick" class="flex flex-col gap-4" @submit.prevent="save">
       <fieldset class="flex flex-col gap-2">
         <legend class="mb-1.5 text-[13px] font-semibold">{{ t('campaigns.tick.priority') }}<span v-if="settings.priority_required"> *</span></legend>
