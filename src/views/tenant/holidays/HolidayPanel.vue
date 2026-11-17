@@ -12,6 +12,7 @@ import { useConfirm } from '@/composables/useConfirm'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/composables/useToast'
 import { useHolidayText } from './holidayDisplay'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // A holiday in the side panel: name, date, every year, and what it changes.
 // Mockup: docs/design/studio-mockups/Holidays.html (frame 2)
@@ -118,7 +119,7 @@ const impact = computed(() => props.holiday.impact)
         <template #edit>
           <div class="flex flex-col gap-3">
             <DlInput v-model="form.name" :label="t('holidays.fields.name')" :error="errors.name" />
-            <DlInput v-model="form.date" type="date" :label="t('holidays.fields.date')" :error="errors.date" />
+            <DlDatePicker v-model="form.date" :label="t('holidays.fields.date')" :error="errors.date" />
             <label class="flex items-center gap-2.5 text-[13px]">
               <input v-model="form.every_year" type="checkbox" class="h-[18px] w-[18px] accent-dl-ink">
               {{ t('holidays.fields.everyYear') }}

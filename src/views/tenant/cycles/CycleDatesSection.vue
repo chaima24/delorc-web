@@ -3,11 +3,11 @@ import { reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import { updateCycleDates, type CycleDetail } from '@/api/tenant/cycles'
-import DlInput from '@/components/DlInput.vue'
 import DlRecordSection from '@/components/DlRecordSection.vue'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import { useCycleText } from './cycleDisplay'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
 
 // The cycle's dates, changed in place. Refused when they overlap another cycle of the person (and, with visits,
 // when a recorded visit falls outside) (docs/api/cycles.md).
@@ -67,10 +67,7 @@ function cancel() {
       <dt class="text-dl-muted">{{ t('cycles.dates.workingDays') }}</dt><dd>{{ n(cycle.working_days) }} <span class="text-xs text-dl-muted">· {{ t('cycles.dates.workingHint') }}</span></dd>
     </dl>
     <template #edit>
-      <div class="grid grid-cols-2 gap-2.5">
-        <DlInput v-model="form.start" type="date" :label="t('cycles.dates.start')" :error="errors.start_date" />
-        <DlInput v-model="form.end" type="date" :min="form.start" :label="t('cycles.dates.end')" :error="errors.end_date" />
-      </div>
+      <DlDateRangePicker v-model:start="form.start" v-model:end="form.end" :label="t('common.dates.period')" :error="errors.start_date || errors.end_date" />
       <p class="text-xs text-dl-muted">{{ t('cycles.dates.hint') }}</p>
     </template>
   </DlRecordSection>

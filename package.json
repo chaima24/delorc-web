@@ -17,7 +17,13 @@
   },
   "dependencies": {
     "@iconify/vue": "^5.0.5",
+    "@internationalized/date": "^3.12.4",
     "@tailwindcss/vite": "^4.3.4",
+    "@tiptap/extension-image": "^3.34.0",
+    "@tiptap/extension-link": "^3.34.0",
+    "@tiptap/pm": "^3.34.0",
+    "@tiptap/starter-kit": "^3.34.0",
+    "@tiptap/vue-3": "^3.34.0",
     "axios": "^1.21.0",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",

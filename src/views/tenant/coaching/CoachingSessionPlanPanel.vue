@@ -5,13 +5,13 @@ import { errorMessage, fieldErrors } from '@/api/errors'
 import { fetchCoachingPeople, planCoachingSession, resolveCoaching, type CoachingPerson, type CoachingResolved, type CoachingSessionPage } from '@/api/tenant/coaching'
 import DlButton from '@/components/DlButton.vue'
 import DlCombobox from '@/components/DlCombobox.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import DlTextarea from '@/components/DlTextarea.vue'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import { useToast } from '@/composables/useToast'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { useSessionText } from './coachingDisplay'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "Planifier une séance": the person (the coach's team only) and the day. The program is found from the two roles;
 // the objective starts from the last accepted session's next objective. Mockup frame 2.
@@ -29,7 +29,7 @@ const peopleOptions = computed(() => people.value.map(person => ({
 
 const today = new Date().toISOString().slice(0, 10)
 const personId = ref<number | string | null>(null)
-const date = ref<string | number | null>(today)
+const date = ref(today)
 const objective = ref('')
 const resolved = ref<CoachingResolved | null>(null)
 const errors = ref<Record<string, string>>({})
@@ -83,7 +83,7 @@ async function save() {
   <DlRecordPanel v-model:open="open" :title="t('coaching.sessions.plan.title')" :description="t('coaching.sessions.plan.description')">
     <form id="coaching-plan" class="flex flex-col gap-4" @submit.prevent="save">
       <DlCombobox v-model="personId" :label="t('coaching.sessions.fields.person')" :options="peopleOptions" :error="errors.medical_rep_id" />
-      <DlInput v-model="date" type="date" :min="today" :label="t('coaching.sessions.fields.day')" :error="errors.date" />
+      <DlDatePicker v-model="date" :min="today" :label="t('coaching.sessions.fields.day')" :error="errors.date" />
       <p v-if="resolved" class="rounded-xl bg-dl-signal-soft px-3 py-2 text-xs text-dl-fg">
         {{ t('coaching.sessions.plan.program', { name: resolved.coaching.name, sections: resolved.coaching.sections_count, questions: resolved.coaching.questions_count, open: resolved.coaching.open_questions_count }) }}
       </p>

@@ -32,6 +32,7 @@ import { useUsers } from '@/views/tenant/territories/useTerritoryLookups'
 import { today } from '@/views/tenant/users/userDisplay'
 import ExpenseAmountLines from './ExpenseAmountLines.vue'
 import { useExpenseText } from './expenseDisplay'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "Add expenses": one block per day (date, trips from a commune to a commune, the night and meals of the day,
 // other costs); each block becomes one day claim. Editing opens one day. Mockup: docs/design/team-mockups/Expenses.html (frame 5)
@@ -327,7 +328,7 @@ async function save() {
           <strong v-if="amounts[d]" class="whitespace-nowrap text-sm tabular-nums">{{ text.money(amounts[d]!.total) }}</strong>
           <DlIconButton v-if="days.length > 1" icon="tabler-trash" variant="ghost" :size="34" :label="t('expenses.form.removeDay')" @click="days.splice(d, 1)" />
         </header>
-        <DlInput v-model="day.date" type="date" :label="t('expenses.form.date')" :hint="t('expenses.form.dayHint')" :error="errors[`days.${d}.date`]" class="sm:max-w-xs" />
+        <DlDatePicker v-model="day.date" :label="t('expenses.form.date')" :hint="t('expenses.form.dayHint')" :error="errors[`days.${d}.date`]" class="sm:max-w-xs" />
 
         <div class="flex flex-col gap-2.5">
           <h3 class="text-sm font-semibold">{{ t('expenses.panel.trips') }}</h3>

@@ -12,8 +12,8 @@ import {
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlCombobox from '@/components/DlCombobox.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 import DlIcon from '@/components/DlIcon.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlMenu from '@/components/DlMenu.vue'
 import { useConfirm } from '@/composables/useConfirm'
 import { useToast } from '@/composables/useToast'
@@ -193,10 +193,9 @@ async function remove() {
           <template v-else-if="draft">{{ t('objectives.period.from', { date: dates.date(draft.start_date) }) }}</template>
         </span>
       </div>
-      <DlInput
+      <DlDatePicker
         v-if="editing && grid"
         v-model="from"
-        type="date"
         :label="t('frequencies.change.from')"
         :error="errors.from"
         class="w-48"

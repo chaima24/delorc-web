@@ -5,11 +5,11 @@ import { errorMessage, fieldErrors } from '@/api/errors'
 import { openVisitDays } from '@/api/tenant/visitPlanning'
 import type { Visit } from '@/api/tenant/visits'
 import DlButton from '@/components/DlButton.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlSheet from '@/components/DlSheet.vue'
 import DlTextarea from '@/components/DlTextarea.vue'
 import { useToast } from '@/composables/useToast'
 import { todayIso } from './visitDisplay'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
 
 // "Rouvrir un jour": a manager lets the visit's person enter the visits of past days after the entry delay,
 // until the end of today. Mockup: docs/design/visits-mockups/Planning.html (frame 6)
@@ -53,10 +53,7 @@ async function save() {
 <template>
   <DlSheet v-model:open="open" :title="t('visits.reopen.title')" :description="visit.user?.full_name">
     <div class="flex flex-col gap-4">
-      <div class="grid grid-cols-2 gap-3">
-        <DlInput v-model="from" type="date" :max="todayIso()" :label="t('visits.filter.from')" :error="errors.from" />
-        <DlInput v-model="to" type="date" :max="todayIso()" :label="t('visits.filter.to')" :error="errors.to" />
-      </div>
+      <DlDateRangePicker v-model:start="from" v-model:end="to" :max="todayIso()" :label="t('common.dates.period')" :error="errors.from || errors.to" />
       <DlTextarea v-model="note" :label="t('visits.reopen.note')" :rows="2" />
       <span v-if="errors.user_id" class="text-xs text-dl-rejected">{{ errors.user_id }}</span>
       <p class="rounded-xl bg-dl-mist px-3 py-2.5 text-xs text-dl-muted">{{ t('visits.reopen.hint', { name: visit.user?.full_name ?? '' }) }}</p>

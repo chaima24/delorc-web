@@ -4,7 +4,9 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { type Commune, type SubWilayaZone, type Wilaya, createSubWilayaZone, deleteSubWilayaZone, fetchCommunes, fetchSubWilayaZones, fetchWilayas, updateSubWilayaZone } from '@/api/tenant/geography'
 import DlButton from '@/components/DlButton.vue'
+import DlCombobox from '@/components/DlCombobox.vue'
 import DlDataList from '@/components/DlDataList.vue'
+import DlIconButton from '@/components/DlIconButton.vue'
 import DlInput from '@/components/DlInput.vue'
 import DlPagination from '@/components/DlPagination.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
@@ -70,9 +72,7 @@ const { open, record, form, errors, saving } = panel
 // The communes to pick from: those of the chosen wilaya.
 const communes = ref<Commune[]>([])
 const communesLoading = ref(false)
-const communeSearch = ref('')
 watch(() => [open.value, form.value.wilaya_id] as const, async ([isOpen, wilayaId], previous) => {
-  communeSearch.value = ''
   if (!isOpen || !wilayaId) {
     communes.value = []
     return
@@ -89,19 +89,20 @@ watch(() => [open.value, form.value.wilaya_id] as const, async ([isOpen, wilayaI
   }
 })
 
-const visibleCommunes = computed(() => {
-  const term = communeSearch.value.trim().toLowerCase()
-  return term ? communes.value.filter(c => c.name.toLowerCase().includes(term)) : communes.value
-})
-
 /** A commune already in another zone of the wilaya would be moved to this one. */
 const otherZone = (commune: Commune) =>
   commune.sub_wilaya_zone && commune.sub_wilaya_zone.id !== record.value?.id ? commune.sub_wilaya_zone.name : null
 
-function toggle(id: number) {
-  const ids = form.value.commune_ids
-  form.value.commune_ids = ids.includes(id) ? ids.filter(x => x !== id) : [...ids, id]
-}
+// A full-width search select offers the communes not picked yet; each one picked becomes a chip with ✕.
+const communeOptions = computed(() => communes.value
+  .filter(commune => !form.value.commune_ids.includes(commune.id))
+  .map(commune => ({ value: commune.id, label: commune.name, hint: otherZone(commune) ? t('geo.inOtherZone', { zone: otherZone(commune) }) : undefined })))
+const pickedCommune = computed({
+  get: () => null as number | null,
+  set: value => { if (value != null) form.value.commune_ids = [...form.value.commune_ids, Number(value)] },
+})
+const chosenCommunes = computed(() => form.value.commune_ids.map(id => communes.value.find(commune => commune.id === id)).filter(commune => commune !== undefined))
+const removeCommune = (id: number) => { form.value.commune_ids = form.value.commune_ids.filter(x => x !== id) }
 
 const canEdit = computed(() => (record.value ? auth.can('sub-wilaya-zones.update') : auth.can('sub-wilaya-zones.create')))
 
@@ -185,31 +186,15 @@ const communeNames = (zone: SubWilayaZone) => (zone.communes ?? []).map(c => c.n
               {{ t('geo.fields.communes') }}
               <span class="font-normal text-dl-muted">{{ t('geo.selected', { count: form.commune_ids.length }) }}</span>
             </legend>
-            <DlInput
-              v-model="communeSearch"
-              type="search"
-              icon="tabler-search"
-              :label="t('geo.search.communes')"
-              :placeholder="t('geo.search.communes')"
-              hide-label
-            />
             <p v-if="communesLoading" class="text-sm text-dl-muted">{{ t('geo.loading') }}</p>
-            <ul v-else class="flex max-h-72 flex-col overflow-y-auto rounded-2xl border border-dl-line">
-              <li v-for="commune in visibleCommunes" :key="commune.id" class="border-b border-dl-line-soft last:border-b-0">
-                <label class="flex min-h-11 cursor-pointer items-center gap-3 px-3.5 py-2 text-sm hover:bg-dl-mist">
-                  <input
-                    type="checkbox"
-                    class="h-[18px] w-[18px] accent-dl-ink"
-                    :checked="form.commune_ids.includes(commune.id)"
-                    :disabled="!canEdit"
-                    @change="toggle(commune.id)"
-                  >
-                  <span class="flex-1">{{ commune.name }}</span>
-                  <span v-if="otherZone(commune)" class="text-xs text-dl-pending">{{ t('geo.inOtherZone', { zone: otherZone(commune) }) }}</span>
-                </label>
-              </li>
-              <li v-if="!visibleCommunes.length" class="px-3.5 py-3 text-sm text-dl-muted">{{ t('geo.empty.search') }}</li>
-            </ul>
+            <DlCombobox v-else-if="canEdit" v-model="pickedCommune" :label="t('geo.search.communes')" :placeholder="t('geo.search.communes')" :options="communeOptions" hide-label />
+            <div v-if="chosenCommunes.length" class="flex flex-wrap gap-1.5">
+              <span v-for="commune in chosenCommunes" :key="commune.id" class="inline-flex items-center gap-1 rounded-full bg-dl-line-soft py-0.5 text-xs font-semibold" :class="canEdit ? 'ps-3 pe-0.5' : 'px-3'">
+                {{ commune.name }}
+                <span v-if="otherZone(commune)" class="font-normal text-dl-pending">· {{ t('geo.inOtherZone', { zone: otherZone(commune) }) }}</span>
+                <DlIconButton v-if="canEdit" icon="tabler-x" variant="ghost" :size="26" :label="t('coaching.picks.remove', { name: commune.name })" @click="removeCommune(commune.id)" />
+              </span>
+            </div>
             <p v-if="errors.commune_ids" class="text-xs text-dl-rejected">{{ errors.commune_ids }}</p>
           </fieldset>
           <p v-else class="rounded-2xl bg-dl-mist px-4 py-3 text-[13px] text-dl-body">{{ t('geo.pickWilayaFirst') }}</p>

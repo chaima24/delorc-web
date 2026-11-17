@@ -5,7 +5,6 @@ import { fieldErrors } from '@/api/errors'
 import { assignTerritoryPerson, endTerritoryStint, fetchTerritories, fetchTerritoryPeople, type Territory, type TerritoryCover, type TerritoryStint } from '@/api/tenant/territories'
 import DlAvatar from '@/components/DlAvatar.vue'
 import DlButton from '@/components/DlButton.vue'
-import DlInput from '@/components/DlInput.vue'
 import { useTerritories, useUsers } from './useTerritoryLookups'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/composables/useToast'
@@ -14,6 +13,7 @@ import TerritoryPersonPicker from './TerritoryPersonPicker.vue'
 import { coversOf, picksFromCovers } from './coversForm'
 import { personName, useTerritoryText } from './territoryText'
 import { usePeopleSuggestions } from './usePeopleSuggestions'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // Who works a territory: now (End… on a date), coming, before; "Assign" someone from a date (their
 // territory elsewhere ends the day before — said before saving), suggested people first from what it
@@ -150,7 +150,7 @@ async function end() {
         <strong class="text-dl-pending">{{ t('territories.people.worksElsewhere', { name: elsewhere.name }) }}</strong>
         {{ t('territories.people.willEnd', { date: endsOn }) }}
       </p>
-      <DlInput v-model="form.start" type="date" :label="t('territories.people.startsOn')" :error="errors.start_date" />
+      <DlDatePicker v-model="form.start" :label="t('territories.people.startsOn')" :error="errors.start_date" />
       <div class="flex justify-end gap-2">
         <DlButton variant="ghost" type="button" @click="mode = 'list'">{{ t('common.actions.cancel') }}</DlButton>
         <DlButton variant="primary" type="submit" :loading="saving">{{ t('territories.people.assign') }}</DlButton>
@@ -159,7 +159,7 @@ async function end() {
 
     <form v-else-if="mode === 'end' && ending" class="flex flex-col gap-3 border-t border-dl-line-soft px-3.5 py-3" @submit.prevent="end">
       <p class="text-[13px]">{{ t('territories.people.endOf', { name: personName(ending.user) }) }}</p>
-      <DlInput v-model="endDate" type="date" :min="ending.start_date" :label="t('territories.people.lastDay')" :error="errors.end_date" />
+      <DlDatePicker v-model="endDate" :min="ending.start_date" :label="t('territories.people.lastDay')" :error="errors.end_date" />
       <div class="flex justify-end gap-2">
         <DlButton variant="ghost" type="button" @click="mode = 'list'">{{ t('common.actions.cancel') }}</DlButton>
         <DlButton variant="dark" type="submit" :loading="saving">{{ t('territories.people.end') }}</DlButton>

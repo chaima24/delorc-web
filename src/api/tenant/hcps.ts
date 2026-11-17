@@ -48,6 +48,8 @@ export interface Hcp {
   phone: string | null
   fax: string | null
   contacted_by: HcpContactedBy
+  /** Set by the unsubscribe link of a campaign email; only a consent they answer clears it (docs/api/campaign-sendings.md). */
+  campaign_email_opt_out_at?: string | null
   status: HcpStatus
   verified: boolean
   commune_id: number

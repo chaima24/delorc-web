@@ -27,6 +27,7 @@ import { today } from '@/views/tenant/users/userDisplay'
 import { durationKey, KIND_TONE, kindOfType, useActivityText } from './activityDisplay'
 import ActivityTargetsField from './ActivityTargetsField.vue'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // Add or edit an activity: for whom, type (only those allowed for that person's role), title,
 // date and duration, what it is linked to, note. Someone of a field role adds only for themselves
@@ -174,14 +175,14 @@ async function save() {
       </div>
       <DlInput v-model="form.title" :label="t('activities.form.title')" :error="errors.title" @input="titleTouched = true" />
       <div class="grid grid-cols-2 gap-2.5">
-        <DlInput v-model="form.activity_date" type="date" :label="t('activities.form.date')" :error="errors.activity_date" />
+        <DlDatePicker v-model="form.activity_date" :label="t('activities.form.date')" :error="errors.activity_date" />
         <DlSelect v-model="form.duration_type" :label="t('activities.form.duration')" :options="durationOptions" />
       </div>
       <div v-if="form.duration_type === DURATION_HOURS" class="grid grid-cols-2 gap-2.5">
         <DlInput v-model="form.start_time" type="time" :label="t('activities.form.from')" :error="errors.start_time" />
         <DlInput v-model="form.end_time" type="time" :label="t('activities.form.to')" :error="errors.end_time" />
       </div>
-      <DlInput v-if="form.duration_type === DURATION_UNTIL" v-model="form.end_date" type="date" :label="t('activities.form.until')" :error="errors.end_date" />
+      <DlDatePicker v-if="form.duration_type === DURATION_UNTIL" v-model="form.end_date" :label="t('activities.form.until')" :error="errors.end_date" />
       <ActivityTargetsField v-if="type" v-model="form.target_ids" :value="String(type.value)" :picked="pickedTargets" :error="errors.target_ids" :date="form.activity_date" />
       <DlInput v-model="form.observation" :label="t('activities.form.note')" :placeholder="t('activities.form.optional')" />
       <p v-if="effect" class="rounded-xl bg-dl-mist px-3 py-2 text-xs text-dl-body">{{ effect }}<template v-if="form.target_ids.length && type?.value === 'medical_representative' && kind !== 'field'"> {{ t('activities.form.repsToo', { count: n(form.target_ids.length) }, form.target_ids.length) }}</template></p>

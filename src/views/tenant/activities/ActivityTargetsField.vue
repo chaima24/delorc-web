@@ -6,12 +6,12 @@ import { searchCycleProfessionals } from '@/api/tenant/cycles'
 import { fetchHcps } from '@/api/tenant/hcps'
 import { fetchTerritories } from '@/api/tenant/territories'
 import DlIcon from '@/components/DlIcon.vue'
-import DlInput from '@/components/DlInput.vue'
+import DlCombobox from '@/components/DlCombobox.vue'
 import { useUsers } from '@/views/tenant/territories/useTerritoryLookups'
 import { watchDebounced } from '@/views/tenant/territories/watchDebounced'
 
 // What the activity is linked to, by its type's "linked to": reps, pharmacies / wholesalers,
-// a territory or professionals of a cycle. Search, tick; the picked ones show as chips.
+// a territory or professionals of a cycle. A full-width search select (searched on the server); the picked ones show as chips.
 const props = defineProps<{ value: string; picked?: { id: number; label: string }[]; error?: string; date?: string }>()
 const model = defineModel<number[]>({ required: true })
 const { t } = useI18n()
@@ -66,6 +66,13 @@ watch(() => props.value, () => {
 watch(() => props.date, () => { if (kind.value === 'cycle_target') load() })
 watchDebounced(search, load, 350)
 
+// The search select offers the rows found and not picked yet; what is typed is searched on the server.
+const options = computed(() => rows.value.filter(row => !model.value.includes(row.id)).map(row => ({ value: row.id, label: row.label, hint: row.hint })))
+const picked = computed({
+  get: () => null as number | null,
+  set: value => { if (value != null) model.value = [...model.value, Number(value)] },
+})
+
 function toggle(id: number) {
   model.value = model.value.includes(id) ? model.value.filter(value => value !== id) : [...model.value, id]
 }
@@ -77,26 +84,20 @@ function toggle(id: number) {
       {{ t(`activities.linked.${value}`) }}
       <span class="font-normal text-dl-muted">{{ t('activities.linked.count', { count: model.length }, model.length) }}</span>
     </legend>
+    <DlCombobox
+      v-model="picked"
+      v-model:search="search"
+      :label="t('activities.linked.search')"
+      :placeholder="loading ? t('common.modal.loading') : t('activities.linked.search')"
+      :options="options"
+      hide-label
+    />
     <ul v-if="model.length" class="flex flex-wrap gap-1.5">
       <li v-for="id in model" :key="id">
         <button type="button" class="inline-flex items-center gap-1 rounded-full bg-dl-line-soft px-2.5 py-1 text-xs font-semibold hover:bg-dl-line" @click="toggle(id)">
           {{ known.get(id) ?? `#${id}` }}<DlIcon icon="tabler-x" :size="13" />
         </button>
       </li>
-    </ul>
-    <DlInput v-model="search" type="search" icon="tabler-search" :label="t('activities.linked.search')" :placeholder="t('activities.linked.search')" hide-label />
-    <ul class="flex max-h-56 flex-col overflow-y-auto rounded-2xl border border-dl-line">
-      <li v-for="row in rows" :key="row.id" class="border-b border-dl-line-soft last:border-b-0">
-        <label class="flex min-h-11 cursor-pointer items-center gap-3 px-3.5 py-2 text-sm hover:bg-dl-mist">
-          <input type="checkbox" class="h-[18px] w-[18px] shrink-0 accent-dl-ink" :checked="model.includes(row.id)" @change="toggle(row.id)">
-          <span class="flex min-w-0 flex-col">
-            <span class="truncate font-semibold">{{ row.label }}</span>
-            <span v-if="row.hint" class="text-xs text-dl-muted">{{ row.hint }}</span>
-          </span>
-        </label>
-      </li>
-      <li v-if="loading && !rows.length" class="px-3.5 py-3 text-sm text-dl-muted">{{ t('common.modal.loading') }}</li>
-      <li v-else-if="!rows.length" class="px-3.5 py-3 text-sm text-dl-muted">{{ t('activities.linked.none') }}</li>
     </ul>
     <p v-if="error" class="text-xs text-dl-rejected">{{ error }}</p>
   </fieldset>

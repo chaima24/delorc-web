@@ -1,0 +1,267 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Campagnes, emails et SMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 150px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.pills { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.why.note { background: rgba(232, 163, 61, .13); color: var(--ink); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 500px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+/* states */
+.st { display: inline-flex; align-items: center; gap: 6px; border-radius: 99px; padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.st::before { content: ''; width: 7px; height: 7px; border-radius: 99px; background: currentColor; }
+.st.draft { background: var(--line-soft); color: var(--body); }
+.st.ready { background: rgba(47, 84, 235, .1); color: var(--cobalt); }
+.st.ok { background: var(--signal-soft); color: var(--ink); }
+.st.back { background: rgba(192, 54, 44, .1); color: var(--brick); }
+.ch { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; }
+.ch i { width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-style: normal; font-size: 13px; }
+.ch.mail i { background: rgba(47, 84, 235, .1); color: var(--cobalt); } .ch.sms i { background: rgba(232, 163, 61, .17); color: var(--amber); }
+/* editor */
+.ed { border: 1px solid var(--line); border-radius: 16px; background: var(--paper); display: flex; flex-direction: column; position: relative; }
+.ed .bar { display: flex; gap: 4px; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
+.ed .bar span { min-width: 32px; height: 32px; padding: 0 8px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--body); }
+.ed .bar span.on { background: var(--mist); color: var(--ink); } .ed .bar .sep { min-width: 1px; width: 1px; height: 22px; padding: 0; background: var(--line); margin: 0 4px; border-radius: 0; }
+.ed .bar .ins { margin-inline-start: auto; background: var(--ink); color: var(--mist); padding: 0 12px; }
+.ed .txt { padding: 18px 20px; font-size: 14.5px; line-height: 1.65; color: var(--ink); min-height: 260px; }
+.ed .txt p { margin: 0 0 12px; } .ed .txt h3 { margin: 0 0 10px; font-size: 19px; }
+.fld { display: inline-flex; align-items: center; gap: 4px; background: rgba(47, 84, 235, .1); color: var(--cobalt); border-radius: 7px; padding: 1px 7px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.fld::before { content: '◆'; font-size: 9px; }
+.img { height: 120px; border-radius: 12px; background: linear-gradient(135deg, #DCEBE5, #C9DDF6); display: flex; align-items: center; justify-content: center; color: var(--body); font-size: 12.5px; font-weight: 600; margin: 4px 0 12px; }
+.cta { display: inline-block; background: var(--ink); color: var(--mist); border-radius: 10px; padding: 8px 14px; font-size: 13px; font-weight: 700; }
+.menu { position: absolute; top: 48px; inset-inline-end: 10px; width: 300px; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 6px; box-shadow: 0 18px 40px -16px rgba(15, 31, 28, .35); z-index: 4; font-size: 13.5px; }
+.menu div { padding: 9px 10px; border-radius: 10px; display: flex; gap: 10px; align-items: center; } .menu div.on { background: var(--mist); }
+.menu small { margin-inline-start: auto; color: var(--muted); font-size: 12px; }
+.menu .grp { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: 8px 10px 4px; }
+.file { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; font-size: 13.5px; }
+.file .ic { width: 34px; height: 34px; border-radius: 10px; background: rgba(192, 54, 44, .1); color: var(--brick); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; }
+.file .hint { margin-inline-start: auto; }
+/* preview */
+.pv { background: #EEF1F0; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.pv .meta { font-size: 12.5px; color: var(--body); } .pv .meta b { color: var(--ink); }
+.mail { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, .06); font-size: 13.5px; line-height: 1.6; color: #333; }
+.mail .top { background: var(--ink); color: #fff; padding: 16px 20px; display: flex; align-items: center; gap: 10px; }
+.mail .top b { width: 30px; height: 30px; border-radius: 9px; background: var(--signal); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; font-size: 13px; }
+.mail .in { padding: 18px 20px; } .mail .in p { margin: 0 0 10px; } .mail .in h3 { margin: 0 0 8px; font-size: 17px; color: #111; }
+.mail .ft { padding: 12px 20px; background: #F6F7F7; color: #7A8583; font-size: 11.5px; }
+.phone { width: 300px; background: var(--ink); border-radius: 34px; padding: 14px; } .phone .scr { background: #F2F4F3; border-radius: 24px; padding: 18px 14px; min-height: 300px; display: flex; flex-direction: column; gap: 8px; }
+.bubble { background: #fff; border-radius: 16px 16px 16px 4px; padding: 10px 12px; font-size: 13px; line-height: 1.5; box-shadow: 0 1px 3px rgba(0, 0, 0, .06); }
+/* page header */
+.ph { display: flex; align-items: center; gap: 12px; }
+.banner { border-radius: 16px; padding: 12px 16px; display: flex; gap: 12px; align-items: center; font-size: 13.5px; }
+.banner.ready { background: rgba(47, 84, 235, .08); } .banner.back { background: rgba(192, 54, 44, .08); } .banner.ok { background: var(--signal-soft); }
+.banner .btn { margin-inline-start: auto; }
+.steps { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); }
+.steps b { color: var(--ink); } .steps i { font-style: normal; color: var(--line); }
+.tpl { border: 1.5px solid var(--line); border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+.tpl.on { border-color: var(--ink); box-shadow: 0 0 0 3px var(--mist); }
+.tpl .mini { height: 84px; border-radius: 10px; background: #EEF1F0; padding: 8px; display: flex; flex-direction: column; gap: 5px; }
+.tpl .mini i { display: block; height: 6px; border-radius: 99px; background: #D5DCDA; } .tpl .mini i.h { height: 14px; background: var(--ink); border-radius: 5px; }
+.counter { display: flex; gap: 14px; align-items: center; font-size: 12.5px; color: var(--muted); padding: 10px 14px; border-top: 1px solid var(--line-soft); }
+.counter b { color: var(--ink); }
+</style></head><body>
+<p class="caption"><strong>Campagnes › partie 12b, emails et SMS — proposition.</strong> Chaque campagne a ses <strong>messages</strong> (un email ou un SMS écrit pour les professionnels de santé), écrits dans un éditeur visuel, souvent à partir d'un <strong>modèle</strong> de la bibliothèque du laboratoire (Engager › Modèles). Un message est <strong>approuvé par une autre personne</strong> avant de pouvoir partir. L'envoi lui-même (à qui, quand, le suivi) arrive en 12c. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Un éditeur visuel</b> (décidé le 14 nov. ; nouveau paquet <b>Tiptap</b>) : gras, italique, titres, listes, liens, images, bouton. <b>Proposé :</b> les images sont envoyées dans le stockage du laboratoire (MinIO) et l'email les montre par un lien ; elles comptent dans l'espace du laboratoire, comme les aides de visite.</li>
+  <li><b>Proposé : un seul habillage pour tous les emails du laboratoire</b> (logo, couleur du bandeau, texte du pied de page), dans ⚙ Réglages des campagnes. Un modèle ne contient alors que le contenu (objet, texte, pièces jointes) : chaque email du laboratoire garde la même allure, et changer le logo ne demande pas de reprendre tous les modèles. Les anciens modèles avaient chacun leur propre HTML complet.</li>
+  <li><b>Champs à insérer</b> (décidé) : nom de la campagne, code de la campagne, année, <b>nom du professionnel</b> : « Dr » + son nom pour un médecin ou un dentiste (« Dr Yacine Cherif »), le nom seul pour les autres (décidé le 14 nov. : la fiche n'a qu'un nom, pas de titre ni de prénom à part). Choisis dans « Insérer un champ », affichés comme une pastille, jamais tapés à la main ; l'aperçu remplit les champs avec un exemple.</li>
+  <li><b>Email et SMS</b> (décidé) : les deux s'écrivent dès maintenant. Un SMS est du texte simple avec un compteur (160 caractères par SMS, 70 avec des lettres arabes) ; <b>il n'apparaît que si le laboratoire a <code>channel.sms</code></b>. En 12c seuls les emails partent, jusqu'au choix d'un fournisseur SMS. <b>Proposé :</b> un SMS n'a ni pièce jointe ni image.</li>
+  <li><b>Une bibliothèque de modèles</b> (décidé) : Engager › Modèles, partagée par toutes les campagnes ; une marque facultative ; un canal (email ou SMS). <b>Un message créé à partir d'un modèle en copie l'objet, le texte et les pièces jointes</b> ; changer le modèle ensuite ne touche jamais le message. Le message garde « Modèle : Newsletter » pour information.</li>
+  <li><b>Pièces jointes</b> (décidé) : sur les modèles et sur les messages, 10 Mo chacune, comme l'API précédente. <b>Proposé :</b> elles comptent dans l'espace du laboratoire (refus quand il est plein), PDF, images, Word, Excel et PowerPoint seulement.</li>
+  <li><b>Un nouveau laboratoire commence avec 3 modèles</b> (décidé) : « Newsletter / annonce produit », « Invitation événement / webinaire », « Relance / rappel court », ceux de l'API précédente refaits pour l'éditeur. Le laboratoire peut les changer ou les supprimer.</li>
+  <li><b>Approuvé par une deuxième personne</b> (décidé) : l'auteur « Marque prête » ; une personne qui a le droit <code>campaign-messages.approve</code> <b>approuve</b> ou <b>renvoie avec une raison</b> ; seul un message approuvé peut partir (12c). <b>Jamais l'auteur</b> : refusé pour qui l'a écrit ou modifié en dernier, même s'il a le droit. <b>Modifier un message approuvé le remet en brouillon</b> (une confirmation le dit). <b>Proposé :</b> quatre états, Brouillon, Prête, Renvoyée, Approuvée (les états « archivé » et « annulé » de l'API précédente sont abandonnés) ; l'historique (qui a marqué prête, approuvé, renvoyé, pourquoi) est montré sur la page du message, lu du journal.</li>
+  <li><b>« M'envoyer un test »</b> (décidé) : à l'adresse de la personne connectée, avec les champs remplis par un exemple, par le canal email du laboratoire ; il compte dans le quota du mois. <b>Proposé :</b> possible à tout état, même brouillon ; l'objet commence par « [TEST] ».</li>
+  <li><b>Droits</b> (décidé) : les messages suivent <code>campaigns.update</code> (marketing) ; les modèles, un nouveau droit <code>mail-templates</code> (marketing) ; <code>campaign-messages.approve</code> aux admins, que le laboratoire peut donner à un autre rôle (Studio › Rôles). <b>Proposé :</b> les managers et délégués, qui voient la campagne, ne voient pas cet onglet.</li>
+  <li><b>Proposé : supprimer.</b> Un message se supprime tant qu'aucun envoi ne l'utilise (12c) ; un modèle se supprime toujours (les messages gardent leur copie, le lien « Modèle » disparaît) ou se désactive pour ne plus être proposé.</li>
+  <li><b>Proposé : l'onglet s'appelle « Emails &amp; SMS »</b> et non « Messages », parce qu'une coche de la grille promo a déjà son « message » (l'argument du délégué). Dans le code, la table reste <code>campaign_messages</code>.</li>
+  <li><b>Abandonné des anciennes applications :</b> la boîte de code HTML et la note libre « Conditions d'envoi » (à qui et quand envoyer se choisit en 12c).</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const wsNav = on => `<nav class='ws-nav'>${['Aides de visite', 'Campagnes', 'Modèles'].map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const shell = (on, inner, extra = '', h = 760, who = 'SH') => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf('Engager')}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${who}</span></div>
+  <div style='display:flex;flex-direction:column;flex:1;gap:16px;padding:20px 28px 28px'>${wsNav(on)}${inner}</div>
+</div>${extra}</div>`
+const dialog = (title, text, actions) => `<div class='dialog'><div class='box'><strong style='font-size:17px'>${title}</strong><div style='display:flex;flex-direction:column;gap:10px'>${text}</div><footer>${actions}</footer></div></div>`
+const sheet = (title, hint, body, foot, w = 480) => `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet' style='width:${w}px'><header><div><strong style='font-size:18px'>${title}</strong><div class='hint'>${hint}</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header><div class='body'>${body}</div><footer>${foot}</footer></div></div>`
+const F = t => `<span class='fld'>${t}</span>`
+const ST = { draft: 'Brouillon', ready: 'Prête', back: 'Renvoyée', ok: 'Approuvée' }
+const st = k => `<span class='st ${k}'>${ST[k]}</span>`
+const ch = k => k === 'sms' ? `<span class='ch sms'><i>✆</i>SMS</span>` : `<span class='ch mail'><i>✉</i>Email</span>`
+
+/* campaign header + tabs (as 12a) */
+const TABS = [['La campagne', ''], ['Grille promo', '16'], ['Emails & SMS', '4'], ['Envois', '12c'], ['Matériels', '13'], ['Événements', '14'], ['Actions marketing', '15']]
+const LATER = ['12c', '13', '14', '15']
+const tabs = on => `<div class='tabs'>${TABS.map(([t, c]) => `<span class='${t === on ? 'on' : ''}' style='${LATER.includes(c) ? 'opacity:.55' : ''}'>${t}${c ? `<span class='count'>${LATER.includes(c) ? 'à venir · ' + c : c}</span>` : ''}</span>`).join('')}</div>`
+const campHead = `<div class='ph'><span class='chip'>CMP0007</span><h1 class='title display' style='font-size:28px'>Hiver 2026</h1><span class='chip ok'>En cours</span><span class='hint'>jour 18 sur 92 · Cardio, Généralistes</span></div>`
+
+/* 1. the tab */
+const MSGS = [
+  ['mail', 'Tensio 90 cp : 3 mois de traitement en une boîte', 'Newsletter / annonce produit', 'ok', 'Sara Haddad', 'Amine Rahmani, 12 nov.', '12 nov. 2026', 2],
+  ['mail', 'Invitation : soirée cardiologie du 4 décembre', 'Invitation événement / webinaire', 'ready', 'Sara Haddad', '—', '17 nov. 2026', 1],
+  ['sms', 'Rappel soirée cardiologie (SMS)', 'Relance SMS', 'back', 'Lina Mansouri', '—', '16 nov. 2026', 0],
+  ['mail', 'Cardiozen : les résultats HOPE-DZ', '—', 'draft', 'Sara Haddad', '—', '18 nov. 2026', 0],
+]
+const tab = `<div class='col'>${campHead}${tabs('Emails & SMS')}
+<div style='display:flex;gap:10px;align-items:center'><div class='input muted' style='width:300px'>Rechercher un objet</div><span class='seg'><span class='on'>Tous</span><span>Email</span><span>SMS</span></span><span class='seg'><span class='on'>Tous les états</span><span>Brouillon</span><span>Prête</span><span>Renvoyée</span><span>Approuvée</span></span>
+<span style='margin-inline-start:auto;display:flex;gap:8px'><span class='btn outline'>+ Nouveau SMS</span><span class='btn primary'>+ Nouvel email</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Canal ↕</th><th>Objet ↕</th><th>Modèle</th><th>État ↕</th><th>Écrit par ↕</th><th>Approuvé par</th><th class='num'>Pièces jointes</th><th>Modifié le ↕</th></tr></thead><tbody>
+${MSGS.map(([c, s, t, k, w, a, d, pj], i) => `<tr class='${i === 1 ? 'sel' : ''}'><td>${ch(c)}</td><td><strong>${s}</strong></td><td class='hint'>${t}</td><td>${st(k)}</td><td>${w}</td><td class='hint'>${a}</td><td class='num'>${pj || '—'}</td><td class='hint'>${d}</td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>Seuls les messages <strong>approuvés</strong> pourront être envoyés (onglet « Envois », 12c). Un message se lit et s'écrit sur sa propre page.</div></div>`
+
+/* 2. choose a template */
+const TPLS = [['Newsletter / annonce produit', 'Tous', 'Actualités — Nom de la campagne', true], ['Invitation événement / webinaire', 'Tous', 'Invitation — Nom de la campagne', false], ['Relance / rappel court', 'Tous', 'Petit rappel — Nom de la campagne', false], ['Cardiozen · lancement', 'Cardiozen', 'Cardiozen arrive en officine', false]]
+const chooseSheet = sheet('Nouvel email', 'Partir d\'un modèle ou d\'une page blanche. Le message reçoit une copie : changer le modèle ensuite ne le touche pas.', `
+<div style='display:flex;gap:10px'><div class='input muted' style='flex:1'>Rechercher un modèle</div><div class='input muted' style='width:150px'>Marque ▾</div></div>
+<div style='display:grid;grid-template-columns:1fr 1fr;gap:12px'>
+${TPLS.map(([n, b, s, on]) => `<div class='tpl ${on ? 'on' : ''}'><div class='mini'><i class='h'></i><i style='width:80%'></i><i style='width:95%'></i><i style='width:60%'></i></div><strong>${n}</strong><span class='hint'>${b === 'Tous' ? 'Toutes les marques' : 'Marque ' + b} · ${b === 'Cardiozen' ? '1 pièce jointe' : 'sans pièce jointe'}</span></div>`).join('')}
+<div class='tpl' style='border-style:dashed;justify-content:center;align-items:center;min-height:150px;color:var(--muted)'><strong style='font-size:22px'>+</strong>Page blanche</div>
+</div>`,
+`<span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>Écrire à partir de « Newsletter »</span>`, 560)
+
+/* the email editor page */
+const BODY = `<h3>Tensio passe en boîte de 90 comprimés</h3>
+<p>Bonjour ${F('Nom du professionnel')},</p>
+<p>Dans le cadre de la campagne ${F('Nom de la campagne')}, nous avons le plaisir de vous annoncer le <b>nouveau conditionnement de Tensio</b> : trois mois de traitement dans une seule boîte.</p>
+<div class='img'>🖼 tensio-90cp.png · 240 Ko</div>
+<p>• Une prise par jour, inchangée<br>• Remboursé au même taux<br>• Disponible en officine dès le 1<sup>er</sup> décembre</p>
+<span class='cta'>Lire la fiche produit →</span>`
+const BODY_PV = BODY.replaceAll(F('Nom du professionnel'), 'Dr Yacine Cherif').replaceAll(F('Nom de la campagne'), 'Hiver 2026').replace(`class='cta'`, `class='cta' style='background:#1B302C'`)
+const editor = (menu = false, txt = BODY) => `<div class='ed'><div class='bar'><span class='on'>B</span><span><i>I</i></span><span><u>U</u></span><span class='sep'></span><span>H1</span><span>H2</span><span>¶</span><span class='sep'></span><span>• Liste</span><span>1. Liste</span><span class='sep'></span><span>🔗 Lien</span><span>🖼 Image</span><span>▭ Bouton</span><span class='ins'>◆ Insérer un champ ▾</span></div>
+<div class='txt'>${txt}</div>
+${menu ? `<div class='menu'><div class='grp'>La campagne</div><div>Nom de la campagne<small>Hiver 2026</small></div><div>Code de la campagne<small>CMP0007</small></div><div>Année<small>2026</small></div><div class='grp'>Le professionnel de santé</div><div class='on'>Nom du professionnel<small>Dr Yacine Cherif</small></div></div>` : ''}</div>`
+const files = `<div class='rec' style='padding:14px 16px'><header><strong>Pièces jointes</strong><span class='hint'>10 Mo par fichier</span><span class='btn sm outline'>+ Ajouter un fichier</span></header>
+<div class='file'><span class='ic'>PDF</span><div><strong>Fiche produit Tensio 90 cp.pdf</strong></div><span class='hint'>1,2 Mo · copiée du modèle</span><span class='iconbtn'>✕</span></div>
+<div class='file'><span class='ic'>PDF</span><div><strong>RCP Tensio.pdf</strong></div><span class='hint'>860 Ko</span><span class='iconbtn'>✕</span></div></div>`
+const preview = (who = 'Dr Yacine Cherif, cardiologue') => `<div class='pv'><div class='meta'>Aperçu avec un exemple : <b>${who}</b></div><div class='meta'>Objet : <b>Tensio 90 cp : 3 mois de traitement en une boîte</b></div>
+<div class='mail'><div class='top'><b>D</b><strong>Demo Pharma</strong></div><div class='in'>${BODY_PV}</div>
+<div class='ft'>Demo Pharma · 12 rue des Frères Bouadou, Alger · Information destinée aux professionnels de santé.<br><span style='opacity:.7'>Le lien de désinscription est ajouté à l'envoi (12c).</span></div></div>
+<div class='meta'>📎 2 pièces jointes · 2,1 Mo</div></div>`
+const steps = on => `<div class='steps'>${['Brouillon', 'Prête', 'Approuvée'].map(s => s === on ? `<b>● ${s}</b>` : `<span>○ ${s}</span>`).join('<i>——</i>')}</div>`
+const msgHead = (state, actions) => `<div><div class='crumbs'>Engager › Campagnes › Hiver 2026 › Emails &amp; SMS</div>
+<div class='ph' style='margin-top:4px'>${ch('mail')}<h1 class='title display' style='font-size:26px'>Tensio 90 cp : 3 mois de traitement en une boîte</h1>${st(state)}<span style='margin-inline-start:auto;display:flex;gap:8px'>${actions}</span></div>
+<div class='hint' style='margin-top:6px'>Modèle : Newsletter / annonce produit · écrit par Sara Haddad, modifié le 18 nov. 2026 à 10:42</div></div>`
+const subject = `<label class='field'><span>Objet *</span><div class='input'>Tensio 90 cp : 3 mois de traitement en une boîte</div></label>`
+const writeActs = `<span class='btn outline'>✉ M'envoyer un test</span><span class='btn outline'>Enregistrer le brouillon</span><span class='btn dark'>Marquer prête →</span>`
+const emailPage = (menu = false) => `<div class='col'>${msgHead('draft', writeActs)}${steps('Brouillon')}
+<div style='display:flex;gap:18px;align-items:flex-start'>
+<div class='col' style='flex:1.15'>${subject}${editor(menu)}${files}</div>
+<div class='col' style='flex:1'>${preview()}</div></div></div>`
+
+/* 4. SMS */
+const smsTxt = `Demo Pharma : ${F('Nom du professionnel')}, rappel de la soirée cardiologie le 4 déc. à 19h, hôtel El Aurassi. Confirmez au 0550 12 34 56.`
+const smsPage = `<div class='col'><div><div class='crumbs'>Engager › Campagnes › Hiver 2026 › Emails &amp; SMS</div>
+<div class='ph' style='margin-top:4px'>${ch('sms')}<h1 class='title display' style='font-size:26px'>Rappel soirée cardiologie (SMS)</h1>${st('draft')}<span style='margin-inline-start:auto;display:flex;gap:8px'><span class='btn outline'>Enregistrer le brouillon</span><span class='btn dark'>Marquer prête →</span></span></div></div>
+<div style='display:flex;gap:24px;align-items:flex-start'>
+<div class='col' style='flex:1'>
+<label class='field'><span>Nom du SMS *</span><div class='input'>Rappel soirée cardiologie (SMS)</div><span class='hint'>Pour le retrouver dans la liste ; le professionnel ne le voit pas.</span></label>
+<div class='ed'><div class='bar'><span class='hint' style='font-weight:400'>Texte simple, sans mise en forme</span><span class='ins'>◆ Insérer un champ ▾</span></div>
+<div class='txt' style='min-height:120px'>${smsTxt}</div>
+<div class='counter'><span><b>148</b> / 160 caractères</span><span><b>1</b> SMS par professionnel</span><span style='margin-inline-start:auto'>« Dr Yacine Cherif » compté avec 16 caractères</span></div></div>
+<div class='why note'>Les SMS s'écrivent et s'approuvent dès maintenant. Ils <strong>partiront quand un fournisseur SMS sera choisi</strong> ; en 12c, seuls les emails sont envoyés. Pas de pièce jointe ni d'image dans un SMS.</div>
+<div class='why'>Au-delà de 160 caractères le message compte pour 2 SMS (153 par SMS) ; avec des lettres arabes, 70 caractères par SMS.</div>
+</div>
+<div class='phone'><div class='scr'><span class='hint' style='text-align:center;font-size:11px'>DEMOPHARMA · aperçu</span><div class='bubble'>Demo Pharma : Dr Yacine Cherif, rappel de la soirée cardiologie le 4 déc. à 19h, hôtel El Aurassi. Confirmez au 0550 12 34 56.</div></div></div>
+</div></div>`
+
+/* 5. ready, author can't approve */
+const readyAuthor = `<div class='col'>${msgHead('ready', `<span class='btn outline'>✉ M'envoyer un test</span><span class='btn outline'>✎ Modifier</span><span class='btn dark' style='opacity:.45'>✓ Approuver</span>`)}${steps('Prête')}
+<div class='banner ready'><span style='font-size:18px'>⏳</span><div><strong>En attente d'approbation.</strong> Une personne qui a le droit d'approuver la verra dans cet onglet.</div></div>
+<div class='why bad'>Sara, vous avez le droit d'approuver, mais <strong>pas ce message</strong> : vous l'avez écrit. Une autre personne doit l'approuver.</div>
+<div style='display:flex;gap:18px;align-items:flex-start'><div class='col' style='flex:1'>${preview()}</div>
+<div class='col' style='flex:.7'><div class='rec'><header><strong>Historique</strong></header><div class='kv' style='grid-template-columns:120px 1fr'><span>18 nov. 10:42</span><span>Marqué prêt par Sara Haddad</span><span>18 nov. 09:15</span><span>Écrit par Sara Haddad, à partir de « Newsletter »</span></div></div></div></div></div>`
+
+/* 6. approver */
+const approverPage = (reason = false) => `<div class='col'>${msgHead('ready', `<span class='btn outline'>✉ M'envoyer un test</span><span class='btn outline'>↩ Renvoyer</span><span class='btn primary'>✓ Approuver</span>`)}${steps('Prête')}
+<div class='banner ready'><span style='font-size:18px'>👁</span><div><strong>Prêt à approuver.</strong> Écrit par Sara Haddad. Relisez l'objet, le texte et les pièces jointes avant d'approuver.</div></div>
+<div style='display:flex;gap:18px;align-items:flex-start'><div class='col' style='flex:1'>${preview()}</div>
+<div class='col' style='flex:.7'>${files}</div></div></div>`
+const reasonSheet = sheet('Renvoyer à Sara Haddad', 'Le message repasse à l\'état « Renvoyée » ; Sara corrige puis le marque prêt à nouveau.', `
+<label class='field'><span>Raison *</span><div class='input' style='height:110px;align-items:flex-start;padding-top:12px'>Ajouter la mention « Information destinée aux professionnels de santé » sous le titre, et le RCP doit être la version de 2026.</div></label>`,
+`<span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>Renvoyer</span>`)
+
+/* 7. sent back */
+const backPage = `<div class='col'>${msgHead('back', writeActs)}
+<div class='banner back'><span style='font-size:18px'>↩</span><div><strong>Renvoyé par Amine Rahmani</strong>, le 18 nov. à 14:05 : « Ajouter la mention « Information destinée aux professionnels de santé » sous le titre, et le RCP doit être la version de 2026. »</div></div>
+<div style='display:flex;gap:18px;align-items:flex-start'>
+<div class='col' style='flex:1.15'>${subject}${editor()}</div>
+<div class='col' style='flex:1'>${files}<div class='why'>Après correction, « Marquer prête » le renvoie à l'approbation. La raison reste dans l'historique.</div></div></div></div>`
+
+/* 8. approved + edit confirmation */
+const okPage = `<div class='col'>${msgHead('ok', `<span class='btn outline'>✉ M'envoyer un test</span><span class='btn outline'>✎ Modifier</span>`)}${steps('Approuvée')}
+<div class='banner ok'><span style='font-size:18px'>✓</span><div><strong>Approuvé par Amine Rahmani</strong> le 18 nov. 2026 à 15:20. Il pourra être envoyé depuis l'onglet « Envois » (12c).</div></div>
+<div style='display:flex;gap:18px;align-items:flex-start'><div class='col' style='flex:1'>${preview()}</div><div class='col' style='flex:.7'>${files}</div></div></div>`
+const editDlg = dialog('Modifier un message approuvé ?', `<div>Le message <strong>repasse en brouillon</strong> : il devra être marqué prêt puis approuvé à nouveau par une autre personne avant de pouvoir partir.</div><div class='why'>L'approbation d'Amine Rahmani reste dans l'historique.</div>`, `<span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Modifier quand même</span>`)
+
+/* 9. test */
+const testDlg = dialog('M\'envoyer un test', `<div>Un email de test part à <strong>sara.haddad@demo-pharma.dz</strong>, l'adresse de votre compte.</div>
+<div class='kv' style='grid-template-columns:150px 1fr'><span>Objet</span><span>[TEST] Tensio 90 cp : 3 mois de traitement en une boîte</span><span>Champs remplis avec</span><span>Dr Yacine Cherif · Hiver 2026 · CMP0007 · 2026</span><span>Pièces jointes</span><span>2 (2,1 Mo)</span></div>
+<div class='why'>Envoyé par le canal email du laboratoire ; il compte dans le quota du mois (<strong>214 / 5 000</strong> utilisés).</div>`,
+`<span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Envoyer le test</span>`)
+
+/* 10. templates list */
+const TL = [['Newsletter / annonce produit', 'mail', '—', 'Actualités — ◆ Nom de la campagne', 0, 3, true, '1 nov. 2026'], ['Invitation événement / webinaire', 'mail', '—', 'Invitation — ◆ Nom de la campagne', 0, 1, true, '1 nov. 2026'], ['Relance / rappel court', 'mail', '—', 'Petit rappel — ◆ Nom de la campagne', 0, 0, true, '1 nov. 2026'], ['Cardiozen · lancement', 'mail', 'Cardiozen', 'Cardiozen arrive en officine', 1, 2, true, '5 nov. 2026'], ['Relance SMS', 'sms', '—', '—', 0, 1, true, '6 nov. 2026'], ['Vœux de fin d\'année 2025', 'mail', '—', 'Meilleurs vœux', 0, 4, false, '10 déc. 2025']]
+const tplList = `<div class='col'><div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Engager</div><h1 class='title display' style='font-size:34px'>Modèles</h1><div class='hint' style='margin-top:4px'>Les emails et SMS prêts à reprendre dans une campagne</div></div><span class='btn primary' style='margin-inline-start:auto'>+ Ajouter un modèle</span></div>
+<div style='display:flex;gap:10px'><div class='input muted' style='width:300px'>Rechercher un nom ou un objet</div><div class='input muted' style='width:200px'>Marque ▾</div><span class='seg'><span class='on'>Tous</span><span>Email</span><span>SMS</span></span><span class='seg'><span class='on'>Actifs</span><span>Inactifs</span><span>Tous</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Nom ↕</th><th>Canal ↕</th><th>Marque ↕</th><th>Objet</th><th class='num'>Pièces jointes</th><th class='num'>Messages créés ↕</th><th>Actif</th><th>Ajouté le ↕</th></tr></thead><tbody>
+${TL.map(([n, c, b, s, pj, m, on, d]) => `<tr><td><strong>${n}</strong></td><td>${ch(c)}</td><td>${b}</td><td class='hint'>${s}</td><td class='num'>${pj || '—'}</td><td class='num'>${m}</td><td><span class='tg ${on ? '' : 'off'}'></span></td><td class='hint'>${d}</td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>Les trois premiers viennent avec chaque nouveau laboratoire. Un modèle inactif n'est plus proposé dans « Nouvel email » ; les messages déjà créés gardent leur copie.</div></div>`
+
+/* 11. a template's page */
+const TPL_BODY = `<h3>${F('Nom de la campagne')} : les nouveautés</h3><p>Bonjour ${F('Nom du professionnel')},</p><p>Écrivez ici l'annonce : le produit, ce qui change, pour quels patients.</p><div class='img'>🖼 Image du produit</div><p>• Premier point clé<br>• Deuxième point clé</p><span class='cta'>En savoir plus →</span><p style='margin-top:14px;color:var(--muted);font-size:13px'>Réf. campagne : ${F('Code de la campagne')} · ${F('Année')}</p>`
+const tplPage = `<div class='col'><div><div class='crumbs'>Engager › Modèles</div><div class='ph' style='margin-top:4px'>${ch('mail')}<h1 class='title display' style='font-size:26px'>Newsletter / annonce produit</h1><span class='chip ok'>Actif</span><span style='margin-inline-start:auto;display:flex;gap:8px'><span class='btn outline'>✉ M'envoyer un test</span><span class='btn ghost'>Supprimer</span><span class='btn dark'>Enregistrer</span></span></div>
+<div class='hint' style='margin-top:6px'>3 messages créés à partir de ce modèle · ajouté le 1 nov. 2026 avec le laboratoire</div></div>
+<div style='display:flex;gap:18px;align-items:flex-start'>
+<div class='col' style='flex:1.4'>
+<div style='display:flex;gap:12px'><label class='field' style='flex:1'><span>Nom *</span><div class='input'>Newsletter / annonce produit</div></label><label class='field' style='width:220px'><span>Marque</span><div class='input muted'>Toutes les marques ▾</div></label><label class='field' style='width:160px'><span>Canal</span><div class='input muted'>Email · figé</div></label></div>
+<label class='field'><span>Objet *</span><div class='input'>Actualités — ${F('Nom de la campagne')}</div></label>
+${editor(false, TPL_BODY)}</div>
+<div class='col' style='flex:.8'><div class='rec'><header><strong>Pièces jointes</strong><span class='btn sm outline'>+ Ajouter un fichier</span></header><span class='hint'>Aucune. Les fichiers ajoutés ici sont copiés dans chaque nouveau message.</span></div>
+<div class='rec'><header><strong>Actif</strong><span class='tg' style='margin-inline-start:auto'></span></header><span class='hint'>Proposé dans « Nouvel email » des campagnes.</span></div>
+<div class='why'>Changer ce modèle ne touche pas les 3 messages déjà créés : chacun a sa copie. Supprimer le modèle non plus ; leur ligne « Modèle » disparaît.</div></div></div></div>`
+
+/* 12. settings: email look */
+const settings = sheet('Réglages des campagnes', 'La grille promo (12a) et l\'habillage des emails (12b)', `
+<div style='display:flex;align-items:center;gap:14px'><div style='flex:1'><strong>Priorité obligatoire</strong><div class='hint'>Grille promo · chaque coche doit avoir une priorité.</div></div><span class='tg off'></span></div>
+<div style='display:flex;align-items:center;gap:14px'><div style='flex:1'><strong>Message obligatoire</strong><div class='hint'>Grille promo · chaque coche doit avoir son message.</div></div><span class='tg off'></span></div>
+<div style='border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:14px'><strong>Habillage des emails</strong><span class='hint' style='margin-top:-8px'>Le même pour chaque email du laboratoire : bandeau en haut, pied de page en bas.</span>
+<label class='field'><span>Logo</span><div class='file'><span class='ic' style='background:var(--signal);color:var(--ink)'>D</span><strong>logo-demo-pharma.png</strong><span class='hint'>48 Ko</span><span class='iconbtn'>✕</span></div></label>
+<label class='field'><span>Couleur du bandeau</span><div class='input'><span style='width:22px;height:22px;border-radius:7px;background:var(--ink)'></span>#1B302C</div></label>
+<label class='field'><span>Pied de page</span><div class='input' style='height:70px;align-items:flex-start;padding-top:12px'>Demo Pharma · 12 rue des Frères Bouadou, Alger · Information destinée aux professionnels de santé.</div></label></div>`,
+`<span class='btn ghost'>Fermer</span><span class='btn dark' style='margin-inline-start:auto'>Enregistrer</span>`)
+const campList = `<div class='col'><div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Engager</div><h1 class='title display' style='font-size:34px'>Campagnes</h1></div><span class='btn outline' style='margin-inline-start:auto'>⚙ Réglages</span><span class='btn primary'>+ Ajouter une campagne</span></div><div class='card' style='height:420px'></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Onglet « Emails &amp; SMS » d'une campagne</strong> (remplace « Messages · à venir »). Canal, objet, modèle d'origine, état, auteur, approbateur, pièces jointes, date de modification. Recherche, filtres canal et état, toutes les colonnes se trient. « + Nouveau SMS » n'apparaît que si le laboratoire a les SMS.`) + shell('Campagnes', tab, '', 620),
+  label(2, `<strong>« + Nouvel email ».</strong> On part d'un modèle actif de la bibliothèque (filtre par marque) ou d'une page blanche.`) + shell('Campagnes', tab, chooseSheet, 720),
+  label(3, `<strong>Écrire l'email.</strong> À gauche l'objet, l'éditeur visuel et les pièces jointes (copiées du modèle, on peut en ajouter ou en retirer) ; à droite <strong>l'aperçu</strong> avec l'habillage du laboratoire et les champs remplis par un exemple. « Insérer un champ » ouvre la liste des champs ; un champ est une pastille bleue dans le texte.`) + shell('Campagnes', emailPage(true), '', 1080),
+  label(4, `<strong>Écrire un SMS.</strong> Texte simple, champs possibles, compteur de caractères et de SMS, aperçu sur un téléphone. Il ne partira qu'avec un fournisseur SMS.`) + shell('Campagnes', smsPage, '', 680),
+  label(5, `<strong>« Marquer prête ».</strong> Sara a le droit d'approuver, mais pas son propre message : le bouton est grisé et dit pourquoi. L'historique se lit sur la page.`) + shell('Campagnes', readyAuthor, '', 900),
+  label(6, `<strong>Amine (admin) relit le message prêt.</strong> « ✓ Approuver » ou « ↩ Renvoyer » avec une raison obligatoire.`) + shell('Campagnes', approverPage(), reasonSheet, 900, 'AR'),
+  label(7, `<strong>Renvoyé.</strong> Sara voit la raison en haut, corrige et le marque prêt à nouveau.`) + shell('Campagnes', backPage, '', 860),
+  label(8, `<strong>Approuvé.</strong> Prêt pour l'onglet « Envois » (12c). Le modifier le remet en brouillon : une confirmation le dit.`) + shell('Campagnes', okPage, editDlg, 900),
+  label(9, `<strong>« M'envoyer un test ».</strong> À sa propre adresse, à tout état, champs remplis par l'exemple, compté dans le quota du laboratoire.`) + shell('Campagnes', emailPage(), testDlg, 1000),
+  label(10, `<strong>Engager › Modèles.</strong> La bibliothèque du laboratoire : nom, canal, marque, objet, pièces jointes, nombre de messages créés, actif, date d'ajout.`) + shell('Modèles', tplList, '', 640),
+  label(11, `<strong>La page d'un modèle.</strong> Le même éditeur ; la marque est facultative, le canal fixé à la création. Les pièces jointes du modèle seront copiées dans chaque nouveau message.`) + shell('Modèles', tplPage, '', 820),
+  label(12, `<strong>Proposé : l'habillage des emails</strong> dans « ⚙ Réglages » de la page Campagnes, à côté des deux réglages de la grille : logo, couleur du bandeau, pied de page, communs à tous les emails.`) + shell('Campagnes', campList, settings, 760),
+].join('')
+</script></body></html>

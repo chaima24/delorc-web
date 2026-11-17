@@ -57,11 +57,13 @@ export interface ListQuery<F> {
 export function useStudioList<T, F extends Record<string, string | number | null>>(
   source: ((query: ListQuery<F>) => Promise<Page<T>>) | ListOptions<T, F>,
   initialFilters: F,
+  /** The sort when the user picks none (priorities: their order). */
+  defaultSort: string = STUDIO_DEFAULT_SORT,
 ) {
   const page = ref(1)
   const perPage = ref(readPageSize())
   const search = ref('')
-  const sort = ref<string | null>(STUDIO_DEFAULT_SORT)
+  const sort = ref<string | null>(defaultSort)
   const filters = reactive({ ...initialFilters }) as F
   const rows = shallowRef<T[]>([])
   const serverTotal = ref(0)
@@ -75,7 +77,7 @@ export function useStudioList<T, F extends Record<string, string | number | null
     loading.value = true
     try {
       if (server) {
-        const result = await server({ page: page.value, perPage: perPage.value, search: search.value.trim(), sort: sort.value || STUDIO_DEFAULT_SORT, filters: { ...filters } as F })
+        const result = await server({ page: page.value, perPage: perPage.value, search: search.value.trim(), sort: sort.value || defaultSort, filters: { ...filters } as F })
         if (current !== request) return
         rows.value = result.items
         serverTotal.value = result.total
@@ -91,10 +93,10 @@ export function useStudioList<T, F extends Record<string, string | number | null
     if (!local) return rows.value
     const text = search.value.trim().toLocaleLowerCase()
     const found = rows.value.filter((row) => local.matches(row, text, filters as F))
-    const key = (sort.value || STUDIO_DEFAULT_SORT).replace('-', '')
+    const key = (sort.value || defaultSort).replace('-', '')
     const value = local.sortValues[key]
     if (!value) return found
-    const descending = (sort.value || STUDIO_DEFAULT_SORT).startsWith('-')
+    const descending = (sort.value || defaultSort).startsWith('-')
 
     return [...found].sort((a, b) => {
       const [first, second] = [value(a), value(b)]

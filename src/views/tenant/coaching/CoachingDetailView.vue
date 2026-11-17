@@ -23,6 +23,7 @@ import CoachingRolePicks from './CoachingRolePicks.vue'
 import CoachingSectionPicker from './CoachingSectionPicker.vue'
 import { STATE_TONE, useCoachingText } from './coachingDisplay'
 import { useCoachingLookups } from './useCoachingLookups'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
 
 // A program's page: four cards edited in place (the program, who coaches whom, the sections, the open questions).
 // Mockup: docs/design/coaching-mockups/CoachingSetup.html (frames 5, 6)
@@ -182,10 +183,7 @@ const sectionsByFamily = computed(() => {
             </dl>
             <template #edit>
               <DlInput v-model="form.name" :label="t('coaching.fields.name')" :error="errors.name" />
-              <div class="grid grid-cols-2 gap-3">
-                <DlInput v-model="form.start_date" type="date" :label="t('coaching.fields.from')" :error="errors.start_date" />
-                <DlInput v-model="form.end_date" type="date" :label="t('coaching.fields.to')" :error="errors.end_date || errors.coached_role_ids" />
-              </div>
+              <DlDateRangePicker v-model:start="form.start_date" v-model:end="form.end_date" :label="t('common.dates.period')" :error="errors.start_date || errors.end_date || errors.coached_role_ids" />
             </template>
           </DlRecordSection>
 

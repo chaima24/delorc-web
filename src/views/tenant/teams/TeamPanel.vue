@@ -27,6 +27,7 @@ import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { today, useUserText } from '@/views/tenant/users/userDisplay'
 import TeamPeoplePicker from './TeamPeoplePicker.vue'
 import TeamTargetsFields from './TeamTargetsFields.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // A team in the side panel: reading mode with one Edit per section, then the members
 // (now / past, end a membership on a date) and "Add people" in the same panel.
@@ -417,14 +418,13 @@ const title = computed(() => ({
     <!-- Add people -->
     <form v-else-if="mode === 'add'" id="team-add-people" class="flex flex-col gap-4" @submit.prevent="saveAdd">
       <TeamPeoplePicker v-model="adding.users" :exclude="currentUserIds" :error="memberErrors.users" />
-      <DlInput v-model="adding.start_date" type="date" :label="t('teams.members.from')" :hint="t('teams.people.keepOthers')" :error="memberErrors.start_date" />
+      <DlDatePicker v-model="adding.start_date" :label="t('teams.members.from')" :hint="t('teams.people.keepOthers')" :error="memberErrors.start_date" />
     </form>
 
     <!-- End a membership -->
     <form v-else-if="mode === 'end' && ending.member" id="team-end-member" class="flex flex-col gap-4" @submit.prevent="saveEnd">
-      <DlInput
+      <DlDatePicker
         v-model="ending.end_date"
-        type="date"
         :min="ending.member.start_date"
         :label="t('teams.end.lastDay')"
         :hint="t('teams.end.hint', { name: ending.member.user.full_name, from: text.date(ending.member.start_date), to: text.date(ending.end_date) })"

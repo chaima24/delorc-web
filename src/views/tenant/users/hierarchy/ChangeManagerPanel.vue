@@ -7,7 +7,6 @@ import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlCombobox from '@/components/DlCombobox.vue'
 import DlIcon from '@/components/DlIcon.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import DlSegmented from '@/components/DlSegmented.vue'
 import DlSelect from '@/components/DlSelect.vue'
@@ -16,6 +15,7 @@ import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { currentManagers, today, useUserText } from '../userDisplay'
 import { peopleUnder } from './orgTree'
 import { useOrgTree } from './useOrgTree'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // Gives a person a new manager from a date: either in place of a current one (that link ends the
 // day before) or as another manager (both stay). Used by drag and drop and by "Change manager".
@@ -126,8 +126,8 @@ async function save() {
         :options="options"
         :error="loop ? t('users.hierarchy.loop', { name: user.first_name }) : undefined"
       />
-      <DlInput v-model="date" type="date" :label="t('users.assign.from')" :hint="hint" />
-      <DlInput v-model="until" type="date" :min="date" :label="t('users.assign.until')" :hint="t('users.assign.untilHint')" />
+      <DlDatePicker v-model="date" :label="t('users.assign.from')" :hint="hint" />
+      <DlDatePicker v-model="until" clearable :min="date" :label="t('users.assign.until')" :hint="t('users.assign.untilHint')" />
       <p v-if="error" class="text-xs text-dl-rejected" role="alert">{{ error }}</p>
     </form>
     <template #footer>

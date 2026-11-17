@@ -21,6 +21,8 @@ import { today } from '@/views/tenant/users/userDisplay'
 import ConsentAskPanel from './ConsentAskPanel.vue'
 import ConsentPanel from './ConsentPanel.vue'
 import { STATE_TONES, useConsentText } from './consentText'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // Professionals › Consents: answer tabs with counts, search, side panel (QR + link while waiting,
 // the answer kept as proof), "Ask for consent". ?state= opens a tab. Mockup: docs/design/customers-mockups/Consents.html
@@ -214,11 +216,9 @@ async function exportList() {
           <DlInput v-model="search" type="search" icon="tabler-search" :label="t('consents.search')" :placeholder="t('consents.search')" hide-label class="w-full sm:max-w-xs" />
           <DlSelect v-model="filters.requestedBy" :label="t('consents.columns.askedBy')" :options="userOptions" appearance="filter" />
           <DlSelect v-model="addedFilter" :label="t('consents.columns.asked')" :options="addedOptions" appearance="filter" />
-          <DlInput v-if="filters.added === 'day'" v-model="filters.from" type="date" :max="today()" :label="t('access.log.filter.day')" hide-label class="w-44" />
+          <DlDatePicker v-if="filters.added === 'day'" v-model="filters.from" :max="today()" :label="t('access.log.filter.day')" hide-label class="w-44" />
           <template v-if="filters.added === 'range'">
-            <DlInput v-model="filters.from" type="date" :max="filters.to || today()" :label="t('access.log.filter.from')" hide-label class="w-44" />
-            <span class="inline-block text-sm text-dl-muted rtl:-scale-x-100" aria-hidden="true">→</span>
-            <DlInput v-model="filters.to" type="date" :min="filters.from" :max="today()" :label="t('access.log.filter.to')" hide-label class="w-44" />
+            <DlDateRangePicker v-model:start="filters.from" v-model:end="filters.to" :max="today()" :label="t('common.dates.period')" hide-label class="w-72" />
           </template>
         </div>
 

@@ -13,6 +13,7 @@ import { numberOrNull, usePanelAction } from '../geography/usePanelAction'
 import { usePlanTexts } from '../plans/usePlanTexts'
 import { dayFromToday } from './useLabTexts'
 import { useFeatureValue } from './useFeatureValue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 /** Adds a change, or with `change` edits or removes one. */
 const props = defineProps<{ labId: string; tab: LabFeatures; change?: FeatureChange }>()
@@ -79,8 +80,8 @@ const remove = () => run(async () => {
       />
 
       <div class="grid grid-cols-2 gap-2.5">
-        <DlInput v-model="form.starts_on" type="date" :label="t('central.labs.features.from')" :error="errors.starts_on" />
-        <DlInput v-model="form.ends_on" type="date" :label="t('central.labs.features.to')" :hint="t('central.labs.features.toHint')" :error="errors.ends_on" />
+        <DlDatePicker v-model="form.starts_on" :label="t('central.labs.features.from')" :error="errors.starts_on" />
+        <DlDatePicker v-model="form.ends_on" clearable :label="t('central.labs.features.to')" :hint="t('central.labs.features.toHint')" :error="errors.ends_on" />
       </div>
       <DlInput v-model="form.note" :label="t('central.labs.note')" :error="errors.note" />
 

@@ -94,6 +94,25 @@ const labRoutes = [
       { path: 'coaching-grid', name: 'tenant-coaching-grid', component: () => import('@/views/tenant/coaching/CoachingGridView.vue'), meta: { permission: 'coaching-setup.show' } },
       // Engager › Aides de visite (docs/api/advs.md).
       { path: 'advs', name: 'tenant-advs', component: () => import('@/views/tenant/advs/AdvListView.vue'), meta: { permission: 'advs.show' } },
+      // Engager › Campagnes (docs/api/campaigns.md).
+      { path: 'campaigns', name: 'tenant-campaigns', component: () => import('@/views/tenant/campaigns/CampaignListView.vue'), meta: { permission: 'campaigns.show' } },
+      { path: 'campaigns/:id(\\d+)', name: 'tenant-campaign', component: () => import('@/views/tenant/campaigns/CampaignDetailView.vue'), props: true, meta: { permission: 'campaigns.show' } },
+      // A campaign's emails and SMS, and the lab's templates (docs/api/campaign-messages.md). The API checks who writes and who approves.
+      { path: 'campaigns/:id(\\d+)/messages/:messageId(\\d+)', name: 'tenant-campaign-message', component: () => import('@/views/tenant/campaigns/messages/CampaignMessageView.vue'), props: true, meta: { permission: 'campaigns.show' } },
+      // A campaign's sendings (docs/api/campaign-sendings.md).
+      { path: 'campaigns/:id(\\d+)/sendings/new', name: 'tenant-campaign-sending-new', component: () => import('@/views/tenant/campaigns/sendings/CampaignSendingNewView.vue'), props: true, meta: { permission: 'campaigns.update' } },
+      { path: 'campaigns/:id(\\d+)/sendings/:sendingId(\\d+)', name: 'tenant-campaign-sending', component: () => import('@/views/tenant/campaigns/sendings/CampaignSendingView.vue'), props: true, meta: { permission: 'campaigns.show' } },
+      // Materials: a distribution's page and Engager › Matériels (docs/api/materials.md).
+      { path: 'campaigns/:id(\\d+)/materials/:distributionId(\\d+)', name: 'tenant-campaign-material', component: () => import('@/views/tenant/campaigns/materials/MaterialDistributionView.vue'), props: true, meta: { permission: 'campaigns.update' } },
+      { path: 'material-stocks', name: 'tenant-material-stocks', component: () => import('@/views/tenant/materials/MaterialStockListView.vue'), meta: { permission: 'campaigns.show' } },
+      // Marketing actions: an action's page and Engager › Actions marketing (docs/api/marketing-actions.md).
+      { path: 'campaigns/:id(\\d+)/actions/:actionId(\\d+)', name: 'tenant-marketing-action', component: () => import('@/views/tenant/marketingActions/ActionMarketingView.vue'), props: true, meta: { permission: 'campaigns.show' } },
+      { path: 'marketing-actions', name: 'tenant-marketing-actions', component: () => import('@/views/tenant/marketingActions/ActionMarketingProgressView.vue'), meta: { permission: 'campaigns.show' } },
+      // Engager › Événements (docs/api/events.md). The API checks who may change, decide or fill a part.
+      { path: 'events', name: 'tenant-events', component: () => import('@/views/tenant/events/EventListView.vue'), meta: { permission: 'events.show' } },
+      { path: 'events/:id(\\d+)', name: 'tenant-event', component: () => import('@/views/tenant/events/EventDetailView.vue'), props: true, meta: { permission: 'events.show' } },
+      { path: 'mail-templates', name: 'tenant-mail-templates', component: () => import('@/views/tenant/campaigns/templates/MailTemplateListView.vue'), meta: { permission: 'mail-templates.show' } },
+      { path: 'mail-templates/:id(\\d+)', name: 'tenant-mail-template', component: () => import('@/views/tenant/campaigns/templates/MailTemplateView.vue'), props: true, meta: { permission: 'mail-templates.show' } },
       // Équipe › Frais (docs/api/expenses.md): the board for approvers, else the person's own month.
       { path: 'expenses', name: 'tenant-expenses', component: () => import('@/views/tenant/expenses/ExpenseBoardView.vue'), meta: { permission: 'expenses.show', feature: 'module.expenses' } },
       { path: 'expenses/me', name: 'tenant-expense-mine', component: () => import('@/views/tenant/expenses/ExpenseMonthView.vue'), meta: { permission: 'expenses.show', feature: 'module.expenses' } },
@@ -127,6 +146,8 @@ const router = createRouter({
     ...(space.isCentral ? [{ path: '/', name: 'home', component: () => import('@/views/HomeView.vue') }, ...centralRoutes] : labRoutes),
     // A lab's public page: a professional answers a consent from its link or QR code. No sign-in, no app shell.
     ...(space.isCentral ? [] : [{ path: '/consent/:token', name: 'public-consent', component: () => import('@/views/public/ConsentSignView.vue'), props: true, meta: { public: true } }]),
+    // A lab's public page: a professional stops receiving campaign emails from the link in one (docs/api/campaign-sendings.md).
+    ...(space.isCentral ? [] : [{ path: '/unsubscribe/:token', name: 'public-unsubscribe', component: () => import('@/views/public/UnsubscribeView.vue'), props: true, meta: { public: true } }]),
     {
       path: '/',
       component: () => import('@/layouts/SignInLayout.vue'),

@@ -7,7 +7,6 @@ import { syncUserManagers, syncUserTeams, updateUserTerritory, type TenantUser }
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlCombobox from '@/components/DlCombobox.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import { useToast } from '@/composables/useToast'
 import PersonTree from '../hierarchy/PersonTree.vue'
@@ -15,6 +14,7 @@ import { useOrgTree } from '../hierarchy/useOrgTree'
 import { useAuthStore } from '@/stores/auth'
 import { useUserLookups } from '../useUserLookups'
 import { type Stint, currentTerritory, isOpen, stints, today, useUserText } from '../userDisplay'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // Teams, managers and territory as timelines. A change ends the old link and starts a new one,
 // so reports for past months keep the right team, manager and territory.
@@ -203,18 +203,17 @@ const sections = computed(() => [
           <input v-model="form.main" type="checkbox" class="h-[18px] w-[18px] accent-dl-ink">
           {{ t('users.assign.makeItMain') }}
         </label>
-        <DlInput
+        <DlDatePicker
           v-model="form.date"
-          type="date"
           :min="panel.target?.start ?? undefined"
           :label="t(choosing ? 'users.assign.from' : 'users.assign.lastDay')"
           :hint="dateHint"
           :error="errors.date"
         />
-        <DlInput
+        <DlDatePicker
           v-if="panel.kind === 'add-team' || panel.kind === 'add-manager'"
           v-model="form.until"
-          type="date"
+          clearable
           :min="form.date"
           :label="t('users.assign.until')"
           :hint="t('users.assign.untilHint')"

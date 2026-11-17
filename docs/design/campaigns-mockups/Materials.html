@@ -1,0 +1,171 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Campagnes, les matériels</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.why.note { background: rgba(232, 163, 61, .13); color: var(--ink); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 500px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.ph { display: flex; align-items: center; gap: 12px; }
+.tiles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.tile { background: var(--paper); border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.tile strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 26px; line-height: 1; } .tile span { font-size: 12.5px; color: var(--muted); }
+.bar { height: 8px; border-radius: 99px; background: var(--line-soft); overflow: hidden; display: flex; min-width: 90px; } .bar i { display: block; height: 100%; }
+.num-in { width: 76px; height: 36px; border: 1px solid var(--line); border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; background: var(--paper); }
+.num-in.bad { border-color: var(--brick); color: var(--brick); background: rgba(192, 54, 44, .05); }
+.carry { font-size: 11.5px; font-weight: 700; color: var(--cobalt); background: rgba(47, 84, 235, .1); border-radius: 99px; padding: 2px 8px; white-space: nowrap; }
+.chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid #9FB0AA; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; } .chk.on { background: var(--ink); border-color: var(--ink); }
+.opt { border: 1.5px solid var(--line); border-radius: 16px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; } .opt.on { border-color: var(--ink); box-shadow: 0 0 0 3px var(--mist); }
+.radio { width: 18px; height: 18px; border-radius: 99px; border: 2px solid #9FB0AA; flex-shrink: 0; margin-top: 2px; } .opt.on .radio { border: 5px solid var(--ink); }
+.mat { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; background: var(--mist); }
+.mat .ic { width: 38px; height: 38px; border-radius: 12px; background: var(--paper); display: inline-flex; align-items: center; justify-content: center; font-size: 17px; }
+.rpanel { width: 420px; flex-shrink: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; align-self: stretch; }
+.rpanel header { padding: 20px 22px 16px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); }
+.rpanel header .ic { width: 44px; height: 44px; border-radius: 14px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.rpanel .body { padding: 18px 22px; display: flex; flex-direction: column; gap: 16px; flex: 1; font-size: 14px; }
+.rpanel footer { padding: 14px 22px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; }
+.strip { display: flex; gap: 6px; } .strip a { height: 38px; padding: 0 14px; border-radius: 12px; background: var(--paper); display: inline-flex; align-items: center; font-size: 14px; font-weight: 600; color: var(--body); }
+.strip a.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.step { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--paper); } .step span { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; } .step b { min-width: 40px; text-align: center; }
+</style></head><body>
+<p class="caption"><strong>Campagnes › module 13, les matériels — proposition.</strong> Marketing donne à chaque délégué des équipes de la campagne <strong>son stock</strong> d'un matériel (brochures, stylos, gadgets) pour la durée de la campagne ; le délégué le <strong>remet pendant ses visites</strong> aux professionnels de santé de la bonne spécialité ; le stock baisse quand le compte rendu est enregistré. Les échantillons (avec un numéro de lot) viendront plus tard, dans leur propre module. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Un stock par délégué</b> (décidé, comme les anciennes applications) : une distribution = un matériel (liste de Studio), un <b>type</b>, une marque, des spécialités, un coût unitaire ; chaque délégué y a <b>sa ligne</b> (quantité donnée, remise, restante).</li>
+  <li><b>Le type : visite ou événement</b> (décidé le 15 nov., comme l'API précédente) : un matériel « visite » se remet dans les comptes rendus (13) ; un matériel « événement » sert aux événements (14).</li>
+  <li><b>Un matériel de Studio peut être pour tous les rôles</b> (décidé le 15 nov. : la plupart des anciens matériels étaient « Tout ») ou pour un seul (VM, VP…) — frame 0. <b>Proposé :</b> un matériel qui a des distributions ne se supprime plus ; changer son rôle ne touche pas les distributions déjà faites.</li>
+  <li><b>Qui reçoit</b> (décidé) : les personnes de terrain des équipes de la campagne, <b>filtrées par le rôle du matériel</b> (tous, ou seulement les VP…). <b>Une même quantité pour tous</b>, puis on change la ligne d'une personne ou on la décoche.</li>
+  <li><b>La période est un réglage du laboratoire</b> (décidé) : « Période des stocks de matériel », <b>par campagne par défaut</b> (le stock vaut pour les dates de la campagne, comme dans les anciennes données) ou <b>par cycle</b>. <b>Proposé :</b> par cycle, on choisit un mois ; chaque délégué reçoit le stock pour son cycle qui couvre ce mois ; sans cycle ce mois-là, il est grisé.</li>
+  <li><b>Le reliquat est un réglage</b> (décidé le 15 nov.) : <b>« Reste au délégué » par défaut</b> (comme les anciennes applications : il continue à le remettre lors des visites suivantes, même après la période) ; ou <b>« S'arrête avec la période »</b> : il n'est plus remis après, et il est <b>reporté sur la prochaine distribution du même matériel</b> (« reporté +3 »). La liste de distribution montre, pour information, ce que chacun a encore (« A encore »).</li>
+  <li><b>Dans la visite, le reliquat décide</b> (décidé le 15 nov.) : avec « Reste au délégué », il voit <b>une ligne par campagne</b> et choisit dans laquelle il prend (rien ne l'oblige à prendre l'ancien reste) ; avec « S'arrête avec la période », il ne voit <b>que le stock de la campagne en cours</b>. Les chiffres de chaque campagne restent exacts.</li>
+  <li><b>Le budget</b> (décidé) : un <b>coût unitaire</b> ; budget donné = quantité × coût, budget remis = remis × coût, par campagne et par délégué.</li>
+  <li><b>La marque et les spécialités</b> — <b>proposé :</b> la marque vient des marques de la grille promo ; les spécialités sont pré-remplies avec celles cochées dans la grille pour cette marque.</li>
+  <li><b>Dans une visite</b> (décidé) : le compte rendu montre le stock <b>visite</b> <b>du délégué</b> pour la <b>spécialité principale</b> du professionnel, avec ce qui reste. <b>Plus que le restant est refusé.</b> <b>Le stock baisse quand le compte rendu est enregistré</b> ; corrigé, il s'ajuste ; supprimé, il revient. <b>Proposé :</b> une visite annulée rend ce qu'elle avait pris.</li>
+  <li><b>Droits</b> (décidé) : marketing gère (<code>campaigns.update</code>) ; un délégué voit son propre stock ; un manager celui des personnes en dessous ; les admins tout. <b>Proposé :</b> une page <b>Engager › Matériels</b> pour voir les stocks (frames 7 et 8) ; la quantité d'une ligne ne descend pas sous ce qui est déjà remis ; une distribution déjà remise ne se supprime plus ; une campagne avec des distributions ne se supprime plus.</li>
+  <li><b>Plus tard</b> (décidé) : les échantillons (lot) dans leur propre module ; l'usage des matériels « événement » se fait avec le module 14.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const wsNav = (on, links = ['Aides de visite', 'Campagnes', 'Modèles', 'Matériels']) => `<nav class='ws-nav'>${links.map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const shell = (on, inner, extra = '', h = 760, rail = 'Engager', links, who = 'SH') => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${who}</span></div>
+  <div style='display:flex;flex-direction:column;flex:1;gap:16px;padding:20px 28px 28px'>${wsNav(on, links)}${inner}</div>
+</div>${extra}</div>`
+const dialog = (title, text, actions) => `<div class='dialog'><div class='box'><strong style='font-size:17px'>${title}</strong><div style='display:flex;flex-direction:column;gap:10px'>${text}</div><footer>${actions}</footer></div></div>`
+const sheet = (title, hint, body, foot, w = 620) => `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet' style='width:${w}px'><header><div><strong style='font-size:18px'>${title}</strong><div class='hint'>${hint}</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header><div class='body'>${body}</div><footer>${foot}</footer></div></div>`
+const da = v => `${v.toLocaleString('fr-FR')} DA`
+const bar = (out, left, total) => `<span class='bar'><i style='width:${out / total * 100}%;background:#2F8F5B'></i><i style='width:${left / total * 100}%;background:var(--line)'></i></span>`
+
+const TABS = [['La campagne', ''], ['Grille promo', '16'], ['Emails & SMS', '4'], ['Envois', '3'], ['Matériels', '3'], ['Événements', '14'], ['Actions marketing', '15']]
+const tabs = on => `<div class='tabs'>${TABS.map(([t, c]) => `<span class='${t === on ? 'on' : ''}' style='${['14', '15'].includes(c) ? 'opacity:.55' : ''}'>${t}${c ? `<span class='count'>${['14', '15'].includes(c) ? 'à venir · ' + c : c}</span>` : ''}</span>`).join('')}</div>`
+const campHead = `<div class='ph'><span class='chip'>CMP0007</span><h1 class='title display' style='font-size:28px'>Hiver 2026</h1><span class='chip ok'>En cours</span><span class='hint'>jour 18 sur 92 · Cardio, Généralistes</span></div>`
+
+/* 1. Matériels tab */
+const DIST = [['📘', 'Brochure Cardiozen', 'Tous les rôles', 'Visite', 'Cardiozen', 'Cardiologie, Médecine Interne', 8, 160, 97, 63, 350], ['🖊', 'Stylo Tensio', 'Tous les rôles', 'Visite', 'Tensio', 'Médecine Générale, Cardiologie', 8, 400, 212, 188, 120], ['📗', 'Étude HOPE-DZ (tiré à part)', 'VM', 'Événement', 'Cardiozen', 'Cardiologie', 6, 60, 0, 60, 900]]
+const tab = `<div class='col'>${campHead}${tabs('Matériels')}
+<div class='tiles'>${[['620', 'objets donnés'], ['309', 'remis en visite · 50 %'], ['311', 'restants'], [da(158000), 'budget donné'], [da(59400), 'budget remis']].map(([n, l]) => `<div class='tile'><strong>${n}</strong><span>${l}</span></div>`).join('')}</div>
+<div style='display:flex;gap:10px;align-items:center'><div class='input muted' style='width:260px'>Rechercher un matériel</div><div class='input muted' style='width:180px'>Marque ▾</div><div class='input muted' style='width:180px'>Type ▾</div><span class='btn primary' style='margin-inline-start:auto'>+ Distribuer un matériel</span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Matériel ↕</th><th>Type ↕</th><th>Marque ↕</th><th>Spécialités</th><th class='num'>Délégués</th><th class='num'>Donnés</th><th>Remis / restants</th><th class='num'>Coût unitaire</th><th class='num'>Budget donné</th></tr></thead><tbody>
+${DIST.map(([i, m, r, t, b, s, n, g, o, l, u], k) => `<tr class='${k === 0 ? 'sel' : ''}'><td><strong>${i} ${m}</strong> <span class='chip'>${r}</span></td><td><span class='chip ${t === 'Visite' ? 'ok' : 'info'}'>${t}</span></td><td>${b}</td><td class='hint'>${s}</td><td class='num'>${n}</td><td class='num'>${g}</td><td><div style='display:flex;align-items:center;gap:8px'>${bar(o, l, g)}<span class='hint' style='white-space:nowrap'>${o} / ${l}</span></div></td><td class='num'>${da(u)}</td><td class='num'>${da(g * u)}</td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>Chaque délégué a son stock. Le stock baisse quand un compte rendu de visite est enregistré. Réglages (⚙ Réglages des campagnes) : stock <strong>par campagne</strong> (du 1 nov. 2026 au 31 janv. 2027), le reliquat <strong>reste au délégué</strong>.</div></div>`
+
+/* 2. new distribution */
+const REPS = [['Karim Benali', 'Cardio · VM', true, 3, 20], ['Nadia Mansour', 'Cardio · VM', true, 0, 20], ['Amine Saïdi', 'Cardio · VM', true, 5, 20], ['Yasmine Talbi', 'Généralistes · VM', true, 0, 25], ['Rachid Lounis', 'Généralistes · VP', true, 4, 20], ['Sofia Haddad', 'Généralistes · VP', false, 0, 20]]
+const repTable = `<table class='table'><thead><tr><th style='width:30px'></th><th>Délégué</th><th>Équipe · rôle</th><th class='num'>Quantité</th><th class='num'>A encore</th></tr></thead><tbody>
+${REPS.map(([n, t, on, c, q]) => on === 'nocycle' ? `<tr style='opacity:.5'><td></td><td><strong>${n}</strong></td><td>${t}</td><td colspan='3' class='hint' style='text-align:end'>Pas de cycle en novembre</td></tr>` : `<tr style='${on ? '' : 'opacity:.55'}'><td><span class='chk ${on ? 'on' : ''}'>${on ? '✓' : ''}</span></td><td><strong>${n}</strong></td><td>${t}</td><td class='num'><span class='num-in' style='${q !== 20 ? 'border-color:var(--cobalt)' : ''}'>${on ? q : '—'}</span></td><td class='num'>${c ? `<span class='carry'>${c}</span>` : '—'}</td></tr>`).join('')}
+</tbody></table>`
+const newSheet = sheet('Distribuer un matériel', 'Hiver 2026 · chaque délégué reçoit son stock', `
+<label class='field'><span>Type *</span><span class='seg'><span class='on'>Visite</span><span>Événement</span></span><span class='hint'>Visite : remis dans les comptes rendus. Événement : pour les événements (module 14).</span></label>
+<div style='display:grid;grid-template-columns:1fr 1fr;gap:12px'><label class='field'><span>Matériel *</span><div class='input'>📘 Brochure Cardiozen · tous les rôles ▾</div><span class='hint'>La liste de Studio › Matériels ; son rôle choisit les délégués.</span></label><label class='field'><span>Marque *</span><div class='input'>Cardiozen ▾</div><span class='hint'>Les marques de la grille promo.</span></label></div>
+<label class='field'><span>Spécialités *</span><div class='input'><span class='chip'>Cardiologie ✕</span><span class='chip'>Médecine Interne ✕</span><span class='hint' style='margin-inline-start:auto'>pré-remplies depuis la grille</span></div></label>
+<div style='display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px'><label class='field'><span>Période</span><div class='input muted'>📅 La campagne : 1 nov. → 31 janv.</div></label><label class='field'><span>Coût unitaire</span><div class='input'>350 DA</div></label><label class='field'><span>Quantité par délégué *</span><div class='input'><strong>20</strong><span class='btn sm ghost' style='margin-inline-start:auto'>Appliquer à tous</span></div></label></div>
+<div class='rec' style='padding:12px 14px;border:1px solid var(--line)'><header><strong>Délégués</strong><span class='hint'>Tous les rôles de terrain des équipes Cardio et Généralistes</span><span class='chip ok' style='margin-inline-start:auto'>5 cochés · 105 objets</span></header>${repTable}</div>
+<div class='why'>« A encore » : ce qui reste à chacun d'une distribution précédente du même matériel ; avec le réglage « Reste au délégué », il continue à le remettre, la nouvelle quantité s'ajoute. Budget donné : 105 × 350 = <strong>${da(36750)}</strong>.</div>`,
+`<span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>Distribuer 105 objets</span>`, 680)
+
+/* 3. a distribution's page */
+const ROWS = [['Karim Benali', 'Cardio', 20, 0, 14, 6], ['Nadia Mansour', 'Cardio', 20, 0, 20, 0], ['Amine Saïdi', 'Cardio', 20, 0, 6, 14], ['Yasmine Talbi', 'Généralistes', 25, 0, 11, 14], ['Rachid Lounis', 'Généralistes', 20, 0, 9, 11]]
+const distPage = `<div class='col'><div><div class='crumbs'>Engager › Campagnes › Hiver 2026 › Matériels</div>
+<div class='ph' style='margin-top:4px'><h1 class='title display' style='font-size:26px'>📘 Brochure Cardiozen</h1><span class='chip'>Tous les rôles</span><span class='chip ok'>Visite</span><span class='chip'>Hiver 2026 · 1 nov. → 31 janv.</span><span class='btn outline' style='margin-inline-start:auto'>✎ Modifier</span></div>
+<div class='hint' style='margin-top:6px'>Marque Cardiozen · Cardiologie, Médecine Interne · 350 DA l'unité · donnée par Sara Haddad le 1 nov.</div></div>
+<div class='tiles'>${[['105', 'donnés'], ['60', 'remis en visite · 57 %'], ['45', 'restants'], [da(36750), 'budget donné'], [da(21000), 'budget remis']].map(([n, l]) => `<div class='tile'><strong>${n}</strong><span>${l}</span></div>`).join('')}</div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Délégué ↕</th><th>Équipe</th><th class='num'>Donné</th><th class='num'>Remis</th><th class='num'>Restant</th><th>Avancement</th><th class='num'>Budget remis</th></tr></thead><tbody>
+${ROWS.map(([n, t, g, c, o, l], k) => `<tr><td><strong>${n}</strong></td><td>${t}</td><td class='num'>${k === 2 ? `<span class='num-in' style='border-color:var(--cobalt);width:64px;height:32px'>20</span>` : g}</td><td class='num'>${o}</td><td class='num'><strong>${l}</strong></td><td>${bar(o, l, g + c)}</td><td class='num'>${da(o * 350)}</td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>« Donné » se modifie sur place (Amine) mais ne descend pas sous ce qu'il a déjà remis (6). Une distribution déjà remise en visite ne se supprime plus.</div></div>`
+
+/* 4. settings */
+const settings = sheet('Réglages des campagnes', 'La grille promo, l\'habillage des emails et les matériels', `
+<div style='opacity:.6;display:flex;flex-direction:column;gap:10px'><div style='display:flex;align-items:center;gap:14px'><div style='flex:1'><strong>Priorité obligatoire</strong></div><span class='hint'>désactivé</span></div><div style='display:flex;align-items:center;gap:14px'><div style='flex:1'><strong>Message obligatoire</strong></div><span class='hint'>désactivé</span></div><div style='display:flex;align-items:center;gap:14px'><div style='flex:1'><strong>Habillage des emails</strong></div><span class='hint'>logo, couleur, pied de page</span></div></div>
+<div style='border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:12px'><strong>Période des stocks de matériel</strong>
+<div class='opt on'><span class='radio'></span><div><strong>Par campagne</strong> <span class='chip'>par défaut</span><div class='hint'>Une distribution vaut pour les dates de la campagne.</div></div></div>
+<div class='opt'><span class='radio'></span><div><strong>Par cycle</strong><div class='hint'>Une distribution est pour un mois : chaque délégué la reçoit pour son cycle qui couvre ce mois.</div></div></div>
+<strong style='margin-top:6px'>Ce qui reste à un délégué à la fin de la période</strong>
+<div class='opt on'><span class='radio'></span><div><strong>Reste au délégué</strong> <span class='chip'>par défaut</span><div class='hint'>Il continue à le remettre : dans une visite, une ligne par campagne, il choisit.</div></div></div>
+<div class='opt'><span class='radio'></span><div><strong>S'arrête avec la période</strong><div class='hint'>Dans une visite, seul le stock de la campagne en cours ; le reste est reporté sur la prochaine distribution du même matériel (« reporté +3 »).</div></div></div>
+<div class='why'>Dans une visite : « Reste au délégué » montre une ligne par campagne et le délégué choisit ; « S'arrête avec la période » ne montre que la campagne en cours. Ces réglages s'appliquent aux distributions suivantes.</div></div>`,
+`<span class='btn ghost'>Fermer</span><span class='btn dark' style='margin-inline-start:auto'>Enregistrer</span>`, 500)
+const campList = `<div class='col'><div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Engager</div><h1 class='title display' style='font-size:34px'>Campagnes</h1></div><span class='btn outline' style='margin-inline-start:auto'>⚙ Réglages</span><span class='btn primary'>+ Ajouter une campagne</span></div><div class='card' style='height:420px'></div></div>`
+
+/* 5–6. visit report */
+const visit = (bad = false) => `<div class='col'><div><div class='crumbs'>Visites › Liste</div><div class='ph'><h1 class='title display' style='font-size:30px'>Dr Yacine Cherif</h1><span class='chip info'>Saisie du compte rendu</span></div><div class='hint'>Cardiologie · Karim Benali (équipe Cardio) · mer. 18 nov. 2026, 10:30</div></div>
+<div style='display:flex;gap:14px;align-items:flex-start'>
+<div class='col' style='flex:1.2'><div class='rec'><header><strong>Marques présentées</strong></header><div style='display:flex;gap:6px'><span class='chip'>Cardiozen ✕</span><span class='chip'>Tensio ✕</span></div></div>
+<div class='rec' style='${bad ? 'outline:2px solid var(--brick)' : ''}'><header><strong>Matériels remis</strong><span class='hint' style='margin-inline-start:auto'>Votre stock « visite » pour la Cardiologie</span></header>
+<div class='mat'><span class='ic'>📘</span><div style='flex:1'><strong>Brochure Cardiozen</strong> <span class='chip'>Hiver 2026</span><div class='hint'>Il vous reste <strong style='color:var(--ink)'>20</strong></div></div><span class='step'><span>−</span><b>2</b><span>+</span></span></div>
+<div class='mat'><span class='ic'>📘</span><div style='flex:1'><strong>Brochure Cardiozen</strong> <span class='chip'>Automne 2026</span><div class='hint'>Il vous reste <strong style='color:var(--ink)'>6</strong> · campagne terminée</div></div><span class='step'><span>−</span><b>0</b><span>+</span></span></div>
+<div class='mat'><span class='ic'>🖊</span><div style='flex:1'><strong>Stylo Tensio</strong><div class='hint'>Il vous reste <strong style='color:${bad ? 'var(--brick)' : 'var(--ink)'}'>3</strong></div></div><span class='step' style='${bad ? 'border-color:var(--brick)' : ''}'><span>−</span><b style='${bad ? 'color:var(--brick)' : ''}'>${bad ? 5 : 1}</b><span>+</span></span></div>
+${bad ? `<div class='why bad'>Il vous reste 3 Stylo Tensio : vous ne pouvez pas en remettre 5. Le compte rendu n'est pas enregistré.</div>` : `<div class='why'>Seuls les matériels de votre stock pour la spécialité de Dr Cherif sont proposés, une ligne par campagne : vous choisissez dans laquelle vous prenez. Le stock baisse quand le compte rendu est enregistré.</div>`}</div></div>
+<div class='rec' style='flex:1'><header><strong>Objectif et commentaire</strong></header><div class='input muted' style='height:120px;align-items:flex-start;padding-top:12px'>Présentation de l'étude HOPE-DZ…</div><span class='btn dark' style='align-self:flex-end'>Enregistrer le compte rendu</span></div></div></div>`
+
+/* 7–8. stocks page */
+const stockRows = (people) => people.map(([n, m, p, g, c, o, l]) => `<tr><td><strong>${n}</strong></td><td>${m}</td><td>Hiver 2026</td><td>${p}</td><td class='num'>${g}${c ? ` <span class='carry'>+${c}</span>` : ''}</td><td class='num'>${o}</td><td class='num'><strong>${l}</strong></td><td>${bar(o, l, g + c)}</td></tr>`).join('')
+const stockPage = (rep) => `<div class='col'><div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Engager</div><h1 class='title display' style='font-size:34px'>${rep ? 'Mon stock de matériel' : 'Matériels'}</h1><div class='hint' style='margin-top:4px'>${rep ? 'Ce qui vous a été donné, ce que vous avez remis, ce qui vous reste' : 'Les stocks des délégués en dessous de vous'}</div></div></div>
+<div style='display:flex;gap:10px'>${rep ? '' : `<div class='input muted' style='width:220px'>Délégué ▾</div>`}<div class='input muted' style='width:200px'>Campagne ▾</div><div class='input muted' style='width:160px'>Type : visite ▾</div><span class='seg'><span class='on'>En cours</span><span>Passées</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>${rep ? 'Matériel' : 'Délégué'}</th><th>${rep ? 'Marque' : 'Matériel'}</th><th>Campagne</th><th>Période</th><th class='num'>Donné</th><th class='num'>Remis</th><th class='num'>Restant</th><th>Avancement</th></tr></thead><tbody>
+${rep ? stockRows([['📘 Brochure Cardiozen', 'Cardiozen', '1 nov. → 31 janv.', 20, 0, 14, 6], ['🖊 Stylo Tensio', 'Tensio', '1 nov. → 31 janv.', 50, 0, 47, 3]])
+  : stockRows([['Karim Benali', '📘 Brochure Cardiozen', '1 nov. → 31 janv.', 20, 0, 14, 6], ['Karim Benali', '🖊 Stylo Tensio', '1 nov. → 31 janv.', 50, 0, 47, 3], ['Amine Saïdi', '📘 Brochure Cardiozen', '1 nov. → 31 janv.', 20, 0, 6, 14], ['Nadia Mansour', '📘 Brochure Cardiozen', '1 nov. → 31 janv.', 20, 0, 20, 0]])}
+</tbody></table></div>
+<div class='why'>${rep ? 'Ce qui vous reste après la campagne, vous pouvez continuer à le remettre (réglage du laboratoire).' : 'Nadia a tout remis ; Karim n\'a plus que 3 stylos. Les stocks se donnent depuis l\'onglet « Matériels » d\'une campagne.'}</div></div>`
+
+/* 0. Studio › Matériels (exists; changes: « Tous les rôles », the distributions count) */
+const MATS = [['📘 Brochure Cardiozen', 'Tous les rôles', 3], ['🖊 Stylo Tensio', 'Tous les rôles', 1], ['📗 Étude HOPE-DZ (tiré à part)', 'VM', 1], ['🪧 Affiche BPCO', 'VP', 0], ['🎒 Sac publicitaire', 'Tous les rôles', 0]]
+const studio = `<div class='col'><div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Paramètres › Terrain</div><h1 class='title display' style='font-size:34px'>Matériels</h1><div class='hint' style='margin-top:4px'>Ce que le laboratoire fournit à ses délégués</div></div><span class='btn primary' style='margin-inline-start:auto'>+ Ajouter</span></div>
+<nav class='strip'><a>Types d’activité</a><a>Types d’événement</a><a>Canaux</a><a class='on'>Matériels 5</a><a>Jours fériés</a></nav>
+<div style='display:flex;gap:10px'><div class='input muted' style='width:260px'>Rechercher un matériel</div><div class='input muted' style='width:220px'>Tous les rôles ▾</div></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Matériel ↕</th><th>Rôle</th><th class='num'>Distributions</th></tr></thead><tbody>
+${MATS.map(([n, r, d], k) => `<tr class='${k === 0 ? 'sel' : ''}'><td><strong>${n}</strong></td><td>${r === 'Tous les rôles' ? `<span class='chip ok'>${r}</span>` : `<span class='chip'>${r}</span>`}</td><td class='num'>${d || '—'}</td></tr>`).join('')}
+</tbody></table></div>
+<div class='why'>Un matériel est pour <strong>un rôle</strong> ou pour <strong>tous les rôles de terrain</strong> (nouveau). Il est distribué ensuite sur une campagne (onglet « Matériels »). Un matériel qui a des distributions ne se supprime plus.</div></div>`
+const studioPanel = `<aside class='rpanel'><header><span class='ic'>📘</span><div style='flex:1'><strong style='font-size:20px;font-family:"Bricolage Grotesque",sans-serif'>Brochure Cardiozen</strong><div style='display:flex;gap:6px;margin-top:6px'><span class='chip ok'>Tous les rôles</span><span class='chip'>3 distributions</span></div></div><span class='iconbtn'>✕</span></header>
+<div class='body'>
+<label class='field'><span>Nom *</span><div class='input'>Brochure Cardiozen</div></label>
+<label class='field'><span>Rôle *</span><div class='input'>Tous les rôles de terrain ▾</div><span class='hint'>Ou un seul rôle : VM, VP, KAM… Il choisit les délégués qui le reçoivent dans une distribution.</span></label>
+<div class='why'>Utilisé par 3 distributions (Hiver 2026, Automne 2026, Été 2026) : il ne peut plus être supprimé.</div></div>
+<footer><span class='btn ghost' style='opacity:.45'>Supprimer</span><span class='btn dark' style='margin-inline-start:auto'>Enregistrer</span></footer></aside>`
+
+document.getElementById('frames').innerHTML = [
+  label(0, `<strong>Studio › Matériels</strong> (existe déjà) : la liste de ce que le laboratoire fournit. Un changement : un matériel peut être pour <strong>tous les rôles de terrain</strong> ou pour un seul (VM, VP…). La colonne « Distributions » compte où il est utilisé.`) + shell('Terrain', `<div style='display:flex;gap:16px;align-items:flex-start'>${studio}${studioPanel}</div>`, '', 660, 'Studio', ['Organisation', 'Produits', 'Terrain', 'Professionnels']),
+  label(1, `<strong>Onglet « Matériels » de la campagne.</strong> Cinq chiffres (donnés, remis, restants, budget donné, budget remis), puis une ligne par distribution : matériel et son rôle, type (visite ou événement), marque, spécialités, délégués, donnés, remis / restants, coût unitaire, budget.`) + shell('Campagnes', tab, '', 620),
+  label(2, `<strong>« + Distribuer un matériel ».</strong> Type (visite ou événement), matériel (un rôle ou tous), marque, spécialités (depuis la grille), coût unitaire, une quantité pour tous ; la période = les dates de la campagne. Puis chaque délégué : décocher, changer sa quantité (Yasmine 25), voir ce qu'il a encore.`) + shell('Campagnes', tab, newSheet, 900),
+  label(3, `<strong>La page d'une distribution.</strong> Par délégué : donné, reporté, remis, restant, avancement, budget remis. « Donné » se change sur place.`) + shell('Campagnes', distPage, '', 680),
+  label(4, `<strong>⚙ Réglages des campagnes :</strong> la période des stocks (par campagne par défaut, ou par cycle), le reliquat (reste au délégué par défaut, ou s'arrête et se reporte) — ce qui décide aussi des lignes proposées dans une visite.`) + shell('Campagnes', campList, settings, 720),
+  label(5, `<strong>Dans le compte rendu d'une visite.</strong> Karim voit son stock pour la Cardiologie (la spécialité principale de Dr Cherif), une ligne par campagne (Hiver 2026 : 20, Automne 2026 : 6), et tape la quantité sur celle qu'il veut.`) + shell('Liste', visit(), '', 620, 'Visites', ['Liste', 'Planning', 'Plans à approuver'], 'KB'),
+  label(6, `<strong>Plus que le restant : refusé.</strong> 5 stylos demandés, il en reste 3 : le compte rendu n'est pas enregistré tant que ce n'est pas corrigé.`) + shell('Liste', visit(true), '', 620, 'Visites', ['Liste', 'Planning', 'Plans à approuver'], 'KB'),
+  label(7, `<strong>Proposé : Engager › Matériels, vu par un délégué</strong> : son stock, matériel par matériel.`) + shell('Matériels', stockPage(true), '', 560, 'Engager', ['Aides de visite', 'Campagnes', 'Matériels'], 'KB'),
+  label(8, `<strong>…vu par un manager</strong> : les stocks des délégués en dessous de lui, avec un filtre par délégué.`) + shell('Matériels', stockPage(false), '', 620, 'Engager', ['Aides de visite', 'Campagnes', 'Matériels'], 'NM'),
+].join('')
+</script></body></html>

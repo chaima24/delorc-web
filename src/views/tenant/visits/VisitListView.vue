@@ -16,6 +16,7 @@ import { useAuthStore } from '@/stores/auth'
 import { STUDIO_DEFAULT_SORT, useStudioList } from '@/views/tenant/settings/shared/useStudioList'
 import { useVisitText } from './visitDisplay'
 import VisitQuickPanel from './VisitQuickPanel.vue'
+import DlDateRangePicker from '@/components/DlDateRangePicker.vue'
 
 // Visites: planned, done and cancelled visits, yours and those of the people you see. Four figures, the list with
 // its filters, and a short panel; a visit opens on its own page. Mockup: docs/design/visits-mockups/Visits.html
@@ -144,8 +145,7 @@ function show(row: Visit) {
 
       <div class="flex flex-wrap items-center gap-2.5">
         <div class="w-64 max-md:w-full"><DlInput v-model="search" :label="t('visits.filter.search')" :placeholder="t('visits.filter.search')" icon="tabler-search" hide-label /></div>
-        <div class="w-40"><DlInput v-model="from" type="date" :label="t('visits.filter.from')" hide-label /></div>
-        <div class="w-40"><DlInput v-model="to" type="date" :label="t('visits.filter.to')" hide-label /></div>
+        <DlDateRangePicker v-model:start="from" v-model:end="to" :label="t('common.dates.period')" hide-label clearable class="w-72" />
         <DlSelect v-model="statusFilter" :label="t('visits.columns.state')" :options="statusOptions" appearance="filter" />
         <template v-if="!open">
           <DlSelect v-if="people.length > 1" v-model="userFilter" :label="t('visits.fields.person')" :options="[{ value: ALL, label: t('visits.filter.everyone') }, ...people]" appearance="filter" />

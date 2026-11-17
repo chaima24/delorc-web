@@ -1,0 +1,317 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Campagnes, le cœur</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.subnav { width: 220px; flex-shrink: 0; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.subnav div { padding: 10px 12px; border-radius: 11px; color: var(--body); font-weight: 600; display: flex; align-items: center; gap: 8px; } .subnav div.on { background: var(--paper); color: var(--ink); }
+.subnav div.off { color: var(--muted); font-weight: 400; } .subnav small { margin-inline-start: auto; font-size: 11px; color: var(--muted); }
+.subnav .ws { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: 4px 12px 8px; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 170px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 480px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+/* promo grid */
+.grid { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+.grid th { text-align: start; padding: 10px 12px; border-bottom: 1px solid var(--line); font-weight: 700; vertical-align: bottom; }
+.grid th .hint { font-weight: 400; display: block; font-size: 11.5px; }
+.grid td { padding: 8px 12px; border-bottom: 1px solid var(--line-soft); vertical-align: top; border-inline-start: 1px solid var(--line-soft); }
+.grid td.brand { border-inline-start: 0; font-weight: 700; font-size: 14px; width: 170px; padding-top: 12px; }
+.cell { display: flex; flex-direction: column; gap: 4px; }
+.sp { display: flex; align-items: center; gap: 8px; padding: 3px 6px; border-radius: 8px; }
+.sp.sel { outline: 2px solid var(--cobalt); }
+.tick { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid #9FB0AA; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
+.tick.p1 { background: #2F8F5B; border-color: #2F8F5B; } .tick.p2 { background: var(--brick); border-color: var(--brick); } .tick.p3 { background: var(--amber); border-color: var(--amber); } .tick.p0 { background: var(--ink); border-color: var(--ink); }
+.sp .msg { margin-inline-start: auto; color: var(--muted); font-size: 11px; }
+.na { color: var(--muted); font-size: 12px; padding: 4px 6px; }
+.legend { display: flex; gap: 14px; align-items: center; font-size: 12.5px; color: var(--body); flex-wrap: wrap; } .legend span { display: inline-flex; align-items: center; gap: 6px; }
+.prio { display: flex; gap: 8px; } .prio span { padding: 8px 14px; border-radius: 10px; border: 1.5px solid var(--line); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; } .prio span.on { border-color: var(--ink); background: var(--mist); }
+.promo { display: flex; flex-direction: column; gap: 8px; }
+.promo .it { display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px; background: var(--mist); border-radius: 12px; }
+.promo .rk { width: 34px; height: 24px; border-radius: 7px; color: #fff; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+/* lively campaign page */
+.hero { background: var(--paper); color: var(--ink); border-radius: 24px; padding: 22px 26px; display: flex; flex-direction: column; gap: 16px; }
+.hero .code { background: var(--signal); color: var(--ink); border-radius: 99px; padding: 4px 11px; font-size: 12px; font-weight: 700; }
+.hero h1 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; margin: 0; color: var(--ink); }
+.hero .live { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 700; color: var(--ink); }
+.hero .live::before { content: ''; width: 8px; height: 8px; border-radius: 99px; background: var(--ink); box-shadow: 0 0 0 4px rgba(15, 31, 28, .15); }
+.hero .muted { color: var(--muted); font-size: 13px; }
+.hero .ghost { border: 1px solid var(--line); color: var(--ink); background: var(--paper); border-radius: 11px; padding: 7px 12px; font-size: 13px; font-weight: 600; }
+.tl { position: relative; height: 10px; border-radius: 99px; background: var(--line-soft); }
+.tl i { position: absolute; inset: 0 auto 0 0; border-radius: 99px; background: var(--ink); }
+.tl b { position: absolute; top: -5px; width: 20px; height: 20px; border-radius: 99px; background: var(--ink); border: 4px solid var(--paper); box-shadow: none; transform: translateX(-50%); }
+.tl-l { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.quote { border-inline-start: 3px solid var(--line); padding: 2px 0 2px 12px; font-size: 15px; color: var(--body); }
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.tile { background: var(--paper); border-radius: 20px; padding: 16px 18px; display: flex; gap: 14px; align-items: center; }
+.tile .ic { width: 44px; height: 44px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.tile strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; line-height: 1; display: block; }
+.tile span.hint { font-size: 12.5px; }
+.stack { display: inline-flex; } .stack span { width: 28px; height: 28px; border-radius: 99px; border: 2px solid var(--paper); margin-inline-start: -8px; display: inline-flex; align-items: center; justify-content: center; font-size: 10.5px; font-weight: 700; color: #fff; } .stack span:first-child { margin-inline-start: 0; }
+.hero .stack span { border-color: var(--paper); }
+.bt { width: 34px; height: 34px; border-radius: 11px; background: var(--mist); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; color: var(--ink); flex-shrink: 0; font-family: 'Bricolage Grotesque', sans-serif; }
+.bar { display: flex; height: 12px; border-radius: 99px; overflow: hidden; background: var(--line-soft); flex: 1; } .bar i { display: block; height: 100%; }
+.brow { display: flex; align-items: center; gap: 12px; padding: 7px 0; }
+.soon { border: 1.5px dashed var(--line); border-radius: 18px; padding: 14px 16px; display: flex; gap: 12px; align-items: center; color: var(--muted); font-size: 13px; flex: 1; }
+.soon b { color: var(--body); display: block; font-size: 14px; }
+/* lively grid */
+.toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.fpill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 99px; background: var(--paper); border: 1.5px solid var(--line); font-size: 12.5px; font-weight: 600; }
+.fpill i { width: 10px; height: 10px; border-radius: 99px; display: inline-block; }
+.pg { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: -10px; }
+.pg th { text-align: start; padding: 0 8px 2px; vertical-align: bottom; }
+.th { background: var(--paper); border-radius: 18px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
+.th strong { font-size: 15px; } .th .hint { font-size: 12px; display: block; } .th .all { margin-inline-start: auto; font-size: 12px; color: var(--cobalt); font-weight: 600; }
+.pg td { background: var(--paper); padding: 12px 14px; vertical-align: top; }
+.pg td:first-child { border-radius: 18px 0 0 18px; width: 200px; } .pg td:last-child { border-radius: 0 18px 18px 0; }
+.pg td + td { border-inline-start: 1px solid var(--line-soft); }
+.bcell { display: flex; gap: 10px; align-items: center; } .bcell strong { font-size: 15px; display: block; } .bcell .hint { font-size: 12px; }
+.pills2 { display: flex; flex-wrap: wrap; gap: 7px; }
+.pp { position: relative; display: inline-flex; align-items: center; gap: 7px; padding: 4px 11px 4px 4px; border-radius: 99px; font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.pp .rk { min-width: 26px; height: 22px; padding: 0 6px; border-radius: 99px; color: #fff; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+.pp.p1 { background: rgba(47, 143, 91, .13); } .pp.p1 .rk { background: #2F8F5B; }
+.pp.p2 { background: rgba(192, 54, 44, .11); } .pp.p2 .rk { background: var(--brick); }
+.pp.p3 { background: rgba(232, 163, 61, .17); } .pp.p3 .rk { background: var(--amber); }
+.pp.p0 { background: var(--line-soft); } .pp.p0 .rk { background: var(--ink); }
+.pp.off { background: transparent; border: 1.5px dashed var(--line); color: var(--muted); font-weight: 500; padding: 3px 11px; }
+.pp.sel { box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--cobalt); }
+.pp .env { font-size: 12px; opacity: .7; }
+.tip { position: absolute; top: calc(100% + 10px); left: 0; width: 280px; background: var(--ink); color: #fff; border-radius: 14px; padding: 11px 13px; font-size: 12.5px; font-weight: 400; line-height: 1.45; z-index: 3; box-shadow: 0 12px 28px -10px rgba(15, 31, 28, .5); }
+.tip::after { content: ''; position: absolute; bottom: 100%; left: 22px; border: 7px solid transparent; border-bottom-color: var(--ink); }
+.tip small { display: block; color: var(--signal); font-weight: 700; margin-bottom: 3px; }
+.nob { background: repeating-linear-gradient(135deg, transparent 0 8px, var(--line-soft) 8px 9px); border-radius: 12px; padding: 10px 12px; color: var(--muted); font-size: 12px; }
+</style></head><body>
+<p class="caption"><strong>Campagnes › partie 12a, le cœur — proposition.</strong> Une <strong>campagne</strong> (code automatique, dates, équipes, objectif) et sa <strong>grille promo</strong> : pour chaque équipe, quelles marques présenter à quelles spécialités, dans quel ordre (priorité) et avec quel message.
+Menu <strong>Engager › Campagnes</strong>, à côté des Aides de visite. Les messages (12b) et l'envoi (12c) viennent ensuite ; matériels, événements et actions marketing (13–15) s'accrochent à la campagne. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Code automatique <code>CMP0001</code></b> (décidé le 13 nov.) : donné à l'enregistrement, jamais tapé ni changé.</li>
+  <li><b>L'état vient des dates</b> (décidé) : À venir, En cours, Terminée ; rien n'est stocké, pas d'interrupteur.</li>
+  <li><b>Les champs de l'API précédente</b> (décidé) : nom, dates, équipes (au moins une), objectif obligatoire, commentaire facultatif. <b>Pas de marques sur la campagne</b> : la grille dit quelles marques elle promeut.</li>
+  <li><b>La page d'une campagne a un onglet par partie</b> (demandé le 13 nov.) : « La campagne », « Grille promo », puis « Messages » (12b), « Envois » (12c), « Matériels » (13), « Événements » (14), « Actions marketing » (15). Chaque module suivant remplit son onglet : un matériel, un événement ou une action appartient toujours à une campagne. Les onglets à venir ne s'affichent pas dans l'application tant que leur module n'existe pas (montrés grisés ici). Les liens de l'espace sont dans la barre du haut, sans colonne à gauche.</li>
+  <li><b>Proposé (version plus vivante, 13 nov.) :</b> la frise des dates avec aujourd'hui ; les délégués de chaque équipe en pastilles ; quatre chiffres (coches, marques promues, spécialités visées, coches avec un message) ; « Ce que la grille promeut », une barre par marque colorée par priorité ; dans la grille, des pastilles colorées à la place des cases à cocher, le message au survol, un filtre par équipe et une recherche de marque. Tout est lu de la grille et des équipes : rien de nouveau n'est stocké.</li>
+  <li><b>La grille promo comme l'ancien écran</b> (décidé ; <b>toutes les équipes sur une page même quand elles sont nombreuses</b>, défilement vers la droite avec la colonne des marques fixe, choisi le 13 nov.) : une colonne par équipe de la campagne ; une ligne par marque des équipes (toutes les marques du laboratoire si les équipes n'en ont aucune) ; une case = les spécialités de l'équipe, chacune avec une coche. <b>Proposé :</b> quand une marque n'est pas une marque de l'équipe, sa case affiche « — » (rien à cocher).</li>
+  <li><b>Les priorités sont la liste du laboratoire</b> (décidé le 13 nov., d'après les anciennes données : P1 à P10, et R1 à R10 « Rappel ») : un rappel est une priorité comme une autre dans Studio › Priorités (« R1 Rappel »), avec sa couleur et son ordre ; rien de nouveau n'est stocké.</li>
+  <li><b>Une coche = une priorité (Studio › Priorités) + un message</b>, valable pendant les dates de la campagne (décidé). La coche prend la couleur de la priorité ; noire = sans priorité.</li>
+  <li><b>Deux réglages du laboratoire</b>, désactivés dans un laboratoire neuf (décidé) : « Priorité obligatoire » et « Message obligatoire ». <b>Proposé :</b> un bouton « ⚙ Réglages » sur la page Campagnes ouvre un panneau (pas d'onglet à part) ; un réglage activé plus tard ne touche pas les coches déjà posées (comme les champs du compte rendu).</li>
+  <li><b>« Copier la grille de… »</b> une campagne précédente (décidé), pour les équipes en commun. <b>Proposé :</b> la copie <b>remplace</b> la grille de ces équipes (une confirmation le dit) ; une spécialité ou une marque qui n'est plus dans l'équipe n'est pas copiée.</li>
+  <li><b>Une équipe ne peut pas être dans deux campagnes dont les dates se chevauchent</b> (décidé) : refusé à l'enregistrement (ajout, modification des dates ou des équipes).</li>
+  <li><b>Supprimer</b> (décidé) : la grille part avec la campagne ; refusé dès que des matériels, événements, actions ou envois la visent (12c–15). Retirer une équipe qui a des coches est refusé : on décoche d'abord. <b>Proposé :</b> les dates peuvent changer librement (la grille suit la campagne).</li>
+  <li><b>Dans une visite</b> (décidé) : la page de la visite et la page d'ajout montrent, en lecture seule, la grille de la campagne en cours pour l'équipe du délégué et la spécialité principale du professionnel de santé, par priorité (sans priorité en dernier). <b>Proposé :</b> rien n'apparaît pour une pharmacie ou une organisation sans spécialité cochée ; le délégué dans plusieurs équipes voit chaque campagne.</li>
+  <li><b>Droits</b> (décidé) : <code>campaigns</code> ; admins et marketing gèrent ; managers et délégués voient les campagnes de leurs équipes (lecture, sans boutons). <b>Proposé :</b> un manager voit aussi celles des équipes des personnes en dessous de lui.</li>
+  <li><b>Toujours là</b> (décidé) : pas d'interrupteur <code>module.campaigns</code>, chaque laboratoire a les campagnes.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const wsNav = (links, on) => `<nav class='ws-nav'>${links.map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const engageLinks = ['Aides de visite', 'Campagnes']
+const visitLinks = ['Liste', 'Planning', 'Plans à approuver']
+const shell = (on, inner, extra = '', h = 680, rail = 'Engager', links = engageLinks) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SH</span></div>
+  <div style='display:flex;flex-direction:column;flex:1;gap:16px;padding:20px 28px 28px'>${wsNav(links, on)}${inner}</div>
+</div>${extra}</div>`
+const head = (t, hint, btn = '') => `<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Engager</div><h1 class='title display' style='font-size:34px'>${t}</h1><div class='hint' style='margin-top:4px'>${hint}</div></div>${btn}</div>`
+const dialog = (title, text, actions) => `<div class='dialog'><div class='box'><strong style='font-size:17px'>${title}</strong><div>${text}</div><footer>${actions}</footer></div></div>`
+const sheet = (title, hint, body, foot) => `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet'><header><div><strong style='font-size:18px'>${title}</strong><div class='hint'>${hint}</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header><div class='body'>${body}</div><footer>${foot}</footer></div></div>`
+
+/* 1. list */
+const CAMPS = [
+  ['CMP0007', 'Hiver 2026', '1 nov. 2026 → 31 janv. 2027', ['Cardio', 'Généralistes'], 16, ['ok', 'En cours'], '20 oct. 2026'],
+  ['CMP0006', 'Lancement Lipofen', '1 oct. → 31 déc. 2026', ['Spécialistes'], 6, ['ok', 'En cours'], '15 sept. 2026'],
+  ['CMP0008', 'Printemps 2027', '1 févr. → 30 avr. 2027', ['Cardio', 'Généralistes', 'Spécialistes'], 0, ['info', 'À venir'], '10 nov. 2026'],
+  ['CMP0005', 'Automne 2026', '1 août → 31 oct. 2026', ['Cardio', 'Généralistes'], 16, ['', 'Terminée'], '25 juil. 2026'],
+  ['CMP0004', 'Été 2026', '1 mai → 31 juil. 2026', ['Cardio', 'Généralistes'], 14, ['', 'Terminée'], '20 avr. 2026'],
+]
+const list = `<div class='col'>${head('Campagnes', 'Les campagnes du laboratoire, leurs équipes et leur grille promo', `<span class='btn outline' style='margin-inline-start:auto'>⚙ Réglages</span><span class='btn primary'>+ Ajouter une campagne</span>`)}
+<div style='display:flex;gap:10px'><div class='input muted' style='width:300px'>Rechercher un code ou un nom</div><div class='input muted' style='width:200px'>Équipe ▾</div><span class='seg'><span class='on'>Toutes</span><span>En cours</span><span>À venir</span><span>Terminées</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Code ↕</th><th>Campagne ↕</th><th>Dates ↕</th><th>Équipes</th><th class='num'>Coches de la grille ↕</th><th>État</th><th>Ajoutée le ↕</th></tr></thead><tbody>
+${CAMPS.map(([c, n, d, t, g, [k, st], a], i) => `<tr class='${i === 0 ? 'sel' : ''}'><td class='hint'>${c}</td><td><strong>${n}</strong></td><td>${d}</td><td><span class='pills'>${t.map(x => `<span class='chip'>${x}</span>`).join('')}</span></td><td class='num'>${g}</td><td><span class='chip ${k}'>${st}</span></td><td class='hint'>${a}</td></tr>`).join('')}
+</tbody></table></div></div>`
+
+/* 2. add */
+const addSheet = sheet('Ajouter une campagne', 'Le code est donné à l\'enregistrement. La grille promo se remplit ensuite sur sa page.', `
+<label class='field'><span>Nom *</span><div class='input'>Printemps 2027</div></label>
+<div style='display:flex;gap:12px'><label class='field' style='flex:1'><span>Du *</span><div class='input'>1 févr. 2027</div></label><label class='field' style='flex:1'><span>Au *</span><div class='input'>30 avr. 2027</div></label></div>
+<label class='field'><span>Équipes *</span><div class='input'><span class='chip'>Cardio ✕</span><span class='chip'>Généralistes ✕</span><span class='chip'>Spécialistes ✕</span></div></label>
+<label class='field'><span>Objectif *</span><div class='input'>Installer Cardiozen en première intention chez les cardiologues</div></label>
+<label class='field'><span>Commentaire</span><div class='input' style='height:70px;align-items:flex-start;padding-top:12px'>Lancement du nouveau conditionnement 90 cp.</div></label>
+<div class='why'>Libre : aucune de ces équipes n'est dans une autre campagne du 1 févr. au 30 avr. 2027.</div>`,
+`<span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>Ajouter la campagne</span>`)
+
+/* 3. page + grid */
+const TEAMS = [
+  ['Cardio', ['Cardiologie', 'Médecine Générale', 'Médecine Interne'], ['Cardiozen', 'Tensio', 'Lipofen']],
+  ['Généralistes', ['Médecine Générale', 'Pédiatrie', 'Pharmacie'], ['Cardiozen', 'Tensio', 'Gastrolib', 'Dolvix']],
+]
+const BRANDS = ['Cardiozen', 'Tensio', 'Lipofen', 'Gastrolib', 'Dolvix']
+// [brand][team][spec] = [prio 0..3, message?]
+const G = {
+  'Cardiozen': { 'Cardio': { 'Cardiologie': [1, 1], 'Médecine Générale': [2, 1], 'Médecine Interne': [1, 0] }, 'Généralistes': { 'Médecine Générale': [1, 1], 'Pharmacie': [2, 0] } },
+  'Tensio': { 'Cardio': { 'Cardiologie': [2, 1], 'Médecine Générale': [1, 1] }, 'Généralistes': { 'Médecine Générale': [2, 1], 'Pharmacie': [1, 1] } },
+  'Lipofen': { 'Cardio': { 'Cardiologie': [3, 0], 'Médecine Interne': [2, 1] } },
+  'Gastrolib': { 'Généralistes': { 'Pédiatrie': [1, 1], 'Médecine Générale': [3, 0], 'Pharmacie': [0, 0] } },
+  'Dolvix': { 'Généralistes': { 'Pédiatrie': [2, 0], 'Pharmacie': [3, 1] } },
+}
+const tick = p => `<span class='tick p${p}'>✓</span>`
+const PCOL = { 1: '#2F8F5B', 2: 'var(--brick)', 3: 'var(--amber)', 0: 'var(--ink)' }
+const MSG = {
+  'Cardiozen|Cardio|Cardiologie': 'Baisse la tension en 2 semaines, une prise par jour.',
+  'Tensio|Généralistes|Médecine Générale': 'Nouveau conditionnement 90 cp : 3 mois de traitement.',
+}
+const PEOPLE = { 'Cardio': [['KB', '#E8A33D'], ['NM', '#13A89E'], ['AS', '#7B3FA0'], ['+5', '#5F6B68']], 'Généralistes': [['YT', '#E0662F'], ['RL', '#C2185B'], ['+4', '#5F6B68']] }
+const stack = list => `<span class='stack'>${list.map(([i, c]) => `<span style='background:${c}'>${i}</span>`).join('')}</span>`
+const ticksOf = (b, t) => Object.values(G[b]?.[t] ?? {})
+const allTicks = BRANDS.flatMap(b => TEAMS.flatMap(([t]) => ticksOf(b, t)))
+const TOTAL = allTicks.length
+const WITH_MSG = allTicks.filter(v => v[1]).length
+const teamTicks = t => BRANDS.reduce((n, b) => n + ticksOf(b, t).length, 0)
+const SPECS = new Set(BRANDS.flatMap(b => TEAMS.flatMap(([t]) => Object.keys(G[b]?.[t] ?? {}))))
+
+const pill = (b, t, s, v, sel, tipOn) => {
+  if (!v) return `<span class='pp off'>+ ${s}</span>`
+  const key = `${b}|${t}|${s}`
+  const tip = tipOn === key ? `<span class='tip'><small>${v[0] ? 'P' + v[0] : 'Sans priorité'} · ${b} → ${s}</small>« ${MSG[key] ?? '…'} »</span>` : ''
+  return `<span class='pp p${v[0]} ${sel === key ? 'sel' : ''}'><span class='rk'>${v[0] ? 'P' + v[0] : '—'}</span>${s}${v[1] ? `<span class='env'>✉</span>` : ''}${tip}</span>`
+}
+const grid = (sel = null, tipOn = null) => `<table class='pg'><thead><tr><th></th>${TEAMS.map(([t, s]) => `<th><div class='th'>${stack(PEOPLE[t])}<div><strong>${t}</strong><span class='hint'>${s.length} spécialités · ${teamTicks(t)} coches</span></div><span class='all'>Tout cocher</span></div></th>`).join('')}</tr></thead><tbody>
+${BRANDS.map(b => `<tr><td><div class='bcell'><span class='bt'>${b.slice(0, 2).toUpperCase()}</span><div><strong>${b}</strong><span class='hint'>${TEAMS.reduce((n, [t]) => n + ticksOf(b, t).length, 0)} coches</span></div></div></td>${TEAMS.map(([t, specs, brands]) => `<td>${brands.includes(b) ? `<div class='pills2'>${specs.map(s => pill(b, t, s, G[b]?.[t]?.[s], sel && sel.join('|'), tipOn)).join('')}</div>` : `<div class='nob'>Pas une marque de l'équipe ${t}</div>`}</td>`).join('')}</tr>`).join('')}
+</tbody></table>`
+const legend = `<span class='fpill'><i style='background:#2F8F5B'></i>P1</span><span class='fpill'><i style='background:var(--brick)'></i>P2</span><span class='fpill'><i style='background:var(--amber)'></i>P3</span><span class='fpill'><i style='background:var(--ink)'></i>Sans priorité</span><span class='fpill' style='border-style:dashed;color:var(--muted)'>+ non promue</span>`
+const TABS = [['La campagne', ''], ['Grille promo', String(TOTAL)], ['Messages', '12b'], ['Envois', '12c'], ['Matériels', '13'], ['Événements', '14'], ['Actions marketing', '15']]
+const LATER = ['12b', '12c', '13', '14', '15']
+const tabs = on => `<div class='tabs'>${TABS.map(([t, c]) => `<span class='${t === on ? 'on' : ''}' style='${LATER.includes(c) ? 'opacity:.55' : ''}'>${t}${c ? `<span class='count'>${LATER.includes(c) ? 'à venir · ' + c : c}</span>` : ''}</span>`).join('')}</div>`
+
+/* Day 18 of 92 (today: 18 nov. 2026). */
+const hero = `<div class='hero'>
+<div style='display:flex;align-items:center;gap:12px'><span class='code'>CMP0007</span><span class='live'>En cours</span><span class='muted'>· Engager › Campagnes</span><span style='margin-inline-start:auto;display:flex;gap:8px'><span class='ghost'>✎ Modifier</span><span class='ghost'>Supprimer</span></span></div>
+<div style='display:flex;align-items:flex-end;gap:24px'>
+  <div style='flex:1'><h1>Hiver 2026</h1><div class='quote' style='margin-top:10px'>Faire passer Tensio en première intention chez les généralistes</div></div>
+  <div style='display:flex;gap:18px;align-items:center'>${TEAMS.map(([t]) => `<div style='display:flex;flex-direction:column;gap:6px'>${stack(PEOPLE[t])}<span class='muted'>${t}</span></div>`).join('')}</div>
+</div>
+<div><div class='tl'><i style='width:19.5%'></i><b style='left:19.5%'></b></div>
+<div class='tl-l' style='margin-top:8px'><span>1 nov. 2026</span><span style='color:var(--ink);font-weight:600'>Aujourd'hui · jour 18 sur 92 · encore 74 jours</span><span>31 janv. 2027</span></div></div>
+</div>`
+const tiles = `<div class='tiles'>${[
+  ['✓', 'rgba(47,143,91,.13)', '#2F8F5B', TOTAL, 'coches dans la grille'],
+  ['◆', 'rgba(47,84,235,.1)', 'var(--cobalt)', BRANDS.length, 'marques promues'],
+  ['✚', 'rgba(232,163,61,.17)', 'var(--amber)', SPECS.size, 'spécialités visées'],
+  ['✉', 'rgba(192,54,44,.1)', 'var(--brick)', WITH_MSG, 'coches avec un message'],
+].map(([i, bg, c, n, l]) => `<div class='tile'><span class='ic' style='background:${bg};color:${c}'>${i}</span><div><strong>${n}</strong><span class='hint'>${l}</span></div></div>`).join('')}</div>`
+const promoted = `<div class='rec' style='flex:1.4'><header><strong>Ce que la grille promeut</strong><span class='btn sm outline'>Ouvrir la grille →</span></header>
+${BRANDS.map(b => { const v = TEAMS.flatMap(([t]) => ticksOf(b, t)); const max = 6; return `<div class='brow'><span class='bt'>${b.slice(0, 2).toUpperCase()}</span><strong style='width:110px'>${b}</strong><span class='bar' style='max-width:${v.length / max * 100}%'>${[1, 2, 3, 0].map(p => { const n = v.filter(x => x[0] === p).length; return n ? `<i style='width:${n / v.length * 100}%;background:${PCOL[p]}'></i>` : '' }).join('')}</span><span class='hint' style='margin-inline-start:auto;white-space:nowrap'>${[1, 2, 3].map(p => { const n = v.filter(x => x[0] === p).length; return n ? `${n} P${p}` : '' }).filter(Boolean).join(' · ')}</span></div>` }).join('')}
+<div style='display:flex;gap:12px;margin-top:2px'>${legend}</div></div>`
+const pageHead = on => on === 'La campagne' ? `${hero}${tabs(on)}` : `<div style='display:flex;align-items:center;gap:12px'><span class='chip'>CMP0007</span><h1 class='title display' style='font-size:28px'>Hiver 2026</h1><span class='chip ok'>En cours</span><span class='hint'>jour 18 sur 92 · Cardio, Généralistes</span></div>${tabs(on)}`
+const gridTab = (sel = null, tipOn = 'Tensio|Généralistes|Médecine Générale') => `<div class='col'>${pageHead('Grille promo')}
+<div class='toolbar'><span class='seg'><span class='on'>Toutes les équipes</span>${TEAMS.map(([t]) => `<span>${t}</span>`).join('')}</span><div class='input muted' style='width:240px'>Rechercher une marque</div><span style='display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600'><span class='tg off'></span>Cochées seulement</span><span style='margin-inline-start:auto' class='hint'>${TOTAL} coches · ${WITH_MSG} avec un message</span><span class='btn sm outline'>⧉ Copier la grille de…</span></div>
+<div class='toolbar'>${legend}<span class='hint' style='margin-inline-start:12px'>Cliquez « + » pour cocher une spécialité, une coche pour changer sa priorité ou son message ; survolez-la pour lire le message.</span></div>
+${grid(sel, tipOn)}</div>`
+const page = (sel = null, teamsEdit = false) => `<div class='col'>${pageHead('La campagne')}
+${tiles}
+<div style='display:flex;gap:14px;align-items:flex-start'>
+${promoted}
+<div class='col' style='flex:1'>
+<div class='rec'><header><strong>La campagne</strong><span class='btn sm outline'>✎ Modifier</span></header><div class='kv'><span>Dates</span><span>1 nov. 2026 → 31 janv. 2027</span><span>Objectif</span><span>Faire passer Tensio en première intention chez les généralistes</span><span>Commentaire</span><span class='hint'>—</span><span>Ajoutée</span><span>par Sara Haddad, le 20 oct. 2026</span></div></div>
+${teamsEdit ? `<div class='rec' style='outline:2px solid var(--cobalt)'><header><strong>Équipes</strong></header><label class='field'><span>Équipes</span><div class='input'><span class='chip'>Cardio ✕</span><span class='chip'>Généralistes ✕</span><span class='chip'>Spécialistes ✕</span></div></label>
+<div class='why bad'>L'équipe « Spécialistes » est déjà dans « Lancement Lipofen » (CMP0006) du 1 oct. au 31 déc. 2026. Une équipe ne peut pas être dans deux campagnes aux dates qui se chevauchent.</div>
+<div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm dark' style='opacity:.5'>Enregistrer</span></div></div>`
+  : `<div class='rec'><header><strong>Équipes</strong><span class='btn sm outline'>✎ Modifier</span></header>${TEAMS.map(([t, s]) => `<div style='display:flex;align-items:center;gap:12px'>${stack(PEOPLE[t])}<div><strong>${t}</strong><div class='hint'>${s.join(', ')}</div></div><span class='chip ok' style='margin-inline-start:auto'>${teamTicks(t)} coches</span></div>`).join('')}</div>`}
+</div></div>
+<div style='display:flex;gap:14px'>${[['▤', 'Messages', '12b'], ['➚', 'Envois', '12c'], ['▣', 'Matériels', '13'], ['◷', 'Événements', '14'], ['⚑', 'Actions marketing', '15']].map(([i, t, m]) => `<div class='soon'><span style='font-size:20px'>${i}</span><div><b>${t}</b>arrive avec le module ${m}</div></div>`).join('')}</div>
+</div>`
+
+/* 4. tick window */
+const tickSheet = sheet('Cardiozen · Cardio · Médecine Interne', 'Campagne Hiver 2026 · du 1 nov. 2026 au 31 janv. 2027', `
+<label class='field'><span>Priorité</span><div class='pills2'><span class='pp p1 sel'><span class='rk'>P1</span>Haute</span><span class='pp p2'><span class='rk'>P2</span>Moyenne</span><span class='pp p3'><span class='rk'>P3</span>Basse</span><span class='pp p0'><span class='rk'>—</span>Sans priorité</span></div><span class='hint'>La liste de Studio › Priorités, dans son ordre.</span></label>
+<label class='field'><span>Message</span><div class='input' style='height:90px;align-items:flex-start;padding-top:12px'>Seul IEC à une prise par jour remboursé : rappeler l'étude HOPE-DZ.</div></label>
+<div class='why'>Priorité et message sont facultatifs dans ce laboratoire (⚙ Réglages sur la page Campagnes). Le délégué de l'équipe Cardio verra ce message quand il visite un interniste pendant la campagne.</div>`,
+`<span class='btn ghost'>Décocher</span><span class='btn dark' style='margin-inline-start:auto'>Enregistrer</span>`)
+
+/* 5. copy */
+const copyDlg = dialog('Copier la grille de…', `<label class='field'><span>Campagne</span><div class='input'>CMP0005 · Automne 2026 (1 août → 31 oct. 2026) ▾</div></label>
+<div style='margin-top:10px'>Équipes en commun : <span class='chip'>Cardio</span> <span class='chip'>Généralistes</span></div>
+<div class='why' style='margin-top:10px'>16 coches seront copiées, avec leur priorité et leur message. <strong>La grille actuelle de ces deux équipes est remplacée.</strong> 1 coche n'est pas copiée : « Lipofen · Pédiatrie », Pédiatrie n'est plus une spécialité de l'équipe Cardio.</div>`,
+`<span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Copier 16 coches</span>`)
+
+/* 7. delete / team removal refusals */
+const delDlg = dialog('Supprimer « Hiver 2026 » ?', `<div class='why bad'>Impossible : <strong>3 distributions de matériel</strong> et <strong>1 événement</strong> sont liés à cette campagne. Supprimez-les d'abord.</div>
+<div class='hint' style='margin-top:10px'>Sans rien de lié, la campagne et sa grille (${TOTAL} coches) sont supprimées ensemble. Les matériels, événements, actions et envois arrivent en 12c–15 : jusque-là, la suppression est toujours possible.</div>
+<div class='why bad' style='margin-top:10px'>Même règle pour une équipe : retirer « Généralistes » est refusé tant qu'elle a 9 coches. Décochez-les d'abord.</div>`,
+`<span class='btn sm dark'>Compris</span>`)
+
+/* 8. visit page box */
+const visitInner = `<div class='col'>
+<div><div class='crumbs'>Visites › Liste</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:30px'>Dr Yacine Cherif</h1><span class='chip info'>Planifiée</span></div><div class='hint'>Cardiologie · Karim Benali (équipe Cardio) · mer. 18 nov. 2026, 10:30 · Face à face</div></div>
+<div style='display:flex;gap:14px;align-items:flex-start'>
+<div class='col' style='flex:1.3'>
+<div class='rec'><header><strong>Marques présentées *</strong></header><div class='pills'><span class='chip'>Cardiozen ✕</span><span class='chip'>+ Marque</span></div></div>
+<div class='rec'><header><strong>Aides de visite</strong></header><span class='hint'>Cardiozen · Étude HOPE-DZ (12 diapositives)</span></div>
+<div class='rec'><header><strong>Objectif et commentaire</strong></header><div class='input muted'>Objectif de la visite</div></div>
+</div>
+<div class='rec' style='flex:1'><header><strong>Grille promo</strong><span class='chip' style='margin-inline-start:auto'>CMP0007 · Hiver 2026</span></header>
+<span class='hint'>Pour l'équipe Cardio et la Cardiologie, jusqu'au 31 janv. 2027. Lecture seule.</span>
+<div class='promo'>
+<div class='it'><span class='rk' style='background:#2F8F5B'>P1</span><div><strong>Cardiozen</strong><div style='margin-top:3px'>« Baisse la tension en 2 semaines, une prise par jour. »</div></div></div>
+<div class='it'><span class='rk' style='background:var(--brick)'>P2</span><div><strong>Tensio</strong><div style='margin-top:3px'>« Nouveau conditionnement 90 cp : 3 mois de traitement. »</div></div></div>
+<div class='it'><span class='rk' style='background:var(--amber)'>P3</span><div><strong>Lipofen</strong><div class='hint' style='margin-top:3px'>Pas de message.</div></div></div>
+</div>
+<div class='why'>Rien n'est coché pour lui : la grille sert de rappel, les marques présentées restent au choix du délégué.</div></div>
+</div></div>`
+
+/* 9. settings */
+const settings = sheet('Réglages des campagnes', 'Ce que la fenêtre d\'une coche demande dans la grille promo', `
+<div style='display:flex;align-items:center;gap:14px'><div style='flex:1'><strong>Priorité obligatoire</strong><div class='hint'>Chaque coche doit avoir une priorité (P1, P2…). Désactivé : « Sans priorité » est possible.</div></div><span class='tg off'></span></div>
+<div style='display:flex;align-items:center;gap:14px'><div style='flex:1'><strong>Message obligatoire</strong><div class='hint'>Chaque coche doit avoir son message. Désactivé : une coche seule suffit.</div></div><span class='tg off'></span></div>
+<div class='why'>Un laboratoire neuf commence avec les deux désactivés. Activer un réglage ne touche pas les coches déjà posées : il s'applique à la prochaine coche enregistrée ou modifiée.</div>`,
+`<span class='btn ghost'>Fermer</span><span class='btn dark' style='margin-inline-start:auto'>Enregistrer</span>`)
+
+/* At scale: 6 teams, 12 brands, up to 8 specialities per team. */
+const BIG_TEAMS = [
+  ['Cardio', ['Cardiologie', 'Médecine Générale', 'Médecine Interne', 'Néphrologie', 'Endocrinologie', 'Gériatrie', 'Neurologie', 'Pneumologie']],
+  ['Généralistes', ['Médecine Générale', 'Pédiatrie', 'Pharmacie', 'Gynécologie', 'ORL', 'Dermatologie']],
+  ['Spécialistes', ['Rhumatologie', 'Gastro-entérologie', 'Urologie', 'Ophtalmologie', 'Psychiatrie', 'Oncologie', 'Hématologie']],
+  ['Pédiatrie', ['Pédiatrie', 'Néonatologie', 'Médecine Générale', 'Pharmacie', 'ORL']],
+  ['Hôpital', ['Réanimation', 'Chirurgie', 'Anesthésie', 'Urgences', 'Médecine Interne', 'Infectiologie', 'Cardiologie', 'Pneumologie']],
+  ['Officine', ['Pharmacie', 'Grossiste', 'Grossiste-PARAPHARM']],
+]
+const BIG_BRANDS = ['Cardiozen', 'Tensio', 'Lipofen', 'Gastrolib', 'Dolvix', 'Pneumax', 'Dermaline', 'Neurocalm', 'Osteofix', 'Glucar', 'Infecta', 'Vitaflor']
+const bigTick = (b, t, s) => { const h = [...(b + t + s)].reduce((n, c) => (n * 31 + c.charCodeAt(0)) % 997, 7); return h % 3 === 0 ? [(h >> 2) % 4, h % 2] : null }
+const bigCount = (t, specs) => BIG_BRANDS.reduce((n, b) => n + specs.filter(s => bigTick(b, t, s)).length, 0)
+const bigHead = `<div style='display:flex;align-items:center;gap:12px'><span class='chip'>CMP0009</span><h1 class='title display' style='font-size:28px'>Année 2027</h1><span class='chip info'>À venir</span><span class='hint'>6 équipes · 12 marques</span></div>${tabs('Grille promo')}`
+
+/* Option A: everything at once, as today, scrolled sideways. */
+const bigAll = `<div class='col' style='overflow:hidden'>${bigHead}
+<div class='toolbar'><span class='seg'><span class='on'>Toutes les équipes</span><span>Cardio</span><span>…</span></span><div class='input muted' style='width:240px'>Rechercher une marque</div><span style='display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600'><span class='tg off'></span>Cochées seulement</span><span class='hint' style='margin-inline-start:auto'>→ défile vers la droite : 4 autres équipes</span></div>
+<div style='position:relative;overflow:hidden'><table class='pg' style='width:auto;table-layout:fixed'><thead><tr><th style='width:200px'></th>${BIG_TEAMS.map(([t, s]) => `<th style='width:420px;min-width:420px'><div class='th'><div><strong>${t}</strong><span class='hint'>${s.length} spécialités · ${bigCount(t, s)} coches</span></div><span class='all'>Tout cocher</span></div></th>`).join('')}</tr></thead><tbody>
+${BIG_BRANDS.slice(0, 6).map(b => `<tr><td style='width:200px'><div class='bcell'><span class='bt'>${b.slice(0, 2).toUpperCase()}</span><strong>${b}</strong></div></td>${BIG_TEAMS.map(([t, specs]) => `<td style='width:420px;min-width:420px'><div class='pills2'>${specs.map(s => { const v = bigTick(b, t, s); return v ? `<span class='pp p${v[0]}'><span class='rk'>${v[0] ? 'P' + v[0] : '—'}</span>${s}</span>` : `<span class='pp off'>+ ${s}</span>` }).join('')}</div></td>`).join('')}</tr>`).join('')}
+</tbody></table><div style='position:absolute;inset:0 0 0 auto;width:120px;background:linear-gradient(90deg,transparent,var(--mist))'></div></div>
+<div class='why'>Avec beaucoup d'équipes, la page défile vers la droite : <strong>la colonne des marques et les en-têtes des équipes restent fixes</strong> pendant le défilement. Le filtre « Toutes les équipes / Cardio / … », la recherche de marque et <strong>« Cochées seulement »</strong> (cache les « + » et les marques sans coche, pour lire la grille ; désactivé par défaut, pour cocher) réduisent la page à ce qu'on travaille.</div></div>`
+
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Engager › Campagnes.</strong> Code, nom, dates, équipes, nombre de coches de la grille, état (d'après les dates) et date d'ajout. Toutes les colonnes se trient ; recherche, filtre par équipe et par état. Un clic ouvre la page de la campagne.`) + shell('Campagnes', list),
+  label(2, `<strong>« + Ajouter une campagne ».</strong> Nom, dates, équipes, objectif, commentaire. Le code (CMP0008) est donné à l'enregistrement. Le chevauchement des équipes est vérifié avant.`) + shell('Campagnes', list, addSheet),
+  label(3, `<strong>La page d'une campagne, onglet « La campagne ».</strong> En haut, une carte comme les autres : code, état, nom, objectif, les équipes (leurs délégués) et <strong>la frise des dates</strong> (aujourd'hui, jour 18 sur 92). Dessous, <strong>un onglet par partie</strong>. Puis quatre chiffres, <strong>ce que la grille promeut</strong> (une barre par marque, colorée par priorité), les cartes modifiées sur place, et les parties qui arrivent avec leurs modules (12b–15)`) + shell('Campagnes', page(), '', 640),
+  label(4, `<strong>Onglet « Grille promo ».</strong> Une colonne par équipe (ses délégués, ses coches, « Tout cocher »), une ligne par marque. Une coche est une pastille colorée par sa priorité (P1 vert, P2 rouge, P3 orange, sans priorité noir), ✉ quand elle a un message ; « + Pédiatrie » en pointillé = pas encore promue. Au survol, le message s'affiche. Filtre par équipe, recherche de marque`) + shell('Campagnes', gridTab(), '', 900),
+  label('4a', `<strong>À grande échelle</strong> (choisi le 13 nov. : tout sur une page, comme l'ancien écran). Année 2027 : 6 équipes, 12 marques, jusqu'à 8 spécialités par équipe. La grille défile vers la droite, la colonne des marques reste fixe ; chaque ligne prend la hauteur de ses pastilles.`) + shell('Campagnes', bigAll, '', 900),
+  label(5, `<strong>Cocher une spécialité</strong> (ou cliquer une coche) ouvre une petite fenêtre : la priorité et le message. « Décocher » retire la coche.`) + shell('Campagnes', gridTab(['Cardiozen', 'Cardio', 'Médecine Interne'], null), tickSheet, 900),
+  label(6, `<strong>« Copier la grille de… ».</strong> On choisit une campagne précédente : ses coches sont copiées pour les équipes en commun, et remplacent la grille actuelle de ces équipes.`) + shell('Campagnes', gridTab(null, null), copyDlg, 900),
+  label(7, `<strong>Chevauchement refusé.</strong> Sara ajoute « Spécialistes » à Hiver 2026 : cette équipe est déjà dans « Lancement Lipofen » sur des dates communes, l'enregistrement est refusé.`) + shell('Campagnes', page(null, true), '', 640),
+  label(8, `<strong>Suppression refusée une fois utilisée</strong> (dès 12c–15), et une équipe qui a des coches ne se retire pas.`) + shell('Campagnes', page(), delDlg, 640),
+  label(9, `<strong>Dans une visite.</strong> Karim (équipe Cardio) va voir Dr Cherif, cardiologue : la page de la visite (et la page d'ajout) montre la grille d'Hiver 2026 pour Cardio × Cardiologie, par priorité, avec les messages.`) + shell('Liste', visitInner, '', 640, 'Visites', visitLinks),
+  label(10, `<strong>« ⚙ Réglages » sur la page Campagnes.</strong> Un panneau avec les deux réglages du laboratoire, désactivés au départ. Visible pour qui gère les campagnes.`) + shell('Campagnes', list, settings),
+].join('')
+</script></body></html>

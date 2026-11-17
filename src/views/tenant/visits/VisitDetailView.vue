@@ -24,6 +24,10 @@ import VisitReopenSheet from './VisitReopenSheet.vue'
 import { useVisitText } from './visitDisplay'
 import VisitReportFields from './VisitReportFields.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
+import VisitMaterialsField from './VisitMaterialsField.vue'
+import { fetchVisitMaterials, type OfferedMaterial } from '@/api/tenant/materials'
+import CampaignPromoBox from '@/views/tenant/campaigns/CampaignPromoBox.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // A visit's page: the report on the left (brands, ADVs shown, objectives and comment), the visit, the people and
 // the visits before and after on the right. Each card is edited in place; a planned visit gets "Saisir le compte
@@ -82,7 +86,7 @@ const stock = computed(() => !!visit.value && givesStock(visit.value.target.type
 const targetLink = computed(() => (visit.value?.target.type === 'hcp' && auth.can('hcps.show') ? { name: 'tenant-hcp-detail', params: { id: visit.value.target.id } } : null))
 
 // ── Cards edited in place: one at a time ────────────────────────────────────
-type Part = 'visit' | 'brands' | 'advs' | 'people' | 'notes'
+type Part = 'visit' | 'brands' | 'advs' | 'materials' | 'people' | 'notes'
 const editing = ref<Part | null>(null)
 const errors = ref<Record<string, string>>({})
 const busy = ref(false)
@@ -90,6 +94,7 @@ const form = reactive({ date: '', time: '', canal_id: null as number | null, obj
 const report = ref(emptyReport())
 const replacing = ref(false)
 const offered = ref<VisitOfferedAdv[]>([])
+const offeredMaterials = ref<OfferedMaterial[]>([])
 const query = computed(() => (visit.value ? { user_id: visit.value.user?.id, visitable_type: visit.value.target.type, visitable_id: visit.value.target.id, date: visit.value.visit_date } : null))
 
 async function edit(part: Part) {
@@ -102,6 +107,10 @@ async function edit(part: Part) {
   replacing.value = !!visit.value.replacement
   errors.value = {}
   editing.value = part
+  // Materials: the rep's lines for this professional that day; the visit's own lines stay offered (docs/api/materials.md).
+  if (part === 'materials' && query.value) {
+    offeredMaterials.value = await fetchVisitMaterials({ ...query.value, visit_id: visit.value.id }).catch(() => [])
+  }
   if (part === 'advs' && query.value) {
     // The ADVs already on the visit stay in the list, even put offline since.
     const shown = (visit.value.advs ?? []).map(adv => ({ id: adv.id, name: adv.name, type: adv.type, brand: adv.brand, slides_count: 0 }))
@@ -241,6 +250,19 @@ watch(() => props.id, load, { immediate: true })
               </template>
             </DlRecordSection>
 
+            <DlRecordSection v-if="isDone && (visit.materials?.length || canEdit)" v-bind="section('materials')" :title="t('materials.visit.titleN', { n: n(visit.materials?.reduce((sum, row) => sum + row.quantity, 0) ?? 0) })" icon="tabler-gift" class="bg-dl-paper" @update:editing="edit('materials')" @save="save" @cancel="editing = null">
+              <ul class="flex flex-col text-[13.5px]">
+                <li v-for="line in visit.materials" :key="line.material_stock_id" class="flex items-center gap-3 border-b border-dl-line-soft py-2 last:border-0">
+                  <span class="min-w-0 flex-1"><strong class="font-semibold">{{ line.materiel }}</strong><small class="block text-xs text-dl-muted">{{ [line.brand, line.campaign.name].join(' · ') }}</small></span>
+                  <span class="font-bold tabular-nums">{{ n(line.quantity) }}</span>
+                </li>
+              </ul>
+              <p v-if="!visit.materials?.length" class="text-[13px] text-dl-muted">{{ t('materials.visit.noneGiven') }}</p>
+              <template #edit>
+                <VisitMaterialsField v-model="report" :offered="offeredMaterials" :errors="errors" />
+              </template>
+            </DlRecordSection>
+
             <DlRecordSection v-bind="section('notes')" :title="t('visits.blocks.notes')" icon="tabler-notes" class="bg-dl-paper" @update:editing="edit('notes')" @save="save" @cancel="editing = null">
               <dl class="grid grid-cols-[140px_1fr] gap-x-2.5 gap-y-2 text-[13.5px]">
                 <dt class="text-dl-muted">{{ t('visits.fields.objective') }}</dt><dd>{{ visit.objective || '—' }}</dd>
@@ -270,6 +292,7 @@ watch(() => props.id, load, { immediate: true })
         </div>
 
         <aside class="flex w-full shrink-0 flex-col gap-4 lg:w-[380px]">
+          <CampaignPromoBox :user-id="visit.user?.id" :date="visit.visit_date" :hcp-id="visit.target.type === 'hcp' ? visit.target.id : null" />
           <DlRecordSection v-bind="section('visit')" :title="t('visits.blocks.visit')" icon="tabler-map-pin" class="bg-dl-paper" @update:editing="edit('visit')" @save="save" @cancel="editing = null">
             <dl class="grid grid-cols-[110px_1fr] gap-x-2.5 gap-y-2 text-[13.5px]">
               <dt class="text-dl-muted">{{ t(isDone ? 'visits.fields.day' : 'visits.fields.dayPlanned') }}</dt>
@@ -289,7 +312,7 @@ watch(() => props.id, load, { immediate: true })
             </dl>
             <template #edit>
               <div class="flex flex-col gap-3">
-                <DlInput v-model="form.date" type="date" :label="t('visits.fields.day')" :error="errors.visit_date" />
+                <DlDatePicker v-model="form.date" :label="t('visits.fields.day')" :error="errors.visit_date" />
                 <DlInput v-if="!isDone || shown('visit_time')" v-model="form.time" type="time" :label="isDone && star('visit_time') ? t('visits.fields.time') + ' *' : t('visits.fields.timeOptional')" :error="errors.visit_time" />
                 <DlSelect v-model="canalModel" :label="t('visits.fields.canal')" :options="canals" />
                 <DlInput v-if="!isDone" v-model="form.objective" :label="t('visits.fields.objectiveOptional')" />

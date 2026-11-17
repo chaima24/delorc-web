@@ -7,13 +7,13 @@ import { rolesApi, type Role } from '@/api/tenant/roles'
 import { fetchAllTeams, type Team } from '@/api/tenant/teams'
 import DlButton from '@/components/DlButton.vue'
 import DlCombobox from '@/components/DlCombobox.vue'
-import DlInput from '@/components/DlInput.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import { useToast } from '@/composables/useToast'
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import { emptyNumbers, nextMonthStart, numbersFor } from './objectiveDisplay'
 import ObjectiveNumbersFields from './ObjectiveNumbersFields.vue'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "Add objective": role, team (or all teams), from a date, and only the numbers the role needs.
 // `preset` fills role/team in (from "People with no objective").
@@ -99,7 +99,7 @@ async function save() {
     <form id="objective-create" class="flex flex-col gap-4" @submit.prevent="save">
       <DlCombobox v-model="roleId" :label="t('objectives.fields.role')" :options="roleOptions" :error="errors.role_id" />
       <DlCombobox v-model="team" :label="t('objectives.fields.team')" :options="teamOptions" :hint="t('objectives.add.teamHint')" :error="errors.team_id" />
-      <DlInput v-model="start" type="date" :label="t('objectives.fields.from')" :error="errors.start_date" />
+      <DlDatePicker v-model="start" :label="t('objectives.fields.from')" :error="errors.start_date" />
       <template v-if="role">
         <p class="rounded-xl bg-dl-mist px-3 py-2 text-xs text-dl-body">{{ visitsLine }}</p>
         <ObjectiveNumbersFields v-model="values" :numbers="numbers" :errors="errors" />

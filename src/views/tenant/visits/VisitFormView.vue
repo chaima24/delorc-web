@@ -19,7 +19,11 @@ import { todayIso, useVisitText } from './visitDisplay'
 import VisitReportFields from './VisitReportFields.vue'
 import VisitTargetSearch, { type FoundTarget } from './VisitTargetSearch.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
+import VisitMaterialsField from './VisitMaterialsField.vue'
+import { fetchVisitMaterials, type OfferedMaterial } from '@/api/tenant/materials'
 import { usePlanningSave } from './visitPlanning'
+import CampaignPromoBox from '@/views/tenant/campaigns/CampaignPromoBox.vue'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "Ajouter une visite": one page, one save. The visit on top (who, which day, canal, planned or done), then the
 // report blocks when it is done; the summary stays at the side. With an id it is "Saisir le compte rendu" of a
@@ -79,6 +83,12 @@ watch(query, async (value) => {
   context.value = value ? await fetchVisitContext(value).catch(() => null) : null
 }, { immediate: true })
 const sameDay = computed(() => (context.value?.same_day_visit_id && context.value.same_day_visit_id !== existing.value?.id ? context.value.same_day_visit_id : null))
+
+// Materials handed out: the rep's own stock for this professional on that day (docs/api/materials.md).
+const offeredMaterials = ref<OfferedMaterial[]>([])
+watch([query, done], async () => {
+  offeredMaterials.value = query.value && done.value ? await fetchVisitMaterials(query.value).catch(() => []) : []
+})
 
 // The ADVs offered follow the brands chosen.
 const offered = ref<VisitOfferedAdv[]>([])
@@ -196,7 +206,7 @@ const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', p
           </div>
 
           <div class="grid gap-3 sm:grid-cols-[1fr_150px_1fr]">
-            <DlInput v-model="form.date" type="date" :label="t('visits.fields.day')" :error="errors.visit_date" />
+            <DlDatePicker v-model="form.date" :label="t('visits.fields.day')" :error="errors.visit_date" />
             <DlInput v-if="!done || shown('visit_time')" v-model="form.time" type="time" :label="done && star('visit_time') ? t('visits.fields.time') + ' *' : t('visits.fields.timeOptional')" :error="errors.visit_time" />
             <DlSelect v-model="canalModel" :label="t('visits.fields.canal')" :options="canals" :placeholder="t('visits.form.pickCanal')" />
           </div>
@@ -220,6 +230,10 @@ const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', p
             <h2 class="text-base font-semibold">{{ t('visits.blocks.advs') }}{{ star('advs') }} <small v-if="!star('advs')" class="font-normal text-dl-muted">· {{ t('visits.optional') }}</small></h2>
             <VisitReportFields v-model="report" part="advs" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="form.target?.name ?? ''" :errors="errors" :fields="fields" />
           </section>
+          <section v-if="offeredMaterials.length" class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
+            <h2 class="text-base font-semibold">{{ t('materials.visit.title') }} <small class="font-normal text-dl-muted">· {{ t('visits.optional') }}</small></h2>
+            <VisitMaterialsField v-model="report" :offered="offeredMaterials" :errors="errors" />
+          </section>
           <section v-if="peopleShown" class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
             <h2 class="text-base font-semibold">{{ t('visits.blocks.people') }}</h2>
             <VisitReportFields v-model="report" v-model:replacing="replacing" part="people" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="form.target?.name ?? ''" :errors="errors" :fields="fields" />
@@ -235,6 +249,7 @@ const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', p
       </div>
 
       <aside class="flex w-full shrink-0 flex-col gap-4 lg:sticky lg:top-4 lg:w-[360px]">
+        <CampaignPromoBox :user-id="form.user_id" :date="form.date" :hcp-id="form.type === 'hcp' ? form.target?.id : null" />
         <section class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
           <h2 class="text-base font-semibold">{{ t('visits.form.summary') }}</h2>
           <dl class="grid grid-cols-[110px_1fr] gap-x-2.5 gap-y-2 text-[13.5px]">

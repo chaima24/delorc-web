@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import DlInput from '@/components/DlInput.vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import DlCombobox from '@/components/DlCombobox.vue'
+import DlIconButton from '@/components/DlIconButton.vue'
 
-/** Pick several items from a searchable list of checkboxes. */
+/** Pick several items: a full-width search select, each item picked becomes a chip with ✕. */
 const props = defineProps<{
   legend: string
   selectedLabel: string
@@ -14,16 +16,15 @@ const props = defineProps<{
 }>()
 
 const model = defineModel<number[]>({ required: true })
-const search = ref('')
+const { t } = useI18n()
 
-const visible = computed(() => {
-  const term = search.value.trim().toLowerCase()
-  return term ? props.items.filter(item => item.label.toLowerCase().includes(term)) : props.items
+const options = computed(() => props.items.filter(item => !model.value.includes(item.value)))
+const picked = computed({
+  get: () => null as number | null,
+  set: value => { if (value != null) model.value = [...model.value, Number(value)] },
 })
-
-function toggle(value: number) {
-  model.value = model.value.includes(value) ? model.value.filter(v => v !== value) : [...model.value, value]
-}
+const chosen = computed(() => model.value.map(value => props.items.find(item => item.value === value)).filter(item => item !== undefined))
+const remove = (value: number) => { model.value = model.value.filter(v => v !== value) }
 </script>
 
 <template>
@@ -32,31 +33,15 @@ function toggle(value: number) {
       {{ legend }}
       <span class="font-normal text-dl-muted">{{ selectedLabel }}</span>
     </legend>
-    <DlInput
-      v-if="items.length > 8"
-      v-model="search"
-      type="search"
-      icon="tabler-search"
-      :label="searchLabel"
-      :placeholder="searchLabel"
-      hide-label
-    />
-    <ul class="flex max-h-72 flex-col overflow-y-auto rounded-2xl border border-dl-line">
-      <li v-for="item in visible" :key="item.value" class="border-b border-dl-line-soft last:border-b-0">
-        <label class="flex min-h-11 cursor-pointer items-center gap-3 px-3.5 py-2 text-sm hover:bg-dl-mist">
-          <input
-            type="checkbox"
-            class="h-[18px] w-[18px] accent-dl-ink"
-            :checked="model.includes(item.value)"
-            :disabled="disabled"
-            @change="toggle(item.value)"
-          >
-          <span class="flex-1">{{ item.label }}</span>
-          <span v-if="item.hint" class="text-xs text-dl-pending">{{ item.hint }}</span>
-        </label>
-      </li>
-      <li v-if="!visible.length" class="px-3.5 py-3 text-sm text-dl-muted">{{ emptyText }}</li>
-    </ul>
+    <p v-if="!items.length" class="text-sm text-dl-muted">{{ emptyText }}</p>
+    <DlCombobox v-else-if="!disabled" v-model="picked" :label="searchLabel" :placeholder="searchLabel" :options="options" hide-label />
+    <div v-if="chosen.length" class="flex flex-wrap gap-1.5">
+      <span v-for="item in chosen" :key="item.value" class="inline-flex items-center gap-1 rounded-full bg-dl-line-soft py-0.5 text-xs font-semibold" :class="disabled ? 'px-3' : 'ps-3 pe-0.5'">
+        {{ item.label }}
+        <span v-if="item.hint" class="font-normal text-dl-pending">· {{ item.hint }}</span>
+        <DlIconButton v-if="!disabled" icon="tabler-x" variant="ghost" :size="26" :label="t('coaching.picks.remove', { name: item.label })" @click="remove(item.value)" />
+      </span>
+    </div>
     <p v-if="error" class="text-xs text-dl-rejected">{{ error }}</p>
   </fieldset>
 </template>

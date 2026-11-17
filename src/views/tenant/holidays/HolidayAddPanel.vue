@@ -9,6 +9,7 @@ import DlRecordPanel from '@/components/DlRecordPanel.vue'
 import DlSegmented from '@/components/DlSegmented.vue'
 import { useToast } from '@/composables/useToast'
 import { addDays, isWeekend, useHolidayText } from './holidayDisplay'
+import DlDatePicker from '@/components/DlDatePicker.vue'
 
 // "Add a holiday": a name, its first day and how many days it lasts (one row per day).
 // Mockup: docs/design/studio-mockups/Holidays.html (frame 3)
@@ -72,7 +73,7 @@ async function save() {
   <DlRecordPanel v-model:open="open" :title="t('holidays.add.title')">
     <form id="holiday-add" class="flex flex-col gap-4" @submit.prevent="save">
       <DlInput v-model="form.name" :label="t('holidays.fields.name')" :placeholder="t('holidays.add.namePlaceholder')" :error="errors.name" required />
-      <DlInput v-model="form.date" type="date" :min="`${year}-01-01`" :label="t('holidays.add.firstDay')" :error="errors.date" required />
+      <DlDatePicker v-model="form.date" :min="`${year}-01-01`" :label="t('holidays.add.firstDay')" :error="errors.date" required />
 
       <div class="flex flex-col gap-2">
         <span class="text-[13px] font-semibold">{{ t('holidays.add.lasts') }}</span>

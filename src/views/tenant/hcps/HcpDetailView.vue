@@ -17,6 +17,7 @@ import { avatarName, useHcpText } from './hcpForm'
 import { useHcpFigures } from './useHcpFigures'
 import HcpConsentsTab from './tabs/HcpConsentsTab.vue'
 import HcpCyclesTab from './tabs/HcpCyclesTab.vue'
+import HcpEventsTab from './tabs/HcpEventsTab.vue'
 import HcpOverviewTab from './tabs/HcpOverviewTab.vue'
 import VisitMiniList from '@/views/tenant/visits/VisitMiniList.vue'
 
@@ -55,6 +56,7 @@ const TABS = [
   { value: 'visits', resource: 'visits', count: 'visits' },
   { value: 'cycles', resource: 'cycles', count: 'cycle_targets' },
   { value: 'consents', resource: 'consents', count: 'consents' },
+  { value: 'events', resource: 'events' },
 ] as const
 const visibleTabs = computed(() => TABS.filter(tab => !tab.resource || auth.can(`${tab.resource}.show`)))
 const tab = computed({
@@ -206,6 +208,7 @@ async function remove() {
         <template #overview><HcpOverviewTab :hcp="hcp" @changed="load" /></template>
         <template #consents><HcpConsentsTab :hcp="hcp" @changed="load" /></template>
         <template #cycles><HcpCyclesTab :hcp="hcp" /></template>
+        <template #events><HcpEventsTab :hcp="hcp" /></template>
         <template #visits><VisitMiniList :filter="{ 'filter[hcp_id]': hcp.id }" /></template>
       </DlTabs>
     </template>
