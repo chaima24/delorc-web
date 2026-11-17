@@ -24,12 +24,13 @@ import CampaignMessagesTab from './messages/CampaignMessagesTab.vue'
 import CampaignSendingsTab from './sendings/CampaignSendingsTab.vue'
 import CampaignMaterialsTab from './materials/CampaignMaterialsTab.vue'
 import CampaignEventsTab from '@/views/tenant/events/CampaignEventsTab.vue'
+import CampaignActionsTab from '@/views/tenant/marketingActions/CampaignActionsTab.vue'
 import { brandInitials, campaignProgress, STATE_TONE, useCampaignText } from './campaignDisplay'
 import { useCampaignLookups } from './useCampaignLookups'
 
 // A campaign's page: a header card (code, state, name, objective, teams, the date bar) and one tab per part. 12a has
-// "La campagne" and "Grille promo", 12b "Emails & SMS" (for who writes or approves them), then sendings, materials and
-// events (14); actions add theirs with their module.
+// "La campagne" and "Grille promo", 12b "Emails & SMS" (for who writes or approves them), then sendings, materials,
+// events (14) and marketing actions (15).
 // Mockup: docs/design/campaigns-mockups/Campaigns.html (frames 3 to 9)
 const props = defineProps<{ id: string }>()
 const { t, n } = useI18n()
@@ -58,7 +59,7 @@ watch(() => props.id, () => { campaign.value = null; load() }, { immediate: true
 // The tab is kept in the address (?tab=grid), so a reload or a shared link opens the same tab.
 const seesMessages = computed(() => auth.can('campaigns.update') || auth.can('campaign-messages.approve'))
 const seesEvents = computed(() => auth.can('events.show'))
-const TABS = ['campaign', 'grid', 'messages', 'sendings', 'materials', 'events']
+const TABS = ['campaign', 'grid', 'messages', 'sendings', 'materials', 'events', 'actions']
 const tab = computed({
   get: () => {
     const asked = String(route.query.tab ?? '')
@@ -75,6 +76,7 @@ const tabs = computed(() => [
   ] : []),
   ...(canEdit.value ? [{ value: 'materials', label: `${t('campaigns.tabs.materials')} · ${n(campaign.value?.materials_count ?? 0)}` }] : []),
   ...(seesEvents.value ? [{ value: 'events', label: `${t('campaigns.tabs.events')} · ${n(campaign.value?.events_count ?? 0)}` }] : []),
+  { value: 'actions', label: `${t('campaigns.tabs.actions')} · ${n(campaign.value?.actions_count ?? 0)}` },
 ])
 
 const progress = computed(() => (campaign.value ? campaignProgress(campaign.value.start_date, campaign.value.end_date) : null))
@@ -155,9 +157,6 @@ const TILES = [
   { key: 'with_message', icon: 'tabler-message', tone: 'bg-dl-rejected/10 text-dl-rejected' },
   { key: 'emails_sent', icon: 'tabler-send', tone: 'bg-dl-ink/10 text-dl-fg' },
 ] as const
-const LATER = [
-  { icon: 'tabler-flag', key: 'actions', module: '15' },
-]
 </script>
 
 <template>
@@ -280,12 +279,6 @@ const LATER = [
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-3 md:grid-cols-2">
-              <div v-for="part in LATER" :key="part.key" class="flex items-center gap-3 rounded-2xl border-[1.5px] border-dashed border-dl-line p-3.5 text-[13px] text-dl-muted">
-                <DlIcon :icon="part.icon" :size="20" />
-                <div><strong class="block text-dl-body">{{ t(`campaigns.later.${part.key}`) }}</strong>{{ t('campaigns.later.comes', { module: part.module }) }}</div>
-              </div>
-            </div>
           </div>
         </template>
 
@@ -299,6 +292,10 @@ const LATER = [
 
         <template v-if="canEdit" #materials>
           <div class="pt-1"><CampaignMaterialsTab :campaign="campaign" @changed="load" /></div>
+        </template>
+
+        <template #actions>
+          <div class="pt-1"><CampaignActionsTab :campaign="campaign" @changed="load" /></div>
         </template>
 
         <template v-if="seesEvents" #events>

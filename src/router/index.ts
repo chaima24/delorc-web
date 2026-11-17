@@ -105,6 +105,9 @@ const labRoutes = [
       // Materials: a distribution's page and Engager › Matériels (docs/api/materials.md).
       { path: 'campaigns/:id(\\d+)/materials/:distributionId(\\d+)', name: 'tenant-campaign-material', component: () => import('@/views/tenant/campaigns/materials/MaterialDistributionView.vue'), props: true, meta: { permission: 'campaigns.update' } },
       { path: 'material-stocks', name: 'tenant-material-stocks', component: () => import('@/views/tenant/materials/MaterialStockListView.vue'), meta: { permission: 'campaigns.show' } },
+      // Marketing actions: an action's page and Engager › Actions marketing (docs/api/marketing-actions.md).
+      { path: 'campaigns/:id(\\d+)/actions/:actionId(\\d+)', name: 'tenant-marketing-action', component: () => import('@/views/tenant/marketingActions/ActionMarketingView.vue'), props: true, meta: { permission: 'campaigns.show' } },
+      { path: 'marketing-actions', name: 'tenant-marketing-actions', component: () => import('@/views/tenant/marketingActions/ActionMarketingProgressView.vue'), meta: { permission: 'campaigns.show' } },
       // Engager › Événements (docs/api/events.md). The API checks who may change, decide or fill a part.
       { path: 'events', name: 'tenant-events', component: () => import('@/views/tenant/events/EventListView.vue'), meta: { permission: 'events.show' } },
       { path: 'events/:id(\\d+)', name: 'tenant-event', component: () => import('@/views/tenant/events/EventDetailView.vue'), props: true, meta: { permission: 'events.show' } },

@@ -40,6 +40,7 @@ export interface Campaign {
   /** The page: its material distributions (docs/api/materials.md). */
   materials_count?: number
   events_count?: number
+  actions_count?: number
   /** The page: figures read from the grid. */
   figures?: { ticks: number; brands: number; specialities: number; with_message: number; emails_sent: number }
   promoted?: { brand: { id: number; name: string }; ticks: number; by_priority: { priority: PriorityRef | null; count: number }[] }[]
