@@ -105,6 +105,17 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
+    // Commandes: offers, packs and settings (docs/api/orders-setup.md); the order forms come in 16b.
+    id: 'orders',
+    title: 'nav.workspaces.orders',
+    icon: 'tabler-shopping-cart',
+    links: [
+      { title: 'nav.orders.packs', to: { name: 'tenant-packs' }, icon: 'tabler-discount', resource: 'orders-setup', matches: ['tenant-pack'] },
+      { title: 'nav.orders.packCommandes', to: { name: 'tenant-pack-commandes' }, icon: 'tabler-package', resource: 'orders-setup', matches: ['tenant-pack-commande'] },
+      { title: 'nav.orders.settings', to: { name: 'tenant-order-settings' }, icon: 'tabler-settings', resource: 'orders-setup' },
+    ],
+  },
+  {
     // Équipe: expenses (docs/api/expenses.md).
     id: 'team',
     title: 'nav.workspaces.team',

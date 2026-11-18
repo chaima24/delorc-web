@@ -88,6 +88,12 @@ const labRoutes = [
       { path: 'coaching-sessions/:id(\\d+)', name: 'tenant-coaching-session', component: () => import('@/views/tenant/coaching/CoachingSessionView.vue'), props: true, meta: { permission: 'coaching-sessions.show' } },
       { path: 'coaching-sessions/:id(\\d+)/fill', name: 'tenant-coaching-session-fill', component: () => import('@/views/tenant/coaching/CoachingSessionFillView.vue'), props: true, meta: { permission: 'coaching-sessions.update' } },
       { path: 'coaching-settings', name: 'tenant-coaching-settings', component: () => import('@/views/tenant/coaching/CoachingSettingsView.vue'), meta: { permission: 'coaching-setup.show' } },
+      // Commandes › Offres commerciales, Packs de commande, Réglages (docs/api/orders-setup.md).
+      { path: 'packs', name: 'tenant-packs', component: () => import('@/views/tenant/orders/PackListView.vue'), meta: { permission: 'orders-setup.show' } },
+      { path: 'packs/:id(\\d+)', name: 'tenant-pack', component: () => import('@/views/tenant/orders/PackDetailView.vue'), props: true, meta: { permission: 'orders-setup.show' } },
+      { path: 'pack-commandes', name: 'tenant-pack-commandes', component: () => import('@/views/tenant/orders/PackCommandeListView.vue'), meta: { permission: 'orders-setup.show' } },
+      { path: 'pack-commandes/:id(\\d+)', name: 'tenant-pack-commande', component: () => import('@/views/tenant/orders/PackCommandeDetailView.vue'), props: true, meta: { permission: 'orders-setup.show' } },
+      { path: 'order-settings', name: 'tenant-order-settings', component: () => import('@/views/tenant/orders/OrderSettingsView.vue'), meta: { permission: 'orders-setup.show' } },
       // Coaching › Programmes, Grille d'évaluation (docs/api/coaching-setup.md).
       { path: 'coachings', name: 'tenant-coachings', component: () => import('@/views/tenant/coaching/CoachingListView.vue'), meta: { permission: 'coaching-setup.show' } },
       { path: 'coachings/:id(\\d+)', name: 'tenant-coaching-detail', component: () => import('@/views/tenant/coaching/CoachingDetailView.vue'), props: true, meta: { permission: 'coaching-setup.show' } },

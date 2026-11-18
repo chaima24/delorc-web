@@ -1,0 +1,182 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Commandes, les offres et les packs</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; display: inline-block; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 220px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 460px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.cell { height: 38px; border: 1px solid var(--line); border-radius: 10px; padding: 0 10px; display: flex; align-items: center; background: var(--paper); font-variant-numeric: tabular-nums; } .cell.bad { border-color: var(--brick); }
+.cell.muted { color: var(--muted); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); } .ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; } .pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; } .sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 12px; font-size: 13px; color: var(--body); } .sec .kv { grid-template-columns: 150px 1fr; }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+</style></head><body>
+<p class="caption"><strong>Commandes › partie 16a, les offres et les packs — proposition.</strong> Le laboratoire prépare ici ce qui servira aux bons de commande (16b) : les <strong>offres commerciales</strong> (une période et ses paliers de remise), les <strong>packs de commande</strong> (un panier tout prêt) et le <strong>seuil stratégique</strong> (onglet Réglages).
+Nouvel espace de menu <strong>« Commandes »</strong>. Les bons de commande arrivent en 16b. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Comme Produits</b> (décidé le 18 nov.) : « Ajouter » ouvre le panneau à côté de la liste ; un clic sur une ligne ouvre le panneau <b>en lecture</b> (informations générales) ; « Ouvrir la page » mène à la page de l'offre ou du pack, où tout se modifie dans des cartes, sur place.</li>
+  <li><b>Les paliers se saisissent dans l'offre</b> (décidé le 18 nov.) : une carte « Paliers de remise » sur la page de l'offre, enregistrée d'un coup.</li>
+  <li><b>Un palier = de, à, remise, remise réduite</b>. La catégorie est supprimée (décidé le 18 nov.). « À » vide = « et plus », seulement sur le dernier palier.</li>
+  <li><b>Deux remises par palier, saisies toutes les deux</b> (décidé le 18 nov.) : la remise pleine quand la commande atteint le seuil stratégique, la remise réduite sinon. 0 = pas de remise.</li>
+  <li><b>Contrôles des paliers</b> (décidé le 18 nov.) : deux paliers ne se chevauchent pas ; chaque remise entre 0 et 100 ; un trou entre deux paliers est permis (pas de remise dans le trou).</li>
+  <li><b>Quelle offre s'applique : les dates et l'interrupteur</b> (décidé le 18 nov.) : l'offre active dont les dates contiennent la date de la commande. Deux offres actives ne peuvent pas avoir des dates qui se chevauchent.</li>
+  <li><b>Objectifs de l'offre gardés, facultatifs</b> (décidé le 18 nov.) : objectif budget, cible %, nombre de bons de commande. Rien ne les calcule encore.</li>
+  <li><b>Une ligne de pack = produit, quantité, unités gratuites, « modifiable »</b> (décidé le 18 nov.). Le prix est lu sur le produit au moment de la commande. « Modifiable » coché : le délégué peut monter la quantité, jamais descendre sous celle du pack ; non coché : quantité fixe. Les unités gratuites se choisissent parmi celles du produit (Studio › Produits).</li>
+  <li><b>Un pack est fait pour un type d'acheteur</b> (décidé le 18 nov.) : Pharmacie ou Grossiste (un distributeur compte comme grossiste).</li>
+  <li><b>Seuil stratégique : un réglage du laboratoire, dans Commandes › Réglages</b> (comme Coaching › Réglages), 50 % au départ (décidé le 18 nov.).</li>
+  <li><b>Une fois utilisé, refusé</b> (décidé le 18 nov.) : une offre ou un pack utilisé par une commande ne se supprime pas, il se désactive ; les paliers d'une offre utilisée ne changent plus. Avant 16b, rien n'est encore « utilisé ».</li>
+  <li><b>Proposé : un laboratoire neuf commence vide</b> (aucune offre, aucun pack), comme le coaching.</li>
+  <li><b>Proposé : un produit n'apparaît qu'une fois dans un pack</b>, et un pack a au moins une ligne.</li>
+  <li><b>Droits</b> (décidé le 18 nov.) : les admins, et le droit <code>orders-setup</code> (voir, ajouter, modifier, supprimer) que le laboratoire peut donner à un autre rôle. Les délégués ne voient les offres et les packs qu'en saisissant une commande (16b).</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const wsNav = on => `<nav class='ws-nav'>${['Bons de commande', 'Offres commerciales', 'Packs de commande', 'Réglages'].map(t => `<a class='${t === on ? 'on' : ''}'>${t}${t === 'Bons de commande' ? ` <small style='opacity:.6;margin-inline-start:6px'>en 16b</small>` : ''}</a>`).join('')}</nav>`
+const frame = (rail, inner, extra = '', h = 680) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SH</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+// The workspace's pages in a bar on top, as every workspace; the list and its side panel below.
+const shell = (on, inner, extra = '', h = 680) => frame('Commandes', `<div style='display:flex;flex-direction:column;flex:1;gap:16px;min-width:0'>${wsNav(on)}<div style='display:flex;gap:20px;align-items:flex-start'>${inner}</div></div>`, extra, h)
+const head = (t, hint, btn = '') => `<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Commandes</div><h1 class='title display' style='font-size:34px'>${t}</h1><div class='hint' style='margin-top:4px'>${hint}</div></div>${btn}</div>`
+const dialog = (title, text, actions) => `<div class='dialog'><div class='box'><strong style='font-size:17px'>${title}</strong><div>${text}</div><footer>${actions}</footer></div></div>`
+const da = n => n.toLocaleString('fr-FR').replace(/ /g, ' ')
+
+// ---- Offres commerciales
+const OFFERS = [
+  ['Offre commerciale Décembre', '1 → 31 déc. 2026', 5, '5 % → 10 %', 1, ['info', 'À venir'], '16 nov. 2026'],
+  ['Offre commerciale Novembre', '1 → 30 nov. 2026', 5, '5 % → 10 %', 1, ['ok', 'En cours'], '28 oct. 2026'],
+  ['Offre Black Friday', '23 → 29 nov. 2026', 2, '8 % → 12 %', 0, ['', 'Désactivée'], '10 nov. 2026'],
+  ['Offre commerciale Octobre', '1 → 31 oct. 2026', 5, '5 % → 10 %', 1, ['', 'Terminée'], '29 sept. 2026'],
+  ['Offre commerciale Septembre', '1 → 30 sept. 2026', 4, '5 % → 8 %', 1, ['', 'Terminée'], '27 août 2026'],
+]
+const offerList = (narrow = false) => `<div class='col'>${head('Offres commerciales', 'Une période et ses paliers : plus la commande est grande, plus la remise est grande', `<span class='btn primary' style='margin-inline-start:auto'>+ Ajouter une offre</span>`)}
+<div style='display:flex;gap:10px;flex-wrap:wrap'><div class='input muted' style='width:260px'>Rechercher une offre</div><span class='seg'><span class='on'>Toutes</span><span>En cours</span><span>À venir</span><span>Terminées</span><span>Désactivées</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Offre ↕</th><th>Dates ↕</th>${narrow ? '' : `<th class='num'>Paliers ↕</th><th>Remises</th>`}<th>Active ↕</th><th>État</th>${narrow ? '' : '<th>Ajoutée le ↕</th>'}</tr></thead><tbody>
+${OFFERS.map(([n, d, p, r, on, [k, st], a], i) => `<tr class='${i === 1 ? 'sel' : ''}'><td><strong>${n}</strong></td><td>${d}</td>${narrow ? '' : `<td class='num'>${p}</td><td>${r}</td>`}<td><span class='tg ${on ? '' : 'off'}'></span></td><td><span class='chip ${k}'>${st}</span></td>${narrow ? '' : `<td class='hint'>${a}</td>`}</tr>`).join('')}
+</tbody></table></div></div>`
+
+// ---- The side panel beside the list (as Products): add, read, cards edited in place. One field per row.
+const side = (title, sub, body, foot = '') => `<aside class='panel'><div class='ph'><div style='flex:1;min-width:0'><h2 class='display'>${title}</h2><div class='sub'>${sub}</div></div><span class='icb'>✕</span></div><div class='pb'>${body}</div>${foot ? `<div class='pf'>${foot}</div>` : ''}</aside>`
+const sec = (title, body, { edit = false, editing = false } = {}) => `<div class='sec' ${editing ? `style='outline:2px solid var(--cobalt)'` : ''}><header><strong>${title}</strong>${edit && !editing ? `<span class='edit'>✎ Modifier</span>` : ''}</header><div class='line'>${body}</div></div>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const kv = rows => `<div class='kv'>${rows.map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('')}</div>`
+const saveBar = (ok = true) => `<div style='display:flex;gap:10px;justify-content:flex-end;margin-top:4px'><span class='btn sm ghost'>Annuler</span><span class='btn sm dark' ${ok ? '' : `style='opacity:.5'`}>Enregistrer</span></div>`
+
+const offerAdd = side('Ajouter une offre', `<span class='hint'>Les paliers et les objectifs s'ajoutent ensuite, sur sa page.</span>`, `
+${f('Nom *', 'Offre commerciale Janvier')}
+${f('Période *', `1 janv. 2027 → 31 janv. 2027 <span style='margin-inline-start:auto' class='hint'>▦</span>`)}
+<div style='display:flex;align-items:center;gap:10px'><span class='tg'></span>Active</div>
+<div class='why'>Libre : aucune autre offre active en janvier 2027.</div>`, `<span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>Ajouter l'offre</span>`)
+
+const TIERS = [[150000, 250000, 5, 2.5], [250000, 500000, 6, 3], [500000, 700000, 7, 3.5], [700000, 1000000, 8, 4], [1000000, null, 10, 5]]
+const pc = n => String(n).replace('.', ',') + ' %'
+const openPage = `<span class='btn dark' style='margin-inline-start:auto'>Ouvrir la page ↗</span>`
+
+// Side panel = general information only, read-only. Editing is on the details page.
+const offerSide = side('Offre commerciale Novembre', `<span class='chip ok'>En cours</span>`, `
+${kv([['Période', '1 → 30 nov. 2026'], ['Active', 'Oui'], ['Paliers', '5 · de 150 000 DA'], ['Remises', '5 % → 10 % (réduites 2,5 % → 5 %)'], ['Objectif budget', '843 000 DA'], ['Commandes', '0 (en 16b)'], ['Ajoutée', 'le 28 oct. 2026 par Sara Haddad']])}`, openPage)
+
+// The details page: cards edited in place (DlRecordSection), full width.
+const card = (title, body, { editing = false, hint = '' } = {}) => `<div class='rec' ${editing ? `style='outline:2px solid var(--cobalt)'` : ''}><header><strong>${title}</strong>${hint ? `<span class='hint'>${hint}</span>` : ''}${editing ? '' : `<span class='btn sm outline'>✎ Modifier</span>`}</header>${body}</div>`
+const tierRow = (n, a, b, r, r2, bad) => `<tr><td class='hint'>${n}</td><td><div class='cell ${bad ? 'bad' : ''}'>${da(a)}</div></td><td><div class='cell ${b ? '' : 'muted'}'>${b ? da(b) : 'et plus'}</div></td><td><div class='cell'>${r}</div></td><td><div class='cell'>${r2}</div></td><td class='hint'>✕</td></tr>`
+const tiersRead = `<table class='table'><thead><tr><th style='width:40px'>N°</th><th class='num'>De (DA)</th><th class='num'>À (DA)</th><th class='num'>Remise</th><th class='num'>Remise réduite</th></tr></thead><tbody>${TIERS.map(([a, b, r, r2], i) => `<tr><td class='hint'>${i + 1}</td><td class='num'>${da(a)}</td><td class='num'>${b ? da(b) : `<span class='hint'>et plus</span>`}</td><td class='num'><strong>${pc(r)}</strong></td><td class='num'>${pc(r2)}</td></tr>`).join('')}</tbody></table>
+<div class='why'>Seuil stratégique du laboratoire : <strong>40 %</strong>. Une commande de 200 000 DA dont 50 % de produits stratégiques reçoit 5 % ; avec 20 % de stratégiques, 2,5 %. La remise ne touche que les produits « remisables ». Sous 150 000 DA : pas de remise.</div>`
+const tiersEdit = `<table class='table'><thead><tr><th style='width:40px'>N°</th><th>De (DA) *</th><th>À (DA)</th><th style='width:200px'>Remise % *</th><th style='width:220px'>Remise réduite % *</th><th style='width:40px'></th></tr></thead><tbody>
+${tierRow(1, 150000, 250000, 5, '2,5', 0)}${tierRow(2, 200000, 500000, 6, '3', 1)}${tierRow(3, 500000, 700000, 7, '3,5', 0)}${tierRow(4, 700000, 1000000, 8, '4', 0)}${tierRow(5, 1000000, null, 10, '5', 0)}
+</tbody></table><span style='color:var(--cobalt);font-size:13px'>+ Ajouter un palier</span>
+<div class='why bad'>Les paliers 1 et 2 se chevauchent entre 200 000 et 250 000 DA : une commande de 220 000 DA aurait deux remises. Le palier 2 doit commencer à 250 000 DA ou plus.</div>
+<div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm dark' style='opacity:.5'>Enregistrer</span></div>`
+const offerPage = (editing = false) => `<div class='col'>
+<div><div class='crumbs'>Commandes › Offres commerciales</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>Offre commerciale Novembre</h1><span class='chip ok'>En cours</span><span class='btn sm outline' style='margin-inline-start:auto'>Supprimer</span></div><div class='hint'>Ajoutée par Sara Haddad le 28 oct. 2026 · 0 commande (les commandes arrivent en 16b)</div></div>
+<div style='display:flex;gap:14px;align-items:flex-start'>
+<div style='flex:1'>${card("L'offre", `<div class='kv'><span>Nom</span><span>Offre commerciale Novembre</span><span>Période</span><span>1 nov. 2026 → 30 nov. 2026</span><span>Active</span><span><span class='tg'></span></span></div>`)}</div>
+<div style='flex:1'>${card('Objectifs', `<div class='kv'><span>Objectif budget</span><span>843 000 DA</span><span>Cible</span><span>7 %</span><span>Bons de commande attendus</span><span>38</span></div>`)}</div>
+</div>
+${card('Paliers de remise', editing ? tiersEdit : tiersRead, { editing, hint: editing ? '' : "5 paliers, d'après le total HT de la commande" })}
+</div>`
+
+// ---- Packs de commande
+const PACKS = [
+  ['Pack Cardio', 'Pharmacie', 25, 'Les indispensables de la gamme cardio', 1, '8 juin 2026'],
+  ['Pack Pneumo', 'Pharmacie', 16, '', 1, '8 juin 2026'],
+  ['Pack Ophtalmo', 'Pharmacie', 6, 'Collyres et lavages oculaires', 1, '7 juin 2026'],
+  ['Pack Opportunité Grossiste N° 1', 'Grossiste', 35, 'Environ 300 000 DA', 1, '8 avr. 2026'],
+  ['Pack Opportunité Grossiste N° 2', 'Grossiste', 35, 'Environ 600 000 DA', 0, '8 avr. 2026'],
+]
+const packList = (narrow = false) => `<div class='col'>${head('Packs de commande', 'Un panier tout prêt : le délégué le choisit et les lignes de la commande se remplissent', `<span class='btn primary' style='margin-inline-start:auto'>+ Ajouter un pack</span>`)}
+<div style='display:flex;gap:10px;flex-wrap:wrap'><div class='input muted' style='width:260px'>Rechercher un pack</div><span class='seg'><span class='on'>Tous</span><span>Pharmacie</span><span>Grossiste</span></span><span class='seg'><span class='on'>Tous</span><span>Actifs</span><span>Désactivés</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Pack ↕</th><th>Pour ↕</th><th class='num'>Produits ↕</th>${narrow ? '' : '<th>Description</th>'}<th>Actif ↕</th>${narrow ? '' : '<th>Ajouté le ↕</th>'}</tr></thead><tbody>
+${PACKS.map(([n, t, p, d, on, a], i) => `<tr class='${i === 0 ? 'sel' : ''}'><td><strong>${n}</strong></td><td><span class='chip'>${t}</span></td><td class='num'>${p}</td>${narrow ? '' : `<td class='hint'>${d}</td>`}<td><span class='tg ${on ? '' : 'off'}'></span></td>${narrow ? '' : `<td class='hint'>${a}</td>`}</tr>`).join('')}
+</tbody></table></div></div>`
+
+const packAdd = side('Ajouter un pack', `<span class='hint'>Les produits s'ajoutent ensuite, sur sa page.</span>`, `
+${f('Nom *', 'Pack Dermato')}
+<label class='field'><span>Pour *</span><span class='seg'><span class='on'>Pharmacie</span><span>Grossiste</span></span></label>
+${f('Description', "Les soins de la gamme dermato pour l'hiver", '')}
+<div style='display:flex;align-items:center;gap:10px'><span class='tg'></span>Actif</div>
+<div class='why'>Une commande pour une pharmacie ne propose que les packs « Pharmacie » actifs.</div>`, `<span class='btn ghost'>Annuler</span><span class='btn dark' style='margin-inline-start:auto'>Ajouter le pack</span>`)
+
+const packSide = side('Pack Cardio', `<span class='chip'>Pharmacie</span><span class='chip ok'>Actif</span>`, `
+${kv([['Description', 'Les indispensables de la gamme cardio'], ['Produits', '25 · dont 14 modifiables'], ['Avec unités gratuites', '9 produits'], ['Commandes', '0 (en 16b)'], ['Ajouté', 'le 8 juin 2026 par Sara Haddad']])}`, openPage)
+
+const LINES = [['Cardiozen 5 mg, 30 cp', 20, '10 %', 1], ['Cardiozen 10 mg, 30 cp', 20, '10 %', 1], ['Atorix 20 mg, 30 cp', 10, '—', 0], ['Tensiopril 5 mg, 28 cp', 12, '30 %', 1], ['Lipanor 145 mg, 30 gél.', 5, '—', 0], ['Cardiozen 20 mg, 30 cp', 10, '10 %', 1], ['Tensiopril 10 mg, 28 cp', 12, '30 %', 1]]
+const ugSel = u => `<div class='cell ${u === '—' ? 'muted' : ''}'>${u === '—' ? 'Aucune' : u}<span style='margin-inline-start:auto' class='hint'>▾</span></div>`
+const linesRead = `<table class='table'><thead><tr><th>Produit</th><th class='num'>Quantité</th><th class='num'>Unités gratuites</th><th>Modifiable</th></tr></thead><tbody>${LINES.map(([p, q, u, m]) => `<tr><td>${p}</td><td class='num'>${q}</td><td class='num'>${u}</td><td>${m ? `<span class='chip ok'>oui, ${q} au minimum</span>` : `<span class='chip'>quantité fixe</span>`}</td></tr>`).join('')}</tbody></table><span class='hint'>… 18 autres produits</span>`
+const linesEdit = `<label class='field'><span>Ajouter des produits</span><div class='input' style='height:auto;min-height:44px;flex-wrap:wrap;gap:6px;padding:8px 10px'><span class='chip'>Atorix 40 mg ✕</span><span class='hint'>Rechercher un produit…</span></div></label>
+<table class='table'><thead><tr><th>Produit</th><th style='width:170px'>Quantité *</th><th style='width:220px'>Unités gratuites</th><th style='width:240px'>Modifiable</th><th style='width:40px'></th></tr></thead><tbody>
+${LINES.map(([p, q, u, m]) => `<tr><td>${p}</td><td><div class='cell'>${q}</div></td><td>${ugSel(u)}</td><td><span style='display:inline-flex;align-items:center;gap:8px'><span class='tg ${m ? '' : 'off'}'></span><span class='hint'>${m ? `${q} au minimum` : 'quantité fixe'}</span></span></td><td class='hint'>✕</td></tr>`).join('')}
+</tbody></table><span class='hint'>… 18 autres produits</span>
+<div class='why'>« Modifiable » : le délégué peut commander plus que la quantité du pack, jamais moins. Les unités gratuites proposées sont celles du produit (Studio › Produits). Un produit n'apparaît qu'une fois.</div>
+<div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Enregistrer</span></div>`
+const packPage = (editing = false) => `<div class='col'>
+<div><div class='crumbs'>Commandes › Packs de commande</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>Pack Cardio</h1><span class='chip'>Pharmacie</span><span class='btn sm outline' style='margin-inline-start:auto'>Supprimer</span></div><div class='hint'>Ajouté par Sara Haddad le 8 juin 2026 · 0 commande (les commandes arrivent en 16b)</div></div>
+${card('Le pack', `<div class='kv'><span>Nom</span><span>Pack Cardio</span><span>Pour</span><span>Pharmacie</span><span>Description</span><span>Les indispensables de la gamme cardio</span><span>Actif</span><span><span class='tg'></span></span></div>`)}
+${card('Produits du pack', editing ? linesEdit : linesRead, { editing, hint: editing ? '' : '25 produits' })}
+</div>`
+
+// ---- Studio
+// Commandes › Réglages, as Coaching › Réglages: the lab's order settings in the workspace itself.
+const settings = `<div class='col'>
+<div><div class='crumbs'>Commandes</div><h1 class='title display' style='font-size:34px'>Réglages</h1><div class='hint' style='margin-top:4px'>Les réglages des bons de commande du laboratoire</div></div>
+<div class='rec' style='outline:2px solid var(--cobalt)'><header><strong>Seuil stratégique</strong></header>
+<div style='display:flex;gap:12px;align-items:flex-end'><label class='field' style='width:220px'><span>Part de produits stratégiques *</span><div class='input'>40 <span style='margin-inline-start:auto' class='hint'>%</span></div></label></div>
+<div class='why'>Une commande dont au moins 40 % du montant vient de produits stratégiques reçoit la remise pleine de son palier ; sinon la remise réduite. Les produits stratégiques se cochent dans Studio › Produits. Valeur de départ : 50 %.</div>
+<div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Enregistrer</span></div></div>
+</div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Commandes › Offres commerciales.</strong> Une offre par période. Toutes les colonnes se trient ; recherche et filtre par état. L'état vient des dates et de l'interrupteur « Active ».`) + shell('Offres commerciales', offerList()),
+  label(2, `<strong>« + Ajouter une offre » : le panneau à côté de la liste.</strong> Nom, période, active, un champ par ligne. Le chevauchement avec une autre offre active est vérifié avant l'enregistrement. Ensuite la page de l'offre s'ouvre.`) + shell('Offres commerciales', offerList(true) + offerAdd, '', 720),
+  label(3, `<strong>Un clic sur une offre : le panneau, en lecture.</strong> Les informations générales seulement. « Ouvrir la page » mène à la page de l'offre, où tout se modifie.`) + shell('Offres commerciales', offerList(true) + offerSide, '', 720),
+  label(4, `<strong>La page de l'offre.</strong> Des cartes modifiées sur place, pleine largeur : l'offre, les objectifs (facultatifs), les paliers de remise.`) + shell('Offres commerciales', offerPage(), '', 820),
+  label(5, `<strong>Modifier les paliers.</strong> La carte passe en tableau de champs, une ligne par palier, enregistrés d'un coup. Ici le palier 2 chevauche le palier 1 : refusé.`) + shell('Offres commerciales', offerPage(true), '', 900),
+  label(6, `<strong>Commandes › Packs de commande.</strong> Un panier tout prêt par type d'acheteur. Recherche, filtre par type et par état.`) + shell('Packs de commande', packList()),
+  label(7, `<strong>« + Ajouter un pack ».</strong> Nom, type d'acheteur, description, actif. Ensuite la page du pack s'ouvre, pour ses produits.`) + shell('Packs de commande', packList(true) + packAdd, '', 720),
+  label(8, `<strong>Un clic sur un pack : le panneau, en lecture.</strong> Les informations générales ; « Ouvrir la page » pour modifier.`) + shell('Packs de commande', packList(true) + packSide, '', 680),
+  label(9, `<strong>La page du pack, produits en modification.</strong> On ajoute des produits dans la recherche à étiquettes, puis une ligne par produit : quantité, unités gratuites, modifiable. « Enregistrer » remplace la liste.`) + shell('Packs de commande', packPage(true), '', 1000),
+  label(10, `<strong>Commandes › Réglages.</strong> Comme Coaching › Réglages : le seuil stratégique du laboratoire, un seul champ, dans l'espace Commandes.`) + shell('Réglages', settings, '', 520),
+  label(11, `<strong>Supprimer une chose utilisée (dès 16b).</strong> Une offre déjà appliquée à des commandes ne se supprime pas : on la désactive. Ses paliers ne changent plus. Même règle pour un pack.`) + shell('Offres commerciales', offerPage(), dialog('Supprimer « Offre commerciale Novembre » ?', `Cette offre a été appliquée à <strong>212 commandes</strong> : elle ne peut pas être supprimée. Désactivée, elle ne s'applique plus aux nouvelles commandes et les anciennes gardent leur remise.`, `<span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Désactiver</span>`), 820),
+].join('')
+</script></body></html>
