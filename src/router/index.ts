@@ -148,6 +148,7 @@ const router = createRouter({
     ...(space.isCentral ? [] : [{ path: '/consent/:token', name: 'public-consent', component: () => import('@/views/public/ConsentSignView.vue'), props: true, meta: { public: true } }]),
     // A lab's public page: a professional stops receiving campaign emails from the link in one (docs/api/campaign-sendings.md).
     ...(space.isCentral ? [] : [{ path: '/unsubscribe/:token', name: 'public-unsubscribe', component: () => import('@/views/public/UnsubscribeView.vue'), props: true, meta: { public: true } }]),
+    ...(space.isCentral ? [] : [{ path: '/join/:token', name: 'public-join', component: () => import('@/views/public/JoinEventView.vue'), props: true, meta: { public: true } }]),
     {
       path: '/',
       component: () => import('@/layouts/SignInLayout.vue'),

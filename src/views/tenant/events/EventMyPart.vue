@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage, fieldErrors } from '@/api/errors'
-import { fetchEventMaterials, fetchInvitable, fetchParticipant, saveParticipant, type EventInvite, type Invitable, type LabEvent } from '@/api/tenant/events'
+import { fetchEventMaterials, fetchInvitable, fetchOnlineLink, fetchParticipant, saveParticipant, type EventInvite, type Invitable, type LabEvent, type OnlineLinkRow } from '@/api/tenant/events'
 import type { MaterialStock } from '@/api/tenant/materials'
 import DlButton from '@/components/DlButton.vue'
 import DlCombobox from '@/components/DlCombobox.vue'
@@ -21,7 +21,7 @@ import { useEventText } from './eventDisplay'
 // when the lab has the feature, « pris en charge » with an amount. Saved in one call.
 const props = defineProps<{ event: LabEvent }>()
 const emit = defineEmits<{ saved: [] }>()
-const { t, n } = useI18n()
+const { t, n, d } = useI18n()
 const toast = useToast()
 const auth = useAuthStore()
 const text = useEventText()
@@ -32,6 +32,16 @@ const loading = ref(true)
 const lines = ref<MaterialStock[]>([])
 const form = ref({ attended: 'none', start_date: '', start_time: '', end_date: '', end_time: '', rating: 0, cost: '', comments: '' })
 const invites = ref<EventInvite[]>([])
+// The online link's state of each invited (docs/api/event-online-link.md, mockup frame 6): Karim sees it, the organiser sends it.
+const linkRows = ref(new Map<number, OnlineLinkRow>())
+const clock = (value: string) => d(new Date(value), { hour: '2-digit', minute: '2-digit' })
+function linkText(hcpId: number): string {
+  const row = linkRows.value.get(hcpId)
+  if (!row) return ''
+  if (row.state === 'cannot') return t(`events.link.why.${row.why}`)
+  if (row.state !== 'sent') return t('events.link.state.notSent')
+  return row.clicked_at ? t('events.link.mine.clicked', { time: clock(row.clicked_at) }) : t('events.link.mine.sent')
+}
 const taken = ref<Record<number, number>>({})
 const errors = ref<Record<string, string>>({})
 const saving = ref(false)
@@ -40,7 +50,9 @@ async function load() {
   if (!auth.user) return
   loading.value = true
   try {
-    const [part, offered] = await Promise.all([fetchParticipant(props.event.id, auth.user.id), fetchEventMaterials(props.event.id)])
+    const [part, offered, link] = await Promise.all([fetchParticipant(props.event.id, auth.user.id), fetchEventMaterials(props.event.id),
+      props.event.online_url ? fetchOnlineLink(props.event.id).catch(() => null) : Promise.resolve(null)])
+    linkRows.value = new Map((link?.rows ?? []).map(row => [row.hcp_id, row]))
     form.value = {
       attended: part.attended == null ? 'none' : part.attended ? 'yes' : 'no',
       start_date: part.start_at.slice(0, 10), start_time: part.start_at.slice(11, 16), end_date: part.end_at.slice(0, 10), end_time: part.end_at.slice(11, 16),
@@ -206,9 +218,13 @@ async function save() {
             <td class="py-2">
               <strong class="block">{{ invite.hcp.name }}</strong>
               <span class="text-xs text-dl-muted">{{ [invite.hcp.speciality, invite.hcp.commune].filter(Boolean).join(' · ') }}</span>
+              <span v-if="linkText(invite.hcp.id)" class="block text-xs text-dl-muted">{{ t('events.link.mine.label') }} : {{ linkText(invite.hcp.id) }}</span>
               <span v-if="errors[`hcps.${i}.hcp_id`]" class="block text-xs text-dl-rejected">{{ errors[`hcps.${i}.hcp_id`] }}</span>
             </td>
-            <td class="text-center"><input v-model="invite.present" type="checkbox" class="h-4 w-4 accent-dl-ink" :disabled="!started" :aria-label="t('events.part.present')"></td>
+            <td class="text-center">
+              <input v-model="invite.present" type="checkbox" class="h-4 w-4 accent-dl-ink" :disabled="!started" :aria-label="t('events.part.present')">
+              <span v-if="invite.present && invite.present_source === 'click' && invite.clicked_at" class="ms-1.5 rounded-full bg-dl-cobalt/10 px-2 py-0.5 text-[11px] font-bold text-dl-cobalt">{{ t('events.link.auto', { time: clock(invite.clicked_at) }) }}</span>
+            </td>
             <template v-if="sponsoring">
               <td class="text-center"><input v-model="invite.sponsored" type="checkbox" class="h-4 w-4 accent-dl-ink" :aria-label="t('events.part.sponsored')"></td>
               <td class="w-32 py-1"><DlInput v-if="invite.sponsored" :model-value="invite.sponsored_amount == null ? '' : String(invite.sponsored_amount)" inputmode="decimal" @update:model-value="value => setAmount(invite, String(value ?? ''))" :label="t('events.part.amount')" hide-label /></td>
@@ -218,6 +234,7 @@ async function save() {
         </tbody>
       </table>
       <p class="rounded-xl bg-dl-mist px-3 py-2 text-xs text-dl-muted">{{ started ? t('events.part.invitesHint') : t('events.part.invitesHintBefore') }} · {{ text.target(event.type) }}</p>
+      <p v-if="event.online_url" class="rounded-xl bg-dl-mist px-3 py-2 text-xs text-dl-muted">{{ t('events.link.mine.hint') }}</p>
     </section>
   </div>
 </template>

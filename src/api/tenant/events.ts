@@ -35,6 +35,10 @@ export interface EventParticipant {
 export interface EventInvite {
   hcp: { id: number; name: string; type: string; speciality: string | null; commune: string | null }
   present: boolean
+  /** `click` = ticked by the online link, `hand` = changed by the participant (docs/api/event-online-link.md). */
+  present_source?: 'click' | 'hand' | null
+  link_sent_at?: string | null
+  clicked_at?: string | null
   /** Only when the lab has `events.sponsoring`. */
   sponsored?: boolean
   sponsored_amount?: number | null
@@ -66,7 +70,7 @@ export interface LabEvent {
   real_cost?: number | null
   figures?: EventFigures
   can?: EventCan
-  history?: { event: string; by: string | null; at: string; reason: string | null }[]
+  history?: { event: string; by: string | null; at: string; reason: string | null; count?: number | null }[]
   participants?: EventParticipant[]
 }
 
@@ -129,3 +133,44 @@ export const fetchInvitable = (eventId: number, search: string) =>
   client.get<{ data: Invitable[] }>(`/events/${eventId}/invitable`, { params: { search: search || undefined, per_page: 20 } }).then((response) => response.data.data)
 export const fetchEventMaterials = (eventId: number) => one<MaterialStock[]>(client.get(`/events/${eventId}/materials`))
 export const fetchHcpEvents = (hcpId: number) => one<HcpEventRow[]>(client.get(`/hcps/${hcpId}/events`))
+
+/** Module 14b (docs/api/event-online-link.md): each invited's own link by email, the click ticks « présent ». */
+export type LinkState = 'sent' | 'not_sent' | 'failed' | 'cannot'
+export type LinkWhy = 'no_consent' | 'no_email' | 'opted_out'
+export interface OnlineLinkRow {
+  hcp_id: number
+  name: string
+  speciality: string | null
+  commune: string | null
+  invited_by: Person
+  email: string | null
+  state: LinkState
+  why: LinkWhy | null
+  link_sent_at: string | null
+  link_error: string | null
+  reminded_at: string | null
+  clicked_at: string | null
+  present: boolean
+  present_source: 'click' | 'hand' | null
+}
+export interface OnlineLink {
+  can_send: boolean
+  window: { opens_at: string; closes_at: string }
+  reminder_at: string | null
+  last_sent: { at: string; by: string | null; count: number | null } | null
+  counts: { invited: number; sent: number; not_sent: number; cannot: number; clicked: number; reminded: number; quota_left: number | null }
+  rows: OnlineLinkRow[]
+}
+export interface JoinView {
+  lab: string
+  name: string
+  event: { name: string; start_at: string; end_at: string }
+  state: 'open' | 'early' | 'ended'
+  opens_at: string
+  url: string | null
+}
+
+export const fetchOnlineLink = (eventId: number) => one<OnlineLink>(client.get(`/events/${eventId}/online-link`))
+export const sendOnlineLink = (eventId: number, hcpIds?: number[]) =>
+  one<{ queued: number }>(client.post(`/events/${eventId}/online-link`, hcpIds ? { hcp_ids: hcpIds } : {}))
+export const joinEvent = (token: string) => one<JoinView>(client.post(`/join/${token}`))
