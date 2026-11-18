@@ -1,0 +1,134 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lien en ligne</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.why.note { background: rgba(232, 163, 61, .13); color: var(--ink); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 520px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.ph { display: flex; align-items: center; gap: 12px; }
+.tiles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.tile { background: var(--paper); border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.tile strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; line-height: 1; } .tile span { font-size: 12.5px; color: var(--muted); }
+.chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid #9FB0AA; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; flex-shrink: 0; } .chk.on { background: var(--ink); border-color: var(--ink); }
+.auto { font-size: 11px; font-weight: 700; color: var(--cobalt); background: rgba(47, 84, 235, .1); border-radius: 99px; padding: 2px 8px; white-space: nowrap; }
+.mail { width: 600px; background: #fff; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; font-size: 14px; }
+.mail .top { padding: 14px 20px; border-bottom: 1px solid var(--line-soft); display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+.mail .top b { color: var(--ink); }
+.mail .body { padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; color: var(--body); line-height: 1.5; }
+.mail .foot { padding: 12px 24px 18px; font-size: 11.5px; color: var(--muted); }
+.pub { width: 380px; background: var(--paper); border-radius: 22px; padding: 26px 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center; font-size: 14px; }
+.pub .ic { width: 52px; height: 52px; border-radius: 16px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-size: 24px; }
+</style></head><body>
+<p class="caption"><strong>Engager › module 14b, le lien en ligne d'un événement — proposition.</strong> Pour un événement qui a un <strong>lien en ligne</strong> (Zoom, Meet, Teams…), l'organisateur envoie par email à chaque professionnel de santé invité <strong>son propre lien Delorc</strong>. Quand le professionnel clique, Delorc coche « présent » tout seul, puis ouvre la réunion. Un rappel part tout seul une heure avant le début. Exemple : le « Webinaire Cardiozen », jeudi 26 nov. 2026, 19:00 → 20:30.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Comment on sait qui est venu</b> (décidé) : chaque invité a son <b>lien personnel</b> (une adresse Delorc impossible à deviner). Un clic coche « présent » et note l'heure, puis ouvre le lien en ligne de l'événement. Ça marche avec n'importe quel outil, sans compte Zoom. On sait qui a cliqué, pas combien de temps il est resté. <b>Proposé :</b> seul le premier clic compte (son heure est gardée) ; les clics suivants ouvrent juste la réunion.</li>
+  <li><b>Quand le lien marche</b> — <b>proposé :</b> de <b>30 minutes avant le début jusqu'à la fin</b> de l'événement. Plus tôt, la page dit quand revenir et ne coche rien ; après la fin, la page dit « terminé » et n'ouvre plus la réunion (frame 4). Un invité retiré, un événement refusé ou supprimé : le lien ne marche plus.</li>
+  <li><b>Qui envoie</b> (décidé) : l'organisateur, ou une personne avec <code>events.manage</code>, avec le bouton « Envoyer le lien ». Il part à <b>tous les invités qui ne l'ont pas encore reçu</b>, tous participants confondus. Les participants voient où en est l'envoi, mais n'envoient pas. <b>Proposé :</b> le bouton apparaît quand l'événement est <b>validé</b>, a un lien en ligne et n'est pas fini ; un invité ajouté après un envoi se rattrape en recliquant (le bouton compte « 3 pas encore »). Un « Renvoyer » sur une ligne renvoie à une seule personne.</li>
+  <li><b>Le rappel</b> (décidé) : il part tout seul <b>1 heure avant le début</b>, avec le même lien personnel. <b>Proposé :</b> seulement à ceux qui ont déjà reçu le lien et n'ont pas encore cliqué ; une seule fois ; si les dates changent, le rappel suit les nouvelles dates.</li>
+  <li><b>Qui peut recevoir</b> — <b>proposé : les mêmes règles que les envois de campagne (12c)</b>. Il faut un <b>consentement donné et actif</b>, une <b>adresse email</b> (celle du consentement, sinon celle de la fiche) et <b>pas de désinscription</b> des emails. L'email part par le <b>canal email du laboratoire</b> et compte dans son <b>quota du mois</b>. Un envoi plus grand que le reste du quota est refusé avant de partir. Ceux qui ne peuvent pas le recevoir restent listés, avec la raison (« pas d'email », « pas de consentement », « désinscrit »).</li>
+  <li><b>« Présent » à la main</b> (décidé) : le participant peut toujours changer « présent » sur ses invités, par exemple pour un médecin qui a rejoint depuis le téléphone d'un collègue. <b>Proposé :</b> la case montre « auto · 19:02 » quand elle vient du clic ; décochée à la main, elle reste décochée même si le professionnel reclique.</li>
+  <li><b>Le texte de l'email</b> — <b>proposé :</b> un texte fixe du laboratoire (ses textes en base, en français par défaut), avec le nom de l'événement, ses dates, le nom du laboratoire, le bouton « Rejoindre l'événement » et le lien de désinscription en bas, comme les envois. Pas de modèle à écrire dans le Studio pour l'instant.</li>
+  <li><b>Plus tard</b> : la liaison avec un compte Zoom (créer la réunion, savoir combien de temps chacun est resté) pourra devenir une fonctionnalité du laboratoire. Pas de SMS ni de WhatsApp pour ce lien pour l'instant.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const LINKS = ['Aides de visite', 'Campagnes', 'Modèles', 'Matériels', 'Événements', 'Actions marketing']
+const wsNav = on => `<nav class='ws-nav'>${LINKS.map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const shell = (inner, extra = '', h = 760, who = 'SH') => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf('Engager')}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>${who}</span></div>
+  <div style='display:flex;flex-direction:column;flex:1;gap:16px;padding:20px 28px 28px'>${wsNav('Événements')}${inner}</div>
+</div>${extra}</div>`
+const dialog = (title, text, actions) => `<div class='dialog'><div class='box'><strong style='font-size:17px'>${title}</strong><div style='display:flex;flex-direction:column;gap:10px'>${text}</div><footer>${actions}</footer></div></div>`
+
+const head = `<div><div class='crumbs'>Engager › Événements</div>
+<div class='ph' style='margin-top:4px'><h1 class='title display' style='font-size:28px'>Webinaire Cardiozen</h1><span class='chip ok'>Validé</span><span class='chip'>Hiver 2026</span></div>
+<div class='hint' style='margin-top:6px'>Webinaire · jeu. 26 nov. 2026, 19:00 → 20:30 · Alger · en ligne : zoom.us/j/84213… · médecins : Cardiologie, Médecine Interne · organisé par Sara Haddad le 10 nov.</div></div>`
+
+/* the « Lien en ligne » card, on the « Invités » tab */
+const linkCard = (state) => {
+  const before = state === 'before'
+  const tiles = before
+    ? [['24', 'invités'], ['0', 'lien envoyé'], ['21', 'peuvent le recevoir'], ['3', 'ne peuvent pas'], ['—', 'ont cliqué']]
+    : [['24', 'invités'], ['21', 'lien envoyé · rappel envoyé à 9'], ['3', 'ajoutés depuis, pas encore'], ['3', 'ne peuvent pas'], ['14', 'ont cliqué · 58 %']]
+  return `<div class='rec'><header><strong>Lien en ligne</strong><span class='hint'>${before ? 'Pas encore envoyé' : 'Envoyé le 24 nov. à 10:12 par Sara Haddad'}</span>
+<span class='btn ${before ? 'primary' : 'outline'} sm' style='margin-inline-start:auto'>✉ Envoyer le lien ${before ? '(21)' : 'aux 3 nouveaux'}</span></header>
+<div class='tiles'>${tiles.map(([n, l]) => `<div class='tile' style='background:var(--mist)'><strong>${n}</strong><span>${l}</span></div>`).join('')}</div>
+<div class='why'>${before
+    ? 'Chaque invité reçoit son propre lien. Un clic coche « présent » et ouvre la réunion. Le lien marche de 18:30 à 20:30 ; un rappel part tout seul à 18:00 à ceux qui n\'ont pas cliqué.'
+    : 'Rappel envoyé à 18:00 aux 9 qui n\'avaient pas encore cliqué. Le lien marche jusqu\'à 20:30.'}</div></div>`
+}
+const ROWS = [
+  ['Dr Yacine Cherif', 'Cardiologie · Alger', 'Karim Benali', 'y.cherif@…', 'sent', '19:02', 'auto'],
+  ['Dr Leïla Bensaïd', 'Cardiologie · Alger', 'Karim Benali', 'l.bensaid@…', 'sent', '18:41', 'auto'],
+  ['Dr Omar Khelifi', 'Médecine Interne · Blida', 'Amine Saïdi', 'o.khelifi@…', 'sent', '—', 'hand'],
+  ['Dr Nassima Ouali', 'Médecine Interne · Alger', 'Amine Saïdi', 'n.ouali@…', 'sent', '—', ''],
+  ['Dr Riad Mebarki', 'Cardiologie · Tipaza', 'Nadia Mansour', 'r.mebarki@…', 'new', '—', ''],
+  ['Dr Samia Ferhat', 'Cardiologie · Alger', 'Nadia Mansour', '—', 'no_email', '—', ''],
+  ['Dr Kamel Aït Ali', 'Médecine Interne · Alger', 'Karim Benali', 'k.aitali@…', 'opted_out', '—', ''],
+]
+const LINK = { sent: `<span class='chip ok'>Envoyé 24 nov.</span><span class='hint'> · Renvoyer</span>`, new: `<span class='chip warn'>Pas encore</span>`, no_email: `<span class='hint'>Pas d'email</span>`, opted_out: `<span class='hint'>Désinscrit</span>` }
+const invited = (after) => `<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Professionnel ↕</th><th>Invité par ↕</th><th>Email</th><th>Lien</th><th>A cliqué</th><th>Présent</th></tr></thead><tbody>
+${ROWS.map(([n, s, by, mail, link, at, p]) => `<tr><td><strong>${n}</strong><div class='hint'>${s}</div></td><td>${by}</td><td class='hint'>${mail}</td>
+<td>${after ? LINK[link] : (link === 'no_email' || link === 'opted_out' ? LINK[link] : `<span class='hint'>Pas encore</span>`)}</td>
+<td class='${after && at !== '—' ? '' : 'hint'}'>${after ? at : '—'}</td>
+<td>${after && p === 'auto' ? `<span class='chk on'>✓</span> <span class='auto'>auto · ${at}</span>` : after && p === 'hand' ? `<span class='chk on'>✓</span> <span class='hint'>coché par Amine</span>` : `<span class='chk'></span>`}</td></tr>`).join('')}
+</tbody></table></div>`
+const tabs = `<div class='tabs'><span>Participants <span class='count'>4</span></span><span class='on'>Invités <span class='count'>24</span></span><span>Matériels</span><span>Détails</span><span>Historique</span></div>`
+
+const page = after => `<div class='col'>${head}${tabs}${linkCard(after ? 'after' : 'before')}${invited(after)}</div>`
+
+const confirmBox = dialog('Envoyer le lien à 21 professionnels de santé ?',
+  `<div>Chacun reçoit son propre lien vers « Webinaire Cardiozen ». Un clic le marque présent.</div>
+<div class='why'>3 ne le recevront pas : Dr Samia Ferhat (pas d'email), Dr Kamel Aït Ali (désinscrit), Dr Hocine Ziani (pas de consentement).</div>
+<div class='why'>Quota d'emails du laboratoire : 376 restants ce mois, 355 après cet envoi.</div>`,
+  `<span class='btn ghost'>Annuler</span><span class='btn dark'>Envoyer (21)</span>`)
+
+const mail = (reminder) => `<div class='mail'><div class='top'><span>De : <b>Demo Pharma</b> &lt;no-reply@demo…&gt;</span><span>À : <b>Dr Yacine Cherif</b></span>
+<span>Objet : <b>${reminder ? 'Rappel : « Webinaire Cardiozen » commence dans 1 heure' : 'Invitation : Webinaire Cardiozen, jeudi 26 novembre à 19:00'}</b></span></div>
+<div class='body'><span>Bonjour Dr Cherif,</span>
+<span>${reminder ? '« Webinaire Cardiozen » commence aujourd\'hui à <b>19:00</b>. Votre lien est prêt.' : 'Demo Pharma vous invite à <b>« Webinaire Cardiozen »</b>, le <b>jeudi 26 novembre 2026, de 19:00 à 20:30</b>, en ligne.'}</span>
+<span class='btn primary' style='align-self:flex-start'>Rejoindre l'événement</span>
+<span class='hint' style='font-size:12.5px'>Ce lien est personnel : il ouvre la réunion à partir de 18:30. Merci de ne pas le transférer.</span></div>
+<div class='foot'>Vous recevez cet email parce que vous avez accepté d'être contacté par Demo Pharma. <u>Se désinscrire</u></div></div>`
+
+const pub = (ic, title, text, btn = '') => `<div class='pub'><span class='ic'>${ic}</span><strong style='font-size:17px'>${title}</strong><span class='hint' style='font-size:13px'>${text}</span>${btn}</div>`
+const publics = `<div style='display:flex;gap:20px;align-items:flex-start;justify-content:center;padding:40px;flex:1;background:var(--mist)'>
+${pub('✓', 'Bienvenue, Dr Cherif', 'Nous ouvrons « Webinaire Cardiozen »…', `<span class='btn primary sm'>Ouvrir la réunion</span><span class='hint'>Si rien ne s'ouvre, cliquez sur le bouton.</span>`)}
+${pub('⏱', 'Un peu tôt', '« Webinaire Cardiozen » commence le jeudi 26 novembre à 19:00. Ce lien s\'ouvrira à 18:30.')}
+${pub('■', 'Événement terminé', '« Webinaire Cardiozen » s\'est terminé le 26 novembre à 20:30. Merci de votre intérêt.')}
+</div>`
+
+const repPart = `<div class='col'>${head}
+<div class='rec'><header><strong>Mes invités</strong><span class='chip'>4 invités · 3 présents</span><span class='hint' style='margin-inline-start:auto'>Lien envoyé par Sara Haddad le 24 nov.</span></header>
+<table class='table'><thead><tr><th>Professionnel</th><th>Lien</th><th>Présent</th><th></th></tr></thead><tbody>
+<tr><td><strong>Dr Yacine Cherif</strong><div class='hint'>Cardiologie · Alger</div></td><td><span class='chip ok'>Envoyé · a cliqué à 19:02</span></td><td><span class='chk on'>✓</span> <span class='auto'>auto · 19:02</span></td><td class='hint'>✕</td></tr>
+<tr><td><strong>Dr Leïla Bensaïd</strong><div class='hint'>Cardiologie · Alger</div></td><td><span class='chip ok'>Envoyé · a cliqué à 18:41</span></td><td><span class='chk on'>✓</span> <span class='auto'>auto · 18:41</span></td><td class='hint'>✕</td></tr>
+<tr><td><strong>Dr Mourad Saadi</strong><div class='hint'>Cardiologie · Alger</div></td><td><span class='chip'>Envoyé · pas cliqué</span></td><td><span class='chk on'>✓</span> <span class='hint'>coché par vous</span></td><td class='hint'>✕</td></tr>
+<tr><td><strong>Dr Kamel Aït Ali</strong><div class='hint'>Médecine Interne · Alger</div></td><td><span class='hint'>Désinscrit</span></td><td><span class='chk'></span></td><td class='hint'>✕</td></tr>
+</tbody></table>
+<div class='why'>« Présent » se coche tout seul quand votre invité clique sur son lien. Vous pouvez toujours le changer, par exemple pour Dr Saadi, qui a rejoint depuis le téléphone d'un confrère. Décoché par vous, il reste décoché même si le professionnel reclique.</div></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Avant l'envoi, vu par Sara (organisatrice).</strong> Sur l'onglet « Invités » d'un événement validé qui a un lien en ligne, une carte « Lien en ligne » compte les invités, ceux qui peuvent recevoir l'email et ceux qui ne peuvent pas, avec la raison.`) + shell(page(false), '', 820),
+  label(2, `<strong>« Envoyer le lien (21) ».</strong> Une confirmation dit qui ne le recevra pas et ce que l'envoi prend sur le quota d'emails du laboratoire.`) + shell(page(false), confirmBox, 820),
+  label(3, `<strong>L'email reçu par Dr Cherif, puis le rappel 1 heure avant.</strong> Le bouton « Rejoindre l'événement » contient son lien personnel. Le lien de désinscription est en bas, comme pour les envois de campagne.`) + `<div class='frame' style='min-height:520px;gap:28px;padding:40px;justify-content:center;align-items:flex-start'>${mail(false)}${mail(true)}</div>`,
+  label(4, `<strong>Ce que voit Dr Cherif après le clic.</strong> Pendant l'événement, Delorc coche « présent » et ouvre la réunion. Trop tôt ou après la fin, rien n'est coché et la réunion ne s'ouvre pas.`) + `<div class='frame' style='min-height:360px'>${publics}</div>`,
+  label(5, `<strong>Après l'événement, vu par Sara.</strong> Qui a reçu le lien, qui a cliqué et à quelle heure, « présent » coché tout seul (auto) ou à la main. 3 invités ajoutés après l'envoi : « Envoyer le lien aux 3 nouveaux ».`) + shell(page(true), '', 820),
+  label(6, `<strong>Karim, dans sa partie « Mes invités ».</strong> Il voit l'état du lien de chacun ; il ne l'envoie pas, mais il peut corriger « présent ».`, ) + shell(repPart, '', 600, 'KB'),
+].join('')
+</script>
+</body></html>

@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import {
   closeEvent, deleteEvent, fetchEvent, fetchParticipant, refuseEvent, reopenEvent, saveParticipant, updateEvent, validateEvent,
-  type EventParticipant, type LabEvent,
+  type EventParticipant, type LabEvent, type OnlineLink, type OnlineLinkRow,
 } from '@/api/tenant/events'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
@@ -21,6 +21,7 @@ import CoachingReasonSheet from '@/views/tenant/coaching/CoachingReasonSheet.vue
 import { roleLabel } from '@/views/tenant/settings/shared/lookups'
 import EventFields from './EventFields.vue'
 import EventMyPart from './EventMyPart.vue'
+import EventOnlineLink from './EventOnlineLink.vue'
 import { STATUS_TONE, useEventText } from './eventDisplay'
 import { eventToForm, formToPayload, type EventForm } from './eventForm'
 
@@ -88,6 +89,13 @@ watch([tab, event], async () => {
 const invitedRows = computed(() => (parts.value ?? []).flatMap(part => (part.invites ?? []).map(invite => ({ ...invite, by: part.user.full_name }))))
 const materialRows = computed(() => (parts.value ?? []).flatMap(part => (part.materials ?? []).map(line => ({ ...line, by: part.user.full_name }))))
 const sponsoring = computed(() => auth.hasFeature('events.sponsoring'))
+// The online link (docs/api/event-online-link.md): each invited's link state, read by the card above the list.
+const link = ref<OnlineLink | null>(null)
+const linkCard = ref<InstanceType<typeof EventOnlineLink> | null>(null)
+const linkRows = computed(() => new Map((link.value?.rows ?? []).map(row => [row.hcp_id, row])))
+const linkOf = (hcpId: number): OnlineLinkRow | undefined => linkRows.value.get(hcpId)
+const clock = (value: string) => d(new Date(value), { hour: '2-digit', minute: '2-digit' })
+const linkDay = (value: string) => d(new Date(value), { day: 'numeric', month: 'short' })
 
 const tiles = computed(() => {
   const f = event.value?.figures
@@ -314,26 +322,49 @@ const when = (value: string) => d(new Date(value), { day: 'numeric', month: 'sho
         <template v-if="can?.fill" #mine><EventMyPart :event="event" @saved="load" /></template>
 
         <template #invited>
-          <div class="flex flex-col gap-2 rounded-3xl bg-dl-paper p-4 md:p-5">
-            <DlSkeleton v-if="!parts" class="h-40 rounded-2xl" />
-            <p v-else-if="!invitedRows.length" class="py-4 text-[13px] text-dl-muted">{{ t('events.part.noInvites') }}</p>
-            <table v-else class="w-full text-sm">
-              <thead class="text-xs text-dl-muted"><tr>
-                <th class="py-1.5 text-start font-medium">{{ t('events.part.professional') }}</th>
-                <th class="py-1.5 text-start font-medium">{{ t('events.columns.invitedBy') }}</th>
-                <th class="py-1.5 text-start font-medium">{{ t('events.part.present') }}</th>
-                <th v-if="sponsoring" class="py-1.5 text-end font-medium">{{ t('events.part.sponsored') }}</th>
-              </tr></thead>
-              <tbody>
-                <tr v-for="row in invitedRows" :key="row.hcp.id" class="border-t border-dl-line-soft">
-                  <td class="py-2"><RouterLink :to="{ name: 'tenant-hcp-detail', params: { id: row.hcp.id } }" class="font-semibold no-underline">{{ row.hcp.name }}</RouterLink>
-                    <span class="block text-xs text-dl-muted">{{ [row.hcp.speciality, row.hcp.commune].filter(Boolean).join(' · ') }}</span></td>
-                  <td>{{ row.by }}</td>
-                  <td><DlBadge size="sm" :tone="row.present ? 'success' : 'neutral'">{{ row.present ? t('events.part.yes') : started ? t('events.part.no') : t('events.part.toCome') }}</DlBadge></td>
-                  <td v-if="sponsoring" class="text-end tabular-nums">{{ row.sponsored ? text.money(row.sponsored_amount ?? null) : '—' }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="flex flex-col gap-3">
+            <EventOnlineLink v-if="event.online_url" ref="linkCard" :event="event" @loaded="value => link = value" />
+            <div class="flex flex-col gap-2 rounded-3xl bg-dl-paper p-4 md:p-5">
+              <DlSkeleton v-if="!parts" class="h-40 rounded-2xl" />
+              <p v-else-if="!invitedRows.length" class="py-4 text-[13px] text-dl-muted">{{ t('events.part.noInvites') }}</p>
+              <table v-else class="w-full text-sm">
+                <thead class="text-xs text-dl-muted"><tr>
+                  <th class="py-1.5 text-start font-medium">{{ t('events.part.professional') }}</th>
+                  <th class="py-1.5 text-start font-medium">{{ t('events.columns.invitedBy') }}</th>
+                  <template v-if="link">
+                    <th class="py-1.5 text-start font-medium">{{ t('events.link.columns.email') }}</th>
+                    <th class="py-1.5 text-start font-medium">{{ t('events.link.columns.link') }}</th>
+                    <th class="py-1.5 text-start font-medium">{{ t('events.link.columns.clicked') }}</th>
+                  </template>
+                  <th class="py-1.5 text-start font-medium">{{ t('events.part.present') }}</th>
+                  <th v-if="sponsoring" class="py-1.5 text-end font-medium">{{ t('events.part.sponsored') }}</th>
+                </tr></thead>
+                <tbody>
+                  <tr v-for="row in invitedRows" :key="row.hcp.id" class="border-t border-dl-line-soft">
+                    <td class="py-2"><RouterLink :to="{ name: 'tenant-hcp-detail', params: { id: row.hcp.id } }" class="font-semibold no-underline">{{ row.hcp.name }}</RouterLink>
+                      <span class="block text-xs text-dl-muted">{{ [row.hcp.speciality, row.hcp.commune].filter(Boolean).join(' · ') }}</span></td>
+                    <td>{{ row.by }}</td>
+                    <template v-if="link">
+                      <td class="text-xs text-dl-muted">{{ linkOf(row.hcp.id)?.email ?? '—' }}</td>
+                      <td>
+                        <template v-if="linkOf(row.hcp.id)?.state === 'cannot'"><span class="text-xs text-dl-muted">{{ t(`events.link.why.${linkOf(row.hcp.id)?.why}`) }}</span></template>
+                        <DlBadge v-else-if="linkOf(row.hcp.id)?.state === 'sent'" size="sm" tone="success">{{ t('events.link.state.sent', { date: linkDay(linkOf(row.hcp.id)!.link_sent_at!) }) }}</DlBadge>
+                        <DlBadge v-else-if="linkOf(row.hcp.id)?.state === 'failed'" size="sm" tone="danger" :title="linkOf(row.hcp.id)?.link_error ?? ''">{{ t('events.link.state.failed') }}</DlBadge>
+                        <DlBadge v-else size="sm" tone="warning">{{ t('events.link.state.notSent') }}</DlBadge>
+                        <button v-if="link.can_send && ['sent', 'failed'].includes(linkOf(row.hcp.id)?.state ?? '')" type="button" class="ms-2 text-xs text-dl-muted underline hover:text-dl-fg" @click="linkCard?.resend(row.hcp.id)">{{ t('events.link.resend') }}</button>
+                      </td>
+                      <td class="text-xs tabular-nums" :class="!linkOf(row.hcp.id)?.clicked_at && 'text-dl-muted'">{{ linkOf(row.hcp.id)?.clicked_at ? clock(linkOf(row.hcp.id)!.clicked_at!) : '—' }}</td>
+                    </template>
+                    <td class="whitespace-nowrap">
+                      <DlBadge size="sm" :tone="row.present ? 'success' : 'neutral'">{{ row.present ? t('events.part.yes') : started ? t('events.part.no') : t('events.part.toCome') }}</DlBadge>
+                      <span v-if="row.present && row.present_source === 'click' && row.clicked_at" class="ms-1.5 rounded-full bg-dl-cobalt/10 px-2 py-0.5 text-[11px] font-bold text-dl-cobalt">{{ t('events.link.auto', { time: clock(row.clicked_at) }) }}</span>
+                      <span v-else-if="row.present_source === 'hand'" class="ms-1.5 text-[11px] text-dl-muted">{{ t('events.link.byHand', { name: row.by }) }}</span>
+                    </td>
+                    <td v-if="sponsoring" class="text-end tabular-nums">{{ row.sponsored ? text.money(row.sponsored_amount ?? null) : '—' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </template>
 
@@ -385,7 +416,7 @@ const when = (value: string) => d(new Date(value), { day: 'numeric', month: 'sho
             <p v-if="!event.history?.length" class="text-[13px] text-dl-muted">—</p>
             <div v-for="(line, i) in event.history" :key="i" class="flex gap-3 border-b border-dl-line-soft py-2 text-sm last:border-0">
               <span class="w-40 shrink-0 text-xs text-dl-muted">{{ when(line.at) }}</span>
-              <span>{{ t(`events.history.${line.event}`, { name: line.by ?? '—' }) }}<template v-if="line.reason"> — « {{ line.reason }} »</template></span>
+              <span>{{ t(`events.history.${line.event}`, { name: line.by ?? '—', count: n(line.count ?? 0) }, line.count ?? 1) }}<template v-if="line.reason"> — « {{ line.reason }} »</template></span>
             </div>
           </div>
         </template>
