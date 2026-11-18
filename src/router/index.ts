@@ -93,6 +93,9 @@ const labRoutes = [
       { path: 'packs/:id(\\d+)', name: 'tenant-pack', component: () => import('@/views/tenant/orders/PackDetailView.vue'), props: true, meta: { permission: 'orders-setup.show' } },
       { path: 'pack-commandes', name: 'tenant-pack-commandes', component: () => import('@/views/tenant/orders/PackCommandeListView.vue'), meta: { permission: 'orders-setup.show' } },
       { path: 'pack-commandes/:id(\\d+)', name: 'tenant-pack-commande', component: () => import('@/views/tenant/orders/PackCommandeDetailView.vue'), props: true, meta: { permission: 'orders-setup.show' } },
+      { path: 'orders', name: 'tenant-orders', component: () => import('@/views/tenant/orders/OrderListView.vue'), meta: { permission: 'orders.show' } },
+      { path: 'orders/new', name: 'tenant-order-new', component: () => import('@/views/tenant/orders/OrderFormView.vue'), meta: { permission: 'orders.create' } },
+      { path: 'orders/:id(\\d+)', name: 'tenant-order', component: () => import('@/views/tenant/orders/OrderDetailView.vue'), props: true, meta: { permission: 'orders.show' } },
       { path: 'order-settings', name: 'tenant-order-settings', component: () => import('@/views/tenant/orders/OrderSettingsView.vue'), meta: { permission: 'orders-setup.show' } },
       // Coaching › Programmes, Grille d'évaluation (docs/api/coaching-setup.md).
       { path: 'coachings', name: 'tenant-coachings', component: () => import('@/views/tenant/coaching/CoachingListView.vue'), meta: { permission: 'coaching-setup.show' } },

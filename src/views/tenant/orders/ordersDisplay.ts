@@ -19,3 +19,16 @@ export function useOrdersText() {
     clientType: (type: string) => t(`orders.packCommandes.for.${type}`),
   }
 }
+
+/** The buyer kinds an order takes, and the suppliers (docs/api/orders.md). */
+export const BUYER_TYPES = ['pharmacie', 'wholestore', 'distributor']
+export const SUPPLIER_TYPES = ['wholestore', 'distributor']
+/** The kind of pack commande a buyer may use. */
+export const packKind = (type?: string | null) => (type === 'pharmacie' ? 'pharmacy' : 'wholesaler')
+
+/** A 'YYYY-MM-DD' day, `days` before today. */
+export function daysAgo(days: number): string {
+  const day = new Date()
+  day.setDate(day.getDate() - days)
+  return `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`
+}

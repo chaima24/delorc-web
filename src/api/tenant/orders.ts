@@ -102,6 +102,118 @@ export const updatePackCommande = (id: number, payload: PackCommandePayload) => 
 export const deletePackCommande = (id: number) => client.delete(`/pack-commandes/${id}`)
 
 // Réglages
-export interface OrderSettings { strategic_percentage: number }
+export interface OrderSettings {
+  strategic_percentage: number
+  /** null = no limit. */
+  max_backdate_days: number | null
+  negotiated_discount: boolean
+  negotiated_role_ids: number[]
+}
 export const fetchOrderSettings = () => one<OrderSettings>(client.get('/order-settings'))
-export const saveOrderSettings = (payload: OrderSettings) => one<OrderSettings>(client.put('/order-settings', payload))
+export const saveOrderSettings = (payload: Partial<OrderSettings>) => one<OrderSettings>(client.put('/order-settings', payload))
+
+// Bons de commande (docs/api/orders.md)
+export interface OrderHcp { id: number; name: string; type: string; wilaya?: string | null }
+export interface OrderLine {
+  id?: number
+  product: { id: number; name: string }
+  product_ug_id: number | null
+  quantity: number
+  ug: number
+  free_quantity: number
+  unit_price: string | number
+  vat: string | number
+  is_strategic: boolean
+  is_discountable: boolean
+  total: string | number
+  discount: string | number
+  from_pack: boolean
+}
+
+export interface Order {
+  id: number
+  number: string
+  ordered_at: string
+  user?: { id: number; full_name: string }
+  client?: OrderHcp
+  supplier?: OrderHcp
+  visit?: { id: number; visit_date: string } | null
+  pack_commande?: { id: number; name: string } | null
+  pack?: { id: number; name: string } | null
+  bracket?: { id: number; min_threshold: number; max_threshold: number | null } | null
+  discount_source: 'bracket' | 'negotiated' | null
+  discount_rate: string
+  strategic_percentage: number | null
+  /** Only on the page. */
+  lines?: OrderLine[]
+  lines_count: number
+  boxes: { paid: number; free: number }
+  total_ht: string
+  total_strategic: string
+  total_discount: string
+  total_tva: string
+  total_ttc: string
+  comment: string | null
+  photo?: { id: number; name: string; url?: string; mime?: string } | null
+  can?: { update: boolean; delete: boolean }
+  history?: { event: string; by: string | null; at: string; old: Record<string, unknown> | null; new: Record<string, unknown> | null }[]
+  created_by?: { id: number; full_name: string } | null
+  created_at: string | null
+}
+
+export interface OrderLineInput { product_id: number; quantity: number; product_ug_id?: number | null }
+export interface OrderPayload {
+  ordered_at?: string
+  client_hcp_id?: number
+  supplier_hcp_id?: number
+  user_id?: number
+  visit_id?: number | null
+  pack_commande_id?: number | null
+  comment?: string | null
+  lines?: OrderLineInput[]
+}
+
+/** The order as it would be saved (POST orders/preview): nothing is written. */
+export interface OrderPreview {
+  pack_id: number | null
+  discount_pack_id: number | null
+  discount_source: 'bracket' | 'negotiated' | null
+  discount_rate: number
+  strategic_percentage: number | null
+  total_ht: number
+  total_strategic: number
+  total_discount: number
+  total_tva: number
+  total_ttc: number
+  lines: (Omit<OrderLine, 'product' | 'id'> & { product_id: number; product_name: string })[]
+  boxes: { paid: number; free: number }
+  pack: { id: number; name: string } | null
+  bracket: DiscountPack | null
+  brackets: DiscountPack[]
+  next_bracket: { min_threshold: number; discount: string; missing: number } | null
+}
+
+export interface OrderForm {
+  max_backdate_days: number | null
+  /** The roles of the negotiated discount, when it is on. */
+  negotiated: number[]
+  people: { id: number; full_name: string; role_ids: number[] }[]
+  pack_commandes: { id: number; name: string; client_type: ClientType; lines: { product_id: number; name: string; quantity: number; product_ug_id: number | null; is_modifiable: boolean }[] }[]
+}
+
+export const fetchOrders = (params?: ListParams) =>
+  client.get<{ data: Order[]; meta: { total: number; sum_ttc: number } }>('/orders', { params })
+    .then((response) => ({ items: response.data.data, total: response.data.meta.total, sum: response.data.meta.sum_ttc }))
+export const fetchOrder = (id: number) => one<Order>(client.get(`/orders/${id}`))
+export const fetchOrderForm = () => one<OrderForm>(client.get('/orders/form'))
+export const previewOrder = (payload: OrderPayload & { id?: number }) => one<OrderPreview>(client.post('/orders/preview', payload))
+export const createOrder = (payload: OrderPayload) => one<Order>(client.post('/orders', payload))
+export const updateOrder = (id: number, payload: OrderPayload) => one<Order>(client.put(`/orders/${id}`, payload))
+export const deleteOrder = (id: number) => client.delete(`/orders/${id}`)
+export const uploadOrderPhoto = (id: number, photo: File) => {
+  const form = new FormData()
+  form.append('photo', photo)
+
+  return one(client.post(`/orders/${id}/photo`, form))
+}
+export const removeOrderPhoto = (id: number) => client.delete(`/orders/${id}/photo`)

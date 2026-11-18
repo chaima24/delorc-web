@@ -1,0 +1,193 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Commandes, le bon de commande</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; display: inline-block; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 220px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 460px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.cell { height: 38px; border: 1px solid var(--line); border-radius: 10px; padding: 0 10px; display: flex; align-items: center; background: var(--paper); font-variant-numeric: tabular-nums; } .cell.bad { border-color: var(--brick); }
+.cell.muted { color: var(--muted); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); } .ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; } .pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; } .sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 12px; font-size: 13px; color: var(--body); } .sec .kv { grid-template-columns: 150px 1fr; }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+</style></head><body>
+<p class="caption"><strong>Commandes › partie 16b, le bon de commande — proposition.</strong> Le délégué écrit la commande d'une pharmacie (ou d'un grossiste qui achète en direct) : le fournisseur qui livre, une ligne par produit, et Delorc calcule les totaux avec l'offre du mois (16a). Depuis une visite faite, ou depuis la liste.
+Les statuts (créée → validée → transmise…) viennent en 16c, si vous le voulez. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Acheteur</b> (décidé le 18 nov.) : une pharmacie, ou un grossiste / distributeur qui achète en direct. <b>Fournisseur</b> : un grossiste ou un distributeur, jamais l'acheteur lui-même.</li>
+  <li><b>Prix selon l'acheteur</b> (décidé) : pharmacie → prix pharmacie, grossiste → prix grossiste, distributeur → prix distribution ; vide → prix principal.</li>
+  <li><b>Unités gratuites en plus, gratuites</b> (décidé) : le délégué tape la quantité payée ; l'UG ajoute des boîtes offertes ; l'argent ne change pas (100 × 968 DA avec UG 20 % = 96 800 DA, 120 livrées).</li>
+  <li><b>La remise</b> (comme 16a) : le palier se choisit sur le total HT de toute la commande ; la part stratégique = montant des produits stratégiques ÷ total HT ; la remise ne touche que les produits remisables. <b>Proposé :</b> la TVA de chaque produit sur sa ligne remisée, comme l'API précédente.</li>
+  <li><b>Remise négociée</b> (décidé) : si le réglage est allumé et que l'auteur a un des rôles choisis (KAM au départ), un client qui a un % sur sa fiche reçoit ce % sur chaque ligne remisable, à la place des paliers. Pas de % sur la fiche = les paliers.</li>
+  <li><b>Depuis une visite faite</b> chez une pharmacie ou un grossiste (décidé) : l'acheteur et la date viennent de la visite, la commande y est liée. Sinon depuis la liste. <b>Proposé :</b> une visite peut avoir plusieurs commandes (deux fournisseurs).</li>
+  <li><b>Pack de commande</b> (décidé) : il remplit les lignes, la quantité d'une ligne « modifiable » peut monter, jamais descendre, une ligne fixe ne change pas ; on peut ajouter d'autres produits ; les paliers s'appliquent par-dessus. La commande garde son pack (« Pack » / « Ordinaire »).</li>
+  <li><b>Figée à l'enregistrement</b> (décidé) : chaque ligne garde son prix, la commande garde son offre, son palier, le seuil et le %. Une modification recalcule avec la date de la commande et les prix gardés ; une nouvelle ligne prend le prix du jour.</li>
+  <li><b>Date</b> (décidé) : jamais dans le futur, au plus N jours en arrière (Réglages, 7 au départ, vide = sans limite). Une commande depuis une visite prend la date de la visite.</li>
+  <li><b>Qui</b> (décidé) : comme les visites. Le délégué écrit et voit les siennes ; un manager voit celles des personnes en dessous et peut en écrire pour elles ; les rôles « voit tout » voient tout. Jusqu'en 16c, l'auteur, ses supérieurs et les admins modifient ou suppriment à tout moment ; chaque changement est dans l'historique.</li>
+  <li><b>Numéro automatique</b> <code>CMD-000001</code> (proposé), jamais tapé. <b>Une photo ou un PDF</b> du bon papier, facultatif (décidé).</li>
+  <li><b>Proposé : les totaux se calculent en direct pendant la saisie</b> (l'API fait le calcul, la page le montre) ; ce que l'API enregistre est toujours recalculé par elle.</li>
+  <li><b>Proposé : le cycle compte les commandes</b> : le chiffre « Commandes » des cycles (fait / objectif) compte les commandes du délégué dans la période du cycle.</li>
+  <li><b>Interrupteur de formule</b> <code>module.orders</code> (décidé), éteint au départ ; il couvre aussi 16a.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const da = n => n.toLocaleString('fr-FR').replace(/ /g, ' ')
+const side = (title, sub, body, foot = '') => `<aside class='panel'><div class='ph'><div style='flex:1;min-width:0'><h2 class='display'>${title}</h2><div class='sub'>${sub}</div></div><span class='icb'>✕</span></div><div class='pb'>${body}</div>${foot ? `<div class='pf'>${foot}</div>` : ''}</aside>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const kv = rows => `<div class='kv'>${rows.map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('')}</div>`
+const card = (title, body, { editing = false, hint = '' } = {}) => `<div class='rec' ${editing ? `style='outline:2px solid var(--cobalt)'` : ''}><header><strong>${title}</strong>${hint ? `<span class='hint'>${hint}</span>` : ''}${editing ? '' : `<span class='btn sm outline'>✎ Modifier</span>`}</header>${body}</div>`
+const dialog = (title, text, actions) => `<div class='dialog'><div class='box'><strong style='font-size:17px'>${title}</strong><div>${text}</div><footer>${actions}</footer></div></div>`
+const frame = (rail, inner, extra = '', h = 680) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SH</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+// The workspace's pages in a bar on top, as every workspace; the list and its side panel below.
+
+const wsNav = on => `<nav class='ws-nav'>${['Bons de commande', 'Offres commerciales', 'Packs de commande', 'Réglages'].map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const shell = (on, inner, extra = '', h = 680) => frame('Commandes', `<div style='display:flex;flex-direction:column;flex:1;gap:16px;min-width:0'>${wsNav(on)}<div style='display:flex;gap:20px;align-items:flex-start'>${inner}</div></div>`, extra, h)
+const visitShell = (inner, h) => frame('Visites', `<div style='display:flex;flex-direction:column;flex:1;gap:16px;min-width:0'><nav class='ws-nav'><a>Calendrier</a><a class='on'>Visites</a><a>Activités</a></nav><div style='display:flex;gap:20px;align-items:flex-start'>${inner}</div></div>`, '', h)
+const money = n => `${da(Math.round(n))} DA`
+const crumbs = (t, title, chip = '', btn = '') => `<div><div class='crumbs'>${t}</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>${title}</h1>${chip}<span style='margin-inline-start:auto;display:flex;gap:8px'>${btn}</span></div></div>`
+
+// The example order: Pharmacie Benali, 12 Nov, November offer, threshold 40 %.
+const L = [
+  ['Cardiozen 5 mg, 30 cp', 968, 60, 10, 1, 1], ['Cardiozen 10 mg, 30 cp', 1240, 40, 10, 1, 1], ['Atorix 20 mg, 30 cp', 720, 50, 0, 0, 1],
+  ['Tensiopril 5 mg, 28 cp', 455, 80, 30, 0, 1], ['Lipanor 145 mg, 30 gél.', 1080, 25, 0, 0, 0],
+]
+const ht = L.reduce((s, [, p, q]) => s + p * q, 0)
+const strat = L.reduce((s, [, p, q, , st]) => s + (st ? p * q : 0), 0)
+const remisable = L.reduce((s, [, p, q, , , r]) => s + (r ? p * q : 0), 0)
+const disc = remisable * 0.05
+const free = L.reduce((s, [, , q, u]) => s + Math.round(q * u / 100), 0)
+const paid = L.reduce((s, [, , q]) => s + q, 0)
+
+// ---- The list
+const ROWS = [
+  ['CMD-000214', '12 nov. 2026', 'Pharmacie Benali', 'Medi-Distrib', 'Karim Saadi', ht - disc, 'Visite', 'Pack'],
+  ['CMD-000213', '12 nov. 2026', 'Medi-Distrib', 'Hydra Pharm', 'Yacine Amrani', 412300, '—', 'Ordinaire'],
+  ['CMD-000212', '11 nov. 2026', 'Pharmacie El Amel', 'Medi-Distrib', 'Karim Saadi', 96800, 'Visite', 'Ordinaire'],
+  ['CMD-000211', '10 nov. 2026', 'Pharmacie Ziani', 'Sopharm', 'Nadia Belkacem', 254120, 'Visite', 'Ordinaire'],
+  ['CMD-000210', '9 nov. 2026', 'Pharmacie du Centre', 'Hydra Pharm', 'Nadia Belkacem', 58400, '—', 'Pack'],
+]
+const list = (narrow = false) => `<div class='col'>
+<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Commandes</div><h1 class='title display' style='font-size:34px'>Bons de commande</h1><div class='hint' style='margin-top:4px'>Les commandes de vos professionnels de santé, avec leur remise</div></div><span class='btn primary' style='margin-inline-start:auto'>+ Nouvelle commande</span></div>
+<div style='display:flex;gap:10px;flex-wrap:wrap'><div class='input muted' style='width:240px'>N° ou acheteur…</div><div class='input' style='width:230px'>1 nov. → 30 nov. 2026 <span style='margin-inline-start:auto' class='hint'>▦</span></div><div class='input muted' style='width:170px'>Fournisseur ▾</div><div class='input muted' style='width:170px'>Délégué ▾</div><span class='seg'><span class='on'>Toutes</span><span>Pack</span><span>Ordinaire</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>N° ↕</th><th>Date ↕</th><th>Acheteur ↕</th><th>Fournisseur ↕</th>${narrow ? '' : '<th>Délégué ↕</th>'}<th class='num'>Total TTC ↕</th>${narrow ? '' : '<th>Source</th><th>Type</th>'}</tr></thead><tbody>
+${ROWS.map(([n, d, b, s, u, t, src, ty], i) => `<tr class='${i === 0 ? 'sel' : ''}'><td><strong>${n}</strong></td><td>${d}</td><td>${b}</td><td>${s}</td>${narrow ? '' : `<td>${u}</td>`}<td class='num'>${money(t)}</td>${narrow ? '' : `<td>${src === 'Visite' ? `<span class='chip'>Visite</span>` : '<span class="hint">—</span>'}</td><td><span class='chip ${ty === 'Pack' ? 'info' : ''}'>${ty}</span></td>`}</tr>`).join('')}
+</tbody></table></div>
+<div class='hint'>Total de la période : 5 commandes · ${money(ROWS.reduce((s, r) => s + r[5], 0))}</div></div>`
+
+const readSide = side('CMD-000214', `<span class='chip info'>Pack Cardio</span><span class='hint'>12 nov. 2026</span>`, `
+${kv([['Acheteur', 'Pharmacie Benali · Alger'], ['Fournisseur', 'Medi-Distrib'], ['Délégué', 'Karim Saadi'], ['Lignes', `5 produits · ${paid} boîtes + ${free} gratuites`], ['Total HT', money(ht)], ['Remise', `${money(disc)} · 5 % (Offre Novembre, palier 1)`], ['Total TTC', `<strong>${money(ht - disc)}</strong>`], ['Source', `<span style='color:var(--cobalt)'>Visite du 12 nov. ↗</span>`], ['Ajoutée', 'le 12 nov. à 10:42 par Karim Saadi']])}`, `<span class='btn dark' style='margin-inline-start:auto'>Ouvrir la page ↗</span>`)
+
+// ---- The form (new order, full page): header fields 3 per row, the lines table, the totals card beside.
+const lineRows = (edit, opts = {}) => L.map(([p, pr, q, u, st, r], i) => `<tr>
+<td>${p}${st ? ` <span class='chip' style='font-size:11px'>S</span>` : ''}${r ? '' : ` <span class='hint' style='font-size:11px'>non remisable</span>`}</td>
+<td class='num'>${da(pr)}</td>
+<td style='width:120px'>${edit ? `<div class='cell ${opts.bad === i ? 'bad' : ''}'>${opts.bad === i ? 15 : q}</div>` : `<span class='num'>${q}</span>`}</td>
+<td style='width:140px'>${edit ? `<div class='cell ${u ? '' : 'muted'}'>${u ? u + ' %' : 'Aucune'}<span style='margin-inline-start:auto' class='hint'>▾</span></div>` : (u ? u + ' %' : '—')}</td>
+<td class='num'>${q + Math.round(q * u / 100)}</td>
+<td class='num'>${da(pr * q)}</td>
+<td class='num'>${r ? '5 %' : '—'}</td>${edit ? `<td class='hint'>✕</td>` : ''}</tr>`).join('')
+const linesTable = (edit, opts = {}) => `<table class='table'><thead><tr><th>Produit</th><th class='num'>Prix (DA)</th><th>Quantité ${edit ? '*' : ''}</th><th>Unités gratuites</th><th class='num'>Livrées</th><th class='num'>Total HT</th><th class='num'>Remise</th>${edit ? '<th></th>' : ''}</tr></thead><tbody>${lineRows(edit, opts)}</tbody></table>`
+const totals = (mode = 'brackets') => `<div class='rec' style='width:380px;flex-shrink:0'><header><strong>Totaux</strong><span class='hint'>calculés par Delorc</span></header>
+${kv([['Total HT', money(ht)], ['Produits stratégiques', `${money(strat)} · <strong>${Math.round(strat / ht * 100)} %</strong> ${mode === 'brackets' ? '≥ 40 %' : ''}`],
+  ...(mode === 'brackets' ? [['Offre', 'Offre commerciale Novembre'], ['Palier', '150 000 → 250 000 DA']] : [['Remise négociée', 'Medi-Distrib · 10 %']]),
+  ['Remise', `${mode === 'brackets' ? '5 %' : '10 %'} sur ${money(remisable)} = <strong>${money(mode === 'brackets' ? disc : remisable * 0.1)}</strong>`], ['TVA', '0 DA'], ['Total TTC', `<strong style='font-size:17px'>${money(ht - (mode === 'brackets' ? disc : remisable * 0.1))}</strong>`], ['Boîtes livrées', `${paid} + ${free} gratuites`]])}
+${mode === 'brackets' ? `<table class='table' style='font-size:12.5px'><thead><tr><th class='num'>De</th><th class='num'>À</th><th class='num'>Remise</th><th class='num'>Réduite</th></tr></thead><tbody>${[[150000, 250000, 5, '2,5'], [250000, 500000, 6, 3], [500000, 700000, 7, '3,5'], [700000, 1000000, 8, 4], [1000000, 0, 10, 5]].map(([a, b, r, r2], i) => `<tr ${i === 0 ? `style='background:var(--signal-soft)'` : ''}><td class='num'>${da(a)}</td><td class='num'>${b ? da(b) : 'et plus'}</td><td class='num'><strong>${r} %</strong></td><td class='num'>${r2} %</td></tr>`).join('')}</tbody></table>
+<div class='why'>Encore ${money(250000 - ht)} pour passer à 6 %. Sous 40 % de stratégiques, la remise serait 2,5 %.</div>`
+  : `<div class='why'>Yacine est KAM : Medi-Distrib a une remise négociée de 10 % sur sa fiche, elle remplace les paliers de l'offre.</div>`}
+</div>`
+const header = (fromVisit = false, kam = false) => `<div class='card' style='padding:16px 18px;display:flex;flex-direction:column;gap:12px'>
+${fromVisit ? `<div class='why'>Depuis la <strong>visite du 12 nov. 2026 chez Pharmacie Benali</strong> : l'acheteur et la date viennent de la visite.</div>` : ''}
+<div style='display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px'>
+${f('Date *', `${fromVisit ? '12 nov. 2026' : '12 nov. 2026'} <span style='margin-inline-start:auto' class='hint'>▦</span>`, fromVisit ? 'muted' : '')}
+${f('Acheteur *', kam ? 'Medi-Distrib <span class="hint">· grossiste</span>' : 'Pharmacie Benali <span class="hint">· pharmacie · Alger</span>', fromVisit ? 'muted' : '')}
+${f('Fournisseur *', kam ? 'Hydra Pharm ▾' : 'Medi-Distrib ▾')}
+${f('Délégué', kam ? 'Yacine Amrani (KAM)' : 'Karim Saadi', 'muted')}
+${f('Pack de commande', kam ? '<span class="hint">Aucun (ordinaire) ▾</span>' : 'Pack Cardio ▾')}
+${f('Bon papier (photo ou PDF)', '<span class="hint">＋ Joindre un fichier</span>')}
+</div>
+${f('Commentaire', '<span class="hint">Livraison avant le 20 nov.</span>')}</div>`
+const linesCard = (opts = {}) => `<div class='card' style='padding:16px 18px;display:flex;flex-direction:column;gap:12px'>
+<div style='display:flex;align-items:center'><strong>Lignes</strong><span class='hint' style='margin-inline-start:10px'>Prix pharmacie · « S » = stratégique</span></div>
+<label class='field'><span>Ajouter des produits</span><div class='input' style='height:auto;min-height:44px;flex-wrap:wrap;gap:6px;padding:8px 10px'><span class='chip'>Atorix 20 mg ✕</span><span class='chip'>Tensiopril 5 mg ✕</span><span class='chip'>Lipanor 145 mg ✕</span><span class='hint'>Rechercher un produit…</span></div></label>
+${linesTable(true, opts)}
+${opts.bad === 0 ? `<div class='why bad'>Cardiozen 5 mg vient du Pack Cardio avec 60 boîtes au minimum : la quantité ne peut pas descendre à 15.</div>` : `<div class='why'>Cardiozen 5 mg et 10 mg viennent du Pack Cardio (modifiables : 60 et 40 au minimum). Les autres produits ont été ajoutés.</div>`}
+</div>`
+const newPage = (o = {}) => `<div class='col'>
+${crumbs(o.fromVisit ? 'Visites › Pharmacie Benali, 12 nov. 2026' : 'Commandes › Bons de commande', 'Nouvelle commande', '', `<span class='btn ghost'>Annuler</span><span class='btn dark' ${o.bad != null ? `style='opacity:.5'` : ''}>Enregistrer la commande</span>`)}
+${header(o.fromVisit, o.kam)}
+<div style='display:flex;gap:16px;align-items:flex-start'><div class='col'>${linesCard(o)}</div>${totals(o.kam ? 'kam' : 'brackets')}</div></div>`
+
+// ---- A visit's page with the button
+const visit = `<div class='col'>
+${crumbs('Visites', 'Pharmacie Benali', `<span class='chip ok'>Faite</span>`, `<span class='btn primary'>+ Ajouter une commande</span>`)}
+<div class='hint'>Visite du 12 nov. 2026 à 10:00 · Karim Saadi · pharmacie · Alger</div>
+<div style='display:flex;gap:14px;align-items:flex-start'>
+<div style='flex:1'>${card('La visite', kv([['Objectif', 'Présenter le Pack Cardio'], ['Compte rendu', 'Intéressé, commande passée'], ['Matériel', '2 présentoirs Cardiozen']]))}</div>
+<div style='flex:1'>${card('Commandes', `<div style='display:flex;align-items:center;gap:8px;padding:6px 0'><strong>CMD-000214</strong><span class='hint'>Medi-Distrib</span><span style='margin-inline-start:auto' class='num'>${money(ht - disc)}</span></div><div class='hint'>Une visite peut avoir plusieurs commandes (un fournisseur chacune).</div>`)}</div>
+</div></div>`
+
+// ---- The order's page: cards edited in place
+const orderPage = `<div class='col'>
+${crumbs('Commandes › Bons de commande', 'CMD-000214', `<span class='chip info'>Pack Cardio</span>`, `<span class='btn sm outline'>Supprimer</span>`)}
+<div class='hint'>Ajoutée par Karim Saadi le 12 nov. 2026 à 10:42 · depuis la <span style='color:var(--cobalt)'>visite du 12 nov.</span></div>
+<div style='display:flex;gap:16px;align-items:flex-start'><div class='col'>
+${card('La commande', kv([['Date', '12 nov. 2026'], ['Acheteur', 'Pharmacie Benali · pharmacie · Alger'], ['Fournisseur', 'Medi-Distrib'], ['Délégué', 'Karim Saadi'], ['Commentaire', 'Livraison avant le 20 nov.'], ['Bon papier', `<span style='color:var(--cobalt)'>bon-214.jpg ↗</span>`]]))}
+${card('Lignes', linesTable(false), { hint: `5 produits · prix gardés du 12 nov.` })}
+${card('Historique', `<div class='hint'>12 nov. 10:42 · Karim Saadi a ajouté la commande<br>13 nov. 09:10 · Nadia Belkacem (superviseur) : Atorix 40 → 50</div>`)}
+</div>${totals()}</div></div>`
+
+// ---- Réglages, 16b additions
+const settings = `<div class='col'>
+<div><div class='crumbs'>Commandes</div><h1 class='title display' style='font-size:34px'>Réglages</h1></div>
+${card('Seuil stratégique', `<div class='input' style='width:200px'>40 <span style='margin-inline-start:auto' class='hint'>%</span></div>`)}
+<div class='rec' style='outline:2px solid var(--cobalt)'><header><strong>Date d'une commande</strong></header><div style='display:flex;gap:12px;align-items:flex-end'>${f('Jours en arrière autorisés', `7 <span style='margin-inline-start:auto' class='hint'>jours</span>`)}</div><div class='why'>Le 12 nov., une commande peut être datée du 5 au 12 nov. Vide = sans limite. Jamais dans le futur.</div></div>
+<div class='rec' style='outline:2px solid var(--cobalt)'><header><strong>Remise négociée par client</strong><span class='tg' style='margin-inline-start:auto'></span></header>
+<label class='field'><span>Rôles qui l'utilisent *</span><div class='input'><span class='chip'>KAM ✕</span><span class='hint'>Rechercher un rôle…</span></div></label>
+<div class='why'>Allumé : une commande écrite par un KAM pour un client qui a une remise négociée sur sa fiche reçoit ce % sur ses produits remisables, à la place des paliers de l'offre.</div>
+<div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Enregistrer</span></div></div>
+</div>`
+
+// ---- The professional's record: the negotiated %
+const hcp = frame('Professionnels', `<div class='col'>
+${crumbs('Professionnels de santé', 'Medi-Distrib', `<span class='chip'>Grossiste</span>`)}
+<div style='display:flex;gap:14px;align-items:flex-start'><div style='flex:1'>${card('Coordonnées', kv([['Wilaya', 'Alger'], ['Téléphone', '023 45 67 89'], ['Email', 'commandes@medi-distrib.dz']]))}</div>
+<div style='flex:1'><div class='rec' style='outline:2px solid var(--cobalt)'><header><strong>Commandes</strong></header>${f('Remise négociée', `10 <span style='margin-inline-start:auto' class='hint'>%</span>`)}<div class='why'>Utilisée par les rôles choisis dans Commandes › Réglages (KAM). Vide = les paliers de l'offre. Visible seulement quand le réglage est allumé.</div><div style='display:flex;gap:10px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Enregistrer</span></div></div></div></div></div>`, '', 520)
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Commandes › Bons de commande.</strong> Recherche (n°, acheteur), période, fournisseur, délégué, pack ou ordinaire ; toutes les colonnes se trient. Le délégué voit les siennes, le manager celles de son équipe.`) + shell('Bons de commande', list(), '', 640),
+  label(2, `<strong>Un clic sur une commande : le panneau, en lecture.</strong> L'essentiel et un lien vers la visite. « Ouvrir la page » pour le détail et les modifications.`) + shell('Bons de commande', list(true) + readSide, '', 660),
+  label(3, `<strong>« + Nouvelle commande » : une page entière</strong> (beaucoup de lignes). L'en-tête, 3 champs par ligne ; les lignes ; les totaux à côté, calculés pendant la saisie, avec le palier de l'offre surligné. Ici Karim a choisi le Pack Cardio puis ajouté 3 produits.`) + shell('Bons de commande', newPage(), '', 900),
+  label(4, `<strong>Une ligne du pack sous son minimum : refusé.</strong> Cardiozen 5 mg est « modifiable » dans le Pack Cardio avec 60 au minimum.`) + shell('Bons de commande', newPage({ bad: 0 }), '', 900),
+  label(5, `<strong>Depuis une visite faite.</strong> Sur la page de la visite, « + Ajouter une commande » ; ses commandes y sont listées.`) + visitShell(visit, 520),
+  label(6, `<strong>La même page, depuis la visite.</strong> L'acheteur et la date viennent de la visite et ne changent pas ; la commande est liée à la visite.`) + shell('Bons de commande', newPage({ fromVisit: true }), '', 920),
+  label(7, `<strong>Remise négociée (KAM).</strong> Yacine (KAM) écrit pour Medi-Distrib, grossiste qui achète en direct chez Hydra Pharm : prix grossiste, et les 10 % de sa fiche à la place des paliers.`) + shell('Bons de commande', newPage({ kam: true }), '', 900),
+  label(8, `<strong>La page d'une commande.</strong> Des cartes modifiées sur place (la commande, les lignes) ; les totaux restent figés avec l'offre et les prix du 12 nov. ; l'historique de chaque changement.`) + shell('Bons de commande', orderPage, '', 900),
+  label(9, `<strong>Commandes › Réglages, ajouts de 16b.</strong> Les jours en arrière autorisés ; la remise négociée (interrupteur et rôles).`) + shell('Réglages', settings, '', 760),
+  label(10, `<strong>La fiche du professionnel de santé.</strong> Une carte « Commandes » avec la remise négociée, quand le réglage est allumé.`) + hcp,
+  label(11, `<strong>Supprimer une commande.</strong> L'auteur, ses supérieurs ou un admin ; jusqu'en 16c, à tout moment.`) + shell('Bons de commande', orderPage, dialog('Supprimer « CMD-000214 » ?', `La commande de Pharmacie Benali du 12 nov. (${money(ht - disc)}) sera supprimée. Son numéro ne sera pas réutilisé.`, `<span class='btn sm ghost'>Annuler</span><span class='btn sm dark'>Supprimer</span>`), 900),
+].join('')
+</script></body></html>

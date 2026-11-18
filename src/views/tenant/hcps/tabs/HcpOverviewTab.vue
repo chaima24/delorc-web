@@ -8,6 +8,7 @@ import DlRecordSection from '@/components/DlRecordSection.vue'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import HcpFields from '../HcpFields.vue'
+import HcpNegotiatedCard from '../HcpNegotiatedCard.vue'
 import HcpWorkplacesSection from '../HcpWorkplacesSection.vue'
 import { checkPart, isPerson, toForm, toPayload, useHcpText, type HcpPart } from '../hcpForm'
 
@@ -184,6 +185,8 @@ const ids = computed(() => [
         </dl>
         <template #edit><HcpFields v-model:form="form" part="ids" :errors="errors" /></template>
       </DlRecordSection>
+
+      <HcpNegotiatedCard v-if="hcp.negotiated_discount !== undefined" :hcp="hcp" @changed="emit('changed')" />
     </div>
   </div>
 </template>

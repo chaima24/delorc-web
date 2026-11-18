@@ -105,14 +105,15 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
-    // Commandes: offers, packs and settings (docs/api/orders-setup.md); the order forms come in 16b.
+    // Commandes: the orders (docs/api/orders.md), offers, packs and settings (docs/api/orders-setup.md); plan switch module.orders.
     id: 'orders',
     title: 'nav.workspaces.orders',
     icon: 'tabler-shopping-cart',
     links: [
-      { title: 'nav.orders.packs', to: { name: 'tenant-packs' }, icon: 'tabler-discount', resource: 'orders-setup', matches: ['tenant-pack'] },
-      { title: 'nav.orders.packCommandes', to: { name: 'tenant-pack-commandes' }, icon: 'tabler-package', resource: 'orders-setup', matches: ['tenant-pack-commande'] },
-      { title: 'nav.orders.settings', to: { name: 'tenant-order-settings' }, icon: 'tabler-settings', resource: 'orders-setup' },
+      { title: 'nav.orders.orders', to: { name: 'tenant-orders' }, icon: 'tabler-file-invoice', resource: 'orders', feature: 'module.orders', matches: ['tenant-order', 'tenant-order-new'] },
+      { title: 'nav.orders.packs', to: { name: 'tenant-packs' }, icon: 'tabler-discount', resource: 'orders-setup', feature: 'module.orders', matches: ['tenant-pack'] },
+      { title: 'nav.orders.packCommandes', to: { name: 'tenant-pack-commandes' }, icon: 'tabler-package', resource: 'orders-setup', feature: 'module.orders', matches: ['tenant-pack-commande'] },
+      { title: 'nav.orders.settings', to: { name: 'tenant-order-settings' }, icon: 'tabler-settings', resource: 'orders-setup', feature: 'module.orders' },
     ],
   },
   {

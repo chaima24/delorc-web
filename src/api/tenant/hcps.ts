@@ -78,6 +78,8 @@ export interface Hcp {
   usage?: { visits: number; orders: number; cycle_targets: number }
   created_at: string | null
   updated_at?: string | null
+  /** Orders: a fixed % negotiated with this customer; only on the page, and only when Commandes › Réglages has it on. */
+  negotiated_discount?: string | null
 }
 
 export type HcpTypeCounts = Record<HcpType | 'all', number>
@@ -114,6 +116,7 @@ export interface HcpPayload {
   wkp_id?: string
   /** Add only. */
   workplaces?: Required<Omit<HcpWorkplacePayload, 'end_date' | 'is_main'>>[]
+  negotiated_discount?: number | null
 }
 
 // ── 5c: duplicates and merge ──────────────────────────────────────────────

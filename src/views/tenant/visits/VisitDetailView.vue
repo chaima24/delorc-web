@@ -28,6 +28,8 @@ import VisitMaterialsField from './VisitMaterialsField.vue'
 import { fetchVisitMaterials, type OfferedMaterial } from '@/api/tenant/materials'
 import CampaignPromoBox from '@/views/tenant/campaigns/CampaignPromoBox.vue'
 import DlDatePicker from '@/components/DlDatePicker.vue'
+import VisitOrdersCard from '@/views/tenant/orders/VisitOrdersCard.vue'
+import { BUYER_TYPES } from '@/views/tenant/orders/ordersDisplay'
 
 // A visit's page: the report on the left (brands, ADVs shown, objectives and comment), the visit, the people and
 // the visits before and after on the right. Each card is edited in place; a planned visit gets "Saisir le compte
@@ -262,6 +264,8 @@ watch(() => props.id, load, { immediate: true })
                 <VisitMaterialsField v-model="report" :offered="offeredMaterials" :errors="errors" />
               </template>
             </DlRecordSection>
+
+            <VisitOrdersCard v-if="isDone && visit.orders && visit.target.type === 'hcp' && BUYER_TYPES.includes(visit.target.kind ?? '')" :visit-id="visit.id" :orders="visit.orders" />
 
             <DlRecordSection v-bind="section('notes')" :title="t('visits.blocks.notes')" icon="tabler-notes" class="bg-dl-paper" @update:editing="edit('notes')" @save="save" @cancel="editing = null">
               <dl class="grid grid-cols-[140px_1fr] gap-x-2.5 gap-y-2 text-[13.5px]">
