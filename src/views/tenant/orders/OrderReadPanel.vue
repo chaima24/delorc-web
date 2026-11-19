@@ -5,7 +5,7 @@ import type { Order } from '@/api/tenant/orders'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlRecordPanel from '@/components/DlRecordPanel.vue'
-import { useOrdersText } from './ordersDisplay'
+import { STATUS_TONE, useOrdersText } from './ordersDisplay'
 
 // Reading panel: the order's essentials and a link to its visit. Editing is on its page. Mockup frame 2.
 const props = defineProps<{ order: Order }>()
@@ -34,6 +34,7 @@ const rows = computed(() => [
   <DlRecordPanel v-model:open="open" :title="order.number">
     <template #badges>
       <span class="mt-1 flex flex-wrap items-center gap-1.5">
+        <DlBadge size="sm" :tone="STATUS_TONE[order.status]" dot>{{ text.status(order.status) }}</DlBadge>
         <DlBadge v-if="order.pack_commande" size="sm" tone="info">{{ order.pack_commande.name }}</DlBadge>
         <span class="text-xs text-dl-muted">{{ text.date(order.ordered_at) }}</span>
       </span>

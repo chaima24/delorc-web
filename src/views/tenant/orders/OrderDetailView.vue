@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { errorMessage, fieldErrors } from '@/api/errors'
-import { deleteOrder, fetchOrder, fetchOrderForm, removeOrderPhoto, updateOrder, uploadOrderPhoto, type Order, type OrderForm, type OrderPayload } from '@/api/tenant/orders'
+import { deleteOrder, fetchOrder, fetchOrderForm, moveOrder, removeOrderPhoto, updateOrder, uploadOrderPhoto, type Order, type OrderForm, type OrderMove, type OrderPayload } from '@/api/tenant/orders'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlDatePicker from '@/components/DlDatePicker.vue'
@@ -16,7 +16,8 @@ import { useToast } from '@/composables/useToast'
 import OrderHcpPicker from './OrderHcpPicker.vue'
 import OrderLinesEditor, { type EditLine } from './OrderLinesEditor.vue'
 import OrderTotalsCard, { type Totals } from './OrderTotalsCard.vue'
-import { SUPPLIER_TYPES, daysAgo, useOrdersText } from './ordersDisplay'
+import OrderCancelPanel from './OrderCancelPanel.vue'
+import { STATUS_TONE, SUPPLIER_TYPES, daysAgo, useOrdersText } from './ordersDisplay'
 import { useOrderPreview } from './useOrderPreview'
 
 // An order's page: the order and its lines, edited in place; the totals stay frozen (offer, bracket, prices of the
@@ -43,6 +44,8 @@ async function load() {
 watch(() => props.id, () => { order.value = null; load() }, { immediate: true })
 fetchOrderForm().then(value => { options.value = value }).catch(() => {})
 const canEdit = computed(() => !!order.value?.can?.update)
+// The paper form may come after the order, until it is invoiced (docs/api/order-status.md).
+const photoEditable = computed(() => !!order.value?.can?.photo)
 
 const NONE = 0
 type Card = 'order' | 'lines'
@@ -131,9 +134,47 @@ async function remove() {
   }
 }
 
+// The status flow (docs/api/order-status.md): the buttons the viewer may use, the steps, the cancel window.
+const STEPS = ['created', 'transmitted', 'validated', 'invoiced'] as const
+const reached = (step: string) => order.value?.status !== 'cancelled' && STEPS.indexOf(order.value!.status as (typeof STEPS)[number]) >= STEPS.indexOf(step as (typeof STEPS)[number])
+const MOVES: { move: OrderMove; variant: 'primary' | 'outline' }[] = [
+  { move: 'reopen', variant: 'outline' }, { move: 'cancel', variant: 'outline' },
+  { move: 'transmit', variant: 'primary' }, { move: 'validate', variant: 'primary' }, { move: 'invoice', variant: 'primary' },
+]
+const moves = computed(() => MOVES.filter(item => order.value?.can?.[item.move]))
+const moving = ref<OrderMove | null>(null)
+const cancelling = ref(false)
+const cancelError = ref('')
+async function run(move: OrderMove, reason?: string) {
+  if (!order.value) return
+  if (move === 'cancel' && reason === undefined) {
+    cancelError.value = ''
+    cancelling.value = true
+    return
+  }
+  moving.value = move
+  try {
+    order.value = await moveOrder(order.value.id, move, reason)
+    cancelling.value = false
+    editing.value = null
+    toast.success(t(`orders.status.done.${move}`))
+  }
+  catch (error) {
+    const fields = fieldErrors(error)
+    if (move === 'cancel' && fields.reason) cancelError.value = fields.reason
+    else toast.error(fields.status ?? errorMessage(error) ?? t('studio.list.toast.failed'))
+  }
+  finally {
+    moving.value = null
+  }
+}
+
 const historyLine = (line: NonNullable<Order['history']>[number]) => {
   const lines = (value: unknown) => (Array.isArray(value) ? value.join(', ') : '')
   if (line.event === 'created') return t('orders.page.historyCreated')
+  if (['transmitted', 'validated', 'cancelled', 'reopened', 'invoiced'].includes(line.event)) {
+    return line.reason ? t('orders.status.history.cancelledWhy', { reason: line.reason }) : t(`orders.status.history.${line.event}`)
+  }
   if (line.new && 'lines' in line.new) return t('orders.page.historyLines', { before: lines(line.old?.lines), after: lines(line.new.lines) })
   return t('orders.page.historyChanged')
 }
@@ -158,6 +199,7 @@ const historyLine = (line: NonNullable<Order['history']>[number]) => {
           </nav>
           <h1 class="flex flex-wrap items-center gap-3 font-display text-[28px] font-extrabold leading-tight tracking-[-0.03em] md:text-[32px]">
             {{ order.number }}
+            <DlBadge size="sm" :tone="STATUS_TONE[order.status]" dot>{{ text.status(order.status) }}</DlBadge>
             <DlBadge v-if="order.pack_commande" size="sm" tone="info">{{ order.pack_commande.name }}</DlBadge>
           </h1>
           <p class="flex flex-wrap items-center gap-1.5 text-[13px] text-dl-muted">
@@ -167,8 +209,21 @@ const historyLine = (line: NonNullable<Order['history']>[number]) => {
             </template>
           </p>
         </div>
-        <DlButton v-if="order.can?.delete" variant="outline" icon="tabler-trash" @click="remove">{{ t('common.actions.delete') }}</DlButton>
+        <div class="flex flex-wrap gap-2">
+          <DlButton v-if="order.can?.delete" variant="outline" icon="tabler-trash" @click="remove">{{ t('common.actions.delete') }}</DlButton>
+          <DlButton v-for="item in moves" :key="item.move" :variant="item.variant" :loading="moving === item.move" @click="run(item.move)">{{ t(`orders.status.move.${item.move}`) }}</DlButton>
+        </div>
       </div>
+
+      <ol class="flex flex-wrap items-center gap-1.5 text-[13px]" :aria-label="t('orders.fields.status')">
+        <template v-for="(step, i) in STEPS" :key="step">
+          <li><DlBadge size="sm" :tone="reached(step) ? 'success' : 'neutral'" :class="order.status === step && 'ring-2 ring-dl-ink'">{{ text.status(step) }}</DlBadge></li>
+          <li v-if="i < STEPS.length - 1" aria-hidden="true" class="text-dl-muted">→</li>
+        </template>
+      </ol>
+      <p v-if="order.status === 'cancelled'" class="rounded-2xl bg-dl-rejected/8 px-4 py-3 text-[13.5px] text-dl-rejected">{{ t('orders.status.cancelledBanner', { reason: order.cancel_reason ?? '' }) }}</p>
+      <p v-else-if="order.status === 'transmitted' && !moves.length" class="rounded-2xl bg-dl-mist px-4 py-3 text-[13.5px] text-dl-muted">{{ t('orders.status.waiting') }}</p>
+      <p v-else-if="order.status !== 'created' && !order.can?.update" class="rounded-2xl bg-dl-mist px-4 py-3 text-[13.5px] text-dl-muted">{{ t('orders.status.locked') }}</p>
 
       <div class="grid items-start gap-4 xl:grid-cols-[1fr_380px]">
         <div class="flex min-w-0 flex-col gap-4">
@@ -232,10 +287,10 @@ const historyLine = (line: NonNullable<Order['history']>[number]) => {
             <div v-if="order.photo" class="flex flex-wrap items-center gap-3 text-[13px]">
               <a v-if="order.photo.url" :href="order.photo.url" target="_blank" rel="noopener" class="text-dl-cobalt no-underline hover:underline">{{ order.photo.name }} ↗</a>
               <span v-else>{{ order.photo.name }}</span>
-              <DlButton v-if="canEdit" size="sm" variant="ghost" icon="tabler-trash" @click="dropPhoto">{{ t('common.actions.delete') }}</DlButton>
+              <DlButton v-if="photoEditable" size="sm" variant="ghost" icon="tabler-trash" @click="dropPhoto">{{ t('common.actions.delete') }}</DlButton>
             </div>
             <p v-else class="text-[13px] text-dl-muted">{{ t('orders.page.noPhoto') }}</p>
-            <input v-if="canEdit" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" class="text-[13px] file:me-3 file:rounded-lg file:border file:border-dl-line file:bg-dl-paper file:px-3 file:py-1.5" :aria-label="t('orders.fields.photo')" @change="addPhoto">
+            <input v-if="photoEditable" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" class="text-[13px] file:me-3 file:rounded-lg file:border file:border-dl-line file:bg-dl-paper file:px-3 file:py-1.5" :aria-label="t('orders.fields.photo')" @change="addPhoto">
           </section>
 
           <section class="flex flex-col gap-2 rounded-3xl bg-dl-paper p-4 md:p-5">
@@ -251,6 +306,7 @@ const historyLine = (line: NonNullable<Order['history']>[number]) => {
         </div>
         <OrderTotalsCard :totals="totals" :loading="editing === 'lines' && live.loading.value" :client="order.client?.name" />
       </div>
+      <OrderCancelPanel v-if="cancelling" v-model:open="cancelling" :number="order.number" :saving="moving === 'cancel'" :error="cancelError" @confirm="reason => run('cancel', reason)" />
     </template>
   </div>
 </template>

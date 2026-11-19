@@ -1,0 +1,121 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Commandes, les statuts</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; display: inline-block; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 220px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 460px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.cell { height: 38px; border: 1px solid var(--line); border-radius: 10px; padding: 0 10px; display: flex; align-items: center; background: var(--paper); font-variant-numeric: tabular-nums; } .cell.bad { border-color: var(--brick); }
+.cell.muted { color: var(--muted); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); } .ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; } .pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.sec { border: 1px solid var(--line); border-radius: 16px; } .sec header { display: flex; align-items: center; padding: 10px 12px 6px; gap: 8px; } .sec header strong { flex: 1; font-size: 14px; }
+.sec .line { padding: 0 12px 12px; font-size: 13px; color: var(--body); } .sec .kv { grid-template-columns: 150px 1fr; }
+.edit { height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); display: inline-flex; align-items: center; white-space: nowrap; }
+</style></head><body>
+<p class="caption"><strong>Commandes › partie 16c, les statuts — proposition.</strong> Une commande suit : <strong>créée → transmise → validée → facturée</strong>, ou <strong>annulée</strong> avec un motif. Karim l'écrit et la transmet ; Nadia (au-dessus de lui) la valide, l'annule ou la rouvre ; l'admin la marque facturée. Après « créée », elle ne change plus. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Les statuts</b> (décidé le 19 nov.) : créée → transmise → validée → facturée ; annulée, avec un motif obligatoire, depuis transmise ou validée. Pas de « honorée ».</li>
+  <li><b>Transmettre</b> (décidé) : le délégué, ou une personne au-dessus de lui, sur une commande créée.</li>
+  <li><b>Valider, annuler, rouvrir</b> (décidé) : toute personne au-dessus du délégué et les admins, plus le droit <code>orders.validate</code> que le laboratoire peut donner à un autre rôle. Rouvrir = retour à « créée », depuis transmise, validée ou annulée ; refusé une fois facturée. <b>Proposé :</b> le délégué ne valide jamais sa propre commande.</li>
+  <li><b>Facturée</b> (décidé) : un simple statut. Un admin, ou le droit <code>orders.invoice</code>, marque facturée une commande validée. Pas de saisie de factures (un module à part, plus tard).</li>
+  <li><b>Verrouillée après « créée »</b> (décidé) : on ne modifie ni ne supprime une commande qu'à l'état créée. Pour corriger, on la rouvre.</li>
+  <li><b>L'historique</b> (décidé) : chaque changement de statut est une ligne (qui, quand, motif).</li>
+  <li><b>Par défaut</b> (pris pour vous) : pas d'email à la validation (les notifications sont le module 20) ; les commandes écrites avant 16c sont « créées ».</li>
+  <li><b>Proposé :</b> le cycle compte toutes les commandes sauf les annulées ; la liste filtre par statut et en montre le nombre par statut.</li>
+</ol>
+<script>
+
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const da = n => n.toLocaleString('fr-FR').replace(/ /g, ' ')
+const side = (title, sub, body, foot = '') => `<aside class='panel'><div class='ph'><div style='flex:1;min-width:0'><h2 class='display'>${title}</h2><div class='sub'>${sub}</div></div><span class='icb'>✕</span></div><div class='pb'>${body}</div>${foot ? `<div class='pf'>${foot}</div>` : ''}</aside>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const kv = rows => `<div class='kv'>${rows.map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('')}</div>`
+const card = (title, body, { editing = false, hint = '' } = {}) => `<div class='rec' ${editing ? `style='outline:2px solid var(--cobalt)'` : ''}><header><strong>${title}</strong>${hint ? `<span class='hint'>${hint}</span>` : ''}${editing ? '' : `<span class='btn sm outline'>✎ Modifier</span>`}</header>${body}</div>`
+const dialog = (title, text, actions) => `<div class='dialog'><div class='box'><strong style='font-size:17px'>${title}</strong><div>${text}</div><footer>${actions}</footer></div></div>`
+const frame = (rail, inner, extra = '', h = 680) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SH</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+// The workspace's pages in a bar on top, as every workspace; the list and its side panel below.
+
+const wsNav = on => `<nav class='ws-nav'>${['Bons de commande', 'Offres commerciales', 'Packs de commande', 'Réglages'].map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const shell = (on, inner, extra = '', h = 680) => frame('Commandes', `<div style='display:flex;flex-direction:column;flex:1;gap:16px;min-width:0'>${wsNav(on)}<div style='display:flex;gap:20px;align-items:flex-start'>${inner}</div></div>`, extra, h)
+const visitShell = (inner, h) => frame('Visites', `<div style='display:flex;flex-direction:column;flex:1;gap:16px;min-width:0'><nav class='ws-nav'><a>Calendrier</a><a class='on'>Visites</a><a>Activités</a></nav><div style='display:flex;gap:20px;align-items:flex-start'>${inner}</div></div>`, '', h)
+const money = n => `${da(Math.round(n))} DA`
+const crumbs = (t, title, chip = '', btn = '') => `<div><div class='crumbs'>${t}</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>${title}</h1>${chip}<span style='margin-inline-start:auto;display:flex;gap:8px'>${btn}</span></div></div>`
+
+// The example order: Pharmacie Benali, 12 Nov, November offer, threshold 40 %.
+const L = [
+  ['Cardiozen 5 mg, 30 cp', 968, 60, 10, 1, 1], ['Cardiozen 10 mg, 30 cp', 1240, 40, 10, 1, 1], ['Atorix 20 mg, 30 cp', 720, 50, 0, 0, 1],
+  ['Tensiopril 5 mg, 28 cp', 455, 80, 30, 0, 1], ['Lipanor 145 mg, 30 gél.', 1080, 25, 0, 0, 0],
+]
+const ht = L.reduce((s, [, p, q]) => s + p * q, 0)
+const strat = L.reduce((s, [, p, q, , st]) => s + (st ? p * q : 0), 0)
+const remisable = L.reduce((s, [, p, q, , , r]) => s + (r ? p * q : 0), 0)
+const disc = remisable * 0.05
+const free = L.reduce((s, [, , q, u]) => s + Math.round(q * u / 100), 0)
+const paid = L.reduce((s, [, , q]) => s + q, 0)
+
+
+const STATES = { 'Créée': '', 'Transmise': 'info', 'Validée': 'ok', 'Facturée': 'ok', 'Annulée': 'bad' }
+const chipOf = s => `<span class='chip ${STATES[s]}'>${s}</span>`
+const ROWS = [
+  ['CMD-000214', '12 nov.', 'Pharmacie Benali', 'Karim Saadi', 198076, 'Transmise'],
+  ['CMD-000213', '12 nov.', 'Medi-Distrib', 'Yacine Amrani', 412300, 'Validée'],
+  ['CMD-000212', '11 nov.', 'Pharmacie El Amel', 'Karim Saadi', 96800, 'Créée'],
+  ['CMD-000211', '10 nov.', 'Pharmacie Ziani', 'Nadia Belkacem', 254120, 'Facturée'],
+  ['CMD-000210', '9 nov.', 'Pharmacie du Centre', 'Karim Saadi', 58400, 'Annulée'],
+]
+const list = `<div class='col'>
+<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Commandes</div><h1 class='title display' style='font-size:34px'>Bons de commande</h1></div><span class='btn primary' style='margin-inline-start:auto'>+ Nouvelle commande</span></div>
+<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center'><div class='input muted' style='width:220px'>N° ou acheteur…</div><span class='seg'><span class='on'>Tous · 5</span><span>Créées · 1</span><span>Transmises · 1</span><span>Validées · 1</span><span>Facturées · 1</span><span>Annulées · 1</span></span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>N° ↕</th><th>Date ↕</th><th>Acheteur ↕</th><th>Délégué ↕</th><th class='num'>Total TTC ↕</th><th>Statut ↕</th></tr></thead><tbody>
+${ROWS.map(([n, d, b, u, t, s], i) => `<tr class='${i === 0 ? 'sel' : ''}'><td><strong>${n}</strong></td><td>${d}</td><td>${b}</td><td>${u}</td><td class='num'>${money(t)}</td><td>${chipOf(s)}</td></tr>`).join('')}
+</tbody></table></div></div>`
+
+const steps = on => `<div style='display:flex;gap:6px;align-items:center;font-size:13px'>${['Créée', 'Transmise', 'Validée', 'Facturée'].map((s, i, all) => `<span class='chip ${all.indexOf(on) >= i ? 'ok' : ''}' style='${s === on ? 'outline:2px solid var(--ink)' : ''}'>${s}</span>${i < 3 ? '<span class="hint">→</span>' : ''}`).join('')}</div>`
+const page = (state, who, buttons, extra = '') => `<div class='col'>
+${crumbs('Commandes › Bons de commande', 'CMD-000214', chipOf(state), buttons)}
+<div class='hint'>Pharmacie Benali · Medi-Distrib · Karim Saadi · 12 nov. 2026 · ${money(198076)} — vue par <strong>${who}</strong></div>
+${steps(state)}
+${extra}
+<div style='display:flex;gap:16px;align-items:flex-start'><div class='col'>
+${card('La commande', kv([['Date', '12 nov. 2026'], ['Acheteur', 'Pharmacie Benali'], ['Fournisseur', 'Medi-Distrib'], ['Commentaire', 'Livraison avant le 20 nov.']]), { hint: state === 'Créée' ? '' : '🔒 verrouillée' }).replace(state === 'Créée' ? '' : "<span class='btn sm outline'>✎ Modifier</span>", '')}
+${card('Historique', `<div class='hint'>${state === 'Validée' ? '14 nov. 09:10 · Nadia Belkacem : validée<br>' : ''}${state !== 'Créée' ? '12 nov. 18:02 · Karim Saadi : transmise<br>' : ''}12 nov. 10:42 · Karim Saadi a ajouté la commande</div>`)}
+</div>${card('Totaux', kv([['Total HT', money(207080)], ['Remise', '5 % · ' + money(9004)], ['Total TTC', `<strong>${money(198076)}</strong>`]]))}</div></div>`
+
+const cancelBox = `<div class='dialog'><div class='box'><strong style='font-size:17px'>Annuler « CMD-000214 » ?</strong>
+${f('Motif *', 'Changement de grossiste : la pharmacie commande chez Hydra Pharm')}
+<div class='hint'>La commande passe à « annulée » ; le motif reste dans l'historique. Elle peut être rouverte.</div>
+<footer><span class='btn sm ghost'>Retour</span><span class='btn sm dark'>Annuler la commande</span></footer></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>La liste avec les statuts.</strong> Une colonne « Statut » qui se trie, un filtre par statut avec le nombre de chaque.`) + shell('Bons de commande', list, '', 560),
+  label(2, `<strong>Créée, vue par Karim (le délégué).</strong> Il la modifie encore, la supprime, ou la transmet.`) + shell('Bons de commande', page('Créée', 'Karim', `<span class='btn sm outline'>Supprimer</span><span class='btn primary'>Transmettre</span>`), '', 640),
+  label(3, `<strong>Transmise, vue par Nadia (au-dessus de Karim).</strong> Elle valide, annule, ou la rouvre pour que Karim corrige. La commande ne se modifie plus.`) + shell('Bons de commande', page('Transmise', 'Nadia', `<span class='btn sm outline'>Rouvrir</span><span class='btn sm outline'>Annuler</span><span class='btn primary'>Valider</span>`), '', 640),
+  label(4, `<strong>Transmise, vue par Karim.</strong> Rien à faire : il attend la validation.`) + shell('Bons de commande', page('Transmise', 'Karim', '', `<div class='why'>En attente de validation par Nadia Belkacem ou un autre responsable. Pour corriger, demandez qu'elle soit rouverte.</div>`), '', 640),
+  label(5, `<strong>Annuler : un motif obligatoire.</strong>`) + shell('Bons de commande', page('Transmise', 'Nadia', `<span class='btn sm outline'>Rouvrir</span><span class='btn sm outline'>Annuler</span><span class='btn primary'>Valider</span>`), cancelBox, 640),
+  label(6, `<strong>Validée, vue par l'admin.</strong> Il la marque facturée, l'annule, ou la rouvre.`) + shell('Bons de commande', page('Validée', "l'admin", `<span class='btn sm outline'>Rouvrir</span><span class='btn sm outline'>Annuler</span><span class='btn primary'>Marquer facturée</span>`), '', 660),
+  label(7, `<strong>Facturée.</strong> C'est la fin : plus de bouton, ni rouvrir ni annuler.`) + shell('Bons de commande', page('Facturée', "l'admin", ''), '', 640),
+].join('')
+</script></body></html>

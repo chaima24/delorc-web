@@ -1,5 +1,7 @@
 import { useI18n } from 'vue-i18n'
-import type { PackState } from '@/api/tenant/orders'
+import type { OrderStatus, PackState } from '@/api/tenant/orders'
+
+export const STATUS_TONE: Record<OrderStatus, 'neutral' | 'info' | 'success' | 'danger'> = { created: 'neutral', transmitted: 'info', validated: 'success', invoiced: 'success', cancelled: 'danger' }
 
 export const PACK_TONE: Record<PackState, 'success' | 'info' | 'neutral'> = { current: 'success', upcoming: 'info', ended: 'neutral', off: 'neutral' }
 
@@ -17,6 +19,7 @@ export function useOrdersText() {
     period: (start: string, end: string) => `${date(start)} → ${date(end)}`,
     state: (state: PackState) => t(`orders.packs.state.${state}`),
     clientType: (type: string) => t(`orders.packCommandes.for.${type}`),
+    status: (status: OrderStatus) => t(`orders.status.${status}`),
   }
 }
 

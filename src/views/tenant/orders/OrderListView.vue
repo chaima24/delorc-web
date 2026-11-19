@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { fetchOrder, fetchOrderForm, fetchOrders, type Order } from '@/api/tenant/orders'
+import { ORDER_STATUSES, fetchOrder, fetchOrderForm, fetchOrders, type Order, type OrderStatus } from '@/api/tenant/orders'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import DlDataList from '@/components/DlDataList.vue'
@@ -15,7 +15,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useStudioList } from '@/views/tenant/settings/shared/useStudioList'
 import OrderHcpPicker from './OrderHcpPicker.vue'
 import OrderReadPanel from './OrderReadPanel.vue'
-import { SUPPLIER_TYPES, useOrdersText } from './ordersDisplay'
+import { STATUS_TONE, SUPPLIER_TYPES, useOrdersText } from './ordersDisplay'
 
 // Commandes › Bons de commande: the orders of the people the viewer sees. Search, period, supplier, rep, pack or
 // ordinary; every column sorts. A click opens the reading panel. Mockup: docs/design/orders-mockups/Orders.html (1, 2)
@@ -26,7 +26,8 @@ const canAdd = computed(() => auth.can('orders.create'))
 
 const ALL = 'all'
 const sum = ref(0)
-const list = useStudioList<Order, { from: string; to: string; supplier: number | null; user: number; type: string }>(
+const counts = ref<Partial<Record<OrderStatus, number>>>({})
+const list = useStudioList<Order, { from: string; to: string; supplier: number | null; user: number; type: string; status: string }>(
   async ({ page, perPage, search, sort, filters }) => {
     const answer = await fetchOrders({
       page,
@@ -38,11 +39,13 @@ const list = useStudioList<Order, { from: string; to: string; supplier: number |
       'filter[supplier_hcp_id]': filters.supplier ?? undefined,
       'filter[user_id]': filters.user || undefined,
       'filter[type]': filters.type === ALL ? undefined : filters.type,
+      'filter[status]': filters.status === ALL ? undefined : filters.status,
     })
     sum.value = answer.sum
+    counts.value = answer.counts
     return answer
   },
-  { from: '', to: '', supplier: null, user: 0, type: ALL },
+  { from: '', to: '', supplier: null, user: 0, type: ALL, status: ALL },
   '-ordered_at',
 )
 const { page, perPage, search, sort, filters, items, total, loading } = list
@@ -56,10 +59,15 @@ onMountedAndFocus(async () => {
   people.value = [{ value: 0, label: t('orders.list.everyone') }, ...form.people.map(person => ({ value: person.id, label: person.full_name }))]
 })
 const typeItems = computed(() => [ALL, 'pack', 'ordinary'].map(value => ({ value, label: t(`orders.list.type.${value}`) })))
-const filtering = computed(() => !!search.value || !!filters.from || !!filters.to || filters.supplier != null || !!filters.user || filters.type !== ALL)
+// Statuses with their count, from the other filters (docs/api/order-status.md).
+const statusItems = computed(() => {
+  const all = Object.values(counts.value).reduce((a, b) => a + (b ?? 0), 0)
+  return [{ value: ALL, label: `${t('orders.list.type.all')} · ${all}` }, ...ORDER_STATUSES.map(status => ({ value: status, label: `${text.status(status)} · ${counts.value[status] ?? 0}` }))]
+})
+const filtering = computed(() => !!search.value || !!filters.from || !!filters.to || filters.supplier != null || !!filters.user || filters.type !== ALL || filters.status !== ALL)
 function reset() {
   search.value = ''
-  Object.assign(filters, { from: '', to: '', supplier: null, user: 0, type: ALL })
+  Object.assign(filters, { from: '', to: '', supplier: null, user: 0, type: ALL, status: ALL })
 }
 
 const columns = computed(() => [
@@ -71,6 +79,7 @@ const columns = computed(() => [
   { key: 'total_ttc', label: t('orders.form.totalTtc'), sortKey: 'total_ttc', align: 'end' as const },
   { key: 'source', label: t('orders.list.source'), secondary: true },
   { key: 'type', label: t('orders.list.typeColumn'), secondary: true },
+  { key: 'status', label: t('orders.fields.status'), sortKey: 'status' },
 ])
 
 const open = ref(false)
@@ -95,6 +104,7 @@ async function show(row: Order) {
         <DlButton v-if="canAdd" variant="primary" icon="tabler-plus" class="max-md:hidden" :to="{ name: 'tenant-order-new' }">{{ t('orders.list.add') }}</DlButton>
       </div>
 
+      <DlSegmented v-model="filters.status" :label="t('orders.fields.status')" :items="statusItems" />
       <div class="flex flex-wrap items-end gap-2.5">
         <div class="w-60 max-md:w-full"><DlInput v-model="search" :label="t('orders.list.search')" :placeholder="t('orders.list.search')" icon="tabler-search" hide-label /></div>
         <div class="w-64 max-md:w-full"><DlDateRangePicker v-model:start="filters.from" v-model:end="filters.to" :label="t('common.dates.period')" hide-label clearable /></div>
@@ -127,8 +137,9 @@ async function show(row: Order) {
           <template #cell-total_ttc="{ row }"><span class="whitespace-nowrap tabular-nums">{{ text.amount(row.total_ttc) }}</span></template>
           <template #cell-source="{ row }"><DlBadge v-if="row.visit" size="sm">{{ t('orders.list.fromVisit') }}</DlBadge><span v-else class="text-dl-muted">—</span></template>
           <template #cell-type="{ row }"><DlBadge size="sm" :tone="row.pack_commande ? 'info' : 'neutral'">{{ row.pack_commande ? t('orders.list.type.pack') : t('orders.list.type.ordinary') }}</DlBadge></template>
+          <template #cell-status="{ row }"><DlBadge size="sm" :tone="STATUS_TONE[row.status]" dot>{{ text.status(row.status) }}</DlBadge></template>
           <template #card="{ row }">
-            <strong class="block font-semibold">{{ row.number }} · {{ row.client?.name }}</strong>
+            <strong class="block font-semibold">{{ row.number }} · {{ row.client?.name }} · {{ text.status(row.status) }}</strong>
             <span class="text-xs text-dl-muted">{{ [text.date(row.ordered_at), row.supplier?.name, text.amount(row.total_ttc)].join(' · ') }}</span>
           </template>
         </DlDataList>

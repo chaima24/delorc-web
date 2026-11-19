@@ -130,10 +130,17 @@ export interface OrderLine {
   from_pack: boolean
 }
 
+/** créée → transmise → validée → facturée, or annulée with a reason (docs/api/order-status.md). */
+export type OrderStatus = 'created' | 'transmitted' | 'validated' | 'invoiced' | 'cancelled'
+export const ORDER_STATUSES: OrderStatus[] = ['created', 'transmitted', 'validated', 'invoiced', 'cancelled']
+export type OrderMove = 'transmit' | 'validate' | 'cancel' | 'reopen' | 'invoice'
+
 export interface Order {
   id: number
   number: string
   ordered_at: string
+  status: OrderStatus
+  cancel_reason: string | null
   user?: { id: number; full_name: string }
   client?: OrderHcp
   supplier?: OrderHcp
@@ -155,8 +162,8 @@ export interface Order {
   total_ttc: string
   comment: string | null
   photo?: { id: number; name: string; url?: string; mime?: string } | null
-  can?: { update: boolean; delete: boolean }
-  history?: { event: string; by: string | null; at: string; old: Record<string, unknown> | null; new: Record<string, unknown> | null }[]
+  can?: { update: boolean; delete: boolean; photo: boolean } & Record<OrderMove, boolean>
+  history?: { event: string; by: string | null; at: string; old: Record<string, unknown> | null; new: Record<string, unknown> | null; reason: string | null }[]
   created_by?: { id: number; full_name: string } | null
   created_at: string | null
 }
@@ -202,8 +209,8 @@ export interface OrderForm {
 }
 
 export const fetchOrders = (params?: ListParams) =>
-  client.get<{ data: Order[]; meta: { total: number; sum_ttc: number } }>('/orders', { params })
-    .then((response) => ({ items: response.data.data, total: response.data.meta.total, sum: response.data.meta.sum_ttc }))
+  client.get<{ data: Order[]; meta: { total: number; sum_ttc: number; status_counts: Record<OrderStatus, number> } }>('/orders', { params })
+    .then((response) => ({ items: response.data.data, total: response.data.meta.total, sum: response.data.meta.sum_ttc, counts: response.data.meta.status_counts }))
 export const fetchOrder = (id: number) => one<Order>(client.get(`/orders/${id}`))
 export const fetchOrderForm = () => one<OrderForm>(client.get('/orders/form'))
 export const previewOrder = (payload: OrderPayload & { id?: number }) => one<OrderPreview>(client.post('/orders/preview', payload))
@@ -217,3 +224,5 @@ export const uploadOrderPhoto = (id: number, photo: File) => {
   return one(client.post(`/orders/${id}/photo`, form))
 }
 export const removeOrderPhoto = (id: number) => client.delete(`/orders/${id}/photo`)
+/** One move of the status flow; the answer is the order's page. */
+export const moveOrder = (id: number, move: OrderMove, reason?: string) => one<Order>(client.post(`/orders/${id}/${move}`, reason ? { reason } : {}))
