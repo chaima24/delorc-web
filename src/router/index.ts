@@ -48,6 +48,7 @@ const labRoutes = [
       { path: 'activity-types', name: 'tenant-activity-types', component: () => import('@/views/tenant/activity-types/ActivityTypeListView.vue'), meta: { permission: 'activity-types.show' } },
       { path: 'event-types', name: 'tenant-event-types', component: () => import('@/views/tenant/event-types/EventTypeListView.vue'), meta: { permission: 'event-types.show' } },
       { path: 'canals', name: 'tenant-canals', component: () => import('@/views/tenant/canals/CanalListView.vue'), meta: { permission: 'canals.show' } },
+      { path: 'survey-question-categories', name: 'tenant-survey-question-categories', component: () => import('@/views/tenant/survey-question-categories/SurveyQuestionCategoryListView.vue'), meta: { permission: 'survey-question-categories.show' } },
       { path: 'cancel-reasons', name: 'tenant-cancel-reasons', component: () => import('@/views/tenant/cancel-reasons/CancelReasonListView.vue'), meta: { permission: 'cancel-reasons.show' } },
       { path: 'visit-settings', name: 'tenant-visit-settings', component: () => import('@/views/tenant/visits/VisitSettingsView.vue'), meta: { permission: 'calendar.show' } },
       { path: 'materiels', name: 'tenant-materiels', component: () => import('@/views/tenant/materiels/MaterielListView.vue'), meta: { permission: 'materiels.show' } },
@@ -108,6 +109,9 @@ const labRoutes = [
       // Aide › Mes tickets (docs/api/e-tickets.md): every lab user, opened from « ? » in the top bar.
       { path: 'help', name: 'tenant-help', component: () => import('@/views/tenant/help/HelpListView.vue') },
       { path: 'help/:id(\\d+)', name: 'tenant-help-ticket', component: () => import('@/views/tenant/help/HelpTicketView.vue'), props: true },
+      // Enquêtes › Enquêtes (docs/api/surveys.md).
+      { path: 'surveys', name: 'tenant-surveys', component: () => import('@/views/tenant/surveys/SurveyListView.vue'), meta: { permission: 'surveys.show' } },
+      { path: 'surveys/:id(\\d+)', name: 'tenant-survey', component: () => import('@/views/tenant/surveys/SurveyDetailView.vue'), props: true, meta: { permission: 'surveys.show' } },
       // Veille concurrentielle › Notes, Réglages (docs/api/competitive-informations.md).
       { path: 'competitive-informations', name: 'tenant-competitive-informations', component: () => import('@/views/tenant/competitive/CompetitiveListView.vue'), meta: { permission: 'competitive-informations.show' } },
       { path: 'competitive-informations/:id(\\d+)', name: 'tenant-competitive-information', component: () => import('@/views/tenant/competitive/CompetitiveDetailView.vue'), props: true, meta: { permission: 'competitive-informations.show' } },

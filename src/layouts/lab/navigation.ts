@@ -127,6 +127,15 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
+    // Enquêtes: surveys and their questions (docs/api/surveys.md); plan switch module.surveys. 19b–19d add their pages.
+    id: 'surveys',
+    title: 'nav.workspaces.surveys',
+    icon: 'tabler-clipboard-list',
+    links: [
+      { title: 'nav.surveys.surveys', to: { name: 'tenant-surveys' }, icon: 'tabler-clipboard-list', resource: 'surveys', feature: 'module.surveys', matches: ['tenant-survey'] },
+    ],
+  },
+  {
     // Réclamations: complaints about work, handled by complaints.handle, never by the hierarchy (docs/api/complaints.md); plan switch module.complaints.
     id: 'complaints',
     title: 'nav.workspaces.complaints',

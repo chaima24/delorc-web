@@ -1431,6 +1431,10 @@
       "complaints": {
         "description": "Internal complaints from the teams, handled by the people the lab names (not the hierarchy), with optional anonymous sending.",
         "name": "Complaints"
+      },
+      "surveys": {
+        "description": "Questionnaires prepared by marketing and filled in by reps with healthcare professionals.",
+        "name": "Surveys"
       }
     },
     "events": {

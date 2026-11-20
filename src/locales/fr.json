@@ -1431,6 +1431,10 @@
       "complaints": {
         "description": "Réclamations internes des équipes, traitées par les personnes que le labo désigne (pas la hiérarchie), avec envoi anonyme possible.",
         "name": "Réclamations"
+      },
+      "surveys": {
+        "description": "Questionnaires préparés par le marketing et remplis par les délégués auprès des professionnels de santé.",
+        "name": "Enquêtes"
       }
     },
     "events": {
