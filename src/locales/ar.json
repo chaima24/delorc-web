@@ -13,7 +13,9 @@
       "test": "إرسال تجريبي",
       "update": "تعديل",
       "update-contact": "تغيير بريده الإلكتروني وهاتفه",
-      "update-plan": "تغيير الخطة"
+      "update-plan": "تغيير الخطة",
+      "answer": "الرد",
+      "settings": "تعديل الإعدادات"
     },
     "actionsCount": "الإجراءات: {count}",
     "all": "الكل",
@@ -21,7 +23,8 @@
       "access": "الوصول",
       "content": "المحتوى",
       "labs": "المخابر",
-      "system": "النظام"
+      "system": "النظام",
+      "support": "الدعم"
     },
     "everything": "الكل",
     "resource": {
@@ -38,7 +41,8 @@
       "settings": "الإعدادات",
       "translations": "الترجمات",
       "usage": "الاستخدام",
-      "users": "الأشخاص"
+      "users": "الأشخاص",
+      "tickets": "التذاكر"
     },
     "role": {
       "billing": "الفوترة",
@@ -227,7 +231,15 @@
         "username": "اسم المستخدم",
         "value": "القيمة",
         "website": "الموقع الإلكتروني",
-        "wilaya": "الولاية"
+        "wilaya": "الولاية",
+        "names": "الأسماء",
+        "hours": "المهلة (ساعات)",
+        "sort": "الترتيب",
+        "tickets": {
+          "support_email": "عنوان الدعم",
+          "close_after_days": "إغلاق التذكرة المحلولة (أيام)",
+          "reopen_days": "إعادة الفتح ممكنة (أيام)"
+        }
       },
       "hideAutomatic": "إخفاء التغييرات التلقائية",
       "imported": "أُضيف {keys} مفتاح و{texts} نص",
@@ -264,7 +276,9 @@
         "settings": "الإعدادات",
         "sign_in": "تسجيل الدخول",
         "translations": "نصوص",
-        "wilaya": "ولاية"
+        "wilaya": "ولاية",
+        "ticket_category": "فئة التذاكر",
+        "ticket_priority": "أولوية التذاكر"
       },
       "right": "{resource}، {action}",
       "rightAdded": "{right}: أُضيف",
@@ -366,6 +380,20 @@
           "created": "أضاف {author} الولاية {record}",
           "deleted": "حذف {author} الولاية {record}",
           "updated": "عدّل {author} الولاية {record}"
+        },
+        "ticket_category": {
+          "created": "{author} أضاف فئة التذاكر {record}",
+          "updated": "{author} عدّل فئة التذاكر {record}",
+          "deleted": "{author} حذف فئة التذاكر {record}",
+          "deactivated": "{author} أوقف فئة التذاكر {record}",
+          "reactivated": "{author} أعاد تفعيل فئة التذاكر {record}"
+        },
+        "ticket_priority": {
+          "created": "{author} أضاف أولوية التذاكر {record}",
+          "updated": "{author} عدّل أولوية التذاكر {record}",
+          "deleted": "{author} حذف أولوية التذاكر {record}",
+          "deactivated": "{author} أوقف أولوية التذاكر {record}",
+          "reactivated": "{author} أعاد تفعيل أولوية التذاكر {record}"
         }
       },
       "sort": "الترتيب",
@@ -426,6 +454,20 @@
           "created": "تمت إضافة ولاية",
           "deleted": "تم حذف ولاية",
           "updated": "تم تعديل ولاية"
+        },
+        "ticket_category": {
+          "created": "فئة التذاكر أُضيفت",
+          "updated": "فئة التذاكر عُدّلت",
+          "deleted": "فئة التذاكر حُذفت",
+          "deactivated": "فئة التذاكر أُوقفت",
+          "reactivated": "فئة التذاكر أُعيد تفعيلها"
+        },
+        "ticket_priority": {
+          "created": "أولوية التذاكر أُضيفت",
+          "updated": "أولوية التذاكر عُدّلت",
+          "deleted": "أولوية التذاكر حُذفت",
+          "deactivated": "أولوية التذاكر أُوقفت",
+          "reactivated": "أولوية التذاكر أُعيد تفعيلها"
         }
       },
       "today": "اليوم",
@@ -934,7 +976,8 @@
       "plans": "العروض",
       "settings": "الإعدادات",
       "translations": "الترجمات",
-      "usage": "الاستخدام"
+      "usage": "الاستخدام",
+      "tickets": "التذاكر"
     },
     "plans": {
       "activate": "تفعيل",
@@ -1234,6 +1277,70 @@
       },
       "statusLabel": "الحالة",
       "title": "الأشخاص"
+    },
+    "tickets": {
+      "title": "التذاكر",
+      "search": "العنوان، الرقم، صاحب التذكرة",
+      "lab": "المخبر",
+      "lateOnly": "المتأخرة فقط",
+      "empty": "لا توجد تذاكر",
+      "order": "«قيد الانتظار» = المفتوحة أو قيد المعالجة، الأقرب أجلًا أولًا: المتأخرة في الأعلى.",
+      "take": "التكفّل بها",
+      "taken": "تم التكفّل بالتذكرة",
+      "takenBy": "تكفّل بها",
+      "open": "فتح التذكرة",
+      "files": "{count} ملف | {count} ملفات",
+      "priorityHours": "{name} · {hours} سا",
+      "priorityChange": "تُحتسب ساعات الأولوية الجديدة من وقت الفتح.",
+      "notFound": "التذكرة غير موجودة",
+      "saved": "تم الحفظ",
+      "answerInTheirLanguage": "يكتب المخبر بلغته: أجب بها.",
+      "answerHint": "اكتب ردًا… (يتلقاه {name} أيضًا بالبريد)",
+      "messageTo": "رسالة إلى {name} (اختيارية)",
+      "resolve": {
+        "button": "وضع علامة محلولة",
+        "title": "وضع علامة «{number}» محلولة؟",
+        "text": "يتلقى {name} بريدًا ويغلق التذكرة أو يعيد فتحها. دون رد، تُغلق تلقائيًا.",
+        "confirm": "وضع علامة محلولة",
+        "done": "حُلّت التذكرة"
+      },
+      "close": {
+        "button": "إغلاق",
+        "title": "إغلاق «{number}»؟",
+        "text": "يتلقى {name} بريدًا. لا تستقبل التذكرة المغلقة رسائل؛ يمكن لـ{name} إعادة فتحها لبضعة أيام.",
+        "confirm": "إغلاق التذكرة",
+        "done": "أُغلقت التذكرة"
+      },
+      "settings": {
+        "title": "الإعدادات",
+        "ticket-categories": "الفئات",
+        "ticket-categoriesHint": "نفسها لكل المخابر. عند إيقافها لا تُعرض؛ وتحتفظ بها التذاكر القديمة.",
+        "ticket-priorities": "الأولويات والمهل",
+        "ticket-prioritiesHint": "ساعات فعلية من وقت الفتح، بما فيها نهاية الأسبوع.",
+        "add": "إضافة",
+        "up": "رفع {name}",
+        "down": "إنزال {name}",
+        "edit": "تعديل {name}",
+        "delete": "حذف {name}",
+        "active": "{name} مفعّل",
+        "deleteTitle": "حذف {name}؟",
+        "deleteText": "لا تستعمله أي تذكرة. سيختفي من كل المخابر.",
+        "deleted": "تم الحذف",
+        "used": "{count} تذكرة | {count} تذاكر",
+        "hours": "{count} سا",
+        "hoursField": "المهلة (ساعات)",
+        "nameFr": "الاسم بالفرنسية",
+        "nameEn": "الاسم بالإنجليزية",
+        "nameAr": "الاسم بالعربية",
+        "emailAndDelays": "البريد والمهل",
+        "supportEmail": "عنوان الدعم",
+        "supportEmailHint": "تصل إليه التذاكر الجديدة ورسائل المخابر. فارغ: لا بريد.",
+        "noEmail": "لا يوجد: لا يُرسل بريد",
+        "closeAfter": "تُغلق التذكرة المحلولة بعد",
+        "closeAfterField": "الإغلاق بعد (أيام)",
+        "reopenFor": "يمكن لصاحبها إعادة فتحها خلال",
+        "reopenForField": "إعادة الفتح خلال (أيام)"
+      }
     }
   },
   "common": {
@@ -1327,6 +1434,65 @@
         "description": "في فعالية، يمكن تسجيل كل مهني صحة مدعو كمتكفَّل به من طرف المخبر مع مبلغ؛ وتعرض بطاقته ما تم التكفل به.",
         "name": "التكفل (الفعاليات)"
       }
+    }
+  },
+  "tickets": {
+    "help": "المساعدة",
+    "helpUnread": "المساعدة · {count} رد غير مقروء | المساعدة · {count} ردود غير مقروءة",
+    "support": "دعم Delorc",
+    "supportBy": "دعم Delorc · {name}",
+    "noDescription": "لا يوجد وصف.",
+    "late": "متأخرة · {date}",
+    "write": "اكتب رسالة…",
+    "send": "إرسال",
+    "files": {
+      "attach": "إرفاق",
+      "hint": "صور، فيديوهات، PDF · 20 ميغابايت · 5 ملفات",
+      "add": "أضف صورة أو فيديو أو PDF (20 ميغابايت كحد أقصى، 5 ملفات)",
+      "remove": "إزالة {name}",
+      "tooBig": "{name} يتجاوز 20 ميغابايت."
+    },
+    "status": {
+      "open": "مفتوحة",
+      "in_progress": "قيد المعالجة",
+      "resolved": "محلولة",
+      "closed": "مغلقة"
+    },
+    "event": {
+      "opened": "{by} فتح التذكرة",
+      "taken": "{by} تكفّل بالتذكرة",
+      "resolved": "{by}: محلولة",
+      "closed": "{by}: مغلقة",
+      "reopened": "{by} أعاد فتح التذكرة",
+      "changed": "{by} غيّر {changes}",
+      "auto_closed": "أُغلقت تلقائيًا، دون رد بعد الحل"
+    },
+    "change": {
+      "category": "الفئة: {old} ← {new}",
+      "priority": "الأولوية: {old} ← {new}"
+    },
+    "fields": {
+      "number": "الرقم",
+      "title": "العنوان",
+      "category": "الفئة",
+      "priority": "الأولوية",
+      "description": "الوصف",
+      "files": "الملفات",
+      "author": "صاحب التذكرة",
+      "status": "الحالة",
+      "due": "الرد المنتظر قبل",
+      "opened": "فُتحت في",
+      "openedBy": "فتحها",
+      "page": "الصفحة",
+      "messages": "الرسائل"
+    },
+    "list": {
+      "all": "الكل",
+      "waiting": "قيد الانتظار"
+    },
+    "page": {
+      "conversation": "المحادثة",
+      "details": "التذكرة"
     }
   }
 }

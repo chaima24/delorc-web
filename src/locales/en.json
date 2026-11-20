@@ -13,7 +13,9 @@
       "test": "Test send",
       "update": "Edit",
       "update-contact": "Change own email and phone",
-      "update-plan": "Change plan"
+      "update-plan": "Change plan",
+      "answer": "Answer",
+      "settings": "Change settings"
     },
     "actionsCount": "{count} actions",
     "all": "All",
@@ -21,7 +23,8 @@
       "access": "Access",
       "content": "Content",
       "labs": "Labs",
-      "system": "System"
+      "system": "System",
+      "support": "Support"
     },
     "everything": "Everything",
     "resource": {
@@ -38,7 +41,8 @@
       "settings": "Settings",
       "translations": "Translations",
       "usage": "Usage",
-      "users": "People"
+      "users": "People",
+      "tickets": "Tickets"
     },
     "role": {
       "billing": "Billing",
@@ -227,7 +231,15 @@
         "username": "User name",
         "value": "Value",
         "website": "Website",
-        "wilaya": "Wilaya"
+        "wilaya": "Wilaya",
+        "names": "Names",
+        "hours": "Due time (hours)",
+        "sort": "Order",
+        "tickets": {
+          "support_email": "Support address",
+          "close_after_days": "Resolved ticket closes after (days)",
+          "reopen_days": "Reopen allowed for (days)"
+        }
       },
       "hideAutomatic": "Hide automatic changes",
       "imported": "{keys} keys, {texts} texts added",
@@ -264,7 +276,9 @@
         "settings": "Settings",
         "sign_in": "Sign-in",
         "translations": "Texts",
-        "wilaya": "Wilaya"
+        "wilaya": "Wilaya",
+        "ticket_category": "Ticket category",
+        "ticket_priority": "Ticket priority"
       },
       "right": "{resource}, {action}",
       "rightAdded": "{right}: added",
@@ -366,6 +380,20 @@
           "created": "{author} added the wilaya {record}",
           "deleted": "{author} deleted the wilaya {record}",
           "updated": "{author} edited the wilaya {record}"
+        },
+        "ticket_category": {
+          "created": "{author} added the ticket category {record}",
+          "updated": "{author} edited the ticket category {record}",
+          "deleted": "{author} deleted the ticket category {record}",
+          "deactivated": "{author} turned off the ticket category {record}",
+          "reactivated": "{author} turned on the ticket category {record}"
+        },
+        "ticket_priority": {
+          "created": "{author} added the ticket priority {record}",
+          "updated": "{author} edited the ticket priority {record}",
+          "deleted": "{author} deleted the ticket priority {record}",
+          "deactivated": "{author} turned off the ticket priority {record}",
+          "reactivated": "{author} turned on the ticket priority {record}"
         }
       },
       "sort": "Order",
@@ -426,6 +454,20 @@
           "created": "Wilaya added",
           "deleted": "Wilaya deleted",
           "updated": "Wilaya edited"
+        },
+        "ticket_category": {
+          "created": "Ticket category added",
+          "updated": "Ticket category edited",
+          "deleted": "Ticket category deleted",
+          "deactivated": "Ticket category turned off",
+          "reactivated": "Ticket category turned on"
+        },
+        "ticket_priority": {
+          "created": "Ticket priority added",
+          "updated": "Ticket priority edited",
+          "deleted": "Ticket priority deleted",
+          "deactivated": "Ticket priority turned off",
+          "reactivated": "Ticket priority turned on"
         }
       },
       "today": "Today",
@@ -934,7 +976,8 @@
       "plans": "Plans",
       "settings": "Settings",
       "translations": "Translations",
-      "usage": "Usage"
+      "usage": "Usage",
+      "tickets": "Tickets"
     },
     "plans": {
       "activate": "Activate",
@@ -1234,6 +1277,70 @@
       },
       "statusLabel": "Status",
       "title": "People"
+    },
+    "tickets": {
+      "title": "Tickets",
+      "search": "Title, number, author",
+      "lab": "Lab",
+      "lateOnly": "Late only",
+      "empty": "No tickets",
+      "order": "“Waiting” = open or in progress, the soonest due first: late tickets on top.",
+      "take": "Take it",
+      "taken": "Ticket taken",
+      "takenBy": "Taken by",
+      "open": "Open the ticket",
+      "files": "{count} file | {count} files",
+      "priorityHours": "{name} · {hours} h",
+      "priorityChange": "A new priority counts its hours from the opening again.",
+      "notFound": "Ticket not found",
+      "saved": "Saved",
+      "answerInTheirLanguage": "The lab writes in its own language: answer in it.",
+      "answerHint": "Write an answer… ({name} gets it by email too)",
+      "messageTo": "Message to {name} (optional)",
+      "resolve": {
+        "button": "Mark resolved",
+        "title": "Mark “{number}” resolved?",
+        "text": "{name} gets an email and closes the ticket, or reopens it. Without an answer it closes by itself.",
+        "confirm": "Mark resolved",
+        "done": "Ticket resolved"
+      },
+      "close": {
+        "button": "Close",
+        "title": "Close “{number}”?",
+        "text": "{name} gets an email. A closed ticket gets no more messages; {name} may still reopen it for a few days.",
+        "confirm": "Close the ticket",
+        "done": "Ticket closed"
+      },
+      "settings": {
+        "title": "Settings",
+        "ticket-categories": "Categories",
+        "ticket-categoriesHint": "The same for every lab. Turned off: no longer offered; old tickets keep it.",
+        "ticket-priorities": "Priorities and due times",
+        "ticket-prioritiesHint": "Clock hours from the opening, weekends included.",
+        "add": "Add",
+        "up": "Move {name} up",
+        "down": "Move {name} down",
+        "edit": "Edit {name}",
+        "delete": "Delete {name}",
+        "active": "{name} on",
+        "deleteTitle": "Delete {name}?",
+        "deleteText": "No ticket uses it. It disappears for every lab.",
+        "deleted": "Deleted",
+        "used": "{count} ticket | {count} tickets",
+        "hours": "{count} h",
+        "hoursField": "Due time (hours)",
+        "nameFr": "Name in French",
+        "nameEn": "Name in English",
+        "nameAr": "Name in Arabic",
+        "emailAndDelays": "Email and delays",
+        "supportEmail": "Support address",
+        "supportEmailHint": "New tickets and lab messages go there. Empty: no email.",
+        "noEmail": "None: no email sent",
+        "closeAfter": "A resolved ticket closes after",
+        "closeAfterField": "Close after (days)",
+        "reopenFor": "The author may reopen for",
+        "reopenForField": "Reopen for (days)"
+      }
     }
   },
   "common": {
@@ -1327,6 +1434,65 @@
         "description": "On an event, each invited healthcare professional can be marked as sponsored by the lab, with an amount; their record lists what was sponsored.",
         "name": "Sponsoring (events)"
       }
+    }
+  },
+  "tickets": {
+    "help": "Help",
+    "helpUnread": "Help · {count} unread answer | Help · {count} unread answers",
+    "support": "Delorc support",
+    "supportBy": "Delorc support · {name}",
+    "noDescription": "No description.",
+    "late": "late · {date}",
+    "write": "Write a message…",
+    "send": "Send",
+    "files": {
+      "attach": "Attach",
+      "hint": "Photos, videos, PDF · 20 MB · 5 files",
+      "add": "Add a photo, a video or a PDF (20 MB max, 5 files)",
+      "remove": "Remove {name}",
+      "tooBig": "{name} is over 20 MB."
+    },
+    "status": {
+      "open": "Open",
+      "in_progress": "In progress",
+      "resolved": "Resolved",
+      "closed": "Closed"
+    },
+    "event": {
+      "opened": "{by} opened the ticket",
+      "taken": "{by} took the ticket",
+      "resolved": "{by}: resolved",
+      "closed": "{by}: closed",
+      "reopened": "{by} reopened the ticket",
+      "changed": "{by} changed {changes}",
+      "auto_closed": "Closed by itself, no answer after it was resolved"
+    },
+    "change": {
+      "category": "the category: {old} → {new}",
+      "priority": "the priority: {old} → {new}"
+    },
+    "fields": {
+      "number": "Number",
+      "title": "Title",
+      "category": "Category",
+      "priority": "Priority",
+      "description": "Description",
+      "files": "Files",
+      "author": "Author",
+      "status": "Status",
+      "due": "Due",
+      "opened": "Opened on",
+      "openedBy": "Opened by",
+      "page": "Page",
+      "messages": "Messages"
+    },
+    "list": {
+      "all": "All",
+      "waiting": "Waiting"
+    },
+    "page": {
+      "conversation": "Conversation",
+      "details": "The ticket"
     }
   }
 }

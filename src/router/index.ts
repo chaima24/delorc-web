@@ -11,6 +11,9 @@ const centralRoutes = [
       { path: 'labs/new', name: 'central-lab-new', component: () => import('@/views/central/labs/NewLabView.vue'), meta: { permission: 'labs.create' } },
       { path: 'labs/:id', name: 'central-lab', component: () => import('@/views/central/labs/LabView.vue'), meta: { permission: 'labs.show' } },
       { path: 'usage', name: 'central-usage', component: () => import('@/views/central/usage/UsageView.vue'), meta: { permission: 'usage.show' } },
+      // Tickets (docs/api/e-tickets.md): every lab's tickets, answered by Delorc support; tab « Settings ».
+      { path: 'tickets', name: 'central-tickets', component: () => import('@/views/central/tickets/TicketsView.vue'), meta: { permission: 'tickets.show' } },
+      { path: 'tickets/:id(\\d+)', name: 'central-ticket', component: () => import('@/views/central/tickets/TicketView.vue'), props: true, meta: { permission: 'tickets.show' } },
       { path: 'users', name: 'central-users', component: () => import('@/views/central/users/UsersView.vue'), meta: { permission: 'users.show' } },
       { path: 'roles', name: 'central-roles', component: () => import('@/views/central/roles/RolesView.vue'), meta: { permission: 'roles.show' } },
       { path: 'roles/:id/access', name: 'central-role-access', component: () => import('@/views/central/roles/RoleAccessView.vue'), meta: { permission: 'roles.update' } },
@@ -97,6 +100,9 @@ const labRoutes = [
       { path: 'orders/new', name: 'tenant-order-new', component: () => import('@/views/tenant/orders/OrderFormView.vue'), meta: { permission: 'orders.create' } },
       { path: 'orders/:id(\\d+)', name: 'tenant-order', component: () => import('@/views/tenant/orders/OrderDetailView.vue'), props: true, meta: { permission: 'orders.show' } },
       { path: 'order-settings', name: 'tenant-order-settings', component: () => import('@/views/tenant/orders/OrderSettingsView.vue'), meta: { permission: 'orders-setup.show' } },
+      // Aide › Mes tickets (docs/api/e-tickets.md): every lab user, opened from « ? » in the top bar.
+      { path: 'help', name: 'tenant-help', component: () => import('@/views/tenant/help/HelpListView.vue') },
+      { path: 'help/:id(\\d+)', name: 'tenant-help-ticket', component: () => import('@/views/tenant/help/HelpTicketView.vue'), props: true },
       // Veille concurrentielle › Notes, Réglages (docs/api/competitive-informations.md).
       { path: 'competitive-informations', name: 'tenant-competitive-informations', component: () => import('@/views/tenant/competitive/CompetitiveListView.vue'), meta: { permission: 'competitive-informations.show' } },
       { path: 'competitive-informations/:id(\\d+)', name: 'tenant-competitive-information', component: () => import('@/views/tenant/competitive/CompetitiveDetailView.vue'), props: true, meta: { permission: 'competitive-informations.show' } },

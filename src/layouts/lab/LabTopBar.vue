@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -18,16 +18,19 @@ import {
   PopoverTrigger,
 } from 'reka-ui'
 import DlIcon from '@/components/DlIcon.vue'
+import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import { THEMES, useTheme, type ThemeChoice } from '@/composables/useTheme'
 import { currentLocale, setLocale } from '@/plugins/i18n'
 import { useAuthStore } from '@/stores/auth'
 import { useLabStore } from '@/stores/lab'
+import { refreshUnreadTickets, unreadTickets } from '@/views/tenant/help/unreadTickets'
 import LabSearch from './LabSearch.vue'
 import { useRail } from './useRail'
+import { useWorkspaces } from './useWorkspaces'
 
 /**
  * The central console's top bar, plus the lab's logo and name on the left.
- * Left: lab, search. Right: notifications, language, theme, my account.
+ * Left: lab, search. Right: help (e-tickets), notifications, language, theme, my account.
  */
 const { t } = useI18n()
 const router = useRouter()
@@ -37,6 +40,17 @@ const { theme } = useTheme()
 const rail = useRail()
 
 const searching = ref(false)
+
+// « ? » opens Aide › Mes tickets, from any screen; the screen's name goes with a new ticket. The red number = my
+// tickets with an answer from support I haven't read.
+const route = useRoute()
+const { activeWorkspace, activeLink } = useWorkspaces()
+const helpTarget = computed(() => {
+  const from = activeWorkspace.value && activeLink.value ? `${t(activeWorkspace.value.title)} › ${t(activeLink.value.title)}` : undefined
+  return { name: 'tenant-help', query: from ? { from } : {} }
+})
+const onHelp = computed(() => String(route.name ?? '').startsWith('tenant-help'))
+onMountedAndFocus(refreshUnreadTickets)
 const isMac = /Mac|iPhone|iPad/.test(navigator.platform)
 
 const THEME_ICONS: Record<ThemeChoice, string> = { light: 'tabler-sun', dark: 'tabler-moon', system: 'tabler-device-desktop' }
@@ -93,6 +107,16 @@ const item = 'flex h-10 cursor-pointer select-none items-center gap-2.5 rounded-
     </button>
 
     <div class="ms-auto flex items-center gap-2.5">
+      <RouterLink
+        :to="helpTarget"
+        :aria-label="unreadTickets ? t('tickets.helpUnread', { count: unreadTickets }, unreadTickets) : t('tickets.help')"
+        :title="t('tickets.help')"
+        :class="[trigger, 'relative w-11 no-underline', onHelp && 'border-dl-signal bg-dl-signal text-dl-ink hover:bg-dl-signal']"
+      >
+        <DlIcon icon="tabler-help" :size="20" />
+        <span v-if="unreadTickets" class="absolute -end-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-dl-rejected px-1 text-[11px] font-bold text-white">{{ unreadTickets }}</span>
+      </RouterLink>
+
       <!-- Notifications: the design only for now; the items come with the first module that has events. -->
       <PopoverRoot>
         <PopoverTrigger as-child>
