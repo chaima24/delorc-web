@@ -15,7 +15,7 @@ const lab = { id: 'demo', name: 'Demo Pharma', logo_url: null, default_language:
 
 function mountTopBar() {
   const page = { template: '<div />' }
-  const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/', name: 'home', component: page }] })
+  const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/', name: 'home', component: page }, { path: '/help', name: 'tenant-help', component: page }] })
 
   return mount(LabTopBar, { global: { plugins: [router, i18n] } })
 }

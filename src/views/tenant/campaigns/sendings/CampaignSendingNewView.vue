@@ -71,8 +71,9 @@ watch(messageId, async value => {
 
 // Filters, done on this answer (one campaign's targets).
 const ALL = 0
+const ALL_TYPES = 'all'
 const search = ref('')
-const filters = ref({ speciality: ALL, wilaya: ALL, segment: ALL, type: '' })
+const filters = ref({ speciality: ALL, wilaya: ALL, segment: ALL, type: ALL_TYPES })
 const options = (pick: (row: SendingCandidate) => { id: number; name: string } | null, all: string) => {
   const seen = new Map<number, string>()
   for (const row of candidates.value ?? []) { const item = pick(row); if (item) seen.set(item.id, item.name) }
@@ -81,18 +82,18 @@ const options = (pick: (row: SendingCandidate) => { id: number; name: string } |
 const specialityItems = computed(() => options(row => row.speciality, t('campaignSendings.filter.allSpecialities')))
 const wilayaItems = computed(() => options(row => row.wilaya, t('campaignSendings.filter.allWilayas')))
 const segmentItems = computed(() => options(row => row.segment, t('campaignSendings.filter.allSegments')))
-const typeItems = computed(() => [{ value: '', label: t('campaignSendings.filter.allTypes') }, ...[...new Set((candidates.value ?? []).map(row => row.type).filter(Boolean))].map(type => ({ value: type as string, label: t(`hcps.types.${type}`) }))])
+const typeItems = computed(() => [{ value: ALL_TYPES, label: t('campaignSendings.filter.allTypes') }, ...[...new Set((candidates.value ?? []).map(row => row.type).filter(Boolean))].map(type => ({ value: type as string, label: t(`hcps.types.${type}`) }))])
 const field = (key: 'speciality' | 'wilaya' | 'segment') => computed({ get: () => filters.value[key], set: value => { filters.value[key] = Number(value ?? ALL) } })
 const speciality = field('speciality')
 const wilaya = field('wilaya')
 const segment = field('segment')
-const type = computed({ get: () => filters.value.type, set: value => { filters.value.type = String(value ?? '') } })
+const type = computed({ get: () => filters.value.type, set: value => { filters.value.type = String(value ?? ALL_TYPES) } })
 const shown = computed(() => {
   const word = search.value.trim().toLowerCase()
   const f = filters.value
   return (candidates.value ?? []).filter(row => (!word || `${row.name} ${row.email ?? ''}`.toLowerCase().includes(word))
     && (!f.speciality || row.speciality?.id === f.speciality) && (!f.wilaya || row.wilaya?.id === f.wilaya)
-    && (!f.segment || row.segment?.id === f.segment) && (!f.type || row.type === f.type))
+    && (!f.segment || row.segment?.id === f.segment) && (f.type === ALL_TYPES || row.type === f.type))
 })
 const LIMIT_STEP = 100
 const limit = ref(LIMIT_STEP)

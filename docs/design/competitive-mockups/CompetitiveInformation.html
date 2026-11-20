@@ -1,0 +1,145 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Veille concurrentielle</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; display: inline-block; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 220px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 460px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); } .ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; } .pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 16px; } .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 16px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; min-height: 38px; border: 1px solid var(--line); border-radius: 10px; padding: 4px 8px; background: var(--paper); }
+.lvl { display: inline-flex; gap: 4px; } .lvl span { height: 30px; padding: 0 10px; border-radius: 9px; border: 1px solid var(--line); display: inline-flex; align-items: center; font-size: 12.5px; } .lvl span.on { background: var(--ink); color: var(--signal); border-color: var(--ink); }
+.file { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; font-size: 13px; } .file .thumb { width: 40px; height: 40px; border-radius: 8px; background: var(--mist); display: flex; align-items: center; justify-content: center; }
+.li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .li:last-child { border-bottom: 0; } .li .grip { color: var(--muted); }
+</style></head><body>
+<p class="caption"><strong>Veille concurrentielle (module 17), proposition.</strong> Un carnet sur la concurrence : le délégué note ce qu'un concurrent fait, l'envoie, son responsable et le marketing le lisent, le marketing la marque « traitée ». Exemple : chez Dr Cherif, Karim apprend que Hikma laisse des échantillons de Rosuvastor en disant « moins d'effets secondaires ». Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Les champs</b> (décidé le 19 nov.) : ceux de l'API précédente + une <b>date</b> obligatoire (le jour vu, jamais dans le futur) ; l'auteur est mis par l'API. Obligatoires : date, laboratoire concurrent, produit. Le reste est facultatif.</li>
+  <li><b>Les cinq listes</b> (décidé) : origine, classe thérapeutique, type d'action, arguments, besoins de supports, modifiables dans « Veille concurrentielle › Réglages » ; un nouveau labo démarre avec les listes des anciennes applications ; chaque liste garde un texte « Autre ».</li>
+  <li><b>Les trois niveaux</b> (décidé, comme l'API précédente) : intérêt, urgence, fiabilité sur une échelle fixe Faible / Moyen / Élevé / Très élevé.</li>
+  <li><b>Les états</b> (décidé) : brouillon → envoyée → traitée. Un brouillon n'est vu que par son auteur ; une note envoyée ne change plus ; seul l'auteur modifie ou supprime, et seulement en brouillon.</li>
+  <li><b>Traitée</b> (décidé) : le droit <code>competitive-informations.process</code> (marketing et admins, le labo peut le donner à un autre rôle) ; jamais l'auteur.</li>
+  <li><b>Qui voit</b> (décidé) : l'auteur ses notes ; les personnes au-dessus de lui et le marketing / les admins, ses notes envoyées.</li>
+  <li><b>Fichiers</b> (décidé) : photos ou PDF, 10 Mo chacun, dans le stockage du labo. <b>Notre marque concernée</b> (décidé) : facultative, marques du Studio, filtre de la liste.</li>
+  <li><b>Place</b> (décidé) : espace « Veille concurrentielle » (Notes, Réglages), derrière l'interrupteur de plan <code>module.competitive</code>, éteint au départ. Droits <code>competitive-informations</code> : terrain et responsables écrivent, marketing voit + traite.</li>
+  <li><b>Proposé, à confirmer :</b> un numéro automatique <code>VC-000001</code> ; « Ajouter » ouvre un panneau court (date, concurrent, produit, notre marque, origine), puis tout se remplit sur la page de la note, carte par carte ; pour envoyer, seuls les champs obligatoires suffisent ; marquer traitée accepte un commentaire facultatif « Suite donnée » ; « traitée » est la fin (pas de retour) ; un élément de liste déjà utilisé est éteint au lieu d'être supprimé ; chaque changement d'état est une ligne d'historique.</li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const side = (title, sub, body, foot = '') => `<aside class='panel'><div class='ph'><div style='flex:1;min-width:0'><h2 class='display'>${title}</h2><div class='sub'>${sub}</div></div><span class='icb'>✕</span></div><div class='pb'>${body}</div>${foot ? `<div class='pf'>${foot}</div>` : ''}</aside>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const chipsF = (lbl, items, autre = '') => `<label class='field'><span>${lbl}</span><div class='chips'>${items.map(i => `<span class='chip'>${i} ✕</span>`).join('')}<span class='hint'>Rechercher…</span></div>${autre ? `<div class='input' style='margin-top:6px'>Autre : ${autre}</div>` : ''}</label>`
+const lvlF = (lbl, on) => `<label class='field'><span>${lbl}</span><div class='lvl'>${['Faible', 'Moyen', 'Élevé', 'Très élevé'].map(l => `<span class='${l === on ? 'on' : ''}'>${l}</span>`).join('')}</div></label>`
+const kv = rows => `<div class='kv'>${rows.map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('')}</div>`
+const tags = a => a.map(t => `<span class='chip'>${t}</span>`).join(' ')
+const card = (title, body, { editing = false, locked = false, foot = '' } = {}) => `<div class='rec' ${editing ? `style='outline:2px solid var(--cobalt)'` : ''}><header><strong>${title}</strong>${locked ? `<span class='hint' style='margin-inline-start:auto'>🔒</span>` : editing ? '' : `<span class='btn sm outline'>✎ Modifier</span>`}</header>${body}${editing ? `<div style='display:flex;gap:8px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm primary'>Enregistrer</span></div>` : foot}</div>`
+const frame = (inner, extra = '', h = 680) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf('Veille')}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>KS</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+const wsNav = on => `<nav class='ws-nav'>${['Notes', 'Réglages'].map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const shell = (on, inner, extra = '', h = 680) => frame(`<div style='display:flex;flex-direction:column;flex:1;gap:16px;min-width:0'>${wsNav(on)}<div style='display:flex;gap:20px;align-items:flex-start'>${inner}</div></div>`, extra, h)
+const crumbs = (t, title, chip = '', btn = '') => `<div><div class='crumbs'>${t}</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>${title}</h1>${chip}<span style='margin-inline-start:auto;display:flex;gap:8px'>${btn}</span></div></div>`
+
+const STATES = { 'Brouillon': '', 'Envoyée': 'info', 'Traitée': 'ok' }
+const chipOf = s => `<span class='chip ${STATES[s]}'>${s}</span>`
+
+// The list, as Sara (marketing) sees it: sent and processed notes of everyone.
+const ROWS = [
+  ['VC-000018', '17 nov.', 'Hikma', 'Rosuvastor', 'Cardiozen', 'Karim Saadi', 'Court terme', 'Envoyée'],
+  ['VC-000017', '15 nov.', 'Frater Razes', 'Glucophage XR', '—', 'Amine Kaci', 'Immédiate', 'Envoyée'],
+  ['VC-000016', '12 nov.', 'Biothera', 'Travost', 'Ocuvis', 'Yasmine Hadj', 'Moyen terme', 'Traitée'],
+  ['VC-000015', '8 nov.', 'Hikma', 'Atorvastatine Hikma', 'Atorix', 'Karim Saadi', '—', 'Traitée'],
+]
+const list = (rows, sel, segs, who) => `<div class='col'>
+<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Veille concurrentielle</div><h1 class='title display' style='font-size:34px'>Notes</h1></div><span class='btn primary' style='margin-inline-start:auto'>+ Nouvelle note</span></div>
+<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center'><div class='input muted' style='width:210px'>Concurrent, produit, n°…</div><span class='seg'>${segs.map((s, i) => `<span class='${i === 0 ? 'on' : ''}'>${s}</span>`).join('')}</span><div class='input muted' style='width:170px'>Notre marque ▾</div><div class='input muted' style='width:140px'>Urgence ▾</div><div class='input muted' style='width:190px'>Du … au …</div></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>N° ↕</th><th>Vue le ↕</th><th>Concurrent ↕</th><th>Produit ↕</th><th>Notre marque ↕</th>${who ? '<th>Auteur ↕</th>' : ''}<th>Urgence ↕</th><th>État ↕</th></tr></thead><tbody>
+${rows.map(([n, d, l, p, b, u, g, s], i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${n}</strong></td><td>${d}</td><td>${l}</td><td>${p}</td><td>${b}</td>${who ? `<td>${u}</td>` : ''}<td>${g}</td><td>${chipOf(s)}</td></tr>`).join('')}
+</tbody></table></div></div>`
+const segsSara = ['Toutes · 4', 'Envoyées · 2', 'Traitées · 2']
+
+const readPanel = side('VC-000018', `${chipOf('Envoyée')}<span class='hint'>Karim Saadi · vue le 17 nov.</span>`,
+  kv([['Concurrent', 'Hikma'], ['Produit', 'Rosuvastor'], ['Notre marque', 'Cardiozen'], ['Origine', tags(['Discussion avec un HCP'])], ['Type d\'action', tags(['Échantillons', 'Visite médicale'])], ['Urgence', 'Court terme'], ['Fichiers', '1 photo']]),
+  `<span class='btn outline' style='margin-inline-start:auto'>Ouvrir la page</span>`)
+
+const addPanel = side('Nouvelle note', `<span class='hint'>Le reste se remplit sur la page de la note.</span>`,
+  [f('Vue le *', '17/11/2026'), f('Laboratoire concurrent *', 'Hikma'), f('Produit / marque concurrente *', 'Rosuvastor'), f('Notre marque concernée', 'Cardiozen ▾'), chipsF('Origine de l\'information', ['Discussion avec un HCP'])].join(''),
+  `<span class='btn ghost'>Annuler</span><span class='btn primary' style='margin-inline-start:auto'>Ajouter</span>`)
+
+// The note's page: one card per section of the old form, edited in place.
+const sections = (locked, editing = '') => {
+  const c = (key, title, view, edit) => card(title, editing === key ? edit : view, { editing: editing === key, locked })
+  return `<div class='grid2' style='align-items:start'>
+${c('note', 'La note', kv([['Vue le', '17 nov. 2026'], ['Laboratoire concurrent', 'Hikma'], ['Produit', 'Rosuvastor'], ['Notre marque', 'Cardiozen'], ['Classe thérapeutique', tags(['Statine'])], ['Indication principale', 'Dyslipidémie']]),
+  `<div class='grid2'>${f('Vue le *', '17/11/2026')}${f('Notre marque concernée', 'Cardiozen ▾')}${f('Laboratoire concurrent *', 'Hikma')}${f('Produit *', 'Rosuvastor')}</div>${chipsF('Classe thérapeutique', ['Statine'])}${f('Indication principale', 'Dyslipidémie')}`)}
+${c('source', 'Source de l\'information', kv([['Origine', tags(['Discussion avec un HCP'])], ['Fiabilité', 'Élevé']]),
+  `${chipsF('Origine', ['Discussion avec un HCP'])}${lvlF('Fiabilité', 'Élevé')}`)}
+${c('promo', 'Activités observées', kv([['Type d\'action', tags(['Échantillons', 'Visite médicale'])], ['Message clé', '« Moins d\'effets secondaires musculaires que l\'atorvastatine »'], ['Arguments', tags(['Tolérance', 'Prix / remboursement'])]]),
+  `${chipsF('Type d\'action', ['Échantillons', 'Visite médicale'])}${f('Message clé', '« Moins d\'effets secondaires musculaires que l\'atorvastatine »')}${chipsF('Arguments mis en avant', ['Tolérance'], 'Prix / remboursement')}`)}
+${c('hcp', 'Réaction des professionnels de santé', kv([['Intérêt', 'Fort'], ['Questions / comparaison', 'Dr Cherif demande une étude face à Cardiozen sur la tolérance.']]), '')}
+${c('pos', 'Positionnement du concurrent', kv([['Forces', 'Échantillons nombreux, prix bas'], ['Faiblesses', 'Peu de données locales'], ['Différenciation vs notre offre', 'Cardiozen : 10 ans de recul, deux dosages']]), '')}
+${c('needs', 'Besoins et urgence', kv([['Besoins de supports', tags(['Nouveaux argumentaires', 'Études cliniques'])], ['Urgence', 'Court terme']]), '')}
+</div>`
+}
+const filesCard = locked => card('Fichiers', `<div class='file'><span class='thumb'>🖼</span><span style='flex:1'><strong>boite-echantillon-hikma.jpg</strong><br><span class='hint'>1,8 Mo · ajouté par Karim Saadi</span></span>${locked ? '' : '<span class="hint">✕</span>'}</div>${locked ? '' : `<div class='why'>+ Ajouter une photo ou un PDF (10 Mo max chacun)</div>`}`, { locked })
+const history = lines => card('Historique', `<div class='hint'>${lines.join('<br>')}</div>`)
+const page = (state, who, buttons, { banner = '', editing = '' } = {}) => `<div class='col'>
+${crumbs('Veille concurrentielle › Notes', 'VC-000018 · Hikma · Rosuvastor', chipOf(state), buttons)}
+<div class='hint'>Karim Saadi · vue le 17 nov. 2026 — vue par <strong>${who}</strong></div>
+<div style='display:flex;gap:6px;align-items:center;font-size:13px'>${['Brouillon', 'Envoyée', 'Traitée'].map((s, i, all) => `<span class='chip ${all.indexOf(state) >= i ? 'ok' : ''}' style='${s === state ? 'outline:2px solid var(--ink)' : ''}'>${s}</span>${i < 2 ? '<span class="hint">→</span>' : ''}`).join('')}</div>
+${banner}
+${sections(state !== 'Brouillon', editing)}
+<div class='grid2' style='align-items:start'>${filesCard(state !== 'Brouillon')}${history(state === 'Traitée' ? ['18 nov. 11:20 · Sara Hamdi : traitée — « Argumentaire tolérance envoyé aux délégués »', '17 nov. 18:40 · Karim Saadi : envoyée', '17 nov. 18:05 · Karim Saadi a ajouté la note'] : state === 'Envoyée' ? ['17 nov. 18:40 · Karim Saadi : envoyée', '17 nov. 18:05 · Karim Saadi a ajouté la note'] : ['17 nov. 18:05 · Karim Saadi a ajouté la note'])}</div>
+</div>`
+
+const processBox = `<div class='dialog'><div class='box'><strong style='font-size:17px'>Marquer « VC-000018 » traitée ?</strong>
+${f('Suite donnée', 'Argumentaire tolérance envoyé aux délégués')}
+<div class='hint'>Facultatif. La note passe à « traitée » et ne change plus ; le commentaire reste dans l'historique.</div>
+<footer><span class='btn sm ghost'>Retour</span><span class='btn sm dark'>Marquer traitée</span></footer></div></div>`
+
+const KROWS = [
+  ['VC-000019', '18 nov.', 'Biopharm', 'Lipitor générique', '—', '', '—', 'Brouillon'],
+  ['VC-000018', '17 nov.', 'Hikma', 'Rosuvastor', 'Cardiozen', '', 'Court terme', 'Envoyée'],
+  ['VC-000015', '8 nov.', 'Hikma', 'Atorvastatine Hikma', 'Atorix', '', '—', 'Traitée'],
+]
+
+const LISTS = { 'Origine de l\'information': ['Discussion avec un HCP', 'Observation en officine', 'Congrès / réunion scientifique', 'Visite concurrente observée', 'Supports promotionnels vus'], 'Classe thérapeutique': ['Insuline', 'Antidiabétique oral', 'GLP-1', 'Dispositif (lecteur glycémie, capteur, stylo…)', 'Statine'], 'Type d\'action': ['Visite médicale', 'Réunion scientifique', 'Atelier patient', 'Sponsoring évènement', 'Échantillons', 'Campagne digitale'], 'Arguments mis en avant': ['Efficacité', 'Tolérance', 'Simplicité d\'utilisation', 'Prix / remboursement', 'Innovation', 'Données cliniques récentes'], 'Besoins de supports': ['Nouveaux argumentaires', 'Études cliniques', 'Outils digitaux', 'Formation interne'] }
+const settings = `<div class='col'>
+${crumbs('Veille concurrentielle', 'Réglages')}
+<div class='hint'>Les choix proposés dans les notes. « Autre » (texte libre) est toujours proposé en plus. Un élément déjà utilisé par une note s'éteint au lieu d'être supprimé.</div>
+<div class='grid3' style='align-items:start'>${Object.entries(LISTS).map(([t, items], k) => `<div class='rec'><header><strong>${t}</strong><span class='btn sm outline'>+ Ajouter</span></header><div>${items.map((i, j) => `<div class='li'><span class='grip'>⋮⋮</span><span style='flex:1;${k === 1 && j === 3 ? 'color:var(--muted)' : ''}'>${i}</span>${k === 1 && j === 3 ? '<span class="hint">éteint · 1 note</span>' : ''}<span class='tg ${k === 1 && j === 3 ? 'off' : ''}'></span></div>`).join('')}</div></div>`).join('')}</div>
+</div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>La liste, vue par Sara (marketing).</strong> Les notes envoyées et traitées de tout le monde, filtres par état (avec le nombre), notre marque, urgence, dates. Un clic ouvre le panneau à côté, en lecture.`) + shell('Notes', list(ROWS, 0, segsSara, true) + readPanel, '', 600),
+  label(2, `<strong>La liste, vue par Karim (délégué).</strong> Ses propres notes, brouillons compris. « + Nouvelle note » ouvre un panneau court à côté.`) + shell('Notes', list(KROWS, -1, ['Toutes · 3', 'Brouillons · 1', 'Envoyées · 1', 'Traitées · 1'], false) + addPanel, '', 640),
+  label(3, `<strong>Brouillon, vu par Karim.</strong> Une carte par partie, modifiée sur place. Il ajoute une photo, supprime le brouillon, ou l'envoie.`) + shell('Notes', page('Brouillon', 'Karim', `<span class='btn sm outline'>Supprimer</span><span class='btn primary'>Envoyer</span>`, { banner: `<div class='why'>Brouillon : vous seul le voyez. Une fois envoyée, la note ne change plus.</div>` }), '', 900),
+  label(4, `<strong>Une carte en modification.</strong> Les listes sont des sélections avec recherche et étiquettes ; « Autre » ajoute un texte libre ; les niveaux sont quatre boutons.`) + shell('Notes', page('Brouillon', 'Karim', `<span class='btn sm outline'>Supprimer</span><span class='btn primary'>Envoyer</span>`, { editing: 'promo' }), '', 980),
+  label(5, `<strong>Envoyée, vue par Sara (marketing).</strong> Plus rien ne se modifie ; elle la marque traitée.`) + shell('Notes', page('Envoyée', 'Sara', `<span class='btn primary'>Marquer traitée</span>`), '', 900),
+  label(6, `<strong>Marquer traitée : un commentaire facultatif.</strong>`) + shell('Notes', page('Envoyée', 'Sara', `<span class='btn primary'>Marquer traitée</span>`), processBox, 900),
+  label(7, `<strong>Envoyée, vue par Nadia (au-dessus de Karim).</strong> Elle lit, sans bouton : traiter est le travail du marketing.`) + shell('Notes', page('Envoyée', 'Nadia', '', { banner: `<div class='why'>En attente de traitement par le marketing.</div>` }), '', 900),
+  label(8, `<strong>Traitée.</strong> C'est la fin : la suite donnée est dans l'historique.`) + shell('Notes', page('Traitée', 'Karim', ''), '', 900),
+  label(9, `<strong>Veille concurrentielle › Réglages.</strong> Les cinq listes, chacune avec son ordre et son interrupteur ; un nouveau labo démarre avec celles des anciennes applications (ici, Demo Pharma a ajouté « Statine »).`) + shell('Réglages', settings, '', 640),
+].join('')
+</script></body></html>

@@ -1,0 +1,240 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>E-tickets</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 150px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.why.go { background: var(--signal-soft); color: var(--ink); display: flex; align-items: center; gap: 10px; font-size: 13.5px; } .why.go .btn { margin-inline-start: auto; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); } .ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; } .pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 16px; }
+.file { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 10px; padding: 5px 10px; font-size: 12.5px; background: var(--paper); }
+.chat { display: flex; flex-direction: column; gap: 12px; }
+.msg { max-width: 78%; border-radius: 16px; padding: 10px 14px; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 6px; }
+.msg small { font-size: 11.5px; color: var(--muted); } .msg.me { align-self: flex-end; background: var(--signal-soft); } .msg.them { align-self: flex-start; background: var(--mist); }
+.msg.sys { align-self: center; background: transparent; color: var(--muted); font-size: 12px; padding: 2px; }
+.composer { border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+.composer .t { min-height: 44px; color: var(--muted); font-size: 14px; } .composer footer { display: flex; gap: 8px; align-items: center; }
+.late { color: var(--brick); font-weight: 600; }
+.chip.bad { background: rgba(192,54,44,.1); color: var(--brick); }
+.open { background: var(--paper); border: 1px dashed var(--amber); border-radius: 14px; padding: 10px 14px; font-size: 13px; color: var(--amber); }
+.help { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; position: relative; }
+.help.on { background: var(--signal); border-color: var(--signal); }
+.help i { position: absolute; top: -4px; inset-inline-end: -4px; min-width: 18px; height: 18px; border-radius: 99px; background: var(--brick); color: #fff; font-size: 11px; font-style: normal; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+.lg { width: 30px; height: 30px; border-radius: 9px; background: var(--ink-2); color: var(--signal); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.namecell { display: flex; gap: 8px; align-items: center; }
+.tabs2 { display: flex; gap: 6px; } .tabs2 span { height: 34px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; background: var(--paper); font-size: 13px; font-weight: 600; color: var(--body); }
+.tabs2 span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .li:last-child { border-bottom: 0; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; display: inline-block; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.mail { width: 560px; background: var(--paper); border-radius: 18px; padding: 18px 22px; font-size: 14px; display: flex; flex-direction: column; gap: 10px; }
+.mail .h { font-size: 12.5px; color: var(--muted); border-bottom: 1px solid var(--line-soft); padding-bottom: 8px; }
+</style></head><body>
+<p class="caption"><strong>E-tickets (module 18), proposition.</strong> Un utilisateur du labo signale un problème de l'application depuis le bouton d'aide « ? » ; le support Delorc répond depuis la console centrale. Exemple : Karim (délégué, Demo Pharma) voit un écran noir quand il choisit le médecin ; il ouvre un ticket avec une capture, le support répond « Téléchargez la nouvelle version », Karim confirme que ça marche et ferme le ticket. Côté labo en français, côté console centrale en anglais (comme les autres maquettes centrales). Aujourd'hui : 20 nov. 2026. <span style="color:var(--amber)">Les cadres pointillés orange sont à confirmer.</span></p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Qui répond</b> (décidé le 20 nov.) : le support Delorc, dans la console centrale. Les tickets sont enregistrés dans la base centrale, avec le labo, l'auteur (id et nom) ; un labo ne lit que les siens.</li>
+  <li><b>Qui ouvre</b> (décidé) : tout utilisateur du labo, quel que soit son rôle, depuis le bouton « ? » de la barre du haut, sur n'importe quel écran. Toujours actif, sans interrupteur de plan.</li>
+  <li><b>Qui voit, dans le labo</b> (décidé) : l'auteur et les personnes au-dessus de lui ; celles-ci <b>lisent seulement</b>. Seuls l'auteur et le support écrivent.</li>
+  <li><b>Les états</b> (décidé) : ouvert → en cours → résolu → fermé. Le support les fait avancer ; un ticket résolu est fermé par l'auteur ou le support ; l'auteur peut le rouvrir (retour à « ouvert »).</li>
+  <li><b>Catégories, priorités, délais</b> (décidé) : réglés une fois dans la console centrale, les mêmes pour tous les labos. Délai en heures d'horloge (week-end compris) ; « en retard » en rouge une fois passé, tant que le ticket n'est pas résolu.</li>
+  <li><b>Messages</b> (décidé) : une seule conversation, un message après l'autre. <b>Fichiers</b> (décidé) : photos, vidéos, PDF (jpg, png, webp, mp4, mov, webm, pdf), 20 Mo chacun, 5 par message.</li>
+  <li><b>E-mails</b> (décidé) : nouveau ticket et nouveau message du labo → l'adresse du support (réglage central) ; réponse ou changement d'état → l'auteur.</li>
+  <li><b>Proposé, à confirmer :</b>
+    un numéro automatique <code>TKT-000042</code> (un seul compteur pour tous les labos, tiré de l'id) ;
+    un ticket résolu se ferme tout seul après <b>7 jours</b> (réglage central) ;
+    la page où était l'utilisateur est gardée avec le ticket (« Visites › Planifier ») pour aider le support ;
+    le support peut corriger la catégorie et la priorité (le délai se recalcule depuis l'ouverture) ;
+    un ticket fermé ne se rouvre plus après 7 jours : on en ouvre un nouveau ;
+    les fichiers des tickets ne comptent pas dans le stockage du labo ;
+    droits centraux <code>tickets.show</code> / <code>tickets.answer</code> (owner, support) et <code>tickets.settings</code> (owner) ;
+    personne ne supprime un ticket (il reste comme historique) ;
+    le chiffre rouge sur « ? » = mes tickets avec une réponse non lue.</li>
+</ol>
+<script>
+const logo = `<svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const chip = (t, c = '') => `<span class='chip ${c}'>${t}</span>`
+const open = t => `<div class='open'>À confirmer : ${t}</div>`
+const openEn = t => `<div class='open'>To confirm: ${t}</div>`
+const side = (title, sub, body, foot = '') => `<aside class='panel'><div class='ph'><div style='flex:1;min-width:0'><h2 class='display'>${title}</h2><div class='sub'>${sub}</div></div><span class='icb'>✕</span></div><div class='pb'>${body}</div>${foot ? `<div class='pf'>${foot}</div>` : ''}</aside>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const kv = rows => `<div class='kv'>${rows.map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('')}</div>`
+const file = n => `<span class='file'>🖼 ${n}</span>`
+
+// ---------- Lab side (French) ----------
+const FR = { 'Ouvert': 'warn', 'En cours': 'info', 'Résolu': 'ok', 'Fermé': '' }
+const st = s => chip(s, FR[s])
+const labFrame = (inner, { help = true, who = 'KS', h = 640, badge = '' } = {}) => `<div class='frame' style='min-height:${h}px;position:relative'><nav class='rail' style='width:84px;align-items:center;padding:18px 0'>${logo}</nav>
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='iconbtn'>🔔</span><span class='help ${help ? 'on' : ''}'>?${badge ? `<i>${badge}</i>` : ''}</span><span class='avatar'>${who}</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div></div>`
+const crumbs = (t, title, chipHtml = '', btn = '') => `<div><div class='crumbs'>${t}</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>${title}</h1>${chipHtml}<span style='margin-inline-start:auto;display:flex;gap:8px'>${btn}</span></div></div>`
+
+const MY = [
+  ['TKT-000042', 'Écran noir quand je choisis le médecin', 'ADV', 'Critique', 'En cours', '22 nov. 09:12', '20 nov.'],
+  ['TKT-000037', 'Erreur sur la date des notes de frais', 'Produit', 'Faible', 'Résolu', '—', '14 nov.'],
+  ['TKT-000031', 'Calendrier vide après la synchronisation', 'Synchronisation', 'Élevée', 'Fermé', '—', '6 nov.'],
+]
+const TEAM = [
+  ['TKT-000042', 'Écran noir quand je choisis le médecin', 'ADV', 'Critique', 'En cours', '22 nov. 09:12', '20 nov.', 'Karim Saadi'],
+  ['TKT-000040', 'Commande refusée sans message', 'Commande', 'Élevée', 'Ouvert', '<span class="late">en retard · 19 nov. 16:00</span>', '16 nov.', 'Amine Kaci'],
+  ['TKT-000037', 'Erreur sur la date des notes de frais', 'Produit', 'Faible', 'Résolu', '—', '14 nov.', 'Karim Saadi'],
+]
+const myList = (rows, { sel = -1, team = false, segs } = {}) => `<div class='col'>
+<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Aide</div><h1 class='title display' style='font-size:34px'>${team ? 'Tickets' : 'Mes tickets'}</h1><div class='hint'>Un problème avec l'application ? Le support Delorc vous répond ici.</div></div><span class='btn primary' style='margin-inline-start:auto'>+ Nouveau ticket</span></div>
+<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center'><div class='input muted' style='width:220px'>Titre, n°…</div><span class='seg'>${segs.map((s, i) => `<span class='${i === 0 ? 'on' : ''}'>${s}</span>`).join('')}</span>${team ? `<span class='seg'><span class='on'>Tous</span><span>Les miens</span><span>Mon équipe</span></span>` : ''}</div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>N° ↕</th><th>Titre ↕</th><th>Catégorie ↕</th><th>Priorité ↕</th>${team ? '<th>Auteur ↕</th>' : ''}<th>État ↕</th><th>Réponse attendue avant ↕</th><th>Ouvert le ↕</th></tr></thead><tbody>
+${rows.map(([n, t, c, p, s, d, o, a], i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${n}</strong></td><td>${t}</td><td>${c}</td><td>${p}</td>${team ? `<td>${a}</td>` : ''}<td>${st(s)}</td><td>${d}</td><td>${o}</td></tr>`).join('')}
+</tbody></table></div></div>`
+
+const newPanel = side('Nouveau ticket', `<span class='hint'>Le support Delorc reçoit votre ticket tout de suite.</span>`,
+  [f('Titre *', 'Écran noir quand je choisis le médecin'),
+   f('Catégorie *', 'ADV ▾'),
+   `<label class='field'><span>Priorité *</span><div class='seg'><span>Faible · 96 h</span><span>Élevée · 72 h</span><span class='on'>Critique · 48 h</span></div></label>`,
+   f('Description', 'Quand je choisis Dr Cherif dans la visite du jour, l\'écran devient noir. J\'ai redémarré la tablette, rien ne change.', 'tall'),
+   `<label class='field'><span>Fichiers</span><div style='display:flex;gap:6px;flex-wrap:wrap'>${file('ecran-noir.jpg · 1,2 Mo')}</div><div class='why'>+ Ajouter une photo, une vidéo ou un PDF (20 Mo max, 5 fichiers)</div></label>`,
+   `<div class='hint'>Page jointe : <strong>Visites › Aujourd'hui</strong> (la page où vous étiez)</div>`].join(''),
+  `<span class='btn ghost'>Annuler</span><span class='btn primary' style='margin-inline-start:auto'>Envoyer le ticket</span>`)
+
+const steps = state => `<div style='display:flex;gap:6px;align-items:center;font-size:13px'>${['Ouvert', 'En cours', 'Résolu', 'Fermé'].map((s, i, all) => `<span class='chip ${all.indexOf(state) >= i ? 'ok' : ''}' style='${s === state ? 'outline:2px solid var(--ink)' : ''}'>${s}</span>${i < 3 ? '<span class="hint">→</span>' : ''}`).join('')}</div>`
+const CHAT = [
+  ['me', 'Karim Saadi · 20 nov. 09:12', 'Quand je choisis Dr Cherif dans la visite du jour, l\'écran devient noir. J\'ai redémarré la tablette, rien ne change.', file('ecran-noir.jpg')],
+  ['sys', 'Support Delorc a pris le ticket en charge · 20 nov. 09:40'],
+  ['them', 'Support Delorc · Sofia · 20 nov. 09:42', 'Bonjour Karim, merci pour la capture. Pouvez-vous nous dire si cela arrive avec tous les médecins ou seulement Dr Cherif ?'],
+  ['me', 'Karim Saadi · 20 nov. 10:05', 'Seulement avec les médecins qui ont une ADV Irys.'],
+]
+const RESOLVED = [...CHAT,
+  ['them', 'Support Delorc · Sofia · 20 nov. 14:30', 'Le problème venait de l\'ADV Irys. C\'est corrigé : fermez puis rouvrez la visite. Dites-nous si tout va bien.'],
+  ['sys', 'Support Delorc : résolu · 20 nov. 14:30'],
+]
+const chat = (rows, mine = 'me') => `<div class='chat'>${rows.map(([k, h, t, x = '']) => k === 'sys' ? `<div class='msg sys'>${h}</div>` : `<div class='msg ${k === mine ? 'me' : 'them'}'><small>${h}</small>${t}${x ? `<div>${x}</div>` : ''}</div>`).join('')}</div>`
+const composer = (ph = 'Écrire un message…') => `<div class='composer'><div class='t'>${ph}</div><footer><span class='btn sm ghost'>📎 Joindre</span><span class='hint'>Photos, vidéos, PDF · 20 Mo · 5 fichiers</span><span class='btn sm primary' style='margin-inline-start:auto'>Envoyer</span></footer></div>`
+const info = (extra = []) => card('Le ticket', kv([['Catégorie', 'ADV'], ['Priorité', 'Critique'], ['Réponse attendue avant', '22 nov. 09:12'], ['Ouvert par', 'Karim Saadi · 20 nov. 09:12'], ['Page', 'Visites › Aujourd\'hui'], ...extra]))
+const card = (title, body) => `<div class='rec'><header><strong>${title}</strong></header>${body}</div>`
+const ticketPage = (state, rows, { banner = '', write = true, who = 'Karim', btn = '' } = {}) => `<div class='col'>
+${crumbs('Aide › Mes tickets', 'TKT-000042 · Écran noir quand je choisis le médecin', st(state), btn)}
+${steps(state)}
+${banner}
+<div style='display:flex;gap:16px;align-items:flex-start'>
+  <div class='rec' style='flex:1'><header><strong>Conversation</strong><span class='hint' style='margin-inline-start:auto'>vue par ${who}</span></header>${chat(rows)}${write ? composer() : `<div class='why'>Vous lisez le ticket de Karim : seuls Karim et le support y écrivent.</div>`}</div>
+  <div style='width:380px;flex-shrink:0;display:flex;flex-direction:column;gap:14px'>${info()}</div>
+</div></div>`
+
+// ---------- Central side (English) ----------
+const MENU = ['Labs', 'Usage', 'Tickets', 'People', 'Roles', 'Activity', 'Translations', 'Geography', 'Plans', 'Settings']
+const crail = on => `<nav class='rail'><div class='brand'>${logo.replace(/44/g, '34')}<span class='display'>Delorc</span></div><div style='display:flex;flex-direction:column;gap:6px'>${MENU.map(m => `<a class='${m === on ? 'on' : ''}'>${m}${m === 'Tickets' ? ` <span class='chip ${on === 'Tickets' ? '' : 'warn'}' style='margin-inline-start:auto'>3</span>` : ''}</a>`).join('')}</div></nav>`
+const cframe = (inner, h = 680) => `<div class='frame' style='min-height:${h}px'>${crail('Tickets')}
+<div class='main'><div class='topbar'><div class='search'>Search or jump to a page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SF</span></div>
+<div style='display:flex;gap:20px;padding:20px 28px 28px;align-items:flex-start'>${inner}</div></div></div>`
+const EN = { 'Open': 'warn', 'In progress': 'info', 'Resolved': 'ok', 'Closed': '' }
+const ste = s => chip(s, EN[s])
+const name = (ini, n) => `<div class='namecell'><span class='lg'>${ini}</span><strong>${n}</strong></div>`
+const tabsC = on => `<div class='tabs2'>${['Tickets', 'Settings'].map(t => `<span class='${t === on ? 'on' : ''}'>${t}</span>`).join('')}</div>`
+const ALL = [
+  ['TKT-000042', name('DP', 'Demo Pharma'), 'Black screen when I pick the doctor', 'ADV', 'Critical', 'Karim Saadi', 'In progress', '22 Nov 09:12', '20 Nov'],
+  ['TKT-000041', name('AL', 'Alpha Labs'), 'Cannot send the visit report', 'Synchronisation', 'Critical', 'Lina Bouzid', 'Open', '<span class="late">late · 20 Nov 08:00</span>', '18 Nov'],
+  ['TKT-000040', name('DP', 'Demo Pharma'), 'Order refused with no message', 'Order', 'High', 'Amine Kaci', 'Open', '<span class="late">late · 19 Nov 16:00</span>', '16 Nov'],
+  ['TKT-000039', name('BS', 'Beta Santé'), 'Expense receipt does not upload', 'Product', 'Low', 'Yanis Ferhat', 'Open', '23 Nov 11:00', '19 Nov'],
+  ['TKT-000037', name('DP', 'Demo Pharma'), 'Wrong date on the expense notes', 'Product', 'Low', 'Karim Saadi', 'Resolved', '—', '14 Nov'],
+]
+const centralList = `<div class='col'>
+<div><div class='crumbs'>Tickets</div><h1 class='title display' style='font-size:36px'>Tickets</h1></div>
+${tabsC('Tickets')}
+<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center'><div class='input muted' style='width:220px'>⌕ Title, number, author</div><span class='seg'><span class='on'>Waiting · 4</span><span>Open · 3</span><span>In progress · 1</span><span>Resolved · 1</span><span>Closed · 12</span><span>All · 17</span></span><span class='input'>Lab <b>All</b> ▾</span><span class='input'>Category ▾</span><span class='input'>Priority ▾</span><span class='input'>Late only</span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr>${['Number', 'Lab', 'Title', 'Category', 'Priority', 'Author', 'Status', 'Due', 'Added on'].map(h => `<th>${h} ${h === 'Due' ? '↑' : '↕'}</th>`).join('')}</tr></thead><tbody>
+${ALL.map((r, i) => `<tr class='${i === 1 ? 'sel' : ''}'>${r.map((c, j) => `<td>${j === 0 ? `<strong>${c}</strong>` : j === 6 ? ste(c) : c}</td>`).join('')}</tr>`).join('')}
+</tbody></table></div>
+<div class='hint'>« Waiting » = open or in progress, sorted by due time: the late ones first.</div></div>`
+const centralPanel = side('TKT-000041', `${ste('Open')}<span class='late'>late · due 20 Nov 08:00</span>`,
+  kv([['Lab', 'Alpha Labs'], ['Author', 'Lina Bouzid · Medical rep'], ['Category', 'Synchronisation'], ['Priority', 'Critical · 48 h'], ['Page', 'Visits › Today'], ['Messages', '1 · 2 files'], ['Added on', '18 Nov 08:00']]) +
+  `<div class='why'>« Each time I send the report the app turns around, then nothing is sent. » 📎 2 files</div>`,
+  `<span class='btn outline'>Take it</span><span class='btn primary' style='margin-inline-start:auto'>Open the ticket</span>`)
+
+const CHAT_EN = [
+  ['them', 'Karim Saadi · Demo Pharma · 20 Nov 09:12', 'Quand je choisis Dr Cherif dans la visite du jour, l\'écran devient noir. J\'ai redémarré la tablette, rien ne change.', file('ecran-noir.jpg')],
+  ['sys', 'Sofia took the ticket · 20 Nov 09:40'],
+  ['me', 'Sofia (Delorc support) · 20 Nov 09:42', 'Bonjour Karim, merci pour la capture. Pouvez-vous nous dire si cela arrive avec tous les médecins ou seulement Dr Cherif ?'],
+  ['them', 'Karim Saadi · 20 Nov 10:05', 'Seulement avec les médecins qui ont une ADV Irys.'],
+]
+const stepsEn = state => `<div style='display:flex;gap:6px;align-items:center;font-size:13px'>${['Open', 'In progress', 'Resolved', 'Closed'].map((s, i, all) => `<span class='chip ${all.indexOf(state) >= i ? 'ok' : ''}' style='${s === state ? 'outline:2px solid var(--ink)' : ''}'>${s}</span>${i < 3 ? '<span class="hint">→</span>' : ''}`).join('')}</div>`
+const centralPage = `<div class='col'>
+<div><div class='crumbs'>Tickets › Demo Pharma</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:30px'>TKT-000042 · Black screen when I pick the doctor</h1>${ste('In progress')}<span style='margin-inline-start:auto;display:flex;gap:8px'><span class='btn outline'>Close</span><span class='btn primary'>Mark resolved</span></span></div></div>
+${stepsEn('In progress')}
+<div style='display:flex;gap:16px;align-items:flex-start'>
+  <div class='rec' style='flex:1'><header><strong>Conversation</strong><span class='hint' style='margin-inline-start:auto'>The lab writes in its own language; answer in it.</span></header>${chat(CHAT_EN)}${composer('Write an answer… (sent to Karim by email too)').replace('Joindre', 'Attach').replace('Photos, vidéos, PDF · 20 Mo · 5 fichiers', 'Photos, videos, PDF · 20 MB · 5 files').replace('>Envoyer<', '>Send<')}</div>
+  <div style='width:380px;flex-shrink:0;display:flex;flex-direction:column;gap:14px'>
+    <div class='rec'><header><strong>The ticket</strong><span class='btn sm outline'>✎ Edit</span></header>${kv([['Lab', name('DP', 'Demo Pharma')], ['Author', 'Karim Saadi · Medical rep'], ['Category', 'ADV'], ['Priority', 'Critical · 48 h'], ['Due', '22 Nov 09:12 · in 1 d 18 h'], ['Page', 'Visits › Today'], ['Taken by', 'Sofia · 20 Nov 09:40'], ['Added on', '20 Nov 09:12']])}</div>
+    ${openEn('support may correct the category and the priority (the due time is computed again from the opening). The lab never sees which support person answered? Shown here as « Support Delorc · Sofia ».')}
+  </div>
+</div></div>`
+
+const resolveBox = `<div class='dialog' style='position:absolute;inset:0;background:rgba(15,31,28,.35);display:flex;align-items:center;justify-content:center;z-index:6'><div style='width:460px;background:var(--paper);border-radius:22px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;font-size:14px'><strong style='font-size:17px'>Mark « TKT-000042 » resolved?</strong>
+${f('Message to Karim', 'Le problème venait de l\'ADV Irys. C\'est corrigé : fermez puis rouvrez la visite. Dites-nous si tout va bien.', 'tall')}
+<div class='hint'>Optional, added to the conversation. Karim gets an email; he closes the ticket or reopens it. Without an answer it closes by itself in 7 days.</div>
+<footer style='display:flex;gap:10px;justify-content:flex-end;margin-top:6px'><span class='btn sm ghost'>Back</span><span class='btn sm dark'>Mark resolved</span></footer></div></div>`
+
+const CATS = ['Produit', 'ADV', 'Commande', 'Univers', 'PF', 'Synchronisation']
+const settings = `<div class='col'>
+<div><div class='crumbs'>Tickets</div><h1 class='title display' style='font-size:36px'>Tickets</h1></div>
+${tabsC('Settings')}
+<div class='grid2' style='align-items:start'>
+  <div class='rec'><header><strong>Categories</strong><span class='btn sm outline'>+ Add</span></header>
+    <div class='hint'>The same for every lab. Texts in French, English and Arabic; a used category is turned off, never deleted.</div>
+    <div>${CATS.map((c, i) => `<div class='li'><span class='hint'>▲▼</span><span style='flex:1;${i === 3 ? 'color:var(--muted)' : ''}'>${c}</span>${i === 3 ? '<span class="hint">off · 2 tickets</span>' : ''}<span class='hint'>✎</span><span class='tg ${i === 3 ? 'off' : ''}'></span></div>`).join('')}</div></div>
+  <div style='display:flex;flex-direction:column;gap:14px'>
+    <div class='rec'><header><strong>Priorities and due times</strong><span class='btn sm outline'>+ Add</span></header>
+      <div class='hint'>Clock hours from the opening, weekends included.</div>
+      <div>${[['Faible', 96], ['Élevée', 72], ['Critique', 48]].map(([p, h]) => `<div class='li'><span class='hint'>▲▼</span><span style='flex:1'>${p}</span><div class='input' style='width:110px'>${h} h</div><span class='hint'>✎</span></div>`).join('')}</div></div>
+    <div class='rec'><header><strong>Emails and closing</strong><span class='btn sm outline'>✎ Edit</span></header>
+      ${kv([['Support address', 'support@delorc.dz'], ['Resolved closes after', '7 days'], ['Reopen allowed for', '7 days after closing']])}</div>
+    ${openEn('the start values are the old apps\' lists (Produit, ADV, Commande, Univers, PF, Synchronisation; Faible 96 h, Élevée 72 h, Critique 48 h). « Moyenne » existed in the old code but no lab used it.')}
+  </div>
+</div></div>`
+
+const mail1 = `<div class='mail'><div class='h'>À : support@delorc.dz · De : Delorc &lt;no-reply@delorc.dz&gt;<br><strong style='color:var(--ink)'>Nouveau ticket TKT-000042 · Demo Pharma · Critique</strong></div>
+<div><strong>Karim Saadi</strong> (Demo Pharma) a ouvert un ticket : <strong>Écran noir quand je choisis le médecin</strong>.</div>
+<div class='why'>Quand je choisis Dr Cherif dans la visite du jour, l'écran devient noir. J'ai redémarré la tablette, rien ne change.</div>
+<div class='hint'>ADV · Critique · réponse attendue avant le 22 nov. 09:12 · 1 fichier</div><span class='btn sm primary' style='align-self:flex-start'>Ouvrir le ticket</span></div>`
+const mail2 = `<div class='mail'><div class='h'>À : karim.saadi@demo.dz · De : « Demo Pharma » &lt;no-reply@delorc.dz&gt;<br><strong style='color:var(--ink)'>Le support a répondu à votre ticket TKT-000042</strong></div>
+<div>Bonjour Karim,<br>le support Delorc a répondu à <strong>Écran noir quand je choisis le médecin</strong> et l'a marqué <strong>résolu</strong> :</div>
+<div class='why'>Le problème venait de l'ADV Irys. C'est corrigé : fermez puis rouvrez la visite. Dites-nous si tout va bien.</div>
+<span class='btn sm primary' style='align-self:flex-start'>Voir le ticket</span></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Le bouton « ? » et « Mes tickets », vus par Karim.</strong> Sur n'importe quel écran, « ? » ouvre Aide › Mes tickets. Le chiffre rouge = une réponse non lue. « + Nouveau ticket » ouvre un panneau à côté.`) +
+    labFrame(myList(MY, { segs: ['Tous · 3', 'En attente · 1', 'Résolus · 1', 'Fermés · 1'] }) + newPanel, { badge: '1', h: 700 }),
+  label(2, `<strong>Le ticket, vu par Karim.</strong> La conversation avec le support, un message après l'autre ; il répond, joint une vidéo ou une capture.`) +
+    labFrame(ticketPage('En cours', CHAT), { h: 760 }),
+  label(3, `<strong>Résolu : Karim confirme.</strong> Le support a marqué le ticket résolu ; Karim le ferme si ça marche, ou le rouvre.`) +
+    labFrame(ticketPage('Résolu', RESOLVED, { banner: `<div class='why go'>Le support pense que c'est réglé. Ça marche ?<span class='btn sm outline'>Non, rouvrir</span><span class='btn sm primary'>Oui, fermer le ticket</span></div><div class='hint'>Sans réponse, le ticket se ferme tout seul le 27 nov.</div>` }), { h: 880 }),
+  label(4, `<strong>Nadia (au-dessus de Karim) : la liste et le ticket.</strong> Elle voit ses tickets et ceux des personnes en dessous d'elle ; les tickets des autres sont en lecture seule.`) +
+    labFrame(myList(TEAM, { team: true, segs: ['Tous · 3', 'En attente · 2', 'Résolus · 1', 'Fermés · 0'] }), { who: 'NB', h: 480 }) +
+    `<div style='height:20px'></div>` + labFrame(ticketPage('En cours', CHAT, { write: false, who: 'Nadia' }).replace('Aide › Mes tickets', 'Aide › Tickets'), { who: 'NB', h: 720 }),
+  label(5, `<strong>Central › Tickets, seen by Sofia (support).</strong> Every lab's tickets, waiting ones first by due time; late in red. A click opens the panel beside the list.`) +
+    cframe(centralList + centralPanel, 640),
+  label(6, `<strong>A ticket in central.</strong> Sofia answers in the conversation (Karim gets an email), takes it, marks it resolved or closes it.`) +
+    cframe(centralPage, 780),
+  label(7, `<strong>Mark resolved: an optional message.</strong>`) +
+    `<div style='position:relative'>${cframe(centralPage, 780)}${resolveBox}</div>`,
+  label(8, `<strong>Central › Tickets › Settings.</strong> Categories, priorities with their due time, the support address and the closing delays, the same for every lab.`) +
+    cframe(settings, 640),
+  label(9, `<strong>Les deux e-mails.</strong> À gauche, au support pour un nouveau ticket (ou un nouveau message du labo) ; à droite, à Karim quand le support répond ou change l'état. Envoyés par le canal e-mail du labo pour Karim.`) +
+    `<div style='display:flex;gap:20px;margin:0 28px 40px'>${mail1}${mail2}</div>` +
+    `<div style='margin:0 28px 40px;width:1100px'>${open('l\'e-mail au support part par le compte e-mail partagé de Delorc (pas celui du labo) ; celui à l\'auteur par le canal e-mail du labo, compté dans son quota mensuel, comme les autres e-mails du labo.')}</div>`,
+].join('')
+</script></body></html>

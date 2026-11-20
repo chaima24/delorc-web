@@ -13,7 +13,9 @@
       "test": "Envoi de test",
       "update": "Modifier",
       "update-contact": "Changer son e-mail et son téléphone",
-      "update-plan": "Changer le plan"
+      "update-plan": "Changer le plan",
+      "answer": "Répondre",
+      "settings": "Modifier les réglages"
     },
     "actionsCount": "{count} actions",
     "all": "Tout",
@@ -21,7 +23,8 @@
       "access": "Accès",
       "content": "Contenu",
       "labs": "Laboratoires",
-      "system": "Système"
+      "system": "Système",
+      "support": "Support"
     },
     "everything": "Tout",
     "resource": {
@@ -38,7 +41,8 @@
       "settings": "Paramètres",
       "translations": "Traductions",
       "usage": "Utilisation",
-      "users": "Personnes"
+      "users": "Personnes",
+      "tickets": "Tickets"
     },
     "role": {
       "billing": "Facturation",
@@ -227,7 +231,15 @@
         "username": "Nom d'utilisateur",
         "value": "Valeur",
         "website": "Site web",
-        "wilaya": "Wilaya"
+        "wilaya": "Wilaya",
+        "names": "Noms",
+        "hours": "Délai (heures)",
+        "sort": "Ordre",
+        "tickets": {
+          "support_email": "Adresse du support",
+          "close_after_days": "Fermeture d'un ticket résolu (jours)",
+          "reopen_days": "Réouverture possible (jours)"
+        }
       },
       "hideAutomatic": "Masquer les changements automatiques",
       "imported": "{keys} clés, {texts} textes ajoutés",
@@ -264,7 +276,9 @@
         "settings": "Réglages",
         "sign_in": "Connexion",
         "translations": "Textes",
-        "wilaya": "Wilaya"
+        "wilaya": "Wilaya",
+        "ticket_category": "Catégorie de ticket",
+        "ticket_priority": "Priorité de ticket"
       },
       "right": "{resource}, {action}",
       "rightAdded": "{right} : ajouté",
@@ -366,6 +380,20 @@
           "created": "{author} a ajouté la wilaya {record}",
           "deleted": "{author} a supprimé la wilaya {record}",
           "updated": "{author} a modifié la wilaya {record}"
+        },
+        "ticket_category": {
+          "created": "{author} a ajouté la catégorie de ticket {record}",
+          "updated": "{author} a modifié la catégorie de ticket {record}",
+          "deleted": "{author} a supprimé la catégorie de ticket {record}",
+          "deactivated": "{author} a éteint la catégorie de ticket {record}",
+          "reactivated": "{author} a rallumé la catégorie de ticket {record}"
+        },
+        "ticket_priority": {
+          "created": "{author} a ajouté la priorité de ticket {record}",
+          "updated": "{author} a modifié la priorité de ticket {record}",
+          "deleted": "{author} a supprimé la priorité de ticket {record}",
+          "deactivated": "{author} a éteint la priorité de ticket {record}",
+          "reactivated": "{author} a rallumé la priorité de ticket {record}"
         }
       },
       "sort": "Ordre",
@@ -426,6 +454,20 @@
           "created": "Wilaya ajoutée",
           "deleted": "Wilaya supprimée",
           "updated": "Wilaya modifiée"
+        },
+        "ticket_category": {
+          "created": "Catégorie de ticket ajoutée",
+          "updated": "Catégorie de ticket modifiée",
+          "deleted": "Catégorie de ticket supprimée",
+          "deactivated": "Catégorie de ticket éteinte",
+          "reactivated": "Catégorie de ticket rallumée"
+        },
+        "ticket_priority": {
+          "created": "Priorité de ticket ajoutée",
+          "updated": "Priorité de ticket modifiée",
+          "deleted": "Priorité de ticket supprimée",
+          "deactivated": "Priorité de ticket éteinte",
+          "reactivated": "Priorité de ticket rallumée"
         }
       },
       "today": "Aujourd'hui",
@@ -934,7 +976,8 @@
       "plans": "Offres",
       "settings": "Réglages",
       "translations": "Traductions",
-      "usage": "Utilisation"
+      "usage": "Utilisation",
+      "tickets": "Tickets"
     },
     "plans": {
       "activate": "Activer",
@@ -1234,6 +1277,70 @@
       },
       "statusLabel": "Statut",
       "title": "Personnes"
+    },
+    "tickets": {
+      "title": "Tickets",
+      "search": "Titre, numéro, auteur",
+      "lab": "Labo",
+      "lateOnly": "En retard seulement",
+      "empty": "Aucun ticket",
+      "order": "« En attente » = ouverts ou en cours, la réponse la plus proche d'abord : les tickets en retard en haut.",
+      "take": "Prendre en charge",
+      "taken": "Ticket pris en charge",
+      "takenBy": "Pris par",
+      "open": "Ouvrir le ticket",
+      "files": "{count} fichier | {count} fichiers",
+      "priorityHours": "{name} · {hours} h",
+      "priorityChange": "Une nouvelle priorité recompte ses heures depuis l'ouverture.",
+      "notFound": "Ticket introuvable",
+      "saved": "Enregistré",
+      "answerInTheirLanguage": "Le labo écrit dans sa langue : répondez dans la même.",
+      "answerHint": "Écrire une réponse… ({name} la reçoit aussi par e-mail)",
+      "messageTo": "Message à {name} (facultatif)",
+      "resolve": {
+        "button": "Marquer résolu",
+        "title": "Marquer « {number} » résolu ?",
+        "text": "{name} reçoit un e-mail et ferme le ticket, ou le rouvre. Sans réponse, il se ferme tout seul.",
+        "confirm": "Marquer résolu",
+        "done": "Ticket résolu"
+      },
+      "close": {
+        "button": "Fermer",
+        "title": "Fermer « {number} » ?",
+        "text": "{name} reçoit un e-mail. Un ticket fermé ne reçoit plus de message ; {name} peut encore le rouvrir quelques jours.",
+        "confirm": "Fermer le ticket",
+        "done": "Ticket fermé"
+      },
+      "settings": {
+        "title": "Réglages",
+        "ticket-categories": "Catégories",
+        "ticket-categoriesHint": "Les mêmes pour tous les labos. Éteinte : plus proposée ; les anciens tickets la gardent.",
+        "ticket-priorities": "Priorités et délais",
+        "ticket-prioritiesHint": "Heures d'horloge depuis l'ouverture, week-end compris.",
+        "add": "Ajouter",
+        "up": "Monter {name}",
+        "down": "Descendre {name}",
+        "edit": "Modifier {name}",
+        "delete": "Supprimer {name}",
+        "active": "{name} actif",
+        "deleteTitle": "Supprimer {name} ?",
+        "deleteText": "Aucun ticket ne l'utilise. Il disparaît pour tous les labos.",
+        "deleted": "Supprimé",
+        "used": "{count} ticket | {count} tickets",
+        "hours": "{count} h",
+        "hoursField": "Délai (heures)",
+        "nameFr": "Nom en français",
+        "nameEn": "Nom en anglais",
+        "nameAr": "Nom en arabe",
+        "emailAndDelays": "E-mail et délais",
+        "supportEmail": "Adresse du support",
+        "supportEmailHint": "Les nouveaux tickets et les messages des labos y arrivent. Vide : aucun e-mail.",
+        "noEmail": "Aucune : pas d'e-mail envoyé",
+        "closeAfter": "Un ticket résolu se ferme après",
+        "closeAfterField": "Fermeture après (jours)",
+        "reopenFor": "L'auteur peut rouvrir pendant",
+        "reopenForField": "Réouverture pendant (jours)"
+      }
     }
   },
   "common": {
@@ -1316,6 +1423,14 @@
       "expenses": {
         "description": "Notes de frais des équipes (un jour par personne, approuvé par le responsable) et leurs paramètres dans le Studio.",
         "name": "Frais"
+      },
+      "competitive": {
+        "description": "Notes des équipes sur la concurrence (brouillon, envoyée, traitée par le marketing) et leurs listes de choix.",
+        "name": "Veille concurrentielle"
+      },
+      "complaints": {
+        "description": "Réclamations internes des équipes, traitées par les personnes que le labo désigne (pas la hiérarchie), avec envoi anonyme possible.",
+        "name": "Réclamations"
       }
     },
     "events": {
@@ -1323,6 +1438,65 @@
         "description": "Sur un événement, chaque professionnel de santé invité peut être noté « pris en charge » par le laboratoire, avec un montant ; sa fiche liste ses prises en charge.",
         "name": "Pris en charge (événements)"
       }
+    }
+  },
+  "tickets": {
+    "help": "Aide",
+    "helpUnread": "Aide · {count} réponse non lue | Aide · {count} réponses non lues",
+    "support": "Support Delorc",
+    "supportBy": "Support Delorc · {name}",
+    "noDescription": "Pas de description.",
+    "late": "en retard · {date}",
+    "write": "Écrire un message…",
+    "send": "Envoyer",
+    "files": {
+      "attach": "Joindre",
+      "hint": "Photos, vidéos, PDF · 20 Mo · 5 fichiers",
+      "add": "Ajouter une photo, une vidéo ou un PDF (20 Mo max, 5 fichiers)",
+      "remove": "Retirer {name}",
+      "tooBig": "{name} dépasse 20 Mo."
+    },
+    "status": {
+      "open": "Ouvert",
+      "in_progress": "En cours",
+      "resolved": "Résolu",
+      "closed": "Fermé"
+    },
+    "event": {
+      "opened": "{by} a ouvert le ticket",
+      "taken": "{by} a pris le ticket en charge",
+      "resolved": "{by} : résolu",
+      "closed": "{by} : fermé",
+      "reopened": "{by} a rouvert le ticket",
+      "changed": "{by} a changé {changes}",
+      "auto_closed": "Fermé tout seul, sans réponse après la résolution"
+    },
+    "change": {
+      "category": "la catégorie : {old} → {new}",
+      "priority": "la priorité : {old} → {new}"
+    },
+    "fields": {
+      "number": "N°",
+      "title": "Titre",
+      "category": "Catégorie",
+      "priority": "Priorité",
+      "description": "Description",
+      "files": "Fichiers",
+      "author": "Auteur",
+      "status": "État",
+      "due": "Réponse attendue avant",
+      "opened": "Ouvert le",
+      "openedBy": "Ouvert par",
+      "page": "Page",
+      "messages": "Messages"
+    },
+    "list": {
+      "all": "Tous",
+      "waiting": "En attente"
+    },
+    "page": {
+      "conversation": "Conversation",
+      "details": "Le ticket"
     }
   }
 }
