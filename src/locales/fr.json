@@ -1316,6 +1316,10 @@
       "expenses": {
         "description": "Notes de frais des équipes (un jour par personne, approuvé par le responsable) et leurs paramètres dans le Studio.",
         "name": "Frais"
+      },
+      "competitive": {
+        "description": "Notes des équipes sur la concurrence (brouillon, envoyée, traitée par le marketing) et leurs listes de choix.",
+        "name": "Veille concurrentielle"
       }
     },
     "events": {

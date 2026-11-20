@@ -117,6 +117,16 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
+    // Veille concurrentielle: notes on competitors and the lists they pick from (docs/api/competitive-informations.md); plan switch module.competitive.
+    id: 'competitive',
+    title: 'nav.workspaces.competitive',
+    icon: 'tabler-binoculars',
+    links: [
+      { title: 'nav.competitive.notes', to: { name: 'tenant-competitive-informations' }, icon: 'tabler-notes', resource: 'competitive-informations', feature: 'module.competitive', matches: ['tenant-competitive-information'] },
+      { title: 'nav.competitive.settings', to: { name: 'tenant-competitive-settings' }, icon: 'tabler-settings', resource: 'competitive-types', feature: 'module.competitive' },
+    ],
+  },
+  {
     // Équipe: expenses (docs/api/expenses.md).
     id: 'team',
     title: 'nav.workspaces.team',

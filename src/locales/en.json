@@ -1316,6 +1316,10 @@
       "expenses": {
         "description": "Team expense claims (one day per person, approved by their manager) and their settings in the Studio.",
         "name": "Expenses"
+      },
+      "competitive": {
+        "description": "The teams' notes on competitors (draft, sent, processed by marketing) and their lists of choices.",
+        "name": "Competitive watch"
       }
     },
     "events": {

@@ -97,6 +97,10 @@ const labRoutes = [
       { path: 'orders/new', name: 'tenant-order-new', component: () => import('@/views/tenant/orders/OrderFormView.vue'), meta: { permission: 'orders.create' } },
       { path: 'orders/:id(\\d+)', name: 'tenant-order', component: () => import('@/views/tenant/orders/OrderDetailView.vue'), props: true, meta: { permission: 'orders.show' } },
       { path: 'order-settings', name: 'tenant-order-settings', component: () => import('@/views/tenant/orders/OrderSettingsView.vue'), meta: { permission: 'orders-setup.show' } },
+      // Veille concurrentielle › Notes, Réglages (docs/api/competitive-informations.md).
+      { path: 'competitive-informations', name: 'tenant-competitive-informations', component: () => import('@/views/tenant/competitive/CompetitiveListView.vue'), meta: { permission: 'competitive-informations.show' } },
+      { path: 'competitive-informations/:id(\\d+)', name: 'tenant-competitive-information', component: () => import('@/views/tenant/competitive/CompetitiveDetailView.vue'), props: true, meta: { permission: 'competitive-informations.show' } },
+      { path: 'competitive-settings', name: 'tenant-competitive-settings', component: () => import('@/views/tenant/competitive/CompetitiveSettingsView.vue'), meta: { permission: 'competitive-types.show' } },
       // Coaching › Programmes, Grille d'évaluation (docs/api/coaching-setup.md).
       { path: 'coachings', name: 'tenant-coachings', component: () => import('@/views/tenant/coaching/CoachingListView.vue'), meta: { permission: 'coaching-setup.show' } },
       { path: 'coachings/:id(\\d+)', name: 'tenant-coaching-detail', component: () => import('@/views/tenant/coaching/CoachingDetailView.vue'), props: true, meta: { permission: 'coaching-setup.show' } },
