@@ -13,6 +13,18 @@ export type TicketEvent = 'opened' | 'taken' | 'resolved' | 'closed' | 'reopened
 
 export interface TicketFile { id: number; name: string; url: string; mime: string | null; size: number | null }
 
+/** A line of a conversation, shared by e-tickets and complaints (their sides differ). */
+export interface ConversationMessage {
+  id: number
+  side: string
+  by: string | null
+  event: string | null
+  body: string | null
+  changes?: Record<string, { old: string; new: string }> | null
+  files: TicketFile[]
+  at: string
+}
+
 export interface TicketMessage {
   id: number
   side: 'lab' | 'support'

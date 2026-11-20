@@ -1427,6 +1427,10 @@
       "competitive": {
         "description": "Notes des équipes sur la concurrence (brouillon, envoyée, traitée par le marketing) et leurs listes de choix.",
         "name": "Veille concurrentielle"
+      },
+      "complaints": {
+        "description": "Réclamations internes des équipes, traitées par les personnes que le labo désigne (pas la hiérarchie), avec envoi anonyme possible.",
+        "name": "Réclamations"
       }
     },
     "events": {

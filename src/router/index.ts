@@ -100,6 +100,11 @@ const labRoutes = [
       { path: 'orders/new', name: 'tenant-order-new', component: () => import('@/views/tenant/orders/OrderFormView.vue'), meta: { permission: 'orders.create' } },
       { path: 'orders/:id(\\d+)', name: 'tenant-order', component: () => import('@/views/tenant/orders/OrderDetailView.vue'), props: true, meta: { permission: 'orders.show' } },
       { path: 'order-settings', name: 'tenant-order-settings', component: () => import('@/views/tenant/orders/OrderSettingsView.vue'), meta: { permission: 'orders-setup.show' } },
+      // Réclamations (docs/api/complaints.md): Mes réclamations for everyone; À traiter and Réglages with complaints.handle.
+      { path: 'complaints', name: 'tenant-complaints', component: () => import('@/views/tenant/complaints/ComplaintListView.vue') },
+      { path: 'complaints/inbox', name: 'tenant-complaints-inbox', component: () => import('@/views/tenant/complaints/ComplaintListView.vue'), props: { inbox: true }, meta: { permission: 'complaints.handle' } },
+      { path: 'complaints/:id(\\d+)', name: 'tenant-complaint', component: () => import('@/views/tenant/complaints/ComplaintView.vue'), props: true },
+      { path: 'complaint-settings', name: 'tenant-complaint-settings', component: () => import('@/views/tenant/complaints/ComplaintSettingsView.vue'), meta: { permission: 'complaints.handle' } },
       // Aide › Mes tickets (docs/api/e-tickets.md): every lab user, opened from « ? » in the top bar.
       { path: 'help', name: 'tenant-help', component: () => import('@/views/tenant/help/HelpListView.vue') },
       { path: 'help/:id(\\d+)', name: 'tenant-help-ticket', component: () => import('@/views/tenant/help/HelpTicketView.vue'), props: true },

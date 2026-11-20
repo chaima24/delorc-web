@@ -127,6 +127,17 @@ export const workspaces: Workspace[] = [
     ],
   },
   {
+    // Réclamations: complaints about work, handled by complaints.handle, never by the hierarchy (docs/api/complaints.md); plan switch module.complaints.
+    id: 'complaints',
+    title: 'nav.workspaces.complaints',
+    icon: 'tabler-message-report',
+    links: [
+      { title: 'nav.complaints.mine', to: { name: 'tenant-complaints' }, icon: 'tabler-message-report', feature: 'module.complaints', matches: ['tenant-complaint'] },
+      { title: 'nav.complaints.inbox', to: { name: 'tenant-complaints-inbox' }, icon: 'tabler-inbox', permission: 'complaints.handle', feature: 'module.complaints' },
+      { title: 'nav.complaints.settings', to: { name: 'tenant-complaint-settings' }, icon: 'tabler-settings', permission: 'complaints.handle', feature: 'module.complaints' },
+    ],
+  },
+  {
     // Équipe: expenses (docs/api/expenses.md).
     id: 'team',
     title: 'nav.workspaces.team',

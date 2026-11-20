@@ -1,0 +1,138 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Réclamations</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 150px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.why.go { background: var(--signal-soft); color: var(--ink); display: flex; align-items: center; gap: 10px; font-size: 13.5px; } .why.go .btn { margin-inline-start: auto; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); } .ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; } .pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 16px; }
+.file { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 10px; padding: 5px 10px; font-size: 12.5px; background: var(--paper); }
+.chat { display: flex; flex-direction: column; gap: 12px; }
+.msg { max-width: 78%; border-radius: 16px; padding: 10px 14px; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 6px; }
+.msg small { font-size: 11.5px; color: var(--muted); } .msg.me { align-self: flex-end; background: var(--signal-soft); } .msg.them { align-self: flex-start; background: var(--mist); }
+.msg.sys { align-self: center; background: transparent; color: var(--muted); font-size: 12px; padding: 2px; }
+.composer { border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+.composer .t { min-height: 44px; color: var(--muted); font-size: 14px; } .composer footer { display: flex; gap: 8px; align-items: center; }
+.late { color: var(--brick); font-weight: 600; }
+.chip.bad { background: rgba(192,54,44,.1); color: var(--brick); }
+.open { background: var(--paper); border: 1px dashed var(--amber); border-radius: 14px; padding: 10px 14px; font-size: 13px; color: var(--amber); }
+.help { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; position: relative; }
+.help.on { background: var(--signal); border-color: var(--signal); }
+.help i { position: absolute; top: -4px; inset-inline-end: -4px; min-width: 18px; height: 18px; border-radius: 99px; background: var(--brick); color: #fff; font-size: 11px; font-style: normal; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+.lg { width: 30px; height: 30px; border-radius: 9px; background: var(--ink-2); color: var(--signal); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.namecell { display: flex; gap: 8px; align-items: center; }
+.tabs2 { display: flex; gap: 6px; } .tabs2 span { height: 34px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; background: var(--paper); font-size: 13px; font-weight: 600; color: var(--body); }
+.tabs2 span.on { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .li:last-child { border-bottom: 0; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; display: inline-block; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.mail { width: 560px; background: var(--paper); border-radius: 18px; padding: 18px 22px; font-size: 14px; display: flex; flex-direction: column; gap: 10px; }
+.mail .h { font-size: 12.5px; color: var(--muted); border-bottom: 1px solid var(--line-soft); padding-bottom: 8px; }
+</style></head><body>
+</head><body>
+<p class="caption"><strong>Réclamations (module 18b), proposition.</strong> Un petit module interne : un utilisateur du labo signale un problème au travail, les personnes chargées par le labo (droit « Traiter les réclamations », RH ou admins) lui répondent. Les responsables hiérarchiques ne les voient pas. Exemple : Karim (délégué) écrit « Mes notes de frais d'octobre ne sont toujours pas remboursées » ; Leïla (RH) lui répond et la marque résolue ; Karim la ferme. Aujourd'hui : 20 nov. 2026. <span style="color:var(--amber)">Les cadres pointillés orange sont à confirmer.</span></p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Qui traite</b> (décidé le 20 nov.) : le droit <code>complaints.handle</code>, donné par le labo à un rôle (admins au départ, puis RH). Pas la hiérarchie : Nadia, responsable de Karim, ne voit pas ses réclamations.</li>
+  <li><b>Anonyme</b> (décidé) : un réglage du labo. Allumé : la case « Envoyer sans mon nom » apparaît ; les personnes qui traitent voient « Anonyme », l'API ne leur donne jamais le nom. Éteint : toujours avec le nom.</li>
+  <li><b>États</b> (décidé, comme les e-tickets) : ouverte → en cours → résolue → fermée. Les personnes qui traitent font avancer ; l'auteur ferme une réclamation résolue ou la rouvre. Une seule conversation.</li>
+  <li><b>Champs</b> (décidé) : catégorie (liste du labo), urgence (Normale / Urgente), texte, fichiers (photos, PDF, dans le stockage du labo), personne concernée (facultative).</li>
+  <li><b>Gardé simple</b> (choix pris, à corriger si besoin) : la personne concernée ne voit jamais la réclamation, même avec le droit ; pas d'e-mail pour l'instant (viendra avec les notifications) ; pas de délai, les urgentes passent en premier ; pas de fermeture automatique.</li>
+  <li><b>Place</b> : espace « Réclamations » (Mes réclamations, À traiter, Réglages) derrière l'interrupteur de plan <code>module.complaints</code>, éteint au départ. Tout le monde a « Mes réclamations » ; « À traiter » et « Réglages » seulement avec le droit.</li>
+</ol>
+<script>
+const logo = `<svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const chip = (t, c = '') => `<span class='chip ${c}'>${t}</span>`
+const open = t => `<div class='open'>À confirmer : ${t}</div>`
+const side = (title, sub, body, foot = '') => `<aside class='panel'><div class='ph'><div style='flex:1;min-width:0'><h2 class='display'>${title}</h2><div class='sub'>${sub}</div></div><span class='icb'>✕</span></div><div class='pb'>${body}</div>${foot ? `<div class='pf'>${foot}</div>` : ''}</aside>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const kv = rows => `<div class='kv'>${rows.map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('')}</div>`
+const ST = { 'Ouverte': 'warn', 'En cours': 'info', 'Résolue': 'ok', 'Fermée': '' }
+const st = s => chip(s, ST[s])
+const urg = u => u === 'Urgente' ? chip('Urgente', 'bad') : `<span class='hint'>Normale</span>`
+const tabs = (items, on) => `<nav class='ws-nav'>${items.map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const frame = (who, navItems, on, inner, h = 640) => `<div class='frame' style='min-height:${h}px'><nav class='rail' style='width:84px;align-items:center;padding:18px 0'>${logo}<span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>Réclam.</span></nav>
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='help'>?</span><span class='avatar'>${who}</span></div>
+<div style='display:flex;flex-direction:column;flex:1;gap:16px;padding:18px 28px 24px'>${tabs(navItems, on)}<div style='display:flex;gap:20px;align-items:flex-start'>${inner}</div></div></div></div>`
+const steps = state => `<div style='display:flex;gap:6px;align-items:center;font-size:13px'>${['Ouverte', 'En cours', 'Résolue', 'Fermée'].map((s, i, all) => `<span class='chip ${all.indexOf(state) >= i ? 'ok' : ''}' style='${s === state ? 'outline:2px solid var(--ink)' : ''}'>${s}</span>${i < 3 ? '<span class="hint">→</span>' : ''}`).join('')}</div>`
+const card = (title, body) => `<div class='rec'><header><strong>${title}</strong></header>${body}</div>`
+const composer = `<div class='composer'><div class='t'>Écrire un message…</div><footer><span class='btn sm ghost'>📎 Joindre</span><span class='hint'>Photos, PDF · 10 Mo</span><span class='btn sm primary' style='margin-inline-start:auto'>Envoyer</span></footer></div>`
+const chat = rows => `<div class='chat'>${rows.map(([k, h, t]) => k === 'sys' ? `<div class='msg sys'>${h}</div>` : `<div class='msg ${k}'><small>${h}</small>${t}</div>`).join('')}</div>`
+
+const KARIM = [['RC-000012', 'Notes de frais d\'octobre non remboursées', 'Notes de frais', 'Urgente', 'En cours', '18 nov.'], ['RC-000007', 'Tablette lente depuis la mise à jour', 'Matériel', 'Normale', 'Fermée', '2 nov.']]
+const list = (title, rows, { who = false, sel = -1 } = {}) => `<div class='col'>
+<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Réclamations</div><h1 class='title display' style='font-size:34px'>${title}</h1></div>${who ? '' : `<span class='btn primary' style='margin-inline-start:auto'>+ Nouvelle réclamation</span>`}</div>
+<div style='display:flex;gap:10px;flex-wrap:wrap'><div class='input muted' style='width:200px'>Titre, n°…</div><span class='seg'><span class='on'>En attente · ${who ? 3 : 1}</span><span>Résolues · 0</span><span>Fermées · 1</span><span>Toutes</span></span>${who ? `<div class='input muted' style='width:170px'>Catégorie ▾</div>` : ''}</div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>N° ↕</th><th>Titre ↕</th><th>Catégorie ↕</th><th>Urgence ↕</th>${who ? '<th>Auteur ↕</th>' : ''}<th>État ↕</th><th>Envoyée le ↕</th></tr></thead><tbody>
+${rows.map((r, i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td>${urg(r[3])}</td>${who ? `<td>${r[6]}</td>` : ''}<td>${st(r[4])}</td><td>${r[5]}</td></tr>`).join('')}
+</tbody></table></div></div>`
+
+const newPanel = side('Nouvelle réclamation', `<span class='hint'>Reçue par les personnes chargées des réclamations, pas par votre responsable.</span>`,
+  [f('Titre *', 'Notes de frais d\'octobre non remboursées'), f('Catégorie *', 'Notes de frais ▾'),
+   `<label class='field'><span>Urgence</span><div class='seg'><span>Normale</span><span class='on'>Urgente</span></div></label>`,
+   f('Votre message *', 'Mes notes de frais d\'octobre (3 déplacements à Oran) sont validées par Nadia depuis le 5 nov. mais toujours pas remboursées.', 'tall'),
+   f('Personne concernée', 'Aucune ▾'),
+   `<label class='field'><span>Fichiers</span><div class='why'>+ Ajouter une photo ou un PDF (10 Mo max chacun)</div></label>`,
+   `<label style='display:flex;gap:10px;align-items:flex-start;font-size:13.5px'><span class='check'></span><span><strong>Envoyer sans mon nom</strong><br><span class='hint'>Les personnes qui traitent verront « Anonyme ». Vous suivez la réclamation et recevez les réponses ici.</span></span></label>`].join(''),
+  `<span class='btn ghost'>Annuler</span><span class='btn primary' style='margin-inline-start:auto'>Envoyer</span>`)
+
+const CHAT = [
+  ['me', 'Karim Saadi · 18 nov. 10:20', 'Mes notes de frais d\'octobre (3 déplacements à Oran) sont validées par Nadia depuis le 5 nov. mais toujours pas remboursées.'],
+  ['sys', 'Leïla Merabet a pris la réclamation en charge · 18 nov. 14:02'],
+  ['them', 'Leïla Merabet · 18 nov. 14:05', 'Bonjour Karim, la comptabilité a bloqué le virement à cause d\'un RIB manquant. Pouvez-vous me l\'envoyer ?'],
+  ['me', 'Karim Saadi · 18 nov. 15:30', 'Voici mon RIB. 📎 rib-karim.pdf'],
+]
+const page = (who, mine, chatRows, state, { banner = '', buttons = '', extra = [] } = {}) => `<div class='col'>
+<div><div class='crumbs'>Réclamations › ${mine ? 'Mes réclamations' : 'À traiter'}</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:30px'>RC-000012 · Notes de frais d'octobre non remboursées</h1>${st(state)}<span style='margin-inline-start:auto;display:flex;gap:8px'>${buttons}</span></div></div>
+${steps(state)}${banner}
+<div style='display:flex;gap:16px;align-items:flex-start'>
+<div class='rec' style='flex:1'><header><strong>Conversation</strong></header>${chat(chatRows)}${composer}</div>
+<div style='width:360px;flex-shrink:0'>${card('La réclamation', kv([['Catégorie', 'Notes de frais'], ['Urgence', urg('Urgente')], ...extra, ['Envoyée le', '18 nov. 10:20']]))}</div></div></div>`
+
+const HANDLE = [
+  ['RC-000014', 'Conflit avec un collègue en tournée', 'Relations de travail', 'Urgente', 'Ouverte', '19 nov.', '<em class="hint">Anonyme</em>'],
+  ['RC-000012', 'Notes de frais d\'octobre non remboursées', 'Notes de frais', 'Urgente', 'En cours', '18 nov.', 'Karim Saadi'],
+  ['RC-000013', 'Planning de décembre publié trop tard', 'Planning', 'Normale', 'Ouverte', '19 nov.', 'Amine Kaci'],
+]
+const settings = `<div class='col'>
+<div><div class='crumbs'>Réclamations</div><h1 class='title display' style='font-size:34px'>Réglages</h1></div>
+<div class='grid2' style='align-items:start'>
+<div class='rec'><header><strong>Catégories</strong><span class='btn sm outline'>+ Ajouter</span></header>
+${['Notes de frais', 'Planning', 'Matériel', 'Relations de travail', 'Autre'].map((c, i) => `<div class='li'><span class='hint'>▲▼</span><span style='flex:1'>${c}</span>${i < 2 ? `<span class='hint'>${i ? 3 : 5} réclamations</span>` : ''}<span class='hint'>✎</span><span class='tg'></span></div>`).join('')}</div>
+<div class='rec'><header><strong>Envoi anonyme</strong><span class='tg' style='margin-inline-start:auto'></span></header>
+<div class='hint'>Allumé : la case « Envoyer sans mon nom » apparaît dans le formulaire. Les réclamations déjà envoyées gardent leur choix.</div>
+<div class='why'>Qui traite les réclamations : le droit « Traiter les réclamations », dans Studio › Rôles et accès (admins au départ).</div></div>
+</div></div>`
+
+const navAll = ['Mes réclamations', 'À traiter', 'Réglages']
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Mes réclamations, vues par Karim.</strong> « + Nouvelle réclamation » ouvre un panneau à côté. La case « Envoyer sans mon nom » n'apparaît que si le labo l'a allumée.`) +
+    frame('KS', ['Mes réclamations'], 'Mes réclamations', list('Mes réclamations', KARIM) + newPanel, 700),
+  label(2, `<strong>La réclamation, vue par Karim.</strong> Une conversation avec la personne qui traite, comme les e-tickets.`) +
+    frame('KS', ['Mes réclamations'], 'Mes réclamations', page('KS', true, CHAT, 'En cours'), 720),
+  label(3, `<strong>À traiter, vu par Leïla (RH, droit « Traiter les réclamations »).</strong> Les urgentes d'abord ; une réclamation anonyme montre « Anonyme ». Nadia (responsable de Karim) n'a pas cet onglet.`) +
+    frame('LM', navAll, 'À traiter', list('À traiter', HANDLE, { who: true, sel: 1 }), 560),
+  label(4, `<strong>La réclamation, vue par Leïla.</strong> Elle répond, la prend en charge, la marque résolue ou la ferme. La personne concernée (s'il y en a une) est visible pour elle seulement.`) +
+    frame('LM', navAll, 'À traiter', page('LM', false, CHAT.map(([k, h, t]) => [k === 'me' ? 'them' : k === 'them' ? 'me' : k, h, t]), 'En cours', { buttons: `<span class='btn outline'>Fermer</span><span class='btn primary'>Marquer résolue</span>`, extra: [['Auteur', 'Karim Saadi'], ['Personne concernée', '—']] }), 720),
+  label(5, `<strong>Résolue : Karim ferme ou rouvre.</strong>`) +
+    frame('KS', ['Mes réclamations'], 'Mes réclamations', page('KS', true, [...CHAT, ['them', 'Leïla Merabet · 19 nov. 09:10', 'Le virement est parti ce matin.'], ['sys', 'Leïla Merabet : résolue · 19 nov. 09:10']], 'Résolue', { banner: `<div class='why go'>Leïla pense que c'est réglé. C'est bon ?<span class='btn sm outline'>Non, rouvrir</span><span class='btn sm primary'>Oui, fermer</span></div>` }), 820),
+  label(6, `<strong>Réclamations › Réglages.</strong> Les catégories du labo et l'interrupteur de l'envoi anonyme.`) +
+    frame('LM', navAll, 'Réglages', settings, 520),
+].join('')
+</script></body></html>

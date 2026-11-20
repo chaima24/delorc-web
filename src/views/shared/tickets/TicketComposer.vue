@@ -7,8 +7,13 @@ import DlTextarea from '@/components/DlTextarea.vue'
 import { useToast } from '@/composables/useToast'
 import { TICKET_FILE_TYPES, TICKET_MAX_BYTES, TICKET_MAX_FILES, useTicketText } from './ticketDisplay'
 
-/** The box under a conversation: a message, up to 5 files, « Envoyer ». The page sends it and clears the box with `clear()`. */
-const props = defineProps<{ saving?: boolean; error?: string; placeholder?: string }>()
+/**
+ * The box under a conversation: a message, up to 5 files, « Envoyer ». The page sends it and clears the box with `clear()`.
+ * Complaints (`prefix` complaints) take photos and PDF of 10 MB (`accept`, `maxBytes`), with their own file texts.
+ */
+const props = withDefaults(defineProps<{ saving?: boolean; error?: string; placeholder?: string; accept?: string; maxBytes?: number; prefix?: 'tickets' | 'complaints' }>(), {
+  accept: TICKET_FILE_TYPES, maxBytes: TICKET_MAX_BYTES, prefix: 'tickets',
+})
 const emit = defineEmits<{ send: [body: string, files: File[]] }>()
 const { t } = useI18n()
 const toast = useToast()
@@ -22,9 +27,9 @@ function pick(event: Event) {
   const input = event.target as HTMLInputElement
   const chosen = Array.from(input.files ?? [])
   input.value = ''
-  const tooBig = chosen.filter(file => file.size > TICKET_MAX_BYTES)
-  if (tooBig.length) toast.error(t('tickets.files.tooBig', { name: tooBig[0]!.name }))
-  files.value = [...files.value, ...chosen.filter(file => file.size <= TICKET_MAX_BYTES)].slice(0, TICKET_MAX_FILES)
+  const tooBig = chosen.filter(file => file.size > props.maxBytes)
+  if (tooBig.length) toast.error(t(`${props.prefix}.files.tooBig`, { name: tooBig[0]!.name }))
+  files.value = [...files.value, ...chosen.filter(file => file.size <= props.maxBytes)].slice(0, TICKET_MAX_FILES)
 }
 function send() {
   if (!body.value.trim() && !files.value.length) return
@@ -43,9 +48,9 @@ defineExpose({ clear: () => { body.value = ''; files.value = [] } })
       </li>
     </ul>
     <div class="flex flex-wrap items-center gap-2">
-      <input ref="picker" type="file" multiple :accept="TICKET_FILE_TYPES" class="hidden" @change="pick">
+      <input ref="picker" type="file" multiple :accept="accept" class="hidden" @change="pick">
       <DlButton size="sm" variant="ghost" icon="tabler-paperclip" :disabled="files.length >= TICKET_MAX_FILES" @click="picker?.click()">{{ t('tickets.files.attach') }}</DlButton>
-      <span class="text-xs text-dl-muted">{{ t('tickets.files.hint') }}</span>
+      <span class="text-xs text-dl-muted">{{ t(`${prefix}.files.hint`) }}</span>
       <DlButton type="submit" size="sm" variant="primary" class="ms-auto" :loading="saving" :disabled="!body.trim() && !files.length">{{ t('tickets.send') }}</DlButton>
     </div>
   </form>

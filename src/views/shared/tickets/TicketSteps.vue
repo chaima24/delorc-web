@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { TICKET_STATUSES, type TicketStatus } from '@/api/central/tickets'
-import { useTicketText } from './ticketDisplay'
+import { useI18n } from 'vue-i18n'
 
-/** ouvert → en cours → résolu → fermé, the current one outlined. */
-const props = defineProps<{ status: TicketStatus }>()
-const text = useTicketText()
+/** ouvert → en cours → résolu → fermé, the current one outlined. Complaints have the same four states (`prefix` complaints). */
+const props = withDefaults(defineProps<{ status: TicketStatus; prefix?: 'tickets' | 'complaints' }>(), { prefix: 'tickets' })
+const { t } = useI18n()
 const reached = (status: TicketStatus) => TICKET_STATUSES.indexOf(status) <= TICKET_STATUSES.indexOf(props.status)
 </script>
 
@@ -14,7 +14,7 @@ const reached = (status: TicketStatus) => TICKET_STATUSES.indexOf(status) <= TIC
       <span
         class="rounded-full px-2.5 py-1 font-semibold"
         :class="[reached(step) ? 'bg-dl-signal-soft text-dl-fg' : 'bg-dl-line-soft text-dl-muted', step === status && 'ring-2 ring-dl-fg']"
-      >{{ text.status(step) }}</span>
+      >{{ t(`${prefix}.status.${step}`) }}</span>
       <span v-if="i < TICKET_STATUSES.length - 1" aria-hidden="true" class="text-dl-muted rtl:-scale-x-100">→</span>
     </li>
   </ol>

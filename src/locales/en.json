@@ -1427,6 +1427,10 @@
       "competitive": {
         "description": "The teams' notes on competitors (draft, sent, processed by marketing) and their lists of choices.",
         "name": "Competitive watch"
+      },
+      "complaints": {
+        "description": "Internal complaints from the teams, handled by the people the lab names (not the hierarchy), with optional anonymous sending.",
+        "name": "Complaints"
       }
     },
     "events": {
