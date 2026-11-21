@@ -16,6 +16,7 @@ import DlSegmented from '@/components/DlSegmented.vue'
 import DlSheet from '@/components/DlSheet.vue'
 import { useConfirm } from '@/composables/useConfirm'
 import { useToast } from '@/composables/useToast'
+import { useAuthStore } from '@/stores/auth'
 import { useSurveyText } from './surveyDisplay'
 
 // A person's list: search, « à faire » / « répondus », add a professional by hand (amber note outside their
@@ -26,6 +27,7 @@ const emit = defineEmits<{ changed: [] }>()
 const open = defineModel<boolean>('open', { default: false })
 const { t, n } = useI18n()
 const toast = useToast()
+const auth = useAuthStore()
 const { confirm } = useConfirm()
 const text = useSurveyText()
 
@@ -198,7 +200,10 @@ async function removePerson() {
             <td class="py-2 max-md:hidden">{{ row.segment ?? '—' }}</td>
             <td class="py-2 max-md:hidden">{{ row.wilaya ?? '—' }}</td>
             <td class="py-2">
-              <DlBadge v-if="row.answered_at" size="sm" tone="success">{{ t('surveys.respondents.answeredOn', { date: text.date(row.answered_at) }) }}</DlBadge>
+              <RouterLink v-if="row.answered_at && row.answered_visit_id && auth.can('visits.show')" :to="{ name: 'tenant-visit-detail', params: { id: row.answered_visit_id } }" class="no-underline">
+                <DlBadge size="sm" tone="success">{{ t('surveys.respondents.answeredOn', { date: text.date(row.answered_at) }) }}</DlBadge>
+              </RouterLink>
+              <DlBadge v-else-if="row.answered_at" size="sm" tone="success">{{ t('surveys.respondents.answeredOn', { date: text.date(row.answered_at) }) }}</DlBadge>
               <DlBadge v-else size="sm">{{ t('surveys.respondents.todo') }}</DlBadge>
             </td>
             <td class="py-2 text-end">

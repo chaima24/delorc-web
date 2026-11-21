@@ -54,6 +54,8 @@ export interface Visit {
   after_deadline: boolean
   /** The late-entry delay, on the page: locked for the viewer, when it locks, until when the day is reopened. */
   lock?: { locked: boolean; deadline: string | null; open_until: string | null }
+  /** Surveys answered on this visit (docs/api/survey-answers.md). */
+  surveys_count?: number
   /** The report's fields for this visit, on the page. */
   fields?: Record<string, 'required' | 'optional' | 'hidden'>
   /** Null when the visit is not concerned by the approval. */
@@ -110,6 +112,8 @@ export interface VisitPayload {
   materials?: { material_stock_id: number; quantity: number }[]
   coaches?: number[]
   participants?: number[]
+  /** Survey answers, saved with the report (docs/api/survey-answers.md). */
+  surveys?: { survey_id: number; answers: { question_id: number; value?: number | string | null; option_ids?: number[]; other_text?: string | null }[] }[]
 }
 
 export interface VisitSummary {

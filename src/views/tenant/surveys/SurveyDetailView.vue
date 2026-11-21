@@ -27,6 +27,7 @@ import { useToast } from '@/composables/useToast'
 import CheckList from '@/views/tenant/settings/shared/CheckList.vue'
 import SurveyPreviewSheet from './SurveyPreviewSheet.vue'
 import SurveyQuestionSheet from './SurveyQuestionSheet.vue'
+import SurveyAnswersTab from './SurveyAnswersTab.vue'
 import SurveyRespondentsTab from './SurveyRespondentsTab.vue'
 import { STATUS_TONE, today, useSurveyText, weeks } from './surveyDisplay'
 
@@ -253,12 +254,13 @@ async function remove() {
   }
 }
 
-// Two tabs (19b-1): the questions, and who answers. `?tab=respondents` opens the second one.
-const tab = ref(route.query.tab === 'respondents' ? 'respondents' : 'questions')
+// Tabs: the questions, who answers (19b-1), the answers once the survey is open (19b-2). `?tab=respondents` or `?tab=answers` opens one.
+const tab = ref(['respondents', 'answers'].includes(String(route.query.tab)) ? String(route.query.tab) : 'questions')
 watch(tab, value => router.replace({ query: { ...route.query, tab: value === 'questions' ? undefined : value } }))
 const tabs = computed(() => [
   { value: 'questions', label: t('surveys.page.tabQuestions', { count: answerable.value }) },
   { value: 'respondents', label: t('surveys.page.tabRespondents') },
+  ...(survey.value?.status === 'draft' ? [] : [{ value: 'answers', label: t('surveys.page.tabAnswers') }]),
 ])
 
 const STEPS = ['draft', 'open', 'closed'] as const
@@ -432,6 +434,9 @@ function historyLine(line: SurveyHistoryLine): string {
         </template>
         <template #respondents>
           <SurveyRespondentsTab :survey="survey" @survey="value => (survey = value)" />
+        </template>
+        <template #answers>
+          <SurveyAnswersTab :survey="survey" />
         </template>
       </DlTabs>
 

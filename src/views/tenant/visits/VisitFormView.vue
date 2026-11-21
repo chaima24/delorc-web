@@ -20,6 +20,8 @@ import VisitReportFields from './VisitReportFields.vue'
 import VisitTargetSearch, { type FoundTarget } from './VisitTargetSearch.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
 import VisitMaterialsField from './VisitMaterialsField.vue'
+import VisitSurveysField, { type SurveySummaryLine } from './VisitSurveysField.vue'
+import type { VisitSurveyPayload } from '@/api/tenant/surveys'
 import { fetchVisitMaterials, type OfferedMaterial } from '@/api/tenant/materials'
 import { usePlanningSave } from './visitPlanning'
 import CampaignPromoBox from '@/views/tenant/campaigns/CampaignPromoBox.vue'
@@ -90,6 +92,10 @@ watch([query, done], async () => {
   offeredMaterials.value = query.value && done.value ? await fetchVisitMaterials(query.value).catch(() => []) : []
 })
 
+// Survey answers go with the report (docs/api/survey-answers.md).
+const surveyEntries = ref<VisitSurveyPayload[]>([])
+const surveySummary = ref<SurveySummaryLine[]>([])
+
 // The ADVs offered follow the brands chosen.
 const offered = ref<VisitOfferedAdv[]>([])
 watch([query, () => report.value.brands.map(row => row.brand_id).join(','), done], async () => {
@@ -145,6 +151,7 @@ async function save() {
       ...(shown('next_objective') ? { next_objective: form.next_objective.trim() || null } : {}),
       ...(shown('comment') ? { comment: form.comment.trim() || null } : {}),
       ...reportPayload(report.value, undefined, fields.value),
+      ...(surveyEntries.value.length ? { surveys: surveyEntries.value } : {}),
     } : {}),
   }
   saving.value = true
@@ -234,6 +241,7 @@ const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', p
             <h2 class="text-base font-semibold">{{ t('materials.visit.title') }} <small class="font-normal text-dl-muted">· {{ t('visits.optional') }}</small></h2>
             <VisitMaterialsField v-model="report" :offered="offeredMaterials" :errors="errors" />
           </section>
+          <VisitSurveysField v-model:entries="surveyEntries" v-model:summary="surveySummary" :query="form.type === 'hcp' ? query : null" :visit-id="existing?.id" :errors="errors" />
           <section v-if="peopleShown" class="flex flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
             <h2 class="text-base font-semibold">{{ t('visits.blocks.people') }}</h2>
             <VisitReportFields v-model="report" v-model:replacing="replacing" part="people" :brand-options="brands" :stock="stock" :offered="offered" :coach-options="coaches" :target-name="form.target?.name ?? ''" :errors="errors" :fields="fields" />
@@ -266,6 +274,9 @@ const backTo = computed(() => (existing.value ? { name: 'tenant-visit-detail', p
             <template v-if="done">
               <dt class="text-dl-muted">{{ t('visits.blocks.brands') }}</dt><dd>{{ report.brands.length }}</dd>
               <dt class="text-dl-muted">{{ t('visits.blocks.advs') }}</dt><dd>{{ report.advs.length }}</dd>
+              <template v-for="line in surveySummary" :key="line.name">
+                <dt class="truncate text-dl-muted" :title="line.name">{{ line.name }}</dt><dd><DlBadge size="sm" :tone="line.tone">{{ line.label }}</DlBadge></dd>
+              </template>
             </template>
           </dl>
           <DlButton type="submit" variant="primary" block :loading="saving" :disabled="!!sameDay">{{ t(done ? 'visits.form.save' : 'visits.form.plan') }}</DlButton>

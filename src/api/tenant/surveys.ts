@@ -189,6 +189,8 @@ export interface RespondentHcp {
   wilaya: string | null
   in_territory: boolean
   answered_at: string | null
+  /** The latest visit answered (19b-2). */
+  answered_visit_id: number | null
   next_visit_date: string | null
 }
 
@@ -240,3 +242,67 @@ export const previewRecopy = (survey: number, id: number) => one<Recopy>(client.
 export const recopy = (survey: number, id: number) => one<Recopy>(client.post(`${respondents(survey)}/${id}/recopy`))
 
 export const fetchMySurveys = () => one<MySurvey[]>(client.get('/my-surveys'))
+
+// 19b-2, the answers (docs/api/survey-answers.md): answered in the visit report, read in the « Réponses » tab.
+
+/** One answer as the API sends and takes it: a number or a text in `value`, or the options chosen. */
+export interface SurveyAnswer { question_id: number; value?: number | string | null; option_ids?: number[]; other_text?: string | null }
+/** One survey's answers on one visit. */
+export interface SurveyAnswerSet { visit_id: number; visit_date: string; answers: SurveyAnswer[] }
+
+/** One survey of a visit report. */
+export interface VisitSurvey {
+  survey: { id: number; name: string; is_per_visit: boolean }
+  questions: SurveyQuestion[]
+  /** This visit's answers, or null. */
+  answers: SurveyAnswer[] | null
+  /** « Once »: answered on another visit (read only here). */
+  answered: SurveyAnswerSet | null
+  /** « At each visit »: the latest earlier answers, for « Reprendre ». */
+  last: SurveyAnswerSet | null
+  can_answer: boolean
+}
+
+/** What the report sends: `answers: []` removes this visit's answers. */
+export interface VisitSurveyPayload { survey_id: number; answers: SurveyAnswer[] }
+
+export const fetchVisitSurveys = (params: { user_id?: number | null; visitable_type: string; visitable_id: number; date: string; visit_id?: number }) =>
+  client.get<{ data: VisitSurvey[] }>('/visits/surveys', { params }).then(response => response.data.data)
+
+/** A row of the « Réponses » tab: one visit with answers. */
+export interface SurveyAnswerRow {
+  visit: { id: number; visit_date: string }
+  hcp: { id: number; name: string; type: string }
+  speciality: string | null
+  segment: string | null
+  wilaya: string | null
+  user: { id: number; full_name: string }
+  team: { id: number; name: string } | null
+  answered_count: number
+  questions_count: number
+  /** « At each visit »: the first short answers, shown as columns. */
+  columns: { question_id: number; number: string; text: string | number | null }[]
+  /** Only on one set: each answer with its text. */
+  answers?: (SurveyAnswer & { text: string | number })[]
+}
+
+export interface SurveyAnswerExportRow {
+  user: string
+  team: string | null
+  hcp: string
+  hcp_type: string
+  speciality: string | null
+  segment: string | null
+  wilaya: string | null
+  visit_date: string
+  answers: Record<string, string | number>
+}
+
+const answersUrl = (survey: number) => `${URL}/${survey}/answers`
+export const fetchSurveyAnswers = (survey: number, params?: ListParams) =>
+  client.get<{ data: SurveyAnswerRow[]; meta: { total: number; professionals: number } }>(answersUrl(survey), { params })
+    .then(response => ({ items: response.data.data, total: response.data.meta.total, professionals: response.data.meta.professionals }))
+export const fetchSurveyAnswerSet = (survey: number, visit: number) => one<SurveyAnswerRow>(client.get(`${answersUrl(survey)}/${visit}`))
+export const exportSurveyAnswers = (survey: number, params?: ListParams) =>
+  client.get<{ data: SurveyAnswerExportRow[]; meta: { questions: { id: number; number: string; question_text: string }[] } }>(`${answersUrl(survey)}/export`, { params })
+    .then(response => ({ rows: response.data.data, questions: response.data.meta.questions }))

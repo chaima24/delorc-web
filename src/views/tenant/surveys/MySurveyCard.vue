@@ -10,7 +10,7 @@ import DlSegmented from '@/components/DlSegmented.vue'
 import { PACE_TONE, useSurveyText } from './surveyDisplay'
 
 // One open survey on « Mes enquêtes »: my progress, pace, this week, and my list (to do first, with my next planned
-// visit). Answering is in the visit (19b-2). Mockup: surveys-mockups/Respondents.html frame 8.
+// visit); answered ones link to the visit where they were answered. Answering is in the visit report. Mockup: surveys-mockups/Respondents.html frame 8.
 const props = defineProps<{ survey: MySurvey }>()
 const { t, n } = useI18n()
 const text = useSurveyText()
@@ -62,7 +62,8 @@ const objective = computed(() => (props.survey.objective_per_week ? t('surveys.m
       <li v-for="row in rows" :key="row.hcp.id" class="flex flex-wrap items-center gap-x-2 border-b border-dl-line-soft py-2 last:border-0">
         <RouterLink :to="{ name: 'tenant-hcp-detail', params: { id: row.hcp.id } }" class="font-semibold text-dl-fg no-underline hover:underline">{{ row.hcp.name }}</RouterLink>
         <span class="text-dl-muted">{{ [row.speciality, row.segment, row.wilaya].filter(Boolean).join(' · ') }}</span>
-        <span v-if="row.next_visit_date" class="ms-auto text-xs text-dl-muted">{{ t('surveys.mine.nextVisit', { date: text.date(row.next_visit_date) }) }}</span>
+        <RouterLink v-if="row.answered_at && row.answered_visit_id" :to="{ name: 'tenant-visit-detail', params: { id: row.answered_visit_id } }" class="ms-auto text-xs text-dl-cobalt no-underline hover:underline">{{ t('surveys.respondents.answeredOn', { date: text.date(row.answered_at) }) }} ›</RouterLink>
+        <span v-else-if="row.next_visit_date" class="ms-auto text-xs text-dl-muted">{{ t('surveys.mine.nextVisit', { date: text.date(row.next_visit_date) }) }}</span>
       </li>
       <li v-if="!rows.length" class="py-4 text-center text-dl-muted">{{ state === 'todo' ? t('surveys.mine.allDone') : t('surveys.mine.noneYet') }}</li>
     </ul>

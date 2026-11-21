@@ -1,0 +1,175 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Réponses</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.side { width: 340px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px; }
+.sec { background: var(--paper); border-radius: 22px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.sec > header { display: flex; align-items: center; gap: 10px; } .sec > header strong { font-size: 15px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); } .why.amber { background: rgba(180, 83, 9, .08); color: var(--amber); }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.tabs2 { display: flex; gap: 4px; border-bottom: 1px solid var(--line); } .tabs2 span { padding: 8px 14px; font-size: 14px; font-weight: 600; color: var(--muted); } .tabs2 span.on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
+.q { display: flex; flex-direction: column; gap: 6px; } .q > span { font-size: 13.5px; font-weight: 600; } .q > span i { font-style: normal; color: var(--muted); font-weight: 500; margin-inline-end: 6px; }
+.q .star { color: var(--brick); }
+.qt { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); padding-top: 4px; border-top: 1px solid var(--line-soft); }
+.opts { display: flex; gap: 8px; flex-wrap: wrap; } .opt { border: 1px solid var(--line); border-radius: 10px; padding: 6px 12px; font-size: 13px; background: var(--paper); } .opt.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.ans { display: grid; grid-template-columns: 56px 1fr; gap: 4px 10px; font-size: 13.5px; } .ans i { font-style: normal; color: var(--muted); } .ans b { font-weight: 600; }
+.svhead { display: flex; align-items: center; gap: 10px; } .svhead strong { font-size: 15px; }
+.err { font-size: 12px; color: var(--brick); }
+.input.bad { border-color: var(--brick); }
+.muted { color: var(--muted); }
+.xl { border-collapse: collapse; font-size: 12px; } .xl td, .xl th { border: 1px solid var(--line); padding: 4px 8px; white-space: nowrap; } .xl th { background: var(--mist); text-align: start; }
+</style></head><body>
+<p class="caption"><strong>Enquêtes, partie 19b-2 (répondre et lire les réponses), proposition.</strong> Le délégué répond dans le compte rendu de la visite ; les réponses partent avec le compte rendu. Le marketing et les responsables lisent les réponses dans un onglet « Réponses » et les exportent en Excel. Exemple : Karim (VM) visite Dr Yacine Belkacem le 11 déc. ; l'enquête « Qualification médecin — Cardiologie » (une fois par professionnel) lui est proposée, ainsi que « Suivi Cardiozen » (à chaque visite). Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Décidé le 21 nov.</b> : les réponses partent avec le compte rendu (comme les marques) et suivent son délai de correction ; une visite supprimée perd ses réponses, une visite annulée n'en a pas ; un responsable qui saisit pour un délégué répond pour lui. L'enquête est proposée si elle est ouverte, que le jour de la visite est dans sa période, que la personne y est active et que le professionnel est <b>dans sa liste</b>. On peut passer une enquête ; dès qu'une question a une réponse, les obligatoires doivent l'avoir. « Une fois par professionnel » : une seule réponse, sur la visite où elle a été donnée ; les visites suivantes la montrent en lecture, la correction se fait dans cette visite. Lecture : onglet « Réponses » + Excel ; les graphiques attendent les rapports.</li>
+  <li><b>Proposé, à confirmer :</b>
+    <ul>
+      <li><b>Place dans le compte rendu</b> : un bloc par enquête proposée, après les marques, les ADV et le matériel, avant les personnes ; fermé, avec « Répondre ». Ouvert = commencé ; « Ne pas répondre » le referme et efface ce qui a été saisi ;</li>
+      <li><b>« À chaque visite »</b> : le bloc revient vide à chaque visite ; « Reprendre les réponses du 3 déc. » remplit avec la dernière réponse de ce professionnel, à modifier ;</li>
+      <li><b>Contrôles par type</b> : nombre ≥ 0 (décimales acceptées) ; pourcentage 0–100 ; un choix = une option ; plusieurs choix = au moins une ; « Autre, à préciser » demande son texte ; texte court 255 caractères, texte long 2 000. Une question non obligatoire peut rester vide. Les règles entre réponses viennent en 19c ;</li>
+      <li><b>Page de la visite</b> : une carte par enquête répondue, modifiable sur place comme les autres cartes, par qui peut modifier la visite et tant qu'elle n'est pas verrouillée ;</li>
+      <li><b>Onglet « Réponses »</b> : une ligne par professionnel répondu (« une fois ») ou par visite répondue (« à chaque visite ») : professionnel, personne, équipe, date de visite, questions répondues ; filtres personne, équipe, période ; un clic ouvre les réponses, avec un lien vers la visite. Même périmètre que les répondants : le marketing tout, un responsable ses personnes, un délégué les siennes (lecture) ;</li>
+      <li><b>Excel</b> : une ligne par professionnel et visite, une colonne par question (Q1, Q2…, plusieurs choix séparés par « ; », « Autre : … »), plus personne, équipe, professionnel, type, spécialité, segment, wilaya, date de visite. Fait dans le navigateur, comme l'export existant, avec les filtres de l'onglet ;</li>
+      <li><b>Changement d'une question après réponses</b> : impossible, l'enquête ouverte gèle ses questions (19a) ; une réponse garde donc toujours la question posée ;</li>
+      <li><b>Avancement</b> : 19b-1 se remplit (répondus, réponses, cette semaine, « répondu le » dans les listes et dans « Mes enquêtes », qui gagne un lien vers la visite).</li>
+    </ul>
+  </li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const sheet = (title, hint, body, foot, wide = false) => `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet' ${wide ? `style='width:720px;max-width:720px'` : ''}><header><div><strong style='font-size:18px'>${title}</strong><div class='hint'>${hint}</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header><div class='body'>${body}</div><footer>${foot}</footer></div></div>`
+const frame = (rail, who, initials, inner, extra = '', h = 680) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span class='hint' style='margin-inline-start:auto'>${who}</span><span class='avatar'>${initials}</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+const wsNav = (on, links) => `<nav class='ws-nav'>${links.map(l => `<a class='${l === on ? 'on' : ''}'>${l}</a>`).join('')}</nav>`
+const KARIM = ['Karim Saadi · VM', 'KS']
+const SARA = ['Sara Hamdi · marketing', 'SH']
+const VIS = ['Aujourd\'hui', 'Visites', 'Planning']
+
+// ---------- The visit report ----------
+const reportHead = (who = 'Dr Yacine Belkacem', date = 'Jeudi 11 déc. 2026') => `<div><div class='crumbs'>Visites › Compte rendu</div><h1 class='title display' style='font-size:30px'>${who}</h1><div class='hint'>${date} · Face à face · Cardiologie · cycle 1 → 31 déc.</div></div>`
+const brandsSec = `<div class='sec'><header><strong>Marques présentées</strong></header><div class='opts'><span class='opt on'>Cardiozen · intérêt 4</span><span class='opt on'>Atorix · intérêt 3</span><span class='opt'>+ Ajouter</span></div></div>`
+const advSec = `<div class='sec'><header><strong>ADV</strong><span class='hint'>· facultatif</span></header><div class='hint'>Cardiozen · étude CARE 2026 · noté 5</div></div>`
+const closedSurvey = (name, meta, extra = '') => `<div class='sec'><div class='svhead'><span class='chip info'>Enquête</span><strong>${name}</strong><span class='hint'>${meta}</span><span class='btn sm primary' style='margin-inline-start:auto'>Répondre</span></div>${extra}</div>`
+const qNum = (n, text, val, star = true, cls = '', err = '') => `<label class='q'><span><i>${n}</i>${text}${star ? ` <b class='star'>*</b>` : ''}</span><div class='input ${cls}' style='width:180px'>${val}</div>${err ? `<span class='err'>${err}</span>` : ''}</label>`
+const qChoice = (n, text, opts, on, star = false, extra = '') => `<div class='q'><span><i>${n}</i>${text}${star ? ` <b class='star'>*</b>` : ''}</span><div class='opts'>${opts.map(o => `<span class='opt ${on.includes(o) ? 'on' : ''}'>${o}</span>`).join('')}</div>${extra}</div>`
+const openSurvey = (vals = {}) => `<div class='sec' style='box-shadow:inset 0 0 0 2px var(--ink)'><div class='svhead'><span class='chip info'>Enquête</span><strong>Qualification médecin — Cardiologie</strong><span class='hint'>une fois par professionnel · 7 questions, 4 obligatoires</span><span class='btn sm ghost' style='margin-inline-start:auto'>Ne pas répondre</span></div>
+<div class='qt'>Votre patientèle</div>
+${qNum('Q1', 'Combien de patients voyez-vous par semaine ?', vals.q1 ?? '120')}
+${qNum('Q2', 'Dont combien sous statine ?', vals.q2 ?? '45', true, vals.q2err ? 'bad' : '', vals.q2err ?? '')}
+<div class='qt'>Vos habitudes de prescription</div>
+${qChoice('Q3', 'Quelle statine prescrivez-vous le plus ?', ['Rosuvastatine', 'Atorvastatine', 'Simvastatine', 'Autre, à préciser'], vals.q3 ?? ['Atorvastatine'], true)}
+${qChoice('Q4', 'Hôpital de rattachement', ['CHU Mustapha', 'CHU Beni Messous', 'Aucun', 'Autre, à préciser'], vals.q4 ?? ['Autre, à préciser'], false, `<div class='input' style='width:320px'>${vals.q4other ?? 'EPH Bologhine'}</div>`)}
+${qChoice('Q5', 'Supports reçus cette année', ['Brochure', 'Étude CARE', 'Échantillons', 'Webinaire'], vals.q5 ?? ['Brochure', 'Étude CARE'], true)}
+<label class='q'><span><i>Q6</i>Part de vos patients diabétiques (%)</span><div class='input' style='width:120px'>${vals.q6 ?? '30'} %</div></label>
+<label class='q'><span><i>Q7</i>Remarques</span><div class='input' style='height:56px;align-items:flex-start;padding-top:8px'>${vals.q7 ?? '<span class="muted">Facultatif</span>'}</div></label>
+</div>`
+const perVisitClosed = closedSurvey('Suivi Cardiozen', 'à chaque visite · 3 questions · dernière réponse le 27 nov.')
+const notesSec = `<div class='sec'><header><strong>Personnes et notes</strong></header><div class='hint'>Accompagné de · Prochain objectif · Commentaire</div></div>`
+const summary = (lines, foot = `<span class='btn primary' style='width:100%;justify-content:center'>Enregistrer le compte rendu</span>`) => `<div class='side'><div class='sec'><header><strong>Résumé</strong></header>${lines.map(l => `<div style='display:flex;gap:8px;font-size:13.5px'>${l}</div>`).join('')}${foot}</div>
+<div class='sec'><header><strong>Dernière visite</strong></header><div class='hint'>27 nov. · Cardiozen, Atorix</div></div></div>`
+const SUM = ['<span class="muted" style="flex:1">Marques</span>2', '<span class="muted" style="flex:1">ADV</span>1', '<span class="muted" style="flex:1">Qualification médecin</span><span class="chip ok">7 / 7</span>', '<span class="muted" style="flex:1">Suivi Cardiozen</span><span class="chip">passée</span>']
+const report1 = `<div class='col'>${wsNav('Visites', VIS)}${reportHead()}${brandsSec}${advSec}${closedSurvey('Qualification médecin — Cardiologie', 'une fois par professionnel · 7 questions, 4 obligatoires')}${perVisitClosed}${notesSec}</div>${summary(['<span class="muted" style="flex:1">Marques</span>2', '<span class="muted" style="flex:1">ADV</span>1', '<span class="muted" style="flex:1">Enquêtes</span>2 proposées, à répondre si possible'])}`
+const report2 = `<div class='col'>${wsNav('Visites', VIS)}${reportHead()}${brandsSec}${openSurvey()}${perVisitClosed}${notesSec}</div>${summary(SUM)}`
+const report3 = `<div class='col'>${wsNav('Visites', VIS)}${reportHead()}${brandsSec}${openSurvey({ q2: '', q2err: 'Réponse obligatoire.', q5: [], q6: '', q4: [], q4other: '<span class="muted">—</span>' })}${perVisitClosed}</div>${summary(['<span class="muted" style="flex:1">Qualification médecin</span><span class="chip warn">2 obligatoires sans réponse</span>'], `<div class='why bad'>Le compte rendu n'est pas enregistré : Q2 et Q5 de « Qualification médecin » sont obligatoires. Répondez-y ou cliquez « Ne pas répondre ».</div><span class='btn primary' style='width:100%;justify-content:center'>Enregistrer le compte rendu</span>`)}`
+
+// Per visit, open, with « Reprendre »
+const perVisitOpen = `<div class='sec' style='box-shadow:inset 0 0 0 2px var(--ink)'><div class='svhead'><span class='chip info'>Enquête</span><strong>Suivi Cardiozen</strong><span class='hint'>à chaque visite · 3 questions</span><span class='btn sm ghost' style='margin-inline-start:auto'>Ne pas répondre</span></div>
+<div style='display:flex;align-items:center;gap:10px'><span class='btn sm outline'>↺ Reprendre les réponses du 27 nov.</span><span class='hint'>remplit avec la dernière réponse, à modifier</span></div>
+${qNum('Q1', 'Patients mis sous Cardiozen depuis la dernière visite', '6')}
+${qChoice('Q2', 'Retour du médecin', ['Très satisfait', 'Satisfait', 'Réservé', 'Pas satisfait'], ['Satisfait'], true)}
+<label class='q'><span><i>Q3</i>Effets indésirables rapportés</span><div class='input'><span class='muted'>Facultatif</span></div></label></div>`
+
+// Later visit to Dr Saidi: once survey read only
+const answeredOnce = `<div class='sec'><div class='svhead'><span class='chip ok'>Répondue le 3 déc.</span><strong>Qualification médecin — Cardiologie</strong><span class='hint'>une fois par professionnel</span><span class='btn sm ghost' style='margin-inline-start:auto'>Voir les réponses ▾</span></div>
+<div class='ans'><i>Q1</i><b>80 patients / semaine</b><i>Q2</i><b>30</b><i>Q3</i><b>Rosuvastatine</b><i>Q5</i><b>Brochure, Échantillons</b></div>
+<div class='why'>Déjà répondue lors de la visite du 3 déc. ; on ne la repose pas. Pour corriger, ouvrez <u>la visite du 3 déc.</u> (modifiable jusqu'au 10 déc.).</div></div>`
+const report4 = `<div class='col'>${wsNav('Visites', VIS)}${reportHead('Dr Nora Saidi', 'Mardi 12 janv. 2027')}${brandsSec}${answeredOnce}${perVisitOpen}</div>${summary(['<span class="muted" style="flex:1">Qualification médecin</span><span class="chip ok">répondue le 3 déc.</span>', '<span class="muted" style="flex:1">Suivi Cardiozen</span><span class="chip ok">2 / 3</span>'])}`
+
+// The visit page: a card per answered survey
+const visitPage = (locked = false) => `<div class='col'>${wsNav('Visites', VIS)}<div><div class='crumbs'>Visites › Visites</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:30px'>Dr Yacine Belkacem</h1><span class='chip ok'>Réalisée</span></div><div class='hint'>Jeudi 11 déc. 2026 · Karim Saadi · Face à face</div></div>
+<div class='sec'><header><strong>Marques · 2</strong>${locked ? '' : `<span class='btn sm ghost' style='margin-inline-start:auto'>✎</span>`}</header><div class='hint'>Cardiozen · intérêt 4 — Atorix · intérêt 3</div></div>
+<div class='sec'><header><span class='chip info'>Enquête</span><strong>Qualification médecin — Cardiologie · 7 / 7</strong>${locked ? `<span class='hint' style='margin-inline-start:auto'>🔒 verrouillée depuis le 18 déc.</span>` : `<span class='btn sm ghost' style='margin-inline-start:auto'>✎ Modifier</span>`}</header>
+<div class='ans'><i>Q1</i><b>120</b><i>Q2</i><b>45</b><i>Q3</i><b>Atorvastatine</b><i>Q4</i><b>Autre : EPH Bologhine</b><i>Q5</i><b>Brochure, Étude CARE</b><i>Q6</i><b>30 %</b><i>Q7</i><span class='muted'>—</span></div></div>
+<div class='sec'><header><strong>Notes</strong></header><div class='hint'>Prochain objectif : présenter Tensio</div></div></div>
+<div class='side'><div class='sec'><header><strong>La visite</strong></header><div class='hint'>Canal Face à face · cycle 1 → 31 déc. · modifiable jusqu'au 18 déc.</div></div></div>`
+
+// ---------- Survey › Réponses tab ----------
+const svHead = `<div><div class='crumbs'>Enquêtes › Enquêtes</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>Qualification médecin — Cardiologie</h1><span class='chip info'>Ouverte</span></div>
+<div class='hint'>Médecins · une fois par professionnel · 1 déc. 2026 → 31 janv. 2027 · 20 par délégué et par semaine</div></div>
+<div class='tabs2'><span>Questions · 7</span><span>Répondants · 6</span><span class='on'>Réponses · 214</span></div>`
+const ROWS = [
+  ['Dr Yacine Belkacem', 'Cardiologie · B · Alger', 'Karim Saadi', 'Cardio Alger', '11 déc. 2026', '7 / 7'],
+  ['Dr Samia Ouali', 'Médecine interne · A · Alger', 'Karim Saadi', 'Cardio Alger', '5 déc. 2026', '6 / 7'],
+  ['Dr Nora Saidi', 'Cardiologie · A · Alger', 'Karim Saadi', 'Cardio Alger', '3 déc. 2026', '5 / 7'],
+  ['Dr Mourad Haddad', 'Cardiologie · A · Alger', 'Amine Kaci', 'Cardio Alger', '3 déc. 2026', '7 / 7'],
+  ['Dr Imene Cherif', 'Cardiologie · B · Oran', 'Nabil Ferhat', 'Cardio Oran', '2 déc. 2026', '4 / 7'],
+]
+const answersTab = (rows = ROWS, sel = -1, managerNote = '') => `${svHead}${managerNote}
+<div style='display:flex;gap:10px;align-items:center'><div class='input muted' style='width:220px'>Professionnel…</div><div class='input muted' style='width:170px'>Personne ▾</div><div class='input muted' style='width:150px'>Équipe ▾</div><div class='input muted' style='width:200px'>1 déc. → 31 janv. ▾</div><span class='btn outline' style='margin-inline-start:auto'>⤓ Exporter en Excel</span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Professionnel ↕</th><th>Spécialité · segment · wilaya</th><th>Personne ↕</th><th>Équipe</th><th>Visite ↕</th><th class='num'>Questions répondues</th></tr></thead><tbody>
+${rows.map(([p, s, u, t, d, q], i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${p}</strong></td><td class='hint'>${s}</td><td>${u}</td><td>${t}</td><td>${d}</td><td class='num'>${q}</td></tr>`).join('')}
+</tbody></table></div><div class='hint'>214 professionnels répondus · 25 par page</div>`
+const oneAnswer = sheet('Dr Yacine Belkacem', 'Cardiologie · B · Alger · répondu par Karim Saadi le 11 déc. 2026', `
+<div class='qt'>Votre patientèle</div>
+<div class='ans'><i>Q1</i><span>Combien de patients voyez-vous par semaine ? <b>120</b></span><i>Q2</i><span>Dont combien sous statine ? <b>45</b></span></div>
+<div class='qt'>Vos habitudes de prescription</div>
+<div class='ans'><i>Q3</i><span>Quelle statine prescrivez-vous le plus ? <b>Atorvastatine</b></span><i>Q4</i><span>Hôpital de rattachement <b>Autre : EPH Bologhine</b></span><i>Q5</i><span>Supports reçus cette année <b>Brochure, Étude CARE</b></span></div>
+<div class='ans'><i>Q6</i><span>Part de vos patients diabétiques <b>30 %</b></span><i>Q7</i><span>Remarques <span class='muted'>—</span></span></div>
+<div class='why'>Les réponses se corrigent dans la visite, par qui peut la modifier, tant qu'elle n'est pas verrouillée.</div>`,
+  `<span class='btn outline'>Ouvrir la visite du 11 déc. ›</span><span class='btn dark' style='margin-inline-start:auto'>Fermer</span>`)
+
+// Per visit survey: rows per visit, sheet lists the visits
+const perVisitHead = `<div><div class='crumbs'>Enquêtes › Enquêtes</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>Suivi Cardiozen</h1><span class='chip info'>Ouverte</span></div>
+<div class='hint'>Médecins · à chaque visite · 1 nov. → 31 déc. 2026 · sans objectif</div></div>
+<div class='tabs2'><span>Questions · 3</span><span>Répondants · 4</span><span class='on'>Réponses · 96 visites · 41 professionnels</span></div>`
+const perVisitTab = `${perVisitHead}
+<div style='display:flex;gap:10px;align-items:center'><div class='input muted' style='width:220px'>Professionnel…</div><div class='input muted' style='width:170px'>Personne ▾</div><div class='input muted' style='width:200px'>1 nov. → 31 déc. ▾</div><span class='btn outline' style='margin-inline-start:auto'>⤓ Exporter en Excel</span></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Professionnel ↕</th><th>Personne ↕</th><th>Visite ↕</th><th>Q1 · patients mis sous Cardiozen</th><th>Q2 · retour</th><th class='num'>Questions répondues</th></tr></thead><tbody>
+${[['Dr Nora Saidi', 'Karim Saadi', '12 janv. 2027', '6', 'Satisfait', '2 / 3'], ['Dr Nora Saidi', 'Karim Saadi', '27 nov. 2026', '4', 'Satisfait', '3 / 3'], ['Dr Nora Saidi', 'Karim Saadi', '13 nov. 2026', '2', 'Réservé', '2 / 3'], ['Dr Yacine Belkacem', 'Karim Saadi', '20 nov. 2026', '1', 'Réservé', '3 / 3']].map(r => `<tr>${r.map((c, i) => i === 0 ? `<td><strong>${c}</strong></td>` : i === 5 ? `<td class='num'>${c}</td>` : `<td>${c}</td>`).join('')}</tr>`).join('')}
+</tbody></table></div><div class='why'>« À chaque visite » : une ligne par visite répondue ; on suit l'évolution d'un même professionnel. Les deux premières questions sont en colonnes quand elles sont courtes (nombre, pourcentage, un choix) ; le reste s'ouvre au clic.</div>`
+
+// Manager
+const managerTab = answersTab(ROWS.slice(0, 4), -1, `<div class='why'>Vous voyez les réponses des personnes de votre équipe (Cardio Alger).</div>`)
+
+// Excel
+const excel = `<div class='col'><div class='sec'><header><strong>Le fichier Excel</strong><span class='hint'>Qualification médecin — Cardiologie · réponses du 1 déc. au 31 janv. · 214 lignes</span></header>
+<div style='overflow:auto'><table class='xl'><tr><th>Personne</th><th>Équipe</th><th>Professionnel</th><th>Type</th><th>Spécialité</th><th>Segment</th><th>Wilaya</th><th>Date de visite</th><th>Q1 Combien de patients…</th><th>Q2 Dont combien sous statine ?</th><th>Q3 Quelle statine…</th><th>Q4 Hôpital de rattachement</th><th>Q5 Supports reçus…</th><th>Q6 Part diabétiques (%)</th><th>Q7 Remarques</th></tr>
+<tr><td>Karim Saadi</td><td>Cardio Alger</td><td>Dr Yacine Belkacem</td><td>Médecin</td><td>Cardiologie</td><td>B</td><td>Alger</td><td>11/12/2026</td><td>120</td><td>45</td><td>Atorvastatine</td><td>Autre : EPH Bologhine</td><td>Brochure ; Étude CARE</td><td>30</td><td></td></tr>
+<tr><td>Karim Saadi</td><td>Cardio Alger</td><td>Dr Samia Ouali</td><td>Médecin</td><td>Médecine interne</td><td>A</td><td>Alger</td><td>05/12/2026</td><td>60</td><td>22</td><td>Rosuvastatine</td><td>CHU Mustapha</td><td>Brochure</td><td></td><td>Préfère les génériques</td></tr>
+<tr><td>Amine Kaci</td><td>Cardio Alger</td><td>Dr Mourad Haddad</td><td>Médecin</td><td>Cardiologie</td><td>A</td><td>Alger</td><td>03/12/2026</td><td>150</td><td>70</td><td>Rosuvastatine</td><td>CHU Beni Messous</td><td>Étude CARE ; Webinaire</td><td>25</td><td></td></tr></table></div>
+<div class='why'>Une ligne par professionnel et visite, une colonne par question (titres de groupe non repris). Les nombres restent des nombres pour les calculs dans Excel. Les filtres de l'onglet s'appliquent.</div></div></div>`
+
+// Mes enquêtes, now filled
+const mine = `<div class='col'>${wsNav('Mes enquêtes', ['Mes enquêtes'])}<div><div class='crumbs'>Enquêtes</div><h1 class='title display' style='font-size:32px'>Mes enquêtes</h1></div>
+<div class='sec' style='max-width:700px'><div class='svhead'><strong>Qualification médecin — Cardiologie</strong><span class='chip info' style='margin-inline-start:auto'>jusqu'au 31 janv.</span></div>
+<div style='display:flex;gap:16px;font-size:13.5px'><span><b>39</b> / 142 répondus</span><span class='chip ok'>En avance · 39 / 30</span><span class='muted'>Cette semaine : 13 / 20</span></div>
+<span class='opts'><span class='opt'>À faire · 103</span><span class='opt on'>Répondus · 39</span></span>
+${['Dr Yacine Belkacem · répondu le 11 déc.', 'Dr Samia Ouali · répondu le 5 déc.', 'Dr Nora Saidi · répondu le 3 déc.'].map(r => `<div style='display:flex;padding:8px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px'><span style='flex:1'>${r}</span><span class='hint'>visite ›</span></div>`).join('')}</div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Le compte rendu de Karim chez Dr Belkacem.</strong> Deux enquêtes lui sont proposées, fermées, chacune avec « Répondre ». Il peut les passer.`) + frame('Visites', ...KARIM, report1, '', 640),
+  label(2, `<strong>Il répond à « Qualification médecin ».</strong> Les titres regroupent les questions ; * = obligatoire. Il passe « Suivi Cardiozen » cette fois. Le résumé montre où il en est.`) + frame('Visites', ...KARIM, report2, '', 1060),
+  label(3, `<strong>Commencée mais incomplète : refusée à l'enregistrement.</strong> Q2 et Q5 obligatoires sans réponse. Il répond, ou « Ne pas répondre » pour tout effacer.`) + frame('Visites', ...KARIM, report3, '', 1000),
+  label(4, `<strong>Visite suivante chez Dr Saidi (12 janv.).</strong> « Qualification médecin » est déjà répondue : montrée en lecture, avec le lien vers la visite où corriger. « Suivi Cardiozen » (à chaque visite) revient ; « Reprendre les réponses du 27 nov. » remplit avec la dernière.`) + frame('Visites', ...KARIM, report4, '', 860),
+  label(5, `<strong>La page de la visite.</strong> Une carte par enquête répondue, modifiable sur place comme les marques.`) + frame('Visites', ...KARIM, visitPage(), '', 560),
+  label(6, `<strong>Après le délai de correction : verrouillée</strong>, comme le reste de la visite.`) + frame('Visites', ...KARIM, visitPage(true), '', 560),
+  label(7, `<strong>L'onglet « Réponses », vu par Sara (marketing).</strong> Une ligne par professionnel répondu ; filtres, export Excel.`) + frame('Enquêtes', ...SARA, `<div class='col'>${wsNav('Enquêtes', ['Enquêtes', 'Mes enquêtes'])}${answersTab()}</div>`, '', 640),
+  label(8, `<strong>Un clic : les réponses de Dr Belkacem</strong>, groupées comme les questions, et le lien vers la visite.`) + frame('Enquêtes', ...SARA, `<div class='col'>${wsNav('Enquêtes', ['Enquêtes', 'Mes enquêtes'])}${answersTab(ROWS, 0)}</div>`, oneAnswer, 640),
+  label(9, `<strong>Une enquête « à chaque visite » : une ligne par visite</strong>, pour suivre un même professionnel dans le temps.`) + frame('Enquêtes', ...SARA, `<div class='col'>${wsNav('Enquêtes', ['Enquêtes', 'Mes enquêtes'])}${perVisitTab}</div>`, '', 600),
+  label(10, `<strong>Le même onglet, vu par Nadia (responsable de Karim).</strong> Les réponses de ses personnes seulement, en lecture ; elle exporte aussi.`) + frame('Enquêtes', 'Nadia Rahmani · responsable régionale', 'NR', `<div class='col'>${wsNav('Enquêtes', ['Enquêtes', 'Mes enquêtes'])}${managerTab}</div>`, '', 600),
+  label(11, `<strong>Le fichier Excel exporté.</strong>`) + frame('Enquêtes', ...SARA, excel, '', 380),
+  label(12, `<strong>« Mes enquêtes » de Karim, maintenant rempli.</strong> Répondus avec leur date et un lien vers la visite.`) + frame('Enquêtes', ...KARIM, mine, '', 480),
+].join('')
+</script></body></html>
