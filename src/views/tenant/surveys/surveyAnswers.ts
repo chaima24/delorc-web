@@ -1,4 +1,5 @@
 import type { SurveyAnswer, SurveyQuestion } from '@/api/tenant/surveys'
+import { answersMap, shown } from './surveyRules'
 
 /**
  * A survey being answered, as the form holds it: one entry per question (docs/api/survey-answers.md).
@@ -38,11 +39,21 @@ export function payloadOf(questions: SurveyQuestion[], draft: AnswerDraft): Surv
   })
 }
 
-/** Q-numbers of the required questions still empty (only once the survey is started: something is answered). */
+/** Which questions are shown with the draft's answers (docs/api/survey-rules.md). */
+export const shownOf = (questions: SurveyQuestion[], draft: AnswerDraft) => shown(questions, answersMap(payloadOf(questions, draft)))
+
+/** What the report sends: the answers given to the questions shown (a hidden question is not asked). */
+export function sentOf(questions: SurveyQuestion[], draft: AnswerDraft): SurveyAnswer[] {
+  const visible = shownOf(questions, draft)
+  return payloadOf(questions, draft).filter(answer => visible[answer.question_id])
+}
+
+/** Q-numbers of the required questions shown and still empty (only once the survey is started: something is answered). */
 export function missingRequired(questions: SurveyQuestion[], draft: AnswerDraft): string[] {
   const started = answerable(questions).some(question => filled(draft[question.id]))
   if (!started) return []
-  return answerable(questions).filter(question => question.is_required && !filled(draft[question.id])).map(question => question.number ?? '')
+  const visible = shownOf(questions, draft)
+  return answerable(questions).filter(question => visible[question.id] && question.is_required && !filled(draft[question.id])).map(question => question.number ?? '')
 }
 
 /** An answer as a page shows it: the number, the text, the labels chosen (« Autre » with its text). */

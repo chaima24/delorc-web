@@ -34,7 +34,21 @@ export interface SurveyQuestion {
   is_required: boolean
   display: QuestionDisplay | null
   options: SurveyOption[]
+  /** 19c (docs/api/survey-rules.md): how its conditions combine, its conditions, its checks. */
+  display_match: DisplayMatch
+  conditions: SurveyCondition[]
+  checks: SurveyCheck[]
 }
+
+// 19c, the rules (docs/api/survey-rules.md).
+export type DisplayMatch = 'all' | 'any'
+export type ChoiceOperator = 'is' | 'is_not'
+export type NumberOperator = 'lt' | 'lte' | 'eq' | 'gte' | 'gt'
+export const NUMBER_OPERATORS: NumberOperator[] = ['lt', 'lte', 'eq', 'gte', 'gt']
+/** « Q4 est Oui » (a choice: one of `option_ids`) or « Q1 > 50 » (a number: `value`). `text` is the API's sentence. */
+export interface SurveyCondition { source_question_id: number; operator: ChoiceOperator | NumberOperator; option_ids?: number[] | null; value?: number | null; text?: string }
+/** « Q2 ≤ Q1 » (`compare`) or « Q6 + Q7 + Q8 = 100 » (`sum`, this question included in `question_ids`). */
+export interface SurveyCheck { type: 'compare' | 'sum'; operator?: NumberOperator | null; compare_question_id?: number | null; question_ids?: number[] | null; value?: number | null; text?: string }
 
 export interface SurveyHistoryLine {
   event: string
@@ -89,7 +103,11 @@ export interface QuestionPayload {
   is_required?: boolean
   parent_id?: number | null
   display?: QuestionDisplay | null
-  options?: { label: string; is_other: boolean }[]
+  /** An option sent with its id keeps it (conditions point at it). */
+  options?: { id?: number; label: string; is_other: boolean }[]
+  display_match?: DisplayMatch
+  conditions?: SurveyCondition[]
+  checks?: SurveyCheck[]
 }
 
 export interface QuestionCategory { id: number; category: string; questions_count: number; created_at: string | null }

@@ -1,5 +1,6 @@
 import { useI18n } from 'vue-i18n'
-import type { CycleRef, Pace, QuestionType, SurveyStatus, SurveyTarget } from '@/api/tenant/surveys'
+import type { CycleRef, NumberOperator, Pace, QuestionType, SurveyStatus, SurveyTarget } from '@/api/tenant/surveys'
+import type { CheckWords } from './surveyRules'
 
 export const STATUS_TONE: Record<SurveyStatus, 'neutral' | 'info' | 'success'> = { draft: 'neutral', open: 'info', closed: 'success' }
 export const PACE_TONE: Record<Pace, 'success' | 'neutral' | 'warning'> = { ahead: 'success', on_time: 'neutral', late: 'warning' }
@@ -32,4 +33,15 @@ export function weeks(start: string, end: string): number {
   if (!start || !end || end < start) return 0
   const days = Math.round((new Date(`${end}T00:00:00`).getTime() - new Date(`${start}T00:00:00`).getTime()) / 86_400_000) + 1
   return Math.max(1, Math.ceil(days / 7))
+}
+
+/** The words of the rules (docs/api/survey-rules.md): operators, and the messages of a failing check, as the API writes them. */
+export function useRuleWords() {
+  const { t, n } = useI18n()
+  const operator = (op: NumberOperator | 'is' | 'is_not') => t(`surveys.rules.operator.${op}`)
+  const words: CheckWords = {
+    compare: parts => t('surveys.rules.compareFails', { question: parts.question, operator: operator(parts.operator), other: parts.other, value: n(parts.value) }),
+    sum: parts => t('surveys.rules.sumFails', { questions: parts.questions, value: n(parts.value), total: n(parts.total) }),
+  }
+  return { operator, words }
 }

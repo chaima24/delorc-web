@@ -3,7 +3,7 @@ import type { SurveyQuestion } from '@/api/tenant/surveys'
 import { answerText, draftOf, missingRequired, payloadOf } from '@/views/tenant/surveys/surveyAnswers'
 
 const q = (id: number, type: SurveyQuestion['type'], more: Partial<SurveyQuestion> = {}): SurveyQuestion => ({
-  id, number: type === 'title' ? null : `Q${id}`, type, question_text: `Question ${id}`, parent_id: null, category: null, is_required: false, display: null, options: [], ...more,
+  id, number: type === 'title' ? null : `Q${id}`, type, question_text: `Question ${id}`, parent_id: null, category: null, is_required: false, display: null, options: [], display_match: 'all', conditions: [], checks: [], ...more,
 })
 const questions = [
   q(0, 'title'),

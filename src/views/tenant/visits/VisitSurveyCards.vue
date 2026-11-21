@@ -9,7 +9,7 @@ import DlRecordSection from '@/components/DlRecordSection.vue'
 import { useToast } from '@/composables/useToast'
 import SurveyAnswersView from '@/views/tenant/surveys/SurveyAnswersView.vue'
 import SurveyQuestionsForm from '@/views/tenant/surveys/SurveyQuestionsForm.vue'
-import { draftOf, payloadOf, type AnswerDraft } from '@/views/tenant/surveys/surveyAnswers'
+import { draftOf, sentOf, type AnswerDraft } from '@/views/tenant/surveys/surveyAnswers'
 
 // A done visit's surveys (docs/api/survey-answers.md): one card per survey answered here, and per survey still
 // offered, edited in place like the other cards. Saving sends only that survey; an emptied card removes its answers.
@@ -41,7 +41,7 @@ function edit(row: VisitSurvey) {
   editing.value = row.survey.id
 }
 async function save(row: VisitSurvey) {
-  const answers = payloadOf(row.questions, draft.value)
+  const answers = sentOf(row.questions, draft.value)
   busy.value = true
   try {
     const visit = await updateVisit(props.visit.id, { surveys: [{ survey_id: row.survey.id, answers }] })

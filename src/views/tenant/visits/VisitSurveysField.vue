@@ -6,8 +6,9 @@ import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
 import SurveyAnswersView from '@/views/tenant/surveys/SurveyAnswersView.vue'
 import SurveyQuestionsForm from '@/views/tenant/surveys/SurveyQuestionsForm.vue'
-import { draftOf, missingRequired, payloadOf, type AnswerDraft } from '@/views/tenant/surveys/surveyAnswers'
-import { useSurveyText } from '@/views/tenant/surveys/surveyDisplay'
+import { draftOf, missingRequired, sentOf, shownOf, type AnswerDraft } from '@/views/tenant/surveys/surveyAnswers'
+import { useRuleWords, useSurveyText } from '@/views/tenant/surveys/surveyDisplay'
+import { answersMap, failing } from '@/views/tenant/surveys/surveyRules'
 
 // The surveys of a visit report (docs/api/survey-answers.md), one block each: closed with « Répondre », open with
 // its questions and « Ne pas répondre »; « Reprendre les réponses du … » for an « at each visit » survey; a « once »
@@ -25,6 +26,7 @@ const entries = defineModel<VisitSurveyPayload[]>('entries', { default: () => []
 const summary = defineModel<SurveySummaryLine[]>('summary', { default: () => [] })
 const { t, n } = useI18n()
 const text = useSurveyText()
+const { words } = useRuleWords()
 
 interface Block { data: VisitSurvey; open: boolean; draft: AnswerDraft; showAnswers: boolean }
 const blocks = ref<Block[]>([])
@@ -47,7 +49,7 @@ function takeLast(block: Block) {
 // What the report sends: an open survey with its answers; a closed one that had answers here loses them.
 watch(blocks, () => {
   entries.value = blocks.value.filter(block => block.data.can_answer && (block.open || block.data.answers))
-    .map(block => ({ survey_id: block.data.survey.id, answers: block.open ? payloadOf(block.data.questions, block.draft) : [] }))
+    .map(block => ({ survey_id: block.data.survey.id, answers: block.open ? sentOf(block.data.questions, block.draft) : [] }))
   summary.value = blocks.value.map(block => ({ name: block.data.survey.name, ...line(block) }))
 }, { deep: true, immediate: true })
 
@@ -56,8 +58,13 @@ function line(block: Block): Omit<SurveySummaryLine, 'name'> {
   if (!block.open) return { label: t(block.data.can_answer ? 'surveys.answer.skipped' : 'surveys.answer.readOnly'), tone: 'neutral' }
   const missing = missingRequired(block.data.questions, block.draft).length
   if (missing) return { label: t('surveys.answer.missing', { count: missing }, missing), tone: 'warning' }
-  const total = block.data.questions.filter(question => question.type !== 'title').length
-  return { label: `${n(payloadOf(block.data.questions, block.draft).length)} / ${n(total)}`, tone: 'success' }
+  const sent = sentOf(block.data.questions, block.draft)
+  const failed = Object.keys(failing(block.data.questions, answersMap(sent), shownOf(block.data.questions, block.draft), words)).length
+  if (failed) return { label: t('surveys.rules.toFix', { count: failed }, failed), tone: 'warning' }
+  // Out of the questions shown with these answers.
+  const visible = shownOf(block.data.questions, block.draft)
+  const total = block.data.questions.filter(question => question.type !== 'title' && visible[question.id]).length
+  return { label: `${n(sent.length)} / ${n(total)}`, tone: 'success' }
 }
 
 // The API's errors, put back on their survey and question.

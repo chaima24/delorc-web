@@ -126,6 +126,10 @@ function openSheet(question: SurveyQuestion | null, title = false) {
   sheet.value = true
 }
 const previewing = ref(false)
+// The list's badge of a question's show conditions (19c): « si Q4 est Oui et Q1 est supérieur à 50 ».
+const showIf = (q: SurveyQuestion) => t('surveys.rules.badgeIf', {
+  text: (q.conditions ?? []).map(condition => condition.text).join(` ${t(q.display_match === 'any' ? 'surveys.rules.or' : 'surveys.rules.and')} `),
+})
 const answerable = computed(() => (survey.value?.questions ?? []).filter(q => q.type !== 'title').length)
 const titleCount = computed(() => (survey.value?.questions ?? []).filter(q => q.type === 'title').length)
 
@@ -418,6 +422,10 @@ function historyLine(line: SurveyHistoryLine): string {
                   <span v-if="q.number" class="w-9 shrink-0 font-display font-extrabold">{{ q.number }}</span>
                   <span class="min-w-0 flex-1">
                     {{ q.question_text }}<span v-if="q.is_required" class="font-bold text-dl-rejected" :title="t('surveys.question.required')"> *</span>
+                    <span v-if="q.conditions?.length || q.checks?.length" class="mt-1 flex flex-wrap gap-1.5 font-normal">
+                      <DlBadge v-if="q.conditions?.length" size="sm" tone="info">{{ showIf(q) }}</DlBadge>
+                      <DlBadge v-for="check in q.checks" :key="check.text" size="sm" tone="warning">{{ check.text }}</DlBadge>
+                    </span>
                   </span>
                   <span class="flex shrink-0 items-center gap-2 max-md:hidden">
                     <DlBadge size="sm" :tone="q.type === 'title' ? 'neutral' : 'info'">{{ q.type === 'title' ? t('surveys.types.title.name') : text.type(q.type) }}</DlBadge>

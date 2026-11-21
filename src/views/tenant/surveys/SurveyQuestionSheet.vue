@@ -16,10 +16,12 @@ import DlSwitch from '@/components/DlSwitch.vue'
 import DlTextarea from '@/components/DlTextarea.vue'
 import { useToast } from '@/composables/useToast'
 import { useSurveyText } from './surveyDisplay'
+import SurveyRulesFields, { type RulesForm } from './SurveyRulesFields.vue'
 
 // A question in a side panel: its type (picked first for a new one), text, category, title it sits under, required,
-// and for a choice its options in order, how it is drawn and an « Autre » to type. A title has only its text.
-// Mockup: surveys-mockups/Surveys.html frames 5, 6.
+// and for a choice its options in order, how it is drawn and an « Autre » to type. A title has its text and its show
+// conditions; a question its rules too (19c, SurveyRulesFields). Options keep their id, which conditions point at.
+// Mockups: surveys-mockups/Surveys.html frames 5, 6; Rules.html frames 2–5.
 const props = defineProps<{
   survey: Survey
   /** null = a new one. */
@@ -35,9 +37,10 @@ const toast = useToast()
 const text = useSurveyText()
 
 const NONE = 0
-interface Option { key: number; label: string; is_other: boolean }
+interface Option { key: number; id?: number; label: string; is_other: boolean }
 let nextKey = 1
-const option = (label = '', isOther = false): Option => ({ key: nextKey++, label, is_other: isOther })
+const option = (label = '', isOther = false, id?: number): Option => ({ key: nextKey++, id, label, is_other: isOther })
+const noRules = (): RulesForm => ({ display_match: 'all', conditions: [], checks: [] })
 const empty = () => ({
   type: (props.title ? 'title' : 'numeric') as QuestionType,
   question_text: '',
@@ -46,6 +49,7 @@ const empty = () => ({
   is_required: false,
   display: 'expanded' as string,
   options: [option(), option()] as Option[],
+  rules: noRules(),
 })
 const form = ref(empty())
 const errors = ref<Record<string, string>>({})
@@ -62,7 +66,9 @@ watch(open, value => {
         parent: q.parent_id ?? NONE,
         is_required: q.is_required,
         display: q.display ?? 'expanded',
-        options: q.options.length ? q.options.map(o => option(o.label, o.is_other)) : [option(), option()],
+        options: q.options.length ? q.options.map(o => option(o.label, o.is_other, o.id)) : [option(), option()],
+        // A copy, so « Annuler » leaves the page as it was.
+        rules: { display_match: q.display_match ?? 'all', conditions: (q.conditions ?? []).map(c => ({ ...c, option_ids: c.option_ids ? [...c.option_ids] : null })), checks: (q.checks ?? []).map(c => ({ ...c, question_ids: c.question_ids ? [...c.question_ids] : null })) },
       }
     : empty()
 }, { immediate: true })
@@ -92,16 +98,28 @@ function move(index: number, by: number) {
   ;[list[index], list[to]] = [list[to]!, list[index]!]
 }
 
-function payload(): QuestionPayload {
-  if (isTitle.value) return { type: 'title', question_text: form.value.question_text }
+function rulesPayload(): Pick<QuestionPayload, 'display_match' | 'conditions' | 'checks'> {
+  const { display_match, conditions, checks } = form.value.rules
+  const numeric = form.value.type === 'numeric' || form.value.type === 'percentage'
   return {
+    display_match,
+    conditions: conditions.map(({ source_question_id, operator, option_ids, value }) => ({ source_question_id, operator, option_ids, value })),
+    // Checks are for numbers only.
+    checks: numeric ? checks.map(({ type, operator, compare_question_id, question_ids, value }) => ({ type, operator, compare_question_id, question_ids, value })) : [],
+  }
+}
+
+function payload(): QuestionPayload {
+  if (isTitle.value) return { type: 'title', question_text: form.value.question_text, ...rulesPayload() }
+  return {
+    ...rulesPayload(),
     type: form.value.type,
     question_text: form.value.question_text,
     survey_question_category_id: Number(form.value.category) || null,
     parent_id: Number(form.value.parent) || null,
     is_required: form.value.is_required,
     ...(isChoice.value
-      ? { display: form.value.display as QuestionDisplay, options: form.value.options.map(o => ({ label: o.label.trim(), is_other: o.is_other })) }
+      ? { display: form.value.display as QuestionDisplay, options: form.value.options.map(o => ({ ...(o.id ? { id: o.id } : {}), label: o.label.trim(), is_other: o.is_other })) }
       : {}),
   }
 }
@@ -116,7 +134,7 @@ async function save(again = false) {
     toast.success(t('studio.list.toast.saved'))
     emit('saved', survey)
     if (again) {
-      const keep = { type: form.value.type, category: form.value.category, parent: form.value.parent }
+      const keep = { type: form.value.type, category: form.value.category, parent: form.value.parent, rules: noRules() }
       form.value = { ...empty(), ...keep }
     }
     else {
@@ -192,8 +210,8 @@ const optionError = (i: number) => errors.value[`options.${i}.label`]
             <p v-if="errors.options" class="text-xs text-dl-rejected">{{ errors.options }}</p>
           </fieldset>
         </template>
-        <p class="rounded-2xl bg-dl-mist px-4 py-3 text-[13px] text-dl-muted">{{ t('surveys.question.rulesLater') }}</p>
       </template>
+      <SurveyRulesFields v-model="form.rules" :questions="survey.questions ?? []" :question-id="question?.id ?? null" :type="form.type" :errors="errors" />
     </form>
     <template #footer>
       <DlButton variant="ghost" @click="open = false">{{ t('common.actions.cancel') }}</DlButton>
