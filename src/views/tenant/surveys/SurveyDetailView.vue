@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { fetchAllBrands } from '@/api/tenant/brands'
 import { errorMessage, fieldErrors } from '@/api/errors'
 import {
@@ -20,12 +20,14 @@ import DlInput from '@/components/DlInput.vue'
 import DlRecordSection from '@/components/DlRecordSection.vue'
 import DlSegmented from '@/components/DlSegmented.vue'
 import DlSkeleton from '@/components/DlSkeleton.vue'
+import DlTabs from '@/components/DlTabs.vue'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import { useConfirm } from '@/composables/useConfirm'
 import { useToast } from '@/composables/useToast'
 import CheckList from '@/views/tenant/settings/shared/CheckList.vue'
 import SurveyPreviewSheet from './SurveyPreviewSheet.vue'
 import SurveyQuestionSheet from './SurveyQuestionSheet.vue'
+import SurveyRespondentsTab from './SurveyRespondentsTab.vue'
 import { STATUS_TONE, today, useSurveyText, weeks } from './surveyDisplay'
 
 // A survey's page: its card (edited in place), its history, and its questions: titles holding questions, numbered
@@ -34,6 +36,7 @@ import { STATUS_TONE, today, useSurveyText, weeks } from './surveyDisplay'
 const props = defineProps<{ id: string }>()
 const { t, n } = useI18n()
 const router = useRouter()
+const route = useRoute()
 const toast = useToast()
 const { confirm } = useConfirm()
 const text = useSurveyText()
@@ -250,11 +253,22 @@ async function remove() {
   }
 }
 
+// Two tabs (19b-1): the questions, and who answers. `?tab=respondents` opens the second one.
+const tab = ref(route.query.tab === 'respondents' ? 'respondents' : 'questions')
+watch(tab, value => router.replace({ query: { ...route.query, tab: value === 'questions' ? undefined : value } }))
+const tabs = computed(() => [
+  { value: 'questions', label: t('surveys.page.tabQuestions', { count: answerable.value }) },
+  { value: 'respondents', label: t('surveys.page.tabRespondents') },
+])
+
 const STEPS = ['draft', 'open', 'closed'] as const
 const reached = (step: (typeof STEPS)[number]) => STEPS.indexOf(survey.value!.status) >= STEPS.indexOf(step)
 
 function historyLine(line: SurveyHistoryLine): string {
-  const known = ['created', 'opened', 'closed', 'duplicated', 'question_added', 'question_updated', 'question_deleted', 'questions_reordered']
+  const known = [
+    'created', 'opened', 'closed', 'duplicated', 'question_added', 'question_updated', 'question_deleted', 'questions_reordered',
+    'respondents_added', 'respondent_paused', 'respondent_resumed', 'respondent_removed', 'professionals_added', 'professionals_removed', 'list_recopied',
+  ]
   if (known.includes(line.event)) return t(`surveys.history.${line.event}`, { text: line.text ?? '' })
   if (line.new && 'brands' in line.new) return t('surveys.history.brands')
   return t('surveys.history.changed')
@@ -304,115 +318,122 @@ function historyLine(line: SurveyHistoryLine): string {
       </DlAlert>
       <p v-if="survey.status === 'closed'" class="rounded-2xl bg-dl-mist px-4 py-3 text-[13.5px] text-dl-muted">{{ t('surveys.page.closedBanner') }}</p>
 
-      <div class="grid items-start gap-4 xl:grid-cols-[420px_1fr]">
-        <div class="flex flex-col gap-4">
-          <div class="rounded-3xl bg-dl-paper p-4 md:p-5">
-            <DlRecordSection :editing="editing" :title="t('surveys.page.card')" icon="tabler-clipboard-list" :can-edit="canEdit" :saving="saving" @update:editing="edit" @save="saveCard" @cancel="edit(false)">
-              <dl class="grid grid-cols-[150px_1fr] gap-x-3 gap-y-1.5">
-                <dt class="text-dl-muted">{{ t('surveys.fields.target') }}</dt>
-                <dd>{{ text.target(survey.target_type) }}<DlIcon v-if="!draft" icon="tabler-lock" :size="14" class="ms-1 inline text-dl-muted" /></dd>
-                <dt class="text-dl-muted">{{ t('surveys.fields.mode') }}</dt>
-                <dd>{{ text.mode(survey.is_per_visit) }}<DlIcon v-if="!draft" icon="tabler-lock" :size="14" class="ms-1 inline text-dl-muted" /></dd>
-                <dt class="text-dl-muted">{{ t('surveys.fields.period') }}</dt>
-                <dd>{{ text.period(survey.start_date, survey.end_date) }} · {{ t('surveys.fields.weeks', { count: survey.weeks_count }, survey.weeks_count) }}</dd>
-                <dt class="text-dl-muted">{{ t('surveys.fields.objective') }}</dt>
-                <dd>{{ survey.objective_per_week == null ? '—' : t('surveys.fields.objectiveValue', { count: n(survey.objective_per_week) }) }}</dd>
-                <dt class="text-dl-muted">{{ t('surveys.fields.brands') }}</dt>
-                <dd class="flex flex-wrap gap-1">
-                  <DlBadge v-for="brand in survey.brands" :key="brand.id" size="sm">{{ brand.name }}</DlBadge>
-                  <span v-if="!survey.brands?.length">—</span>
-                </dd>
-              </dl>
-              <template #edit>
-                <DlInput v-model="form.name" :label="t('surveys.fields.name')" :error="errors.name" />
-                <template v-if="draft">
-                  <div class="flex flex-col gap-1.5">
-                    <span class="text-[13px] font-semibold">{{ t('surveys.fields.target') }}</span>
-                    <DlSegmented v-model="form.target_type" :label="t('surveys.fields.target')" :items="targetItems" block />
-                  </div>
-                  <div class="flex flex-col gap-1.5">
-                    <span class="text-[13px] font-semibold">{{ t('surveys.fields.mode') }}</span>
-                    <DlSegmented v-model="form.mode" :label="t('surveys.fields.mode')" :items="modeItems" block />
-                  </div>
-                </template>
-                <div class="grid gap-3 sm:grid-cols-2">
-                  <DlDatePicker v-if="draft" v-model="form.start_date" :label="t('surveys.fields.start')" :error="errors.start_date" />
-                  <DlDatePicker v-model="form.end_date" :label="t('surveys.fields.end')" :min="draft ? form.start_date : today()" :error="errors.end_date" />
-                </div>
-                <p v-if="weekCount" class="text-xs text-dl-muted">{{ t('surveys.fields.weeks', { count: weekCount }, weekCount) }}</p>
-                <DlInput v-model="form.objective" type="number" :label="t('surveys.fields.objectiveOptional')" :hint="t('surveys.fields.objectiveHint')" :error="errors.objective_per_week" />
-                <CheckList
-                  v-model="form.brand_ids"
-                  :legend="t('surveys.fields.brands')"
-                  :selected-label="t('surveys.fields.brandsChosen', { count: form.brand_ids.length }, form.brand_ids.length)"
-                  :search-label="t('surveys.fields.brandsSearch')"
-                  :items="brands"
-                  :empty-text="t('surveys.fields.brandsEmpty')"
-                />
-              </template>
-            </DlRecordSection>
+      <DlTabs v-model="tab" :label="t('surveys.page.tabs')" :items="tabs">
+        <template #questions>
+          <div class="grid items-start gap-4 xl:grid-cols-[420px_1fr]">
+            <div class="flex flex-col gap-4">
+              <div class="rounded-3xl bg-dl-paper p-4 md:p-5">
+                <DlRecordSection :editing="editing" :title="t('surveys.page.card')" icon="tabler-clipboard-list" :can-edit="canEdit" :saving="saving" @update:editing="edit" @save="saveCard" @cancel="edit(false)">
+                  <dl class="grid grid-cols-[150px_1fr] gap-x-3 gap-y-1.5">
+                    <dt class="text-dl-muted">{{ t('surveys.fields.target') }}</dt>
+                    <dd>{{ text.target(survey.target_type) }}<DlIcon v-if="!draft" icon="tabler-lock" :size="14" class="ms-1 inline text-dl-muted" /></dd>
+                    <dt class="text-dl-muted">{{ t('surveys.fields.mode') }}</dt>
+                    <dd>{{ text.mode(survey.is_per_visit) }}<DlIcon v-if="!draft" icon="tabler-lock" :size="14" class="ms-1 inline text-dl-muted" /></dd>
+                    <dt class="text-dl-muted">{{ t('surveys.fields.period') }}</dt>
+                    <dd>{{ text.period(survey.start_date, survey.end_date) }} · {{ t('surveys.fields.weeks', { count: survey.weeks_count }, survey.weeks_count) }}</dd>
+                    <dt class="text-dl-muted">{{ t('surveys.fields.objective') }}</dt>
+                    <dd>{{ survey.objective_per_week == null ? '—' : t('surveys.fields.objectiveValue', { count: n(survey.objective_per_week) }) }}</dd>
+                    <dt class="text-dl-muted">{{ t('surveys.fields.brands') }}</dt>
+                    <dd class="flex flex-wrap gap-1">
+                      <DlBadge v-for="brand in survey.brands" :key="brand.id" size="sm">{{ brand.name }}</DlBadge>
+                      <span v-if="!survey.brands?.length">—</span>
+                    </dd>
+                  </dl>
+                  <template #edit>
+                    <DlInput v-model="form.name" :label="t('surveys.fields.name')" :error="errors.name" />
+                    <template v-if="draft">
+                      <div class="flex flex-col gap-1.5">
+                        <span class="text-[13px] font-semibold">{{ t('surveys.fields.target') }}</span>
+                        <DlSegmented v-model="form.target_type" :label="t('surveys.fields.target')" :items="targetItems" block />
+                      </div>
+                      <div class="flex flex-col gap-1.5">
+                        <span class="text-[13px] font-semibold">{{ t('surveys.fields.mode') }}</span>
+                        <DlSegmented v-model="form.mode" :label="t('surveys.fields.mode')" :items="modeItems" block />
+                      </div>
+                    </template>
+                    <div class="grid gap-3 sm:grid-cols-2">
+                      <DlDatePicker v-if="draft" v-model="form.start_date" :label="t('surveys.fields.start')" :error="errors.start_date" />
+                      <DlDatePicker v-model="form.end_date" :label="t('surveys.fields.end')" :min="draft ? form.start_date : today()" :error="errors.end_date" />
+                    </div>
+                    <p v-if="weekCount" class="text-xs text-dl-muted">{{ t('surveys.fields.weeks', { count: weekCount }, weekCount) }}</p>
+                    <DlInput v-model="form.objective" type="number" :label="t('surveys.fields.objectiveOptional')" :hint="t('surveys.fields.objectiveHint')" :error="errors.objective_per_week" />
+                    <CheckList
+                      v-model="form.brand_ids"
+                      :legend="t('surveys.fields.brands')"
+                      :selected-label="t('surveys.fields.brandsChosen', { count: form.brand_ids.length }, form.brand_ids.length)"
+                      :search-label="t('surveys.fields.brandsSearch')"
+                      :items="brands"
+                      :empty-text="t('surveys.fields.brandsEmpty')"
+                    />
+                  </template>
+                </DlRecordSection>
+              </div>
+
+              <section class="flex flex-col gap-2 rounded-3xl bg-dl-paper p-4 md:p-5">
+                <h2 class="text-[15px] font-semibold">{{ t('surveys.page.history') }}</h2>
+                <ul class="flex flex-col gap-1.5 text-[13px]">
+                  <li v-for="(line, i) in survey.history" :key="i" class="flex flex-wrap gap-x-2">
+                    <span class="tabular-nums text-dl-muted">{{ text.date(line.at) }}</span>
+                    <span v-if="line.by" class="font-semibold">{{ line.by }}</span>
+                    <span>{{ historyLine(line) }}</span>
+                  </li>
+                </ul>
+              </section>
+            </div>
+
+            <section class="flex min-w-0 flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
+              <header class="flex flex-wrap items-center gap-2">
+                <h2 class="text-[15px] font-semibold">{{ t('surveys.page.questions') }}</h2>
+                <span class="text-[13px] text-dl-muted">· {{ t('surveys.page.questionsCount', { count: answerable, titles: titleCount }) }}</span>
+                <span class="ms-auto flex flex-wrap gap-2">
+                  <DlButton size="sm" variant="outline" icon="tabler-eye" @click="previewing = true">{{ t('surveys.page.preview') }}</DlButton>
+                  <template v-if="canEditQuestions">
+                    <DlButton size="sm" variant="outline" icon="tabler-heading" @click="openSheet(null, true)">{{ t('surveys.page.addTitle') }}</DlButton>
+                    <DlButton size="sm" variant="dark" icon="tabler-plus" @click="openSheet(null)">{{ t('surveys.page.addQuestion') }}</DlButton>
+                  </template>
+                </span>
+              </header>
+              <p v-if="!draft" class="rounded-2xl bg-dl-mist px-4 py-3 text-[13px] text-dl-muted">{{ t('surveys.page.frozen') }}</p>
+              <p v-else-if="canEditQuestions && survey.questions?.length" class="text-xs text-dl-muted">{{ t('surveys.page.dragHint') }}</p>
+              <p v-if="!survey.questions?.length" class="text-[13px] text-dl-muted">{{ t('surveys.page.noQuestions') }}</p>
+              <ul class="flex flex-col gap-2">
+                <li
+                  v-for="q in survey.questions"
+                  :key="q.id"
+                  :draggable="canEditQuestions"
+                  class="flex items-center gap-3 rounded-2xl border px-3.5 py-2.5 text-sm"
+                  :class="[
+                    q.type === 'title' ? 'border-transparent bg-dl-mist font-bold' : 'border-dl-line-soft',
+                    q.parent_id ? 'ms-8 max-md:ms-4' : '',
+                    dragged?.id === q.id && 'opacity-50',
+                  ]"
+                  @dragstart="dragged = q"
+                  @dragend="dragged = null"
+                  @dragover.prevent
+                  @drop.prevent="drop(q)"
+                >
+                  <DlIcon v-if="canEditQuestions" icon="tabler-grip-vertical" :size="16" class="shrink-0 cursor-grab text-dl-muted" aria-hidden="true" />
+                  <span v-if="q.number" class="w-9 shrink-0 font-display font-extrabold">{{ q.number }}</span>
+                  <span class="min-w-0 flex-1">
+                    {{ q.question_text }}<span v-if="q.is_required" class="font-bold text-dl-rejected" :title="t('surveys.question.required')"> *</span>
+                  </span>
+                  <span class="flex shrink-0 items-center gap-2 max-md:hidden">
+                    <DlBadge size="sm" :tone="q.type === 'title' ? 'neutral' : 'info'">{{ q.type === 'title' ? t('surveys.types.title.name') : text.type(q.type) }}</DlBadge>
+                    <span v-if="q.type !== 'title'" class="w-28 truncate text-xs text-dl-muted">{{ q.category?.category ?? '—' }}</span>
+                  </span>
+                  <template v-if="canEditQuestions">
+                    <DlIconButton icon="tabler-pencil" variant="ghost" :size="32" :label="t('surveys.page.editQuestion', { name: q.number ?? q.question_text })" @click="openSheet(q)" />
+                    <DlIconButton icon="tabler-trash" variant="ghost" :size="32" :label="t('surveys.page.deleteQuestionTitle', { name: q.number ?? q.question_text })" @click="removeQuestion(q)" />
+                  </template>
+                </li>
+              </ul>
+            </section>
           </div>
-
-          <section class="flex flex-col gap-2 rounded-3xl bg-dl-paper p-4 md:p-5">
-            <h2 class="text-[15px] font-semibold">{{ t('surveys.page.history') }}</h2>
-            <ul class="flex flex-col gap-1.5 text-[13px]">
-              <li v-for="(line, i) in survey.history" :key="i" class="flex flex-wrap gap-x-2">
-                <span class="tabular-nums text-dl-muted">{{ text.date(line.at) }}</span>
-                <span v-if="line.by" class="font-semibold">{{ line.by }}</span>
-                <span>{{ historyLine(line) }}</span>
-              </li>
-            </ul>
-          </section>
-        </div>
-
-        <section class="flex min-w-0 flex-col gap-3 rounded-3xl bg-dl-paper p-4 md:p-5">
-          <header class="flex flex-wrap items-center gap-2">
-            <h2 class="text-[15px] font-semibold">{{ t('surveys.page.questions') }}</h2>
-            <span class="text-[13px] text-dl-muted">· {{ t('surveys.page.questionsCount', { count: answerable, titles: titleCount }) }}</span>
-            <span class="ms-auto flex flex-wrap gap-2">
-              <DlButton size="sm" variant="outline" icon="tabler-eye" @click="previewing = true">{{ t('surveys.page.preview') }}</DlButton>
-              <template v-if="canEditQuestions">
-                <DlButton size="sm" variant="outline" icon="tabler-heading" @click="openSheet(null, true)">{{ t('surveys.page.addTitle') }}</DlButton>
-                <DlButton size="sm" variant="dark" icon="tabler-plus" @click="openSheet(null)">{{ t('surveys.page.addQuestion') }}</DlButton>
-              </template>
-            </span>
-          </header>
-          <p v-if="!draft" class="rounded-2xl bg-dl-mist px-4 py-3 text-[13px] text-dl-muted">{{ t('surveys.page.frozen') }}</p>
-          <p v-else-if="canEditQuestions && survey.questions?.length" class="text-xs text-dl-muted">{{ t('surveys.page.dragHint') }}</p>
-          <p v-if="!survey.questions?.length" class="text-[13px] text-dl-muted">{{ t('surveys.page.noQuestions') }}</p>
-          <ul class="flex flex-col gap-2">
-            <li
-              v-for="q in survey.questions"
-              :key="q.id"
-              :draggable="canEditQuestions"
-              class="flex items-center gap-3 rounded-2xl border px-3.5 py-2.5 text-sm"
-              :class="[
-                q.type === 'title' ? 'border-transparent bg-dl-mist font-bold' : 'border-dl-line-soft',
-                q.parent_id ? 'ms-8 max-md:ms-4' : '',
-                dragged?.id === q.id && 'opacity-50',
-              ]"
-              @dragstart="dragged = q"
-              @dragend="dragged = null"
-              @dragover.prevent
-              @drop.prevent="drop(q)"
-            >
-              <DlIcon v-if="canEditQuestions" icon="tabler-grip-vertical" :size="16" class="shrink-0 cursor-grab text-dl-muted" aria-hidden="true" />
-              <span v-if="q.number" class="w-9 shrink-0 font-display font-extrabold">{{ q.number }}</span>
-              <span class="min-w-0 flex-1">
-                {{ q.question_text }}<span v-if="q.is_required" class="font-bold text-dl-rejected" :title="t('surveys.question.required')"> *</span>
-              </span>
-              <span class="flex shrink-0 items-center gap-2 max-md:hidden">
-                <DlBadge size="sm" :tone="q.type === 'title' ? 'neutral' : 'info'">{{ q.type === 'title' ? t('surveys.types.title.name') : text.type(q.type) }}</DlBadge>
-                <span v-if="q.type !== 'title'" class="w-28 truncate text-xs text-dl-muted">{{ q.category?.category ?? '—' }}</span>
-              </span>
-              <template v-if="canEditQuestions">
-                <DlIconButton icon="tabler-pencil" variant="ghost" :size="32" :label="t('surveys.page.editQuestion', { name: q.number ?? q.question_text })" @click="openSheet(q)" />
-                <DlIconButton icon="tabler-trash" variant="ghost" :size="32" :label="t('surveys.page.deleteQuestionTitle', { name: q.number ?? q.question_text })" @click="removeQuestion(q)" />
-              </template>
-            </li>
-          </ul>
-        </section>
-      </div>
+        </template>
+        <template #respondents>
+          <SurveyRespondentsTab :survey="survey" @survey="value => (survey = value)" />
+        </template>
+      </DlTabs>
 
       <SurveyQuestionSheet v-if="sheet" v-model:open="sheet" :survey="survey" :question="sheetQuestion" :title="sheetTitle" :categories="categories" @saved="value => (survey = value)" />
       <SurveyPreviewSheet v-if="previewing" v-model:open="previewing" :survey="survey" />

@@ -56,6 +56,8 @@ export interface Survey {
   end_date: string
   weeks_count: number
   objective_per_week: number | null
+  /** Who answers (19b-1): the filters of the copy from the cycle; empty = all. */
+  copy_filters: CopyFilters
   brands?: { id: number; name: string }[]
   created_by?: { id: number; full_name: string } | null
   /** Only on the page. */
@@ -67,7 +69,10 @@ export interface Survey {
   created_at: string | null
 }
 
+export interface CopyFilters { speciality_ids: number[]; segmentation_ids: number[]; wilaya_ids: number[] }
+
 export interface SurveyPayload {
+  copy_filters?: Partial<CopyFilters>
   name?: string
   target_type?: SurveyTarget
   is_per_visit?: boolean
@@ -124,3 +129,114 @@ export const fetchAllQuestionCategories = () => fetchQuestionCategories({ per_pa
 export const createQuestionCategory = (payload: { category: string }) => one<QuestionCategory>(client.post(CATEGORIES, payload))
 export const updateQuestionCategory = (id: number, payload: { category: string }) => one<QuestionCategory>(client.put(`${CATEGORIES}/${id}`, payload))
 export const deleteQuestionCategory = (id: number) => client.delete(`${CATEGORIES}/${id}`)
+
+// 19b-1, who answers (docs/api/survey-respondents.md): people, their lists copied from the cycle, the progress.
+
+export type Pace = 'ahead' | 'on_time' | 'late'
+export interface CycleRef { id: number; start_date: string; end_date: string }
+
+export interface Respondent {
+  id: number
+  user: { id: number; full_name: string }
+  team: { id: number; name: string } | null
+  /** The cycle the list was copied from; null = no cycle running then. */
+  cycle: CycleRef | null
+  /** false = paused. */
+  is_active: boolean
+  list_count: number
+  answered_count: number
+  answers_count: number
+  week_answered: number
+  progress: number
+  /** Answered expected by now (with an objective), else null. */
+  expected: number | null
+  pace: Pace | null
+}
+
+export interface RespondentFigures {
+  people: number
+  paused: number
+  list_count: number
+  answered_count: number
+  progress: number
+  expected: number | null
+  week: number
+  weeks_count: number
+}
+
+export interface RespondentList {
+  items: Respondent[]
+  figures: RespondentFigures
+  counts: { all: number; late: number; paused: number }
+  can: { update: boolean }
+  added?: number
+  skipped?: number
+}
+
+export interface RespondentPreview {
+  user: { id: number; full_name: string }
+  team: { id: number; name: string } | null
+  cycle: CycleRef | null
+  cycle_count: number
+  list_count: number
+  already_in: boolean
+}
+
+export interface RespondentHcp {
+  hcp: { id: number; name: string; type: string }
+  speciality: string | null
+  segment: string | null
+  wilaya: string | null
+  in_territory: boolean
+  answered_at: string | null
+  next_visit_date: string | null
+}
+
+export interface Recopy { cycle: CycleRef | null; cycle_list_count: number; to_add: number; kept: number; not_in_cycle: number }
+
+export interface MySurvey {
+  id: number
+  name: string
+  target_type: SurveyTarget
+  is_per_visit: boolean
+  end_date: string
+  objective_per_week: number | null
+  respondent_id: number
+  list_count: number
+  answered_count: number
+  answers_count: number
+  week_answered: number
+  progress: number
+  expected: number | null
+  pace: Pace | null
+}
+
+const respondents = (survey: number) => `${URL}/${survey}/respondents`
+type ListAnswer = { data: Respondent[]; meta: Omit<RespondentList, 'items'> }
+const asList = (response: { data: ListAnswer }): RespondentList => ({ items: response.data.data, ...response.data.meta })
+
+export const fetchRespondents = (survey: number, params?: ListParams) => client.get<ListAnswer>(respondents(survey), { params }).then(asList)
+export const fetchFieldPeople = (survey: number, search: string) =>
+  client.get<{ data: { id: number; full_name: string; team: { id: number; name: string } | null }[] }>(`${respondents(survey)}/people`, { params: { search } })
+    .then(response => response.data.data)
+export const previewRespondents = (survey: number, body: { team_ids?: number[]; user_ids?: number[] }) =>
+  client.post<{ data: RespondentPreview[]; meta: { people: number; list_count: number } }>(`${respondents(survey)}/preview`, body)
+    .then(response => ({ items: response.data.data, ...response.data.meta }))
+export const addRespondents = (survey: number, body: { team_ids?: number[]; user_ids?: number[] }) =>
+  client.post<ListAnswer>(respondents(survey), body).then(asList)
+export const setRespondentActive = (survey: number, id: number, active: boolean) =>
+  one<Respondent>(client.put(`${respondents(survey)}/${id}`, { is_active: active }))
+export const removeRespondent = (survey: number, id: number) => client.delete(`${respondents(survey)}/${id}`)
+
+export const fetchRespondentHcps = (survey: number, id: number, params?: ListParams) =>
+  client.get<{ data: RespondentHcp[]; meta: { total: number; counts: { all: number; todo: number; answered: number } } }>(`${respondents(survey)}/${id}/professionals`, { params })
+    .then(response => ({ items: response.data.data, total: response.data.meta.total, counts: response.data.meta.counts }))
+export const fetchAvailableHcps = (survey: number, id: number, search: string) =>
+  client.get<{ data: { id: number; name: string; type: string; wilaya: string | null }[] }>(`${respondents(survey)}/${id}/available`, { params: { search } })
+    .then(response => response.data.data)
+export const addRespondentHcps = (survey: number, id: number, hcpIds: number[]) => client.post(`${respondents(survey)}/${id}/professionals`, { hcp_ids: hcpIds })
+export const removeRespondentHcp = (survey: number, id: number, hcpId: number) => client.delete(`${respondents(survey)}/${id}/professionals/${hcpId}`)
+export const previewRecopy = (survey: number, id: number) => one<Recopy>(client.get(`${respondents(survey)}/${id}/recopy`))
+export const recopy = (survey: number, id: number) => one<Recopy>(client.post(`${respondents(survey)}/${id}/recopy`))
+
+export const fetchMySurveys = () => one<MySurvey[]>(client.get('/my-surveys'))

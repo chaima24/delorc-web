@@ -1,7 +1,8 @@
 import { useI18n } from 'vue-i18n'
-import type { QuestionType, SurveyStatus, SurveyTarget } from '@/api/tenant/surveys'
+import type { CycleRef, Pace, QuestionType, SurveyStatus, SurveyTarget } from '@/api/tenant/surveys'
 
 export const STATUS_TONE: Record<SurveyStatus, 'neutral' | 'info' | 'success'> = { draft: 'neutral', open: 'info', closed: 'success' }
+export const PACE_TONE: Record<Pace, 'success' | 'neutral' | 'warning'> = { ahead: 'success', on_time: 'neutral', late: 'warning' }
 
 /** Dates, states, targets, modes and question types of Enquêtes, as the pages show them. */
 export function useSurveyText() {
@@ -15,6 +16,8 @@ export function useSurveyText() {
     target: (target: SurveyTarget) => t(`surveys.target.${target}`),
     mode: (perVisit: boolean) => t(perVisit ? 'surveys.mode.perVisit' : 'surveys.mode.once'),
     type: (type: QuestionType) => t(`surveys.types.${type}.name`),
+    cycle: (cycle: CycleRef | null) => (cycle ? t('surveys.respondents.cycle', { period: `${date(cycle.start_date)} → ${date(cycle.end_date)}` }) : t('surveys.respondents.noCycle')),
+    pace: (pace: Pace, answered: number, expected: number) => t(`surveys.respondents.pace.${pace}`, { answered, expected }),
   }
 }
 

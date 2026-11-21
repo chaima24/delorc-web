@@ -111,6 +111,7 @@ const labRoutes = [
       { path: 'help/:id(\\d+)', name: 'tenant-help-ticket', component: () => import('@/views/tenant/help/HelpTicketView.vue'), props: true },
       // Enquêtes › Enquêtes (docs/api/surveys.md).
       { path: 'surveys', name: 'tenant-surveys', component: () => import('@/views/tenant/surveys/SurveyListView.vue'), meta: { permission: 'surveys.show' } },
+      { path: 'my-surveys', name: 'tenant-my-surveys', component: () => import('@/views/tenant/surveys/MySurveysView.vue'), meta: { permission: 'surveys.show' } },
       { path: 'surveys/:id(\\d+)', name: 'tenant-survey', component: () => import('@/views/tenant/surveys/SurveyDetailView.vue'), props: true, meta: { permission: 'surveys.show' } },
       // Veille concurrentielle › Notes, Réglages (docs/api/competitive-informations.md).
       { path: 'competitive-informations', name: 'tenant-competitive-informations', component: () => import('@/views/tenant/competitive/CompetitiveListView.vue'), meta: { permission: 'competitive-informations.show' } },

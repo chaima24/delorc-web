@@ -133,6 +133,7 @@ export const workspaces: Workspace[] = [
     icon: 'tabler-clipboard-list',
     links: [
       { title: 'nav.surveys.surveys', to: { name: 'tenant-surveys' }, icon: 'tabler-clipboard-list', resource: 'surveys', feature: 'module.surveys', matches: ['tenant-survey'] },
+      { title: 'nav.surveys.mine', to: { name: 'tenant-my-surveys' }, icon: 'tabler-clipboard-check', resource: 'surveys', feature: 'module.surveys' },
     ],
   },
   {
