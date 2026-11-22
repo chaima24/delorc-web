@@ -1,0 +1,145 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Segmentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.side { width: 340px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px; }
+.sec { background: var(--paper); border-radius: 22px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.sec > header { display: flex; align-items: center; gap: 10px; } .sec > header strong { font-size: 15px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); } .why.amber { background: rgba(180, 83, 9, .08); color: var(--amber); }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.tabs2 { display: flex; gap: 4px; border-bottom: 1px solid var(--line); } .tabs2 span { padding: 8px 14px; font-size: 14px; font-weight: 600; color: var(--muted); } .tabs2 span.on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
+.q { display: flex; flex-direction: column; gap: 6px; } .q > span { font-size: 13.5px; font-weight: 600; } .q > span i { font-style: normal; color: var(--muted); font-weight: 500; margin-inline-end: 6px; }
+.q .star { color: var(--brick); }
+.qt { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); padding-top: 4px; border-top: 1px solid var(--line-soft); }
+.opts { display: flex; gap: 8px; flex-wrap: wrap; } .opt { border: 1px solid var(--line); border-radius: 10px; padding: 6px 12px; font-size: 13px; background: var(--paper); } .opt.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.ans { display: grid; grid-template-columns: 56px 1fr; gap: 4px 10px; font-size: 13.5px; } .ans i { font-style: normal; color: var(--muted); } .ans b { font-weight: 600; }
+.svhead { display: flex; align-items: center; gap: 10px; } .svhead strong { font-size: 15px; }
+.err { font-size: 12px; color: var(--brick); }
+.input.bad { border-color: var(--brick); }
+.muted { color: var(--muted); }
+.xl { border-collapse: collapse; font-size: 12px; } .xl td, .xl th { border: 1px solid var(--line); padding: 4px 8px; white-space: nowrap; } .xl th { background: var(--mist); text-align: start; }
+.mx { display: grid; gap: 6px; } .mx .cell { border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 3px; font-size: 12.5px; min-height: 84px; border: 1px solid var(--line-soft); }
+.mx .cell b { font-size: 20px; font-family: 'Bricolage Grotesque', sans-serif; }
+.seg { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12.5px; padding: 3px 9px; border-radius: 99px; color: #0F1F1C; }
+.axis { font-size: 11.5px; color: var(--muted); }
+.scn { background: var(--paper); border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; }
+.sizes { display: flex; gap: 8px; } .size { border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 12px; } .size.on { outline: 2px solid var(--ink); }
+.mini { display: grid; gap: 2px; } .mini i { width: 12px; height: 12px; border-radius: 3px; background: var(--line); display: block; }
+.row3 { display: grid; grid-template-columns: 1fr 90px 28px; gap: 8px; align-items: center; }
+.box2 { border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px; } .box2 > strong { font-size: 14px; }
+.pop { position: absolute; background: var(--paper); border-radius: 14px; box-shadow: 0 12px 30px rgba(15,31,28,.18); padding: 8px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; z-index: 7; width: 180px; }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; } .rec header { display: flex; align-items: center; gap: 10px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 16px; }
+.pop span { padding: 6px 8px; border-radius: 8px; display: flex; gap: 8px; align-items: center; } .pop span.on { background: var(--mist); }
+</style></head><body>
+<p class="caption"><strong>Enquêtes, partie 19d-1 (scénarios de segmentation et leur résultat), proposition.</strong> Le marketing classe les professionnels répondus à partir de leurs réponses : un scénario choisit une ou deux dimensions (des questions nombre, chacune avec un poids), des seuils fixes et une matrice ; chaque case devient un segment du labo. Le résultat se lit ici ; l'écrire dans les cycles est la partie 19d-2. Exemple : sur « Qualification médecin — Cardiologie », Sara fait « Potentiel cabinet » (4×1 sur Q1 « patients par semaine », seuils 15, 30, 60) et « Aire thérapeutique » (2×2 : Q1 en X, Q2 « hypertendus » en Y, seuils 40 et 15). Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Décidé le 21 nov.</b> : les scénarios sont sur l'enquête (onglet « Segmentation »), sans niveau « segmentation » au-dessus ; une dimension = des questions nombre ou % de l'enquête, chacune avec un coefficient (1 par défaut) ; score = Σ réponse × coefficient ; seuils fixes seulement ; matrices 2×2, 2×3, 3×2, 3×3, 4×1 ; chaque case reçoit un segment de cycle du labo, pré-rempli dans l'ordre et modifiable (plusieurs cases peuvent avoir le même segment) ; un résultat par délégué + professionnel répondu ; filtres facultatifs par spécialité et région. Écrire dans les cycles : 19d-2, seulement pour les professionnels déjà dans le cycle du délégué.</li>
+  <li><b>Proposé, à confirmer :</b>
+    <ul>
+      <li><b>sens de la matrice</b> : X à l'horizontale (faible à gauche, fort à droite), Y à la verticale (fort en haut) ; la case forte (X fort, Y fort, en haut à droite) reçoit le 1er segment (A), puis on lit de droite à gauche et de haut en bas (2×2 : A en haut à droite, B en haut à gauche, C en bas à droite, D en bas à gauche) — comme l'ancienne application et l'API précédente ;</li>
+      <li><b>seuils</b> : « ≥ seuil » passe au niveau au-dessus ; un niveau de plus qu'il y a de seuils (2×3 : 1 seuil en X, 2 en Y) ; les seuils d'une dimension vont en croissant ;</li>
+      <li><b>« non classé »</b> : un délégué + professionnel sans aucune réponse aux questions d'une dimension (question masquée ou vide) n'est pas classé (pas compté comme 0) ; il apparaît à part, avec son nombre ;</li>
+      <li><b>« à chaque visite »</b> : on prend la <b>dernière</b> réponse du délégué à ce professionnel ;</li>
+      <li>le <b>résultat est calculé à la lecture</b> (rien n'est stocké en 19d-1) : il suit les réponses qui arrivent ; on peut faire des scénarios dès que l'enquête est ouverte, et aussi une fois clôturée ;</li>
+      <li>chaque case montre : son segment, le nombre de professionnels et leur part, les moyennes X / Y ; un clic sur une case filtre la liste dessous ; la liste (délégué, professionnel, spécialité, région, X, Y, segment) se cherche, se trie, s'exporte en Excel ;</li>
+      <li>« Dupliquer » un scénario pour essayer d'autres seuils ; « Dupliquer » l'enquête copie aussi ses scénarios ; une question utilisée par un scénario ne se supprime pas ;</li>
+      <li>droits : le marketing et les admins (<code>surveys.update</code>) font et voient les scénarios ; les responsables et délégués ne voient pas l'onglet en 19d-1.</li>
+    </ul>
+  </li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const sheet = (title, hint, body, foot, wide = false) => `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet' ${wide ? `style='width:720px;max-width:720px'` : ''}><header><div><strong style='font-size:18px'>${title}</strong><div class='hint'>${hint}</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header><div class='body'>${body}</div><footer>${foot}</footer></div></div>`
+const frame = (rail, who, initials, inner, extra = '', h = 680) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span class='hint' style='margin-inline-start:auto'>${who}</span><span class='avatar'>${initials}</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+const wsNav = (on, links) => `<nav class='ws-nav'>${links.map(l => `<a class='${l === on ? 'on' : ''}'>${l}</a>`).join('')}</nav>`
+const SARA = ['Sara Hamdi · marketing', 'SH']
+const SEG = { A: '#b8f4bf', B: '#80ffff', C: '#c0c0c0', D: '#ffb3b3', BB: '#ffb3e0' }
+const seg = (s, more = '') => `<span class='seg' style='background:${SEG[s] ?? '#ddd'}'>${s}${more}</span>`
+const head = `<div><div class='crumbs'>Enquêtes › Enquêtes</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:30px'>Qualification médecin — Cardiologie</h1><span class='chip info'>Ouverte</span></div>
+<div class='hint'>Médecins · une fois par professionnel · 1 déc. 2026 → 31 janv. 2027 · 214 professionnels répondus</div></div>
+<div class='tabs2'><span>Questions · 9</span><span>Répondants · 6</span><span>Réponses · 214</span><span class='on'>Segmentation · 3</span></div>`
+const shell = (inner, extra = '', h = 760) => frame('Enquêtes', ...SARA, `<div class='col'>${wsNav('Enquêtes', ['Enquêtes', 'Mes enquêtes'])}${head}${inner}</div>`, extra, h)
+
+// 1. The tab: scenarios as cards
+const card = (name, size, axes, filters, counts, extra = '') => `<div class='scn'><div style='display:flex;align-items:center;gap:10px'><strong style='font-size:15px'>${name}</strong><span class='chip'>${size}</span><span class='hint' style='margin-inline-start:auto'>⋯</span></div>
+<div class='hint'>${axes}</div><div class='hint'>${filters}</div>
+<div style='display:flex;gap:6px;flex-wrap:wrap'>${counts.map(([s, n]) => seg(s, ` · ${n}`)).join('')}</div>${extra}</div>`
+const tab = `<div style='display:flex;align-items:center;gap:10px'><span class='hint'>Classer les professionnels répondus à partir de leurs réponses. Le résultat se calcule sur les réponses du moment.</span><span class='btn primary' style='margin-inline-start:auto'>+ Nouveau scénario</span></div>
+<div style='display:grid;grid-template-columns:repeat(3,1fr);gap:14px'>
+${card('Potentiel cabinet', '4×1', 'X : Q1 Patients par semaine × 1 · seuils 15 · 30 · 60', 'Toutes spécialités · toutes régions', [['A', 31], ['B', 58], ['C', 74], ['D', 46]], `<div class='hint'>5 non classés</div>`)}
+${card('Aire thérapeutique', '2×2', 'X : Q1 Patients × 1 · seuil 40 — Y : Q2 Hypertendus × 1 · seuil 15', 'Cardiologie · Centre, Est', [['A', 42], ['B', 11], ['C', 27], ['D', 63]])}
+${card('Molécule', '3×3', 'X : Q6 Prévention primaire × 2 + Q7 secondaire × 1 · seuils 50 · 120 — Y : Q2 × 1 · seuils 10 · 25', 'Cardiologie, Médecine interne', [['A', 19], ['B', 66], ['C', 101]], `<div class='hint'>9 cases, 3 segments</div>`)}
+</div>`
+
+// 2. The scenario sheet
+const mini = (c, r, on = false) => `<div class='size ${on ? 'on' : ''}'><div class='mini' style='grid-template-columns:repeat(${c},12px)'>${'<i></i>'.repeat(c * r)}</div>${c}×${r}</div>`
+const qRow = (q, coef) => `<div class='row3'><div class='input'>${q} ▾</div><div class='input'>× ${coef}</div><span class='hint'>✕</span></div>`
+const scnSheet = sheet('Aire thérapeutique', 'Qualification médecin — Cardiologie · nouveau scénario', `
+${f('Nom *', 'Aire thérapeutique')}
+<label class='field'><span>Matrice * <span class='hint'>· colonnes (X) × lignes (Y)</span></span><div class='sizes'>${mini(2, 2, true)}${mini(2, 3)}${mini(3, 2)}${mini(3, 3)}${mini(4, 1)}</div></label>
+<div class='box2'><strong>Dimension X <span class='hint' style='font-weight:400'>· horizontale</span></strong>
+${qRow('Q1 · Patients par semaine', 1)}<span class='btn sm outline' style='align-self:flex-start'>+ Question</span>
+<div style='display:flex;gap:8px;align-items:center'><span class='hint'>Seuil</span><div class='input' style='width:90px'>40</div><span class='hint'>score ≥ 40 → fort</span></div></div>
+<div class='box2'><strong>Dimension Y <span class='hint' style='font-weight:400'>· verticale</span></strong>
+${qRow('Q2 · Parmi eux, hypertendus', 1)}<span class='btn sm outline' style='align-self:flex-start'>+ Question</span>
+<div style='display:flex;gap:8px;align-items:center'><span class='hint'>Seuil</span><div class='input' style='width:90px'>15</div></div></div>
+<div class='box2'><strong>Population <span class='hint' style='font-weight:400'>· facultatif</span></strong>
+<div class='grid2'>${f('Spécialités', `<span class='chip'>Cardiologie ✕</span>`)}${f('Régions', `<span class='chip'>Centre ✕</span> <span class='chip'>Est ✕</span>`)}</div>
+<div class='hint'>Vides = tous les professionnels répondus. Seules les questions nombre ou % sont proposées.</div></div>`,
+  `<span class='btn ghost'>Annuler</span><span class='btn primary' style='margin-inline-start:auto'>Enregistrer et voir le résultat</span>`, true)
+
+// 3. The result
+const cell = (s, n, pct, ax, ay, sel = false) => `<div class='cell' style='background:${SEG[s]}33;${sel ? 'outline:2px solid var(--ink)' : ''}'><span style='display:flex;align-items:center;gap:6px'>${seg(s, ' ▾')}<span class='hint' style='margin-inline-start:auto'>${pct}</span></span><b>${n}</b><span class='hint'>X moy. ${ax} · Y moy. ${ay}</span></div>`
+const LIST = [['Karim Saadi', 'Dr Nora Saidi', 'Cardiologie · Centre', 80, 30, 'A'], ['Karim Saadi', 'Dr Yacine Belkacem', 'Cardiologie · Centre', 120, 45, 'A'], ['Amine Kaci', 'Dr Mourad Haddad', 'Cardiologie · Centre', 150, 70, 'A'], ['Nabil Ferhat', 'Dr Imene Cherif', 'Cardiologie · Est', 55, 18, 'A']]
+const result = (sel = -1, pop = '') => `<div class='col'>
+<div style='display:flex;align-items:center;gap:10px'><span class='crumbs'>Segmentation ›</span><strong style='font-size:20px'>Aire thérapeutique</strong><span class='chip'>2×2</span><span class='hint'>Cardiologie · Centre, Est · 143 classés · 0 non classé</span><span style='margin-inline-start:auto;display:flex;gap:8px'><span class='btn sm outline'>✎ Modifier</span><span class='btn sm outline'>Dupliquer</span><span class='btn sm outline'>⤓ Excel</span></span></div>
+<div style='display:grid;grid-template-columns:28px 1fr;gap:6px;position:relative'>
+<div class='axis' style='writing-mode:vertical-rl;transform:rotate(180deg);text-align:center'>Y · Q2 Hypertendus ↑ (seuil 15)</div>
+<div class='mx' style='grid-template-columns:1fr 1fr'>${cell('B', 11, '8 %', 28, 21, sel === 1)}${cell('A', 42, '29 %', 96, 34, sel === 0)}${cell('D', 63, '44 %', 22, 6)}${cell('C', 27, '19 %', 71, 9)}</div>
+<div></div><div class='axis' style='text-align:center'>X · Q1 Patients par semaine → (seuil 40)</div>${pop}</div>
+<div class='rec'><header><strong>${sel === 0 ? 'Case A · 42 professionnels' : '143 professionnels classés'}</strong>${sel === 0 ? `<span class='chip'>A ✕</span>` : ''}<div class='input muted' style='width:220px;margin-inline-start:auto'>Délégué, professionnel…</div></header>
+<table class='table'><thead><tr><th>Délégué ↕</th><th>Professionnel ↕</th><th>Spécialité · région</th><th class='num'>X ↕</th><th class='num'>Y ↕</th><th>Segment</th></tr></thead><tbody>
+${LIST.map(([u, p, w, x, y, s]) => `<tr><td>${u}</td><td><strong>${p}</strong></td><td class='hint'>${w}</td><td class='num'>${x}</td><td class='num'>${y}</td><td>${seg(s)}</td></tr>`).join('')}
+</tbody></table><div class='hint'>… ${sel === 0 ? 38 : 139} autres · 25 par page</div></div></div>`
+
+// 4. Changing a cell's segment
+const popover = `<div class='pop' style='top:20px;left:150px'><strong style='padding:4px 8px'>Segment de la case</strong>${['A', 'B', 'C', 'D', 'BB'].map(s => `<span class='${s === 'B' ? 'on' : ''}'>${seg(s)}${s === 'B' ? ' ✓' : ''}</span>`).join('')}<span class='hint'>Les segments de cycle du Studio</span></div>`
+
+// 5. 3×3 → 3 segments
+const cell9 = (s, n) => `<div class='cell' style='background:${SEG[s]}33;min-height:64px'>${seg(s, ' ▾')}<b style='font-size:17px'>${n}</b></div>`
+const r33 = `<div class='col'><div style='display:flex;align-items:center;gap:10px'><span class='crumbs'>Segmentation ›</span><strong style='font-size:20px'>Molécule</strong><span class='chip'>3×3</span><span class='hint'>186 classés · 3 non classés</span></div>
+<div style='display:grid;grid-template-columns:28px 1fr 280px;gap:10px'>
+<div class='axis' style='writing-mode:vertical-rl;transform:rotate(180deg);text-align:center'>Y · Q2 × 1 ↑ (10 · 25)</div>
+<div class='mx' style='grid-template-columns:repeat(3,1fr)'>${cell9('B', 6)}${cell9('A', 8)}${cell9('A', 11)}${cell9('C', 14)}${cell9('B', 27)}${cell9('B', 33)}${cell9('C', 48)}${cell9('C', 39)}${cell9('B', 0)}</div>
+<div class='rec'><strong>Par segment</strong>${[['A', 19, '10 %'], ['B', 66, '35 %'], ['C', 101, '54 %']].map(([s, n, p]) => `<div style='display:flex;gap:8px;align-items:center'>${seg(s)}<span style='flex:1'>${n} professionnels</span><span class='hint'>${p}</span></div>`).join('')}<div class='why'>9 cases, 3 segments : la grille de fréquences du labo n'a que A, B, C. Pré-rempli A…I dans l'ordre, Sara a regroupé.</div></div>
+<div></div><div class='axis' style='text-align:center'>X · Q6 × 2 + Q7 × 1 → (50 · 120)</div></div></div>`
+
+// 6. 4×1 + unclassified
+const r41 = `<div class='col'><div style='display:flex;align-items:center;gap:10px'><span class='crumbs'>Segmentation ›</span><strong style='font-size:20px'>Potentiel cabinet</strong><span class='chip'>4×1</span><span class='hint'>209 classés · 5 non classés</span></div>
+<div class='mx' style='grid-template-columns:repeat(4,1fr)'>${cell('D', 46, '22 %', 9, '—')}${cell('C', 74, '35 %', 22, '—')}${cell('B', 58, '28 %', 43, '—')}${cell('A', 31, '15 %', 88, '—')}</div>
+<div class='axis' style='text-align:center'>X · Q1 Patients par semaine → seuils 15 · 30 · 60 : D &lt; 15 ≤ C &lt; 30 ≤ B &lt; 60 ≤ A</div>
+<div class='why'>5 non classés : Q1 sans réponse (question masquée ou vide). Ils ne comptent pas comme 0. <u>Voir la liste</u></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>L'onglet « Segmentation » de l'enquête.</strong> Une carte par scénario : sa matrice, ses dimensions, sa population, et le nombre de professionnels par segment, calculé sur les réponses du moment.`) + shell(tab, '', 640),
+  label(2, `<strong>« + Nouveau scénario » : un panneau large.</strong> Le nom, la matrice (5 tailles), pour chaque dimension ses questions nombre avec un coefficient et ses seuils (un de moins que de niveaux), puis la population (spécialités, régions). En 4×1, pas de dimension Y.`) + shell(tab, scnSheet, 860),
+  label(3, `<strong>Le résultat d'« Aire thérapeutique ».</strong> La matrice : X à l'horizontale, Y à la verticale, A en haut à droite. Chaque case : son segment, le nombre, la part, les moyennes. Dessous, la liste délégué + professionnel, avec les scores.`) + shell(result(), '', 900),
+  label(4, `<strong>Un clic sur une case filtre la liste</strong> ; un clic sur son segment (▾) le change pour un autre segment de cycle du Studio.`) + shell(result(0, popover), '', 900),
+  label(5, `<strong>Un 3×3 regroupé en 3 segments.</strong> Plusieurs cases peuvent avoir le même segment : la carte de droite fait le total par segment.`) + shell(r33, '', 640),
+  label(6, `<strong>Un 4×1</strong> (une dimension, 3 seuils) et les <strong>non classés</strong>.`) + shell(r41, '', 560),
+].join('')
+</script></body></html>

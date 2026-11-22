@@ -324,3 +324,50 @@ export const fetchSurveyAnswerSet = (survey: number, visit: number) => one<Surve
 export const exportSurveyAnswers = (survey: number, params?: ListParams) =>
   client.get<{ data: SurveyAnswerExportRow[]; meta: { questions: { id: number; number: string; question_text: string }[] } }>(`${answersUrl(survey)}/export`, { params })
     .then(response => ({ rows: response.data.data, questions: response.data.meta.questions }))
+
+// 19d-1, segmentation scenarios (docs/api/survey-scenarios.md).
+
+export type ScenarioMatrix = '2x2' | '2x3' | '3x2' | '3x3' | '4x1'
+/** Matrix → [columns (X levels), rows (Y levels)]. */
+export const SCENARIO_MATRICES: Record<ScenarioMatrix, [number, number]> = { '2x2': [2, 2], '2x3': [2, 3], '3x2': [3, 2], '3x3': [3, 3], '4x1': [4, 1] }
+export interface SegmentRef { id: number; name: string; color: string }
+export interface ScenarioQuestion { question_id: number; number?: string | null; question_text?: string | null; axis: 'x' | 'y'; coefficient: number }
+/** A cell: `column` from the left (weakest X), `row` from the top (strongest Y); cell 0 is the strongest. */
+export interface ScenarioCell { index: number; column: number; row: number; segmentation: SegmentRef | null; count: number; share: number; x_avg: number | null; y_avg: number | null }
+export interface Scenario {
+  id: number
+  name: string
+  matrix: ScenarioMatrix
+  questions: ScenarioQuestion[]
+  x_cutoffs: number[]
+  y_cutoffs: number[] | null
+  cell_segments: number[]
+  filters: { speciality_ids: number[]; region_ids: number[] }
+  cells: ScenarioCell[]
+  segments: { segmentation: SegmentRef | null; count: number; share: number }[]
+  classified: number
+  unclassified: number
+}
+export interface ScenarioPayload {
+  name?: string
+  matrix?: ScenarioMatrix
+  questions?: { question_id: number; axis: 'x' | 'y'; coefficient?: number }[]
+  x_cutoffs?: number[]
+  y_cutoffs?: number[] | null
+  cell_segments?: number[]
+  filters?: { speciality_ids: number[]; region_ids: number[] } | null
+}
+export interface ScenarioRow { user: { id: number; full_name: string }; hcp: { id: number; name: string }; speciality: string | null; region: string | null; x: number | null; y: number | null; cell: number | null; segmentation_id: number | null }
+
+const scenarios = (survey: number) => `${URL}/${survey}/scenarios`
+export const fetchScenarios = (survey: number) => client.get<{ data: Scenario[] }>(scenarios(survey)).then(response => response.data.data)
+export const fetchScenario = (survey: number, id: number) => one<Scenario>(client.get(`${scenarios(survey)}/${id}`))
+export const createScenario = (survey: number, payload: ScenarioPayload) => one<Scenario>(client.post(scenarios(survey), payload))
+export const updateScenario = (survey: number, id: number, payload: ScenarioPayload) => one<Scenario>(client.put(`${scenarios(survey)}/${id}`, payload))
+export const duplicateScenario = (survey: number, id: number) => one<Scenario>(client.post(`${scenarios(survey)}/${id}/duplicate`))
+export const deleteScenario = (survey: number, id: number) => client.delete(`${scenarios(survey)}/${id}`)
+export const fetchScenarioRows = (survey: number, id: number, params?: ListParams) =>
+  client.get<{ data: ScenarioRow[]; meta: { total: number } }>(`${scenarios(survey)}/${id}/rows`, { params })
+    .then((response): Page<ScenarioRow> => ({ items: response.data.data, total: response.data.meta.total }))
+export const exportScenarioRows = (survey: number, id: number, params?: ListParams) =>
+  client.get<{ data: ScenarioRow[] }>(`${scenarios(survey)}/${id}/rows/export`, { params }).then(response => response.data.data)

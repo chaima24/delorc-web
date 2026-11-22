@@ -24,10 +24,12 @@ import DlTabs from '@/components/DlTabs.vue'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import { useConfirm } from '@/composables/useConfirm'
 import { useToast } from '@/composables/useToast'
+import { useAuthStore } from '@/stores/auth'
 import CheckList from '@/views/tenant/settings/shared/CheckList.vue'
 import SurveyPreviewSheet from './SurveyPreviewSheet.vue'
 import SurveyQuestionSheet from './SurveyQuestionSheet.vue'
 import SurveyAnswersTab from './SurveyAnswersTab.vue'
+import SurveyScenariosTab from './SurveyScenariosTab.vue'
 import SurveyRespondentsTab from './SurveyRespondentsTab.vue'
 import { STATUS_TONE, today, useSurveyText, weeks } from './surveyDisplay'
 
@@ -39,6 +41,7 @@ const { t, n } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const toast = useToast()
+const auth = useAuthStore()
 const { confirm } = useConfirm()
 const text = useSurveyText()
 
@@ -259,12 +262,14 @@ async function remove() {
 }
 
 // Tabs: the questions, who answers (19b-1), the answers once the survey is open (19b-2). `?tab=respondents` or `?tab=answers` opens one.
-const tab = ref(['respondents', 'answers'].includes(String(route.query.tab)) ? String(route.query.tab) : 'questions')
+const tab = ref(['respondents', 'answers', 'segmentation'].includes(String(route.query.tab)) ? String(route.query.tab) : 'questions')
 watch(tab, value => router.replace({ query: { ...route.query, tab: value === 'questions' ? undefined : value } }))
 const tabs = computed(() => [
   { value: 'questions', label: t('surveys.page.tabQuestions', { count: answerable.value }) },
   { value: 'respondents', label: t('surveys.page.tabRespondents') },
   ...(survey.value?.status === 'draft' ? [] : [{ value: 'answers', label: t('surveys.page.tabAnswers') }]),
+  // 19d-1: segmentation scenarios, for marketing and admins once there are answers.
+  ...(survey.value?.status !== 'draft' && auth.can('surveys.update') ? [{ value: 'segmentation', label: t('surveys.page.tabSegmentation') }] : []),
 ])
 
 const STEPS = ['draft', 'open', 'closed'] as const
@@ -445,6 +450,9 @@ function historyLine(line: SurveyHistoryLine): string {
         </template>
         <template #answers>
           <SurveyAnswersTab :survey="survey" />
+        </template>
+        <template #segmentation>
+          <SurveyScenariosTab :survey="survey" />
         </template>
       </DlTabs>
 
