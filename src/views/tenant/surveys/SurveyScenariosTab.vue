@@ -9,12 +9,14 @@ import DlSkeleton from '@/components/DlSkeleton.vue'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import SurveyScenarioSheet from './SurveyScenarioSheet.vue'
 import SurveyScenarioView from './SurveyScenarioView.vue'
+import { useSurveyText } from './surveyDisplay'
 
 // The survey's « Segmentation » tab (docs/api/survey-scenarios.md): one card per scenario (its matrix, axes, population
 // and how many professionals each segment gets now), « + Nouveau scénario »; a card opens its result. Marketing and
 // admins. Mockup: surveys-mockups/Segmentation.html frame 1.
 const props = defineProps<{ survey: Survey }>()
 const { t, n } = useI18n()
+const text = useSurveyText()
 
 const scenarios = ref<Scenario[] | null>(null)
 async function load() {
@@ -62,6 +64,8 @@ const axes = (scenario: Scenario) => (['x', 'y'] as const)
           </span>
         </span>
         <span v-if="scenario.unclassified" class="text-xs text-dl-muted">{{ t('surveys.scenarios.unclassifiedCount', { count: scenario.unclassified }, scenario.unclassified) }}</span>
+        <span v-if="scenario.applied" class="text-xs font-semibold text-dl-ink">{{ t('surveys.apply.appliedOn', { date: text.date(scenario.applied.at), name: scenario.applied.by?.full_name ?? '—' }) }}</span>
+        <span v-else class="text-xs text-dl-muted">{{ t('surveys.apply.notApplied') }}</span>
       </button>
     </div>
     <SurveyScenarioSheet v-if="adding" v-model:open="adding" :survey="survey" :scenario="null" @saved="saved" />

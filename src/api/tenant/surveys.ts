@@ -58,6 +58,8 @@ export interface SurveyHistoryLine {
   new: Record<string, unknown> | null
   /** The question changed, or the survey a copy comes from. */
   text: string | null
+  /** How many: a recopy's professionals, a scenario applied's rows. */
+  count?: number | null
 }
 
 export interface Survey {
@@ -347,6 +349,8 @@ export interface Scenario {
   segments: { segmentation: SegmentRef | null; count: number; share: number }[]
   classified: number
   unclassified: number
+  /** The last « Appliquer aux cycles » (19d-2). */
+  applied: { at: string; by: { id: number; full_name: string } | null } | null
 }
 export interface ScenarioPayload {
   name?: string
@@ -371,3 +375,38 @@ export const fetchScenarioRows = (survey: number, id: number, params?: ListParam
     .then((response): Page<ScenarioRow> => ({ items: response.data.data, total: response.data.meta.total }))
 export const exportScenarioRows = (survey: number, id: number, params?: ListParams) =>
   client.get<{ data: ScenarioRow[] }>(`${scenarios(survey)}/${id}/rows/export`, { params }).then(response => response.data.data)
+
+// 19d-2, applying a scenario to the reps' cycles (docs/api/survey-scenario-apply.md).
+
+export const APPLY_STATES = ['change', 'right', 'missing', 'no_cycle'] as const
+export type ApplyState = (typeof APPLY_STATES)[number]
+export interface ApplyPreview {
+  counts: Record<ApplyState, number>
+  people: ({ user: { id: number; full_name: string }; cycles: { id: number; start_date: string; end_date: string }[] } & Record<ApplyState, number>)[]
+}
+export interface ApplyRow {
+  user: { id: number; full_name: string }
+  hcp: { id: number; name: string }
+  speciality: string | null
+  region: string | null
+  /** The scenario's segment. */
+  segmentation: SegmentRef | null
+  state: ApplyState
+  /** The segment now, on the first cycle holding the professional. */
+  current: SegmentRef | null
+  to_do: { from: number; to: number } | null
+}
+export interface ApplyResult {
+  changed: number
+  missing: number
+  no_cycle: number
+  cycles: { id: number; user: { id: number; full_name: string | null }; start_date: string; end_date: string; changed: number }[]
+}
+const apply = (survey: number, id: number) => `${scenarios(survey)}/${id}/apply`
+export const fetchApplyPreview = (survey: number, id: number) => one<ApplyPreview>(client.get(apply(survey, id)))
+export const fetchApplyRows = (survey: number, id: number, params?: ListParams) =>
+  client.get<{ data: ApplyRow[]; meta: { total: number } }>(`${apply(survey, id)}/rows`, { params })
+    .then((response): Page<ApplyRow> => ({ items: response.data.data, total: response.data.meta.total }))
+export const exportApplyRows = (survey: number, id: number, params?: ListParams) =>
+  client.get<{ data: ApplyRow[] }>(`${apply(survey, id)}/rows/export`, { params }).then(response => response.data.data)
+export const applyScenario = (survey: number, id: number) => one<ApplyResult>(client.post(apply(survey, id)))

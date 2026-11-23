@@ -5,7 +5,7 @@ import { errorMessage } from '@/api/errors'
 import { fetchSegmentations } from '@/api/tenant/customerSetup'
 import {
   SCENARIO_MATRICES, deleteScenario, duplicateScenario, exportScenarioRows, fetchScenarioRows, updateScenario,
-  type Scenario, type ScenarioCell, type ScenarioRow, type Survey,
+  fetchScenario, type Scenario, type ScenarioCell, type ScenarioRow, type Survey,
 } from '@/api/tenant/surveys'
 import DlBadge from '@/components/DlBadge.vue'
 import DlButton from '@/components/DlButton.vue'
@@ -17,7 +17,9 @@ import { useConfirm } from '@/composables/useConfirm'
 import { exportToXlsx } from '@/composables/exportXlsx'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import { useToast } from '@/composables/useToast'
+import SurveyScenarioApplySheet from './SurveyScenarioApplySheet.vue'
 import SurveyScenarioSheet from './SurveyScenarioSheet.vue'
+import { useSurveyText } from './surveyDisplay'
 
 // A scenario's result (docs/api/survey-scenarios.md): the matrix (X across, Y up, the strongest cell top right), each
 // cell with its segment (changeable), count, share and mean scores; the totals per segment; then the rep + professional
@@ -96,6 +98,13 @@ const listColumns = computed(() => [
 
 // Actions.
 const editing = ref(false)
+const applying = ref(false)
+const text = useSurveyText()
+// 19d-2: after « Appliquer aux cycles », read the scenario again for « Appliqué le ».
+async function applied() {
+  current.value = await fetchScenario(props.survey.id, current.value.id)
+  emit('changed', current.value)
+}
 async function duplicate() {
   try {
     emit('changed', await duplicateScenario(props.survey.id, current.value.id))
@@ -154,8 +163,12 @@ async function download() {
         <DlButton size="sm" variant="outline" icon="tabler-copy" @click="duplicate">{{ t('surveys.page.duplicate') }}</DlButton>
         <DlButton size="sm" variant="outline" icon="tabler-file-spreadsheet" :loading="exporting" :disabled="!current.classified && !current.unclassified" @click="download">{{ t('surveys.answers.export') }}</DlButton>
         <DlButton size="sm" variant="ghost" icon="tabler-trash" @click="remove">{{ t('common.actions.delete') }}</DlButton>
+        <DlButton size="sm" variant="primary" icon="tabler-arrows-right" :disabled="!current.classified" @click="applying = true">{{ t('surveys.apply.open') }}</DlButton>
       </span>
     </div>
+    <p v-if="current.applied" class="flex items-center gap-2 rounded-xl bg-dl-signal-soft px-3 py-2 text-[13px] font-semibold text-dl-ink">
+      {{ t('surveys.apply.appliedOn', { date: text.date(current.applied.at), name: current.applied.by?.full_name ?? '—' }) }}
+    </p>
 
     <div class="grid gap-4 xl:grid-cols-[1fr_280px]">
       <section class="flex flex-col gap-2 rounded-3xl bg-dl-paper p-4 md:p-5">
@@ -222,6 +235,7 @@ async function download() {
       <DlPagination v-model="page" v-model:per-page="perPage" :total="total" />
     </section>
 
+    <SurveyScenarioApplySheet v-if="applying" v-model:open="applying" :survey="survey" :scenario="current" @applied="applied" />
     <SurveyScenarioSheet v-if="editing" v-model:open="editing" :survey="survey" :scenario="current" @saved="value => { current = value; emit('changed', value); load() }" />
   </div>
 </template>

@@ -1,0 +1,149 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apply to cycles</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.side { width: 340px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px; }
+.sec { background: var(--paper); border-radius: 22px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.sec > header { display: flex; align-items: center; gap: 10px; } .sec > header strong { font-size: 15px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); } .why.amber { background: rgba(180, 83, 9, .08); color: var(--amber); }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.tabs2 { display: flex; gap: 4px; border-bottom: 1px solid var(--line); } .tabs2 span { padding: 8px 14px; font-size: 14px; font-weight: 600; color: var(--muted); } .tabs2 span.on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
+.q { display: flex; flex-direction: column; gap: 6px; } .q > span { font-size: 13.5px; font-weight: 600; } .q > span i { font-style: normal; color: var(--muted); font-weight: 500; margin-inline-end: 6px; }
+.q .star { color: var(--brick); }
+.qt { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); padding-top: 4px; border-top: 1px solid var(--line-soft); }
+.opts { display: flex; gap: 8px; flex-wrap: wrap; } .opt { border: 1px solid var(--line); border-radius: 10px; padding: 6px 12px; font-size: 13px; background: var(--paper); } .opt.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.ans { display: grid; grid-template-columns: 56px 1fr; gap: 4px 10px; font-size: 13.5px; } .ans i { font-style: normal; color: var(--muted); } .ans b { font-weight: 600; }
+.svhead { display: flex; align-items: center; gap: 10px; } .svhead strong { font-size: 15px; }
+.err { font-size: 12px; color: var(--brick); }
+.input.bad { border-color: var(--brick); }
+.muted { color: var(--muted); }
+.xl { border-collapse: collapse; font-size: 12px; } .xl td, .xl th { border: 1px solid var(--line); padding: 4px 8px; white-space: nowrap; } .xl th { background: var(--mist); text-align: start; }
+.mx { display: grid; gap: 6px; } .mx .cell { border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 3px; font-size: 12.5px; min-height: 84px; border: 1px solid var(--line-soft); }
+.mx .cell b { font-size: 20px; font-family: 'Bricolage Grotesque', sans-serif; }
+.seg { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12.5px; padding: 3px 9px; border-radius: 99px; color: #0F1F1C; }
+.axis { font-size: 11.5px; color: var(--muted); }
+.scn { background: var(--paper); border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; }
+.sizes { display: flex; gap: 8px; } .size { border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 12px; } .size.on { outline: 2px solid var(--ink); }
+.mini { display: grid; gap: 2px; } .mini i { width: 12px; height: 12px; border-radius: 3px; background: var(--line); display: block; }
+.row3 { display: grid; grid-template-columns: 1fr 90px 28px; gap: 8px; align-items: center; }
+.box2 { border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px; } .box2 > strong { font-size: 14px; }
+.pop { position: absolute; background: var(--paper); border-radius: 14px; box-shadow: 0 12px 30px rgba(15,31,28,.18); padding: 8px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; z-index: 7; width: 180px; }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; } .rec header { display: flex; align-items: center; gap: 10px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 16px; }
+.pop span { padding: 6px 8px; border-radius: 8px; display: flex; gap: 8px; align-items: center; } .pop span.on { background: var(--mist); }
+.cnt { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; } .cnt div { border-radius: 16px; padding: 12px 14px; background: var(--mist); display: flex; flex-direction: column; gap: 2px; font-size: 12.5px; } .cnt b { font-size: 24px; font-family: 'Bricolage Grotesque', sans-serif; color: var(--ink); }
+.cnt .amber { background: rgba(180, 83, 9, .08); } .cnt .ok { background: var(--signal-soft); }
+.arrow { color: var(--muted); padding: 0 4px; }
+.hist { display: flex; gap: 10px; font-size: 13.5px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); } .hist i { font-style: normal; color: var(--muted); width: 110px; flex-shrink: 0; }
+</style></head><body>
+<p class="caption"><strong>Enquêtes, partie 19d-2 (appliquer un scénario aux cycles), proposition.</strong> Depuis le résultat d'un scénario, le marketing écrit le segment de chaque professionnel classé dans le cycle de son délégué ; les visites à faire suivent la grille de fréquences, comme un changement de segment fait à la main. Exemple : Sara applique « Aire thérapeutique » (2×2, 143 classés) le 22 nov. ; Karim a son cycle de novembre et déjà celui de décembre, Yasmine n'a pas de cycle en cours. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Décidé le 22 nov.</b> : le marketing et les admins (<code>surveys.update</code>) appliquent ; tous les professionnels classés, après un aperçu ; les non classés ne sont jamais touchés ; on écrit dans le cycle en cours du délégué <b>et</b> dans ses cycles suivants déjà créés ; un professionnel absent du cycle n'est pas ajouté, il est listé pour son responsable, avec un export Excel ; les visites à faire suivent la grille de la personne.</li>
+  <li><b>Proposé, à confirmer :</b>
+    <ul>
+      <li><b>l'aperçu se compte par délégué + professionnel</b> : « à changer » si au moins un de ses cycles change, « déjà juste » si tous ont déjà ce segment, « pas dans le cycle » s'il n'est dans aucun, « sans cycle » si le délégué n'a ni cycle en cours ni suivant ;</li>
+      <li>un professionnel dans le cycle de décembre mais pas dans celui de novembre : écrit en décembre, compté « à changer » ;</li>
+      <li>la liste « pas dans le cycle » est <b>calculée dans l'aperçu</b>, donc toujours à jour : on la rouvre et l'exporte quand on veut, sans rien stocker ;</li>
+      <li><b>appliquer à nouveau</b> est permis à tout moment : on écrit le résultat du moment (nouvelles réponses, case changée) ; seules les lignes différentes changent ;</li>
+      <li>une ligne d'historique sur <b>chaque cycle changé</b> : « Segments du scénario Aire thérapeutique (Qualification médecin — Cardiologie) : 12 changés », et une sur l'enquête : « a appliqué le scénario … aux cycles : 38 changés » ;</li>
+      <li>la carte et le résultat montrent « Appliqué le 22 nov. par Sara Hamdi » (deux colonnes <code>applied_at</code>, <code>applied_by</code> sur <code>survey_scenarios</code>, dans sa migration de création) ;</li>
+      <li>un segment sans case dans la grille du délégué donne 0 visite à faire, comme aujourd'hui dans le cycle (« Pas de grille » déjà averti sur la page du cycle) ; un responsable peut toujours changer le segment à la main ensuite ;</li>
+      <li>un délégué en pause dans l'enquête compte quand même (ses réponses comptent déjà dans le résultat).</li>
+    </ul>
+  </li>
+</ol>
+<script>
+
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const sheet = (title, hint, body, foot, wide = false) => `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet' ${wide ? `style='width:720px;max-width:720px'` : ''}><header><div><strong style='font-size:18px'>${title}</strong><div class='hint'>${hint}</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header><div class='body'>${body}</div><footer>${foot}</footer></div></div>`
+const frame = (rail, who, initials, inner, extra = '', h = 680) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf(rail)}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span class='hint' style='margin-inline-start:auto'>${who}</span><span class='avatar'>${initials}</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+const wsNav = (on, links) => `<nav class='ws-nav'>${links.map(l => `<a class='${l === on ? 'on' : ''}'>${l}</a>`).join('')}</nav>`
+const SARA = ['Sara Hamdi · marketing', 'SH']
+const SEG = { A: '#b8f4bf', B: '#80ffff', C: '#c0c0c0', D: '#ffb3b3', BB: '#ffb3e0' }
+const seg = (s, more = '') => `<span class='seg' style='background:${SEG[s] ?? '#ddd'}'>${s}${more}</span>`
+const head = `<div><div class='crumbs'>Enquêtes › Enquêtes</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:30px'>Qualification médecin — Cardiologie</h1><span class='chip info'>Ouverte</span></div>
+<div class='hint'>Médecins · une fois par professionnel · 1 déc. 2026 → 31 janv. 2027 · 214 professionnels répondus</div></div>
+<div class='tabs2'><span>Questions · 9</span><span>Répondants · 6</span><span>Réponses · 214</span><span class='on'>Segmentation · 3</span></div>`
+const shell = (inner, extra = '', h = 760) => frame('Enquêtes', ...SARA, `<div class='col'>${wsNav('Enquêtes', ['Enquêtes', 'Mes enquêtes'])}${head}${inner}</div>`, extra, h)
+
+
+const applied = `<div class='why' style='display:flex;gap:8px;align-items:center'>✓ Appliqué aux cycles le 22 nov. par Sara Hamdi · 38 changés<u style='margin-inline-start:auto'>Voir l'aperçu</u></div>`
+const resHead = (mark = '') => `<div style='display:flex;align-items:center;gap:10px'><span class='crumbs'>Segmentation ›</span><strong style='font-size:20px'>Aire thérapeutique</strong><span class='chip'>2×2</span><span class='hint'>Cardiologie · Centre, Est · 143 classés · 0 non classé</span><span style='margin-inline-start:auto;display:flex;gap:8px'><span class='btn sm outline'>✎ Modifier</span><span class='btn sm outline'>Dupliquer</span><span class='btn sm outline'>⤓ Excel</span><span class='btn sm primary'>Appliquer aux cycles</span></span></div>${mark}`
+const cell = (s, n, pct) => `<div class='cell' style='background:${SEG[s]}33'><span style='display:flex;align-items:center;gap:6px'>${seg(s, ' ▾')}<span class='hint' style='margin-inline-start:auto'>${pct}</span></span><b>${n}</b></div>`
+const mx = `<div class='mx' style='grid-template-columns:1fr 1fr;max-width:640px'>${cell('B', 11, '8 %')}${cell('A', 42, '29 %')}${cell('D', 63, '44 %')}${cell('C', 27, '19 %')}</div>`
+const res = (mark = '') => `<div class='col'>${resHead(mark)}${mx}<div class='hint'>… la liste délégué + professionnel (19d-1)</div></div>`
+
+// 2. The preview
+const counts = `<div class='cnt'><div><b>38</b>à changer</div><div class='ok'><b>97</b>déjà justes</div><div class='amber'><b>4</b>pas dans le cycle</div><div class='amber'><b>4</b>sans cycle</div></div>`
+const PEOPLE = [
+  ['Karim Saadi', 'Nov <span class=arrow>+</span> Déc', 14, 38, 2, ''],
+  ['Amine Kaci', 'Nov', 11, 31, 1, ''],
+  ['Nabil Ferhat', 'Nov <span class=arrow>+</span> Déc', 13, 28, 1, ''],
+  ['Yasmine Rahal', '—', 0, 0, 0, 'Pas de cycle en cours ni à venir · 4 professionnels'],
+]
+const people = `<table class='table'><thead><tr><th>Délégué</th><th>Cycles</th><th class='num'>À changer</th><th class='num'>Déjà justes</th><th class='num'>Pas dans le cycle</th></tr></thead><tbody>
+${PEOPLE.map(([u, c, a, b, n, note]) => `<tr><td><strong>${u}</strong>${note ? `<div class='hint' style='color:var(--amber)'>${note}</div>` : ''}</td><td>${c}</td><td class='num'>${a}</td><td class='num'>${b}</td><td class='num'>${n}</td></tr>`).join('')}
+</tbody></table>`
+const CHANGES = [['Karim Saadi', 'Dr Nora Saidi', 'B', 'A', '2 → 3'], ['Karim Saadi', 'Dr Yacine Belkacem', '—', 'A', '0 → 3'], ['Amine Kaci', 'Dr Mourad Haddad', 'C', 'A', '1 → 3'], ['Nabil Ferhat', 'Dr Imene Cherif', 'A', 'B', '3 → 2']]
+const changes = `<div class='box2'><strong>À changer · 38</strong><table class='table'><thead><tr><th>Délégué</th><th>Professionnel</th><th>Segment</th><th class='num'>Visites à faire</th></tr></thead><tbody>
+${CHANGES.map(([u, p, from, to, v]) => `<tr><td>${u}</td><td><strong>${p}</strong></td><td>${from === '—' ? `<span class='hint'>Pas de segment</span>` : seg(from)}<span class='arrow'>→</span>${seg(to)}</td><td class='num'>${v}</td></tr>`).join('')}
+</tbody></table><div class='hint'>… 34 autres · visites à faire d'après la grille de chaque délégué, sur novembre</div></div>`
+const preview = sheet('Appliquer aux cycles', 'Aire thérapeutique · Qualification médecin — Cardiologie', `
+<div class='hint'>Le segment de chaque professionnel classé est écrit dans le cycle en cours de son délégué et dans ses cycles suivants déjà créés. Les visites à faire suivent la grille de fréquences. Les non classés ne sont pas touchés.</div>
+${counts}${people}${changes}
+<div class='box2'><div style='display:flex;align-items:center;gap:10px'><strong>Pas dans le cycle · 4</strong><span class='btn sm outline' style='margin-inline-start:auto'>⤓ Excel</span></div>
+<table class='table'><tbody>
+<tr><td>Karim Saadi</td><td><strong>Dr Ali Benali</strong></td><td class='hint'>Cardiologie · Centre</td><td>${seg('A')}</td></tr>
+<tr><td>Karim Saadi</td><td><strong>Dr Lina Mansouri</strong></td><td class='hint'>Cardiologie · Centre</td><td>${seg('C')}</td></tr>
+<tr><td>Amine Kaci</td><td><strong>Dr Samir Touati</strong></td><td class='hint'>Cardiologie · Centre</td><td>${seg('B')}</td></tr>
+<tr><td>Nabil Ferhat</td><td><strong>Dr Hana Ziani</strong></td><td class='hint'>Cardiologie · Est</td><td>${seg('A')}</td></tr>
+</tbody></table><div class='why amber'>Ils ne sont pas ajoutés : la liste d'un cycle est le choix du responsable. L'export sert à la lui envoyer.</div></div>`,
+  `<span class='btn ghost'>Annuler</span><span class='btn primary' style='margin-inline-start:auto'>Appliquer à 38 professionnels</span>`, true)
+
+// 3. Done
+const done = `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;align-items:center;justify-content:center;z-index:6'><div class='rec' style='width:460px'><header><strong style='font-size:17px'>Segments écrits dans les cycles</strong></header>
+<div>38 professionnels changés dans 5 cycles (Karim : nov. 14, déc. 12 · Amine : nov. 11 · Nabil : nov. 13, déc. 13).</div>
+<div class='why amber'>4 pas dans le cycle et 4 sans cycle n'ont pas été écrits. Leur liste reste dans l'aperçu.</div>
+<div style='display:flex;gap:8px'><span class='btn outline'>⤓ Pas dans le cycle (Excel)</span><span class='btn primary' style='margin-inline-start:auto'>Fermer</span></div></div></div>`
+
+// 4. The cycle page
+const cycle = frame('Planifier', 'Nadia Ould · superviseure', 'NO', `<div class='col'>
+<div><div class='crumbs'>Planifier › Cycles</div><h1 class='title display' style='font-size:28px'>Karim Saadi · 1 → 30 nov. 2026</h1></div>
+<div class='tabs2'><span>Professionnels · 218</span><span>Jours</span><span class='on'>Historique</span></div>
+<div class='rec'>
+<div class='hist'><i>22 nov. 10:42</i><span><strong>Sara Hamdi</strong> · Segments du scénario « Aire thérapeutique » (Qualification médecin — Cardiologie) : 14 changés</span></div>
+<div class='hist'><i>14 nov. 09:05</i><span><strong>Nadia Ould</strong> · Segment changé : Dr Kaci → B</span></div>
+<div class='hist'><i>28 oct. 16:20</i><span><strong>Nadia Ould</strong> · Cycle créé, rempli depuis octobre (212 + 6 nouveaux)</span></div>
+</div>
+<div class='rec'><strong>Professionnels</strong><table class='table'><thead><tr><th>Professionnel</th><th>Segment</th><th class='num'>À faire</th></tr></thead><tbody>
+<tr><td><strong>Dr Nora Saidi</strong> <span class='hint'>Cardiologie</span></td><td>${seg('A')}</td><td class='num'>3</td></tr>
+<tr><td><strong>Dr Yacine Belkacem</strong> <span class='hint'>Cardiologie</span></td><td>${seg('A')}</td><td class='num'>3</td></tr>
+</tbody></table></div></div>`, '', 620)
+
+// 5. The tab card
+const card = `<div style='display:grid;grid-template-columns:repeat(3,1fr);gap:14px'>
+<div class='scn'><div style='display:flex;align-items:center;gap:10px'><strong style='font-size:15px'>Potentiel cabinet</strong><span class='chip'>4×1</span></div><div class='hint'>X : Q1 × 1 · seuils 15 · 30 · 60</div><div style='display:flex;gap:6px'>${seg('A', ' · 31')}${seg('B', ' · 58')}${seg('C', ' · 74')}${seg('D', ' · 46')}</div><div class='hint'>Pas encore appliqué aux cycles</div></div>
+<div class='scn'><div style='display:flex;align-items:center;gap:10px'><strong style='font-size:15px'>Aire thérapeutique</strong><span class='chip'>2×2</span></div><div class='hint'>X : Q1 × 1 · seuil 40 — Y : Q2 × 1 · seuil 15</div><div style='display:flex;gap:6px'>${seg('A', ' · 42')}${seg('B', ' · 11')}${seg('C', ' · 27')}${seg('D', ' · 63')}</div><div class='hint' style='color:var(--ink);font-weight:600'>✓ Appliqué le 22 nov. par Sara Hamdi</div></div>
+<div class='scn'><div style='display:flex;align-items:center;gap:10px'><strong style='font-size:15px'>Molécule</strong><span class='chip'>3×3</span></div><div class='hint'>X : Q6 × 2 + Q7 × 1 — Y : Q2 × 1</div><div style='display:flex;gap:6px'>${seg('A', ' · 19')}${seg('B', ' · 66')}${seg('C', ' · 101')}</div><div class='hint'>Pas encore appliqué aux cycles</div></div></div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>Le résultat a un bouton « Appliquer aux cycles ».</strong> Il ouvre d'abord un aperçu ; rien n'est écrit avant la confirmation.`) + shell(res(), '', 640),
+  label(2, `<strong>L'aperçu.</strong> Quatre nombres, puis chaque délégué avec ses cycles concernés (en cours + suivant déjà créé), ce qui change (segment avant → après, visites à faire d'après sa grille), et les professionnels absents du cycle, à exporter pour le responsable.`) + shell(res(), preview, 1180),
+  label(3, `<strong>Après « Appliquer ».</strong> Ce qui a été écrit, cycle par cycle, et ce qui ne l'a pas été.`) + shell(res(), done, 640),
+  label(4, `<strong>Côté cycle</strong> (Nadia, la responsable de Karim) : une ligne d'historique par application, et les nouveaux segments avec leurs visites à faire.`) + cycle,
+  label(5, `<strong>L'onglet « Segmentation »</strong> dit quels scénarios ont été appliqués, quand et par qui ; le résultat aussi.`) + shell(card, '', 520) + shell(res(applied), '', 640),
+].join('')
+</script></body></html>

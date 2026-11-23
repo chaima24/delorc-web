@@ -279,8 +279,9 @@ function historyLine(line: SurveyHistoryLine): string {
   const known = [
     'created', 'opened', 'closed', 'duplicated', 'question_added', 'question_updated', 'question_deleted', 'questions_reordered',
     'respondents_added', 'respondent_paused', 'respondent_resumed', 'respondent_removed', 'professionals_added', 'professionals_removed', 'list_recopied',
+    'scenario_added', 'scenario_updated', 'scenario_deleted', 'scenario_applied',
   ]
-  if (known.includes(line.event)) return t(`surveys.history.${line.event}`, { text: line.text ?? '' })
+  if (known.includes(line.event)) return t(`surveys.history.${line.event}`, { text: line.text ?? '', count: line.count ?? 0 }, line.count ?? 1)
   if (line.new && 'brands' in line.new) return t('surveys.history.brands')
   return t('surveys.history.changed')
 }
