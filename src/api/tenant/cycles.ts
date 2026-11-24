@@ -144,7 +144,7 @@ export interface TerritoryCheck {
   left_target_ids: number[]
 }
 
-export type CycleHistoryEvent = 'created' | 'filled' | 'professionals_added' | 'professionals_removed' | 'segment_changed' | 'dates_changed'
+export type CycleHistoryEvent = 'created' | 'filled' | 'professionals_added' | 'professionals_removed' | 'segment_changed' | 'dates_changed' | 'scenario_applied'
 
 export interface CycleHistoryRow {
   id: number
@@ -156,6 +156,9 @@ export interface CycleHistoryRow {
     new_in_territory?: number
     segment?: string | null
     names?: string[]
+    /** scenario_applied: the scenario and its survey. */
+    scenario?: string
+    survey?: string
     from?: (string | null)[]
     to?: (string | null)[]
   }

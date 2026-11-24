@@ -1,0 +1,174 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Répondants</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; display: inline-block; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); } .why.amber { background: rgba(180, 83, 9, .08); color: var(--amber); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 500px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 16px; } .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; min-height: 38px; border: 1px solid var(--line); border-radius: 10px; padding: 4px 8px; background: var(--paper); }
+.tile { background: var(--paper); border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; } .tile b { font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; } .tile span { font-size: 12.5px; color: var(--muted); }
+.bar { height: 8px; border-radius: 8px; background: var(--line-soft); overflow: hidden; } .bar i { display: block; height: 100%; background: var(--ink); }
+.tabs2 { display: flex; gap: 4px; border-bottom: 1px solid var(--line); } .tabs2 span { padding: 8px 14px; font-size: 14px; font-weight: 600; color: var(--muted); } .tabs2 span.on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
+.pace { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 99px; } .pace.ok { background: var(--signal-soft); } .pace.late { background: rgba(180, 83, 9, .1); color: var(--amber); }
+.person { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .person:last-child { border-bottom: 0; }
+.card2 { background: var(--paper); border-radius: 22px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+.muted { color: var(--muted); }
+</style></head><body>
+<p class="caption"><strong>Enquêtes, partie 19b-1 (qui répond), proposition.</strong> Le marketing ajoute des personnes du terrain à une enquête ; la liste de chacune est copiée de son cycle en cours, puis modifiable à la main. Exemple : Sara (marketing) ajoute l'équipe Cardio Alger à « Qualification médecin — Cardiologie » (médecins, une fois par professionnel, 20 par semaine). Karim reçoit les 142 médecins de son cycle de décembre (cardiologie et médecine interne). Répondre se fait dans la visite (19b-2). Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Listes copiées du cycle</b> (décidé le 20 nov.) : la liste d'une personne = les professionnels de son cycle en cours le jour de l'ajout (ou au début de l'enquête si plus tard), du type visé par l'enquête (médecins avec dentistes, pharmacies, ou les deux). Ensuite ajout ou retrait à la main ; la liste ne suit pas les changements du cycle. « Recopier depuis le cycle » ajoute ceux d'un cycle plus récent qui manquent.</li>
+  <li><b>Personnes</b> (décidé) : seulement les rôles terrain, ajoutés par équipe ou un par un ; retirées ou mises en pause ensuite.</li>
+  <li><b>Quand</b> (décidé) : en brouillon et ouverte ; un professionnel déjà répondu ne se retire pas ; rien ne change une fois clôturée.</li>
+  <li><b>Qui voit</b> (décidé) : le marketing tout le monde ; un responsable les personnes en dessous de lui (lecture) ; un délégué sa propre liste dans « Mes enquêtes ».</li>
+  <li><b>Proposé, à confirmer :</b>
+    <ul>
+      <li><b>Filtres de copie</b> gardés sur l'enquête (comme les anciennes applications) : spécialités, segments du cycle, wilayas ; vides = tous. Ils servent à chaque ajout et à « Recopier depuis le cycle » ;</li>
+      <li>une personne <b>sans cycle en cours</b> est ajoutée avec une liste vide, signalée ; on lui ajoute des professionnels à la main ou on recopie plus tard ;</li>
+      <li><b>ajout à la main</b> : n'importe quel professionnel validé du type visé (note ambre s'il n'est pas dans son territoire), comme les cycles ;</li>
+      <li><b>retirer une personne</b> seulement si aucun de ses professionnels n'a répondu ; sinon <b>« En pause »</b> : on ne lui propose plus l'enquête en visite, ses réponses restent, elle n'entre plus dans les totaux ;</li>
+      <li><b>avancement</b> : répondus / liste et % ; avec un objectif, le <b>rythme</b> = attendus à ce jour (objectif × semaines écoulées, sans dépasser la liste) contre répondus, « En avance » ou « En retard » ; en mode « à chaque visite », un professionnel compte une fois répondu, et le nombre total de réponses est montré à côté ;</li>
+      <li>l'enquête a deux onglets, <b>Questions</b> et <b>Répondants</b> ; l'espace Enquêtes gagne <b>« Mes enquêtes »</b> pour le délégué (et le responsable, pour les siennes et celles de ses personnes) ;</li>
+      <li>droits : <code>surveys.*</code> pour le marketing (inchangé) ; <code>surveys.show</code> rendu aux responsables et au terrain, limité par le périmètre comme les visites ; un délégué ne voit que les enquêtes ouvertes où il est (jamais un brouillon).</li>
+    </ul>
+  </li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const chipsF = (lbl, items, hint = 'Tous') => `<label class='field'><span>${lbl}</span><div class='chips'>${items.map(i => `<span class='chip'>${i} ✕</span>`).join('')}<span class='hint'>${items.length ? 'Rechercher…' : hint}</span></div></label>`
+const sheet = (title, hint, body, foot, wide = false) => `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet' ${wide ? `style='width:720px;max-width:720px'` : ''}><header><div><strong style='font-size:18px'>${title}</strong><div class='hint'>${hint}</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header><div class='body'>${body}</div><footer>${foot}</footer></div></div>`
+const frame = (who, initials, inner, extra = '', h = 680) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf('Enquêtes')}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span class='hint' style='margin-inline-start:auto'>${who}</span><span class='avatar'>${initials}</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+const wsNav = (on, links) => `<nav class='ws-nav'>${links.map(l => `<a class='${l === on ? 'on' : ''}'>${l}</a>`).join('')}</nav>`
+const shell = (who, initials, on, links, inner, extra = '', h = 680) => frame(who, initials, `<div class='col'>${wsNav(on, links)}${inner}</div>`, extra, h)
+const SARA = ['Sara Hamdi · marketing', 'SH']
+const MKT = ['Enquêtes', 'Mes enquêtes']
+
+const head = (state = 'Ouverte', buttons = `<span class='btn sm outline'>Dupliquer</span><span class='btn dark'>Clôturer</span>`) => `<div><div class='crumbs'>Enquêtes › Enquêtes</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>Qualification médecin — Cardiologie</h1><span class='chip ${state === 'Ouverte' ? 'info' : state === 'Clôturée' ? 'ok' : ''}'>${state}</span><span style='margin-inline-start:auto;display:flex;gap:8px'>${buttons}</span></div>
+<div class='hint'>Médecins · une fois par professionnel · 1 déc. 2026 → 31 janv. 2027 · 20 par délégué et par semaine</div></div>
+<div class='tabs2'><span>Questions · 7</span><span class='on'>Répondants · 6</span></div>`
+
+const PEOPLE = [
+  ['Karim Saadi', 'Cardio Alger', 'Cycle 1 → 31 déc.', 142, 38, 'ok', 'En avance · 38 / 30'],
+  ['Amine Kaci', 'Cardio Alger', 'Cycle 1 → 31 déc.', 128, 22, 'late', 'En retard · 22 / 30'],
+  ['Yasmine Hadj', 'Cardio Alger', 'Cycle 1 → 31 déc.', 151, 31, 'ok', 'À jour · 31 / 30'],
+  ['Nabil Ferhat', 'Cardio Oran', 'Cycle 1 → 31 déc.', 97, 9, 'late', 'En retard · 9 / 30'],
+  ['Lina Bouzid', 'Cardio Oran', 'Pas de cycle en cours', 3, 0, 'late', 'En retard · 0 / 3'],
+  ['Rachid Meziane', 'Cardio Oran', 'Cycle 1 → 31 déc.', 110, 14, '', 'En pause'],
+]
+const tiles = (people = '5 actives', list = '521', done = '100', pct = '19 %') => `<div class='grid4'>
+<div class='tile'><b>${people}</b><span>personnes · 1 en pause</span></div>
+<div class='tile'><b>${list}</b><span>professionnels de santé dans les listes</span></div>
+<div class='tile'><b>${done}</b><span>répondus · ${pct}</span><div class='bar'><i style='width:${pct.replace(' ', '')}'></i></div></div>
+<div class='tile'><b>123</b><span>attendus à ce jour (semaine 2 sur 9)</span></div></div>`
+const filtersCard = (edit = true) => `<div class='rec'><header><strong>Filtres de copie</strong>${edit ? `<span class='btn sm outline' style='margin-inline-start:auto'>✎ Modifier</span>` : ''}</header>
+<div style='display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px'><span><span class='muted'>Spécialités</span> Cardiologie, Médecine interne</span><span><span class='muted'>Segments</span> tous</span><span><span class='muted'>Wilayas</span> toutes</span></div>
+<div class='hint'>Servent à chaque ajout de personne et à « Recopier depuis le cycle ». Le type vient de l'enquête : médecins (dentistes compris).</div></div>`
+const peopleTable = (rows, { sel = -1, actions = true } = {}) => `<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Personne ↕</th><th>Équipe ↕</th><th>Copiée de</th><th class='num'>Liste ↕</th><th class='num'>Répondus ↕</th><th>Avancement ↕</th><th>Rythme</th>${actions ? '<th>Active</th>' : ''}</tr></thead><tbody>
+${rows.map(([n, team, cyc, list, done, pace, paceTxt], i) => `<tr class='${i === sel ? 'sel' : ''}' style='${pace === '' ? 'color:var(--muted)' : ''}'><td><strong>${n}</strong></td><td>${team}</td><td>${cyc === 'Pas de cycle en cours' ? `<span style='color:var(--amber)'>⚠ ${cyc}</span>` : cyc}</td><td class='num'>${list}</td><td class='num'>${done}</td><td style='width:150px'><div class='bar'><i style='width:${Math.round(done / list * 100)}%'></i></div><span class='hint'>${Math.round(done / list * 100)} %</span></td><td>${pace === '' ? '<span class="chip">En pause</span>' : `<span class='pace ${pace}'>${paceTxt}</span>`}</td>${actions ? `<td><span class='tg ${pace === '' ? 'off' : ''}'></span></td>` : ''}</tr>`).join('')}
+</tbody></table></div>`
+const respondents = (extra = '') => `${head()}${tiles()}${filtersCard()}
+<div style='display:flex;gap:10px;align-items:center'><div class='input muted' style='width:220px'>Personne…</div><div class='input muted' style='width:160px'>Équipe ▾</div><span class='seg'><span class='on'>Toutes</span><span>En retard · 3</span><span>En pause · 1</span></span><span class='btn primary' style='margin-inline-start:auto'>+ Ajouter des personnes</span></div>
+${peopleTable(PEOPLE)}${extra}`
+
+// 2. Add people sheet
+const addSheet = sheet('Ajouter des personnes', 'Qualification médecin — Cardiologie · médecins · filtres : Cardiologie, Médecine interne', `
+${chipsF('Équipes', ['Cardio Alger', 'Cardio Oran'], 'Ajouter une équipe…')}
+${chipsF('Ou des personnes une à une', [], 'Rechercher une personne du terrain…')}
+<div class='why'>Seules les personnes des rôles terrain sont proposées. Leur liste est copiée de leur cycle en cours (aujourd'hui, 9 déc.).</div>
+<strong style='font-size:14px'>Ce qui sera ajouté · 6 personnes</strong>
+<div>
+${[['Karim Saadi', 'Cycle 1 → 31 déc. · 218 professionnels', '142 médecins après filtres'], ['Amine Kaci', 'Cycle 1 → 31 déc. · 190 professionnels', '128 médecins'], ['Yasmine Hadj', 'Cycle 1 → 31 déc. · 205 professionnels', '151 médecins'], ['Nabil Ferhat', 'Cycle 1 → 31 déc. · 160 professionnels', '97 médecins'], ['Lina Bouzid', '<span style="color:var(--amber)">⚠ Pas de cycle en cours</span>', 'liste vide, à remplir à la main'], ['Rachid Meziane', 'Cycle 1 → 31 déc. · 171 professionnels', '110 médecins']].map(([n, c, r]) => `<div class='person'><strong style='width:150px'>${n}</strong><span style='flex:1' class='hint'>${c}</span><span>${r}</span></div>`).join('')}
+</div>
+<div class='hint'>Déjà dans l'enquête : aucune. Une personne déjà ajoutée n'est pas reprise.</div>`,
+  `<span class='btn ghost'>Annuler</span><span class='btn primary' style='margin-inline-start:auto'>Ajouter 6 personnes · 628 professionnels</span>`)
+
+// 3. A person's list
+const LIST = [
+  ['Dr Nora Saidi', 'Cardiologie', 'A', 'Alger', 'Répondu le 3 déc.', 1],
+  ['Dr Yacine Belkacem', 'Cardiologie', 'B', 'Alger', 'À faire', 0],
+  ['Dr Samia Ouali', 'Médecine interne', 'A', 'Alger', 'Répondu le 5 déc.', 1],
+  ['Dr Farid Toumi', 'Cardiologie', '—', 'Blida', 'À faire', 0, 'hors territoire'],
+  ['Dr Leila Aït', 'Cardiologie', 'C', 'Alger', 'À faire', 0],
+]
+const listSheet = (extra = '') => sheet('Karim Saadi · 142 médecins', 'Copiée du cycle 1 → 31 déc. le 1 déc. · 38 répondus · 104 à faire', `
+<div style='display:flex;gap:8px;flex-wrap:wrap'><div class='input muted' style='flex:1'>Rechercher un professionnel…</div><span class='seg'><span class='on'>Tous</span><span>À faire · 104</span><span>Répondus · 38</span></span></div>
+<div style='display:flex;gap:8px'><span class='btn sm outline'>+ Ajouter un professionnel</span><span class='btn sm outline'>↻ Recopier depuis le cycle</span></div>
+<table class='table'><thead><tr><th>Professionnel</th><th>Spécialité</th><th>Segment</th><th>Wilaya</th><th>État</th><th></th></tr></thead><tbody>
+${LIST.map(([n, s, seg, w, st, done, note]) => `<tr><td><strong>${n}</strong>${note ? ` <span class='chip warn'>${note}</span>` : ''}</td><td>${s}</td><td>${seg}</td><td>${w}</td><td>${done ? `<span class='chip ok'>${st}</span>` : `<span class='chip'>${st}</span>`}</td><td class='hint'>${done ? '🔒' : '✕'}</td></tr>`).join('')}
+</tbody></table>
+<div class='hint'>… 137 autres. Un professionnel déjà répondu ne se retire pas (🔒). Dr Toumi a été ajouté à la main : il n'est pas dans le territoire de Karim.</div>${extra}`,
+  `<span class='btn ghost'>Retirer Karim de l'enquête</span><span class='btn outline' style='margin-inline-start:auto'>Mettre en pause</span><span class='btn dark'>Fermer</span>`, true)
+
+const recopy = `<div class='dialog'><div class='box'><strong style='font-size:17px'>Recopier depuis le cycle de Karim ?</strong>
+<div>Son cycle en cours (1 → 31 déc.) avec les filtres de l'enquête : <b>151 médecins</b>.</div>
+<div class='why'>+ 9 ajoutés (dans le nouveau cycle, pas encore dans la liste)<br>= 142 déjà là, gardés<br>• 0 retiré : ceux qui ne sont plus dans le cycle restent (5) ; retirez-les à la main si besoin.</div>
+<footer><span class='btn sm ghost'>Retour</span><span class='btn sm dark'>Ajouter les 9</span></footer></div></div>`
+
+const removeRefused = `<div class='dialog'><div class='box'><strong style='font-size:17px'>Karim ne peut pas être retiré</strong>
+<div class='why bad'>38 de ses professionnels ont déjà répondu.</div>
+<div>Mettez-le en pause : l'enquête ne lui est plus proposée en visite, ses réponses restent, il sort des totaux.</div>
+<footer><span class='btn sm ghost'>Retour</span><span class='btn sm dark'>Mettre en pause</span></footer></div></div>`
+
+// 6. Manager: same tab, people below, read only
+const managerView = `${head('Ouverte', '')}
+<div class='why'>Vous voyez les personnes de votre équipe (3). Seul le marketing ajoute ou modifie.</div>
+${peopleTable(PEOPLE.slice(0, 3), { actions: false })}`
+
+// 7. Rep: Mes enquêtes
+const repView = `<div><div class='crumbs'>Enquêtes</div><h1 class='title display' style='font-size:32px'>Mes enquêtes</h1><div class='hint'>Les enquêtes ouvertes où vous êtes. On y répond dans la visite.</div></div>
+<div class='grid2' style='align-items:start'>
+<div class='card2'><div style='display:flex;align-items:center;gap:10px'><strong style='font-size:16px'>Qualification médecin — Cardiologie</strong><span class='chip info' style='margin-inline-start:auto'>jusqu'au 31 janv.</span></div>
+<div class='hint'>Médecins · une fois par professionnel · objectif 20 par semaine</div>
+<div class='bar'><i style='width:27%'></i></div>
+<div style='display:flex;gap:16px;font-size:13.5px'><span><b>38</b> / 142 répondus</span><span class='pace ok'>En avance · 38 / 30 attendus</span><span class='muted'>Cette semaine : 12 / 20</span></div>
+<div style='display:flex;gap:8px;flex-wrap:wrap'><span class='seg'><span class='on'>À faire · 104</span><span>Répondus · 38</span></span><div class='input muted' style='flex:1'>Rechercher…</div></div>
+${['Dr Yacine Belkacem · Cardiologie · B · visite prévue le 11 déc.', 'Dr Farid Toumi · Cardiologie · Blida', 'Dr Leila Aït · Cardiologie · C · visite prévue le 12 déc.'].map(r => `<div class='person'><span style='flex:1'>${r}</span><span class='hint'>›</span></div>`).join('')}
+<div class='hint'>… 101 autres</div></div>
+<div class='card2'><div style='display:flex;align-items:center;gap:10px'><strong style='font-size:16px'>Suivi Ocuvis en officine</strong><span class='chip info' style='margin-inline-start:auto'>jusqu'au 31 déc.</span></div>
+<div class='hint'>Pharmacies · à chaque visite · sans objectif</div>
+<div class='bar'><i style='width:60%'></i></div>
+<div style='display:flex;gap:16px;font-size:13.5px'><span><b>18</b> / 30 pharmacies répondues</span><span class='muted'>41 réponses en tout</span></div>
+<div class='why'>« À chaque visite » : l'enquête revient à chaque visite de ces pharmacies.</div></div>
+</div>`
+
+const closedView = `${head('Clôturée', `<span class='btn sm outline'>Dupliquer</span>`)}${tiles('5 actives', '530', '214', '40 %')}${filtersCard(false)}
+<div class='why'>L'enquête est clôturée : personnes, listes et filtres ne changent plus.</div>${peopleTable(PEOPLE.map(p => [...p.slice(0, 4), Math.min(p[3], p[4] * 2), p[5], p[6]]), { actions: false })}`
+
+const filtersSheet = sheet('Filtres de copie', 'Utilisés à chaque ajout de personne et par « Recopier depuis le cycle »', `
+${chipsF('Spécialités', ['Cardiologie', 'Médecine interne'])}
+${chipsF('Segments (du cycle)', [])}
+${chipsF('Wilayas', [])}
+<div class='why'>Vides = tous. Les listes déjà copiées ne changent pas ; les nouveaux filtres servent aux prochains ajouts et recopies.</div>`,
+  `<span class='btn ghost'>Annuler</span><span class='btn primary' style='margin-inline-start:auto'>Enregistrer</span>`)
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>L'onglet « Répondants », vu par Sara (marketing).</strong> Quatre chiffres, les filtres de copie, puis une ligne par personne : d'où vient sa liste, sa taille, répondus, avancement et rythme contre l'objectif (20 par semaine, semaine 2 : 30 attendus). Lina n'avait pas de cycle ; Rachid est en pause.`) + shell(...SARA, 'Enquêtes', MKT, respondents(), '', 820),
+  label(2, `<strong>« Ajouter des personnes » : par équipe ou une à une.</strong> Avant d'ajouter, on voit d'où viendra chaque liste et sa taille après filtres.`) + shell(...SARA, 'Enquêtes', MKT, respondents(), addSheet, 820),
+  label(3, `<strong>Les filtres de copie.</strong> Gardés sur l'enquête ; vides = tous.`) + shell(...SARA, 'Enquêtes', MKT, respondents(), filtersSheet, 820),
+  label(4, `<strong>Un clic sur Karim : sa liste.</strong> Chercher, ajouter un professionnel à la main (note ambre hors territoire), retirer ceux à faire ; les répondus sont verrouillés.`) + shell(...SARA, 'Enquêtes', MKT, respondents(), listSheet(), 820),
+  label(5, `<strong>« Recopier depuis le cycle ».</strong> Ajoute ceux qui manquent ; ne retire jamais rien.`) + shell(...SARA, 'Enquêtes', MKT, respondents(), recopy, 820),
+  label(6, `<strong>Retirer une personne qui a des réponses : refusé, « Mettre en pause » à la place.</strong>`) + shell(...SARA, 'Enquêtes', MKT, respondents(), removeRefused, 820),
+  label(7, `<strong>Le même onglet, vu par Nadia (responsable de Karim).</strong> Ses personnes seulement, en lecture.`) + shell('Nadia Rahmani · responsable régionale', 'NR', 'Enquêtes', MKT, managerView, '', 560),
+  label(8, `<strong>« Mes enquêtes », vu par Karim (délégué).</strong> Ses enquêtes ouvertes, son avancement et son rythme, ce qui reste à faire (avec sa prochaine visite prévue). Répondre se fait dans la visite (19b-2). En mode « à chaque visite » : pharmacies répondues + nombre total de réponses.`) + shell('Karim Saadi · VM', 'KS', 'Mes enquêtes', ['Mes enquêtes'], repView, '', 620),
+  label(9, `<strong>Clôturée.</strong> Plus rien ne change ; les chiffres restent.`) + shell(...SARA, 'Enquêtes', MKT, closedView, '', 760),
+].join('')
+</script></body></html>

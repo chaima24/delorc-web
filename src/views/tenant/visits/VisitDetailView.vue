@@ -25,6 +25,7 @@ import { useVisitText } from './visitDisplay'
 import VisitReportFields from './VisitReportFields.vue'
 import { emptyReport, givesStock, offeredAdvs, reportOf, reportPayload, useVisitLookups } from './useVisitForm'
 import VisitMaterialsField from './VisitMaterialsField.vue'
+import VisitSurveyCards from './VisitSurveyCards.vue'
 import { fetchVisitMaterials, type OfferedMaterial } from '@/api/tenant/materials'
 import CampaignPromoBox from '@/views/tenant/campaigns/CampaignPromoBox.vue'
 import DlDatePicker from '@/components/DlDatePicker.vue'
@@ -264,6 +265,8 @@ watch(() => props.id, load, { immediate: true })
                 <VisitMaterialsField v-model="report" :offered="offeredMaterials" :errors="errors" />
               </template>
             </DlRecordSection>
+
+            <VisitSurveyCards :visit="visit" :can-edit="canEdit && editing === null" @saved="updated => (visit = updated)" />
 
             <VisitOrdersCard v-if="isDone && visit.orders && visit.target.type === 'hcp' && BUYER_TYPES.includes(visit.target.kind ?? '')" :visit-id="visit.id" :orders="visit.orders" />
 

@@ -35,6 +35,7 @@ const ICONS: Record<CycleHistoryRow['event'], string> = {
   professionals_removed: 'tabler-user-minus',
   segment_changed: 'tabler-chart-pie',
   dates_changed: 'tabler-calendar',
+  scenario_applied: 'tabler-chart-dots-3',
 }
 
 function line(row: CycleHistoryRow) {
@@ -49,6 +50,8 @@ function line(row: CycleHistoryRow) {
       return t('cycles.history.removed', { n: n(count) }, count)
     case 'segment_changed':
       return t('cycles.history.segment', { n: n(count), segment: p.segment ?? t('cycles.segment.none') }, count)
+    case 'scenario_applied':
+      return t('cycles.history.scenario', { n: n(count), scenario: p.scenario ?? '', survey: p.survey ?? '' }, count)
     case 'dates_changed': {
       const parts = []
       if (p.to?.[0]) parts.push(t('cycles.history.start', { from: p.from?.[0] ? text.day(p.from[0]) : '—', to: text.day(p.to[0]) }))

@@ -1,0 +1,240 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Enquêtes</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.ws-nav a.later { opacity: .45; }
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; display: inline-block; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.rec { background: var(--paper); border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.rec header { display: flex; align-items: center; gap: 10px; } .rec header strong { font-size: 15px; } .rec header .btn { margin-inline-start: auto; }
+.kv { display: grid; grid-template-columns: 200px 1fr; gap: 8px 14px; } .kv span:nth-child(odd) { color: var(--muted); font-size: 13px; }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; } .why.bad { background: rgba(192, 54, 44, .08); color: var(--brick); }
+.dialog { position: absolute; inset: 0; background: rgba(15, 31, 28, .35); display: flex; align-items: center; justify-content: center; z-index: 6; }
+.dialog .box { width: 470px; background: var(--paper); border-radius: 22px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+.dialog .box footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.panel { width: 440px; flex-shrink: 0; background: var(--paper); border-radius: 24px; display: flex; flex-direction: column; }
+.ph { padding: 18px 20px 14px; display: flex; gap: 12px; align-items: flex-start; border-bottom: 1px solid var(--line-soft); } .ph h2 { margin: 0; font-size: 21px; }
+.ph .sub { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.icb { width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pb { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; } .pf { padding: 14px 20px; border-top: 1px solid var(--line-soft); display: flex; gap: 10px; align-items: center; }
+.grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 16px; } .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 16px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; min-height: 38px; border: 1px solid var(--line); border-radius: 10px; padding: 4px 8px; background: var(--paper); }
+.lvl { display: inline-flex; gap: 4px; flex-wrap: wrap; } .lvl span { height: 32px; padding: 0 11px; border-radius: 9px; border: 1px solid var(--line); display: inline-flex; align-items: center; font-size: 12.5px; } .lvl span.on { background: var(--ink); color: var(--signal); border-color: var(--ink); }
+.li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; } .li:last-child { border-bottom: 0; } .grip { color: var(--muted); cursor: grab; }
+/* question list */
+.q { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--paper); font-size: 14px; }
+.q .n { width: 34px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; color: var(--ink); flex-shrink: 0; }
+.q .txt { flex: 1; min-width: 0; } .q .meta { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.q.title { background: var(--mist); border-color: transparent; } .q.title .txt { font-weight: 700; }
+.q.child { margin-inline-start: 40px; }
+.q.sel { outline: 2px solid var(--cobalt); }
+.q.drag { box-shadow: 0 10px 30px rgba(15, 31, 28, .18); transform: rotate(-.6deg); }
+.drop { height: 4px; border-radius: 4px; background: var(--cobalt); margin-inline-start: 40px; }
+.req { color: var(--brick); font-weight: 700; }
+.types { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.type { border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; } .type strong { font-size: 14px; } .type.on { outline: 2px solid var(--ink); }
+.type .ex { color: var(--muted); font-size: 12.5px; }
+.opt { display: flex; align-items: center; gap: 8px; } .opt .input { flex: 1; }
+.preview { width: 520px; background: var(--paper); border-radius: 24px; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; font-size: 14px; }
+.preview h3 { margin: 0; font-size: 15px; padding: 8px 12px; background: var(--mist); border-radius: 10px; }
+.pq { display: flex; flex-direction: column; gap: 6px; } .pq > span { font-weight: 600; }
+.radio { display: flex; gap: 8px; flex-wrap: wrap; } .radio span { border: 1px solid var(--line); border-radius: 99px; padding: 5px 12px; font-size: 13px; } .radio span.on { background: var(--ink); color: var(--signal); border-color: var(--ink); }
+</style></head><body>
+<p class="caption"><strong>Enquêtes, partie 19a (l'enquête et ses questions), proposition.</strong> Le marketing prépare une enquête : ses informations, puis ses questions, avec des titres qui regroupent les questions sous eux. Exemple : Sara (marketing) prépare « Qualification médecin — Cardiologie » pour Cardiozen et Atorix. Qui répond (19b), les conditions et contrôles (19c) et la segmentation (19d) viendront ensuite. Les points à approuver sont en bas.</p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Les 7 types</b> (décidé le 20 nov.) : nombre, pourcentage, un choix, plusieurs choix, texte court, texte long, titre. « Un choix » s'affiche en boutons ou en liste, « plusieurs choix » en cases à cocher ou en liste : c'est un réglage de la question, pas un type. Intervalle et Entité retirés.</li>
+  <li><b>Les titres</b> (décidé) : un titre n'a pas de réponse et regroupe les questions placées sous lui (les anciens groupes).</li>
+  <li><b>Les états</b> (décidé) : brouillon → ouverte → clôturée. En brouillon tout se modifie ; ouverte, les questions sont figées ; le nom, la date de fin, l'objectif et les marques se modifient encore.</li>
+  <li><b>Catégories</b> (décidé) : une liste du Studio, facultative sur une question ; un nouveau labo démarre avec Potentiel, Adoption, L'accès au marché, Comportemental, Profiling.</li>
+  <li><b>Objectif par semaine</b> (décidé) : facultatif, par délégué ; les semaines sont calculées depuis la période. <b>Marques</b> : facultatives. <b>Pas de code</b> SRV-00001.</li>
+  <li><b>Place</b> (décidé) : son propre espace « Enquêtes » ; les onglets grisés arrivent avec 19b à 19d.</li>
+  <li><b>Proposé, à confirmer :</b>
+    <ul>
+      <li>gardés de l'API précédente : la <b>cible</b> (médecins, pharmacies ou les deux) et le <b>mode</b> (une réponse par professionnel de santé, ou une à chaque visite) ; les deux sont figés une fois l'enquête ouverte ;</li>
+      <li><b>« + Nouvelle enquête »</b> ouvre un panneau court (nom, cible, mode, période) ; le reste se remplit sur la page de l'enquête, carte par carte ;</li>
+      <li>les questions sont <b>numérotées toutes seules</b> Q1, Q2… dans l'ordre (les titres ne comptent pas) et <b>déplacées en les glissant</b> ; glisser une question sous un titre la range dans ce titre ; un seul niveau (pas de titre dans un titre) ;</li>
+      <li>une question se modifie dans un <b>panneau à droite</b> (texte, type, catégorie, obligatoire, et pour un choix : ses options dans l'ordre, l'affichage, et une option « Autre » avec un texte à préciser) ; le pourcentage va de 0 à 100 ; les limites d'un nombre viennent avec les contrôles (19c) ;</li>
+      <li><b>« Ouvrir l'enquête »</b> demande au moins une question à répondre (pas seulement des titres) et une date de fin pas encore passée ;</li>
+      <li>la clôture se fait <b>à la main</b> (« Clôturer »), sans retour ; après la date de fin, l'enquête ouverte ne se remplit plus, même avant d'être clôturée ;</li>
+      <li><b>supprimer</b> : seulement en brouillon ; <b>« Dupliquer »</b> copie une enquête et ses questions en un nouveau brouillon (l'ancien labo avait refait neuf fois « Qualification médecin » à la main) ;</li>
+      <li><b>« Aperçu »</b> montre l'enquête comme le délégué la remplira ;</li>
+      <li>droits <code>surveys</code> : le marketing et les admins gèrent ; le terrain et les responsables voient (ils répondent en 19b).</li>
+    </ul>
+  </li>
+</ol>
+<script>
+const railOf = name => `<nav class='rail' style='width:84px;align-items:center;padding:18px 0'><svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg><span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>${name}</span></nav>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const side = (title, sub, body, foot = '') => `<aside class='panel'><div class='ph'><div style='flex:1;min-width:0'><h2 class='display'>${title}</h2><div class='sub'>${sub}</div></div><span class='icb'>✕</span></div><div class='pb'>${body}</div>${foot ? `<div class='pf'>${foot}</div>` : ''}</aside>`
+const f = (lbl, val, cls = '') => `<label class='field'><span>${lbl}</span><div class='input ${cls}'>${val}</div></label>`
+const seg = (lbl, items, on) => `<label class='field'><span>${lbl}</span><div class='lvl'>${items.map(i => `<span class='${i === on ? 'on' : ''}'>${i}</span>`).join('')}</div></label>`
+const chipsF = (lbl, items) => `<label class='field'><span>${lbl}</span><div class='chips'>${items.map(i => `<span class='chip'>${i} ✕</span>`).join('')}<span class='hint'>Rechercher…</span></div></label>`
+const kv = rows => `<div class='kv'>${rows.map(([k, v]) => `<span>${k}</span><span>${v}</span>`).join('')}</div>`
+const tags = a => a.map(t => `<span class='chip'>${t}</span>`).join(' ')
+const card = (title, body, { editing = false, locked = false, btn = '' } = {}) => `<div class='rec' ${editing ? `style='outline:2px solid var(--cobalt)'` : ''}><header><strong>${title}</strong>${btn || (locked ? '' : editing ? '' : `<span class='btn sm outline'>✎ Modifier</span>`)}</header>${body}${editing ? `<div style='display:flex;gap:8px;justify-content:flex-end'><span class='btn sm ghost'>Annuler</span><span class='btn sm primary'>Enregistrer</span></div>` : ''}</div>`
+const frame = (inner, extra = '', h = 680) => `<div class='frame' style='min-height:${h}px;position:relative'>${railOf('Enquêtes')}
+<div class='main'>
+  <div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SH</span></div>
+  <div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${inner}</div>
+</div>${extra}</div>`
+const wsNav = on => `<nav class='ws-nav'><a class='${on === 'Enquêtes' ? 'on' : ''}'>Enquêtes</a><a class='later'>Répondants · 19b</a><a class='later'>Segmentation · 19d</a></nav>`
+const shell = (inner, extra = '', h = 680) => frame(`<div style='display:flex;flex-direction:column;flex:1;gap:16px;min-width:0'>${wsNav('Enquêtes')}<div style='display:flex;gap:20px;align-items:flex-start'>${inner}</div></div>`, extra, h)
+const crumbs = (t, title, chip = '', btn = '') => `<div><div class='crumbs'>${t}</div><div style='display:flex;align-items:center;gap:12px'><h1 class='title display' style='font-size:32px'>${title}</h1>${chip}<span style='margin-inline-start:auto;display:flex;gap:8px'>${btn}</span></div></div>`
+const sheet = (title, hint, body, foot) => `<div style='position:absolute;inset:0;background:rgba(15,31,28,.25);display:flex;justify-content:flex-end;z-index:6'><div class='sheet'><header><div><strong style='font-size:18px'>${title}</strong><div class='hint'>${hint}</div></div><span class='iconbtn' style='margin-inline-start:auto'>✕</span></header><div class='body'>${body}</div><footer>${foot}</footer></div></div>`
+
+const STATES = { 'Brouillon': '', 'Ouverte': 'info', 'Clôturée': 'ok' }
+const chipOf = s => `<span class='chip ${STATES[s]}'>${s}</span>`
+
+// 1. The list
+const ROWS = [
+  ['Qualification médecin — Cardiologie', 'Médecins', 'Une fois', '1 déc. → 31 janv. 2027', '9', '20', '18 nov.', 'Brouillon'],
+  ['Suivi Ocuvis en officine', 'Pharmacies', 'À chaque visite', '1 oct. → 31 déc.', '6', '—', '22 sept.', 'Ouverte'],
+  ['Habitudes de prescription — Atorix', 'Médecins et pharmacies', 'Une fois', '15 sept. → 31 oct.', '14', '30', '2 sept.', 'Clôturée'],
+  ['Étude de marché — antidiabétiques', 'Médecins', 'Une fois', '1 juin → 30 juin', '22', '—', '20 mai', 'Clôturée'],
+]
+const list = sel => `<div class='col'>
+<div style='display:flex;align-items:flex-end;gap:12px'><div><div class='crumbs'>Enquêtes</div><h1 class='title display' style='font-size:34px'>Enquêtes</h1></div><span class='btn primary' style='margin-inline-start:auto'>+ Nouvelle enquête</span></div>
+<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center'><div class='input muted' style='width:220px'>Nom de l'enquête…</div><span class='seg'>${['Toutes · 4', 'Brouillons · 1', 'Ouvertes · 1', 'Clôturées · 2'].map((s, i) => `<span class='${i === 0 ? 'on' : ''}'>${s}</span>`).join('')}</span><div class='input muted' style='width:150px'>Cible ▾</div><div class='input muted' style='width:150px'>Marque ▾</div><div class='input muted' style='width:190px'>Du … au …</div></div>
+<div class='card' style='padding:6px 12px'><table class='table'><thead><tr><th>Nom ↕</th><th>Cible ↕</th><th>Réponse ↕</th><th>Période ↕</th><th>Questions ↕</th><th>Objectif / semaine ↕</th><th>Ajoutée le ↕</th><th>État ↕</th></tr></thead><tbody>
+${ROWS.map(([n, c, m, p, q, o, a, s], i) => `<tr class='${i === sel ? 'sel' : ''}'><td><strong>${n}</strong></td><td>${c}</td><td>${m}</td><td>${p}</td><td class='num'>${q}</td><td class='num'>${o}</td><td>${a}</td><td>${chipOf(s)}</td></tr>`).join('')}
+</tbody></table></div></div>`
+
+const readPanel = side('Suivi Ocuvis en officine', `${chipOf('Ouverte')}<span class='hint'>ajoutée par Sara Hamdi le 22 sept.</span>`,
+  kv([['Cible', 'Pharmacies'], ['Réponse', 'À chaque visite'], ['Période', '1 oct. → 31 déc. 2026 · 13 semaines'], ['Objectif / semaine', '—'], ['Marques', tags(['Ocuvis'])], ['Questions', '6, dont 2 obligatoires']]),
+  `<span class='btn outline'>Dupliquer</span><span class='btn outline' style='margin-inline-start:auto'>Ouvrir l'enquête</span>`)
+
+const addPanel = side('Nouvelle enquête', `<span class='hint'>Les marques, l'objectif et les questions se remplissent ensuite sur sa page.</span>`,
+  [f('Nom *', 'Qualification médecin — Cardiologie'), seg('Cible *', ['Médecins', 'Pharmacies', 'Les deux'], 'Médecins'), seg('Réponse *', ['Une fois par professionnel', 'À chaque visite'], 'Une fois par professionnel'), `<div class='grid2'>${f('Début *', '01/12/2026')}${f('Fin *', '31/01/2027')}</div>`, `<div class='hint'>9 semaines.</div>`].join(''),
+  `<span class='btn ghost'>Annuler</span><span class='btn primary' style='margin-inline-start:auto'>Ajouter</span>`)
+
+// The questions of the example survey
+const Q = [
+  { t: 'title', txt: 'Votre patientèle' },
+  { n: 'Q1', txt: 'Combien de patients voyez-vous par semaine ?', type: 'Nombre', cat: 'Potentiel', req: 1, child: 1 },
+  { n: 'Q2', txt: 'Parmi eux, combien sont hypertendus ?', type: 'Nombre', cat: 'Potentiel', req: 1, child: 1 },
+  { n: 'Q3', txt: 'Quelle part de vos patients est sous statine ?', type: 'Pourcentage', cat: 'Potentiel', child: 1 },
+  { t: 'title', txt: 'Vos habitudes de prescription' },
+  { n: 'Q4', txt: 'Quelle statine prescrivez-vous le plus ?', type: 'Un choix', cat: 'Adoption', req: 1, child: 1 },
+  { n: 'Q5', txt: 'Quels critères comptent le plus pour vous ?', type: 'Plusieurs choix', cat: 'Comportemental', child: 1 },
+  { n: 'Q6', txt: 'Hôpital ou clinique de rattachement', type: 'Texte court', cat: 'Profiling' },
+  { n: 'Q7', txt: 'Remarques du médecin', type: 'Texte long', cat: '—' },
+]
+const qRow = (q, { sel = '', locked = false, drag = '' } = {}) => q.t === 'title'
+  ? `<div class='q title ${sel === q.txt ? 'sel' : ''}'>${locked ? '' : `<span class='grip'>⋮⋮</span>`}<span class='txt'>${q.txt}</span><span class='meta'><span class='chip'>Titre</span>${locked ? '' : `<span class='hint'>✎</span><span class='hint'>✕</span>`}</span></div>`
+  : `<div class='q ${q.child ? 'child' : ''} ${sel === q.n ? 'sel' : ''} ${drag === q.n ? 'drag' : ''}'>${locked ? '' : `<span class='grip'>⋮⋮</span>`}<span class='n'>${q.n}</span><span class='txt'>${q.txt}${q.req ? ` <span class='req'>*</span>` : ''}</span><span class='meta'><span class='chip info'>${q.type}</span><span class='hint' style='width:110px'>${q.cat}</span>${locked ? '' : `<span class='hint'>✎</span><span class='hint'>✕</span>`}</span></div>`
+const qList = (opts = {}) => (opts.rows || Q).map(q => q === 'DROP' ? `<div class='drop'></div>` : qRow(q, opts)).join('')
+
+const infoCard = (locked, editing) => card('L\'enquête', editing
+  ? `<div class='grid2'>${f('Nom *', 'Qualification médecin — Cardiologie')}${f('Objectif par semaine', '20')}</div>${seg('Cible *', ['Médecins', 'Pharmacies', 'Les deux'], 'Médecins')}${seg('Réponse *', ['Une fois par professionnel', 'À chaque visite'], 'Une fois par professionnel')}<div class='grid2'>${f('Début *', '01/12/2026')}${f('Fin *', '31/01/2027')}</div>${chipsF('Marques', ['Cardiozen', 'Atorix'])}`
+  : kv([['Cible', 'Médecins' + (locked ? ' 🔒' : '')], ['Réponse', 'Une fois par professionnel' + (locked ? ' 🔒' : '')], ['Période', '1 déc. 2026 → 31 janv. 2027 · 9 semaines'], ['Objectif / semaine', '20 professionnels de santé par délégué'], ['Marques', tags(['Cardiozen', 'Atorix'])]]),
+  { editing })
+const questionsCard = (locked, opts = {}) => card(`Questions <span class='hint' style='font-weight:400'>· 7 questions, 2 titres</span>`,
+  `${locked ? `<div class='why'>L'enquête est ouverte : les questions sont figées.</div>` : `<div class='hint'>Glissez une question pour changer l'ordre ; sous un titre, elle se range dans ce titre.</div>`}<div style='display:flex;flex-direction:column;gap:8px'>${qList({ ...opts, locked })}</div>`,
+  { btn: locked ? `<span class='btn sm outline' style='margin-inline-start:auto'>Aperçu</span>` : `<span style='margin-inline-start:auto;display:flex;gap:8px'><span class='btn sm outline'>Aperçu</span><span class='btn sm outline'>+ Titre</span><span class='btn sm dark'>+ Question</span></span>` })
+const history = lines => card('Historique', `<div class='hint'>${lines.join('<br>')}</div>`, { btn: ' ' })
+const steps = state => `<div style='display:flex;gap:6px;align-items:center;font-size:13px'>${['Brouillon', 'Ouverte', 'Clôturée'].map((s, i, all) => `<span class='chip ${all.indexOf(state) >= i ? 'ok' : ''}' style='${s === state ? 'outline:2px solid var(--ink)' : ''}'>${s}</span>${i < 2 ? '<span class="hint">→</span>' : ''}`).join('')}</div>`
+const page = (state, buttons, { editing = false, qopts = {}, banner = '' } = {}) => `<div class='col'>
+${crumbs('Enquêtes › Enquêtes', 'Qualification médecin — Cardiologie', chipOf(state), buttons)}
+<div class='hint'>Ajoutée par Sara Hamdi le 18 nov. 2026</div>
+${steps(state)}
+${banner}
+<div style='display:grid;grid-template-columns:420px 1fr;gap:16px;align-items:start'>
+  <div style='display:flex;flex-direction:column;gap:16px'>${infoCard(state !== 'Brouillon', editing)}${history(state === 'Ouverte' ? ['1 déc. 08:00 · Sara Hamdi : ouverte', '20 nov. 16:12 · Sara Hamdi a modifié 3 questions', '18 nov. 10:40 · Sara Hamdi a ajouté l\'enquête'] : ['20 nov. 16:12 · Sara Hamdi a modifié 3 questions', '18 nov. 10:40 · Sara Hamdi a ajouté l\'enquête'])}</div>
+  ${questionsCard(state !== 'Brouillon', qopts)}
+</div></div>`
+const draftBtns = `<span class='btn sm outline'>Dupliquer</span><span class='btn sm outline'>Supprimer</span><span class='btn primary'>Ouvrir l'enquête</span>`
+
+// 5. The question sheet (a choice question)
+const qSheet = sheet('Q4 · Quelle statine prescrivez-vous le plus ?', 'Qualification médecin — Cardiologie · sous « Vos habitudes de prescription »', `
+${f('Question *', 'Quelle statine prescrivez-vous le plus ?')}
+<div class='grid2'>${f('Type *', 'Un choix ▾')}${f('Catégorie', 'Adoption ▾')}</div>
+<div class='grid2'>${f('Sous le titre', 'Vos habitudes de prescription ▾')}<label class='field'><span>Obligatoire</span><div style='height:40px;display:flex;align-items:center;gap:10px'><span class='tg'></span><span class='hint'>Le délégué doit répondre.</span></div></label></div>
+${seg('Affichage', ['Boutons', 'Liste déroulante'], 'Boutons')}
+<label class='field'><span>Options * <span class='hint'>· dans l'ordre affiché</span></span>
+<div style='display:flex;flex-direction:column;gap:6px'>
+${['Rosuvastatine', 'Atorvastatine', 'Simvastatine', 'Pravastatine'].map(o => `<div class='opt'><span class='grip'>⋮⋮</span><div class='input'>${o}</div><span class='hint'>✕</span></div>`).join('')}
+<div class='opt'><span class='grip'>⋮⋮</span><div class='input'>Autre <span class='chip' style='margin-inline-start:8px'>texte à préciser</span></div><span class='hint'>✕</span></div>
+<div style='display:flex;gap:8px'><span class='btn sm outline'>+ Option</span><span class='btn sm ghost'>+ « Autre, à préciser »</span></div>
+</div></label>
+<div class='why'>Au moins deux options. Les conditions d'affichage et les contrôles (par exemple « Q2 ne dépasse pas Q1 ») viendront dans la partie 19c.</div>`,
+  `<span class='btn ghost'>Annuler</span><span class='btn primary' style='margin-inline-start:auto'>Enregistrer</span>`)
+
+// 6. Type picker (new question)
+const TYPES = [
+  ['Nombre', 'Un nombre entier ou décimal.', '« Combien de patients voyez-vous par semaine ? » → 40'],
+  ['Pourcentage', 'De 0 à 100 %.', '« Quelle part de vos patients est sous statine ? » → 35 %'],
+  ['Un choix', 'Une seule option ; boutons ou liste.', '« Quelle statine prescrivez-vous le plus ? » → Rosuvastatine'],
+  ['Plusieurs choix', 'Une ou plusieurs options ; cases ou liste.', '« Quels critères comptent ? » → Efficacité, Prix'],
+  ['Texte court', 'Une ligne.', '« Hôpital de rattachement » → CHU Mustapha'],
+  ['Texte long', 'Plusieurs lignes.', '« Remarques du médecin »'],
+]
+const typeSheet = sheet('Nouvelle question', 'Choisissez le type, puis écrivez la question.', `
+<div class='types'>${TYPES.map(([t, d, e], i) => `<div class='type ${i === 0 ? 'on' : ''}'><strong>${t}</strong><span>${d}</span><span class='ex'>${e}</span></div>`).join('')}</div>
+<div class='why'>Pour regrouper des questions, utilisez « + Titre » : un titre n'a pas de réponse.</div>
+${f('Question *', 'Combien de patients voyez-vous par semaine ?')}
+<div class='grid2'>${f('Catégorie', 'Potentiel ▾')}${f('Sous le titre', 'Votre patientèle ▾')}</div>
+<label class='field'><span>Obligatoire</span><div style='height:40px;display:flex;align-items:center;gap:10px'><span class='tg'></span></div></label>`,
+  `<span class='btn ghost'>Annuler</span><span class='btn outline' style='margin-inline-start:auto'>Ajouter et nouvelle</span><span class='btn primary'>Ajouter</span>`)
+
+// 7. Preview
+const preview = `<div style='position:absolute;inset:0;background:rgba(15,31,28,.35);display:flex;justify-content:center;align-items:flex-start;padding-top:40px;z-index:6'><div class='preview'>
+<div style='display:flex;align-items:center;gap:10px'><strong style='font-size:17px'>Aperçu · comme le délégué la verra</strong><span class='iconbtn' style='margin-inline-start:auto'>✕</span></div>
+<div class='hint'>Rien n'est enregistré ici.</div>
+<h3>Votre patientèle</h3>
+<div class='pq'><span>Q1. Combien de patients voyez-vous par semaine ? <span class='req'>*</span></span><div class='input'>40</div></div>
+<div class='pq'><span>Q2. Parmi eux, combien sont hypertendus ? <span class='req'>*</span></span><div class='input muted'>Nombre</div></div>
+<div class='pq'><span>Q3. Quelle part de vos patients est sous statine ?</span><div class='input muted'>… %</div></div>
+<h3>Vos habitudes de prescription</h3>
+<div class='pq'><span>Q4. Quelle statine prescrivez-vous le plus ? <span class='req'>*</span></span><div class='radio'><span class='on'>Rosuvastatine</span><span>Atorvastatine</span><span>Simvastatine</span><span>Pravastatine</span><span>Autre…</span></div></div>
+<div class='pq'><span>Q5. Quels critères comptent le plus pour vous ?</span><div class='radio'><span>☑ Efficacité</span><span>☐ Tolérance</span><span>☑ Prix / remboursement</span><span>☐ Données cliniques</span></div></div>
+<div class='hint'>… Q6, Q7</div>
+</div></div>`
+
+// 8. Open / close dialogs
+const openBox = `<div class='dialog'><div class='box'><strong style='font-size:17px'>Ouvrir « Qualification médecin — Cardiologie » ?</strong>
+<div>Une fois ouverte, <b>les questions, la cible et le mode de réponse ne changent plus</b>. Le nom, la date de fin, l'objectif et les marques restent modifiables.</div>
+<div class='why'>7 questions, dont 3 obligatoires · du 1 déc. 2026 au 31 janv. 2027.</div>
+<footer><span class='btn sm ghost'>Retour</span><span class='btn sm dark'>Ouvrir l'enquête</span></footer></div></div>`
+const openRefused = `<div class='dialog'><div class='box'><strong style='font-size:17px'>L'enquête ne peut pas encore être ouverte</strong>
+<div class='why bad'>Elle n'a aucune question à répondre (seulement des titres).</div>
+<div class='why bad'>La date de fin (30 nov. 2026) est déjà passée.</div>
+<footer><span class='btn sm dark'>Compris</span></footer></div></div>`
+const closeBox = `<div class='dialog'><div class='box'><strong style='font-size:17px'>Clôturer « Qualification médecin — Cardiologie » ?</strong>
+<div>Plus personne ne pourra y répondre. Les réponses déjà données sont gardées. <b>Une enquête clôturée ne se rouvre pas</b> ; pour recommencer, dupliquez-la.</div>
+<footer><span class='btn sm ghost'>Retour</span><span class='btn sm dark'>Clôturer</span></footer></div></div>`
+
+// 9. Studio categories
+const CATS = ['Potentiel', 'Adoption', 'L\'accès au marché', 'Comportemental', 'Profiling', 'Notoriété']
+const studio = `<div class='col'>
+${crumbs('Studio › Configuration terrain', 'Catégories de questions', '', `<span class='btn primary'>+ Ajouter</span>`)}
+<div class='hint'>Proposées sur chaque question d'enquête, facultatives. Un nouveau labo démarre avec les cinq premières ; ici, Demo Pharma a ajouté « Notoriété ». Une catégorie déjà utilisée ne se supprime pas.</div>
+<div class='card' style='padding:6px 12px;max-width:none'><table class='table'><thead><tr><th>Nom ↕</th><th>Questions ↕</th><th>Ajoutée le ↕</th><th></th></tr></thead><tbody>
+${CATS.map((c, i) => `<tr><td><strong>${c}</strong></td><td class='num'>${[41, 12, 3, 9, 66, 0][i]}</td><td>${i < 5 ? '3 nov.' : '19 nov.'}</td><td class='hint'>✎ ${i === 5 ? '✕' : ''}</td></tr>`).join('')}
+</tbody></table></div></div>`
+const studioFrame = `<div class='frame' style='min-height:560px;position:relative'>${railOf('Studio')}
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto' class='avatar'>SH</span></div>
+<div style='display:flex;flex:1;gap:20px;padding:18px 28px 24px;align-items:flex-start'>${studio}</div></div></div>`
+
+const dragRows = [Q[0], Q[1], Q[2], Q[3], Q[4], Q[5], Q[6], 'DROP', { ...Q[7], child: 1 }, Q[8]]
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>La liste des enquêtes, vue par Sara (marketing).</strong> Filtres par état (avec le nombre), cible, marque et dates ; toutes les colonnes se trient. Un clic ouvre le panneau à côté, en lecture.`) + shell(list(1) + readPanel, '', 560),
+  label(2, `<strong>« + Nouvelle enquête » : un panneau court.</strong> Nom, cible, mode de réponse, période ; le nombre de semaines se calcule. « Ajouter » ouvre la page de l'enquête, en brouillon.`) + shell(list(-1) + addPanel, '', 620),
+  label(3, `<strong>La page d'une enquête en brouillon.</strong> À gauche, ses informations (carte modifiée sur place) et l'historique ; à droite, les questions : les titres en gris, les questions rangées dessous, numérotées toutes seules, avec type, catégorie et * pour obligatoire.`) + shell(page('Brouillon', draftBtns), '', 820),
+  label(4, `<strong>Déplacer une question en la glissant.</strong> Sara glisse Q6 sous le titre « Vos habitudes de prescription » : elle s'y range et la numérotation suit. La carte « L'enquête » est ici en modification.`) + shell(page('Brouillon', draftBtns, { editing: true, qopts: { rows: dragRows, drag: 'Q6' } }), '', 900),
+  label(5, `<strong>Modifier une question : un panneau à droite.</strong> Pour un choix : les options dans l'ordre, l'affichage en boutons ou en liste, et une option « Autre » avec un texte à préciser.`) + shell(page('Brouillon', draftBtns, { qopts: { sel: 'Q4' } }), qSheet, 900),
+  label(6, `<strong>« + Question » : choisir le type.</strong> Les six types qui ont une réponse, chacun avec un exemple ; le titre a son propre bouton.`) + shell(page('Brouillon', draftBtns), typeSheet, 900),
+  label(7, `<strong>« Aperçu ».</strong> L'enquête comme le délégué la remplira (19b) : titres, numéros, champs obligatoires.`) + shell(page('Brouillon', draftBtns), preview, 900),
+  label(8, `<strong>Ouvrir l'enquête.</strong> La confirmation dit ce qui se fige ; si l'enquête n'a que des titres ou une date de fin passée, elle est refusée avec la raison.`) + shell(page('Brouillon', draftBtns), openBox, 820) + shell(page('Brouillon', draftBtns), openRefused, 820),
+  label(9, `<strong>Ouverte.</strong> Les questions sont figées (plus de poignées ni de ✎) ; la cible et le mode portent un cadenas. « Clôturer » met fin, sans retour.`) + shell(page('Ouverte', `<span class='btn sm outline'>Dupliquer</span><span class='btn dark'>Clôturer</span>`), '', 820) + shell(page('Ouverte', `<span class='btn sm outline'>Dupliquer</span><span class='btn dark'>Clôturer</span>`), closeBox, 820),
+  label(10, `<strong>Studio › Configuration terrain › Catégories de questions.</strong> Une petite liste, comme les motifs d'annulation.`) + studioFrame,
+].join('')
+</script></body></html>
