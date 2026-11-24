@@ -1132,7 +1132,11 @@
       "trialMonths": "Trial length",
       "trialMonthsApplies": "Applies to labs created from now on. Trials already running keep their dates.",
       "trialMonthsField": "Trial length (months)",
-      "trialMonthsHint": "Every new lab starts with a trial this long on the plan chosen at creation."
+      "trialMonthsHint": "Every new lab starts with a trial this long on the plan chosen at creation.",
+      "notifications": "Lab notifications",
+      "keepDays": "Keep notifications",
+      "keepDaysHint": "Every night, older notifications are deleted in every lab, read or not.",
+      "keepDaysApplies": "Between 7 and 365 days. Applies from next night."
     },
     "topbar": {
       "account": "My account",

@@ -1,0 +1,189 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Notifications</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../studio-mockups/mockup.css"><style>
+.step-label { width: 1440px; margin: 0 28px 14px; display: flex; align-items: center; gap: 12px; }
+.step-label b { width: 32px; height: 32px; border-radius: 99px; background: var(--ink); color: var(--signal); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; flex-shrink: 0; }
+.step-label span { font-size: 15px; color: var(--body); } .step-label strong { color: var(--ink); }
+.rules { width: 1440px; margin: 0 28px 60px; } .rules li { margin: 6px 0; font-size: 14px; color: var(--body); } .rules b { color: var(--ink); }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.ws-nav { background: var(--ink); border-radius: 18px; padding: 7px; display: flex; gap: 6px; }
+.ws-nav a { height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 600; color: var(--on-ink-muted); }
+.ws-nav a.on { background: var(--signal); color: var(--ink); }
+.main { position: relative; }
+.bell { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); display: inline-flex; align-items: center; justify-content: center; position: relative; }
+.bell.on { background: var(--signal); border-color: var(--signal); }
+.bell i { position: absolute; top: -4px; inset-inline-end: -4px; min-width: 18px; height: 18px; border-radius: 99px; background: var(--brick); color: #fff; font-size: 11px; font-style: normal; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+.drop { position: absolute; top: 74px; inset-inline-end: 84px; width: 440px; background: var(--paper); border-radius: 20px; box-shadow: 0 18px 50px rgba(27, 48, 44, .22); display: flex; flex-direction: column; z-index: 5; }
+.drop header { padding: 16px 18px 10px; display: flex; align-items: center; gap: 10px; } .drop header strong { font-size: 17px; }
+.drop header .btn { margin-inline-start: auto; }
+.drop footer { padding: 12px 18px; border-top: 1px solid var(--line-soft); display: flex; justify-content: center; }
+.nl { display: flex; gap: 12px; padding: 11px 18px; border-top: 1px solid var(--line-soft); font-size: 13.5px; line-height: 1.4; align-items: flex-start; }
+.nl.unread { background: var(--signal-soft); }
+.nl .ic { width: 34px; height: 34px; border-radius: 11px; background: var(--mist); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.grp svg { width: 15px; height: 15px; }
+.nl .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; } .nl small { color: var(--muted); font-size: 12px; }
+.nl .dt { width: 9px; height: 9px; border-radius: 99px; background: var(--brick); flex-shrink: 0; margin-top: 6px; } .nl .dt.no { background: transparent; }
+.nl .act { font-size: 12px; color: var(--muted); text-decoration: underline; white-space: nowrap; }
+.empty { padding: 36px 18px 40px; text-align: center; color: var(--muted); font-size: 14px; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.empty b { font-size: 26px; }
+.dim { opacity: .45; pointer-events: none; }
+.li { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line-soft); font-size: 14px; } .li:last-child { border-bottom: 0; }
+.li .tx { flex: 1; display: flex; flex-direction: column; gap: 3px; } .li small { color: var(--muted); font-size: 12.5px; }
+.tg { width: 36px; height: 20px; border-radius: 99px; background: var(--ink); position: relative; flex-shrink: 0; display: inline-block; } .tg::after { content: ''; position: absolute; top: 3px; inset-inline-end: 3px; width: 14px; height: 14px; border-radius: 99px; background: var(--signal); }
+.tg.off { background: var(--line); } .tg.off::after { inset-inline-end: auto; inset-inline-start: 3px; background: var(--paper); }
+.grp { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 6px; display: flex; gap: 8px; align-items: center; }
+.open { background: var(--paper); border: 1px dashed var(--amber); border-radius: 14px; padding: 10px 14px; font-size: 13px; color: var(--amber); }
+.why { font-size: 12.5px; color: var(--muted); background: var(--mist); border-radius: 12px; padding: 9px 12px; }
+.chip.bad { background: rgba(192,54,44,.1); color: var(--brick); }
+</style></head><body>
+<p class="caption"><strong>Notifications (module 20a), proposition.</strong> Une ligne dans la cloche quand quelqu'un agit sur le travail d'une autre personne : frais approuvés ou refusés, plan envoyé, approuvé ou refusé, visite rejetée, visite planifiée par un responsable. Dans l'application seulement, pas d'e-mail. Exemple : Nadia (superviseure) refuse le plan de novembre de Karim (délégué) ; la cloche de Karim affiche 1 et la ligne ouvre son calendrier. Aujourd'hui : 24 nov. 2026. <span style="color:var(--amber)">Les cadres pointillés orange sont à confirmer.</span></p>
+<div id="frames"></div>
+<ol class="rules">
+  <li><b>Dans l'application seulement</b> (décidé le 24 nov.) : pas d'e-mail, pas de SMS, pas de notification sur le téléphone. Un e-mail ne viendra que pour un événement qui en a vraiment besoin, fixé dans le code ; aucun en 20a.</li>
+  <li><b>Les 7 événements de 20a</b> (décidés un par un) : ① frais approuvés → la personne, une seule ligne par approbation (le mois entier = 1 ligne) ; ② jour de frais refusé → la personne, avec le motif ; ③ plan envoyé → tous les responsables actuels de la personne (sa liste « Dépend de »), personne au-dessus ; ④ plan approuvé → la personne ; ⑤ plan refusé → la personne, avec le motif ; ⑥ visite rejetée → la personne, une ligne par visite, avec la note ; ⑦ visite planifiée par un responsable → la personne, une ligne par visite.</li>
+  <li><b>Personne n'est prévenu de sa propre action</b> (choix pris, à corriger si besoin) : un responsable qui planifie une visite pour lui-même ne reçoit rien.</li>
+  <li><b>Deux groupes</b> (décidé) : Frais (①②) et Visites (③ à ⑦). Une icône par groupe sur chaque ligne, et un filtre sur la page.</li>
+  <li><b>La cloche</b> (décidé) : un nombre rouge des non lues (« 9+ » au-delà de 9), mis à jour chaque minute et au retour sur l'onglet. Le panneau montre les 10 dernières ; « Tout voir » ouvre la page Notifications.</li>
+  <li><b>Lu / non lu</b> (décidé) : une ligne devient lue quand on clique dessus (elle ouvre le jour de frais, le plan ou la visite) ; « Tout marquer comme lu » ; « Marquer comme non lu » sur une ligne lue. Ouvrir le panneau ne change rien. On ne supprime pas une ligne à la main.</li>
+  <li><b>Gardées 90 jours</b> (décidé) : chaque nuit, les lignes de plus de 90 jours partent, lues ou non. 90 est la valeur par défaut d'un réglage central (le même pour tous les labos). Le jour de frais, le plan ou la visite ne sont jamais touchés.</li>
+  <li><b>Les textes</b> (décidé) : la ligne garde l'événement et ses valeurs (Nadia, novembre, le motif) ; la phrase est écrite à l'affichage avec les textes du labo, dans la langue de la personne. Changer de langue change aussi les anciennes lignes.</li>
+  <li><b>Interrupteurs</b> (décidé) : pas d'interrupteur côté central. L'admin du labo allume ou éteint chaque événement dans Studio › Notifications (tous allumés au départ). Éteint : plus aucune nouvelle ligne de ce type ; les lignes déjà reçues restent. Les utilisateurs ne peuvent pas couper un événement pour eux-mêmes (plus tard si on le demande).</li>
+  <li><b>20b-1</b> (décidé le 24 nov., cadres 6 à 8) : <b>Commandes</b> : transmise → tous les responsables actuels de la personne ; validée, annulée (avec le motif), rouverte → la personne ; facturée → personne. <b>Coaching</b> : planifiée, déplacée (seulement si le jour change), annulée (avec le motif), validée (« à accepter ou refuser ») → la personne coachée ; acceptée, refusée (avec le motif) → le coach seulement. <b>Professionnels</b> : nouvelle proposition → tous les responsables actuels de la personne ; acceptée (ouvre le professionnel), refusée (avec le motif, ouvre « Mes propositions ») → la personne. <b>Activités</b> (l'ancienne « Visite Duo ») : une activité ajoutée par quelqu'un d'autre → la personne « Pour » et chaque personne liée. Commandes n'existe que si le labo a le module Commandes.</li>
+  <li><b>Pas repris des anciennes applications</b> : la demande de « cible temporaire » et la modification de contact (n'existent pas dans Delorc), l'export prêt, le message manuel à l'équipe (5 lignes), les alertes de fin de cycle et de synchronisation (jamais lancées).</li>
+  <li><b>Plus tard (20b-2)</b> : événements, veille concurrentielle, réclamations, validation des messages de campagne, enquêtes.</li>
+</ol>
+<script>
+const logo = `<svg width='44' height='44' viewBox='0 0 48 48'><rect width='48' height='48' rx='14' fill='#1B302C'/><path d='M15 28 V13 H23 A11 11 0 0 1 23 35 H21' fill='none' stroke='#C8F03C' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='35' r='3.2' fill='#C8F03C'/></svg>`
+const bellSvg = `<svg width='20' height='20' viewBox='0 0 24 24' aria-hidden='true'><path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6M9 17v1a3 3 0 0 0 6 0v-1'/></svg>`
+const label = (n, text) => `<div class='step-label'><b>${n}</b><span>${text}</span></div>`
+const chip = (t, c = '') => `<span class='chip ${c}'>${t}</span>`
+const open = t => `<div class='open'>À confirmer : ${t}</div>`
+const tabs = (items, on) => `<nav class='ws-nav'>${items.map(t => `<a class='${t === on ? 'on' : ''}'>${t}</a>`).join('')}</nav>`
+const bell = (count, on = false) => `<span class='bell ${on ? 'on' : ''}' aria-label='Notifications'>${bellSvg}${count ? `<i>${count > 9 ? '9+' : count}</i>` : ''}</span>`
+
+// One frame = the lab shell: rail, top bar with the bell, then the page; `drop` is the bell panel drawn over it.
+const frame = ({ who, rail, count, bellOn = false, body, drop = '', h = 640 }) => `<div class='frame' style='min-height:${h}px'><nav class='rail' style='width:84px;align-items:center;padding:18px 0'>${logo}<span style='margin-top:auto;width:68px;height:56px;border-radius:14px;background:var(--signal);color:var(--ink);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center'>${rail}</span></nav>
+<div class='main'><div class='topbar'><span class='iconbtn'>⇥</span><strong style='font-size:14px'>Demo Pharma</strong><div class='search'>Rechercher ou aller à une page… <span class='kbd'>Ctrl K</span></div><span style='margin-inline-start:auto'>${bell(count, bellOn)}</span><span class='avatar'>${who}</span></div>
+<div style='display:flex;flex-direction:column;flex:1;gap:16px;padding:18px 28px 24px' class='${drop ? 'dim' : ''}'>${body}</div>${drop}</div></div>`
+
+// The lines. [group, text, when, unread]
+// Line icons, one colour (currentColor), same stroke as the top bar's bell.
+const svg = d => `<svg width='18' height='18' viewBox='0 0 24 24' aria-hidden='true'><path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='${d}'/></svg>`
+// Frais = tabler-coin (round, with a currency sign), so it can't be mixed up with the square calendar (tabler-calendar).
+const walletSvg = svg('M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M14.8 9A2 2 0 0 0 13 8h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1-1.8-1M12 7v10')
+const calendarSvg = svg('M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm12-4v4M8 3v4m-4 4h16')
+const G = { frais: [walletSvg, 'Frais'], visites: [calendarSvg, 'Visites'] }
+const KARIM = [
+  ['visites', '<b>Nadia Amrani</b> a refusé votre plan de novembre : « trop de visites le 16 »', 'il y a 12 min', true],
+  ['visites', '<b>Nadia Amrani</b> a rejeté votre visite chez Dr Bouzid du 16 nov. : « déjà vu deux fois ce mois-ci »', 'il y a 14 min', true],
+  ['frais', '<b>Nadia Amrani</b> a refusé vos frais du 12 nov. : « ticket manquant »', 'aujourd\'hui 09:40', true],
+  ['visites', '<b>Nadia Amrani</b> a planifié une visite chez Dr Kaci le 18 nov. à 10:00', 'hier 17:05', false],
+  ['frais', '<b>Nadia Amrani</b> a approuvé vos frais d\'octobre (20 jours)', '3 nov.', false],
+  ['visites', '<b>Nadia Amrani</b> a approuvé votre plan d\'octobre', '29 sept.', false],
+]
+const NADIA = [
+  ['visites', '<b>Karim Saadi</b> a envoyé son plan de décembre (38 visites)', 'il y a 5 min', true],
+  ['visites', '<b>Sara Ouali</b> a envoyé son plan de décembre (44 visites)', 'aujourd\'hui 08:15', true],
+  ['visites', '<b>Yacine Boudiaf</b> a envoyé son plan de novembre (40 visites)', '27 oct.', false],
+]
+const line = ([g, text, when, unread], { page = false } = {}) => `<div class='nl ${unread ? 'unread' : ''}' ${page ? "style='padding-inline:4px'" : ''}><span class='ic' title='${G[g][1]}'>${G[g][0]}</span><div class='tx'><span>${text}</span><small>${G[g][1]} · ${when}</small></div>${unread ? `<span class='dt'></span>` : page ? `<span class='act'>Marquer comme non lu</span>` : `<span class='dt no'></span>`}</div>`
+const drop = (rows, unread) => `<div class='drop'><header><strong class='display'>Notifications</strong>${unread ? chip(`${unread} non lues`, 'warn') : ''}${unread ? `<span class='btn sm ghost'>Tout marquer comme lu</span>` : ''}</header>${rows.length ? rows.map(r => line(r)).join('') : `<div class='empty'><b style='color:var(--muted)'>${bellSvg}</b><strong style='color:var(--ink)'>Rien à signaler</strong>Vous verrez ici les décisions sur vos frais, votre plan et vos visites.</div>`}<footer><span class='btn sm outline'>Tout voir</span></footer></div>`
+
+// A page behind the panel, just to show where the person is.
+const behind = `<div class='crumbs'>Planifier</div><h1 class='title display' style='font-size:34px'>Mes visites</h1><div class='card' style='height:360px;display:flex;align-items:center;justify-content:center;color:var(--muted)'>Calendrier de novembre</div>`
+
+const page = (rows) => `<div class='col'>
+<div><div class='crumbs'>Notifications</div><h1 class='title display' style='font-size:34px'>Notifications</h1></div>
+<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center'><span class='seg'><span class='on'>Toutes · 6</span><span>Non lues · 3</span><span>Lues · 3</span></span><div class='input muted' style='width:170px'>Groupe : tous ▾</div><div class='input muted' style='width:220px'>Du 1 sept. au 24 nov. ▾</div><span class='btn ghost' style='margin-inline-start:auto'>Tout marquer comme lu</span></div>
+<div class='card' style='padding:4px 18px'>${rows.map(r => line(r, { page: true })).join('')}</div>
+<div class='why'>Les notifications de plus de 90 jours sont effacées chaque nuit. Le jour de frais, le plan ou la visite restent.</div>
+<div class='hint' style='text-align:center'>Les plus récentes d'abord · 20 par page · « Voir plus » en bas</div></div>`
+
+const EV = [
+  ['frais', 'Frais approuvés', 'La personne, quand un responsable approuve un jour ou tout son mois (une seule ligne).', true],
+  ['frais', 'Jour de frais refusé', 'La personne, avec le motif.', true],
+  ['visites', 'Plan envoyé', 'Tous les responsables actuels de la personne.', true],
+  ['visites', 'Plan approuvé', 'La personne.', true],
+  ['visites', 'Plan refusé', 'La personne, avec le motif.', true],
+  ['visites', 'Visite rejetée', 'La personne, une ligne par visite, avec la note.', true],
+  ['visites', 'Visite planifiée par un responsable', 'La personne, une ligne par visite.', false],
+]
+const studio = `<div class='col' style='max-width:none'>
+<div><div class='crumbs'>Studio › Configuration</div><h1 class='title display' style='font-size:34px'>Notifications</h1><div class='hint' style='margin-top:4px'>Ce que les utilisateurs de Demo Pharma reçoivent dans la cloche. Tout est allumé au départ.</div></div>
+<div class='card' style='padding:12px 20px'>
+${['frais', 'visites'].map(g => `<div class='grp'>${G[g][0]} ${G[g][1]}</div>${EV.filter(e => e[0] === g).map(([, name, who, on]) => `<div class='li'><div class='tx'><strong>${name}</strong><small>Reçue par : ${who}</small></div>${on ? '' : chip('Éteint')}<span class='tg ${on ? '' : 'off'}'></span></div>`).join('')}`).join('')}
+</div>
+<div class='why'>Éteindre un événement arrête les nouvelles lignes de ce type pour tout le labo ; celles déjà reçues restent. Chaque changement est écrit dans le journal d'activité. Le groupe Frais n'apparaît que si le labo a le module Frais.</div>
+${open('page ouverte aux admins seulement (droit <code>notification-settings.update</code>), dans Studio › Configuration à côté de « Planning des visites ».')}
+</div>`
+
+// ── 20b-1: four more groups, with the menu's icons (Activités: tabler-run, as Studio › Types d'activité, so it is not mixed up with the Visites calendar).
+const svgg = inner => `<svg width='18' height='18' viewBox='0 0 24 24' aria-hidden='true'><g fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'>${inner}</g></svg>`
+Object.assign(G, {
+  commandes: [svgg(`<path d='M14 3v4a1 1 0 0 0 1 1h4'/><path d='M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2M9 7h1m-1 6h6m-2 4h2'/>`), 'Commandes'],
+  coaching: [svgg(`<path d='M22 9L12 5L2 9l10 4zv6'/><path d='M6 10.6V16a6 3 0 0 0 12 0v-5.4'/>`), 'Coaching'],
+  pros: [svgg(`<path d='M6 4H5a2 2 0 0 0-2 2v3.5a5.5 5.5 0 0 0 11 0V6a2 2 0 0 0-2-2h-1'/><path d='M8 15a6 6 0 1 0 12 0v-3m-9-9v2M6 3v2'/><path d='M18 10a2 2 0 1 0 4 0a2 2 0 1 0-4 0'/>`), 'Professionnels'],
+  activites: [svgg(`<path d='M11.007 5a2 2 0 1 0 4 0a2 2 0 1 0-4 0M4 17l5 1l.75-1.5M15 21v-4l-4-3l1-6'/><path d='M7 12V9l5-1l3 3l3 1'/>`), 'Activités'],
+})
+const KARIM_B = [
+  ['commandes', '<b>Nadia Amrani</b> a annulé votre commande CMD-000215 (Pharmacie Belkacem) : « rupture de stock »', 'il y a 8 min', true],
+  ['coaching', '<b>Nadia Amrani</b> a validé votre séance de coaching du 5 déc. : à accepter ou refuser', 'il y a 40 min', true],
+  ['pros', '<b>Nadia Amrani</b> a refusé votre proposition Pharmacie El-Amel : « déjà dans la liste »', 'aujourd\'hui 09:15', true],
+  ['activites', '<b>Nadia Amrani</b> a ajouté une activité pour vous : Réunion de cycle, lun. 26 oct. (matin)', 'aujourd\'hui 08:30', true],
+  ['commandes', '<b>Nadia Amrani</b> a validé votre commande CMD-000214 (Pharmacie El Amel)', 'hier 16:20', false],
+  ['coaching', '<b>Nadia Amrani</b> a déplacé votre séance de coaching au 5 déc.', 'hier 11:02', false],
+  ['commandes', '<b>Nadia Amrani</b> a rouvert votre commande CMD-000209 : vous pouvez la corriger', '20 nov.', false],
+  ['pros', '<b>Nadia Amrani</b> a accepté votre proposition : Dr Meziane', '18 nov.', false],
+]
+const NADIA_B = [
+  ['commandes', '<b>Karim Saadi</b> a transmis la commande CMD-000216 (Pharmacie Ziani, 48 500 DA)', 'il y a 3 min', true],
+  ['pros', '<b>Karim Saadi</b> propose un nouveau professionnel : Pharmacie El Amel', 'il y a 25 min', true],
+  ['coaching', '<b>Karim Saadi</b> a refusé la séance de coaching du 2 déc. : « la note sur l\'argumentaire est fausse »', 'aujourd\'hui 10:05', true],
+  ['coaching', '<b>Karim Saadi</b> a accepté la séance de coaching du 18 nov.', '19 nov.', false],
+]
+const EV_B = [
+  ...EV.map(e => e.slice(0, 3).concat(true)),
+  ['commandes', 'Commande transmise', 'Tous les responsables actuels de la personne.', true],
+  ['commandes', 'Commande validée', 'La personne de la commande.', true],
+  ['commandes', 'Commande annulée', 'La personne de la commande, avec le motif.', true],
+  ['commandes', 'Commande rouverte', 'La personne de la commande : elle peut la corriger.', true],
+  ['coaching', 'Séance planifiée', 'La personne coachée.', true],
+  ['coaching', 'Séance déplacée', 'La personne coachée, quand le jour change.', true],
+  ['coaching', 'Séance annulée', 'La personne coachée, avec le motif.', true],
+  ['coaching', 'Séance validée', 'La personne coachée, qui doit l\'accepter ou la refuser.', true],
+  ['coaching', 'Séance acceptée', 'Le coach seulement.', true],
+  ['coaching', 'Séance refusée', 'Le coach seulement, avec le motif.', true],
+  ['pros', 'Nouvelle proposition', 'Tous les responsables actuels de la personne.', true],
+  ['pros', 'Proposition acceptée', 'La personne qui l\'a proposée.', true],
+  ['pros', 'Proposition refusée', 'La personne qui l\'a proposée, avec le motif.', true],
+  ['activites', 'Activité ajoutée pour vous', 'La personne « Pour » et chaque personne liée, pas celle qui l\'ajoute.', true],
+]
+const studioB = `<div class='col' style='max-width:none'>
+<div><div class='crumbs'>Studio › Configuration</div><h1 class='title display' style='font-size:34px'>Notifications</h1><div class='hint' style='margin-top:4px'>Ce que les utilisateurs de Demo Pharma reçoivent dans la cloche. Tout est allumé au départ.</div></div>
+<div class='card' style='padding:12px 20px'>
+${['frais', 'visites', 'activites', 'commandes', 'coaching', 'pros'].map(g => `<div class='grp'>${G[g][0]} ${G[g][1]}</div>${EV_B.filter(e => e[0] === g).map(([, name, who, on]) => `<div class='li'><div class='tx'><strong>${name}</strong><small>Reçue par : ${who}</small></div><span class='tg ${on ? '' : 'off'}'></span></div>`).join('')}`).join('')}
+</div>
+${open('l\'icône Activités : <code>tabler-run</code> (celle de Studio › Types d\'activité) plutôt que celle du menu, un calendrier trop proche de Visites.')}
+</div>`
+
+document.getElementById('frames').innerHTML = [
+  label(1, `<strong>La cloche de Karim (délégué)</strong> : 3 non lues. Il clique sur la cloche ; les lignes non lues sont surlignées. Un clic sur une ligne ouvre le plan, la visite ou le jour de frais et la marque lue.`),
+  frame({ who: 'KS', rail: 'Planifier', count: 3, bellOn: true, body: behind, drop: drop(KARIM.slice(0, 6), 3), h: 700 }),
+  label(2, `<strong>La cloche de Nadia (superviseure)</strong> : Karim et Sara, qui dépendent d'elle, ont envoyé leur plan de décembre. La ligne ouvre « Plans à approuver » sur le plan de la personne.`),
+  frame({ who: 'NA', rail: 'Planifier', count: 2, bellOn: true, body: behind, drop: drop(NADIA, 2), h: 520 }),
+  label(3, `<strong>Rien de nouveau</strong> : pas de nombre sur la cloche ; le panneau dit « Rien à signaler ».`),
+  frame({ who: 'AL', rail: 'Planifier', count: 0, bellOn: true, body: behind, drop: drop([], 0), h: 460 }),
+  label(4, `<strong>La page Notifications</strong> (« Tout voir ») : toutes les lignes de Karim, filtres lues / non lues, groupe et dates. « Marquer comme non lu » sur une ligne lue.`),
+  frame({ who: 'KS', rail: 'Planifier', count: 3, body: page(KARIM), h: 760 }),
+  label(5, `<strong>Studio › Notifications</strong> (Ali, admin) : un interrupteur par événement, rangés par groupe. Ici Demo Pharma a éteint « Visite planifiée par un responsable ».`),
+  frame({ who: 'AL', rail: 'Studio', count: 0, body: tabs(['Planning des visites', 'Rapport de visite', 'Barèmes de frais', 'Notifications'], 'Notifications') + studio, h: 760 }),
+  `<h2 class='step-label' style='margin-top:40px;font-size:22px'><span><strong>Partie 20b-1, proposition</strong> : commandes, coaching, propositions de professionnels de santé, activités. Même cloche, même page, mêmes règles.</span></h2>`,
+  label(6, `<strong>La cloche de Karim (délégué), 20b-1</strong> : 4 non lues. Commande validée ou annulée, séance de coaching à accepter, proposition refusée, activité ajoutée par Nadia.`),
+  frame({ who: 'KS', rail: 'Planifier', count: 4, bellOn: true, body: behind, drop: drop(KARIM_B, 4), h: 760 }),
+  label(7, `<strong>La cloche de Nadia (superviseure), 20b-1</strong> : Karim a transmis une commande, proposé un professionnel, refusé une séance (elle est la coach), accepté une autre.`),
+  frame({ who: 'NA', rail: 'Planifier', count: 3, bellOn: true, body: behind, drop: drop(NADIA_B, 3), h: 620 }),
+  label(8, `<strong>Studio › Notifications avec 20b-1</strong> : 6 groupes, 21 interrupteurs. Commandes n'apparaît que si le labo a le module Commandes.`),
+  frame({ who: 'AL', rail: 'Studio', count: 0, body: tabs(['Planning des visites', 'Rapport de visite', 'Barèmes de frais', 'Notifications'], 'Notifications') + studioB, h: 1180 }),
+].join('')
+</script>
+</body></html>

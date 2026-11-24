@@ -1132,7 +1132,11 @@
       "trialMonths": "Durée de l'essai",
       "trialMonthsApplies": "S'applique aux laboratoires créés à partir de maintenant. Les essais en cours gardent leurs dates.",
       "trialMonthsField": "Durée de l'essai (mois)",
-      "trialMonthsHint": "Chaque nouveau laboratoire commence par un essai de cette durée sur le plan choisi à la création."
+      "trialMonthsHint": "Chaque nouveau laboratoire commence par un essai de cette durée sur le plan choisi à la création.",
+      "notifications": "Notifications des labos",
+      "keepDays": "Garder les notifications",
+      "keepDaysHint": "Chaque nuit, les notifications plus anciennes sont effacées dans tous les labos, lues ou non.",
+      "keepDaysApplies": "Entre 7 et 365 jours. S'applique dès la nuit prochaine."
     },
     "topbar": {
       "account": "Mon compte",

@@ -12,10 +12,6 @@ import {
   DropdownMenuRoot,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  PopoverContent,
-  PopoverPortal,
-  PopoverRoot,
-  PopoverTrigger,
 } from 'reka-ui'
 import DlIcon from '@/components/DlIcon.vue'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
@@ -24,13 +20,15 @@ import { currentLocale, setLocale } from '@/plugins/i18n'
 import { useAuthStore } from '@/stores/auth'
 import { useLabStore } from '@/stores/lab'
 import { refreshUnreadTickets, unreadTickets } from '@/views/tenant/help/unreadTickets'
+import { useNotificationStore } from '@/stores/notifications'
 import LabSearch from './LabSearch.vue'
+import NotificationBell from './NotificationBell.vue'
 import { useRail } from './useRail'
 import { useWorkspaces } from './useWorkspaces'
 
 /**
  * The central console's top bar, plus the lab's logo and name on the left.
- * Left: lab, search. Right: help (e-tickets), notifications, language, theme, my account.
+ * Left: lab, search. Right: help (e-tickets), notifications (NotificationBell), language, theme, my account.
  */
 const { t } = useI18n()
 const router = useRouter()
@@ -65,6 +63,7 @@ const locale = computed({
 const languageName = computed(() => languages.value.find((language) => language.code === locale.value)?.native_name ?? locale.value)
 
 async function signOut(): Promise<void> {
+  useNotificationStore().stop()
   await auth.logout()
   router.push({ name: 'login' })
 }
@@ -117,20 +116,8 @@ const item = 'flex h-10 cursor-pointer select-none items-center gap-2.5 rounded-
         <span v-if="unreadTickets" class="absolute -end-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-dl-rejected px-1 text-[11px] font-bold text-white">{{ unreadTickets }}</span>
       </RouterLink>
 
-      <!-- Notifications: the design only for now; the items come with the first module that has events. -->
-      <PopoverRoot>
-        <PopoverTrigger as-child>
-          <button type="button" :aria-label="t('layout.topbar.notifications')" :class="[trigger, 'w-11']">
-            <DlIcon icon="tabler-bell" :size="20" />
-          </button>
-        </PopoverTrigger>
-        <PopoverPortal>
-          <PopoverContent align="end" :side-offset="8" :class="[menu, 'w-[380px] max-w-[calc(100vw-32px)] p-0']">
-            <p class="px-4 pb-2.5 pt-3.5 text-[15px] font-semibold">{{ t('layout.topbar.notifications') }}</p>
-            <p class="border-t border-dl-line-soft px-4 py-6 text-center text-sm text-dl-muted">{{ t('layout.topbar.nothing') }}</p>
-          </PopoverContent>
-        </PopoverPortal>
-      </PopoverRoot>
+      <!-- Notifications (docs/api/notifications.md): the red number is polled every minute by the store. -->
+      <NotificationBell :trigger="trigger" :menu="menu" />
 
       <DropdownMenuRoot>
         <DropdownMenuTrigger as-child>

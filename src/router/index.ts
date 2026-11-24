@@ -51,6 +51,7 @@ const labRoutes = [
       { path: 'survey-question-categories', name: 'tenant-survey-question-categories', component: () => import('@/views/tenant/survey-question-categories/SurveyQuestionCategoryListView.vue'), meta: { permission: 'survey-question-categories.show' } },
       { path: 'cancel-reasons', name: 'tenant-cancel-reasons', component: () => import('@/views/tenant/cancel-reasons/CancelReasonListView.vue'), meta: { permission: 'cancel-reasons.show' } },
       { path: 'visit-settings', name: 'tenant-visit-settings', component: () => import('@/views/tenant/visits/VisitSettingsView.vue'), meta: { permission: 'calendar.show' } },
+      { path: 'notification-settings', name: 'tenant-notification-settings', component: () => import('@/views/tenant/notifications/NotificationSettingsView.vue'), meta: { permission: 'notification-settings.show' } },
       { path: 'materiels', name: 'tenant-materiels', component: () => import('@/views/tenant/materiels/MaterielListView.vue'), meta: { permission: 'materiels.show' } },
       { path: 'expense-types', name: 'tenant-expense-types', component: () => import('@/views/tenant/expense-types/ExpenseTypeListView.vue'), meta: { permission: 'expense-types.show', feature: 'module.expenses' } },
       { path: 'expense-settings', name: 'tenant-expense-settings', component: () => import('@/views/tenant/expense-settings/ExpenseSettingListView.vue'), meta: { permission: 'expense-settings.show', feature: 'module.expenses' } },
@@ -107,6 +108,8 @@ const labRoutes = [
       { path: 'complaints/:id(\\d+)', name: 'tenant-complaint', component: () => import('@/views/tenant/complaints/ComplaintView.vue'), props: true },
       { path: 'complaint-settings', name: 'tenant-complaint-settings', component: () => import('@/views/tenant/complaints/ComplaintSettingsView.vue'), meta: { permission: 'complaints.handle' } },
       // Aide › Mes tickets (docs/api/e-tickets.md): every lab user, opened from « ? » in the top bar.
+      // The bell's « Tout voir » (delorc-api docs/api/notifications.md): every lab user, only their own lines.
+      { path: 'notifications', name: 'tenant-notifications', component: () => import('@/views/tenant/notifications/NotificationListView.vue') },
       { path: 'help', name: 'tenant-help', component: () => import('@/views/tenant/help/HelpListView.vue') },
       { path: 'help/:id(\\d+)', name: 'tenant-help-ticket', component: () => import('@/views/tenant/help/HelpTicketView.vue'), props: true },
       // Enquêtes › Enquêtes (docs/api/surveys.md).
