@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import DlIcon from '@/components/DlIcon.vue'
 import { useAuthStore } from '@/stores/auth'
+import { useNotificationStore } from '@/stores/notifications'
 import LabBottomNav from './lab/LabBottomNav.vue'
 import LabRail from './lab/LabRail.vue'
 import LabSubnav from './lab/LabSubnav.vue'
@@ -14,6 +15,8 @@ const auth = useAuthStore()
 
 /** Admins only: the lab's period has ended and it will be suspended on this day. */
 const graceEndsOn = ref<string | null>(null)
+// The bell's number: asked now, then every minute and on coming back to the tab.
+onMounted(() => useNotificationStore().start())
 onMounted(async () => {
   graceEndsOn.value = (await auth.loadLabAccess())?.grace_ends_on ?? null
 })

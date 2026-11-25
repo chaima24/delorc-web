@@ -3,6 +3,8 @@ import { client } from '@/api/client'
 /** Every central setting, by group. Each value is the saved one, or its default. */
 export interface Settings {
   labs: { trial_months: number; grace_days: number; export_days: number }
+  /** The labs' bell (delorc-api docs/api/notifications.md): lines older than this are deleted at night. */
+  notifications: { keep_days: number }
 }
 
 /** Send only what changes: `{ labs: { grace_days: 10 } }`. */

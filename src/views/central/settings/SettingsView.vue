@@ -20,12 +20,17 @@ const settings = ref<Settings | null>(null)
 const loadError = ref<string | null>(null)
 const editing = ref(false)
 const form = ref({ trial_months: '', grace_days: '', export_days: '' })
+// The labs' notifications: its own card, saved on its own.
+const notifEditing = ref(false)
+const keepDays = ref('')
 
 function reset(): void {
   if (!settings.value) return
   const { trial_months, grace_days, export_days } = settings.value.labs
   form.value = { trial_months: String(trial_months), grace_days: String(grace_days), export_days: String(export_days) }
   editing.value = false
+  keepDays.value = String(settings.value.notifications.keep_days)
+  notifEditing.value = false
   clear()
 }
 
@@ -40,6 +45,13 @@ onMounted(async () => {
 
 const save = () => run(
   () => settingsApi.save({ labs: { trial_months: Number(form.value.trial_months), grace_days: Number(form.value.grace_days), export_days: Number(form.value.export_days) } }),
+  (saved) => {
+    settings.value = saved
+    reset()
+  },
+)
+const saveNotifications = () => run(
+  () => settingsApi.save({ notifications: { keep_days: Number(keepDays.value) } }),
   (saved) => {
     settings.value = saved
     reset()
@@ -75,6 +87,20 @@ const row = 'flex items-start gap-2.5 border-t border-dl-line-soft py-2.5 first:
             <DlInput v-model="form.trial_months" type="number" min="1" max="12" :label="t('central.settings.trialMonthsField')" :hint="t('central.settings.trialMonthsApplies')" :error="errors['labs.trial_months']" />
             <DlInput v-model="form.grace_days" type="number" min="0" max="60" :label="t('central.settings.graceDays')" :hint="t('central.settings.graceDaysApplies')" :error="errors['labs.grace_days']" />
             <DlInput v-model="form.export_days" type="number" min="1" max="30" :label="t('central.settings.exportDays')" :hint="t('central.settings.exportDaysApplies')" :error="errors['labs.export_days']" />
+          </div>
+        </template>
+      </DlRecordSection>
+
+      <DlRecordSection v-model:editing="notifEditing" :title="t('central.settings.notifications')" :can-edit="auth.can('settings.update')" :saving="busy" class="bg-dl-paper" @save="saveNotifications" @cancel="reset">
+        <dl class="text-sm">
+          <div :class="row">
+            <dt class="flex-1"><strong class="block">{{ t('central.settings.keepDays') }}</strong><span class="text-[12.5px] text-dl-muted">{{ t('central.settings.keepDaysHint') }}</span></dt>
+            <dd class="font-semibold text-dl-fg">{{ t('central.settings.days', { count: settings.notifications.keep_days }) }}</dd>
+          </div>
+        </dl>
+        <template #edit>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <DlInput v-model="keepDays" type="number" min="7" max="365" :label="t('central.settings.keepDays')" :hint="t('central.settings.keepDaysApplies')" :error="errors['notifications.keep_days']" />
           </div>
         </template>
       </DlRecordSection>
