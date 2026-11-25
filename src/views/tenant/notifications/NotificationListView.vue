@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { errorMessage } from '@/api/errors'
 import {
-  fetchNotifications, markAllNotificationsRead, markNotificationRead, markNotificationUnread,
+  fetchNotifications, markAllNotificationsRead, NOTIFICATION_CATEGORIES, markNotificationRead, markNotificationUnread,
   type LabNotification, type NotificationCategory, type NotificationCounts,
 } from '@/api/tenant/notifications'
 import DlButton from '@/components/DlButton.vue'
@@ -14,6 +14,7 @@ import DlSelect from '@/components/DlSelect.vue'
 import DlSkeleton from '@/components/DlSkeleton.vue'
 import { onMountedAndFocus } from '@/composables/refreshOnFocus'
 import { useToast } from '@/composables/useToast'
+import { useAuthStore } from '@/stores/auth'
 import { useNotificationStore } from '@/stores/notifications'
 import NotificationLine from './NotificationLine.vue'
 import { useNotificationText } from './notificationText'
@@ -25,6 +26,7 @@ import { useNotificationText } from './notificationText'
 const { t } = useI18n()
 const toast = useToast()
 const store = useNotificationStore()
+const auth = useAuthStore()
 const { category } = useNotificationText()
 
 const read = ref('all') // all · 0 (unread) · 1 (read)
@@ -48,7 +50,13 @@ const readItems = computed(() => [
   { value: '0', label: t('notifications.page.unread', { count: counts.value.unread }) },
   { value: '1', label: t('notifications.page.read', { count: counts.value.read }) },
 ])
-const groups = computed(() => (['expenses', 'visits'] as const).map(key => ({ value: key, label: category(key) })))
+// Frais, Commandes, Veille, Réclamations and Enquêtes only when the lab has the module, like Studio.
+const PLAN_SWITCH: Partial<Record<NotificationCategory, string>> = {
+  expenses: 'module.expenses', orders: 'module.orders', competitive: 'module.competitive', complaints: 'module.complaints', surveys: 'module.surveys',
+}
+const groups = computed(() => NOTIFICATION_CATEGORIES
+  .filter(key => !PLAN_SWITCH[key] || auth.hasFeature(PLAN_SWITCH[key]))
+  .map(key => ({ value: key, label: category(key) })))
 const groupModel = computed({ get: () => group.value, set: value => { group.value = (value as NotificationCategory | null) ?? null } })
 
 /** The first page again (on open, a filter, the tab's focus); the pages already loaded are dropped. */

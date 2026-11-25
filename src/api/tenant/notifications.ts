@@ -2,10 +2,25 @@ import { client } from '@/api/client'
 
 /** The bell (delorc-api docs/api/notifications.md): a person's own lines, in-app only. */
 
-export type NotificationCategory = 'expenses' | 'visits'
+export type NotificationCategory = 'expenses' | 'visits' | 'activities' | 'orders' | 'coaching' | 'professionals' | 'events' | 'competitive' | 'campaigns' | 'complaints' | 'surveys'
 export type NotificationEvent =
   | 'expense.approved' | 'expense.refused'
   | 'visit_plan.sent' | 'visit_plan.approved' | 'visit_plan.refused' | 'visit.rejected' | 'visit.planned_by_manager'
+  | 'activity.added'
+  | 'order.transmitted' | 'order.validated' | 'order.cancelled' | 'order.reopened'
+  | 'coaching.planned' | 'coaching.moved' | 'coaching.cancelled' | 'coaching.validated' | 'coaching.accepted' | 'coaching.refused'
+  | 'hcp_proposal.sent' | 'hcp_proposal.approved' | 'hcp_proposal.refused'
+  | 'event.proposed' | 'event.validated' | 'event.refused' | 'event.participant_added' | 'event.participant_removed' | 'event.moved'
+  | 'competitive.sent' | 'competitive.processed'
+  | 'campaign_message.ready' | 'campaign_message.approved' | 'campaign_message.returned'
+  | 'complaint.sent' | 'complaint.answered' | 'complaint.resolved' | 'complaint.closed' | 'complaint.message' | 'complaint.reopened'
+  | 'survey.added' | 'survey.closed'
+
+/** The groups in Studio's order (the page's group filter shows them too). */
+export const NOTIFICATION_CATEGORIES: NotificationCategory[] = [
+  'expenses', 'visits', 'activities', 'orders', 'coaching', 'professionals', 'events', 'competitive', 'campaigns',
+  'complaints', 'surveys',
+]
 
 /** What a click opens. */
 export type NotificationTarget =
@@ -14,6 +29,18 @@ export type NotificationTarget =
   | { kind: 'visit_plan'; cycle_id: number; user_id: number }
   | { kind: 'visit_calendar'; cycle_id: number; from: string }
   | { kind: 'visit'; id: number }
+  | { kind: 'activities'; date: string }
+  | { kind: 'order'; id: number }
+  | { kind: 'coaching_session'; id: number }
+  | { kind: 'hcp_requests' }
+  | { kind: 'hcp'; id: number }
+  | { kind: 'my_proposals' }
+  | { kind: 'event'; id: number }
+  | { kind: 'events' }
+  | { kind: 'competitive'; id: number }
+  | { kind: 'campaign_message'; id: number; campaign_id: number }
+  | { kind: 'complaint'; id: number }
+  | { kind: 'my_surveys' }
 
 export interface LabNotification {
   id: string
